@@ -201,13 +201,23 @@ const Navbar = () => {
                   </span>
                 </button>
               ) : (
-                <Button
-                  size="sm"
-                  className="bg-gradient-neon hover:shadow-glow-cyan text-sm px-4"
-                  onClick={() => navigate("/courses")}
-                >
-                  Начать бесплатно
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    className="bg-gradient-neon hover:shadow-glow-cyan text-sm px-4"
+                    onClick={() => navigate("/courses")}
+                  >
+                    Начать бесплатно
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-sm px-4 border-primary/40 text-primary hover:bg-primary/10 hover:shadow-glow-cyan"
+                    onClick={() => navigate("/register")}
+                  >
+                    Регистрация
+                  </Button>
+                </div>
               )}
             </div>
           </div>
