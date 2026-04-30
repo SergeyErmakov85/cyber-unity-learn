@@ -124,7 +124,7 @@ const Navbar = () => {
           {/* Logo - positioned left */}
           <a
             href="/"
-            className="absolute -left-36 top-1 flex items-center group"
+            className="absolute -left-36 top-1 flex flex-col items-center group"
             onClick={(e) => {
               e.preventDefault();
               navigate("/");
@@ -142,6 +142,9 @@ const Navbar = () => {
                 height="64"
               />
             </picture>
+            <span className="mt-1 text-[11px] md:text-xs font-mono italic tracking-wide bg-gradient-neon bg-clip-text text-transparent whitespace-nowrap">
+              Think in cubes, learn in actions
+            </span>
           </a>
 
           {/* Desktop Navigation - Tech Stack Badges */}
