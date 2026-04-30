@@ -201,7 +201,7 @@ const Navbar = () => {
                   </span>
                 </button>
               ) : (
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col gap-1.5">
                   <Button
                     size="sm"
                     className="bg-gradient-neon hover:shadow-glow-cyan text-sm px-4"
