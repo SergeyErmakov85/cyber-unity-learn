@@ -304,12 +304,21 @@ const Navbar = () => {
                     Тарифы
                   </button>
                   {!authUser && (
-                    <Button
-                      className="w-full bg-gradient-neon hover:shadow-glow-cyan"
-                      onClick={() => { setIsOpen(false); navigate("/courses"); }}
-                    >
-                      Начать бесплатно
-                    </Button>
+                    <>
+                      <Button
+                        className="w-full bg-gradient-neon hover:shadow-glow-cyan"
+                        onClick={() => { setIsOpen(false); navigate("/courses"); }}
+                      >
+                        Начать бесплатно
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full border-primary/40 text-primary hover:bg-primary/10 hover:shadow-glow-cyan"
+                        onClick={() => { setIsOpen(false); navigate("/register"); }}
+                      >
+                        Регистрация
+                      </Button>
+                    </>
                   )}
                 </div>
 
