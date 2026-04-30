@@ -142,7 +142,7 @@ const Navbar = () => {
                 height="64"
               />
             </picture>
-            <span className="mt-1 text-[11px] md:text-xs font-mono italic tracking-wide bg-gradient-neon bg-clip-text text-transparent whitespace-nowrap">
+            <span className="-mt-3 md:-mt-4 text-[11px] md:text-xs font-mono italic tracking-wide bg-gradient-neon bg-clip-text text-transparent whitespace-nowrap">
               Think in cubes, learn in actions
             </span>
           </a>
