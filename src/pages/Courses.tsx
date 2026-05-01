@@ -317,7 +317,7 @@ const Courses = () => {
         {/* CTA */}
         <div className="text-center mt-16">
           <Button variant="cyber" size="lg" asChild>
-            <Link to="/beginner-course">Начать обучение</Link>
+            <Link to="/courses/1-1">Начать обучение</Link>
           </Button>
         </div>
       </main>

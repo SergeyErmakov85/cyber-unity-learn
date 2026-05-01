@@ -101,7 +101,7 @@ const LearningPaths = () => {
                 </div>
 
                 {index === 0 ? (
-                  <Link to="/beginner-course" className="block">
+                  <Link to="/courses/1-1" className="block">
                     <Button
                       variant="outline"
                       className="w-full group-hover:bg-primary/10 group-hover:border-primary"

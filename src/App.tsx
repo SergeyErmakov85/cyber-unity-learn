@@ -5,12 +5,11 @@ import { PageSkeleton } from "@/components/SkeletonCard";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RouteScrollToTop from "@/components/RouteScrollToTop";
 import Index from "./pages/Index";
 
 // Lazy-loaded pages for performance
-const BeginnerCourse = lazy(() => import("./pages/BeginnerCourse"));
 const CodeExamples = lazy(() => import("./pages/CodeExamples"));
 const MathRL = lazy(() => import("./pages/MathRL"));
 const PyTorchModule = lazy(() => import("./pages/PyTorchModule"));
@@ -101,7 +100,7 @@ const App = () => (
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/beginner-course" element={<BeginnerCourse />} />
+            <Route path="/beginner-course" element={<Navigate to="/courses/1-1" replace />} />
             <Route path="/code-examples" element={<CodeExamples />} />
             <Route path="/math-rl" element={<MathRL />} />
             <Route path="/math-rl/module-1" element={<MathRL />} />
