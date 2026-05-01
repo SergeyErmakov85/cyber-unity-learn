@@ -1,4 +1,5 @@
 import { Linkedin, GraduationCap, Brain, Database, Code2 } from "lucide-react";
+import sergeyAvatar from "@/assets/sergey-ermakov.jpg";
 
 const AboutMeSection = () => {
   return (
