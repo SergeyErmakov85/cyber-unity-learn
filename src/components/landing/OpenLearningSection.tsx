@@ -4,11 +4,11 @@ import { Heart, Sparkles, ArrowRight, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const PRESET_AMOUNTS = [2, 5, 10] as const;
+const PRESET_AMOUNTS = [200, 500, 1000] as const;
 
 const OpenLearningSection = () => {
   const navigate = useNavigate();
-  const [selectedAmount, setSelectedAmount] = useState<number | "custom">(5);
+  const [selectedAmount, setSelectedAmount] = useState<number | "custom">(500);
   const [customAmount, setCustomAmount] = useState<string>("");
 
   const handleSupport = () => {
@@ -118,7 +118,7 @@ const OpenLearningSection = () => {
                       : "border-border/40 bg-card/60 text-muted-foreground hover:border-primary/30 hover:text-foreground"
                   }`}
                 >
-                  €{amount}
+                  {amount} ₽
                 </button>
               );
             })}
@@ -131,8 +131,8 @@ const OpenLearningSection = () => {
                 Своя сумма:
               </span>
               <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                  €
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                  ₽
                 </span>
                 <Input
                   type="number"
@@ -144,7 +144,7 @@ const OpenLearningSection = () => {
                     setCustomAmount(e.target.value);
                     setSelectedAmount("custom");
                   }}
-                  className="pl-7 bg-background/60 border-border/40 focus-visible:border-primary/50 focus-visible:ring-primary/20"
+                  className="pr-7 bg-background/60 border-border/40 focus-visible:border-primary/50 focus-visible:ring-primary/20"
                 />
               </div>
             </label>
