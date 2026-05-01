@@ -142,9 +142,6 @@ const Navbar = () => {
                 height="64"
               />
             </picture>
-            <span className="-mt-2 md:-mt-3 text-[11px] md:text-xs font-mono italic tracking-wide bg-gradient-neon bg-clip-text text-transparent whitespace-nowrap">
-              Think in cubes, learn in actions
-            </span>
           </a>
 
           {/* Desktop Navigation - Tech Stack Badges */}
