@@ -24,8 +24,13 @@ const AboutMeSection = () => {
         <div className="bg-card/60 backdrop-blur-sm border border-primary/20 rounded-2xl p-8 md:p-10 space-y-8 hover:border-primary/40 hover:shadow-glow-cyan transition-all duration-500">
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary/30 via-secondary/30 to-accent/30 border-2 border-primary/40 flex items-center justify-center shrink-0">
-              <span className="text-3xl font-bold bg-gradient-neon bg-clip-text text-transparent">SE</span>
+            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary/40 shadow-glow-cyan shrink-0">
+              <img
+                src={sergeyAvatar}
+                alt="Сергей Ермаков — автор платформы CUBER"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
             <div className="text-center sm:text-left space-y-2">
               <h3 className="text-2xl font-bold text-foreground">Сергей Ермаков</h3>
