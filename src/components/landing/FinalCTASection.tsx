@@ -44,7 +44,7 @@ const FinalCTASection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <Button size="lg" variant="cyber" className="text-lg px-10 group" onClick={() => navigate("/beginner-course")}>
               <Sparkles className="w-5 h-5 mr-2 group-hover:animate-glow-pulse" />
-              Получить доступ
+              Начать первый урок
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8">
