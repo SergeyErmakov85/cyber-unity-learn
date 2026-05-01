@@ -17,7 +17,11 @@ const OpenLearningSection = () => {
         ? Number(customAmount) || 0
         : selectedAmount;
     if (amount <= 0) return;
-    navigate(`/pricing?support=${amount}`);
+    window.open(
+      `https://pay.cloudtips.ru/p/14429291?amount=${amount}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   return (
