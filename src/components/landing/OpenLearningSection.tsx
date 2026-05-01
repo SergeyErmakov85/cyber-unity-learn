@@ -168,13 +168,6 @@ const OpenLearningSection = () => {
           </div>
         </div>
 
-        {/* ── Soft social proof ───────────────────────── */}
-        <div className="mt-10 flex items-center justify-center gap-2 text-xs text-muted-foreground/70">
-          <Users className="w-3.5 h-3.5" />
-          <span>
-            К платформе уже присоединились первые участники и контрибьюторы
-          </span>
-        </div>
       </div>
     </section>
   );
