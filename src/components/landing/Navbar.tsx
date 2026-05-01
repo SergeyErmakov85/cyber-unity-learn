@@ -142,7 +142,16 @@ const Navbar = () => {
                 height="64"
               />
             </picture>
-            <span className="-mt-3 md:-mt-4 text-[11px] md:text-xs font-mono italic tracking-wide bg-gradient-neon bg-clip-text text-transparent whitespace-nowrap">
+            <span
+              className="-mt-2 md:-mt-3 text-xl md:text-2xl font-extrabold tracking-[0.35em] bg-gradient-neon bg-clip-text text-transparent leading-none"
+              style={{
+                textShadow:
+                  "0 0 12px hsl(var(--primary) / 0.45), 0 0 24px hsl(var(--secondary) / 0.25)",
+              }}
+            >
+              CUBER
+            </span>
+            <span className="mt-1 text-[11px] md:text-xs font-mono italic tracking-wide bg-gradient-neon bg-clip-text text-transparent whitespace-nowrap">
               Think in cubes, learn in actions
             </span>
           </a>
