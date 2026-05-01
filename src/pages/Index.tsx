@@ -47,8 +47,8 @@ const Index = () => {
       <DemoSection />
       <UniqueValueSection />
       <LearningPathSection />
-      <TestimonialSection />
       <FinalCTASection />
+      <TestimonialSection />
       <EmailCapture />
       <AboutMeSection />
       <FooterSection />
