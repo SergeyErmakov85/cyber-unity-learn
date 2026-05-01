@@ -25,6 +25,7 @@ import {
   ChevronRight,
   BookOpen,
   CheckCircle2,
+  ExternalLink,
 } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import rlCycleImg from "@/assets/Reinforcement learning cycle infographic.png";
@@ -563,6 +564,51 @@ P(s_{t+1} | s_t, a_t) = P(s_{t+1} | s_1, a_1, ..., s_t, a_t)`}
           -1, ловушка -5, а цель приносит +10. Как быстро вы доберётесь до звезды?
         </p>
         <MiniGridWorld />
+      </section>
+
+      {/* ── 8.5 Первый код: CartPole ──────────────────── */}
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
+          <Rocket className="w-6 h-6 text-primary" />
+          Первый код: CartPole на Python
+        </h2>
+        <p className="text-muted-foreground leading-relaxed mb-4">
+          Чтобы цикл «агент — среда — награда» стал осязаемым, запустим минимальную среду{" "}
+          <strong className="text-foreground">CartPole-v1</strong> из библиотеки Gymnasium.
+          Здесь агент использует случайную политику — это базовая точка отсчёта, от которой
+          мы будем двигаться к настоящему обучению в следующих уроках.
+        </p>
+
+        <CyberCodeBlock language="python" filename="cartpole_random.py">
+{`import gym
+import torch
+
+env = gym.make('CartPole-v1')
+obs, _ = env.reset(seed=42)
+
+for step in range(200):
+    action = env.action_space.sample()  # случайная политика
+    obs, reward, done, truncated, info = env.step(action)
+    print(f"Шаг {step}: награда={reward:.1f}, done={done}")
+    if done or truncated:
+        obs, _ = env.reset()
+env.close()`}
+        </CyberCodeBlock>
+
+        <a
+          href="https://colab.research.google.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-lg border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 hover:bg-yellow-500/20 transition-colors text-sm font-medium"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16.941 4.976a7.033 7.033 0 0 0-4.93 2.064 7.033 7.033 0 0 0-.124 9.807l2.395-2.395a3.646 3.646 0 0 1 5.15-5.148l2.397-2.399a7.033 7.033 0 0 0-4.888-1.93z" />
+            <path d="M7.074 4.976a7.033 7.033 0 0 0-4.888 1.93l2.397 2.398a3.646 3.646 0 0 1 5.15 5.149l2.395 2.395a7.033 7.033 0 0 0-.124-9.808 7.033 7.033 0 0 0-4.93-2.064z" />
+            <path d="M7.074 19.024a7.033 7.033 0 0 0 4.93-2.064l-2.395-2.395a3.646 3.646 0 0 1-5.15-5.149L2.063 7.019A7.033 7.033 0 0 0 7.074 19.024z" />
+          </svg>
+          Открыть в Google Colab
+          <ExternalLink className="w-3.5 h-3.5" />
+        </a>
       </section>
 
       {/* ── 9. Ключевые концепции ─────────────────────── */}
