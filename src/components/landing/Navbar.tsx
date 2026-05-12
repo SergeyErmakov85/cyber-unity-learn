@@ -124,7 +124,7 @@ const Navbar = () => {
           {/* Logo - positioned left */}
           <a
             href="/"
-            className="absolute -left-36 top-1 flex flex-col items-center group"
+            className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center group"
             onClick={(e) => {
               e.preventDefault();
               navigate("/");
@@ -135,7 +135,7 @@ const Navbar = () => {
               <img
                 src={logoImage}
                 alt="RL Platform"
-                className="h-24 md:h-28 lg:h-32 w-auto transition-all duration-300 group-hover:drop-shadow-[0_0_15px_hsl(var(--primary)/0.5)]"
+                className={`w-auto transition-all duration-300 group-hover:drop-shadow-[0_0_15px_hsl(var(--primary)/0.5)] ${isScrolled ? "h-12" : "h-14 md:h-16 lg:h-[72px]"}`}
                 loading="eager"
                 decoding="async"
                 width="200"
