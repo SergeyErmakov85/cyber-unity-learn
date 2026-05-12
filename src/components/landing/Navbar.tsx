@@ -135,7 +135,7 @@ const Navbar = () => {
               <img
                 src={logoImage}
                 alt="RL Platform"
-                className={`w-auto transition-all duration-300 group-hover:drop-shadow-[0_0_15px_hsl(var(--primary)/0.5)] ${isScrolled ? "h-[72px]" : "h-[84px] md:h-24 lg:h-[108px]"}`}
+                className={`w-auto transition-all duration-300 group-hover:drop-shadow-[0_0_15px_hsl(var(--primary)/0.5)] ${isScrolled ? "h-[88px]" : "h-[104px] md:h-[120px] lg:h-[136px]"}`}
                 loading="eager"
                 decoding="async"
                 width="200"
