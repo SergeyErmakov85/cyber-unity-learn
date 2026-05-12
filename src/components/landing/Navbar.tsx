@@ -124,7 +124,7 @@ const Navbar = () => {
           {/* Logo - positioned left */}
           <a
             href="/"
-            className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center group"
+            className="absolute -left-8 md:-left-12 lg:-left-16 top-1/2 -translate-y-1/2 flex items-center group"
             onClick={(e) => {
               e.preventDefault();
               navigate("/");
@@ -135,7 +135,7 @@ const Navbar = () => {
               <img
                 src={logoImage}
                 alt="RL Platform"
-                className={`w-auto transition-all duration-300 group-hover:drop-shadow-[0_0_15px_hsl(var(--primary)/0.5)] ${isScrolled ? "h-12" : "h-14 md:h-16 lg:h-[72px]"}`}
+                className={`w-auto transition-all duration-300 group-hover:drop-shadow-[0_0_15px_hsl(var(--primary)/0.5)] ${isScrolled ? "h-[72px]" : "h-[84px] md:h-24 lg:h-[108px]"}`}
                 loading="eager"
                 decoding="async"
                 width="200"
@@ -145,7 +145,7 @@ const Navbar = () => {
           </a>
 
           {/* Desktop Navigation - Tech Stack Badges */}
-          <div className="hidden lg:flex items-center gap-2 ml-28">
+          <div className="hidden lg:flex items-center gap-2 ml-44">
             <button onClick={() => navigate("/hub/pytorch")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/hub/pytorch" ? "border-primary/70 bg-primary/15 shadow-glow-cyan" : "border-primary/30 shadow-glow-cyan hover:bg-primary/10"}`}>
               <Brain className="w-4 h-4 text-primary shrink-0" />
               <span className="text-sm font-medium text-foreground whitespace-nowrap">PyTorch</span>
