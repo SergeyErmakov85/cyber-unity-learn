@@ -114,7 +114,9 @@ const CodeExamples = () => {
             <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
               {t.desc}
             </p>
-            <CyberCodeBlock language="python" filename={t.filename} code={t.code} />
+            <CyberCodeBlock language="python" filename={t.filename}>
+              {t.code}
+            </CyberCodeBlock>
           </TabsContent>
         ))}
       </Tabs>
@@ -154,7 +156,9 @@ const CodeExamples = () => {
             Установка зависимостей
           </h3>
         </div>
-        <CyberCodeBlock language="bash" filename="install.sh" code={INSTALL} />
+        <CyberCodeBlock language="pseudo" filename="install.sh">
+          {INSTALL}
+        </CyberCodeBlock>
       </div>
     </div>
   );
