@@ -22,6 +22,7 @@ import CodeExamples from "@/components/lesson-2-6/CodeExamples";
 import DiagnosticCases from "@/components/lesson-2-6/DiagnosticCases";
 import AlternativesSection from "@/components/lesson-2-6/AlternativesSection";
 import RecommendationsSection from "@/components/lesson-2-6/RecommendationsSection";
+import RelatedMaterials from "@/components/lesson-2-6/RelatedMaterials";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 
@@ -241,6 +242,8 @@ const CourseLesson2_6 = () => {
           </section>
         ))}
       </div>
+
+      <RelatedMaterials />
 
       <NextPrevLesson prev={lesson.prev} next={lesson.next} />
     </>
