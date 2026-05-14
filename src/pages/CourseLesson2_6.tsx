@@ -4,7 +4,23 @@ import ProGate from "@/components/ProGate";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
 import { Card, CardContent } from "@/components/ui/card";
-import { Lightbulb, BarChart3, AlertTriangle, Activity, Eye } from "lucide-react";
+import {
+  Lightbulb,
+  BarChart3,
+  AlertTriangle,
+  Activity,
+  Eye,
+  Calendar,
+  Cpu,
+  TrendingUp,
+  Image as ImageIcon,
+  GitGraph,
+  ScatterChart,
+  Sliders,
+  Gauge,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 
 const quizQuestions = [
   {
