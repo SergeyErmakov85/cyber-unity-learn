@@ -15,6 +15,7 @@ import NextPrevLesson from "@/components/NextPrevLesson";
 import TldrBox from "@/components/ui/TldrBox";
 import WhyVisualizeSection from "@/components/lessons/WhyVisualizeSection";
 import MetricsTable from "@/components/lesson-2-6/MetricsTable";
+import TensorBoardSection from "@/components/lesson-2-6/TensorBoardSection";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 
@@ -214,6 +215,8 @@ const CourseLesson2_6 = () => {
               <WhyVisualizeSection />
             ) : s.id === "metrics" ? (
               <MetricsTable />
+            ) : s.id === "tensorboard" ? (
+              <TensorBoardSection />
             ) : (
               <Placeholder n={i + 1} />
             )}
