@@ -227,6 +227,8 @@ const CourseLesson2_6 = () => {
               <ComparisonTable />
             ) : s.id === "code" ? (
               <CodeExamples />
+            ) : s.id === "diagnostics" ? (
+              <DiagnosticCases />
             ) : (
               <Placeholder n={i + 1} />
             )}
