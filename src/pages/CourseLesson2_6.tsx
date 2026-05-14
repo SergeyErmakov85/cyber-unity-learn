@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   Home,
   ChevronRight,
@@ -7,11 +9,14 @@ import {
   ListChecks,
   BarChart3,
   GraduationCap,
+  CheckCircle2,
 } from "lucide-react";
 import ProGate from "@/components/ProGate";
 import LessonHeader from "@/components/LessonHeader";
 import SectionNav, { SectionNavItem } from "@/components/SectionNav";
 import NextPrevLesson from "@/components/NextPrevLesson";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+import SEOHead from "@/components/SEOHead";
 import TldrBox from "@/components/ui/TldrBox";
 import WhyVisualizeSection from "@/components/lessons/WhyVisualizeSection";
 import MetricsTable from "@/components/lesson-2-6/MetricsTable";
@@ -23,8 +28,10 @@ import DiagnosticCases from "@/components/lesson-2-6/DiagnosticCases";
 import AlternativesSection from "@/components/lesson-2-6/AlternativesSection";
 import RecommendationsSection from "@/components/lesson-2-6/RecommendationsSection";
 import RelatedMaterials from "@/components/lesson-2-6/RelatedMaterials";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
+import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
 
 const KEY_FINDINGS = [
   {
