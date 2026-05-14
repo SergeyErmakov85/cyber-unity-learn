@@ -178,6 +178,54 @@ const IntroSection = () => (
   </div>
 );
 
+const SECTION_VARIANTS = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const CompleteButton = () => {
+  const [done, setDone] = useState<boolean>(() => isLessonComplete("2.6"));
+
+  useEffect(() => {
+    if (done) return;
+    const onScroll = () => {
+      const h = document.documentElement;
+      const pct = (window.scrollY / (h.scrollHeight - window.innerHeight)) * 100;
+      if (pct >= 90) {
+        markLessonComplete("2.6");
+        setDone(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [done]);
+
+  const handleClick = () => {
+    markLessonComplete("2.6");
+    setDone(true);
+  };
+
+  return (
+    <Button
+      onClick={handleClick}
+      disabled={done}
+      size="lg"
+      className="w-full md:w-auto bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white font-semibold shadow-[0_0_24px_hsl(var(--primary)/0.45)] hover:shadow-[0_0_32px_hsl(280_85%_65%/0.55)] hover:scale-[1.02] transition-all disabled:opacity-80 disabled:cursor-default focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      aria-label={done ? "Урок пройден" : "Отметить урок как пройденный"}
+    >
+      {done ? (
+        <>
+          <CheckCircle2 className="w-5 h-5 mr-2" aria-hidden="true" />
+          Пройдено
+        </>
+      ) : (
+        <>Отметить урок как пройденный ✓</>
+      )}
+    </Button>
+  );
+};
+
 const CourseLesson2_6 = () => {
   const lesson = getLessonById("2.6")!;
 
@@ -188,22 +236,22 @@ const CourseLesson2_6 = () => {
         <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
           <li>
             <Link to="/" className="hover:text-cyan-400 inline-flex items-center gap-1">
-              <Home className="w-3.5 h-3.5" /> Главная
+              <Home className="w-3.5 h-3.5" aria-hidden="true" /> Главная
             </Link>
           </li>
-          <ChevronRight className="w-3.5 h-3.5 opacity-50" />
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
           <li>
             <Link to="/courses" className="hover:text-cyan-400">
               Курс
             </Link>
           </li>
-          <ChevronRight className="w-3.5 h-3.5 opacity-50" />
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
           <li>
             <Link to="/courses#level-2" className="hover:text-cyan-400">
               Уровень 2
             </Link>
           </li>
-          <ChevronRight className="w-3.5 h-3.5 opacity-50" />
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
           <li className="text-foreground" aria-current="page">
             Урок 2.6
           </li>
@@ -219,10 +267,19 @@ const CourseLesson2_6 = () => {
 
       <SectionNav items={SECTIONS} />
 
-      <div className="space-y-8 mt-8">
+      <div id="lesson-content" className="space-y-8 mt-8">
         {SECTIONS.map((s, i) => (
-          <section key={s.id} id={s.id} className={SECTION_CLASS}>
-            <h2 className={SECTION_TITLE_CLASS}>{s.label}</h2>
+          <motion.section
+            key={s.id}
+            id={s.id}
+            className={SECTION_CLASS}
+            variants={SECTION_VARIANTS}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: Math.min(i * 0.05, 0.25) }}
+          >
+            <h2 className={`${SECTION_TITLE_CLASS} text-2xl md:text-3xl`}>{s.label}</h2>
             {s.id === "intro" ? (
               <IntroSection />
             ) : s.id === "why-visualize" ? (
@@ -246,22 +303,46 @@ const CourseLesson2_6 = () => {
             ) : (
               <Placeholder n={i + 1} />
             )}
-          </section>
+          </motion.section>
         ))}
       </div>
 
       <RelatedMaterials />
 
+      <Card className="mt-8 border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm">
+        <CardContent className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
+            Дочитали до конца? Зафиксируйте прогресс и получите XP.
+          </p>
+          <CompleteButton />
+        </CardContent>
+      </Card>
+
       <NextPrevLesson prev={lesson.prev} next={lesson.next} />
     </>
   );
 
-  // isPro={false} в промпте: контент доступен всем, но обёртка ProGate сохранена
-  // как структурный компонент. Передаём content и в preview, и в children.
   return (
-    <main className="container max-w-5xl mx-auto px-4 py-8">
-      <ProGate preview={content}>{content}</ProGate>
-    </main>
+    <>
+      <SEOHead
+        title="Урок 2.6. Визуализация обучения: TensorBoard и W&B | CyberUnityCode"
+        description="Полный гайд по мониторингу RL-обучения: 15 ключевых метрик с интерпретацией, code-примеры PPO + SB3 + TensorBoard + W&B, диагностика 6 типичных проблем обучения. PRO-урок курса CyberUnityCode."
+        path="/courses/2-6"
+        type="article"
+        image="/og/lesson-2-6.png"
+        keywords="TensorBoard, Weights and Biases, RL, мониторинг обучения, PPO, Stable-Baselines3, визуализация"
+      />
+      <a
+        href="#lesson-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-md focus:bg-card focus:text-cyan-300 focus:border focus:border-cyan-400 focus:shadow-[0_0_16px_hsl(var(--primary)/0.6)]"
+      >
+        К содержимому урока
+      </a>
+      <ScrollProgressBar color="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
+      <main className="container max-w-5xl mx-auto px-4 py-8">
+        <ProGate preview={content}>{content}</ProGate>
+      </main>
+    </>
   );
 };
 
