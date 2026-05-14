@@ -1,10 +1,60 @@
 import { Link } from "react-router-dom";
-import { Home, ChevronRight } from "lucide-react";
+import {
+  Home,
+  ChevronRight,
+  LineChart,
+  Link2,
+  ListChecks,
+  BarChart3,
+  GraduationCap,
+} from "lucide-react";
 import ProGate from "@/components/ProGate";
 import LessonHeader from "@/components/LessonHeader";
 import SectionNav, { SectionNavItem } from "@/components/SectionNav";
 import NextPrevLesson from "@/components/NextPrevLesson";
+import TldrBox from "@/components/ui/TldrBox";
+import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
+
+const KEY_FINDINGS = [
+  {
+    title: "Не конкуренты — дополняют",
+    text:
+      "TensorBoard и W&B работают вместе. SB3-интеграция W&B буквально читает TensorBoard event-файлы (sync_tensorboard=True).",
+    icon: Link2,
+    color: "cyan",
+  },
+  {
+    title: "Минимум 12 метрик PPO",
+    text:
+      "rollout/ep_rew_mean, train/entropy_loss, train/approx_kl, train/clip_fraction, train/explained_variance, train/policy_gradient_loss, train/value_loss, train/std.",
+    icon: ListChecks,
+    color: "purple",
+  },
+  {
+    title: "Воспроизводимость = статистика",
+    text:
+      "Agarwal et al. (2021) показали: точечные оценки по 3–5 сидам систематически вводят в заблуждение. Используйте IQM и stratified bootstrap CI из библиотеки rliable.",
+    icon: BarChart3,
+    color: "pink",
+  },
+  {
+    title: "Студенческий стек 2026",
+    text:
+      "PyTorch + Gymnasium + Stable-Baselines3 + TensorBoard локально + Academic W&B-аккаунт (200 GB бесплатно по .edu email).",
+    icon: GraduationCap,
+    color: "emerald",
+  },
+] as const;
+
+const COLOR_MAP: Record<string, string> = {
+  cyan: "border-cyan-500/30 hover:border-cyan-400/70 hover:shadow-[0_0_24px_hsl(var(--primary)/0.35)] [&_svg]:text-cyan-400",
+  purple:
+    "border-purple-500/30 hover:border-purple-400/70 hover:shadow-[0_0_24px_hsl(280_85%_65%/0.35)] [&_svg]:text-purple-400",
+  pink: "border-pink-500/30 hover:border-pink-400/70 hover:shadow-[0_0_24px_hsl(330_85%_65%/0.35)] [&_svg]:text-pink-400",
+  emerald:
+    "border-emerald-500/30 hover:border-emerald-400/70 hover:shadow-[0_0_24px_hsl(160_85%_55%/0.35)] [&_svg]:text-emerald-400",
+};
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
