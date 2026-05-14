@@ -19,6 +19,7 @@ import TensorBoardSection from "@/components/lesson-2-6/TensorBoardSection";
 import WandbSection from "@/components/lesson-2-6/WandbSection";
 import ComparisonTable from "@/components/lesson-2-6/ComparisonTable";
 import CodeExamples from "@/components/lesson-2-6/CodeExamples";
+import DiagnosticCases from "@/components/lesson-2-6/DiagnosticCases";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 
