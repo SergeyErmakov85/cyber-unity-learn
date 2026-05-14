@@ -503,8 +503,20 @@ wandb.finish()`}
           lessonPath="/courses/2-6"
           nextLesson={{ path: "/courses/project-2", title: "Проект 2" }}
         />
+
+        <div className="flex justify-center pt-6">
+          <Button
+            onClick={handleMarkComplete}
+            disabled={completed}
+            size="lg"
+            className="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white border-0 hover:opacity-90 disabled:opacity-70 focus-visible:ring-2 focus-visible:ring-cyan-500"
+          >
+            {completed ? "✅ Пройдено" : "Отметить урок как пройденный ✓"}
+          </Button>
+        </div>
       </ProGate>
     </LessonLayout>
+    </>
   );
 };
 
