@@ -90,7 +90,47 @@ const CourseLesson2_6 = () => {
     </section>
   );
 
+  const [completed, setCompleted] = useState<boolean>(() => isLessonComplete("2-6"));
+
+  useEffect(() => {
+    const onUpd = () => setCompleted(isLessonComplete("2-6"));
+    window.addEventListener("progress-updated", onUpd);
+    return () => window.removeEventListener("progress-updated", onUpd);
+  }, []);
+
+  const handleMarkComplete = () => {
+    markLessonComplete("2.6");
+    setCompleted(true);
+  };
+
   return (
+    <>
+      <Helmet>
+        <title>Урок 2.6. Визуализация обучения: TensorBoard и W&B | CyberUnityCode</title>
+        <meta
+          name="description"
+          content="Полный гайд по мониторингу RL-обучения: 15 ключевых метрик с интерпретацией, code-примеры PPO + SB3 + TensorBoard + W&B, диагностика 6 типичных проблем обучения. PRO-урок курса CyberUnityCode."
+        />
+        <meta
+          name="keywords"
+          content="TensorBoard, Weights and Biases, RL, мониторинг обучения, PPO, Stable-Baselines3, визуализация"
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Урок 2.6. Визуализация обучения: TensorBoard и W&B | CyberUnityCode" />
+        <meta
+          property="og:description"
+          content="Полный гайд по мониторингу RL-обучения: 15 ключевых метрик, code-примеры PPO + SB3 + TensorBoard + W&B."
+        />
+        <meta property="og:image" content="/og/lesson-2-6.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="/og/lesson-2-6.png" />
+      </Helmet>
+      <a
+        href="#lesson-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus-visible:ring-2 focus-visible:ring-cyan-500"
+      >
+        К содержимому урока
+      </a>
     <LessonLayout
       lessonId="2-6"
       lessonTitle="Визуализация обучения: TensorBoard и W&B"
@@ -102,10 +142,10 @@ const CourseLesson2_6 = () => {
       nextLesson={{ path: "/courses/project-2", title: "Проект 2" }}
     >
       <ProGate preview={preview}>
-        {preview}
+        <div id="lesson-content">{preview}</div>
 
         {/* ── Секция 1: Зачем нужен мониторинг ── */}
-        <section>
+        <motion.section {...sectionMotion}>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             Зачем нужен мониторинг
           </h2>
