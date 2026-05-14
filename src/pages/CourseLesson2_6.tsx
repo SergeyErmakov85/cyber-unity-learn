@@ -215,6 +215,8 @@ const CourseLesson2_6 = () => {
               <WhyVisualizeSection />
             ) : s.id === "metrics" ? (
               <MetricsTable />
+            ) : s.id === "tensorboard" ? (
+              <TensorBoardSection />
             ) : (
               <Placeholder n={i + 1} />
             )}
