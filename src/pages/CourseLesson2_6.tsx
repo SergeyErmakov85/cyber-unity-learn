@@ -337,6 +337,11 @@ model.learn(total_timesteps=100_000, tb_log_name="ppo_seed1")
             </Card>
           </div>
         </section>
+
+        {/* ── TensorBoard в Unity ML-Agents ── */}
+        <section>
+          <h2 className="text-2xl font-bold text-foreground mb-4">
+            TensorBoard в Unity ML-Agents
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
             ML-Agents автоматически пишет логи TensorBoard в папку{" "}
