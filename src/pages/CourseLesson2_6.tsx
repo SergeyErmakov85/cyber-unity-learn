@@ -16,6 +16,7 @@ import TldrBox from "@/components/ui/TldrBox";
 import WhyVisualizeSection from "@/components/lessons/WhyVisualizeSection";
 import MetricsTable from "@/components/lesson-2-6/MetricsTable";
 import TensorBoardSection from "@/components/lesson-2-6/TensorBoardSection";
+import WandbSection from "@/components/lesson-2-6/WandbSection";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 
@@ -217,6 +218,8 @@ const CourseLesson2_6 = () => {
               <MetricsTable />
             ) : s.id === "tensorboard" ? (
               <TensorBoardSection />
+            ) : s.id === "wandb" ? (
+              <WandbSection />
             ) : (
               <Placeholder n={i + 1} />
             )}

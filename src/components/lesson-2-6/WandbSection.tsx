@@ -277,7 +277,7 @@ const WandbSection = () => {
         <h3 className="text-xl font-bold text-foreground">
           Пример W&amp;B Sweep для RL
         </h3>
-        <CyberCodeBlock language="yaml" filename="sweep.yaml">
+        <CyberCodeBlock language="pseudo" filename="sweep.yaml">
           {SWEEP_YAML}
         </CyberCodeBlock>
         <p className="text-sm text-muted-foreground">
