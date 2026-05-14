@@ -18,6 +18,7 @@ import MetricsTable from "@/components/lesson-2-6/MetricsTable";
 import TensorBoardSection from "@/components/lesson-2-6/TensorBoardSection";
 import WandbSection from "@/components/lesson-2-6/WandbSection";
 import ComparisonTable from "@/components/lesson-2-6/ComparisonTable";
+import CodeExamples from "@/components/lesson-2-6/CodeExamples";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 
@@ -223,6 +224,8 @@ const CourseLesson2_6 = () => {
               <WandbSection />
             ) : s.id === "compare" ? (
               <ComparisonTable />
+            ) : s.id === "code" ? (
+              <CodeExamples />
             ) : (
               <Placeholder n={i + 1} />
             )}
