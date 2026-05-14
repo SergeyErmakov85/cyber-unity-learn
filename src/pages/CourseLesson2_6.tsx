@@ -1,9 +1,21 @@
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
 import LessonLayout from "@/components/LessonLayout";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
+
+const sectionMotion = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-100px" },
+  transition: { duration: 0.6, ease: "easeOut" as const },
+};
 import {
   Lightbulb,
   BarChart3,
