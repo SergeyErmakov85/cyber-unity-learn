@@ -125,7 +125,7 @@ const CourseLesson2_6 = () => {
         {SECTIONS.map((s, i) => (
           <section key={s.id} id={s.id} className={SECTION_CLASS}>
             <h2 className={SECTION_TITLE_CLASS}>{s.label}</h2>
-            <Placeholder n={i + 1} />
+            {s.id === "intro" ? <IntroSection /> : <Placeholder n={i + 1} />}
           </section>
         ))}
       </div>
