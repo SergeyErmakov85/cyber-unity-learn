@@ -14,6 +14,7 @@ import SectionNav, { SectionNavItem } from "@/components/SectionNav";
 import NextPrevLesson from "@/components/NextPrevLesson";
 import TldrBox from "@/components/ui/TldrBox";
 import WhyVisualizeSection from "@/components/lessons/WhyVisualizeSection";
+import MetricsTable from "@/components/lesson-2-6/MetricsTable";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 
@@ -211,6 +212,8 @@ const CourseLesson2_6 = () => {
               <IntroSection />
             ) : s.id === "why-visualize" ? (
               <WhyVisualizeSection />
+            ) : s.id === "metrics" ? (
+              <MetricsTable />
             ) : (
               <Placeholder n={i + 1} />
             )}
