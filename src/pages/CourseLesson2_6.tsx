@@ -231,6 +231,10 @@ const CourseLesson2_6 = () => {
               <CodeExamples />
             ) : s.id === "diagnostics" ? (
               <DiagnosticCases />
+            ) : s.id === "alternatives" ? (
+              <AlternativesSection />
+            ) : s.id === "recommendations" ? (
+              <RecommendationsSection />
             ) : (
               <Placeholder n={i + 1} />
             )}
