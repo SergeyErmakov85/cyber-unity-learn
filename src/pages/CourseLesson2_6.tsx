@@ -145,18 +145,6 @@ const CourseLesson2_6 = () => {
           </div>
         </section>
 
-        {/* ── Секция 2: TensorBoard для PyTorch ── */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">
-            TensorBoard для PyTorch
-          </h2>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            PyTorch имеет встроенную интеграцию через{" "}
-            <code className="text-primary font-mono text-sm">torch.utils.tensorboard</code>.
-            Достаточно создать <code className="text-primary font-mono text-sm">SummaryWriter</code> и
-            логировать скаляры, гистограммы и графы.
-          </p>
-
         {/* ── Секция: TensorBoard — практика ── */}
         <section id="tensorboard" className="scroll-mt-20 space-y-6">
           <h2 className="text-2xl font-bold text-foreground">TensorBoard — практика</h2>
