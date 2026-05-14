@@ -193,3 +193,21 @@ export function getMockLeaderboard(): LeaderboardEntry[] {
     { rank: 10, name: "CuriousBot", xp: 800, badges: 1, avatar: "🤔" },
   ];
 }
+
+// ==================== Lesson Completion Helper ====================
+// Accepts either "/courses/2-6" or "2-6" / "2.6" lesson ids and marks lesson complete.
+export function markLessonComplete(lessonIdOrPath: string): { xp: number; newBadges: Badge[] } {
+  let path = lessonIdOrPath;
+  if (!path.startsWith("/courses/")) {
+    path = `/courses/${path.replace(".", "-")}`;
+  }
+  return completeLesson(path);
+}
+
+export function isLessonComplete(lessonIdOrPath: string): boolean {
+  let path = lessonIdOrPath;
+  if (!path.startsWith("/courses/")) {
+    path = `/courses/${path.replace(".", "-")}`;
+  }
+  return getProgress().completedLessons.includes(path);
+}
