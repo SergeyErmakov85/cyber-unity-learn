@@ -1,9 +1,21 @@
+import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
 import LessonLayout from "@/components/LessonLayout";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
+
+const sectionMotion = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-100px" },
+  transition: { duration: 0.6, ease: "easeOut" as const },
+};
 import {
   Lightbulb,
   BarChart3,
@@ -78,7 +90,47 @@ const CourseLesson2_6 = () => {
     </section>
   );
 
+  const [completed, setCompleted] = useState<boolean>(() => isLessonComplete("2-6"));
+
+  useEffect(() => {
+    const onUpd = () => setCompleted(isLessonComplete("2-6"));
+    window.addEventListener("progress-updated", onUpd);
+    return () => window.removeEventListener("progress-updated", onUpd);
+  }, []);
+
+  const handleMarkComplete = () => {
+    markLessonComplete("2.6");
+    setCompleted(true);
+  };
+
   return (
+    <>
+      <Helmet>
+        <title>Урок 2.6. Визуализация обучения: TensorBoard и W&B | CyberUnityCode</title>
+        <meta
+          name="description"
+          content="Полный гайд по мониторингу RL-обучения: 15 ключевых метрик с интерпретацией, code-примеры PPO + SB3 + TensorBoard + W&B, диагностика 6 типичных проблем обучения. PRO-урок курса CyberUnityCode."
+        />
+        <meta
+          name="keywords"
+          content="TensorBoard, Weights and Biases, RL, мониторинг обучения, PPO, Stable-Baselines3, визуализация"
+        />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Урок 2.6. Визуализация обучения: TensorBoard и W&B | CyberUnityCode" />
+        <meta
+          property="og:description"
+          content="Полный гайд по мониторингу RL-обучения: 15 ключевых метрик, code-примеры PPO + SB3 + TensorBoard + W&B."
+        />
+        <meta property="og:image" content="/og/lesson-2-6.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="/og/lesson-2-6.png" />
+      </Helmet>
+      <a
+        href="#lesson-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus-visible:ring-2 focus-visible:ring-cyan-500"
+      >
+        К содержимому урока
+      </a>
     <LessonLayout
       lessonId="2-6"
       lessonTitle="Визуализация обучения: TensorBoard и W&B"
@@ -90,10 +142,10 @@ const CourseLesson2_6 = () => {
       nextLesson={{ path: "/courses/project-2", title: "Проект 2" }}
     >
       <ProGate preview={preview}>
-        {preview}
+        <div id="lesson-content">{preview}</div>
 
         {/* ── Секция 1: Зачем нужен мониторинг ── */}
-        <section>
+        <motion.section {...sectionMotion}>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             Зачем нужен мониторинг
           </h2>
@@ -143,10 +195,10 @@ const CourseLesson2_6 = () => {
               </Card>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* ── Секция: TensorBoard — практика ── */}
-        <section id="tensorboard" className="scroll-mt-20 space-y-6">
+        <motion.section id="tensorboard" className="scroll-mt-20 space-y-6" {...sectionMotion}>
           <h2 className="text-2xl font-bold text-foreground">TensorBoard — практика</h2>
 
           {/* История + Архитектура */}
@@ -336,10 +388,10 @@ model.learn(total_timesteps=100_000, tb_log_name="ppo_seed1")
               </CardContent>
             </Card>
           </div>
-        </section>
+        </motion.section>
 
         {/* ── TensorBoard в Unity ML-Agents ── */}
-        <section>
+        <motion.section {...sectionMotion}>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             TensorBoard в Unity ML-Agents
           </h2>
@@ -378,10 +430,10 @@ model.learn(total_timesteps=100_000, tb_log_name="ppo_seed1")
 # Просмотр логов:
 # tensorboard --logdir results --port 6006`}
           </CyberCodeBlock>
-        </section>
+        </motion.section>
 
         {/* ── Секция 4: Weights & Biases ── */}
-        <section>
+        <motion.section {...sectionMotion}>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             Weights &amp; Biases (W&amp;B)
           </h2>
@@ -442,7 +494,7 @@ wandb.finish()`}
               </CardContent>
             </Card>
           </div>
-        </section>
+        </motion.section>
 
         {/* ── Quiz ── */}
         <Quiz
@@ -451,8 +503,20 @@ wandb.finish()`}
           lessonPath="/courses/2-6"
           nextLesson={{ path: "/courses/project-2", title: "Проект 2" }}
         />
+
+        <div className="flex justify-center pt-6">
+          <Button
+            onClick={handleMarkComplete}
+            disabled={completed}
+            size="lg"
+            className="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white border-0 hover:opacity-90 disabled:opacity-70 focus-visible:ring-2 focus-visible:ring-cyan-500"
+          >
+            {completed ? "✅ Пройдено" : "Отметить урок как пройденный ✓"}
+          </Button>
+        </div>
       </ProGate>
     </LessonLayout>
+    </>
   );
 };
 
