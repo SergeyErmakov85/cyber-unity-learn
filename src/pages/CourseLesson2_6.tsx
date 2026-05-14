@@ -4,7 +4,23 @@ import ProGate from "@/components/ProGate";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
 import { Card, CardContent } from "@/components/ui/card";
-import { Lightbulb, BarChart3, AlertTriangle, Activity, Eye } from "lucide-react";
+import {
+  Lightbulb,
+  BarChart3,
+  AlertTriangle,
+  Activity,
+  Eye,
+  Calendar,
+  Cpu,
+  TrendingUp,
+  Image as ImageIcon,
+  GitGraph,
+  ScatterChart,
+  Sliders,
+  Gauge,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 
 const quizQuestions = [
   {
@@ -129,52 +145,200 @@ const CourseLesson2_6 = () => {
           </div>
         </section>
 
-        {/* ── Секция 2: TensorBoard для PyTorch ── */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">
-            TensorBoard для PyTorch
-          </h2>
-          <p className="text-muted-foreground leading-relaxed mb-4">
-            PyTorch имеет встроенную интеграцию через{" "}
-            <code className="text-primary font-mono text-sm">torch.utils.tensorboard</code>.
-            Достаточно создать <code className="text-primary font-mono text-sm">SummaryWriter</code> и
-            логировать скаляры, гистограммы и графы.
-          </p>
+        {/* ── Секция: TensorBoard — практика ── */}
+        <section id="tensorboard" className="scroll-mt-20 space-y-6">
+          <h2 className="text-2xl font-bold text-foreground">TensorBoard — практика</h2>
 
-          <CyberCodeBlock language="python" filename="train_with_tensorboard.py">
+          {/* История + Архитектура */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="bg-card/60 backdrop-blur-sm border-primary/30">
+              <CardContent className="p-6 space-y-2">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5 text-primary" />
+                  <h3 className="font-bold text-foreground">История</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  TensorBoard был выпущен Google вместе с TensorFlow{" "}
+                  <strong className="text-foreground">9 ноября 2015 года</strong>. С 2019 года официально поддерживается
+                  в PyTorch через <code className="text-accent font-mono">torch.utils.tensorboard.SummaryWriter</code>{" "}
+                  (нужен только пакет <code className="text-accent font-mono">tensorboard</code>, TensorFlow не
+                  обязателен).
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-card/60 backdrop-blur-sm border-secondary/30">
+              <CardContent className="p-6 space-y-2">
+                <div className="flex items-center gap-2">
+                  <Cpu className="w-5 h-5 text-secondary" />
+                  <h3 className="font-bold text-foreground">Архитектура</h3>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  <code className="text-accent font-mono">SummaryWriter</code> пишет protobuf-события в event files в{" "}
+                  <code className="text-accent font-mono">log_dir</code> (по умолчанию{" "}
+                  <code className="text-accent font-mono">runs/&lt;timestamp&gt;_&lt;host&gt;</code>). Команда{" "}
+                  <code className="text-accent font-mono">tensorboard --logdir runs/</code> запускает локальный
+                  веб-сервер (обычно <code className="text-accent font-mono">localhost:6006</code>), который рекурсивно
+                  сканирует папку и группирует подпапки как отдельные runs.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Виды визуализаций */}
+          <div>
+            <h3 className="text-xl font-bold text-foreground mb-4">Виды визуализаций</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                {
+                  icon: TrendingUp,
+                  title: "Scalars",
+                  desc: "Скалярные метрики во времени; multi-line через add_scalars",
+                  api: "add_scalar(tag, value, step)",
+                  color: "text-primary",
+                },
+                {
+                  icon: BarChart3,
+                  title: "Histograms",
+                  desc: "Распределения весов, активаций, действий",
+                  api: "add_histogram(tag, tensor, step)",
+                  color: "text-secondary",
+                },
+                {
+                  icon: ImageIcon,
+                  title: "Images / Audio / Video",
+                  desc: "Тензорные медиа — кадры среды, спектрограммы, ролики",
+                  api: "add_image / add_audio / add_video",
+                  color: "text-accent",
+                },
+                {
+                  icon: GitGraph,
+                  title: "Graphs",
+                  desc: "Визуализация графа вычислений модели",
+                  api: "add_graph(model, input)",
+                  color: "text-primary",
+                },
+                {
+                  icon: ScatterChart,
+                  title: "Projector / Embeddings",
+                  desc: "Проекции эмбеддингов: PCA, t-SNE, UMAP",
+                  api: "add_embedding(mat, metadata, label_img)",
+                  color: "text-secondary",
+                },
+                {
+                  icon: Sliders,
+                  title: "HParams",
+                  desc: "Сравнение запусков по гиперпараметрам и метрикам",
+                  api: "add_hparams(hparams, metrics)",
+                  color: "text-accent",
+                },
+                {
+                  icon: Activity,
+                  title: "PR curves",
+                  desc: "Precision-Recall кривые для классификации",
+                  api: "add_pr_curve(tag, labels, preds)",
+                  color: "text-primary",
+                },
+                {
+                  icon: Gauge,
+                  title: "Profiler",
+                  desc: "torch.profiler + плагин tensorboard-plugin-profile",
+                  api: "torch.profiler.profile(...)",
+                  color: "text-secondary",
+                },
+              ].map((item, i) => (
+                <Card key={i} className="bg-card/60 backdrop-blur-sm border-border/30">
+                  <CardContent className="p-4 space-y-2">
+                    <item.icon className={`w-5 h-5 ${item.color}`} />
+                    <h4 className="font-bold text-sm text-foreground">{item.title}</h4>
+                    <p className="text-xs text-muted-foreground leading-snug">{item.desc}</p>
+                    <code className="block text-[10px] text-accent font-mono break-all bg-background/40 p-1.5 rounded">
+                      {item.api}
+                    </code>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Минимальный PyTorch-пример */}
+          <div>
+            <h3 className="text-xl font-bold text-foreground mb-3">Минимальный PyTorch-пример</h3>
+            <CyberCodeBlock language="python" filename="train_minimal.py">
 {`from torch.utils.tensorboard import SummaryWriter
+writer = SummaryWriter("runs/ppo_cartpole_seed1")
+for step in range(N):
+    writer.add_scalar("rollout/ep_rew_mean", reward, step)
+    writer.add_histogram("policy/actions", actions, step)
+writer.close()`}
+            </CyberCodeBlock>
+          </div>
 
-writer = SummaryWriter("runs/food_collector_reinforce_v3")
+          {/* Интеграция со Stable-Baselines3 */}
+          <div>
+            <h3 className="text-xl font-bold text-foreground mb-3">Интеграция со Stable-Baselines3</h3>
+            <CyberCodeBlock language="python" filename="train_sb3.py">
+{`from stable_baselines3 import PPO
+model = PPO("MlpPolicy", "CartPole-v1",
+            tensorboard_log="./tb/", verbose=1)
+model.learn(total_timesteps=100_000, tb_log_name="ppo_seed1")
+# Запуск: tensorboard --logdir ./tb/`}
+            </CyberCodeBlock>
+            <p className="text-sm text-muted-foreground mt-2">
+              SB3 автоматически логирует все ключевые PPO-метрики (
+              <code className="text-accent font-mono">train/approx_kl</code>,{" "}
+              <code className="text-accent font-mono">train/explained_variance</code>,{" "}
+              <code className="text-accent font-mono">rollout/ep_rew_mean</code>, и т.д.).
+            </p>
+          </div>
 
-for episode in range(num_episodes):
-    total_reward, loss = run_episode(env, policy, optimizer)
-
-    writer.add_scalar("Train/EpisodeReward", total_reward, episode)
-    writer.add_scalar("Train/PolicyLoss", loss, episode)
-    writer.add_scalar("Train/Entropy", entropy, episode)
-
-    if episode % 100 == 0:
-        for name, param in policy.named_parameters():
-            writer.add_histogram(f"Weights/{name}", param, episode)
-
-writer.close()
-
-# Запуск: tensorboard --logdir=runs`}
-          </CyberCodeBlock>
-
-          <Card className="bg-card/60 backdrop-blur-sm border-primary/20 mt-4">
-            <CardContent className="p-4 flex gap-3 items-start">
-              <Lightbulb className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-muted-foreground">
-                <strong className="text-foreground">Совет:</strong> используйте{" "}
-                <code className="text-primary font-mono">add_histogram</code> каждые 100 эпизодов,
-                чтобы отслеживать распределение весов — это помогает выявить vanishing/exploding gradients.
+          {/* Запуск в Google Colab */}
+          <Card className="bg-card/60 backdrop-blur-sm border-l-4 border-l-primary border-y-primary/20 border-r-primary/20">
+            <CardContent className="p-6 space-y-2">
+              <h4 className="font-bold text-primary">Запуск в Google Colab</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <code className="text-accent font-mono">%load_ext tensorboard</code> +{" "}
+                <code className="text-accent font-mono">%tensorboard --logdir runs/</code> — встроенная поддержка с
+                TensorBoard 2.0. Для удалённого VPS: SSH-туннель{" "}
+                <code className="text-accent font-mono">ssh -L 6006:localhost:6006 user@server</code> или ngrok (
+                <code className="text-accent font-mono">ngrok http 6006</code>).
               </p>
             </CardContent>
           </Card>
+
+          {/* Плюсы / Минусы */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="bg-primary/5 backdrop-blur-sm border-primary/40">
+              <CardContent className="p-5 space-y-2">
+                <h4 className="font-bold text-primary flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5" /> Плюсы
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
+                  <li>Бесплатно, локально, мгновенно</li>
+                  <li>Открытый формат event-файлов</li>
+                  <li>Встроенная поддержка в PyTorch и SB3</li>
+                  <li>Работает офлайн</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-destructive/5 backdrop-blur-sm border-destructive/40">
+              <CardContent className="p-5 space-y-2">
+                <h4 className="font-bold text-destructive flex items-center gap-2">
+                  <XCircle className="w-5 h-5" /> Минусы
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
+                  <li>Нет collaboration (TensorBoard.dev закрыт в 2024)</li>
+                  <li>HParams plugin поддерживает только grid analysis</li>
+                  <li>Нет artifact tracking</li>
+                  <li>Нет persistent cloud storage</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
         </section>
 
-        {/* ── Секция 3: TensorBoard в Unity ML-Agents ── */}
+        {/* ── TensorBoard в Unity ML-Agents ── */}
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             TensorBoard в Unity ML-Agents
