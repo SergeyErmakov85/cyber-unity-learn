@@ -195,10 +195,10 @@ const CourseLesson2_6 = () => {
               </Card>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* ── Секция: TensorBoard — практика ── */}
-        <section id="tensorboard" className="scroll-mt-20 space-y-6">
+        <motion.section id="tensorboard" className="scroll-mt-20 space-y-6" {...sectionMotion}>
           <h2 className="text-2xl font-bold text-foreground">TensorBoard — практика</h2>
 
           {/* История + Архитектура */}
@@ -388,10 +388,10 @@ model.learn(total_timesteps=100_000, tb_log_name="ppo_seed1")
               </CardContent>
             </Card>
           </div>
-        </section>
+        </motion.section>
 
         {/* ── TensorBoard в Unity ML-Agents ── */}
-        <section>
+        <motion.section {...sectionMotion}>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             TensorBoard в Unity ML-Agents
           </h2>
@@ -430,10 +430,10 @@ model.learn(total_timesteps=100_000, tb_log_name="ppo_seed1")
 # Просмотр логов:
 # tensorboard --logdir results --port 6006`}
           </CyberCodeBlock>
-        </section>
+        </motion.section>
 
         {/* ── Секция 4: Weights & Biases ── */}
-        <section>
+        <motion.section {...sectionMotion}>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             Weights &amp; Biases (W&amp;B)
           </h2>
@@ -494,7 +494,7 @@ wandb.finish()`}
               </CardContent>
             </Card>
           </div>
-        </section>
+        </motion.section>
 
         {/* ── Quiz ── */}
         <Quiz
