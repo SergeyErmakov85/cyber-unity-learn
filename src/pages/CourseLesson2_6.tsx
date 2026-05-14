@@ -80,6 +80,87 @@ const Placeholder = ({ n }: { n: number }) => (
   </p>
 );
 
+const IntroSection = () => (
+  <div className="space-y-8">
+    {/* Hero card */}
+    <Card className="border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 backdrop-blur-sm overflow-hidden">
+      <CardContent className="p-8 flex flex-col md:flex-row items-start md:items-center gap-6">
+        <div className="flex-1 space-y-3">
+          <h3 className="text-2xl md:text-3xl font-bold text-foreground">
+            RL-обучение — процесс непредсказуемый
+          </h3>
+          <p className="text-muted-foreground leading-relaxed">
+            Без мониторинга вы не поймёте, обучается ли агент, застрял ли он, или награды
+            растут случайно. TensorBoard и Weights &amp; Biases — два ключевых инструмента
+            для отслеживания прогресса.
+          </p>
+        </div>
+        <div className="shrink-0 w-20 h-20 rounded-2xl border border-cyan-400/40 bg-cyan-500/10 flex items-center justify-center shadow-[0_0_32px_hsl(var(--primary)/0.45)]">
+          <LineChart className="w-12 h-12 text-cyan-400 drop-shadow-[0_0_10px_hsl(var(--primary)/0.7)]" />
+        </div>
+      </CardContent>
+    </Card>
+
+    {/* TL;DR */}
+    <TldrBox
+      items={[
+        <>
+          Для одиночных локальных экспериментов и быстрой диагностики —{" "}
+          <strong className="text-cyan-300">TensorBoard</strong> (бесплатен, работает
+          офлайн, встроен в PyTorch через{" "}
+          <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">
+            torch.utils.tensorboard.SummaryWriter
+          </code>{" "}
+          и в Stable-Baselines3 через{" "}
+          <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">
+            tensorboard_log=...
+          </code>
+          ). Для командной работы, sweeps, видео-логирования и публикуемых отчётов —{" "}
+          <strong className="text-purple-300">Weights &amp; Biases</strong> (
+          <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">
+            WandbCallback
+          </code>{" "}
+          с{" "}
+          <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">
+            sync_tensorboard=True
+          </code>
+          ); оптимальная конфигурация — использовать оба одновременно.
+        </>,
+        <>
+          В RL «обучается» ≠ «получает высокие награды»: смотрите не только на{" "}
+          <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">ep_rew_mean</code>,
+          но и на <em>entropy</em>, <em>explained_variance</em>, <em>approx_kl</em>,{" "}
+          <em>clip_fraction</em>, gradient norms и доверительные интервалы по ≥5 сидам
+          (методология RLiable, Agarwal et al., NeurIPS 2021 Outstanding Paper).
+        </>,
+        <>
+          Антипаттерн №1 студенческих RL-проектов — один сид и только график награды.
+          Минимум: <strong>3–5 сидов</strong>, IQM-метрики, ~10–15 ключевых метрик каждые
+          1–10k шагов, чекпоинты как W&amp;B Artifacts.
+        </>,
+      ]}
+    />
+
+    {/* Key findings grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {KEY_FINDINGS.map(({ title, text, icon: Icon, color }) => (
+        <Card
+          key={title}
+          className={`group bg-card/60 backdrop-blur-sm transition-all duration-300 hover:scale-105 ${COLOR_MAP[color]}`}
+        >
+          <CardContent className="p-5 space-y-3">
+            <div className="flex items-start justify-between gap-2">
+              <h4 className="font-bold text-foreground leading-snug">{title}</h4>
+              <Icon className="w-6 h-6 shrink-0 transition-transform group-hover:scale-110" />
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">{text}</p>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </div>
+);
+
 const CourseLesson2_6 = () => {
   const lesson = getLessonById("2.6")!;
 
