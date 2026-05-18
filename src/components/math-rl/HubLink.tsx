@@ -95,15 +95,33 @@ const scrollToAnchorWhenReady = (anchor: string, maxWaitMs = 3000): void => {
  * но при клике использует React Router `navigate()` без полной перезагрузки.
  * После навигации запускается плавная прокрутка к якорю.
  */
-const HubLink = ({ to, anchor, children, variant = "inline" }: HubLinkProps) => {
+const HubLink = ({
+  to,
+  anchor,
+  children,
+  variant = "inline",
+  fromPath,
+  fromAnchor,
+  fromLabel,
+}: HubLinkProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const resolvedPath = resolveHubPath(to, anchor);
-  const href = anchor ? `${resolvedPath}#${anchor}` : resolvedPath;
 
-  // Если пользователь перешёл по якорю в пределах той же страницы, где уже
-  // смонтирован HubLink (или по обновлённому hash), синхронизируем прокрутку.
+  // Back-link query: добавляется только если задан хотя бы fromPath+fromAnchor.
+  // Старые вызовы HubLink остаются байт-в-байт совместимыми.
+  const backQuery = (() => {
+    if (!fromPath || !fromAnchor) return "";
+    const sp = new URLSearchParams();
+    sp.set("from", fromPath);
+    sp.set("fromAnchor", fromAnchor);
+    if (fromLabel) sp.set("fromLabel", fromLabel);
+    return `?${sp.toString()}`;
+  })();
+
+  const href = `${resolvedPath}${backQuery}${anchor ? `#${anchor}` : ""}`;
+
   useEffect(() => {
     if (!anchor) return;
     if (location.pathname !== resolvedPath) return;
