@@ -27,6 +27,7 @@ const MathRLModule1 = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <ReturnToLessonChip />
       {/* Header */}
       <div className="border-b border-border/50 bg-card/30 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4 flex items-center gap-4">
