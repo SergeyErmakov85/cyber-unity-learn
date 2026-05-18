@@ -9,6 +9,12 @@ interface HubLinkProps {
   anchor?: string;
   children: ReactNode;
   variant?: HubLinkVariant;
+  /** Обратный якорь: путь урока-источника (например, "/courses/project-2"). */
+  fromPath?: string;
+  /** id места в уроке, к которому нужно вернуться (без #). */
+  fromAnchor?: string;
+  /** Человекочитаемая подпись урока для return-чипа на хабе. */
+  fromLabel?: string;
 }
 
 const HUB_CYAN = "#00FFD6";
