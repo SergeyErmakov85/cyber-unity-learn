@@ -1376,6 +1376,248 @@ const CourseProject2 = () => {
         </p>
       </section>
 
+      {/* ── Секция: Мониторинг обучения (наполнено) ───────────────────────── */}
+      <section
+        id="training-monitoring"
+        className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-6"
+        style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+      >
+        <SectionHeading>Мониторинг обучения</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Без TensorBoard капстоун превращается в гадание. Здесь — минимальный
+          набор метрик, которые нужно открыть прямо перед запуском{" "}
+          <span style={{ fontFamily: MONO, color: TEXT }}>mlagents-learn</span>,
+          и диагностический чек-лист «симптом → действие», который покрывает
+          90% реальных проблем Охотника.
+        </p>
+
+        {/* Ключевые метрики */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(0,255,214,0.03)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            5 метрик, на которые смотрим всегда
+          </h3>
+          <ul className="space-y-3 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            <li>
+              <span style={{ fontFamily: MONO, color: CYAN }}>Environment/Cumulative Reward</span>{" "}
+              — суммарная награда за эпизод, усреднённая по агентам. Здоровая
+              картинка: монотонно растёт, затем выходит на плато около{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>+1</span> (terminal
+              почти всегда достигается). Если плато ≪ 1 — Охотник в основном не
+              доходит до цели.
+            </li>
+            <li>
+              <span style={{ fontFamily: MONO, color: CYAN }}>Environment/Episode Length</span>{" "}
+              — средняя длина эпизода в шагах. Здоровая динамика:{" "}
+              <span style={{ color: TEXT }}>падает</span> по мере обучения (ловит
+              быстрее). Плоская линия у{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>MaxStep</span> —
+              эпизоды закрываются по таймеру, не по поимке.
+            </li>
+            <li>
+              <span style={{ fontFamily: MONO, color: CYAN }}>Policy/Entropy</span>{" "}
+              — энтропия гауссовой политики. Здоровая динамика: плавно убывает
+              от ≈ 1.4 (рандом) к небольшому положительному значению. Резкое
+              падение — ранний коллапс эксплорейшна; рост — нестабильность
+              (часто отсутствие <span style={{ fontFamily: MONO, color: TEXT }}>Mathf.Clamp</span>).
+            </li>
+            <li>
+              <span style={{ fontFamily: MONO, color: CYAN }}>Policy/Value Estimate</span>{" "}
+              — то, что предсказывает critic для типичных стартовых состояний.
+              Должно расти параллельно Cumulative Reward. Сильное отставание =
+              critic не успевает за actor.
+            </li>
+            <li>
+              <span style={{ fontFamily: MONO, color: CYAN }}>Losses/Policy Loss</span>{" "}
+              и{" "}
+              <span style={{ fontFamily: MONO, color: CYAN }}>Losses/Value Loss</span>{" "}
+              — должны постепенно уменьшаться и стабилизироваться. Резкие
+              всплески value loss — обычно симптом проблем с нормализацией
+              наблюдений или взорвавшейся PBRS-наградой.
+            </li>
+          </ul>
+        </div>
+
+        {/* Чек-лист C.4 */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Диагностический чек-лист
+          </h3>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            Источник — раздел C.4 research-артефакта. Читать слева направо:
+            увидели симптом → проверяете названную метрику → ищете причину →
+            применяете действие.
+          </p>
+          <div className="overflow-x-auto">
+            <table
+              className="w-full text-left"
+              style={{ borderCollapse: "separate", borderSpacing: 0 }}
+            >
+              <thead>
+                <tr>
+                  {["Симптом", "Метрика", "Причина", "Действие"].map((h) => (
+                    <th
+                      key={h}
+                      className="px-3 py-2"
+                      style={{
+                        fontFamily: ORBITRON,
+                        color: CYAN,
+                        fontSize: 12,
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        borderBottom: `1px solid ${BORDER}`,
+                        background: "rgba(0,255,214,0.04)",
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    s: "Reward плоский около нуля",
+                    m: "Cumulative Reward",
+                    c: "Сигнал слишком слабый или негативный baseline; Охотник не находит цель случайно.",
+                    a: "Поднять terminal bonus до +1.0, проверить, что PBRS-Φ направлена к цели, уменьшить размер арены на 30%.",
+                  },
+                  {
+                    s: "Reward растёт, Episode Length не падает",
+                    m: "Cumulative Reward ↑ + Episode Length ≈ const",
+                    c: "Reward hacking: Охотник набирает плюсы процессом (кружение, зависание), а не результатом.",
+                    a: "Переписать dense-награду в PBRS-форму (см. раздел «Формирование награды» этого урока).",
+                  },
+                  {
+                    s: "Entropy резко падает в начале",
+                    m: "Policy/Entropy",
+                    c: "Коллапс эксплорейшна: политика «защёлкивается» на одной стратегии раньше, чем нашла хорошую.",
+                    a: "Увеличить beta до 1e-2, проверить нормализацию фич, уменьшить learning_rate.",
+                  },
+                  {
+                    s: "Entropy растёт вместо падения",
+                    m: "Policy/Entropy",
+                    c: "Гауссова политика выдаёт хвостовые семплы за пределами [-1, +1].",
+                    a: "Добавить Mathf.Clamp в OnActionReceived (раздел «Непрерывное управление»).",
+                  },
+                  {
+                    s: "Value Loss с большими спайками",
+                    m: "Losses/Value Loss",
+                    c: "Награды слишком большие по модулю, либо наблюдения не нормированы.",
+                    a: "Удержать reward в [-1, +1]; в hunter.yaml поставить normalize: true; нормировать фичи в [-1, 1].",
+                  },
+                  {
+                    s: "Reward хорошо, но в Inference агент странный",
+                    m: "Mean Reward (post-export)",
+                    c: "Hunter.onnx экспортирован с другим набором фич или без normalize-статистик.",
+                    a: "Пересобрать билд после export, сверить порядок ObservationSpec, проверить opset_version (9 или 11).",
+                  },
+                ].map((row) => (
+                  <tr key={row.s}>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        color: TEXT,
+                        fontSize: 14,
+                        lineHeight: 1.6,
+                        borderBottom: `1px solid ${BORDER}`,
+                      }}
+                    >
+                      {row.s}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        fontFamily: MONO,
+                        color: CYAN,
+                        fontSize: 13,
+                        lineHeight: 1.5,
+                        borderBottom: `1px solid ${BORDER}`,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {row.m}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        color: DIM,
+                        fontSize: 14,
+                        lineHeight: 1.6,
+                        borderBottom: `1px solid ${BORDER}`,
+                      }}
+                    >
+                      {row.c}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        color: DIM,
+                        fontSize: 14,
+                        lineHeight: 1.6,
+                        borderBottom: `1px solid ${BORDER}`,
+                      }}
+                    >
+                      {row.a}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Reward hacking pattern — внутренняя ссылка на раздел "Формирование награды" */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{
+            border: `1px solid rgba(217,70,239,0.3)`,
+            background: "rgba(217,70,239,0.04)",
+          }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: MAGENTA, fontSize: 15, letterSpacing: "0.04em" }}
+          >
+            ⚠ Сигнатурный паттерн: reward hacking
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Если в TensorBoard{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>Cumulative Reward</span>{" "}
+            устойчиво растёт, а{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>Episode Length</span>{" "}
+            остаётся на уровне <span style={{ fontFamily: MONO, color: TEXT }}>MaxStep</span> —
+            это <span style={{ color: TEXT }}>не</span> успех. Это означает, что
+            Охотник нашёл способ копить плюсы, не закрывая эпизод поимкой.
+            Классический сценарий — кружение у цели или зависание рядом с ней.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Единственное надёжное лечение — переход на potential-based shaping:{" "}
+            <a
+              href="#reward-shaping"
+              style={{
+                color: CYAN,
+                borderBottom: `1px dashed ${CYAN}66`,
+                textDecoration: "none",
+                fontFamily: MONO,
+                fontSize: 13,
+              }}
+            >
+              ↑ раздел «Формирование награды»
+            </a>{" "}
+            этого урока, подкарточка «Почему PBRS, а не −distance напрямую».
+          </p>
+        </div>
+      </section>
+
       {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
         {SECTIONS.filter(
@@ -1384,7 +1626,8 @@ const CourseProject2 = () => {
             s.id !== "continuous-control" &&
             s.id !== "ppo-hyperparams" &&
             s.id !== "reward-shaping" &&
-            s.id !== "parallel-envs",
+            s.id !== "parallel-envs" &&
+            s.id !== "training-monitoring",
         ).map((s) => (
           <section
             key={s.id}
