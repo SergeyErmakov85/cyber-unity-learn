@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import { Skeleton } from "@/components/ui/skeleton";
+import ReturnToLessonChip from "@/components/math-rl/ReturnToLessonChip";
 
 const Part1 = lazy(() => import("@/components/math-rl/parts/Part1Limits"));
 const Part1b = lazy(() => import("@/components/math-rl/parts/Part1bCalculus"));
@@ -488,6 +489,7 @@ const MathRL = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+      <ReturnToLessonChip />
       <ScrollProgressBar />
 
       {/* Header */}

@@ -2,6 +2,7 @@ import LessonLayout from "@/components/LessonLayout";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
+import HubLink from "@/components/math-rl/HubLink";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Target, Trophy, CheckCircle2, ExternalLink, Download } from "lucide-react";
@@ -9,6 +10,22 @@ import { Target, Trophy, CheckCircle2, ExternalLink, Download } from "lucide-rea
 const CourseProject2 = () => {
   const preview = (
     <>
+      <section id="capstone-return-test" className="scroll-mt-28 mb-6 p-4 rounded-lg border border-[rgba(255,255,255,0.05)] bg-[rgba(0,255,214,0.04)]">
+        <p className="text-sm text-muted-foreground mb-2">
+          Дисконтированный возврат опирается на сумму геометрического ряда —
+          формальный вывод см. в хабе:
+        </p>
+        <HubLink
+          to="/hub/math-rl"
+          anchor="геометрический-ряд"
+          variant="pill"
+          fromPath="/courses/project-2"
+          fromAnchor="capstone-return-test"
+          fromLabel="Капстоун · 3D-агент-охотник"
+        >
+          Геометрический ряд и сходимость возврата
+        </HubLink>
+      </section>
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">Задание</h2>
         <p className="text-muted-foreground leading-relaxed">
