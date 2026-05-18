@@ -245,9 +245,215 @@ const CourseProject2 = () => {
         </ol>
       </section>
 
-      {/* ── Пустые секции-якоря под будущий контент ───────────────────────── */}
+      {/* ── Секция: Среда и наблюдения (наполнено) ────────────────────────── */}
+      <section
+        id="env-observations"
+        className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-6"
+        style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+      >
+        <SectionHeading>Среда и наблюдения</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Прежде чем учить — нужно решить, где Охотник живёт и что он вообще
+          способен «видеть». В капстоуне это две независимые проектные оси:
+          геометрия арены и сенсорика агента. От них напрямую зависит, как
+          быстро PPO найдёт политику и не свалится ли в reward hacking.
+        </p>
+
+        {/* Геометрия арены */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(0,255,214,0.03)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Замкнутая арена и препятствия
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Базовый размер — куб <span style={{ fontFamily: MONO, color: TEXT }}>10×10</span>
+            …<span style={{ fontFamily: MONO, color: TEXT }}>20×20</span> метров со
+            стенами по периметру. Меньше — Охотник «спотыкается» о цель случайно
+            и переобучается на тривиальную стратегию; больше — эпизоды слишком
+            длинные, PPO не успевает увидеть достаточное число терминальных
+            событий за <span style={{ fontFamily: MONO, color: TEXT }}>max_steps</span>.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Внутри — <span style={{ fontFamily: MONO, color: TEXT }}>3–6</span>{" "}
+            статичных препятствий-кубов: достаточно, чтобы появились «обходные
+            траектории», и мало, чтобы случайная инициализация почти всегда
+            оставалась проходимой. Вся сборка (пол, стены, препятствия, агент,
+            цель, спавн-точки) запекается в Prefab{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>TrainingArea</span> —
+            это базовый «кирпич», который потом размножается{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>TrainingAreaReplicator</span>{" "}
+            (см. раздел «Параллельные среды»).
+          </p>
+        </div>
+
+        {/* Стратегии цели */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Как движется цель
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Поведение цели — это скрытая часть распределения среды, и именно от
+            него зависит, насколько политика будет «общей», а не выученной под
+            один сценарий:
+          </p>
+          <ul className="space-y-2 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            <li>
+              <span style={{ color: TEXT }}>random walk</span> — цель блуждает
+              шумом. Самый быстрый сходящийся вариант, но Охотник учится «ловить
+              броуновское движение», а не догонять.
+            </li>
+            <li>
+              <span style={{ color: TEXT }}>scripted patrol</span> — цель ходит
+              по фиксированному маршруту. Опасность переобучения: политика
+              запоминает траекторию, а не принцип преследования.
+            </li>
+            <li>
+              <span style={{ color: TEXT }}>evasive</span> — цель отталкивается
+              от агента с ограниченной скоростью. Самый реалистичный режим;
+              даёт чистые кривые в TensorBoard и переносимую политику.
+            </li>
+            <li>
+              <span style={{ color: TEXT }}>self-play</span> — вторая цель —
+              такой же агент, обучающийся убегать. Капстоун это не требует, но
+              указывает, куда расти после Hunter.onnx.
+            </li>
+          </ul>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            По умолчанию в капстоуне берём <span style={{ fontFamily: MONO, color: TEXT }}>evasive</span>{" "}
+            со скоростью ≈ 0.6 от скорости агента — компромисс между скоростью
+            обучения и обобщаемостью.
+          </p>
+        </div>
+
+        {/* Пространство наблюдений */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(217,70,239,0.03)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Что Охотник «видит»: лучи + проприоцепция
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Наблюдение в ML-Agents собирается из двух источников, и они решают
+            разные задачи. Не подменяйте один другим.
+          </p>
+          <div className="grid md:grid-cols-2 gap-3">
+            <div
+              className="p-4 rounded-md space-y-2"
+              style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+            >
+              <p style={{ fontFamily: MONO, color: CYAN, fontSize: 13 }}>
+                RayPerceptionSensorComponent3D
+              </p>
+              <p style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
+                «Зрение»: 3 луча в конусе ≈ 70°, дальность ≈ 20 м, теги{" "}
+                <span style={{ fontFamily: MONO, color: TEXT }}>Wall</span>,{" "}
+                <span style={{ fontFamily: MONO, color: TEXT }}>Obstacle</span>,{" "}
+                <span style={{ fontFamily: MONO, color: TEXT }}>Target</span>.
+                Отвечает за обход препятствий и «увидел/не увидел цель».
+              </p>
+            </div>
+            <div
+              className="p-4 rounded-md space-y-2"
+              style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+            >
+              <p style={{ fontFamily: MONO, color: MAGENTA, fontSize: 13 }}>
+                VectorSensor (10–12 чисел)
+              </p>
+              <p style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
+                «Проприоцепция»: относительная позиция цели, собственная
+                скорость, ориентация, угол на цель. Отвечает за гладкое
+                наведение, когда цель уже в поле зрения.
+              </p>
+            </div>
+          </div>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Все векторные фичи нормализуем в{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>[-1, 1]</span>:
+            позиции делим на полудиагональ арены, скорости — на максимальный
+            модуль, углы — на π. Это не косметика — без нормализации PPO с{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>normalize: true</span>{" "}
+            всё равно работает, но статистики «разъезжаются» дольше, и кривая
+            энтропии в TensorBoard выглядит рваной.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Почему нормализация и выбор представления состояния — это не «тюнинг»,
+            а часть постановки MDP, разобрано в хабе:{" "}
+            <HubLink
+              to="/hub/math-rl"
+              anchor="марковское-свойство"
+              variant="inline"
+              fromPath="/courses/project-2"
+              fromAnchor="env-observations"
+              fromLabel="Капстоун · 3D-агент-охотник · Среда и наблюдения"
+            >
+              марковское свойство и достаточность состояния
+            </HubLink>
+            . А формальный разбор нормализации фич и стандартизации наблюдений —{" "}
+            <HubLink
+              to="/hub/math-rl"
+              anchor="todo-нормализация-наблюдений"
+              variant="inline"
+              fromPath="/courses/project-2"
+              fromAnchor="env-observations"
+              fromLabel="Капстоун · 3D-агент-охотник · Среда и наблюдения"
+            >
+              нормализация и шкалирование признаков (TODO-хаб)
+            </HubLink>
+            .
+          </p>
+        </div>
+
+        {/* Терминация */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Когда эпизод заканчивается
+          </h3>
+          <ul className="space-y-2 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            <li>
+              <span style={{ color: TEXT }}>Поимка</span> — расстояние до цели{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>&lt; 1.0 м</span>:
+              терминальная награда <span style={{ fontFamily: MONO, color: TEXT }}>+1.0</span>,{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>EndEpisode()</span>.
+            </li>
+            <li>
+              <span style={{ color: TEXT }}>Тайм-аут</span> — превышен{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>MaxStep</span>{" "}
+              (≈ 1000 шагов): эпизод закрывается «по таймеру», без бонуса.
+            </li>
+            <li>
+              <span style={{ color: TEXT }}>Выход из арены</span> (страховка
+              против бага физики) — мгновенный сброс без штрафа сверху того, что
+              уже накоплено по time penalty.
+            </li>
+          </ul>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            Сама структура награды (потенциальный shaping, time penalty,
+            collision penalty) разбирается в разделе «Формирование награды» —
+            здесь только условия закрытия эпизода.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
-        {SECTIONS.map((s) => (
+        {SECTIONS.filter((s) => s.id !== "env-observations").map((s) => (
           <section
             key={s.id}
             id={s.id}
