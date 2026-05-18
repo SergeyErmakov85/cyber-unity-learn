@@ -1,19 +1,160 @@
 import LessonLayout from "@/components/LessonLayout";
-import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
-import CyberCodeBlock from "@/components/CyberCodeBlock";
 import HubLink from "@/components/math-rl/HubLink";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Target, Trophy, CheckCircle2, ExternalLink, Download } from "lucide-react";
+
+/* ============================================================================
+ * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
+ * НАРРАТИВНЫЙ скелет (промпт #1 наполнения).
+ * Источник: research-артефакт «2.7. 3-D agent Hunter», раздел A.
+ *
+ * На этом шаге: только нарратив + пустые секции-якоря под будущий контент.
+ * Никаких формул, кода, таблиц гиперпараметров — это придёт следующими
+ * промптами в конкретные секции по их id.
+ * ============================================================================ */
+
+// Дизайн-токены C (фон/неон/шрифты) — централизованно, чтобы потом легко
+// заменить на CSS-переменные после внедрения в index.css.
+const BG = "#06080D";
+const TEXT = "#F4F7FC";
+const DIM = "#B0B8CE";
+const MUTED = "#6B7490";
+const CYAN = "#00FFD6";
+const MAGENTA = "#D946EF";
+const BORDER = "rgba(255,255,255,0.05)";
+const SURFACE = "rgba(255,255,255,0.02)";
+const ORBITRON = "'Orbitron', ui-sans-serif, system-ui, sans-serif";
+const MONO = "'JetBrains Mono', ui-monospace, monospace";
+
+// 10 этапов инженерного пути — нарратив-маршрут (раздел A артефакта).
+// По 1–2 предложения, без формул и кода (по контракту промпта).
+const ROADMAP: ReadonlyArray<{ title: string; text: string }> = [
+  {
+    title: "Поставить стек",
+    text:
+      "Unity 6000.0+, пакет ML-Agents 4.0.0 (Release 23), Python 3.10, PyTorch ≥ 2.1.1. Это рабочая база Охотника на 2026 год.",
+  },
+  {
+    title: "Собрать арену",
+    text:
+      "Замкнутый куб 20×20 м со стенами и 3–6 препятствиями. Внутри — наш агент и движущаяся цель; вся арена сохраняется как Prefab «TrainingArea» — чтобы потом дублироваться десятками копий.",
+  },
+  {
+    title: "Написать HunterAgent",
+    text:
+      "Скрипт-наследник Agent с четырьмя ключевыми методами: сброс эпизода, сбор наблюдений, реакция на действия и эвристика-«ручник» для отладки руками.",
+  },
+  {
+    title: "Дать ему глаза и проприоцепцию",
+    text:
+      "Лучевой сенсор смотрит вперёд лучами по тегам стен, препятствий и цели; векторный сенсор добавляет нормированные позицию, скорость и ориентацию относительно цели.",
+  },
+  {
+    title: "Назначить тело действий",
+    text:
+      "В Behavior Parameters задаём имя поведения «Hunter» и непрерывный action space: два числа (тяга и поворот) — этого достаточно для маневрирования в плоскости.",
+  },
+  {
+    title: "Размножить арены",
+    text:
+      "Компонент TrainingAreaReplicator расставляет 8–16 идентичных Prefab-арен сеткой. Один процесс собирает опыт параллельно со всех — и это до запуска любых параллельных Unity-инстансов.",
+  },
+  {
+    title: "Записать hunter.yaml",
+    text:
+      "Конфигурационный файл с дефолтами PPO, нормализацией наблюдений и горизонтом бюджета обучения — единая точка истины для воспроизводимого запуска.",
+  },
+  {
+    title: "Запустить mlagents-learn",
+    text:
+      "Одна команда из терминала — и сцена начинает прогоняться на ускоренном таймскейле, а в папке results появляются чекпоинты и event-файлы.",
+  },
+  {
+    title: "Смотреть в TensorBoard",
+    text:
+      "Параллельно открываем TensorBoard и читаем кумулятивную награду, энтропию политики и value loss — три графика, по которым видно «учится или хакает».",
+  },
+  {
+    title: "Подключить .onnx-модель",
+    text:
+      "Финальный шаг — выдернуть Hunter.onnx из results, положить в Behavior Parameters и переключить агента в Inference Only: тот же скрипт, но без Python в петле.",
+  },
+];
+
+// Стабильные id будущих секций — нужны для HubLink return-якорей и для TOC.
+const SECTIONS: ReadonlyArray<{ id: string; title: string; lead: string }> = [
+  {
+    id: "env-observations",
+    title: "Среда и наблюдения",
+    lead: "Геометрия арены, теги, что именно агент «видит» и почему именно это.",
+  },
+  {
+    id: "continuous-control",
+    title: "Непрерывное управление",
+    lead: "Action space из двух чисел, диагональная гауссова политика, ручной clamp.",
+  },
+  {
+    id: "ppo-hyperparams",
+    title: "PPO и гиперпараметры",
+    lead: "Почему PPO для капстоуна и как читать hunter.yaml по строкам.",
+  },
+  {
+    id: "reward-shaping",
+    title: "Формирование награды",
+    lead:
+      "От наивной distance-reward к потенциальной формулировке, terminal bonus и time penalty.",
+  },
+  {
+    id: "parallel-envs",
+    title: "Параллельные среды",
+    lead:
+      "TrainingAreaReplicator против --num-envs, сублинейный speedup и почему 8 ≠ ×8.",
+  },
+  {
+    id: "training-monitoring",
+    title: "Мониторинг обучения",
+    lead:
+      "TensorBoard-чек-лист: симптом → метрика → действие. Распознаём reward hacking по форме графиков.",
+  },
+  {
+    id: "working-artifacts",
+    title: "Рабочие артефакты",
+    lead: "Готовый hunter.yaml, HunterAgent.cs и Hunter.onnx — что лежит и зачем.",
+  },
+  {
+    id: "reward-sandbox",
+    title: "Песочница награды",
+    lead:
+      "Интерактив: крутим компоненты награды и смотрим, как меняется поведение Охотника.",
+  },
+];
+
+const SectionHeading = ({ children }: { children: React.ReactNode }) => (
+  <h2
+    className="text-xl md:text-2xl tracking-wide"
+    style={{ fontFamily: ORBITRON, color: TEXT, letterSpacing: "0.04em" }}
+  >
+    {children}
+  </h2>
+);
 
 const CourseProject2 = () => {
   const preview = (
-    <>
-      <section id="capstone-return-test" className="scroll-mt-28 mb-6 p-4 rounded-lg border border-[rgba(255,255,255,0.05)] bg-[rgba(0,255,214,0.04)]">
-        <p className="text-sm text-muted-foreground mb-2">
-          Дисконтированный возврат опирается на сумму геометрического ряда —
-          формальный вывод см. в хабе:
+    <div
+      style={{ backgroundColor: BG, color: TEXT }}
+      className="rounded-2xl p-6 md:p-10 space-y-12"
+    >
+      {/* ── Back-link test anchor (round-trip с HubLink) ───────────────────── */}
+      <section
+        id="capstone-return-test"
+        className="scroll-mt-28 p-4 rounded-lg"
+        style={{
+          border: `1px solid ${BORDER}`,
+          background: "rgba(0,255,214,0.04)",
+        }}
+      >
+        <p className="text-sm mb-2" style={{ color: DIM, fontSize: 14 }}>
+          Формальная база этого капстоуна разложена в хабе «Математика RL» — здесь
+          мы лишь возвращаемся к ней по ссылкам, без дублирования вывода:
         </p>
         <HubLink
           to="/hub/math-rl"
@@ -26,19 +167,116 @@ const CourseProject2 = () => {
           Геометрический ряд и сходимость возврата
         </HubLink>
       </section>
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">Задание</h2>
-        <p className="text-muted-foreground leading-relaxed">
-          Создайте 3D-среду в Unity: замкнутая арена с препятствиями, где агент должен
-          преследовать и поймать подвижную цель. Используйте <CrossLinkToHub hubPath="/algorithms/ppo" hubTitle="PPO — Proximal Policy Optimization">PPO</CrossLinkToHub> с dense reward shaping,
-          параллельные среды для ускорения обучения и TensorBoard для мониторинга.
+
+      {/* ── Вступление ─────────────────────────────────────────────────────── */}
+      <section id="intro" className="scroll-mt-28 space-y-5">
+        <SectionHeading>Что строим</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Капстоун Уровня 2 — это 3D-«Охотник» в Unity: компактная замкнутая арена
+          с препятствиями, в которой агент-сфера с непрерывным управлением учится
+          догонять и ловить движущуюся цель. Мы делаем не «ещё один туториал по
+          PPO», а маленькую самостоятельную лабораторию, где каждое решение
+          оставляет след на графиках TensorBoard и в поведении Охотника.
         </p>
-        <p className="text-muted-foreground leading-relaxed mt-3">
-          Этот проект объединяет все навыки Уровня 2: reward design, параллелизацию,
-          непрерывное управление и визуализацию обучения.
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Капстоун специально собран так, чтобы одновременно нагрузить четыре
+          навыка предыдущих разделов уровня: проектирование непрерывного
+          управления, формирование награды (включая потенциальный shaping и
+          борьбу с reward hacking), параллельный сбор опыта десятками арен в одной
+          сцене и визуальную диагностику обучения. На выходе — обученный
+          Hunter.onnx, который запускается без Python в Behavior Type «Inference
+          Only».
+        </p>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Дальше — карта маршрута на десять остановок. Это не чек-лист и не
+          оглавление: каждый шаг — точка решения, к которой мы вернёмся в
+          отдельной секции с разбором «как» и «почему».
         </p>
       </section>
-    </>
+
+      {/* ── Раздел-оглавление: путь из 10 этапов ──────────────────────────── */}
+      <section id="roadmap" className="scroll-mt-28 space-y-6">
+        <SectionHeading>Путь от пустой сцены к обученному агенту</SectionHeading>
+        <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.6 }}>
+          Десять шагов, по которым будет двигаться Охотник в этом капстоуне. Без
+          формул и кода — только сюжет; формальные выкладки лежат в хабах, технические
+          детали — в разделах ниже.
+        </p>
+        <ol className="space-y-3">
+          {ROADMAP.map((step, i) => (
+            <li
+              key={step.title}
+              className="flex gap-4 p-4 rounded-lg backdrop-blur-sm"
+              style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+            >
+              <span
+                aria-hidden
+                className="shrink-0 inline-flex items-center justify-center w-9 h-9 rounded-md"
+                style={{
+                  fontFamily: MONO,
+                  fontSize: 14,
+                  color: CYAN,
+                  border: `1px solid ${CYAN}33`,
+                  background: "rgba(0,255,214,0.06)",
+                }}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div className="min-w-0">
+                <p
+                  style={{
+                    fontFamily: ORBITRON,
+                    color: TEXT,
+                    fontSize: 15,
+                    letterSpacing: "0.03em",
+                  }}
+                >
+                  {step.title}
+                </p>
+                <p
+                  className="mt-1"
+                  style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}
+                >
+                  {step.text}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ── Пустые секции-якоря под будущий контент ───────────────────────── */}
+      <section className="space-y-6">
+        {SECTIONS.map((s) => (
+          <section
+            key={s.id}
+            id={s.id}
+            className="scroll-mt-28 p-6 rounded-xl backdrop-blur-sm"
+            style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+          >
+            <SectionHeading>{s.title}</SectionHeading>
+            <p
+              className="mt-3"
+              style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}
+            >
+              {s.lead}
+            </p>
+            <p
+              className="mt-3"
+              style={{
+                color: MUTED,
+                fontSize: 12,
+                fontFamily: MONO,
+                letterSpacing: "0.04em",
+              }}
+            >
+              # id: <span style={{ color: MAGENTA }}>{s.id}</span> · содержимое
+              будет добавлено следующим промптом
+            </p>
+          </section>
+        ))}
+      </section>
+    </div>
   );
 
   return (
@@ -47,188 +285,12 @@ const CourseProject2 = () => {
       lessonTitle="3D-агент-охотник в Unity"
       lessonNumber="П2"
       duration="90–120 мин"
-      tags={["#project", "#unity", "#ppo"]}
+      tags={["#project", "#unity", "#ppo", "#capstone"]}
       level={2}
       prevLesson={{ path: "/courses/2-6", title: "TensorBoard и W&B" }}
       nextLesson={{ path: "/courses/project-3", title: "Проект 3" }}
     >
-      <ProGate preview={preview}>
-        {preview}
-
-        {/* Environment */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Описание среды</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {[
-              { label: "Арена", value: "10×10 замкнутая площадка с 4 препятствиями" },
-              { label: "Агент", value: "Сфера с Rigidbody, непрерывное управление (2D force)" },
-              { label: "Цель", value: "Подвижная сфера, случайно меняющая направление" },
-              { label: "Наблюдения", value: "8: позиция агента (2), скорость (2), позиция цели (2), расстояние до стен (2)" },
-              { label: "Действия", value: "2 непрерывных: force_x [-1,1], force_z [-1,1]" },
-              { label: "Макс. шагов", value: "1000 за эпизод" },
-            ].map((item, i) => (
-              <div key={i} className="p-3 rounded-lg bg-card/40 border border-border/30">
-                <p className="text-xs text-primary font-semibold">{item.label}</p>
-                <p className="text-sm text-muted-foreground mt-1">{item.value}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Reward structure */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Система наград</h2>
-          <Card className="bg-card/40 border-primary/20">
-            <CardContent className="p-5">
-              <div className="flex items-start gap-3 mb-4">
-                <Target className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                <h3 className="font-bold text-foreground">Reward Structure</h3>
-              </div>
-              <div className="space-y-2">
-                {[
-                  { reward: "+1.0", event: "Поимка цели (расстояние < 1.0)" },
-                  { reward: "-0.001", event: "Каждый шаг (мотивация к скорости)" },
-                  { reward: "-1.0", event: "Столкновение со стеной" },
-                  { reward: "+0.01 × Δdist", event: "Приближение к цели (dense)" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-sm">
-                    <span className="font-mono text-xs text-primary w-20 text-right">{item.reward}</span>
-                    <span className="text-muted-foreground">{item.event}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Agent C# */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Starter-код агента</h2>
-          <CyberCodeBlock language="csharp" filename="HunterAgent.cs">
-{`using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
-using Unity.MLAgents.Sensors;
-using UnityEngine;
-
-public class HunterAgent : Agent
-{
-    public Transform target;
-    public float moveSpeed = 5f;
-    private Rigidbody rb;
-    private float previousDist;
-
-    public override void Initialize()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    public override void OnEpisodeBegin()
-    {
-        // Сброс позиции
-        transform.localPosition = new Vector3(
-            Random.Range(-4f, 4f), 0.5f, Random.Range(-4f, 4f));
-        rb.velocity = Vector3.zero;
-
-        // Случайная позиция цели
-        target.localPosition = new Vector3(
-            Random.Range(-4f, 4f), 0.5f, Random.Range(-4f, 4f));
-
-        previousDist = Vector3.Distance(
-            transform.localPosition, target.localPosition);
-    }
-
-    public override void CollectObservations(VectorSensor sensor)
-    {
-        // TODO: добавьте 8 наблюдений
-        sensor.AddObservation(transform.localPosition.x);
-        sensor.AddObservation(transform.localPosition.z);
-        sensor.AddObservation(rb.velocity.x);
-        sensor.AddObservation(rb.velocity.z);
-        sensor.AddObservation(target.localPosition.x);
-        sensor.AddObservation(target.localPosition.z);
-        // TODO: добавьте расстояние до ближайших стен
-    }
-
-    public override void OnActionReceived(ActionBuffers actions)
-    {
-        float forceX = actions.ContinuousActions[0];
-        float forceZ = actions.ContinuousActions[1];
-        rb.AddForce(new Vector3(forceX, 0, forceZ) * moveSpeed);
-
-        // TODO: реализуйте систему наград
-        float currentDist = Vector3.Distance(
-            transform.localPosition, target.localPosition);
-
-        // Dense reward за приближение
-        AddReward((previousDist - currentDist) * 0.1f);
-        previousDist = currentDist;
-
-        // Штраф за время
-        AddReward(-0.001f);
-
-        // Поимка
-        if (currentDist < 1.0f)
-        {
-            AddReward(1.0f);
-            EndEpisode();
-        }
-    }
-
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var c = actionsOut.ContinuousActions;
-        c[0] = Input.GetAxis("Horizontal");
-        c[1] = Input.GetAxis("Vertical");
-    }
-}`}
-          </CyberCodeBlock>
-
-          <div className="flex gap-3 mt-4 flex-wrap">
-            <Button variant="outline" size="sm" asChild>
-              <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <ExternalLink className="w-3.5 h-3.5" />
-                Unity Package
-              </a>
-            </Button>
-            <Button variant="ghost" size="sm" className="flex items-center gap-2">
-              <Download className="w-3.5 h-3.5" />
-              Скачать YAML-конфиг
-            </Button>
-          </div>
-        </section>
-
-        {/* Success criteria */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Критерии успеха</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border/50">
-                  <th className="text-left py-2 px-3 text-muted-foreground">Метрика</th>
-                  <th className="text-left py-2 px-3 text-muted-foreground">Минимум</th>
-                  <th className="text-left py-2 px-3 text-muted-foreground">Хорошо</th>
-                  <th className="text-left py-2 px-3 text-primary">Отлично</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { m: "Avg reward (последние 100)", min: "> 0.5", good: "> 0.8", great: "> 0.95" },
-                  { m: "Шаги до конвергенции", min: "< 1M", good: "< 500k", great: "< 300k" },
-                  { m: "Процент поимок", min: "> 60%", good: "> 80%", great: "> 95%" },
-                  { m: "TensorBoard графики", min: "Есть", good: "+интерпретация", great: "+сравнение run-ов" },
-                ].map((row, i) => (
-                  <tr key={i} className="border-b border-border/20">
-                    <td className="py-2 px-3 text-foreground">{row.m}</td>
-                    <td className="py-2 px-3 text-muted-foreground">{row.min}</td>
-                    <td className="py-2 px-3 text-secondary">{row.good}</td>
-                    <td className="py-2 px-3 text-primary font-semibold">{row.great}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </ProGate>
+      <ProGate preview={preview}>{preview}</ProGate>
     </LessonLayout>
   );
 };
