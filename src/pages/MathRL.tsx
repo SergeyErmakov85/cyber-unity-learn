@@ -489,6 +489,7 @@ const MathRL = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+      <ReturnToLessonChip />
       <ScrollProgressBar />
 
       {/* Header */}
