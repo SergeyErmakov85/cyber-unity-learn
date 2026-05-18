@@ -912,13 +912,281 @@ const CourseProject2 = () => {
         </div>
       </section>
 
+      {/* ── Секция: Формирование награды (наполнено) ──────────────────────── */}
+      <section
+        id="reward-shaping"
+        className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-6"
+        style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+      >
+        <SectionHeading>Формирование награды</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Самая опасная часть капстоуна. Награда — это контракт между вами и
+          PPO: алгоритм буквально найдёт способ её максимизировать, и если в
+          контракте есть лазейка — он её и заэксплойтит. Дальше — рабочие
+          компоненты награды Охотника, типовые провалы и контрмеры. Формальная
+          теория (почему такая формула вообще не ломает оптимум) — в хабе.
+        </p>
+
+        {/* Компоненты dense reward */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(0,255,214,0.03)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Что входит в reward Охотника
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Сборка такая: <span style={{ color: TEXT }}>один</span> терминальный
+            бонус за поимку, <span style={{ color: TEXT }}>один</span> плотный
+            (dense) PBRS-сигнал по расстоянию, <span style={{ color: TEXT }}>два</span>{" "}
+            мелких штрафа на «не стой» и «не лезь в стену». Никаких бонусов «за
+            движение», «за разворот», «за нажатие thrust» — это первый
+            прямой путь к reward hacking.
+          </p>
+          <ul className="space-y-3 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            <li>
+              <span style={{ color: TEXT }}>Potential-based shaping (PBRS)</span>{" "}
+              на расстоянии до цели:
+              <div
+                className="mt-2 p-3 rounded-md overflow-x-auto"
+                style={{
+                  border: `1px solid ${BORDER}`,
+                  background: "rgba(0,0,0,0.35)",
+                  fontFamily: MONO,
+                  color: TEXT,
+                  fontSize: 17,
+                  lineHeight: 1.7,
+                }}
+              >
+                Φ(s) = −d(s) / maxDist <br />
+                F(s, s′) = γ · Φ(s′) − Φ(s)
+              </div>
+              <p className="mt-2" style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
+                По модулю на шаг — около{" "}
+                <span style={{ fontFamily: MONO, color: TEXT }}>±0.01…0.05</span>.
+                Это «магнит к цели» без обещания финального приза.
+              </p>
+            </li>
+            <li>
+              <span style={{ color: TEXT }}>Terminal catch</span>:{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>+1.0</span>{" "}
+              в момент контакта с целью, ровно один раз за эпизод, дальше{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>EndEpisode()</span>.
+            </li>
+            <li>
+              <span style={{ color: TEXT }}>Time penalty</span>:{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>−1 / MaxStep</span>{" "}
+              каждый шаг (≈ <span style={{ fontFamily: MONO, color: TEXT }}>−0.001</span>{" "}
+              при <span style={{ fontFamily: MONO, color: TEXT }}>MaxStep = 1000</span>).
+              Гарантирует, что эпизод стоит ≈ −1, если цель не поймана.
+            </li>
+            <li>
+              <span style={{ color: TEXT }}>Collision penalty</span>:{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>−0.05</span> при
+              касании стены или препятствия (без EndEpisode — мягкий сигнал
+              «лучше не надо»).
+            </li>
+          </ul>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            Правило большого пальца: любая награда между решениями держится в
+            диапазоне <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span>.
+            Если внутришаговый сигнал начинает приближаться по модулю к
+            терминалу — PPO начнёт оптимизировать процесс, а не результат.
+          </p>
+        </div>
+
+        {/* Зачем именно PBRS */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Почему PBRS, а не «−distance» напрямую
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Соблазн велик: положить просто{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>r = −d(s)</span> на
+            каждом шаге. На словах это «учим Охотника быть ближе к цели». На
+            практике это меняет состав оптимальных стратегий — теперь стоять
+            рядом с целью выгоднее, чем её догнать и эпизод закрыть.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            PBRS-форма{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>F = γΦ(s′) − Φ(s)</span>{" "}
+            отличается тем, что её сумма по любому замкнутому циклу телескопически
+            сходится в ноль: за «кружение» вокруг цели накопить плюсов нельзя.
+            При этом «приближение к цели» по-прежнему даёт положительный сигнал —
+            ровно тогда, когда оно реально приближение.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Формальное обоснование (теорема Ng – Harada – Russell, 1999) и его
+            расширения — в хабе:{" "}
+            <HubLink
+              to="/hub/math-rl"
+              anchor="todo-reward-shaping-ng-harada-russell"
+              variant="inline"
+              fromPath="/courses/project-2"
+              fromAnchor="reward-shaping"
+              fromLabel="Капстоун · 3D-агент-охотник · Формирование награды"
+            >
+              reward shaping и теорема Ng – Harada – Russell (TODO-хаб)
+            </HubLink>
+            .
+          </p>
+        </div>
+
+        {/* Reward hacking — 3 кейса */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(217,70,239,0.04)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Как ломается Охотник: 3 классических reward hacks
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Это не теоретические страшилки — каждый из этих провалов появляется
+            на реальных кривых TensorBoard за первые 200–500к шагов, если
+            ошибиться в reward shaping.
+          </p>
+
+          <div className="overflow-x-auto">
+            <table
+              className="w-full text-left"
+              style={{ borderCollapse: "separate", borderSpacing: 0 }}
+            >
+              <thead>
+                <tr>
+                  {["Hack", "Симптом", "Причина", "Контрмера"].map((h) => (
+                    <th
+                      key={h}
+                      className="px-3 py-2"
+                      style={{
+                        fontFamily: ORBITRON,
+                        color: MAGENTA,
+                        fontSize: 12,
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        borderBottom: `1px solid ${BORDER}`,
+                        background: "rgba(217,70,239,0.06)",
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    h: "Кружение у цели",
+                    s: "Reward растёт, поимок мало; в редакторе видно карусель вокруг target.",
+                    c: "Награда вида r = −d (без PBRS) даёт плюсы за то, что Охотник просто рядом, не приближаясь по существу. Классический «велосипед» Ng/Harada/Russell 1999 (цит. Weng 2024).",
+                    m: "Переписать dense-часть в PBRS: F = γΦ(s′) − Φ(s). Сумма по циклу = 0 → за кружение плюсов нет.",
+                  },
+                  {
+                    h: "Зависание у цели без поимки",
+                    s: "Reward на плато ≈ +0.7, но episode length упирается в MaxStep, catches/ep ≈ 0.",
+                    c: "Terminal bonus слишком мал относительно накопленного PBRS, либо радиус поимки слишком жёсткий, либо нет time penalty — стоять выгоднее, чем рисковать броском.",
+                    m: "Поднять terminal до +1.0, уменьшить радиус контакта до ≈ 1.0 м, добавить −1/MaxStep на шаг.",
+                  },
+                  {
+                    h: "Эксплойт стен",
+                    s: "Охотник трётся об стену, value loss «качает», иногда телепортируется через угол.",
+                    c: "Нет штрафа за столкновение → политика обнаруживает, что вдоль стены физика толкает его «по диагонали» быстрее, чем в открытом поле; или баг коллайдера.",
+                    m: "Collision penalty −0.05 на касание Wall/Obstacle + жёсткий reset при выходе за арену; перепроверить колайдеры в Prefab TrainingArea.",
+                  },
+                ].map((row) => (
+                  <tr key={row.h}>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        fontFamily: ORBITRON,
+                        color: TEXT,
+                        fontSize: 13,
+                        letterSpacing: "0.03em",
+                        borderBottom: `1px solid ${BORDER}`,
+                      }}
+                    >
+                      {row.h}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        color: DIM,
+                        fontSize: 14,
+                        lineHeight: 1.6,
+                        borderBottom: `1px solid ${BORDER}`,
+                      }}
+                    >
+                      {row.s}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        color: DIM,
+                        fontSize: 14,
+                        lineHeight: 1.6,
+                        borderBottom: `1px solid ${BORDER}`,
+                      }}
+                    >
+                      {row.c}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        color: TEXT,
+                        fontSize: 14,
+                        lineHeight: 1.6,
+                        borderBottom: `1px solid ${BORDER}`,
+                      }}
+                    >
+                      {row.m}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Эти три кейса — частные случаи общей проблемы reward misspecification
+            и закона Гудхарта применительно к RL: формальный разбор и каталог
+            других провалов — в хабе:{" "}
+            <HubLink
+              to="/hub/math-rl"
+              anchor="todo-reward-misspecification-goodhart"
+              variant="inline"
+              fromPath="/courses/project-2"
+              fromAnchor="reward-shaping"
+              fromLabel="Капстоун · 3D-агент-охотник · Формирование награды"
+            >
+              reward misspecification и закон Гудхарта (TODO-хаб)
+            </HubLink>
+            .
+          </p>
+        </div>
+
+        <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+          Покрутить эти компоненты руками и увидеть поведение Охотника можно
+          будет в разделе «Песочница награды» — там же появится интерактивный
+          разбор кривых TensorBoard для каждого из трёх hack-кейсов.
+        </p>
+      </section>
+
       {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
         {SECTIONS.filter(
           (s) =>
             s.id !== "env-observations" &&
             s.id !== "continuous-control" &&
-            s.id !== "ppo-hyperparams",
+            s.id !== "ppo-hyperparams" &&
+            s.id !== "reward-shaping",
         ).map((s) => (
           <section
             key={s.id}
