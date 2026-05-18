@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import Math from "@/components/Math";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { GeometricSeriesChart, ValueIterationChart, DiscountImpactChart } from "@/components/math-rl/module1/InteractiveCharts";
-import ReturnToLessonChip from "@/components/math-rl/ReturnToLessonChip";
 
 const chapters = [
   "Введение",
