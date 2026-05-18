@@ -603,10 +603,322 @@ const CourseProject2 = () => {
         </div>
       </section>
 
+      {/* ── Секция: PPO и гиперпараметры (наполнено) ─────────────────────── */}
+      <section
+        id="ppo-hyperparams"
+        className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-6"
+        style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+      >
+        <SectionHeading>PPO и гиперпараметры</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Охотника обучает <span style={{ color: TEXT }}>PPO</span> (Proximal
+          Policy Optimization, Schulman et&nbsp;al. 2017) — стандартный
+          on-policy алгоритм ML-Agents. Альтернатива{" "}
+          <span style={{ color: TEXT }}>SAC</span> (off-policy, лучше по{" "}
+          sample efficiency) формально тоже доступна, но её хвалят за{" "}
+          непрерывное управление в robotics, где данные дорогие. У нас данные
+          дешёвые — это симуляция с десятками параллельных арен, — а ценится
+          <span style={{ color: TEXT }}> стабильность</span> и предсказуемость
+          кривых TensorBoard. Поэтому PPO: проще диагностировать,
+          реже разваливается, базовый алгоритм всех современных RLHF/agentic
+          стэков.
+        </p>
+
+        {/* Связка V / A / GAE / return — нарратив + 4 HubLink */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(0,255,214,0.03)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            На каких величинах PPO учит политику
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            В мире Охотника{" "}
+            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>V(s)</span>{" "}
+            — это «насколько хороша текущая позиция», ожидаемая сумма будущих
+            наград, если дальше действовать по нынешней политике. Critic-сеть
+            PPO учится её предсказывать прямо во время обучения. Из неё
+            считается{" "}
+            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>A(s,a)</span>{" "}
+            — преимущество действия: «насколько именно этот рывок оказался
+            лучше, чем в среднем из этой позиции». Если действие догнало цель —{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>A</span> положительное,
+            политика смещается в его сторону.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            <span style={{ fontFamily: MONO, color: TEXT }}>A</span> можно
+            считать одним шагом (шумно) или всем эпизодом (запоздало). GAE даёт
+            непрерывную ручку{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>λ ∈ [0, 1]</span>{" "}
+            между этими крайностями — компромисс bias / variance, который для
+            Охотника решает, сходится ли обучение за 1М шагов или за 5М.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Сама же сумма дисконтированных наград{" "}
+            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>
+              Σ γᵏ rₜ₊ₖ
+            </span>{" "}
+            конечна именно потому, что{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>γ &lt; 1</span> — это
+            та самая геометрическая прогрессия, без которой бесконечные эпизоды
+            ломали бы целевую функцию.
+          </p>
+
+          <ul className="mt-2 space-y-2 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            <li>
+              Формальные{" "}
+              <HubLink
+                to="/hub/math-rl"
+                anchor="уравнение-ожиданий-беллмана"
+                variant="inline"
+                fromPath="/courses/project-2"
+                fromAnchor="ppo-hyperparams"
+                fromLabel="Капстоун · 3D-агент-охотник · PPO и гиперпараметры"
+              >
+                уравнения Беллмана для V, Q, A
+              </HubLink>
+              .
+            </li>
+            <li>
+              Вывод GAE и анализ bias / variance:{" "}
+              <HubLink
+                to="/hub/math-rl"
+                anchor="todo-gae-schulman-2015"
+                variant="inline"
+                fromPath="/courses/project-2"
+                fromAnchor="ppo-hyperparams"
+                fromLabel="Капстоун · 3D-агент-охотник · PPO и гиперпараметры"
+              >
+                GAE / Schulman 2015 (TODO-хаб)
+              </HubLink>
+              .
+            </li>
+            <li>
+              Cl­ipped surrogate L<sup>CLIP</sup> и роль ε:{" "}
+              <HubLink
+                to="/hub/math-rl"
+                anchor="todo-ppo-clipped-surrogate"
+                variant="inline"
+                fromPath="/courses/project-2"
+                fromAnchor="ppo-hyperparams"
+                fromLabel="Капстоун · 3D-агент-охотник · PPO и гиперпараметры"
+              >
+                PPO / TRPO objective (TODO-хаб)
+              </HubLink>
+              .
+            </li>
+            <li>
+              Сходимость{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>Σ γᵏ r</span> и
+              смысл дисконта:{" "}
+              <HubLink
+                to="/hub/math-rl"
+                anchor="геометрический-ряд"
+                variant="inline"
+                fromPath="/courses/project-2"
+                fromAnchor="ppo-hyperparams"
+                fromLabel="Капстоун · 3D-агент-охотник · PPO и гиперпараметры"
+              >
+                бесконечные ряды и геометрическая прогрессия
+              </HubLink>
+              .
+            </li>
+          </ul>
+        </div>
+
+        {/* Таблица гиперпараметров */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            hunter.yaml: гиперпараметры PPO построчно
+          </h3>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            Значения — из раздела B3 research-артефакта (ML-Agents Release 23,
+            конфиг для непрерывного управления среднего размера). Колонка
+            «Диапазон» — рабочий коридор для Охотника, за пределами которого
+            почти всегда что-то ломается.
+          </p>
+          <div className="overflow-x-auto">
+            <table
+              className="w-full text-left"
+              style={{ borderCollapse: "separate", borderSpacing: 0 }}
+            >
+              <thead>
+                <tr>
+                  {["Параметр", "Дефолт", "Диапазон", "Роль"].map((h) => (
+                    <th
+                      key={h}
+                      className="px-3 py-2"
+                      style={{
+                        fontFamily: ORBITRON,
+                        color: CYAN,
+                        fontSize: 12,
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                        borderBottom: `1px solid ${BORDER}`,
+                        background: "rgba(0,255,214,0.04)",
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    p: "gamma",
+                    d: "0.99",
+                    r: "0.95 – 0.999",
+                    role: "Дисконт. Ниже — Охотник «жаднее» к близкой цели, выше — терпеливее в обходе препятствий.",
+                  },
+                  {
+                    p: "lambd",
+                    d: "0.95",
+                    r: "0.9 – 0.99",
+                    role: "λ для GAE: компромисс bias / variance в оценке преимущества.",
+                  },
+                  {
+                    p: "epsilon",
+                    d: "0.2",
+                    r: "0.1 – 0.3",
+                    role: "Радиус clip в L^CLIP: насколько шаг политики может уйти от старой за одно обновление.",
+                  },
+                  {
+                    p: "beta",
+                    d: "5.0e-3",
+                    r: "1e-4 – 1e-2",
+                    role: "Вес энтропийного бонуса. Малое β → ранний коллапс энтропии и reward hacking.",
+                  },
+                  {
+                    p: "learning_rate",
+                    d: "3.0e-4",
+                    r: "1e-4 – 5e-4",
+                    role: "Шаг Adam. Schedule: linear (декай до 0 за max_steps).",
+                  },
+                  {
+                    p: "learning_rate_schedule",
+                    d: "linear",
+                    r: "linear / constant",
+                    role: "Линейный декай стабилизирует финал обучения, constant — для коротких пилотов.",
+                  },
+                  {
+                    p: "batch_size",
+                    d: "2048",
+                    r: "1024 – 4096",
+                    role: "Размер мини-батча PPO. Под непрерывное действие — нижняя граница 2048.",
+                  },
+                  {
+                    p: "buffer_size",
+                    d: "20480",
+                    r: "10× – 20× batch_size",
+                    role: "Сколько шагов копим перед update. Слишком мало → дёргает; слишком много → редкие апдейты.",
+                  },
+                  {
+                    p: "num_epoch",
+                    d: "3",
+                    r: "3 – 10",
+                    role: "Сколько раз PPO «проходит» по buffer на каждом update.",
+                  },
+                  {
+                    p: "hidden_units",
+                    d: "128",
+                    r: "64 – 512",
+                    role: "Ширина скрытых слоёв actor/critic. Для 10–12 фич хватает 128.",
+                  },
+                  {
+                    p: "num_layers",
+                    d: "2",
+                    r: "1 – 3",
+                    role: "Глубина MLP. Глубже не значит лучше — у Охотника низкоразмерное состояние.",
+                  },
+                  {
+                    p: "time_horizon",
+                    d: "128",
+                    r: "64 – 256",
+                    role: "Горизонт, на котором GAE «обрезает» отдачу. Связан с типичной длиной погони.",
+                  },
+                  {
+                    p: "max_steps",
+                    d: "2.0e6",
+                    r: "1e6 – 5e6",
+                    role: "Бюджет шагов на всю тренировку (сумма по агентам). Меньше — не успевает; больше — переобучение под среду.",
+                  },
+                ].map((row) => (
+                  <tr key={row.p}>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        fontFamily: MONO,
+                        color: TEXT,
+                        fontSize: 13,
+                        borderBottom: `1px solid ${BORDER}`,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {row.p}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        fontFamily: MONO,
+                        color: CYAN,
+                        fontSize: 17,
+                        borderBottom: `1px solid ${BORDER}`,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {row.d}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        fontFamily: MONO,
+                        color: DIM,
+                        fontSize: 13,
+                        borderBottom: `1px solid ${BORDER}`,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {row.r}
+                    </td>
+                    <td
+                      className="px-3 py-2 align-top"
+                      style={{
+                        color: DIM,
+                        fontSize: 14,
+                        lineHeight: 1.6,
+                        borderBottom: `1px solid ${BORDER}`,
+                      }}
+                    >
+                      {row.role}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            Полный <span style={{ fontFamily: MONO, color: TEXT }}>hunter.yaml</span>{" "}
+            с этими значениями и комментариями появится в разделе «Рабочие
+            артефакты» — здесь только семантика параметров.
+          </p>
+        </div>
+      </section>
+
       {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
         {SECTIONS.filter(
-          (s) => s.id !== "env-observations" && s.id !== "continuous-control",
+          (s) =>
+            s.id !== "env-observations" &&
+            s.id !== "continuous-control" &&
+            s.id !== "ppo-hyperparams",
         ).map((s) => (
           <section
             key={s.id}
