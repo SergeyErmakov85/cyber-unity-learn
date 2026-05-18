@@ -1,6 +1,8 @@
 import LessonLayout from "@/components/LessonLayout";
 import ProGate from "@/components/ProGate";
 import HubLink from "@/components/math-rl/HubLink";
+import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiagram";
+import CyberCodeBlock from "@/components/CyberCodeBlock";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
@@ -1618,6 +1620,178 @@ const CourseProject2 = () => {
         </div>
       </section>
 
+      {/* ── Секция: Рабочие артефакты (наполнено) ─────────────────────────── */}
+      <section
+        id="working-artifacts"
+        className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-6"
+        style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+      >
+        <SectionHeading>Рабочие артефакты</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Три файла, без которых капстоун не запустится:{" "}
+          <span style={{ fontFamily: MONO, color: TEXT }}>hunter.yaml</span> для
+          trainer'а, <span style={{ fontFamily: MONO, color: TEXT }}>HunterAgent.cs</span>{" "}
+          с reward-функцией внутри Unity, и схема параллелизма, по которой
+          собирается опыт. Здесь — полные тексты и визуальная карта потока.
+        </p>
+
+        {/* C.1 hunter.yaml */}
+        <div className="space-y-3">
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            C.1 · hunter.yaml
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
+            Конфиг trainer'а для ML-Agents Release 23. Совпадает с таблицей из
+            раздела «PPO и гиперпараметры»; здесь — рабочий вид, который можно
+            скопировать в проект как есть.
+          </p>
+          <CyberCodeBlock language="pseudo" filename="config/hunter.yaml">
+{`behaviors:
+  Hunter:
+    trainer_type: ppo
+
+    hyperparameters:
+      batch_size:      2048      # PPO mini-batch; для continuous control — нижняя граница
+      buffer_size:     20480     # 10x batch_size; rollout перед update
+      learning_rate:   3.0e-4    # Adam step
+      beta:            5.0e-3    # энтропийный бонус (защита от ранней сходимости)
+      epsilon:         0.2       # радиус clip в L^CLIP
+      lambd:           0.95      # λ для GAE (bias / variance trade-off)
+      num_epoch:       3         # сколько раз PPO проходит по буферу
+      learning_rate_schedule: linear
+
+    network_settings:
+      normalize:       true      # running mean/std для входов (важно для нормализации фич)
+      hidden_units:    128
+      num_layers:      2
+      vis_encode_type: simple
+
+    reward_signals:
+      extrinsic:
+        gamma:         0.99      # дисконт; сумма Σγ^k r сходится при γ < 1
+        strength:      1.0
+
+    keep_checkpoints: 5
+    max_steps:        2.0e6     # суммарный бюджет шагов по ВСЕМ агентам
+    time_horizon:     128       # горизонт обрезки отдачи для GAE
+    summary_freq:     10000     # как часто писать в TensorBoard`}
+          </CyberCodeBlock>
+        </div>
+
+        {/* C.2 HunterAgent.cs */}
+        <div className="space-y-3">
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            C.2 · HunterAgent.cs — reward function (псевдокод)
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
+            Скелет <span style={{ fontFamily: MONO, color: TEXT }}>OnActionReceived</span>{" "}
+            с PBRS-shaping. <span style={{ color: TEXT }}>Mathf.Clamp обязателен</span>:
+            ML-Agents PPO использует un-squashed гауссиану и формально не
+            гарантирует <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span>.
+          </p>
+          <CyberCodeBlock language="csharp" filename="HunterAgent.cs">
+{`public class HunterAgent : Agent
+{
+    public Transform target;
+    public float maxDist = 28f;       // диагональ арены 20×20
+    private Rigidbody rb;
+    private float prevPotential;
+
+    public override void OnEpisodeBegin()
+    {
+        // респавн агента и цели в случайные точки арены
+        ResetAgentAndTarget();
+        rb.linearVelocity = Vector3.zero;
+        prevPotential = -Distance() / maxDist;   // Φ(s_0)
+    }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        // 10–12 нормированных фич в [-1, +1] (см. раздел «Среда и наблюдения»)
+        sensor.AddObservation(NormalizedDeltaToTarget());
+        sensor.AddObservation(NormalizedVelocity());
+        sensor.AddObservation(NormalizedYaw());
+        // RayPerceptionSensorComponent3D подключается отдельным компонентом
+    }
+
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        // ── ОБЯЗАТЕЛЬНЫЙ clamp: ML-Agents PPO без tanh-squashing ───────────
+        float thrust = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
+        float yaw    = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+
+        ApplyMovement(thrust, yaw);
+
+        // ── Reward: PBRS + time penalty + terminal + collision (см. секцию «Формирование награды») ──
+        float phi = -Distance() / maxDist;                       // Φ(s′)
+        float shaping = 0.99f * phi - prevPotential;             // F = γΦ(s′) − Φ(s)
+        prevPotential = phi;
+
+        AddReward(shaping);
+        AddReward(-1f / MaxStep);                                // time penalty
+
+        if (Distance() < 1.0f)
+        {
+            AddReward(+1.0f);                                    // terminal catch
+            EndEpisode();
+        }
+    }
+
+    void OnCollisionEnter(Collision c)
+    {
+        if (c.gameObject.CompareTag("Wall") || c.gameObject.CompareTag("Obstacle"))
+            AddReward(-0.05f);                                   // collision penalty (мягкий)
+    }
+}`}
+          </CyberCodeBlock>
+        </div>
+
+        {/* C.3 Схема параллелизма */}
+        <div className="space-y-3">
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            C.3 · Схема параллелизма
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
+            Как именно опыт от десятков Охотников собирается в один градиентный
+            шаг PPO. Сплошные cyan-стрелки — поток опыта, пунктирная — обратное
+            обновление политики, magenta-блок снизу — опциональные{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>--num-envs</span>{" "}
+            процессы.
+          </p>
+          <div
+            className="p-4 rounded-lg"
+            style={{ border: `1px solid ${BORDER}`, background: "rgba(0,0,0,0.25)" }}
+          >
+            <HunterParallelismDiagram />
+          </div>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            Подробности по выбору{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>TrainingAreaReplicator</span>{" "}
+            vs <span style={{ fontFamily: MONO, color: TEXT }}>--num-envs</span>{" "}
+            и про сублинейный speedup — в разделе{" "}
+            <a
+              href="#parallel-envs"
+              style={{
+                color: CYAN,
+                borderBottom: `1px dashed ${CYAN}66`,
+                textDecoration: "none",
+                fontFamily: MONO,
+                fontSize: 13,
+              }}
+            >
+              ↑ «Параллельные среды»
+            </a>
+            .
+          </p>
+        </div>
+      </section>
+
       {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
         {SECTIONS.filter(
@@ -1627,7 +1801,8 @@ const CourseProject2 = () => {
             s.id !== "ppo-hyperparams" &&
             s.id !== "reward-shaping" &&
             s.id !== "parallel-envs" &&
-            s.id !== "training-monitoring",
+            s.id !== "training-monitoring" &&
+            s.id !== "working-artifacts",
         ).map((s) => (
           <section
             key={s.id}
