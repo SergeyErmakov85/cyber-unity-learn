@@ -451,9 +451,163 @@ const CourseProject2 = () => {
         </div>
       </section>
 
+      {/* ── Секция: Непрерывное управление (наполнено) ────────────────────── */}
+      <section
+        id="continuous-control"
+        className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-6"
+        style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+      >
+        <SectionHeading>Непрерывное управление</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Охотник управляется не «нажатиями кнопок», а двумя вещественными
+          числами в кадре. Это сознательный выбор: непрерывное действие меняет
+          и физику движения, и архитектуру политики, и даже подбор
+          гиперпараметров PPO. Разбираем по слоям.
+        </p>
+
+        {/* Action space */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(0,255,214,0.03)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Action space: 2 числа (или 3)
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Базовая версия Охотника —{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>Continuous Actions = 2</span>:
+          </p>
+          <ul className="space-y-2 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            <li>
+              <span style={{ fontFamily: MONO, color: CYAN }}>a[0] = thrust</span>{" "}
+              ∈ <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span> —
+              продольная тяга (вперёд/назад).
+            </li>
+            <li>
+              <span style={{ fontFamily: MONO, color: CYAN }}>a[1] = yaw</span> ∈{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span> —
+              угловая скорость поворота.
+            </li>
+          </ul>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Расширенная версия —{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>Continuous Actions = 3</span>{" "}
+            (<span style={{ fontFamily: MONO, color: TEXT }}>vx, vz, yaw</span>) —
+            нужна, если убрать инерцию и управлять напрямую вектором скорости.
+            Для капстоуна берём двухмерный вариант: ближе к «настоящей» машинке
+            и достаточен, чтобы PPO нашёл нетривиальную стратегию обхода
+            препятствий.
+          </p>
+        </div>
+
+        {/* Почему continuous, а не discrete */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Почему не дискретное управление
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Дискретный вариант («вперёд / назад / влево / вправо / стоп»)
+            обучается быстрее: меньше пространство, меньшего{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>batch_size</span>{" "}
+            хватает, чтобы PPO стабильно оценил градиент. Но Охотник тогда
+            движется «лесенкой», не умеет аккуратно довернуть на цель и часто
+            проскакивает её на полной скорости.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Цена непрерывного действия — больший{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>batch_size</span>{" "}
+            (2048+) и{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>buffer_size</span>{" "}
+            (≈ 10× batch), чтобы статистика градиента не «дрожала». Зато на
+            выходе — гладкая траектория и поведение, которое реально похоже на
+            преследование. Это инженерный размен «sample efficiency ↔
+            качество поведения», и для капстоуна мы сознательно выбираем
+            второе.
+          </p>
+        </div>
+
+        {/* Гауссова политика без squashing */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(217,70,239,0.03)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Гауссова политика и зачем нужен Mathf.Clamp
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            PPO в ML-Agents для непрерывного действия использует{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>GaussianDistInstance</span>{" "}
+            — диагональную гауссову политику без{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-сжатия.
+            На практике это значит одну неприятную вещь: семпл из{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>N(μ, σ²)</span>{" "}
+            формально не ограничен — на хвостах распределения вы получите
+            значения вроде <span style={{ fontFamily: MONO, color: TEXT }}>2.7</span>{" "}
+            или <span style={{ fontFamily: MONO, color: TEXT }}>−3.1</span>, а
+            не аккуратные <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span>.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            В отличие от SB3 / SAC, где squashing включён по умолчанию, в
+            ML-Agents он <span style={{ color: TEXT }}>выключен</span>. Поэтому
+            в <span style={{ fontFamily: MONO, color: TEXT }}>OnActionReceived</span>{" "}
+            обязательно идёт ручной клэмп:
+          </p>
+          <div
+            className="p-3 rounded-md overflow-x-auto"
+            style={{
+              border: `1px solid ${BORDER}`,
+              background: "rgba(0,0,0,0.35)",
+              fontFamily: MONO,
+              fontSize: 13,
+              color: TEXT,
+            }}
+          >
+            <span style={{ color: MUTED }}>float</span> thrust = Mathf.Clamp(actions.ContinuousActions[0], -1f, 1f);
+            <br />
+            <span style={{ color: MUTED }}>float</span> yaw&nbsp;&nbsp;&nbsp; = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
+          </div>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            Без этого клэмпа Охотник на первых эпизодах раз в ~50 шагов
+            получает «реактивный буст» от хвостовой выборки гауссианы — кривая
+            <span style={{ fontFamily: MONO, color: TEXT }}> Policy/Entropy</span>{" "}
+            растёт вместо падения, и PPO долго не сходится.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Формальное определение{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>π(a|s) = N(μ(s), diag σ²(s))</span>,
+            reparameterization trick, вывод{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>log π(a|s)</span> и
+            якобиана <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-squashing
+            (когда его всё-таки включают) — в хабе:{" "}
+            <HubLink
+              to="/hub/math-rl"
+              anchor="todo-стохастические-политики-гауссова-tanh"
+              variant="inline"
+              fromPath="/courses/project-2"
+              fromAnchor="continuous-control"
+              fromLabel="Капстоун · 3D-агент-охотник · Непрерывное управление"
+            >
+              стохастические политики: диагональная гауссова и tanh-squashing (TODO-хаб)
+            </HubLink>
+            .
+          </p>
+        </div>
+      </section>
+
       {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
-        {SECTIONS.filter((s) => s.id !== "env-observations").map((s) => (
+        {SECTIONS.filter(
+          (s) => s.id !== "env-observations" && s.id !== "continuous-control",
+        ).map((s) => (
           <section
             key={s.id}
             id={s.id}
