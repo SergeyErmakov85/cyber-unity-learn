@@ -1179,6 +1179,203 @@ const CourseProject2 = () => {
         </p>
       </section>
 
+      {/* ── Секция: Параллельные среды (наполнено) ────────────────────────── */}
+      <section
+        id="parallel-envs"
+        className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-6"
+        style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+      >
+        <SectionHeading>Параллельные среды</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          У PPO нет replay buffer — он учится на свежесобранном rollout. Значит,
+          единственный честный способ ускориться — собирать опыт от десятков
+          Охотников одновременно. В ML-Agents для этого есть два независимых
+          механизма, которые можно комбинировать. Здесь — что и когда выбирать,
+          и почему «×8 сред ≠ ×8 быстрее».
+        </p>
+
+        {/* Два механизма */}
+        <div className="grid md:grid-cols-2 gap-3">
+          <div
+            className="p-5 rounded-lg space-y-3"
+            style={{ border: `1px solid ${BORDER}`, background: "rgba(0,255,214,0.03)" }}
+          >
+            <h3
+              style={{ fontFamily: ORBITRON, color: CYAN, fontSize: 15, letterSpacing: "0.04em" }}
+            >
+              TrainingAreaReplicator
+            </h3>
+            <p style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
+              Компонент, который при старте сцены клонирует Prefab{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>TrainingArea</span>{" "}
+              в решётку <span style={{ fontFamily: MONO, color: TEXT }}>N × N</span>{" "}
+              со сдвигом по{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>separation</span>.
+              Все клоны живут <span style={{ color: TEXT }}>в одной</span>{" "}
+              Unity-сцене и в одном процессе.
+            </p>
+            <ul className="space-y-1 list-disc pl-5" style={{ color: DIM, fontSize: 13, lineHeight: 1.6 }}>
+              <li>Типично 8–16 арен на сцену.</li>
+              <li>Один Behavior, один общий буфер → стабильный градиент.</li>
+              <li>Дешевле всего по CPU/GPU overhead.</li>
+            </ul>
+          </div>
+          <div
+            className="p-5 rounded-lg space-y-3"
+            style={{ border: `1px solid ${BORDER}`, background: "rgba(217,70,239,0.03)" }}
+          >
+            <h3
+              style={{ fontFamily: ORBITRON, color: MAGENTA, fontSize: 15, letterSpacing: "0.04em" }}
+            >
+              --num-envs
+            </h3>
+            <p style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
+              CLI-флаг{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>mlagents-learn</span>,
+              запускающий <span style={{ color: TEXT }}>несколько копий билда</span>{" "}
+              как отдельные процессы (через unique{" "}
+              <span style={{ fontFamily: MONO, color: TEXT }}>--base-port</span>).
+            </p>
+            <ul className="space-y-1 list-disc pl-5" style={{ color: DIM, fontSize: 13, lineHeight: 1.6 }}>
+              <li>Типично 2–4 процесса.</li>
+              <li>Полезно, когда внутри сцены упёрлись в физику/рендер.</li>
+              <li>Дороже по памяти; не работает с Unity Editor — только билды.</li>
+            </ul>
+          </div>
+        </div>
+
+        <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+          На практике для Охотника берём{" "}
+          <span style={{ fontFamily: MONO, color: TEXT }}>TrainingAreaReplicator 4×4</span>{" "}
+          (16 арен в одной сцене) и при необходимости добавляем{" "}
+          <span style={{ fontFamily: MONO, color: TEXT }}>--num-envs=2</span> —
+          получается ≈ 32 одновременных Охотника, отправляющих опыт в один и
+          тот же общий буфер.
+        </p>
+
+        {/* Общий Behavior и буфер */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Один Behavior, один буфер, один градиент
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Ключевое условие — у всех клонов одинаковый{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>Behavior Name = Hunter</span>.
+            Тогда trainer воспринимает их как один Охотник, который умудряется
+            одновременно бегать в 16 разных арен. Опыт из всех арен льётся в
+            общий <span style={{ fontFamily: MONO, color: TEXT }}>buffer_size</span>,
+            и PPO делает один шаг градиента по объединённому батчу.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Это даёт более стабильную оценку градиента (больше независимых
+            эпизодов на один update) и убирает корреляцию внутри одной арены —
+            именно поэтому параллелизм в PPO работает не только «для скорости»,
+            но и улучшает качество обучения. Важно: суммарный бюджет{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>max_steps</span>{" "}
+            считается по всем агентам вместе, а не на каждого.
+          </p>
+        </div>
+
+        {/* Сублинейный speedup */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{ border: `1px solid ${BORDER}`, background: "rgba(0,255,214,0.03)" }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
+          >
+            Почему 8 сред — это не ×8
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Главное практическое разочарование новичков: добавили 8 арен,
+            ждут ×8 ускорения, получают примерно{" "}
+            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>×2</span>{" "}
+            (типичный отчёт с Unity Discussions). Это не баг — это нормальная
+            физика загрузки:
+          </p>
+          <ul className="space-y-2 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            <li>
+              Физика и рендер сцены масштабируются сублинейно: 16 арен в одной
+              сцене не дают 16× больше FPS по сравнению с одной.
+            </li>
+            <li>
+              Bottleneck смещается с rollout на сам PPO update — больше данных
+              на батч, дольше шаг градиента, GPU начинает блокировать сбор.
+            </li>
+            <li>
+              Каждый дополнительный <span style={{ fontFamily: MONO, color: TEXT }}>--num-envs</span>{" "}
+              — это отдельный процесс Unity с собственным рендером, ассетами и
+              IPC до trainer'а.
+            </li>
+          </ul>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+            Полезное правило: удваивайте число арен, пока в TensorBoard кривая{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>Environment/Cumulative Reward</span>{" "}
+            по «шагам в секунду» растёт. Как только она вышла на плато —
+            дальше клонировать смысла нет, упёрлись либо в физику, либо в GPU.
+          </p>
+        </div>
+
+        {/* Pitfall #6068 */}
+        <div
+          className="p-5 rounded-lg space-y-3"
+          style={{
+            border: `1px solid rgba(217,70,239,0.3)`,
+            background: "rgba(217,70,239,0.04)",
+          }}
+        >
+          <h3
+            style={{ fontFamily: ORBITRON, color: MAGENTA, fontSize: 15, letterSpacing: "0.04em" }}
+          >
+            ⚠ Известный pitfall — Issue #6068
+          </h3>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            В Unity ML-Agents открыт{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>Issue #6068</span>:{" "}
+            при некоторых сочетаниях{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>num-areas</span> и{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>--num-envs</span>{" "}
+            тренер может «зависнуть» при сборе rollout — особенно когда один из
+            процессов медленнее остальных и затягивает синхронизацию буфера.
+          </p>
+          <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+            Безопасный сетап для Охотника на 2026 год: TrainingAreaReplicator до
+            16, плюс <span style={{ fontFamily: MONO, color: TEXT }}>--num-envs ≤ 4</span>,
+            и не смешивать разные размеры арен между процессами. Если кривые
+            обучения внезапно «замораживаются» — первым делом откатывайте{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}>--num-envs</span> к 1.
+          </p>
+        </div>
+
+        {/* HubLink: on-policy vs off-policy */}
+        <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+          Почему PPO принципиально нуждается в свежем опыте от всех этих
+          параллельных Охотников и не может, как SAC, переиспользовать старый
+          replay buffer — это вопрос on-policy vs off-policy и importance
+          sampling{" "}
+          <span style={{ fontFamily: MONO, color: TEXT }}>
+            rₜ(θ) = π(a|s) / π_old(a|s)
+          </span>
+          . Формальный разбор — в хабе:{" "}
+          <HubLink
+            to="/hub/math-rl"
+            anchor="todo-on-policy-vs-off-policy"
+            variant="inline"
+            fromPath="/courses/project-2"
+            fromAnchor="parallel-envs"
+            fromLabel="Капстоун · 3D-агент-охотник · Параллельные среды"
+          >
+            on-policy vs off-policy и importance sampling (TODO-хаб)
+          </HubLink>
+          .
+        </p>
+      </section>
+
       {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
         {SECTIONS.filter(
@@ -1186,7 +1383,8 @@ const CourseProject2 = () => {
             s.id !== "env-observations" &&
             s.id !== "continuous-control" &&
             s.id !== "ppo-hyperparams" &&
-            s.id !== "reward-shaping",
+            s.id !== "reward-shaping" &&
+            s.id !== "parallel-envs",
         ).map((s) => (
           <section
             key={s.id}
