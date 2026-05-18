@@ -605,7 +605,9 @@ const CourseProject2 = () => {
 
       {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
-        {SECTIONS.filter((s) => s.id !== "env-observations").map((s) => (
+        {SECTIONS.filter(
+          (s) => s.id !== "env-observations" && s.id !== "continuous-control",
+        ).map((s) => (
           <section
             key={s.id}
             id={s.id}
