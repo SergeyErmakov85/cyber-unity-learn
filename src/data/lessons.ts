@@ -24,7 +24,7 @@ export const LESSONS: LessonMeta[] = [
     tags: ["TensorBoard", "Weights & Biases", "Мониторинг", "RL"],
     path: "/courses/2-6",
     prev: { title: "Урок 2.5", path: "/courses/2-5" },
-    next: { title: "Урок 2.7", path: "/courses/2-7" },
+    next: { title: "Проект 2: 3D-охотник", path: "/courses/project-2" },
   },
 ];
 
