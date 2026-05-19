@@ -54,9 +54,9 @@ const EmailCapture = () => {
               maxLength={255}
               aria-label="Email для подписки"
             />
-            <Button type="submit" className="bg-gradient-neon shrink-0 gap-2">
+            <Button type="submit" disabled={loading} className="bg-gradient-neon shrink-0 gap-2">
               <Mail className="w-4 h-4" />
-              Подписаться
+              {loading ? "Отправка…" : "Подписаться"}
             </Button>
           </form>
         ) : (
