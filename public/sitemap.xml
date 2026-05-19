@@ -39,4 +39,9 @@
   <url><loc>https://rl-cuber-unity-code.com/pytorch</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/unity-ml-agents</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/unity-projects</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/beginner-course</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/module-1</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/module-2</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/module-3</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/module-4</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
 </urlset>
