@@ -10,7 +10,7 @@ interface SEOHeadProps {
   keywords?: string;
 }
 
-const BASE_URL = "https://neon-unity-neural.lovable.app";
+const BASE_URL = "https://rl-cuber-unity-code.com";
 
 const SEOHead = ({
   title,
