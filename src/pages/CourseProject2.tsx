@@ -1421,56 +1421,7 @@ const CourseProject2 = () => {
           90% реальных проблем Охотника.
         </p>
 
-        {/* Ключевые метрики */}
-        <div
-          className="p-5 rounded-lg space-y-3"
-          style={{ border: `1px solid ${BORDER}`, background: "rgba(0,255,214,0.03)" }}
-        >
-          <h3
-            style={{ fontFamily: ORBITRON, color: TEXT, fontSize: 16, letterSpacing: "0.04em" }}
-          >
-            5 метрик, на которые смотрим всегда
-          </h3>
-          <ul className="space-y-3 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
-            <li>
-              <span style={{ fontFamily: MONO, color: CYAN }}>Environment/Cumulative Reward</span>{" "}
-              — суммарная награда за эпизод, усреднённая по агентам. Здоровая
-              картинка: монотонно растёт, затем выходит на плато около{" "}
-              <span style={{ fontFamily: MONO, color: TEXT }}>+1</span> (terminal
-              почти всегда достигается). Если плато ≪ 1 — Охотник в основном не
-              доходит до цели.
-            </li>
-            <li>
-              <span style={{ fontFamily: MONO, color: CYAN }}>Environment/Episode Length</span>{" "}
-              — средняя длина эпизода в шагах. Здоровая динамика:{" "}
-              <span style={{ color: TEXT }}>падает</span> по мере обучения (ловит
-              быстрее). Плоская линия у{" "}
-              <span style={{ fontFamily: MONO, color: TEXT }}>MaxStep</span> —
-              эпизоды закрываются по таймеру, не по поимке.
-            </li>
-            <li>
-              <span style={{ fontFamily: MONO, color: CYAN }}>Policy/Entropy</span>{" "}
-              — энтропия гауссовой политики. Здоровая динамика: плавно убывает
-              от ≈ 1.4 (рандом) к небольшому положительному значению. Резкое
-              падение — ранний коллапс эксплорейшна; рост — нестабильность
-              (часто отсутствие <span style={{ fontFamily: MONO, color: TEXT }}>Mathf.Clamp</span>).
-            </li>
-            <li>
-              <span style={{ fontFamily: MONO, color: CYAN }}>Policy/Value Estimate</span>{" "}
-              — то, что предсказывает critic для типичных стартовых состояний.
-              Должно расти параллельно Cumulative Reward. Сильное отставание =
-              critic не успевает за actor.
-            </li>
-            <li>
-              <span style={{ fontFamily: MONO, color: CYAN }}>Losses/Policy Loss</span>{" "}
-              и{" "}
-              <span style={{ fontFamily: MONO, color: CYAN }}>Losses/Value Loss</span>{" "}
-              — должны постепенно уменьшаться и стабилизироваться. Резкие
-              всплески value loss — обычно симптом проблем с нормализацией
-              наблюдений или взорвавшейся PBRS-наградой.
-            </li>
-          </ul>
-        </div>
+        <TensorBoardMetricsPanel />
 
         {/* Чек-лист C.4 */}
         <div
