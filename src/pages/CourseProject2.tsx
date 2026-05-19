@@ -3,6 +3,7 @@ import ProGate from "@/components/ProGate";
 import HubLink from "@/components/math-rl/HubLink";
 import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiagram";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
+import Math from "@/components/Math";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
