@@ -28,11 +28,11 @@ const Index = () => {
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "RL Platform",
-          "url": "https://neon-unity-neural.lovable.app",
+          "url": "https://rl-cuber-unity-code.com",
           "description": "Практические курсы по Reinforcement Learning",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://neon-unity-neural.lovable.app/?q={search_term_string}",
+            "target": "https://rl-cuber-unity-code.com/?q={search_term_string}",
             "query-input": "required name=search_term_string"
           }
         }}

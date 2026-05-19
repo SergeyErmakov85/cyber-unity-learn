@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://neon-unity-neural.lovable.app/sitemap.xml
+Sitemap: https://rl-cuber-unity-code.com/sitemap.xml
