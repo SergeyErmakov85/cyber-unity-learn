@@ -1353,11 +1353,11 @@ const CourseProject2 = () => {
           Почему PPO принципиально нуждается в свежем опыте от всех этих
           параллельных Охотников и не может, как SAC, переиспользовать старый
           replay buffer — это вопрос on-policy vs off-policy и importance
-          sampling{" "}
-          <span style={{ fontFamily: MONO, color: TEXT }}>
-            rₜ(θ) = π(a|s) / π_old(a|s)
-          </span>
-          . Формальный разбор — в хабе:{" "}
+          sampling:
+        </p>
+        <Math>{"r_t(\\theta) = \\dfrac{\\pi_{\\theta}(a_t \\mid s_t)}{\\pi_{\\theta_{\\mathrm{old}}}(a_t \\mid s_t)}"}</Math>
+        <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+          Формальный разбор — в хабе:{" "}
           <HubLink
             to="/hub/math-rl"
             anchor="todo-on-policy-vs-off-policy"
