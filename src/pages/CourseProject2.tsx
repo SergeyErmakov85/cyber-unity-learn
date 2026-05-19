@@ -1686,7 +1686,9 @@ const CourseProject2 = () => {
             с PBRS-shaping. <span style={{ color: TEXT }}>Mathf.Clamp обязателен</span>:
             ML-Agents PPO использует un-squashed гауссиану и формально не
             гарантирует <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span>.
+            Из этих rewards PPO собирает clipped surrogate objective:
           </p>
+          <Math>{"L^{\\mathrm{CLIP}}(\\theta) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(r_t(\\theta)\\hat{A}_t,\\ \\operatorname{clip}(r_t(\\theta), 1-\\varepsilon, 1+\\varepsilon)\\hat{A}_t\\big)\\right]"}</Math>
           <CyberCodeBlock language="csharp" filename="HunterAgent.cs">
 {`public class HunterAgent : Agent
 {
