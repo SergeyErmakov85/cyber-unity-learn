@@ -326,7 +326,7 @@ print(f"Средний reward за 100 эпизодов: {avg_reward:.1f}")
       {/* ── Q-table limitations ── */}
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">
-          <CrossLinkToHub hubPath="/algorithms/dqn" hubTitle="DQN — Deep Q-Network">
+          <CrossLinkToHub hubPath="/courses/1-4" hubTitle="Урок 1.4 — Q-Learning">
             Q-learning
           </CrossLinkToHub>{" "}
           и его ограничения
