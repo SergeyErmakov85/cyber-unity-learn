@@ -21,7 +21,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Обучение с подкреплением в Unity ML-Agents | Курсы RL + PyTorch"
+        title="Unity ML-Agents и RL на PyTorch — курсы на русском"
         description="Практические курсы по Reinforcement Learning: от основ до мультиагентных систем. Unity ML-Agents, PyTorch, PPO, SAC, DQN. На русском языке."
         path="/"
         jsonLd={{
