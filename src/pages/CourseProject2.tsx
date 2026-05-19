@@ -11,6 +11,7 @@ import AdvantageGAEViz from "@/components/project-2/AdvantageGAEViz";
 import PPOClipViz from "@/components/project-2/PPOClipViz";
 import PBRSPotentialField from "@/components/project-2/PBRSPotentialField";
 import RewardHackSignatures from "@/components/project-2/RewardHackSignatures";
+import ParallelArenaScaling from "@/components/project-2/ParallelArenaScaling";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
@@ -1278,6 +1279,8 @@ const CourseProject2 = () => {
           получается ≈ 32 одновременных Охотника, отправляющих опыт в один и
           тот же общий буфер.
         </p>
+
+        <ParallelArenaScaling />
 
         {/* Общий Behavior и буфер */}
         <div
