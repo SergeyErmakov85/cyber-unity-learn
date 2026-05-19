@@ -10,6 +10,7 @@ import DiscreteVsContinuousPath from "@/components/project-2/DiscreteVsContinuou
 import AdvantageGAEViz from "@/components/project-2/AdvantageGAEViz";
 import PPOClipViz from "@/components/project-2/PPOClipViz";
 import PBRSPotentialField from "@/components/project-2/PBRSPotentialField";
+import RewardHackSignatures from "@/components/project-2/RewardHackSignatures";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
