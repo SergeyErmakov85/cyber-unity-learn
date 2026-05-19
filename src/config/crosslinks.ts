@@ -22,26 +22,26 @@ export const CROSSLINKS: CrossLink[] = [
   { lessonId: "1-2", lessonPath: "/courses/1-2", lessonTitle: "Установка окружения", lessonLevel: 1, hubPath: "/pytorch/cheatsheet", hubAnchor: "tensors", hubLabel: "PyTorch → Тензоры", contextInLesson: "Основы работы с тензорами", contextInHub: "Тензоры на практике (Урок 1.2)" },
   { lessonId: "1-2", lessonPath: "/courses/1-2", lessonTitle: "Установка окружения", lessonLevel: 1, hubPath: "/unity-ml-agents", hubAnchor: "installation", hubLabel: "Unity ML-Agents → Установка", contextInLesson: "Параллельная настройка Unity ML-Agents", contextInHub: "Подробности установки (Урок 1.2)" },
 
-  // ── Урок 1.3: Q-Learning табличный ──
-  { lessonId: "1-4", lessonPath: "/courses/1-4", lessonTitle: "Q-Learning: табличный метод", lessonLevel: 1, hubPath: "/algorithms/dqn", hubLabel: "Алгоритмы → DQN", contextInLesson: "Q-Learning как табличный предшественник DQN", contextInHub: "Табличный Q-Learning (Урок 1.5)" },
+  // ── Урок 1.3: MDP и уравнения Беллмана ──
+  { lessonId: "1-3", lessonPath: "/courses/1-3", lessonTitle: "MDP и уравнения Беллмана", lessonLevel: 1, hubPath: "/math-rl/module-5", hubAnchor: "глава-5", hubLabel: "Математика → Глава 5. Уравнения Беллмана", contextInLesson: "Рекурсивная структура функции ценности", contextInHub: "Интуитивный разбор Беллмана (Урок 1.3)" },
+  { lessonId: "1-3", lessonPath: "/courses/1-3", lessonTitle: "MDP и уравнения Беллмана", lessonLevel: 1, hubPath: "/math-rl/module-5", hubAnchor: "глава-3", hubLabel: "Математика → Глава 3. MDP", contextInLesson: "Формальное описание MDP-среды", contextInHub: "MDP на практике (Урок 1.3)" },
+  { lessonId: "1-3", lessonPath: "/courses/1-3", lessonTitle: "MDP и уравнения Беллмана", lessonLevel: 1, hubPath: "/math-rl/module-5", hubAnchor: "глава-6", hubLabel: "Математика → Глава 6. Model-Free RL", contextInLesson: "Переход от DP к Model-Free методам", contextInHub: "Связка с Model-Free (Урок 1.3)" },
 
-  // ── Урок 1.4: CartPole ──
+  // ── Урок 1.4: Q-Learning табличный ──
+  { lessonId: "1-4", lessonPath: "/courses/1-4", lessonTitle: "Q-Learning: табличный метод", lessonLevel: 1, hubPath: "/algorithms/dqn", hubLabel: "Алгоритмы → DQN", contextInLesson: "Q-Learning как табличный предшественник DQN", contextInHub: "Табличный Q-Learning (Урок 1.4)" },
+
+  // ── Урок 1.5: CartPole ──
   { lessonId: "1-5", lessonPath: "/courses/1-5", lessonTitle: "CartPole — твой первый RL-агент", lessonLevel: 1, hubPath: "/pytorch/cheatsheet", hubAnchor: "nn", hubLabel: "PyTorch → nn.Module", contextInLesson: "Построение простой нейросети для CartPole", contextInHub: "nn.Module в действии (Урок 1.5)" },
   { lessonId: "1-5", lessonPath: "/courses/1-5", lessonTitle: "CartPole — твой первый RL-агент", lessonLevel: 1, hubPath: "/pytorch/cheatsheet", hubAnchor: "training", hubLabel: "PyTorch → Цикл обучения", contextInLesson: "Цикл обучения: forward → loss → backward → step", contextInHub: "Практический цикл обучения (Урок 1.5)" },
   { lessonId: "1-5", lessonPath: "/courses/1-5", lessonTitle: "CartPole — твой первый RL-агент", lessonLevel: 1, hubPath: "/algorithms/dqn", hubLabel: "Алгоритмы → DQN", contextInLesson: "CartPole как базовая среда для проверки DQN", contextInHub: "Среда CartPole (Урок 1.5)" },
   { lessonId: "1-5", lessonPath: "/courses/1-5", lessonTitle: "CartPole — твой первый RL-агент", lessonLevel: 1, hubPath: "/pytorch", hubLabel: "PyTorch Шпаргалка", contextInLesson: "Полный справочник PyTorch для RL-задач", contextInHub: "Основы PyTorch (Урок 1.5)" },
 
-  // ── Урок 1.5: DQN с нуля ──
-  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/algorithms/dqn", hubLabel: "Алгоритмы → DQN", contextInLesson: "Полная реализация DQN: replay buffer, target network", contextInHub: "Детальная реализация DQN (Урок 1.3)" },
-  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/pytorch/cheatsheet", hubAnchor: "nn", hubLabel: "PyTorch → nn.Module", contextInLesson: "Архитектура Q-сети на nn.Module", contextInHub: "Пример Q-сети (Урок 1.3)" },
-  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/math-rl/module-5", hubAnchor: "глава-5", hubLabel: "Математика → Глава 5. Уравнения Беллмана", contextInLesson: "Математическая основа DQN — уравнение Беллмана", contextInHub: "Формула Беллмана в коде DQN (Урок 1.3)" },
-  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/math-rl/module-4", hubAnchor: "лекция-3-градиентный-спуск-и-его-варианты", hubLabel: "Математика → Оптимизация", contextInLesson: "Оптимизация Q-сети через SGD / Adam", contextInHub: "Оптимизация в контексте DQN (Урок 1.3)" },
-  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/deep-rl", hubAnchor: "algorithms", hubLabel: "Deep RL → Алгоритмы", contextInLesson: "DQN в контексте других Deep RL алгоритмов", contextInHub: "DQN — первый deep-метод (Урок 1.3)" },
-
-  // ── Урок 1.6: MDP и уравнения Беллмана ──
-  { lessonId: "1-3", lessonPath: "/courses/1-3", lessonTitle: "MDP и уравнения Беллмана", lessonLevel: 1, hubPath: "/math-rl/module-5", hubAnchor: "глава-5", hubLabel: "Математика → Глава 5. Уравнения Беллмана", contextInLesson: "Рекурсивная структура функции ценности", contextInHub: "Интуитивный разбор Беллмана (Урок 1.3)" },
-  { lessonId: "1-3", lessonPath: "/courses/1-3", lessonTitle: "MDP и уравнения Беллмана", lessonLevel: 1, hubPath: "/math-rl/module-5", hubAnchor: "глава-3", hubLabel: "Математика → Глава 3. MDP", contextInLesson: "Формальное описание MDP-среды", contextInHub: "MDP на практике (Урок 1.3)" },
-  { lessonId: "1-3", lessonPath: "/courses/1-3", lessonTitle: "MDP и уравнения Беллмана", lessonLevel: 1, hubPath: "/math-rl/module-5", hubAnchor: "глава-6", hubLabel: "Математика → Глава 6. Model-Free RL", contextInLesson: "Переход от DP к Model-Free методам", contextInHub: "Связка с Model-Free (Урок 1.3)" },
+  // ── Урок 1.6: DQN с нуля ──
+  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/algorithms/dqn", hubLabel: "Алгоритмы → DQN", contextInLesson: "Полная реализация DQN: replay buffer, target network", contextInHub: "Детальная реализация DQN (Урок 1.6)" },
+  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/pytorch/cheatsheet", hubAnchor: "nn", hubLabel: "PyTorch → nn.Module", contextInLesson: "Архитектура Q-сети на nn.Module", contextInHub: "Пример Q-сети (Урок 1.6)" },
+  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/math-rl/module-5", hubAnchor: "глава-5", hubLabel: "Математика → Глава 5. Уравнения Беллмана", contextInLesson: "Математическая основа DQN — уравнение Беллмана", contextInHub: "Формула Беллмана в коде DQN (Урок 1.6)" },
+  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/math-rl/module-4", hubAnchor: "лекция-3-градиентный-спуск-и-его-варианты", hubLabel: "Математика → Оптимизация", contextInLesson: "Оптимизация Q-сети через SGD / Adam", contextInHub: "Оптимизация в контексте DQN (Урок 1.6)" },
+  { lessonId: "1-6", lessonPath: "/courses/1-6", lessonTitle: "DQN с нуля на PyTorch", lessonLevel: 1, hubPath: "/deep-rl", hubAnchor: "algorithms", hubLabel: "Deep RL → Алгоритмы", contextInLesson: "DQN в контексте других Deep RL алгоритмов", contextInHub: "DQN — первый deep-метод (Урок 1.6)" },
 
   // ── Проект-1: "Баланс в 3D" ──
   { lessonId: "project-1", lessonPath: "/courses/project-1", lessonTitle: 'Проект-1: "Баланс в 3D"', lessonLevel: 1, hubPath: "/unity-projects/ball-balance", hubLabel: "Unity → Ball Balance", contextInLesson: "Полная реализация проекта в 3D Unity-среде", contextInHub: 'Родственный проект (Проект-1: "Баланс в 3D")' },
