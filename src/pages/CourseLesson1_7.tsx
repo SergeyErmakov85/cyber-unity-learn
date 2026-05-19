@@ -339,7 +339,7 @@ const CourseLesson1_7 = () => (
     tags={["#theory", "#bandits", "#epsilon-greedy", "#ucb", "#thompson"]}
     level={1}
     lessonId="1-7"
-    prevLesson={{ path: "/courses/1-6", title: "MDP" }}
+    prevLesson={{ path: "/courses/1-6", title: "DQN с нуля на PyTorch" }}
     nextLesson={{ path: "/courses/project-1", title: 'Проект-1: "Баланс в 3D"' }}
     keyConcepts={[
       "Дилемма исследования и использования",

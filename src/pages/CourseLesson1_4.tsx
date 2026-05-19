@@ -1,1047 +1,631 @@
+import { Link } from "react-router-dom";
 import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
-import Quiz from "@/components/Quiz";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  ExternalLink,
-  Lightbulb,
-  BarChart3,
-  Zap,
-  Focus,
-  GraduationCap,
-  Cog,
-  Gamepad2,
-  Brain,
-  CheckCircle2,
-  BookOpen,
-  TrendingDown,
-  Target,
-  Trophy,
-  Download,
-} from "lucide-react";
-import CrossLinkToHub from "@/components/CrossLinkToHub";
+import Math from "@/components/Math";
+import { Lightbulb, BookOpen, CheckCircle2, AlertTriangle, Table2, ArrowRight } from "lucide-react";
 
-const quizQuestions = [
-  {
-    question: "Сколько действий доступно агенту в среде CartPole-v1?",
-    options: [
-      "1 (только вправо)",
-      "2 (влево и вправо)",
-      "4 (вверх, вниз, влево, вправо)",
-      "Непрерывное действие",
-    ],
-    correctIndex: 1,
-    explanation:
-      "CartPole имеет дискретное пространство действий с двумя вариантами: толкнуть тележку влево (0) или вправо (1). Это простейший случай — позже мы встретим среды с непрерывными действиями.",
-  },
-  {
-    question: "Какой максимальный reward возможен в CartPole-v1?",
-    options: ["100", "200", "500", "Неограничен"],
-    correctIndex: 2,
-    explanation:
-      "Эпизод завершается после 500 шагов (truncation) или при падении шеста. Так как награда +1 за каждый шаг, максимум — 500. В старой версии CartPole-v0 максимум был 200.",
-  },
-  {
-    question: "Почему случайный агент получает в среднем ~20 reward?",
-    options: [
-      "Среда слишком сложная для любого агента",
-      "Случайные действия не учитывают состояние — шест быстро падает",
-      "Случайный агент использует неправильную функцию потерь",
-      "CartPole ограничивает reward до 20",
-    ],
-    correctIndex: 1,
-    explanation:
-      "Случайный агент выбирает действия без учёта наблюдений. Без корректирующих действий шест теряет баланс примерно за 20 шагов. Обученный агент учитывает угол и скорость шеста, чтобы вовремя корректировать движение.",
-  },
-  {
-    question: "Что возвращает env.step(action) в Gymnasium?",
-    options: [
-      "observation, reward",
-      "observation, reward, done",
-      "observation, reward, terminated, truncated, info",
-      "state, action, reward, next_state",
-    ],
-    correctIndex: 2,
-    explanation:
-      "Gymnasium API (v0.26+) возвращает 5 значений: observation (новое состояние), reward (награда), terminated (конец по правилам среды), truncated (конец по лимиту шагов), info (доп. информация).",
-  },
-];
+const PYTHON_IMPLEMENTATION = `import numpy as np
+import gymnasium as gym
+import random
+
+# ==========================================
+# ШАГ 1: Настройка среды и фиксация случайности
+# ==========================================
+# Фиксация seed предотвращает проблему "невоспроизводимых результатов".
+seed = 42
+np.random.seed(seed)
+random.seed(seed)
+
+# Создание классической среды FrozenLake (Замерзшее озеро) на карте 4x4.
+# is_slippery=False означает, что мы отключаем случайное скольжение по льду,
+# чтобы агент двигался строго в выбранном направлении.
+env = gym.make("FrozenLake-v1", map_name="4x4", is_slippery=False)
+env.action_space.seed(seed)
+
+# Определение размерности пространства
+state_size = env.observation_space.n
+action_size = env.action_space.n
+
+# ==========================================
+# ШАГ 2: Инициализация Q-таблицы и гиперпараметров
+# ==========================================
+# Создаем таблицу размером 16x4, изначально заполненную нулями.
+Q_table = np.zeros((state_size, action_size))
+
+# Математические параметры алгоритма
+total_episodes = 2000
+learning_rate = 0.8
+gamma = 0.95
+
+# Параметры epsilon-жадной стратегии
+epsilon = 1.0
+max_epsilon = 1.0
+min_epsilon = 0.01
+decay_rate = 0.005
+
+# ==========================================
+# ШАГ 3: Тренировочный цикл (Обучение)
+# ==========================================
+print("Начало обучения агента...")
+
+for episode in range(total_episodes):
+    # Сброс среды для начала нового эпизода. Получаем стартовое состояние.
+    state, info = env.reset(seed=seed if episode == 0 else None)
+    done = False
+
+    # Внутренний цикл: пока агент не упадет в прорубь или не найдет цель
+    while not done:
+        # 1. Выбор действия (epsilon-greedy policy)
+        exp_tradeoff = random.uniform(0, 1)
+
+        if exp_tradeoff < epsilon:
+            # Исследование: выбираем случайное действие
+            action = env.action_space.sample()
+        else:
+            # Использование: действие с максимальным Q-значением
+            action = np.argmax(Q_table[state, :])
+
+        # 2. Выполнение действия в среде
+        # Среда возвращает: новое состояние, награду, флаг окончания,
+        # флаг прерывания и дополнительную информацию.
+        new_state, reward, done, truncated, info = env.step(action)
+
+        # 3. Обновление Q-таблицы (Уравнение Беллмана)
+        td_target = reward + gamma * np.max(Q_table[new_state, :])
+        td_error = td_target - Q_table[state, action]
+        Q_table[state, action] = Q_table[state, action] + learning_rate * td_error
+
+        # 4. Переход в новое состояние
+        state = new_state
+
+        # Завершение цикла шагов, если игра окончена
+        if done or truncated:
+            break
+
+    # Обновление (уменьшение) значения epsilon после каждого эпизода
+    epsilon = min_epsilon + (max_epsilon - min_epsilon) * np.exp(-decay_rate * episode)
+
+print("Обучение завершено!\\n")
+print("Финальная Q-таблица (Обученный мозг агента):")
+print(np.round(Q_table, 3))`;
+
+const SEED_SNIPPET = `import random
+import numpy as np
+
+def seed_everything(seed=42):
+    random.seed(seed)
+    np.random.seed(seed)
+    # В реальных проектах также фиксируют зерна в средах gym`;
 
 const CourseLesson1_4 = () => {
   return (
     <LessonLayout
-      lessonId="1-4"
-      lessonTitle="CartPole — твой первый RL-агент"
+      lessonTitle="Q-Learning: табличный метод"
       lessonNumber="1.4"
-      duration="35 мин"
-      tags={["#code", "#pytorch", "#gym"]}
-      prevLesson={{ path: "/courses/1-3", title: "Q-Learning: табличный метод" }}
-      nextLesson={{ path: "/courses/1-5", title: "DQN с нуля" }}
+      duration="45 мин"
+      tags={["#algorithm", "#qlearning", "#tabular", "#gym"]}
+      level={1}
+      lessonId="1-4"
+      prevLesson={{ path: "/courses/1-3", title: "Марковские процессы принятия решений (MDP)" }}
+      nextLesson={{ path: "/courses/1-5", title: "CartPole — твой первый RL-агент" }}
       keyConcepts={[
-        "Gymnasium — стандартная библиотека RL-сред",
-        "CartPole: наблюдения, действия, награды, конец эпизода",
-        "Случайный агент как baseline для сравнения",
-        "Нейросетевая аппроксимация Q-функции (вместо Q-таблицы)",
-        "Epsilon-greedy стратегия: exploration ↔ exploitation",
+        "MDP: состояние, действие, награда, политика",
+        "Q-таблица как карта качества действий",
+        "Уравнение Беллмана и TD Error в LaTeX",
+        "Model-free и off-policy свойства Q-learning",
+        "Epsilon-greedy и затухание исследования",
+        "Полный Python-пайплайн на FrozenLake",
       ]}
     >
-      {/* Colab button */}
-      <div className="flex justify-end">
-        <Button variant="outline" size="sm" asChild>
-          <a
-            href="https://colab.research.google.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            Открыть в Google Colab
-          </a>
-        </Button>
-      </div>
-
-      {/* ── Bridge section: Why Gymnasium? ── */}
       <section>
         <Card className="bg-gradient-to-br from-blue-500/5 via-card/40 to-purple-500/5 border-primary/20">
           <CardContent className="p-6">
-            <h2 className="text-xl font-bold text-foreground mb-3 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
               <Lightbulb className="w-5 h-5 text-primary" />
-              Почему Gymnasium, а не Unity?
+              1. Интуитивное введение
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              В предыдущем уроке мы установили Unity ML-Agents — и мы обязательно будем
-              его использовать (начиная с Уровня 2). Но сначала нам нужно{" "}
-              <strong className="text-foreground">освоить сами алгоритмы</strong>.
-              Для этого мы используем{" "}
-              <strong className="text-primary">Gymnasium</strong> — стандартную библиотеку
-              RL-сред:
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              Обучение с подкреплением (Reinforcement Learning, RL) представляет собой
+              одну из трех фундаментальных парадигм машинного обучения, наряду с
+              обучением с учителем (Supervised Learning) и обучением без учителя
+              (Unsupervised Learning). В то время как классические алгоритмы машинного
+              обучения опираются на заранее подготовленные наборы данных с правильными
+              ответами или ищут скрытые закономерности в неразмеченной информации,
+              обучение с подкреплением решает принципиально иную задачу.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                {
-                  icon: Zap,
-                  title: "Быстрая итерация",
-                  desc: "Эпизод CartPole — миллисекунды. Нет рендеринга 3D, нет запуска Unity. Можно обучить агента за минуту.",
-                  color: "text-yellow-400",
-                },
-                {
-                  icon: Focus,
-                  title: "Фокус на алгоритмах",
-                  desc: "Не нужно писать C#-код, настраивать сенсоры и физику. Весь код — чистый Python + PyTorch.",
-                  color: "text-blue-400",
-                },
-                {
-                  icon: GraduationCap,
-                  title: "Индустриальный стандарт",
-                  desc: "CartPole и FrozenLake — «Hello World» мира RL. Все учебники и статьи начинают с них.",
-                  color: "text-green-400",
-                },
-                {
-                  icon: Cog,
-                  title: "Те же алгоритмы",
-                  desc: "Q-learning и DQN, которые мы освоим здесь — это то, что ML-Agents использует под капотом.",
-                  color: "text-purple-400",
-                },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="flex gap-3 items-start p-3 rounded-lg bg-card/40 border border-border/30"
-                >
-                  <item.icon className={`w-4 h-4 ${item.color} flex-shrink-0 mt-0.5`} />
-                  <div>
-                    <p className="font-semibold text-xs text-foreground">{item.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed mt-4 italic">
-              Аналогия: прежде чем строить небоскрёб (Unity-игру), инженер отрабатывает
-              расчёты на масштабных моделях (Gymnasium). Алгоритмы те же — масштаб другой.
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              Оно отвечает на вопрос: как интеллектуальный агент должен принимать
+              последовательные решения в динамической, постоянно меняющейся среде, чтобы
+              максимизировать итоговую выгоду.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              Проблема, которую решает Q-обучение, заключается в необходимости поиска
+              оптимальной стратегии поведения в условиях неопределенности и отложенных
+              последствий. Выбор конкретного пути может не принести мгновенной пользы, но
+              открыть доступ к колоссальному успеху в будущем.
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Аналогия: обучение езде на велосипеде или новой сложной игре через пробу и
+              ошибку. В начале агент действует хаотично, затем накапливает опыт и
+              формирует внутреннюю «интуицию» о том, какие действия в каких состояниях
+              действительно ведут к цели.
             </p>
           </CardContent>
         </Card>
       </section>
 
-      {/* ── Gymnasium install ── */}
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">Установка Gymnasium</h2>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          Если вы использовали <code className="text-primary text-xs">requirements.txt</code>{" "}
-          из предыдущего урока, Gymnasium уже установлен. Если нет:
-        </p>
-        <CyberCodeBlock language="python" filename="terminal">
-          {`# Установка Gymnasium
-pip install gymnasium
-
-# Проверка
-python -c "import gymnasium; print(gymnasium.__version__)"
-# Ожидаемый вывод: 0.29.x или выше`}
-        </CyberCodeBlock>
-      </section>
-
-      {/* ── CartPole intro ── */}
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
-          <Gamepad2 className="w-6 h-6 text-accent" />
-          Среда CartPole-v1
+          <Table2 className="w-5 h-5 text-primary" />
+          2. Ключевые концепции
         </h2>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          <strong className="text-foreground">CartPole</strong> — классическая задача RL из
-          библиотеки Gymnasium. На тележке закреплён шест. Цель агента — удерживать шест в
-          вертикальном положении, двигая тележку влево или вправо.
+        <p className="text-muted-foreground leading-relaxed mb-3">
+          Любая задача обучения с подкреплением формулируется в терминах Марковского
+          процесса принятия решений (Markov Decision Process, MDP).
         </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {[
-            {
-              label: "Наблюдения (S)",
-              value: "4: позиция тележки, скорость, угол шеста, угловая скорость",
-              color: "text-primary",
-            },
-            {
-              label: "Действия (A)",
-              value: "2: толкнуть влево (0) или вправо (1)",
-              color: "text-secondary",
-            },
-            {
-              label: "Награда (R)",
-              value: "+1 за каждый шаг, пока шест не упал",
-              color: "text-green-400",
-            },
-            {
-              label: "Конец эпизода",
-              value: "Угол > 12° или позиция > 2.4, или 500 шагов",
-              color: "text-orange-400",
-            },
-          ].map((item, i) => (
-            <div key={i} className="p-3 rounded-lg bg-card/40 border border-border/30">
-              <p className={`text-xs font-semibold ${item.color}`}>{item.label}</p>
-              <p className="text-sm text-muted-foreground mt-1">{item.value}</p>
-            </div>
-          ))}
-        </div>
-
-        <Accordion type="single" collapsible className="mt-4">
-          <AccordionItem
-            value="observations"
-            className="border-border/30 rounded-lg overflow-hidden bg-card/20"
-          >
-            <AccordionTrigger className="px-4 text-sm text-muted-foreground hover:text-foreground hover:no-underline">
-              <span className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-primary" />
-                Подробнее: что именно наблюдает агент?
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="px-4">
-              <div className="space-y-2">
-                {[
-                  { idx: 0, name: "Позиция тележки", range: "[-4.8, 4.8]", unit: "метры" },
-                  { idx: 1, name: "Скорость тележки", range: "(-∞, +∞)", unit: "м/с" },
-                  { idx: 2, name: "Угол шеста", range: "[-0.418, 0.418]", unit: "радианы (~24°)" },
-                  { idx: 3, name: "Угловая скорость шеста", range: "(-∞, +∞)", unit: "рад/с" },
-                ].map((obs) => (
-                  <div
-                    key={obs.idx}
-                    className="flex items-center gap-3 text-sm p-2 rounded bg-muted/10 border border-border/20"
-                  >
-                    <span className="font-mono text-primary text-xs w-8">
-                      [{obs.idx}]
-                    </span>
-                    <span className="text-foreground font-medium flex-1">{obs.name}</span>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {obs.range}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground mt-3">
-                Это непрерывные значения — именно поэтому Q-таблица здесь не работает и
-                нужна нейросеть для аппроксимации.
-              </p>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </section>
-
-      {/* ── Random agent ── */}
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">
-          Случайный агент (baseline)
-        </h2>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          Начнём с самого простого — агента, который выбирает действия случайно. Это наш
-          baseline — отправная точка, с которой мы будем сравнивать обученного агента.
-        </p>
-
-        <CyberCodeBlock language="python" filename="random_agent.py">
-          {`import gymnasium as gym
-
-env = gym.make("CartPole-v1")
-total_rewards = []
-
-for episode in range(100):
-    obs, info = env.reset()
-    episode_reward = 0
-    done = False
-
-    while not done:
-        action = env.action_space.sample()  # Случайное действие
-        obs, reward, terminated, truncated, info = env.step(action)
-        episode_reward += reward
-        done = terminated or truncated
-
-    total_rewards.append(episode_reward)
-
-avg_reward = sum(total_rewards) / len(total_rewards)
-print(f"Средний reward за 100 эпизодов: {avg_reward:.1f}")
-# Ожидаемый результат: ~20-25 (случайный агент)`}
-        </CyberCodeBlock>
-
-        <Card className="bg-card/40 border-primary/20 mt-4">
-          <CardContent className="p-4 flex gap-3 items-start">
-            <BarChart3 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm text-muted-foreground">
-                Случайный агент получает в среднем{" "}
-                <strong className="text-foreground">~20–25</strong> reward. Максимум — 500.
-                Наша цель — обучить агента, который стабильно достигает 475+.
-              </p>
-              <p className="text-xs text-muted-foreground/70 mt-2">
-                Попробуйте запустить этот код — вы увидите, как быстро шест падает без
-                интеллектуального управления.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* ── Q-table limitations ── */}
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">
-          <CrossLinkToHub hubPath="/algorithms/dqn" hubTitle="DQN — Deep Q-Network">
-            Q-learning
-          </CrossLinkToHub>{" "}
-          и его ограничения
-        </h2>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          В простых средах (как{" "}
-          <CrossLinkToHub
-            hubPath="/projects/frozen-lake"
-            hubTitle="Проект: FrozenLake — Q-Learning с нуля"
-          >
-            FrozenLake
-          </CrossLinkToHub>
-          ) можно использовать Q-таблицу — матрицу, где для каждой пары (состояние,
-          действие) хранится ожидаемая награда. Но в CartPole состояния{" "}
-          <strong className="text-foreground">непрерывные</strong> (позиция, скорость) —
-          создать таблицу для бесконечного числа состояний невозможно.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-          <Card className="bg-card/40 border-border/30">
-            <CardContent className="p-4 space-y-2">
-              <h3 className="font-bold text-sm text-muted-foreground">
-                Q-таблица (дискретные среды)
-              </h3>
-              <CyberCodeBlock language="pseudo" filename="q_table.txt">
-                {`# FrozenLake: 16 состояний × 4 действия
-Q[state][action] = expected_reward
-# Таблица 16×4 — легко помещается в память`}
-              </CyberCodeBlock>
-            </CardContent>
-          </Card>
-          <Card className="bg-card/40 border-primary/30">
-            <CardContent className="p-4 space-y-2">
-              <h3 className="font-bold text-sm text-primary">
-                Нейросеть (непрерывные среды)
-              </h3>
-              <CyberCodeBlock language="pseudo" filename="q_network.txt">
-                {`# CartPole: ∞ состояний × 2 действия
-Q_θ(state) → [Q_left, Q_right]
-# Нейросеть аппроксимирует Q для любого входа`}
-              </CyberCodeBlock>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="bg-card/40 border-accent/20">
-          <CardContent className="p-4 flex gap-3 items-start">
-            <Lightbulb className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-sm text-foreground">
-                Решение: нейросетевая аппроксимация
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Вместо таблицы используем нейронную сеть (
-                <CrossLinkToHub
-                  hubPath="/pytorch/cheatsheet"
-                  hubAnchor="nn"
-                  hubTitle="PyTorch — Нейронные сети"
-                >
-                  nn.Module
-                </CrossLinkToHub>
-                ), которая принимает состояние и предсказывает Q-значения для каждого
-                действия. Это основа Deep Q-Network (DQN), которую мы детально разберём в
-                следующем уроке.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* ── Epsilon-greedy explanation ── */}
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
-          <TrendingDown className="w-6 h-6 text-secondary" />
-          Стратегия Epsilon-Greedy
-        </h2>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          Помните дилемму exploration vs exploitation из первого урока? Epsilon-greedy — самый
-          простой способ её решить. Агент выбирает:
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-          <Card className="bg-card/50 border-primary/20">
-            <CardContent className="p-4">
-              <p className="font-bold text-sm text-primary mb-1">
-                С вероятностью ε → случайное действие
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Exploration: агент исследует среду, пробуя новые действия
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="bg-card/50 border-green-500/20">
-            <CardContent className="p-4">
-              <p className="font-bold text-sm text-green-400 mb-1">
-                С вероятностью (1-ε) → лучшее действие
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Exploitation: агент выбирает действие с максимальным Q-значением
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="bg-card/30 border-border/30">
-          <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-              <strong className="text-foreground">Epsilon decay:</strong> в начале обучения
-              ε = 1.0 (100% случайных действий — полное исследование). Постепенно ε
-              уменьшается до 0.01, и агент всё больше полагается на выученные Q-значения.
-            </p>
-            <div className="flex items-center gap-3 text-xs">
-              <div className="flex-1 h-2 rounded-full bg-muted/30 overflow-hidden">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    background: "linear-gradient(to right, hsl(180,100%,50%), hsl(280,100%,50%), hsl(120,100%,40%))",
-                    width: "100%",
-                  }}
-                />
-              </div>
-              <div className="flex gap-3 flex-shrink-0 text-muted-foreground">
-                <span>ε=1.0</span>
-                <span>→</span>
-                <span>ε=0.01</span>
-              </div>
-            </div>
-            <div className="flex justify-between text-xs text-muted-foreground/60 mt-1">
-              <span>Исследование</span>
-              <span>Использование</span>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* ── Neural network agent ── */}
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
-          <Brain className="w-6 h-6 text-primary" />
-          Агент на PyTorch
-        </h2>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          Реализуем простой нейросетевой Q-learning агент. Полный{" "}
-          <CrossLinkToHub
-            hubPath="/pytorch/cheatsheet"
-            hubAnchor="training"
-            hubTitle="PyTorch — Цикл обучения"
-          >
-            цикл обучения
-          </CrossLinkToHub>
-          : сеть принимает 4 наблюдения и выдаёт Q-значения для 2 действий.
-        </p>
-
-        <Card className="bg-card/30 border-border/30 mb-4">
-          <CardContent className="p-4">
-            <p className="text-sm font-semibold text-foreground mb-2">
-              Архитектура Q-сети:
-            </p>
-            <div className="flex items-center gap-2 text-xs font-mono flex-wrap">
-              <span className="px-2 py-1 rounded bg-primary/10 text-primary border border-primary/20">
-                4 входа (obs)
-              </span>
-              <span className="text-muted-foreground">→</span>
-              <span className="px-2 py-1 rounded bg-muted/20 text-foreground border border-border/30">
-                Linear(128) + ReLU
-              </span>
-              <span className="text-muted-foreground">→</span>
-              <span className="px-2 py-1 rounded bg-muted/20 text-foreground border border-border/30">
-                Linear(128) + ReLU
-              </span>
-              <span className="text-muted-foreground">→</span>
-              <span className="px-2 py-1 rounded bg-green-500/10 text-green-400 border border-green-500/20">
-                2 выхода (Q-values)
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <CyberCodeBlock language="python" filename="simple_q_agent.py">
-          {`import torch
-import torch.nn as nn
-import torch.optim as optim
-import gymnasium as gym
-import numpy as np
-from collections import deque
-import random
-
-# ─── Гиперпараметры ───
-LR = 1e-3           # Скорость обучения
-GAMMA = 0.99         # Дисконт будущих наград
-EPSILON_START = 1.0  # Начальное значение ε (100% exploration)
-EPSILON_END = 0.01   # Финальное значение ε
-EPSILON_DECAY = 0.995  # Множитель decay на каждом эпизоде
-EPISODES = 500
-BATCH_SIZE = 64
-MEMORY_SIZE = 10000
-
-# ─── Q-сеть ───
-class QNetwork(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(4, 128),
-            nn.ReLU(),
-            nn.Linear(128, 128),
-            nn.ReLU(),
-            nn.Linear(128, 2)
-        )
-
-    def forward(self, x):
-        return self.net(x)
-
-# ─── Инициализация ───
-env = gym.make("CartPole-v1")
-q_net = QNetwork()
-optimizer = optim.Adam(q_net.parameters(), lr=LR)
-memory = deque(maxlen=MEMORY_SIZE)
-epsilon = EPSILON_START
-rewards_history = []
-
-# ─── Цикл обучения ───
-for episode in range(EPISODES):
-    obs, _ = env.reset()
-    total_reward = 0
-
-    while True:
-        # Epsilon-greedy: случайное или лучшее действие
-        if random.random() < epsilon:
-            action = env.action_space.sample()
-        else:
-            with torch.no_grad():
-                q_vals = q_net(torch.FloatTensor(obs))
-                action = q_vals.argmax().item()
-
-        # Шаг в среде
-        next_obs, reward, term, trunc, _ = env.step(action)
-        done = term or trunc
-
-        # Сохраняем переход в буфер (Replay Buffer)
-        memory.append((obs, action, reward, next_obs, done))
-        obs = next_obs
-        total_reward += reward
-
-        # Обучение на мини-батче из буфера
-        if len(memory) >= BATCH_SIZE:
-            batch = random.sample(memory, BATCH_SIZE)
-            states = torch.FloatTensor([b[0] for b in batch])
-            actions = torch.LongTensor([b[1] for b in batch])
-            rewards = torch.FloatTensor([b[2] for b in batch])
-            next_states = torch.FloatTensor([b[3] for b in batch])
-            dones = torch.FloatTensor([b[4] for b in batch])
-
-            # Q(s, a) — текущая оценка
-            current_q = q_net(states).gather(1, actions.unsqueeze(1))
-            # max Q(s', a') — лучшая будущая оценка
-            next_q = q_net(next_states).max(1)[0].detach()
-            # Целевое значение: r + γ·max Q(s', a')
-            target_q = rewards + GAMMA * next_q * (1 - dones)
-
-            loss = nn.MSELoss()(current_q.squeeze(), target_q)
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-
-        if done:
-            break
-
-    # Уменьшаем ε после каждого эпизода
-    epsilon = max(EPSILON_END, epsilon * EPSILON_DECAY)
-    rewards_history.append(total_reward)
-
-    if (episode + 1) % 50 == 0:
-        avg = np.mean(rewards_history[-50:])
-        print(f"Episode {episode+1}, Avg Reward: {avg:.1f}, ε: {epsilon:.3f}")`}
-        </CyberCodeBlock>
-
-        {/* Code breakdown */}
-        <Accordion type="multiple" className="mt-4 space-y-2">
-          <AccordionItem
-            value="replay"
-            className="border-border/30 rounded-lg overflow-hidden bg-card/20"
-          >
-            <AccordionTrigger className="px-4 text-sm text-muted-foreground hover:text-foreground hover:no-underline">
-              <span className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-primary" />
-                Разбор: зачем нужен Replay Buffer?
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="px-4">
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                <strong className="text-foreground">Replay Buffer</strong> (буфер воспоминаний)
-                хранит переходы <code className="text-primary text-xs">(s, a, r, s', done)</code>.
-                Без него агент обучается только на последнем переходе — это нестабильно, потому
-                что соседние переходы сильно коррелируют. Случайная выборка из буфера разрушает
-                эту корреляцию и стабилизирует обучение.
-              </p>
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem
-            value="target"
-            className="border-border/30 rounded-lg overflow-hidden bg-card/20"
-          >
-            <AccordionTrigger className="px-4 text-sm text-muted-foreground hover:text-foreground hover:no-underline">
-              <span className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-primary" />
-                Разбор: формула обновления Q
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="px-4">
-              <div className="space-y-2 text-sm text-muted-foreground leading-relaxed">
-                <p>
-                  Ключевая строка:{" "}
-                  <code className="text-primary text-xs">
-                    target_q = rewards + GAMMA * next_q * (1 - dones)
-                  </code>
-                </p>
-                <p>
-                  Это уравнение Беллмана: текущая награда + дисконтированная лучшая будущая
-                  награда. Множитель <code className="text-primary text-xs">(1 - dones)</code>{" "}
-                  обнуляет будущую награду для терминальных состояний (когда эпизод окончен,
-                  будущего нет).
-                </p>
-                <p>
-                  <CrossLinkToHub
-                    hubPath="/math-rl/module-5"
-                    hubAnchor="глава-5"
-                    hubTitle="Математика RL — Глава 5. Уравнения Беллмана"
-                  >
-                    Подробнее о уравнении Беллмана →
-                  </CrossLinkToHub>
-                </p>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </section>
-
-      {/* ── Results ── */}
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">Визуализация результатов</h2>
-
-        <CyberCodeBlock language="python" filename="plot_results.py">
-          {`import matplotlib.pyplot as plt
-
-window = 50
-smoothed = [np.mean(rewards_history[max(0,i-window):i+1])
-            for i in range(len(rewards_history))]
-
-plt.figure(figsize=(10, 5))
-plt.plot(rewards_history, alpha=0.3, color='cyan', label='Reward')
-plt.plot(smoothed, color='magenta', linewidth=2, label=f'Avg (окно={window})')
-plt.axhline(y=475, color='lime', linestyle='--', label='Цель: 475')
-plt.xlabel('Эпизод')
-plt.ylabel('Reward')
-plt.title('Обучение Q-агента на CartPole-v1')
-plt.legend()
-plt.grid(alpha=0.2)
-plt.show()`}
-        </CyberCodeBlock>
-
-        <Card className="bg-card/40 border-border/30 mt-4">
-          <CardContent className="p-5">
-            <p className="text-sm text-muted-foreground mb-3">
-              Ожидаемая динамика обучения:
-            </p>
-            <div className="space-y-2">
-              {[
-                {
-                  ep: "0–100",
-                  reward: "~20–50",
-                  note: "Исследование (высокий ε)",
-                  color: "text-yellow-400",
-                },
-                {
-                  ep: "100–250",
-                  reward: "~100–300",
-                  note: "Активное обучение",
-                  color: "text-blue-400",
-                },
-                {
-                  ep: "250–400",
-                  reward: "~300–475",
-                  note: "Стабилизация",
-                  color: "text-purple-400",
-                },
-                {
-                  ep: "400–500",
-                  reward: "~475–500",
-                  note: "Конвергенция",
-                  color: "text-green-400",
-                },
-              ].map((row, i) => (
-                <div key={i} className="flex items-center gap-4 text-sm">
-                  <span className="font-mono text-xs text-primary w-20">{row.ep}</span>
-                  <span className="text-foreground w-24">{row.reward}</span>
-                  <span className={`${row.color} text-xs`}>●</span>
-                  <span className="text-muted-foreground">{row.note}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* ── Extra: FrozenLake crosslink ── */}
-      <section>
-        <Card className="bg-card/30 border-border/30">
-          <CardContent className="p-4 flex gap-3 items-start">
-            <BookOpen className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-sm text-foreground">
-                Хотите попрактиковаться с Q-таблицей?
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Проект{" "}
-                <CrossLinkToHub
-                  hubPath="/projects/frozen-lake"
-                  hubTitle="Проект: FrozenLake — Q-Learning с нуля"
-                >
-                  FrozenLake
-                </CrossLinkToHub>{" "}
-                — отличное дополнение к этому уроку. Там мы реализуем классический
-                Q-learning с таблицей в дискретной среде. Это поможет понять, почему в
-                CartPole нужна нейросеть.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* ── Summary ── */}
-      <section>
-        <Card className="bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 border-primary/20">
-          <CardContent className="p-6">
-            <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-green-400" />
-              Подведём итоги
-            </h2>
-            <div className="space-y-3">
-              {[
-                "Gymnasium — стандартная библиотека RL-сред для быстрого прототипирования алгоритмов",
-                "CartPole-v1: 4 непрерывных наблюдения, 2 дискретных действия, максимум 500 reward",
-                "Случайный агент (~20 reward) — baseline для оценки прогресса обучения",
-                "Нейросеть аппроксимирует Q-функцию, позволяя работать с непрерывными состояниями",
-                "Epsilon-greedy с decay балансирует exploration и exploitation в процессе обучения",
-                "Replay Buffer стабилизирует обучение, разрушая корреляции между переходами",
-              ].map((point, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <span className="text-primary font-bold text-sm mt-0.5">{i + 1}.</span>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{point}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
-              <p className="text-sm text-foreground font-medium flex items-center gap-2">
-                <Lightbulb className="w-4 h-4 text-primary" />
-                В следующем уроке мы формализуем этот подход в полноценный DQN с Target
-                Network, Replay Buffer и Huber Loss!
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* ── Mini-project: воспроизводимый эксперимент (бывший Проект 1) ── */}
-      <section>
-        <div className="flex items-center gap-2 mb-4">
-          <Trophy className="w-6 h-6 text-primary" />
-          <h2 className="text-2xl font-bold text-foreground">
-            Мини-проект: воспроизводимый эксперимент
-          </h2>
-        </div>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          Закрепим материал на полноценном эксперименте. Это та же задача CartPole, но с
-          фиксированным seed, метриками успеха и стартовым шаблоном —
-          научимся проводить{" "}
-          <strong className="text-foreground">воспроизводимое</strong> RL-исследование.
-        </p>
-
-        {/* Mission */}
-        <Card className="bg-card/40 border-primary/30 mb-4">
-          <CardContent className="p-6 flex gap-4 items-start">
-            <Target className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-            <div className="space-y-2">
-              <p className="text-foreground font-semibold">
-                Задание: обучите{" "}
-                <CrossLinkToHub hubPath="/algorithms/dqn" hubTitle="DQN — Deep Q-Network">
-                  DQN
-                </CrossLinkToHub>
-                -агента, который стабильно достигает среднего reward &gt; 475 за последние
-                100 из 500 эпизодов в среде CartPole-v1.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Используйте фиксированный{" "}
-                <code className="text-primary bg-primary/10 px-1 rounded">seed=42</code> для{" "}
-                <CrossLinkToHub
-                  hubPath="/pytorch/cheatsheet"
-                  hubAnchor="saving"
-                  hubTitle="PyTorch — Сохранение и загрузка"
-                >
-                  воспроизводимости
-                </CrossLinkToHub>{" "}
-                результатов. Эксперимент должен быть запускаемым одной командой.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Success criteria */}
-        <h3 className="text-lg font-bold text-foreground mb-3">Критерии успеха</h3>
-        <div className="overflow-x-auto mb-6">
+        <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30">
           <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border/50">
-                <th className="text-left py-2 px-3 text-muted-foreground font-medium">Метрика</th>
-                <th className="text-left py-2 px-3 text-muted-foreground font-medium">Минимум</th>
-                <th className="text-left py-2 px-3 text-muted-foreground font-medium">Хорошо</th>
-                <th className="text-left py-2 px-3 text-muted-foreground font-medium">Отлично</th>
+            <thead className="bg-primary/10">
+              <tr className="text-left">
+                <th className="p-3 font-semibold text-foreground">Концепция</th>
+                <th className="p-3 font-semibold text-foreground">Обозначение</th>
+                <th className="p-3 font-semibold text-foreground">Формальное определение</th>
+                <th className="p-3 font-semibold text-foreground">
+                  Интуитивный пример (GridWorld)
+                </th>
               </tr>
             </thead>
-            <tbody>
-              {[
-                { metric: "Avg reward (последние 100)", min: "> 400", good: "> 475", great: "= 500" },
-                { metric: "Эпизод конвергенции", min: "< 500", good: "< 350", great: "< 250" },
-                { metric: "Воспроизводимость (seed=42)", min: "Да", good: "Да", great: "Да" },
-                { metric: "Код документирован", min: "Комментарии", good: "+docstrings", great: "+README" },
-              ].map((row, i) => (
-                <tr key={i} className="border-b border-border/20">
-                  <td className="py-2 px-3 text-foreground">{row.metric}</td>
-                  <td className="py-2 px-3 text-muted-foreground">{row.min}</td>
-                  <td className="py-2 px-3 text-secondary">{row.good}</td>
-                  <td className="py-2 px-3 text-primary font-semibold">{row.great}</td>
-                </tr>
-              ))}
+            <tbody className="divide-y divide-border/30 text-muted-foreground">
+              <tr>
+                <td className="p-3 font-medium text-foreground">Состояние (State)</td>
+                <td className="p-3">
+                  <Math display={false}>s</Math>
+                </td>
+                <td className="p-3">
+                  Полное описание текущего положения агента в среде. Множество всех
+                  состояний обозначается как <Math display={false}>S</Math>.
+                </td>
+                <td className="p-3">Координаты робота: например, x=2, y=3.</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Действие (Action)</td>
+                <td className="p-3">
+                  <Math display={false}>a</Math>
+                </td>
+                <td className="p-3">
+                  Конкретный шаг, принимаемый агентом в ответ на состояние.
+                </td>
+                <td className="p-3">Вверх, Вниз, Влево, Вправо.</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Награда (Reward)</td>
+                <td className="p-3">
+                  <Math display={false}>r</Math>
+                </td>
+                <td className="p-3">
+                  Числовой сигнал обратной связи после действия.
+                  <div className="mt-1">
+                    <Math display={false}>{`R: S \\times A \\to \\mathbb{R}`}</Math>
+                  </div>
+                </td>
+                <td className="p-3">+10 за батарею, -1 за стену, -100 за яму.</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Стратегия (Policy)</td>
+                <td className="p-3">
+                  <Math display={false}>\pi</Math>
+                </td>
+                <td className="p-3">
+                  Набор правил, определяющий поведение агента.
+                </td>
+                <td className="p-3">«Если рядом яма — иди в противоположную сторону».</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Q-значение (Q-value)</td>
+                <td className="p-3">
+                  <Math display={false}>Q(s, a)</Math>
+                </td>
+                <td className="p-3">
+                  Оценка ожидаемой долгосрочной полезности выбора действия в состоянии.
+                </td>
+                <td className="p-3">Ценность шага вправо из клетки (2,3): 5.5.</td>
+              </tr>
             </tbody>
           </table>
         </div>
-
-        {/* Starter code */}
-        <h3 className="text-lg font-bold text-foreground mb-3">Starter-код</h3>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          Используйте этот шаблон как основу. Заполните пропуски, помеченные{" "}
-          <code className="text-accent bg-accent/10 px-1 rounded">TODO</code>.
+        <p className="text-muted-foreground leading-relaxed mt-4">
+          Чтобы эти термины сложились в единую картину, рассмотрим лабиринт 3х3.
+          Агент стартует в нижнем левом углу, а цель Q-обучения — выучить идеальную
+          стратегию для всех клеток.
         </p>
+      </section>
 
-        <CyberCodeBlock language="python" filename="cartpole_experiment_starter.py">
-{`"""
-Мини-проект: воспроизводимый CartPole-эксперимент (DQN)
-Цель: avg reward > 475 за последние 100 эпизодов из 500
-Seed: 42
-"""
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import gymnasium as gym
-import numpy as np
-import random
-from collections import deque, namedtuple
-
-# ── Фиксируем seed ─────────────────────────────────────
-SEED = 42
-random.seed(SEED)
-np.random.seed(SEED)
-torch.manual_seed(SEED)
-
-# ── Гиперпараметры (можно менять) ──────────────────────
-LR = 1e-3
-GAMMA = 0.99
-EPS_START = 1.0
-EPS_END = 0.01
-EPS_DECAY = 0.995
-EPISODES = 500
-BATCH_SIZE = 64
-MEMORY_SIZE = 100000
-TARGET_UPDATE = 10
-
-# ── Replay Buffer ──────────────────────────────────────
-Transition = namedtuple('Transition',
-    ('state', 'action', 'reward', 'next_state', 'done'))
-
-class ReplayBuffer:
-    # TODO: реализуйте методы push, sample, __len__
-    pass
-
-# ── Q-Network ──────────────────────────────────────────
-class DQN(nn.Module):
-    def __init__(self):
-        super().__init__()
-        # TODO: определите архитектуру сети
-        pass
-
-    def forward(self, x):
-        # TODO
-        pass
-
-# ── Выбор действия ─────────────────────────────────────
-def select_action(state, policy_net, epsilon):
-    # TODO: epsilon-greedy
-    pass
-
-# ── Шаг обучения ───────────────────────────────────────
-def train_step(policy_net, target_net, memory, optimizer):
-    if len(memory) < BATCH_SIZE:
-        return
-    # TODO: sample batch, compute loss, backprop
-    pass
-
-# ── Основной цикл ─────────────────────────────────────
-def main():
-    env = gym.make("CartPole-v1")
-    policy_net = DQN()
-    target_net = DQN()
-    target_net.load_state_dict(policy_net.state_dict())
-    optimizer = optim.Adam(policy_net.parameters(), lr=LR)
-    memory = ReplayBuffer(MEMORY_SIZE)
-
-    epsilon = EPS_START
-    rewards_history = []
-
-    for episode in range(EPISODES):
-        state, _ = env.reset(seed=SEED + episode)
-        total_reward = 0
-
-        while True:
-            action = select_action(state, policy_net, epsilon)
-            next_state, reward, term, trunc, _ = env.step(action)
-            done = term or trunc
-
-            memory.push(state, action, reward, next_state, done)
-            train_step(policy_net, target_net, memory, optimizer)
-
-            state = next_state
-            total_reward += reward
-            if done:
-                break
-
-        epsilon = max(EPS_END, epsilon * EPS_DECAY)
-        rewards_history.append(total_reward)
-
-        if (episode + 1) % TARGET_UPDATE == 0:
-            target_net.load_state_dict(policy_net.state_dict())
-
-        if (episode + 1) % 50 == 0:
-            avg = np.mean(rewards_history[-50:])
-            print(f"Ep {episode+1} | Avg: {avg:.1f} | ε: {epsilon:.3f}")
-
-    # ── Проверка результата ────────────────────────────
-    final_avg = np.mean(rewards_history[-100:])
-    print(f"\\nФинальный средний reward: {final_avg:.1f}")
-    assert final_avg > 475, f"Не достигнут порог 475! ({final_avg:.1f})"
-    print("✅ Эксперимент завершён успешно!")
-
-if __name__ == "__main__":
-    main()`}
-        </CyberCodeBlock>
-
-        <div className="flex gap-3 mt-4 flex-wrap">
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href="https://colab.research.google.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Открыть в Colab
-            </a>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex items-center gap-2">
-            <Download className="w-3.5 h-3.5" />
-            Скачать .py
-          </Button>
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4">3. Основная идея Q-обучения</h2>
+        <p className="text-muted-foreground leading-relaxed mb-3">
+          Табличный Q-learning строит и постоянно обновляет двумерную Q-таблицу:
+          строки — состояния, столбцы — действия, а в ячейках хранится «качество»
+          пары <Math display={false}>Q(s, a)</Math>.
+        </p>
+        <p className="text-muted-foreground leading-relaxed mb-3">
+          Процесс обучения строится циклом: определить состояние → выбрать действие →
+          получить награду и новое состояние → обновить таблицу.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <Card className="bg-card/40 border-blue-500/20">
+            <CardContent className="p-4">
+              <p className="font-semibold text-sm text-blue-400 mb-1">Model-free</p>
+              <p className="text-sm text-muted-foreground">
+                Агенту не нужна модель среды заранее. Он учится напрямую из опыта проб
+                и ошибок.
+              </p>
+            </CardContent>
+          </Card>
+          <Card className="bg-card/40 border-purple-500/20">
+            <CardContent className="p-4">
+              <p className="font-semibold text-sm text-purple-400 mb-1">Off-policy</p>
+              <p className="text-sm text-muted-foreground">
+                Агент может действовать случайно, но в оценках хранить оптимальную
+                стратегию, что ускоряет обучение.
+              </p>
+            </CardContent>
+          </Card>
         </div>
+      </section>
 
-        {/* Tips */}
-        <h3 className="text-lg font-bold text-foreground mt-6 mb-3">Подсказки</h3>
-        <div className="space-y-3 mb-6">
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4">4. Формула Q-обучения</h2>
+        <Math>{`Q(s, a) \\leftarrow Q(s, a) + \\alpha \\left[ r + \\gamma \\max_{a'} Q(s', a') - Q(s, a) \\right]`}</Math>
+        <p className="text-muted-foreground leading-relaxed mt-4 mb-3">
+          Каждый символ в уравнении управляет поведением агента.
+        </p>
+        <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30 mb-4">
+          <table className="w-full text-sm">
+            <thead className="bg-primary/10">
+              <tr className="text-left">
+                <th className="p-3 font-semibold text-foreground">Термин</th>
+                <th className="p-3 font-semibold text-foreground">Описание</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/30 text-muted-foreground">
+              <tr>
+                <td className="p-3">
+                  <Math display={false}>Q(s, a)</Math> (слева)
+                </td>
+                <td className="p-3">
+                  Новое знание: обновленное значение качества для текущего состояния и
+                  действия.
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3">
+                  <Math display={false}>Q(s, a)</Math> (справа)
+                </td>
+                <td className="p-3">Старое знание до текущего шага.</td>
+              </tr>
+              <tr>
+                <td className="p-3">
+                  <Math display={false}>\alpha</Math> (Learning Rate)
+                </td>
+                <td className="p-3">
+                  Скорость обучения в диапазоне от 0 до 1.
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3">
+                  <Math display={false}>r</Math>
+                </td>
+                <td className="p-3">Мгновенная награда за действие.</td>
+              </tr>
+              <tr>
+                <td className="p-3">
+                  <Math display={false}>\gamma</Math> (Discount Factor)
+                </td>
+                <td className="p-3">
+                  Важность будущих наград по сравнению с текущими.
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3">
+                  <Math display={false}>{`\\max_{a'} Q(s', a')`}</Math>
+                </td>
+                <td className="p-3">
+                  Лучшая будущая оценка из следующего состояния.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 className="text-xl font-semibold text-foreground mb-2">
+          Почему формула работает (TD Error)
+        </h3>
+        <Math>{`\\left[ r + \\gamma \\max_{a'} Q(s', a') - Q(s, a) \\right]`}</Math>
+        <p className="text-muted-foreground leading-relaxed">
+          Это и есть ошибка временного различия (Temporal Difference Error). Она
+          показывает меру «удивления» агента и направление корректировки значения.
+        </p>
+        <h3 className="text-xl font-semibold text-foreground mt-4 mb-2">
+          Пошаговый числовой пример
+        </h3>
+        <Math>{`Q(0, 1) \\leftarrow 0 + 0.1 \\times [10 + 0.9 \\times 0 - 0]`}</Math>
+        <Math>{`Q(0, 1) \\leftarrow 1.0`}</Math>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4">5. От математики к алгоритму</h2>
+        <div className="space-y-2">
           {[
-            "Начните с реализации ReplayBuffer — он нужен для всего остального.",
-            "Используйте Huber Loss (SmoothL1Loss) вместо MSE — он устойчивее к выбросам.",
-            "Не забудьте clip_grad_norm_ — предотвращает взрыв градиентов.",
-            "Если reward не растёт после 200 эпизодов — уменьшите LR или увеличьте BATCH_SIZE.",
-          ].map((tip, i) => (
-            <div key={i} className="flex gap-3 items-start">
-              <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-muted-foreground">{tip}</p>
+            "Инициализируем Q-таблицу и гиперпараметры (α, γ, ε).",
+            "Сбрасываем среду в начальное состояние.",
+            "Выбираем действие по ε-жадной стратегии (exploration/exploitation).",
+            "Выполняем действие и получаем (s', r, done).",
+            "Обновляем Q(s,a) уравнением Беллмана.",
+            "Переходим в новое состояние и повторяем до конца эпизода.",
+            "Уменьшаем ε (epsilon decay) по мере обучения.",
+          ].map((step, i) => (
+            <div key={step} className="flex gap-3 p-3 rounded-lg bg-card/30 border border-border/30">
+              <span className="text-primary font-bold text-sm">{i + 1}.</span>
+              <p className="text-sm text-muted-foreground">{step}</p>
             </div>
           ))}
         </div>
+        <p className="text-muted-foreground leading-relaxed mt-4">
+          Постепенное уменьшение <Math display={false}>\epsilon</Math> критически важно:
+          сначала агент исследует мир хаотично, затем все чаще использует выученную
+          стратегию.
+        </p>
+      </section>
 
-        {/* Bridge to next 3D project */}
-        <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border-primary/30">
-          <CardContent className="p-6 text-center space-y-3">
-            <Trophy className="w-10 h-10 text-primary mx-auto" />
-            <h3 className="text-xl font-bold text-foreground">Готовы перенести знания в 3D?</h3>
-            <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              Тот же принцип балансировки, но в полноценной Unity-среде с физикой —{" "}
-              <CrossLinkToHub
-                hubPath="/courses/project-1"
-                hubTitle='Проект-1: "Баланс в 3D"'
-              >
-                Проект-1: «Баланс в 3D»
-              </CrossLinkToHub>
-              .
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4">
+          6. Реализация на Python (MANDATORY)
+        </h2>
+        <p className="text-muted-foreground leading-relaxed mb-4">
+          Ниже — полный рабочий код табличного Q-learning для
+          <code className="text-primary text-xs"> FrozenLake-v1 </code>
+          с использованием библиотек <code className="text-primary text-xs">numpy</code> и
+          <code className="text-primary text-xs"> gymnasium</code>.
+        </p>
+        <CyberCodeBlock language="python" filename="q_learning_frozen_lake.py">
+          {PYTHON_IMPLEMENTATION}
+        </CyberCodeBlock>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4">
+          7. Пример среды: FrozenLake
+        </h2>
+        <p className="text-muted-foreground leading-relaxed mb-3">
+          FrozenLake — сетка 4x4 с безопасными клетками, прорубями и финишем.
+          В этой среде агент учится находить путь к цели, избегая провалов.
+        </p>
+        <Link
+          to="/projects/frozen-lake"
+          className="group flex items-center gap-3 p-4 mb-4 rounded-lg border border-primary/30 bg-primary/5 hover:bg-primary/10 hover:border-primary/50 hover:shadow-glow-cyan transition-all"
+        >
+          <div className="flex-1">
+            <div className="text-xs text-primary font-semibold uppercase tracking-wider mb-1">
+              Практический проект
+            </div>
+            <div className="text-foreground font-medium">
+              Открыть интерактивный проект «Frozen Lake»
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Полная реализация Q-Learning на этой среде с визуализацией обучения агента.
             </p>
+          </div>
+          <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
+        </Link>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {[
+            "S (Start) — стартовая позиция агента.",
+            "F (Frozen) — безопасный лед.",
+            "H (Hole) — прорубь, эпизод завершается с наградой 0.",
+            "G (Goal) — цель, эпизод завершается с наградой +1.",
+          ].map((item) => (
+            <Card key={item} className="bg-card/40 border-border/30">
+              <CardContent className="p-4">
+                <p className="text-sm text-muted-foreground">{item}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <p className="text-muted-foreground leading-relaxed mt-4">
+          Карта среды: <code className="text-primary text-xs">S F F F F H F H F F F H H F F G</code>
+        </p>
+        <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30 mt-4">
+          <table className="w-full text-sm">
+            <thead className="bg-primary/10">
+              <tr className="text-left">
+                <th className="p-3 font-semibold text-foreground">Состояние</th>
+                <th className="p-3 font-semibold text-foreground">Влево (0)</th>
+                <th className="p-3 font-semibold text-foreground">Вниз (1)</th>
+                <th className="p-3 font-semibold text-foreground">Вправо (2)</th>
+                <th className="p-3 font-semibold text-foreground">Вверх (3)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/30 text-muted-foreground">
+              <tr>
+                <td className="p-3 font-medium text-foreground">0 (Старт), шаг 0</td>
+                <td className="p-3">0.000</td>
+                <td className="p-3">0.000</td>
+                <td className="p-3">0.000</td>
+                <td className="p-3">0.000</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">14 (Перед целью), шаг 0</td>
+                <td className="p-3">0.000</td>
+                <td className="p-3">0.000</td>
+                <td className="p-3">0.000</td>
+                <td className="p-3">0.000</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">0 (Старт), после обучения</td>
+                <td className="p-3">0.531</td>
+                <td className="p-3">0.590</td>
+                <td className="p-3">0.531</td>
+                <td className="p-3">0.531</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
+          Перетекание ценности назад от цели:
+        </p>
+        <Math>{`Q(14, 2) \\leftarrow 0 + 0.8 \\times [1 + 0.95 \\times 0 - 0] = 0.8`}</Math>
+        <Math>{`Q(13, 2) \\leftarrow 0 + 0.8 \\times [0 + 0.95 \\times 0.8 - 0] = 0.608`}</Math>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4">
+          8. Пошаговый разбор кода (Математика → Алгоритм → Код)
+        </h2>
+        <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30">
+          <table className="w-full text-sm">
+            <thead className="bg-primary/10">
+              <tr className="text-left">
+                <th className="p-3 font-semibold text-foreground">
+                  Математический элемент / Концепция
+                </th>
+                <th className="p-3 font-semibold text-foreground">
+                  Объяснение логики и механики
+                </th>
+                <th className="p-3 font-semibold text-foreground">Фрагмент Python-кода</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/30 text-muted-foreground">
+              <tr>
+                <td className="p-3 font-medium text-foreground">Матрица Q(S, A)</td>
+                <td className="p-3">
+                  Таблица знаний агента, инициализация нулями означает tabula rasa.
+                </td>
+                <td className="p-3">
+                  <code className="text-primary text-xs">
+                    Q_table = np.zeros((state_size, action_size))
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Epsilon-Greedy</td>
+                <td className="p-3">
+                  При числе меньше ε агент исследует, иначе эксплуатирует знания.
+                </td>
+                <td className="p-3">
+                  <code className="text-primary text-xs">
+                    if exp_tradeoff {"<"} epsilon: action = env.action_space.sample()
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Функция среды</td>
+                <td className="p-3">
+                  Переход в новое состояние и получение награды через step().
+                </td>
+                <td className="p-3">
+                  <code className="text-primary text-xs">
+                    new_state, reward, done, truncated, info = env.step(action)
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Оценка будущего</td>
+                <td className="p-3">
+                  Выбор максимальной оценки в следующем состоянии.
+                </td>
+                <td className="p-3">
+                  <code className="text-primary text-xs">np.max(Q_table[new_state, :])</code>
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Уравнение Беллмана</td>
+                <td className="p-3">Центральное обновление текущего значения.</td>
+                <td className="p-3">
+                  <code className="text-primary text-xs">
+                    td_target = reward + gamma * np.max(Q_table[new_state, :])
+                  </code>
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 font-medium text-foreground">Epsilon Decay</td>
+                <td className="p-3">Экспоненциальное затухание случайности.</td>
+                <td className="p-3">
+                  <code className="text-primary text-xs">
+                    epsilon = min_epsilon + (max_epsilon - min_epsilon) * np.exp(-decay_rate * episode)
+                  </code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-destructive" />
+          9. Распространенные ошибки
+        </h2>
+        <div className="space-y-3">
+          {[
+            "Попытка применять табличный Q-learning в средах с непрерывными действиями.",
+            "Некорректное управление исследованием: слишком быстрое или отсутствующее затухание epsilon.",
+            "Переоценка Q-значений (overestimation bias) из-за использования max в целевой оценке.",
+            "Отсутствие seeding и, как следствие, невоспроизводимые эксперименты.",
+            "Проблемный reward shaping, при котором агент эксплуатирует лазейки вместо выполнения цели.",
+          ].map((err, i) => (
+            <Card key={err} className="bg-card/30 border-destructive/20">
+              <CardContent className="p-4 flex gap-3">
+                <span className="text-destructive font-bold text-sm">{i + 1}.</span>
+                <p className="text-sm text-muted-foreground">{err}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <p className="text-muted-foreground leading-relaxed mt-4">
+          Для борьбы с переоценкой часто используют Double Q-learning, а для
+          воспроизводимости — фиксацию seed во всех источниках случайности.
+        </p>
+        <CyberCodeBlock language="python" filename="seed_everything.py">
+          {SEED_SNIPPET}
+        </CyberCodeBlock>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
+          <CheckCircle2 className="w-5 h-5 text-green-400" />
+          10. Ключевые выводы
+        </h2>
+        <Card className="bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 border-primary/20">
+          <CardContent className="p-6 space-y-3">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">Что такое Q-обучение:</strong> модель
+                оптимизации (model-free, off-policy), оценивающая долгосрочную ценность
+                каждого действия.
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">Когда использовать:</strong> дискретные
+                и небольшие пространства состояний/действий (лабиринты, GridWorld,
+                простые игры, базовая оптимизация процессов).
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <strong className="text-foreground">Ограничение:</strong> проклятие
+                размерности. Для больших/непрерывных пространств используют DQN, где
+                Q-таблица заменяется нейросетевой аппроксимацией.
+              </p>
+            </div>
+            <Card className="bg-card/40 border-border/30">
+              <CardContent className="p-4 flex gap-3 items-start">
+                <BookOpen className="w-4 h-4 text-primary mt-0.5" />
+                <p className="text-xs text-muted-foreground">
+                  Математическое сердце DQN сохраняется: это та же TD-ошибка и идея
+                  уравнения Беллмана, разобранная в табличном Q-learning.
+                </p>
+              </CardContent>
+            </Card>
           </CardContent>
         </Card>
       </section>
-
-      {/* ── Quiz ── */}
-      <Quiz
-        title="Проверь себя: CartPole"
-        questions={quizQuestions}
-        nextLesson={{ path: "/courses/1-5", title: "DQN с нуля" }}
-      />
     </LessonLayout>
   );
 };

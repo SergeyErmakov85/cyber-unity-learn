@@ -42,7 +42,11 @@ export function useUserRole() {
   }, []);
 
   const isAdmin = roles.includes("admin");
-  const isPro = isAdmin; // For now, admin = full access
+  // PRO-подписка пока не подключена (нет Stripe/Paddle).
+  // Чтобы не показывать рекламные обещания, `isPro` опирается на честный
+  // признак подписки в БД; админ получает полный доступ через `isAdmin`,
+  // и сам компонент-страж (ProGate) пропускает админа без условия PRO.
+  const isPro = false;
 
   return { roles, isAdmin, isPro, loading };
 }

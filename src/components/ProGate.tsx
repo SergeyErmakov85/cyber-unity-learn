@@ -17,13 +17,13 @@ interface ProGateProps {
  * preview + CTA for everyone else.
  */
 const ProGate = ({ preview, children }: ProGateProps) => {
-  const { isPro, loading } = useUserRole();
+  const { isPro, isAdmin, loading } = useUserRole();
 
   if (loading) {
     return <>{preview}</>;
   }
 
-  if (isPro) {
+  if (isPro || isAdmin) {
     return <>{children}</>;
   }
 

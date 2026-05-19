@@ -42,10 +42,10 @@ interface LessonLayoutProps {
 const level1Lessons: LessonMeta[] = [
   { id: "1-1", path: "/courses/1-1", title: "Что такое обучение с подкреплением?", type: "lesson" },
   { id: "1-2", path: "/courses/1-2", title: "Установка окружения: PyTorch + Unity ML-Agents", type: "lesson" },
-  { id: "1-3", path: "/courses/1-3", title: "Q-Learning: табличный метод", type: "lesson" },
-  { id: "1-4", path: "/courses/1-4", title: "CartPole — твой первый RL-агент", type: "lesson" },
-  { id: "1-5", path: "/courses/1-5", title: "DQN с нуля на PyTorch", type: "lesson" },
-  { id: "1-6", path: "/courses/1-6", title: "Марковские процессы принятия решений (MDP)", type: "lesson" },
+  { id: "1-3", path: "/courses/1-3", title: "Марковские процессы принятия решений (MDP)", type: "lesson" },
+  { id: "1-4", path: "/courses/1-4", title: "Q-Learning: табличный метод", type: "lesson" },
+  { id: "1-5", path: "/courses/1-5", title: "CartPole — твой первый RL-агент", type: "lesson" },
+  { id: "1-6", path: "/courses/1-6", title: "DQN с нуля на PyTorch", type: "lesson" },
   { id: "1-7", path: "/courses/1-7", title: "Exploration vs Exploitation", type: "lesson" },
   { id: "1-p", path: "/courses/project-1", title: 'Проект-1: "Баланс в 3D"', type: "project" },
 ];
