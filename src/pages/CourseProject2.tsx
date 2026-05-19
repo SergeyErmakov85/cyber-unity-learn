@@ -547,7 +547,10 @@ const CourseProject2 = () => {
             качество поведения», и для капстоуна мы сознательно выбираем
             второе.
           </p>
+          <DiscreteVsContinuousPath />
         </div>
+
+
 
         {/* Гауссова политика без squashing */}
         <div
