@@ -552,7 +552,7 @@ const CourseProject2 = () => {
             — диагональную гауссову политику без{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-сжатия.
             На практике это значит одну неприятную вещь: семпл из{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>N(μ, σ²)</span>{" "}
+            <Math display={false}>{"\\mathcal{N}(\\mu, \\sigma^{2})"}</Math>{" "}
             формально не ограничен — на хвостах распределения вы получите
             значения вроде <span style={{ fontFamily: MONO, color: TEXT }}>2.7</span>{" "}
             или <span style={{ fontFamily: MONO, color: TEXT }}>−3.1</span>, а
