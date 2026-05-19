@@ -9,6 +9,7 @@ import GaussianPolicyClampViz from "@/components/project-2/GaussianPolicyClampVi
 import DiscreteVsContinuousPath from "@/components/project-2/DiscreteVsContinuousPath";
 import AdvantageGAEViz from "@/components/project-2/AdvantageGAEViz";
 import PPOClipViz from "@/components/project-2/PPOClipViz";
+import PBRSPotentialField from "@/components/project-2/PBRSPotentialField";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
