@@ -308,7 +308,13 @@ const LessonLayout = ({
               <span className="text-muted-foreground font-normal text-2xl md:text-3xl">
                 {lessonNumber}.{" "}
               </span>
-              {lessonTitle}
+              {isLevel2 ? (
+                <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  {lessonTitle}
+                </span>
+              ) : (
+                lessonTitle
+              )}
             </h1>
           </div>
 
