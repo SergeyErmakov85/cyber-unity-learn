@@ -8,16 +8,26 @@
   <url><loc>https://rl-cuber-unity-code.com/community</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/code-examples</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/onboarding</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/demo</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/demo-project</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+
+  <url><loc>https://rl-cuber-unity-code.com/beginner-course</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/1-1</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/1-2</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/1-3</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/1-4</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/courses/1-5</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/courses/1-6</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/courses/1-7</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/courses/project-1</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/2-1</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/2-2</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/2-3</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/2-4</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/2-5</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/2-6</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/courses/project-2</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/courses/project-3</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/3-1</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/3-2</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/3-3</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
@@ -25,23 +35,49 @@
   <url><loc>https://rl-cuber-unity-code.com/courses/3-5</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/3-6</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/courses/3-7</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/courses/final-project</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+
   <url><loc>https://rl-cuber-unity-code.com/blog/ppo-vs-sac</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/blog/top-5-mistakes</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/blog/parallel-envs</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/blog/mapoca-guide</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/blog/jupyter-to-unity</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/blog/gridsensor-guide</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/blog/reinforce-vs-ppo</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/blog/onnx-sentis-pipeline</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+
   <url><loc>https://rl-cuber-unity-code.com/algorithms</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/algorithms/ppo</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/algorithms/sac</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/algorithms/dqn</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/algorithms/a3c</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+
   <url><loc>https://rl-cuber-unity-code.com/math-rl</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://rl-cuber-unity-code.com/pytorch</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://rl-cuber-unity-code.com/unity-ml-agents</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://rl-cuber-unity-code.com/unity-projects</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://rl-cuber-unity-code.com/beginner-course</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/math-rl/module-1</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/math-rl/module-2</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/math-rl/module-3</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/math-rl/module-4</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/module-5</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/module-6</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+
+  <url><loc>https://rl-cuber-unity-code.com/pytorch</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/pytorch/cheatsheet</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/unity-ml-agents</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/deep-rl</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/fca-rl</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/advanced</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/advanced/onnx-sentis</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+
+  <url><loc>https://rl-cuber-unity-code.com/labs</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/hub/research</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/visualizations</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/visualizations/q-learning</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+
+  <url><loc>https://rl-cuber-unity-code.com/unity-projects</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/unity-projects/food-collector</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/unity-projects/taxi-v3</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/unity-projects/ball-balance</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/unity-projects/gridworld</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/unity-projects/racing</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/unity-projects/soccer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>

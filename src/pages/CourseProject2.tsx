@@ -506,13 +506,13 @@ const CourseProject2 = () => {
             . А формальный разбор нормализации фич и стандартизации наблюдений —{" "}
             <HubLink
               to="/hub/math-rl"
-              anchor="todo-нормализация-наблюдений"
+              
               variant="inline"
               fromPath="/courses/project-2"
               fromAnchor="env-observations"
               fromLabel="Капстоун · 3D-агент-охотник · Среда и наблюдения"
             >
-              нормализация и шкалирование признаков (TODO-хаб)
+              нормализация и шкалирование признаков
             </HubLink>
             .
           </p>
@@ -698,13 +698,13 @@ const CourseProject2 = () => {
             (когда его всё-таки включают) — в хабе:{" "}
             <HubLink
               to="/hub/math-rl"
-              anchor="todo-стохастические-политики-гауссова-tanh"
+              
               variant="inline"
               fromPath="/courses/project-2"
               fromAnchor="continuous-control"
               fromLabel="Капстоун · 3D-агент-охотник · Непрерывное управление"
             >
-              стохастические политики: диагональная гауссова и tanh-squashing (TODO-хаб)
+              стохастические политики: диагональная гауссова и tanh-squashing
             </HubLink>
             .
           </p>
@@ -798,13 +798,13 @@ const CourseProject2 = () => {
               Вывод GAE и анализ bias / variance:{" "}
               <HubLink
                 to="/hub/math-rl"
-                anchor="todo-gae-schulman-2015"
+                
                 variant="inline"
                 fromPath="/courses/project-2"
                 fromAnchor="ppo-hyperparams"
                 fromLabel="Капстоун · 3D-агент-охотник · PPO и гиперпараметры"
               >
-                GAE / Schulman 2015 (TODO-хаб)
+                GAE / Schulman 2015
               </HubLink>
               .
             </li>
@@ -812,13 +812,13 @@ const CourseProject2 = () => {
               Cl­ipped surrogate L<sup>CLIP</sup> и роль ε:{" "}
               <HubLink
                 to="/hub/math-rl"
-                anchor="todo-ppo-clipped-surrogate"
+                
                 variant="inline"
                 fromPath="/courses/project-2"
                 fromAnchor="ppo-hyperparams"
                 fromLabel="Капстоун · 3D-агент-охотник · PPO и гиперпараметры"
               >
-                PPO / TRPO objective (TODO-хаб)
+                PPO / TRPO objective
               </HubLink>
               .
             </li>
@@ -1134,13 +1134,13 @@ const CourseProject2 = () => {
             расширения — в хабе:{" "}
             <HubLink
               to="/hub/math-rl"
-              anchor="todo-reward-shaping-ng-harada-russell"
+              
               variant="inline"
               fromPath="/courses/project-2"
               fromAnchor="reward-shaping"
               fromLabel="Капстоун · 3D-агент-охотник · Формирование награды"
             >
-              reward shaping и теорема Ng – Harada – Russell (TODO-хаб)
+              reward shaping и теорема Ng – Harada – Russell
             </HubLink>
             .
           </p>
@@ -1269,13 +1269,13 @@ const CourseProject2 = () => {
             других провалов — в хабе:{" "}
             <HubLink
               to="/hub/math-rl"
-              anchor="todo-reward-misspecification-goodhart"
+              
               variant="inline"
               fromPath="/courses/project-2"
               fromAnchor="reward-shaping"
               fromLabel="Капстоун · 3D-агент-охотник · Формирование награды"
             >
-              reward misspecification и закон Гудхарта (TODO-хаб)
+              reward misspecification и закон Гудхарта
             </HubLink>
             .
           </p>
@@ -1475,13 +1475,13 @@ const CourseProject2 = () => {
           Формальный разбор — в хабе:{" "}
           <HubLink
             to="/hub/math-rl"
-            anchor="todo-on-policy-vs-off-policy"
+            
             variant="inline"
             fromPath="/courses/project-2"
             fromAnchor="parallel-envs"
             fromLabel="Капстоун · 3D-агент-охотник · Параллельные среды"
           >
-            on-policy vs off-policy и importance sampling (TODO-хаб)
+            on-policy vs off-policy и importance sampling
           </HubLink>
           .
         </p>

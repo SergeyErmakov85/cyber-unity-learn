@@ -135,7 +135,7 @@ const HubPage = () => {
                   {lessons.map((lesson) => (
                     <Link
                       key={lesson.id}
-                      to={`/learn/${stage.slug}/${lesson.slug}`}
+                      to={lesson.path}
                       className="flex items-center gap-2 rounded-lg border border-border/50 bg-card/30 px-4 py-3 text-sm text-foreground hover:border-primary/50 hover:bg-primary/5 transition-colors group"
                     >
                       <span className="flex-1">{lesson.title}</span>

@@ -127,9 +127,10 @@ const Courses = () => {
   }, []);
 
   const userProgress = getProgress();
-  const totalLessons = 20;
-  const completedTotal = userProgress.completedLessons.length;
-  const progress = Math.round((completedTotal / totalLessons) * 100);
+  const totalItems = 20 + 4; // 20 уроков + 4 проекта
+  const completedTotal =
+    userProgress.completedLessons.length + userProgress.completedProjects.length;
+  const progress = Math.min(100, Math.round((completedTotal / totalItems) * 100));
 
   return (
     <div className="min-h-screen bg-background">

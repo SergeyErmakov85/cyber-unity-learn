@@ -41,7 +41,7 @@ const CourseLesson1_2 = lazy(() => import("./pages/CourseLesson1_2"));
 const CourseLesson1_3 = lazy(() => import("./pages/CourseLesson1_3"));
 const CourseLesson1_4 = lazy(() => import("./pages/CourseLesson1_4"));
 const CourseLesson1_5 = lazy(() => import("./pages/CourseLesson1_5"));
-const CourseLesson1_6 = lazy(() => import("./pages/courses/Lesson1_5"));
+const CourseLesson1_6 = lazy(() => import("./pages/CourseLesson1_6"));
 const CourseLesson1_7 = lazy(() => import("./pages/CourseLesson1_7"));
 const CourseProject1 = lazy(() => import("./pages/CourseProject1"));
 const CourseLesson2_1 = lazy(() => import("./pages/CourseLesson2_1"));
@@ -79,7 +79,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const Profile = lazy(() => import("./pages/Profile"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
-const LessonPage = lazy(() => import("./pages/LessonPage"));
+
 const HubPage = lazy(() => import("./pages/HubPage"));
 const FcaRlModule = lazy(() => import("./pages/FcaRlModule"));
 const FrozenLakeProject = lazy(() => import("./pages/FrozenLakeProject"));
@@ -176,7 +176,7 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/learn/:stageSlug/:lessonSlug" element={<LessonPage />} />
+            
             <Route path="/fca-rl" element={<FcaRlModule />} />
             <Route path="/projects/frozen-lake" element={<FrozenLakeProject />} />
             <Route path="/hub/:hubId" element={<HubPage />} />

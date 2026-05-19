@@ -17,15 +17,22 @@ The design system is **neon-unity-neural**:
 <LessonLayout
   lessonId="X-X"
   lessonNumber="X.X"
-  title="..."
-  prevLesson={{ id: "...", title: "..." }}
-  nextLesson={{ id: "...", title: "..." }}
+  lessonTitle="..."
+  duration="30 мин"
+  tags={["#tag1", "#tag2"]}
+  level={1}
+  prevLesson={{ path: "/courses/X-X", title: "..." }}
+  nextLesson={{ path: "/courses/X-X", title: "..." }}
 >
   {/* Content */}
 </LessonLayout>
 
 - NEVER omit LessonLayout
 - NEVER output content outside it
+- prevLesson/nextLesson use { path, title } — NOT { id, title }
+- Use `lessonTitle`, NOT `title`
+- Source of truth for the course is `src/content/learningMap.ts` (LEARNING_MAP).
+  Do not duplicate the lesson list in `Courses.tsx` or anywhere else.
 
 ---
 

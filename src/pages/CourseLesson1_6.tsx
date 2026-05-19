@@ -9,21 +9,11 @@ import Section_ValueIteration from "@/components/math-rl/lesson1_5/Section_Value
 import Section_BellmanBridge from "@/components/math-rl/lesson1_5/Section_BellmanBridge";
 
 /**
- * Хост-компонент урока 1.5 — «Марковские процессы принятия решений».
- *
- * Этот файл — новый плацдарм, построенный с нуля в изоляции от
- * существующего src/pages/CourseLesson1_5.tsx. Роутинг на него ещё
- * НЕ переключён — старый урок остаётся доступным по /courses/1-5.
- *
- * Секции импортируются из src/components/math-rl/lesson1_5/*.
- * Сейчас они — плейсхолдеры; содержимое наполняется в отдельных промптах
- * (см. комментарии JSX).
- *
- * API LessonLayout на данный момент принимает `lessonId`, `lessonNumber`,
- * `lessonTitle` — поэтому идеальный заголовок «1.5 · Марковские процессы
- * принятия решений» собирается из полей (lessonNumber + lessonTitle).
+ * Урок 1.6 — «Марковские процессы принятия решений (MDP)».
+ * Маршрут: /courses/1-6
+ * Секции — в src/components/math-rl/lesson1_5/*.
  */
-const Lesson1_5 = () => {
+const CourseLesson1_6 = () => {
   return (
     <LessonLayout
       lessonId="1-6"
@@ -55,4 +45,4 @@ const Lesson1_5 = () => {
   );
 };
 
-export default Lesson1_5;
+export default CourseLesson1_6;
