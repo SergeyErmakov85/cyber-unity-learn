@@ -3,6 +3,7 @@ import ProGate from "@/components/ProGate";
 import HubLink from "@/components/math-rl/HubLink";
 import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiagram";
 import HunterArenaDiagram from "@/components/project-2/HunterArenaDiagram";
+import RaySensorViz from "@/components/project-2/RaySensorViz";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
