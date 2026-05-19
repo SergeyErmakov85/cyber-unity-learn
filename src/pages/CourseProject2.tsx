@@ -4,6 +4,7 @@ import HubLink from "@/components/math-rl/HubLink";
 import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiagram";
 import HunterArenaDiagram from "@/components/project-2/HunterArenaDiagram";
 import RaySensorViz from "@/components/project-2/RaySensorViz";
+import ObservationVectorViz from "@/components/project-2/ObservationVectorViz";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
@@ -398,8 +399,10 @@ const CourseProject2 = () => {
             всё равно работает, но статистики «разъезжаются» дольше, и кривая
             энтропии в TensorBoard выглядит рваной.
           </p>
+          <ObservationVectorViz />
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Почему нормализация и выбор представления состояния — это не «тюнинг»,
+
             а часть постановки MDP, разобрано в хабе:{" "}
             <HubLink
               to="/hub/math-rl"
