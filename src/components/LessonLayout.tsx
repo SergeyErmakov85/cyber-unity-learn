@@ -169,16 +169,29 @@ const LessonLayout = ({
 
   const handleShare = async () => {
     const url = window.location.href;
-    if (navigator.share) {
-      await navigator.share({ title: lessonTitle, url });
-    } else {
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: lessonTitle, url });
+        return;
+      }
+    } catch {
+      // user cancelled or permission denied — fall through to clipboard
+    }
+    try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* noop */
     }
   };
 
-  const progressColor = level === 1 ? "bg-green-500" : level === 2 ? "bg-secondary" : "bg-orange-500";
+  const isLevel2 = level === 2;
+  const progressColor = isLevel2
+    ? "bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"
+    : level === 1
+      ? "bg-green-500"
+      : "bg-orange-500";
   const diff = difficultyConfig[difficulty];
 
   const levelLabel = level === 1 ? "Уровень 1" : level === 2 ? "Уровень 2" : "Уровень 3";
