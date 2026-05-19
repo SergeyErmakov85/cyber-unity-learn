@@ -8,7 +8,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import Math from "@/components/Math";
+import MathTex from "@/components/Math";
 
 const TEXT = "#F4F7FC";
 const DIM = "#B0B8CE";
