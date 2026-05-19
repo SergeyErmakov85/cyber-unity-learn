@@ -1,5 +1,16 @@
-import LessonLayout from "@/components/LessonLayout";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Home, ChevronRight, CheckCircle2 } from "lucide-react";
 import ProGate from "@/components/ProGate";
+import LessonHeader from "@/components/LessonHeader";
+import SectionNav, { SectionNavItem } from "@/components/SectionNav";
+import NextPrevLesson from "@/components/NextPrevLesson";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+import SEOHead from "@/components/SEOHead";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
 import HubLink from "@/components/math-rl/HubLink";
 import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiagram";
 import HunterArenaDiagram from "@/components/project-2/HunterArenaDiagram";
