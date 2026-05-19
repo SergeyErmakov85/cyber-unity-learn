@@ -64,6 +64,9 @@ export function useLearningProgress(isAdmin = false) {
     if (!current.includes(slug)) {
       save([...current, slug]);
     }
+    // Mirror into gamification store (path-based) so XP/badges/profile stay in sync
+    const path = SLUG_TO_PATH[slug];
+    if (path) markLessonComplete(path);
   }, []);
 
   const resetProgress = useCallback(() => {
