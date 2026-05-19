@@ -639,30 +639,32 @@ const CourseProject2 = () => {
           </h3>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             В мире Охотника{" "}
-            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>V(s)</span>{" "}
+            <Math display={false}>{"V(s)"}</Math>{" "}
             — это «насколько хороша текущая позиция», ожидаемая сумма будущих
             наград, если дальше действовать по нынешней политике. Critic-сеть
             PPO учится её предсказывать прямо во время обучения. Из неё
             считается{" "}
-            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>A(s,a)</span>{" "}
+            <Math display={false}>{"A(s,a)"}</Math>{" "}
             — преимущество действия: «насколько именно этот рывок оказался
             лучше, чем в среднем из этой позиции». Если действие догнало цель —{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>A</span> положительное,
+            <Math display={false}>{"A"}</Math> положительное,
             политика смещается в его сторону.
           </p>
+          <Math>{"V^{\\pi}(s) = \\mathbb{E}_{\\pi}\\!\\left[\\, r_t + \\gamma V^{\\pi}(s_{t+1}) \\mid s_t = s \\right]"}</Math>
+          <Math>{"A^{\\pi}(s,a) = Q^{\\pi}(s,a) - V^{\\pi}(s)"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
-            <span style={{ fontFamily: MONO, color: TEXT }}>A</span> можно
+            <Math display={false}>{"A"}</Math> можно
             считать одним шагом (шумно) или всем эпизодом (запоздало). GAE даёт
             непрерывную ручку{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>λ ∈ [0, 1]</span>{" "}
             между этими крайностями — компромисс bias / variance, который для
             Охотника решает, сходится ли обучение за 1М шагов или за 5М.
           </p>
+          <Math>{"\\delta_t = r_t + \\gamma V(s_{t+1}) - V(s_t)"}</Math>
+          <Math>{"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\gamma\\lambda)^{l}\\, \\delta_{t+l}"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Сама же сумма дисконтированных наград{" "}
-            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>
-              Σ γᵏ rₜ₊ₖ
-            </span>{" "}
+            <Math display={false}>{"G_t = \\sum_{k=0}^{\\infty} \\gamma^{k}\\, r_{t+k}"}</Math>{" "}
             конечна именно потому, что{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>γ &lt; 1</span> — это
             та самая геометрическая прогрессия, без которой бесконечные эпизоды
