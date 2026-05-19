@@ -1,4 +1,25 @@
 // ==================== XP & Progress System ====================
+import { LEARNING_MAP } from "@/content/learningMap";
+
+const SLUG_STORE_KEY = "rl-platform-completed-lessons";
+const PATH_TO_SLUG: Record<string, string> = Object.fromEntries(
+  LEARNING_MAP.flatMap((s) => s.lessons.map((l) => [l.path, l.slug] as const)),
+);
+
+function syncSlugStoreFromPath(path: string) {
+  try {
+    const slug = PATH_TO_SLUG[path];
+    if (!slug) return;
+    const raw = localStorage.getItem(SLUG_STORE_KEY);
+    const arr: string[] = raw ? JSON.parse(raw) : [];
+    if (!arr.includes(slug)) {
+      arr.push(slug);
+      localStorage.setItem(SLUG_STORE_KEY, JSON.stringify(arr));
+    }
+  } catch {
+    /* localStorage unavailable */
+  }
+}
 
 export interface Badge {
   id: string;
@@ -100,6 +121,8 @@ export function completeLesson(path: string): { xp: number; newBadges: Badge[] }
   p.xp += 50;
   const newBadges = checkBadges(p);
   save(p);
+  // Mirror into slug-based store (useLearningProgress) for sequential unlocking
+  syncSlugStoreFromPath(path);
   return { xp: 50, newBadges };
 }
 

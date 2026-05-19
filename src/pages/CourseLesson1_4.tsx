@@ -160,6 +160,23 @@ const CourseLesson1_4 = () => {
           <Table2 className="w-5 h-5 text-primary" />
           2. Ключевые концепции
         </h2>
+        <Card className="bg-card/40 border-secondary/30 mb-4">
+          <CardContent className="p-4 flex gap-3 items-start">
+            <BookOpen className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Формальная теория MDP (множества S, A, переходы T, награда R, γ,
+              уравнение Беллмана и Value Iteration) подробно разобрана в{" "}
+              <Link
+                to="/courses/1-3"
+                className="text-secondary hover:text-primary underline underline-offset-2"
+              >
+                уроке 1.3 — «Марковские процессы принятия решений»
+              </Link>
+              . Здесь мы используем эти понятия как данность и переходим к практике
+              табличного Q-learning.
+            </p>
+          </CardContent>
+        </Card>
         <p className="text-muted-foreground leading-relaxed mb-3">
           Любая задача обучения с подкреплением формулируется в терминах Марковского
           процесса принятия решений (Markov Decision Process, MDP).

@@ -33,7 +33,7 @@ const CHECKLIST_ITEMS = [
   { id: "pytorch", label: "PyTorch установлен и import torch работает" },
   { id: "mlagents", label: "ML-Agents установлен (mlagents-learn --help)" },
   { id: "gymnasium", label: "Gymnasium установлен (import gymnasium)" },
-  { id: "unity", label: "Unity 2022.3 LTS + пакет ML-Agents" },
+  { id: "unity", label: "Unity 2022.3 LTS или Unity 6 (6000.0 LTS) + пакет ML-Agents" },
   { id: "verify", label: "Скрипт проверки выполнен без ошибок" },
 ];
 

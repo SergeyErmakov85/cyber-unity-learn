@@ -1,10 +1,18 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { LEARNING_MAP } from "@/content/learningMap";
+import { markLessonComplete } from "@/lib/gamification";
 
 const STORAGE_KEY = "rl-platform-completed-lessons";
 
-// All lesson slugs in sequential order
-const ALL_SLUGS = LEARNING_MAP.flatMap((s) => s.lessons.map((l) => l.slug));
+// All lesson slugs in sequential order (lessons only — projects aren't sequentially gated)
+const ALL_SLUGS = LEARNING_MAP.flatMap((s) =>
+  s.lessons.filter((l) => l.type === "lesson").map((l) => l.slug),
+);
+
+// slug -> /courses/<id> for cross-syncing with gamification store
+const SLUG_TO_PATH: Record<string, string> = Object.fromEntries(
+  LEARNING_MAP.flatMap((s) => s.lessons.map((l) => [l.slug, l.path] as const)),
+);
 
 function getSnapshot(): string[] {
   try {
@@ -56,6 +64,9 @@ export function useLearningProgress(isAdmin = false) {
     if (!current.includes(slug)) {
       save([...current, slug]);
     }
+    // Mirror into gamification store (path-based) so XP/badges/profile stay in sync
+    const path = SLUG_TO_PATH[slug];
+    if (path) markLessonComplete(path);
   }, []);
 
   const resetProgress = useCallback(() => {
