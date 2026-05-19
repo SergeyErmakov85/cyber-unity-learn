@@ -756,6 +756,8 @@ const CourseProject2 = () => {
           </ul>
         </div>
 
+        <PPOClipViz />
+
         {/* Таблица гиперпараметров */}
         <div
           className="p-5 rounded-lg space-y-3"
