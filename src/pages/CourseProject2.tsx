@@ -294,6 +294,10 @@ const CourseProject2 = () => {
           </p>
         </div>
 
+        <HunterArenaDiagram />
+
+
+
         {/* Стратегии цели */}
         <div
           className="p-5 rounded-lg space-y-3"
