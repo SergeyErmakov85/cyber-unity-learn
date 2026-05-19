@@ -208,11 +208,36 @@ const CompleteButton = () => {
 };
 
 const CourseProject2 = () => {
-  const preview = (
-    <div
-      style={{ backgroundColor: BG, color: TEXT }}
-      className="rounded-2xl p-6 md:p-10 space-y-12"
-    >
+  const content = (
+    <>
+      {/* Хлебные крошки */}
+      <nav aria-label="Хлебные крошки" className="mb-6">
+        <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+          <li>
+            <Link to="/" className="hover:text-cyan-400 inline-flex items-center gap-1">
+              <Home className="w-3.5 h-3.5" aria-hidden="true" /> Главная
+            </Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li><Link to="/courses" className="hover:text-cyan-400">Курс</Link></li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li><Link to="/courses#level-2" className="hover:text-cyan-400">Уровень 2</Link></li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li className="text-foreground" aria-current="page">Капстоун · 3D-агент-охотник</li>
+        </ol>
+      </nav>
+
+      <LessonHeader
+        title="3D-агент-охотник в Unity"
+        subtitle="Капстоун Уровня 2 — от пустой сцены до обученного Hunter.onnx: PPO, непрерывное управление, PBRS, параллельные арены и диагностика обучения."
+        isPro
+        estimatedMinutes={120}
+      />
+
+      <SectionNav items={NAV_ITEMS} />
+
+      <div id="lesson-content" className="space-y-8 mt-8">
+
       {/* ── Back-link test anchor (round-trip с HubLink) ───────────────────── */}
       <section
         id="capstone-return-test"
