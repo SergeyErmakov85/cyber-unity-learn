@@ -387,7 +387,9 @@ const CourseProject2 = () => {
               </p>
             </div>
           </div>
+          <RaySensorViz />
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+
             Все векторные фичи нормализуем в{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>[-1, 1]</span>:
             позиции делим на полудиагональ арены, скорости — на максимальный
