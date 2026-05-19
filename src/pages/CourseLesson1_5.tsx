@@ -791,246 +791,29 @@ plt.show()`}
         </Card>
       </section>
 
-      {/* ── Mini-project: воспроизводимый эксперимент (бывший Проект 1) ── */}
+      {/* ── Bridge to DQN lesson 1.6 ── */}
       <section>
-        <div className="flex items-center gap-2 mb-4">
-          <Trophy className="w-6 h-6 text-primary" />
-          <h2 className="text-2xl font-bold text-foreground">
-            Мини-проект: воспроизводимый эксперимент
-          </h2>
-        </div>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          Закрепим материал на полноценном эксперименте. Это та же задача CartPole, но с
-          фиксированным seed, метриками успеха и стартовым шаблоном —
-          научимся проводить{" "}
-          <strong className="text-foreground">воспроизводимое</strong> RL-исследование.
-        </p>
-
-        {/* Mission */}
-        <Card className="bg-card/40 border-primary/30 mb-4">
-          <CardContent className="p-6 flex gap-4 items-start">
-            <Target className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
-            <div className="space-y-2">
-              <p className="text-foreground font-semibold">
-                Задание: обучите{" "}
-                <CrossLinkToHub hubPath="/algorithms/dqn" hubTitle="DQN — Deep Q-Network">
-                  DQN
-                </CrossLinkToHub>
-                -агента, который стабильно достигает среднего reward &gt; 475 за последние
-                100 из 500 эпизодов в среде CartPole-v1.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Используйте фиксированный{" "}
-                <code className="text-primary bg-primary/10 px-1 rounded">seed=42</code> для{" "}
-                <CrossLinkToHub
-                  hubPath="/pytorch/cheatsheet"
-                  hubAnchor="saving"
-                  hubTitle="PyTorch — Сохранение и загрузка"
-                >
-                  воспроизводимости
-                </CrossLinkToHub>{" "}
-                результатов. Эксперимент должен быть запускаемым одной командой.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Success criteria */}
-        <h3 className="text-lg font-bold text-foreground mb-3">Критерии успеха</h3>
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border/50">
-                <th className="text-left py-2 px-3 text-muted-foreground font-medium">Метрика</th>
-                <th className="text-left py-2 px-3 text-muted-foreground font-medium">Минимум</th>
-                <th className="text-left py-2 px-3 text-muted-foreground font-medium">Хорошо</th>
-                <th className="text-left py-2 px-3 text-muted-foreground font-medium">Отлично</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                { metric: "Avg reward (последние 100)", min: "> 400", good: "> 475", great: "= 500" },
-                { metric: "Эпизод конвергенции", min: "< 500", good: "< 350", great: "< 250" },
-                { metric: "Воспроизводимость (seed=42)", min: "Да", good: "Да", great: "Да" },
-                { metric: "Код документирован", min: "Комментарии", good: "+docstrings", great: "+README" },
-              ].map((row, i) => (
-                <tr key={i} className="border-b border-border/20">
-                  <td className="py-2 px-3 text-foreground">{row.metric}</td>
-                  <td className="py-2 px-3 text-muted-foreground">{row.min}</td>
-                  <td className="py-2 px-3 text-secondary">{row.good}</td>
-                  <td className="py-2 px-3 text-primary font-semibold">{row.great}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Starter code */}
-        <h3 className="text-lg font-bold text-foreground mb-3">Starter-код</h3>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          Используйте этот шаблон как основу. Заполните пропуски, помеченные{" "}
-          <code className="text-accent bg-accent/10 px-1 rounded">TODO</code>.
-        </p>
-
-        <CyberCodeBlock language="python" filename="cartpole_experiment_starter.py">
-{`"""
-Мини-проект: воспроизводимый CartPole-эксперимент (DQN)
-Цель: avg reward > 475 за последние 100 эпизодов из 500
-Seed: 42
-"""
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import gymnasium as gym
-import numpy as np
-import random
-from collections import deque, namedtuple
-
-# ── Фиксируем seed ─────────────────────────────────────
-SEED = 42
-random.seed(SEED)
-np.random.seed(SEED)
-torch.manual_seed(SEED)
-
-# ── Гиперпараметры (можно менять) ──────────────────────
-LR = 1e-3
-GAMMA = 0.99
-EPS_START = 1.0
-EPS_END = 0.01
-EPS_DECAY = 0.995
-EPISODES = 500
-BATCH_SIZE = 64
-MEMORY_SIZE = 100000
-TARGET_UPDATE = 10
-
-# ── Replay Buffer ──────────────────────────────────────
-Transition = namedtuple('Transition',
-    ('state', 'action', 'reward', 'next_state', 'done'))
-
-class ReplayBuffer:
-    # TODO: реализуйте методы push, sample, __len__
-    pass
-
-# ── Q-Network ──────────────────────────────────────────
-class DQN(nn.Module):
-    def __init__(self):
-        super().__init__()
-        # TODO: определите архитектуру сети
-        pass
-
-    def forward(self, x):
-        # TODO
-        pass
-
-# ── Выбор действия ─────────────────────────────────────
-def select_action(state, policy_net, epsilon):
-    # TODO: epsilon-greedy
-    pass
-
-# ── Шаг обучения ───────────────────────────────────────
-def train_step(policy_net, target_net, memory, optimizer):
-    if len(memory) < BATCH_SIZE:
-        return
-    # TODO: sample batch, compute loss, backprop
-    pass
-
-# ── Основной цикл ─────────────────────────────────────
-def main():
-    env = gym.make("CartPole-v1")
-    policy_net = DQN()
-    target_net = DQN()
-    target_net.load_state_dict(policy_net.state_dict())
-    optimizer = optim.Adam(policy_net.parameters(), lr=LR)
-    memory = ReplayBuffer(MEMORY_SIZE)
-
-    epsilon = EPS_START
-    rewards_history = []
-
-    for episode in range(EPISODES):
-        state, _ = env.reset(seed=SEED + episode)
-        total_reward = 0
-
-        while True:
-            action = select_action(state, policy_net, epsilon)
-            next_state, reward, term, trunc, _ = env.step(action)
-            done = term or trunc
-
-            memory.push(state, action, reward, next_state, done)
-            train_step(policy_net, target_net, memory, optimizer)
-
-            state = next_state
-            total_reward += reward
-            if done:
-                break
-
-        epsilon = max(EPS_END, epsilon * EPS_DECAY)
-        rewards_history.append(total_reward)
-
-        if (episode + 1) % TARGET_UPDATE == 0:
-            target_net.load_state_dict(policy_net.state_dict())
-
-        if (episode + 1) % 50 == 0:
-            avg = np.mean(rewards_history[-50:])
-            print(f"Ep {episode+1} | Avg: {avg:.1f} | ε: {epsilon:.3f}")
-
-    # ── Проверка результата ────────────────────────────
-    final_avg = np.mean(rewards_history[-100:])
-    print(f"\\nФинальный средний reward: {final_avg:.1f}")
-    assert final_avg > 475, f"Не достигнут порог 475! ({final_avg:.1f})"
-    print("✅ Эксперимент завершён успешно!")
-
-if __name__ == "__main__":
-    main()`}
-        </CyberCodeBlock>
-
-        <div className="flex gap-3 mt-4 flex-wrap">
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href="https://colab.research.google.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              Открыть в Colab
-            </a>
-          </Button>
-          <Button variant="ghost" size="sm" className="flex items-center gap-2">
-            <Download className="w-3.5 h-3.5" />
-            Скачать .py
-          </Button>
-        </div>
-
-        {/* Tips */}
-        <h3 className="text-lg font-bold text-foreground mt-6 mb-3">Подсказки</h3>
-        <div className="space-y-3 mb-6">
-          {[
-            "Начните с реализации ReplayBuffer — он нужен для всего остального.",
-            "Используйте Huber Loss (SmoothL1Loss) вместо MSE — он устойчивее к выбросам.",
-            "Не забудьте clip_grad_norm_ — предотвращает взрыв градиентов.",
-            "Если reward не растёт после 200 эпизодов — уменьшите LR или увеличьте BATCH_SIZE.",
-          ].map((tip, i) => (
-            <div key={i} className="flex gap-3 items-start">
-              <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-muted-foreground">{tip}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Bridge to next 3D project */}
         <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border-primary/30">
-          <CardContent className="p-6 text-center space-y-3">
-            <Trophy className="w-10 h-10 text-primary mx-auto" />
-            <h3 className="text-xl font-bold text-foreground">Готовы перенести знания в 3D?</h3>
-            <p className="text-sm text-muted-foreground max-w-md mx-auto">
-              Тот же принцип балансировки, но в полноценной Unity-среде с физикой —{" "}
-              <CrossLinkToHub
-                hubPath="/courses/project-1"
-                hubTitle='Проект-1: "Баланс в 3D"'
-              >
-                Проект-1: «Баланс в 3D»
-              </CrossLinkToHub>
-              .
+          <CardContent className="p-6 space-y-3">
+            <div className="flex items-center gap-2">
+              <Trophy className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-bold text-foreground">
+                Дальше: DQN с нуля на PyTorch
+              </h2>
+            </div>
+            <p className="text-muted-foreground leading-relaxed">
+              В этом уроке мы познакомились со средой CartPole, Gymnasium и обсудили, почему
+              Q-таблицы не работают для непрерывных состояний. Полноценную реализацию{" "}
+              <CrossLinkToHub hubPath="/algorithms/dqn" hubTitle="DQN — Deep Q-Network">
+                DQN
+              </CrossLinkToHub>{" "}
+              с Target Network, Replay Buffer и Huber Loss — а также воспроизводимый
+              мини-проект с фиксированным seed и метриками успеха — мы разберём в следующем
+              уроке.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Перед переходом убедитесь, что среда CartPole-v1 запускается у вас локально и
+              random-агент выдаёт средний reward ~20.
             </p>
           </CardContent>
         </Card>
