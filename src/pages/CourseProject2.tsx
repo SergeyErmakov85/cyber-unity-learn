@@ -154,14 +154,58 @@ const SECTIONS: ReadonlyArray<{ id: string; title: string; lead: string }> = [
   },
 ];
 
+const SECTION_TITLE_CLASS =
+  "text-2xl md:text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent";
+
 const SectionHeading = ({ children }: { children: React.ReactNode }) => (
-  <h2
-    className="text-xl md:text-2xl tracking-wide"
-    style={{ fontFamily: ORBITRON, color: TEXT, letterSpacing: "0.04em" }}
-  >
-    {children}
-  </h2>
+  <h2 className={SECTION_TITLE_CLASS}>{children}</h2>
 );
+
+const NAV_ITEMS: SectionNavItem[] = [
+  { id: "intro", label: "Введение" },
+  { id: "roadmap", label: "Маршрут" },
+  { id: "env-observations", label: "Среда" },
+  { id: "continuous-control", label: "Управление" },
+  { id: "ppo-hyperparams", label: "PPO" },
+  { id: "reward-shaping", label: "Награда" },
+  { id: "parallel-envs", label: "Параллелизм" },
+  { id: "training-monitoring", label: "Мониторинг" },
+  { id: "working-artifacts", label: "Артефакты" },
+  { id: "reward-sandbox", label: "Песочница" },
+];
+
+const SECTION_VARIANTS = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const CompleteButton = () => {
+  const [done, setDone] = useState<boolean>(() => isLessonComplete("project-2"));
+  useEffect(() => {
+    if (done) return;
+    const onScroll = () => {
+      const h = document.documentElement;
+      const pct = (window.scrollY / (h.scrollHeight - window.innerHeight)) * 100;
+      if (pct >= 90) {
+        markLessonComplete("project-2");
+        setDone(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [done]);
+  return (
+    <Button
+      onClick={() => { markLessonComplete("project-2"); setDone(true); }}
+      disabled={done}
+      size="lg"
+      className="w-full md:w-auto bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white font-semibold shadow-[0_0_24px_hsl(var(--primary)/0.45)] hover:shadow-[0_0_32px_hsl(280_85%_65%/0.55)] hover:scale-[1.02] transition-all disabled:opacity-80 disabled:cursor-default"
+    >
+      {done ? (<><CheckCircle2 className="w-5 h-5 mr-2" aria-hidden="true" />Пройдено</>) : (<>Отметить капстоун как пройденный ✓</>)}
+    </Button>
+  );
+};
 
 const CourseProject2 = () => {
   const preview = (
