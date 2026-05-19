@@ -3,6 +3,7 @@ import ProGate from "@/components/ProGate";
 import HubLink from "@/components/math-rl/HubLink";
 import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiagram";
 import HunterArenaDiagram from "@/components/project-2/HunterArenaDiagram";
+import RaySensorViz from "@/components/project-2/RaySensorViz";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
@@ -386,7 +387,9 @@ const CourseProject2 = () => {
               </p>
             </div>
           </div>
+          <RaySensorViz />
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+
             Все векторные фичи нормализуем в{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>[-1, 1]</span>:
             позиции делим на полудиагональ арены, скорости — на максимальный
