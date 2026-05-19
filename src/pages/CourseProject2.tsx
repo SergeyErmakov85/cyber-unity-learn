@@ -1921,22 +1921,43 @@ const CourseProject2 = () => {
           </section>
         ))}
       </section>
-    </div>
+      </div>
+
+      <Card className="mt-8 border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm">
+        <CardContent className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
+            Дочитали до конца? Зафиксируйте прогресс и получите XP.
+          </p>
+          <CompleteButton />
+        </CardContent>
+      </Card>
+
+      <NextPrevLesson
+        prev={{ path: "/courses/2-6", title: "TensorBoard и W&B" }}
+        next={{ path: "/courses/project-3", title: "Проект 3" }}
+      />
+    </>
   );
 
   return (
-    <LessonLayout
-      lessonId="project-2"
-      lessonTitle="3D-агент-охотник в Unity"
-      lessonNumber="П2"
-      duration="90–120 мин"
-      tags={["#project", "#unity", "#ppo", "#capstone"]}
-      level={2}
-      prevLesson={{ path: "/courses/2-6", title: "TensorBoard и W&B" }}
-      nextLesson={{ path: "/courses/project-3", title: "Проект 3" }}
-    >
-      <ProGate preview={preview}>{preview}</ProGate>
-    </LessonLayout>
+    <>
+      <SEOHead
+        title="Капстоун Уровня 2: 3D-агент-охотник в Unity | CyberUnityCode"
+        description="Капстоун-проект курса: PPO-агент в Unity ML-Agents с непрерывным управлением, PBRS reward shaping, параллельными аренами и диагностикой обучения."
+        path="/courses/project-2"
+        type="article"
+      />
+      <a
+        href="#lesson-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-md focus:bg-card focus:text-cyan-300 focus:border focus:border-cyan-400 focus:shadow-[0_0_16px_hsl(var(--primary)/0.6)]"
+      >
+        К содержимому капстоуна
+      </a>
+      <ScrollProgressBar color="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
+      <main className="container max-w-5xl mx-auto px-4 py-8">
+        <ProGate preview={content}>{content}</ProGate>
+      </main>
+    </>
   );
 };
 
