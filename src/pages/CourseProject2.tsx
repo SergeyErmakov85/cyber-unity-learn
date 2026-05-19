@@ -954,19 +954,9 @@ const CourseProject2 = () => {
             <li>
               <span style={{ color: TEXT }}>Potential-based shaping (PBRS)</span>{" "}
               на расстоянии до цели:
-              <div
-                className="mt-2 p-3 rounded-md overflow-x-auto"
-                style={{
-                  border: `1px solid ${BORDER}`,
-                  background: "rgba(0,0,0,0.35)",
-                  fontFamily: MONO,
-                  color: TEXT,
-                  fontSize: 17,
-                  lineHeight: 1.7,
-                }}
-              >
-                Φ(s) = −d(s) / maxDist <br />
-                F(s, s′) = γ · Φ(s′) − Φ(s)
+              <div className="mt-2 space-y-1">
+                <Math>{"\\Phi(s) = -\\dfrac{d(s)}{d_{\\max}}"}</Math>
+                <Math>{"F(s, s') = \\gamma\\,\\Phi(s') - \\Phi(s)"}</Math>
               </div>
               <p className="mt-2" style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
                 По модулю на шаг — около{" "}
