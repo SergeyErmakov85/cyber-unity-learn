@@ -1,73 +1,90 @@
-# Welcome to your Lovable project
+# RL Platform — Cyber Unity Code
 
-## Project info
+Образовательная платформа на русском по Reinforcement Learning, PyTorch и Unity ML-Agents.
+3 уровня (Новичок / Средний / Продвинутый), 20 уроков, 4 проекта, хабы по математике,
+алгоритмам и Deep RL.
 
-**URL**: https://lovable.dev/projects/c726c5a0-7605-4770-b8dd-c51264742f0e
+Production: <https://rl-cuber-unity-code.com>
 
-## How can I edit this code?
+## Стек
 
-There are several ways of editing your application.
+- Vite + React 18 + TypeScript
+- Tailwind CSS v3, shadcn/ui
+- React Router v6
+- Supabase (Auth + Postgres + RLS) через Lovable Cloud
+- KaTeX, Recharts, framer-motion
+- Деплой: Vercel
 
-**Use Lovable**
+## Источник истины по курсу
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c726c5a0-7605-4770-b8dd-c51264742f0e) and start prompting.
+Структура курса (этапы → уроки → проекты) живёт в одном месте:
 
-Changes made via Lovable will be committed automatically to this repo.
+- `src/content/learningMap.ts` — `LEARNING_MAP`, `Lesson`, `Stage`
+- `src/content/lessonContextLinks.ts` — ссылки на хабы из уроков
+- `src/data/lessons.ts` — meta для отдельных уроков (например, 2.6)
 
-**Use your preferred IDE**
+`src/pages/Courses.tsx`, `LessonLayout`, прогресс в `gamification.ts` — всё опирается
+на эти данные. Не дублируйте список уроков в других местах.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Локальная разработка
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
+```bash
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Сборка/линт:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run build
+npm run lint
+```
 
-**Use GitHub Codespaces**
+## Переменные окружения
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Создайте `.env` по образцу `.env.example`:
 
-## What technologies are used for this project?
+```
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_PROJECT_ID=
+```
 
-This project is built with:
+В Lovable / Vercel задайте те же переменные через Settings → Environment Variables.
+Файл `.env` находится в `.gitignore` и не должен попадать в репозиторий.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Структура
 
-## How can I deploy this project?
+- `src/pages/` — страницы (уроки `CourseLesson*`, проекты `CourseProject*`, хабы)
+- `src/components/` — общие компоненты (LessonLayout, CyberCodeBlock, Math, Quiz…)
+- `src/components/lesson-2-6/`, `src/components/project-2/` — секции конкретных уроков
+- `src/content/` — данные курса
+- `src/lib/gamification.ts` — XP, бейджи, прогресс (localStorage)
+- `src/integrations/supabase/` — авто-сгенерированные клиент и типы (не редактировать)
+- `supabase/migrations/` — миграции БД
 
-Simply open [Lovable](https://lovable.dev/projects/c726c5a0-7605-4770-b8dd-c51264742f0e) and click on Share -> Publish.
+## Дизайн-система
 
-## Can I connect a custom domain to my Lovable project?
+Тёмная киберпанк-эстетика, неоновые акценты. Используйте только семантические токены
+из `index.css` / `tailwind.config.ts`:
 
-Yes, you can!
+- `text-primary` (cyan), `text-secondary` (purple), `text-accent` (pink)
+- `bg-card/60 backdrop-blur-sm`, `border-primary/30`
+- `hover:shadow-glow-cyan`, `hover:shadow-glow-purple`
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Никаких `#hex` или `text-blue-500` в компонентах.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Контентные компоненты
+
+- Код — `<CyberCodeBlock language="..." filename="...">`
+- Формулы — `<Math display>{"\\KaTeX"}</Math>`
+- Квизы — `<Quiz questions={[...]} />`
+- Урок — `<LessonLayout lessonId lessonNumber lessonTitle prevLesson nextLesson level={1|2|3}>`
+
+Уровень 2 автоматически получает оформление урока 2.6 (градиентный заголовок,
+карточный wrapper, неоновый ScrollProgressBar).
+
+## Деплой
+
+Push в `main` → автоматический деплой через Vercel.
+Lovable Preview — для итераций без публикации.
