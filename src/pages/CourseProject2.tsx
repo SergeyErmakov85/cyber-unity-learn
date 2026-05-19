@@ -13,6 +13,7 @@ import PBRSPotentialField from "@/components/project-2/PBRSPotentialField";
 import RewardHackSignatures from "@/components/project-2/RewardHackSignatures";
 import ParallelArenaScaling from "@/components/project-2/ParallelArenaScaling";
 import TensorBoardMetricsPanel from "@/components/project-2/TensorBoardMetricsPanel";
+import RewardSandbox from "@/components/project-2/RewardSandbox";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
