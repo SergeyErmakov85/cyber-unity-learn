@@ -13,6 +13,7 @@ import PBRSPotentialField from "@/components/project-2/PBRSPotentialField";
 import RewardHackSignatures from "@/components/project-2/RewardHackSignatures";
 import ParallelArenaScaling from "@/components/project-2/ParallelArenaScaling";
 import TensorBoardMetricsPanel from "@/components/project-2/TensorBoardMetricsPanel";
+import RewardSandbox from "@/components/project-2/RewardSandbox";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
@@ -1773,6 +1774,32 @@ const CourseProject2 = () => {
         </div>
       </section>
 
+      {/* ── Секция: Песочница награды (наполнено) ─────────────────────────── */}
+      <section
+        id="reward-sandbox"
+        className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-4"
+        style={{ border: `1px solid ${BORDER}`, background: SURFACE }}
+      >
+        <SectionHeading>Песочница награды</SectionHeading>
+        <p style={{ color: DIM, fontSize: 15, lineHeight: 1.7 }}>
+          Награда — это контракт с PPO. Покрутите компоненты и посмотрите, где
+          Охотник начинает хакать reward, а где честно учится ловить цель.
+        </p>
+
+        <RewardSandbox />
+
+        <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+          Теория, почему PBRS не ломает оптимум —{" "}
+          <a
+            href="#reward-shaping"
+            style={{ color: CYAN, textDecoration: "underline", textUnderlineOffset: 2 }}
+          >
+            раздел «Формирование награды»
+          </a>
+          .
+        </p>
+      </section>
+
       {/* ── Прочие пустые секции-якоря под будущий контент ────────────────── */}
       <section className="space-y-6">
         {SECTIONS.filter(
@@ -1783,7 +1810,8 @@ const CourseProject2 = () => {
             s.id !== "reward-shaping" &&
             s.id !== "parallel-envs" &&
             s.id !== "training-monitoring" &&
-            s.id !== "working-artifacts",
+            s.id !== "working-artifacts" &&
+            s.id !== "reward-sandbox",
         ).map((s) => (
           <section
             key={s.id}
