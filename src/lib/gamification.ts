@@ -100,6 +100,8 @@ export function completeLesson(path: string): { xp: number; newBadges: Badge[] }
   p.xp += 50;
   const newBadges = checkBadges(p);
   save(p);
+  // Mirror into slug-based store (useLearningProgress) for sequential unlocking
+  syncSlugStoreFromPath(path);
   return { xp: 50, newBadges };
 }
 
