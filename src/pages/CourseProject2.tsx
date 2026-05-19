@@ -3,6 +3,7 @@ import ProGate from "@/components/ProGate";
 import HubLink from "@/components/math-rl/HubLink";
 import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiagram";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
+import Math from "@/components/Math";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
@@ -551,7 +552,7 @@ const CourseProject2 = () => {
             — диагональную гауссову политику без{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-сжатия.
             На практике это значит одну неприятную вещь: семпл из{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>N(μ, σ²)</span>{" "}
+            <Math display={false}>{"\\mathcal{N}(\\mu, \\sigma^{2})"}</Math>{" "}
             формально не ограничен — на хвостах распределения вы получите
             значения вроде <span style={{ fontFamily: MONO, color: TEXT }}>2.7</span>{" "}
             или <span style={{ fontFamily: MONO, color: TEXT }}>−3.1</span>, а
@@ -584,10 +585,10 @@ const CourseProject2 = () => {
             растёт вместо падения, и PPO долго не сходится.
           </p>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
-            Формальное определение{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>π(a|s) = N(μ(s), diag σ²(s))</span>,
+            Формальное определение
+            <Math>{"\\pi_{\\theta}(a \\mid s) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(s),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(s)\\big)"}</Math>
             reparameterization trick, вывод{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>log π(a|s)</span> и
+            <Math display={false}>{"\\log \\pi(a \\mid s)"}</Math> и
             якобиана <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-squashing
             (когда его всё-таки включают) — в хабе:{" "}
             <HubLink
@@ -638,30 +639,32 @@ const CourseProject2 = () => {
           </h3>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             В мире Охотника{" "}
-            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>V(s)</span>{" "}
+            <Math display={false}>{"V(s)"}</Math>{" "}
             — это «насколько хороша текущая позиция», ожидаемая сумма будущих
             наград, если дальше действовать по нынешней политике. Critic-сеть
             PPO учится её предсказывать прямо во время обучения. Из неё
             считается{" "}
-            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>A(s,a)</span>{" "}
+            <Math display={false}>{"A(s,a)"}</Math>{" "}
             — преимущество действия: «насколько именно этот рывок оказался
             лучше, чем в среднем из этой позиции». Если действие догнало цель —{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>A</span> положительное,
+            <Math display={false}>{"A"}</Math> положительное,
             политика смещается в его сторону.
           </p>
+          <Math>{"V^{\\pi}(s) = \\mathbb{E}_{\\pi}\\!\\left[\\, r_t + \\gamma V^{\\pi}(s_{t+1}) \\mid s_t = s \\right]"}</Math>
+          <Math>{"A^{\\pi}(s,a) = Q^{\\pi}(s,a) - V^{\\pi}(s)"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
-            <span style={{ fontFamily: MONO, color: TEXT }}>A</span> можно
+            <Math display={false}>{"A"}</Math> можно
             считать одним шагом (шумно) или всем эпизодом (запоздало). GAE даёт
             непрерывную ручку{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>λ ∈ [0, 1]</span>{" "}
             между этими крайностями — компромисс bias / variance, который для
             Охотника решает, сходится ли обучение за 1М шагов или за 5М.
           </p>
+          <Math>{"\\delta_t = r_t + \\gamma V(s_{t+1}) - V(s_t)"}</Math>
+          <Math>{"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\gamma\\lambda)^{l}\\, \\delta_{t+l}"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Сама же сумма дисконтированных наград{" "}
-            <span style={{ fontFamily: MONO, color: TEXT, fontSize: 17 }}>
-              Σ γᵏ rₜ₊ₖ
-            </span>{" "}
+            <Math display={false}>{"G_t = \\sum_{k=0}^{\\infty} \\gamma^{k}\\, r_{t+k}"}</Math>{" "}
             конечна именно потому, что{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>γ &lt; 1</span> — это
             та самая геометрическая прогрессия, без которой бесконечные эпизоды
@@ -713,7 +716,7 @@ const CourseProject2 = () => {
             </li>
             <li>
               Сходимость{" "}
-              <span style={{ fontFamily: MONO, color: TEXT }}>Σ γᵏ r</span> и
+              <Math display={false}>{"\\sum_{k} \\gamma^{k} r"}</Math> и
               смысл дисконта:{" "}
               <HubLink
                 to="/hub/math-rl"
@@ -951,19 +954,9 @@ const CourseProject2 = () => {
             <li>
               <span style={{ color: TEXT }}>Potential-based shaping (PBRS)</span>{" "}
               на расстоянии до цели:
-              <div
-                className="mt-2 p-3 rounded-md overflow-x-auto"
-                style={{
-                  border: `1px solid ${BORDER}`,
-                  background: "rgba(0,0,0,0.35)",
-                  fontFamily: MONO,
-                  color: TEXT,
-                  fontSize: 17,
-                  lineHeight: 1.7,
-                }}
-              >
-                Φ(s) = −d(s) / maxDist <br />
-                F(s, s′) = γ · Φ(s′) − Φ(s)
+              <div className="mt-2 space-y-1">
+                <Math>{"\\Phi(s) = -\\dfrac{d(s)}{d_{\\max}}"}</Math>
+                <Math>{"F(s, s') = \\gamma\\,\\Phi(s') - \\Phi(s)"}</Math>
               </div>
               <p className="mt-2" style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
                 По модулю на шаг — около{" "}
@@ -1018,12 +1011,13 @@ const CourseProject2 = () => {
           </p>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             PBRS-форма{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>F = γΦ(s′) − Φ(s)</span>{" "}
+            <Math display={false}>{"F = \\gamma\\,\\Phi(s') - \\Phi(s)"}</Math>{" "}
             отличается тем, что её сумма по любому замкнутому циклу телескопически
             сходится в ноль: за «кружение» вокруг цели накопить плюсов нельзя.
             При этом «приближение к цели» по-прежнему даёт положительный сигнал —
             ровно тогда, когда оно реально приближение.
           </p>
+          <Math>{"\\sum_{t=0}^{T-1} \\gamma^{t}\\, F(s_t, s_{t+1}) = \\gamma^{T}\\Phi(s_T) - \\Phi(s_0)"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Формальное обоснование (теорема Ng – Harada – Russell, 1999) и его
             расширения — в хабе:{" "}
@@ -1359,11 +1353,11 @@ const CourseProject2 = () => {
           Почему PPO принципиально нуждается в свежем опыте от всех этих
           параллельных Охотников и не может, как SAC, переиспользовать старый
           replay buffer — это вопрос on-policy vs off-policy и importance
-          sampling{" "}
-          <span style={{ fontFamily: MONO, color: TEXT }}>
-            rₜ(θ) = π(a|s) / π_old(a|s)
-          </span>
-          . Формальный разбор — в хабе:{" "}
+          sampling:
+        </p>
+        <Math>{"r_t(\\theta) = \\dfrac{\\pi_{\\theta}(a_t \\mid s_t)}{\\pi_{\\theta_{\\mathrm{old}}}(a_t \\mid s_t)}"}</Math>
+        <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+          Формальный разбор — в хабе:{" "}
           <HubLink
             to="/hub/math-rl"
             anchor="todo-on-policy-vs-off-policy"
@@ -1692,7 +1686,9 @@ const CourseProject2 = () => {
             с PBRS-shaping. <span style={{ color: TEXT }}>Mathf.Clamp обязателен</span>:
             ML-Agents PPO использует un-squashed гауссиану и формально не
             гарантирует <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span>.
+            Из этих rewards PPO собирает clipped surrogate objective:
           </p>
+          <Math>{"L^{\\mathrm{CLIP}}(\\theta) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(r_t(\\theta)\\hat{A}_t,\\ \\operatorname{clip}(r_t(\\theta), 1-\\varepsilon, 1+\\varepsilon)\\hat{A}_t\\big)\\right]"}</Math>
           <CyberCodeBlock language="csharp" filename="HunterAgent.cs">
 {`public class HunterAgent : Agent
 {
