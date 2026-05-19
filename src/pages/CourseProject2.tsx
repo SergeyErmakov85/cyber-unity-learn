@@ -12,6 +12,7 @@ import PPOClipViz from "@/components/project-2/PPOClipViz";
 import PBRSPotentialField from "@/components/project-2/PBRSPotentialField";
 import RewardHackSignatures from "@/components/project-2/RewardHackSignatures";
 import ParallelArenaScaling from "@/components/project-2/ParallelArenaScaling";
+import TensorBoardMetricsPanel from "@/components/project-2/TensorBoardMetricsPanel";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
