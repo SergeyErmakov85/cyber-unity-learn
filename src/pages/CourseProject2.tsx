@@ -1043,6 +1043,7 @@ const CourseProject2 = () => {
             При этом «приближение к цели» по-прежнему даёт положительный сигнал —
             ровно тогда, когда оно реально приближение.
           </p>
+          <PBRSPotentialField />
           <Math>{"\\sum_{t=0}^{T-1} \\gamma^{t}\\, F(s_t, s_{t+1}) = \\gamma^{T}\\Phi(s_T) - \\Phi(s_0)"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Формальное обоснование (теорема Ng – Harada – Russell, 1999) и его
