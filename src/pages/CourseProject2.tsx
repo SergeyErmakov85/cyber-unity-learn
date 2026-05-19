@@ -2,6 +2,7 @@ import LessonLayout from "@/components/LessonLayout";
 import ProGate from "@/components/ProGate";
 import HubLink from "@/components/math-rl/HubLink";
 import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiagram";
+import HunterArenaDiagram from "@/components/project-2/HunterArenaDiagram";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
