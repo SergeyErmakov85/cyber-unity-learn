@@ -1178,6 +1178,8 @@ const CourseProject2 = () => {
             </table>
           </div>
 
+          <RewardHackSignatures />
+
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Эти три кейса — частные случаи общей проблемы reward misspecification
             и закона Гудхарта применительно к RL: формальный разбор и каталог
