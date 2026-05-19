@@ -300,9 +300,9 @@ const ObservationVectorViz = () => {
           overflowX: "auto",
         }}
       >
-        <Math display={false}>
+        <MathTex display={false}>
           {"\\hat{x} = \\operatorname{clip}\\!\\left(\\dfrac{x}{x_{\\max}},\\, -1,\\, 1\\right)"}
-        </Math>
+        </MathTex>
       </div>
 
       <p
