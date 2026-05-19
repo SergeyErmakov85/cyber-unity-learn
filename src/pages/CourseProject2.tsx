@@ -5,6 +5,7 @@ import HunterParallelismDiagram from "@/components/math-rl/HunterParallelismDiag
 import HunterArenaDiagram from "@/components/project-2/HunterArenaDiagram";
 import RaySensorViz from "@/components/project-2/RaySensorViz";
 import ObservationVectorViz from "@/components/project-2/ObservationVectorViz";
+import GaussianPolicyClampViz from "@/components/project-2/GaussianPolicyClampViz";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
@@ -589,7 +590,9 @@ const CourseProject2 = () => {
             <br />
             <span style={{ color: MUTED }}>float</span> yaw&nbsp;&nbsp;&nbsp; = Mathf.Clamp(actions.ContinuousActions[1], -1f, 1f);
           </div>
+          <GaussianPolicyClampViz />
           <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>
+
             Без этого клэмпа Охотник на первых эпизодах раз в ~50 шагов
             получает «реактивный буст» от хвостовой выборки гауссианы — кривая
             <span style={{ fontFamily: MONO, color: TEXT }}> Policy/Entropy</span>{" "}
