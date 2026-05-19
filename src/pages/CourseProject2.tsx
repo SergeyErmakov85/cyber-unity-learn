@@ -716,7 +716,7 @@ const CourseProject2 = () => {
             </li>
             <li>
               Сходимость{" "}
-              <span style={{ fontFamily: MONO, color: TEXT }}>Σ γᵏ r</span> и
+              <Math display={false}>{"\\sum_{k} \\gamma^{k} r"}</Math> и
               смысл дисконта:{" "}
               <HubLink
                 to="/hub/math-rl"
