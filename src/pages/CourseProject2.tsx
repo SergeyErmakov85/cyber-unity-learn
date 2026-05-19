@@ -588,7 +588,7 @@ const CourseProject2 = () => {
             Формальное определение
             <Math>{"\\pi_{\\theta}(a \\mid s) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(s),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(s)\\big)"}</Math>
             reparameterization trick, вывод{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>log π(a|s)</span> и
+            <Math display={false}>{"\\log \\pi(a \\mid s)"}</Math> и
             якобиана <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-squashing
             (когда его всё-таки включают) — в хабе:{" "}
             <HubLink
