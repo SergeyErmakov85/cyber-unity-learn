@@ -355,7 +355,18 @@ const LessonLayout = ({
           )}
 
           {/* Lesson body */}
-          <article className="prose-cyber space-y-6">{children}</article>
+          {/* Lesson body */}
+          <article
+            className={cn(
+              "prose-cyber space-y-6",
+              isLevel2 &&
+                "bg-card/60 backdrop-blur-sm rounded-2xl border border-cyan-500/10 p-6 md:p-10"
+            )}
+          >
+            {children}
+          </article>
+          {/* removed: original article wrapper */}
+          {false && <article className="prose-cyber space-y-6">{children}</article>}
 
           {/* Crosslinks section */}
           {crossLinkGroups.length > 0 && (
