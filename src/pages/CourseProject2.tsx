@@ -1280,6 +1280,8 @@ const CourseProject2 = () => {
           тот же общий буфер.
         </p>
 
+        <ParallelArenaScaling />
+
         {/* Общий Behavior и буфер */}
         <div
           className="p-5 rounded-lg space-y-3"
