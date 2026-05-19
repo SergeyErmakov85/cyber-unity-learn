@@ -92,18 +92,11 @@ const CourseLesson1_5 = () => {
         "Epsilon-greedy стратегия: exploration ↔ exploitation",
       ]}
     >
-      {/* Colab button */}
+      {/* Colab button — placeholder */}
       <div className="flex justify-end">
-        <Button variant="outline" size="sm" asChild>
-          <a
-            href="https://colab.research.google.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            Открыть в Google Colab
-          </a>
+        <Button variant="outline" size="sm" disabled className="flex items-center gap-2 opacity-60">
+          <ExternalLink className="w-3.5 h-3.5" />
+          Google Colab — скоро
         </Button>
       </div>
 

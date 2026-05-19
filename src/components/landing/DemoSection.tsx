@@ -28,17 +28,17 @@ const DemoSection = () => {
           {/* Demo Video Placeholder */}
           <Card className="bg-card/60 backdrop-blur-sm border-primary/30 overflow-hidden">
             <CardContent className="p-0 h-full">
-              <div className="relative h-full min-h-[320px] overflow-hidden">
-                <video
-                  className="absolute inset-0 w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  src="/videos/demo-unity-agent.mp4"
-                />
+              <div className="relative h-full min-h-[320px] overflow-hidden bg-gradient-to-br from-cyber-dark via-cyber-darker to-cyber-dark flex flex-col items-center justify-center gap-3">
+                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,hsl(var(--primary)/0.3),transparent_60%),radial-gradient(circle_at_70%_70%,hsl(var(--secondary)/0.3),transparent_60%)]" />
+                <div className="relative w-16 h-16 rounded-full border border-primary/40 bg-primary/10 flex items-center justify-center">
+                  <Play className="w-7 h-7 text-primary" />
+                </div>
+                <div className="relative text-sm font-medium text-foreground">Демо-видео скоро</div>
+                <div className="relative text-xs text-muted-foreground max-w-[80%] text-center">
+                  Здесь появится запись обучения агента в Unity-окружении
+                </div>
                 <div className="absolute bottom-4 left-4 px-3 py-1.5 rounded-full bg-card/80 backdrop-blur-sm border border-border/50">
-                  <span className="text-sm text-foreground">Демо: Обучение агента в Unity</span>
+                  <span className="text-xs text-muted-foreground">Placeholder</span>
                 </div>
               </div>
             </CardContent>
