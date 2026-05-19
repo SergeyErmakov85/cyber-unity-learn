@@ -2,21 +2,31 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail, CheckCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const EmailCapture = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    const trimmed = email.trim();
+    const trimmed = email.trim().toLowerCase();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       setError("Введите корректный email");
       return;
     }
-    // TODO: integrate with backend
+    setLoading(true);
+    const { error: dbError } = await supabase
+      .from("email_subscriptions")
+      .insert({ email: trimmed, source: "landing" });
+    setLoading(false);
+    if (dbError && dbError.code !== "23505") {
+      setError("Не удалось подписаться. Попробуйте позже.");
+      return;
+    }
     setSubmitted(true);
   };
 
