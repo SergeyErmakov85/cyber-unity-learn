@@ -355,7 +355,6 @@ const LessonLayout = ({
           )}
 
           {/* Lesson body */}
-          {/* Lesson body */}
           <article
             className={cn(
               "prose-cyber space-y-6",
@@ -365,8 +364,6 @@ const LessonLayout = ({
           >
             {children}
           </article>
-          {/* removed: original article wrapper */}
-          {false && <article className="prose-cyber space-y-6">{children}</article>}
 
           {/* Crosslinks section */}
           {crossLinkGroups.length > 0 && (
