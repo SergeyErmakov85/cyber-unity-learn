@@ -585,8 +585,8 @@ const CourseProject2 = () => {
             растёт вместо падения, и PPO долго не сходится.
           </p>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
-            Формальное определение{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>π(a|s) = N(μ(s), diag σ²(s))</span>,
+            Формальное определение
+            <Math>{"\\pi_{\\theta}(a \\mid s) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(s),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(s)\\big)"}</Math>
             reparameterization trick, вывод{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>log π(a|s)</span> и
             якобиана <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-squashing
