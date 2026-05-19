@@ -7,6 +7,7 @@ import RaySensorViz from "@/components/project-2/RaySensorViz";
 import ObservationVectorViz from "@/components/project-2/ObservationVectorViz";
 import GaussianPolicyClampViz from "@/components/project-2/GaussianPolicyClampViz";
 import DiscreteVsContinuousPath from "@/components/project-2/DiscreteVsContinuousPath";
+import AdvantageGAEViz from "@/components/project-2/AdvantageGAEViz";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 
@@ -689,7 +690,10 @@ const CourseProject2 = () => {
             ломали бы целевую функцию.
           </p>
 
+          <AdvantageGAEViz />
+
           <ul className="mt-2 space-y-2 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+
             <li>
               Формальные{" "}
               <HubLink
