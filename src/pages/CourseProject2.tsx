@@ -1011,12 +1011,13 @@ const CourseProject2 = () => {
           </p>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             PBRS-форма{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>F = γΦ(s′) − Φ(s)</span>{" "}
+            <Math display={false}>{"F = \\gamma\\,\\Phi(s') - \\Phi(s)"}</Math>{" "}
             отличается тем, что её сумма по любому замкнутому циклу телескопически
             сходится в ноль: за «кружение» вокруг цели накопить плюсов нельзя.
             При этом «приближение к цели» по-прежнему даёт положительный сигнал —
             ровно тогда, когда оно реально приближение.
           </p>
+          <Math>{"\\sum_{t=0}^{T-1} \\gamma^{t}\\, F(s_t, s_{t+1}) = \\gamma^{T}\\Phi(s_T) - \\Phi(s_0)"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Формальное обоснование (теорема Ng – Harada – Russell, 1999) и его
             расширения — в хабе:{" "}
