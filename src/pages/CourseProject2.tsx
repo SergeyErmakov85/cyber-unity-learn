@@ -690,7 +690,10 @@ const CourseProject2 = () => {
             ломали бы целевую функцию.
           </p>
 
+          <AdvantageGAEViz />
+
           <ul className="mt-2 space-y-2 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
+
             <li>
               Формальные{" "}
               <HubLink
