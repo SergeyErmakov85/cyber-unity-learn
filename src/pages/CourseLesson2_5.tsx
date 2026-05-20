@@ -217,12 +217,12 @@ const CourseLesson2_5 = () => {
             <p className="text-muted-foreground leading-relaxed mb-3">
               Цель алгоритмов на базе градиента политики — максимизация ожидания дисконтированной награды:
             </p>
-            <Math display>{String.raw`J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \gamma^t \, r(s_t, a_t) \right]`}</Math>
+            <MathFormula display>{String.raw`J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \gamma^t \, r(s_t, a_t) \right]`}</MathFormula>
 
             <p className="text-muted-foreground leading-relaxed mt-3">
               Эмпирический градиент по N траекториям с функцией преимущества <em>A(s,a)</em>:
             </p>
-            <Math display>{String.raw`\nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t^i \mid s_t^i) \, A(s_t^i, a_t^i)`}</Math>
+            <MathFormula display>{String.raw`\nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t^i \mid s_t^i) \, A(s_t^i, a_t^i)`}</MathFormula>
 
             <Card className="bg-card/60 backdrop-blur-sm border-secondary/30 mt-4">
               <CardContent className="p-6">
@@ -238,7 +238,7 @@ const CourseLesson2_5 = () => {
             <p className="text-muted-foreground leading-relaxed mt-4">
               Усечённая (clipped) функция потерь PPO, особо чувствительная к качеству батча:
             </p>
-            <Math display>{String.raw`L^{CLIP}(\theta) = \mathbb{E}_t \left[ \min\left( r_t(\theta) \, \hat{A}_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \, \hat{A}_t \right) \right]`}</Math>
+            <MathFormula display>{String.raw`L^{CLIP}(\theta) = \mathbb{E}_t \left[ \min\left( r_t(\theta) \, \hat{A}_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \, \hat{A}_t \right) \right]`}</MathFormula>
             <p className="text-muted-foreground leading-relaxed text-sm">
               Параметр <code className="text-accent">ε = 0.2</code> ограничивает размер шага. Параллельные среды дают
               устойчивую оценку GAE из разнообразных начальных состояний.
@@ -423,14 +423,14 @@ mlagents-learn config/trainer.yaml \\
 
           <Section id="hyperparams" index={6} title="Масштабирование гиперпараметров">
             <h3 className="text-lg font-bold text-foreground mb-2">Правило buffer_size</h3>
-            <Math display>{String.raw`\text{buffer\_size}_{new} = \text{buffer\_size}_{base} \times \text{num\_envs}`}</Math>
+            <MathFormula display>{String.raw`\text{buffer\_size}_{new} = \text{buffer\_size}_{base} \times \text{num\_envs}`}</MathFormula>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Если базовый буфер для 1 среды = 10240, то для <code className="text-primary">--num-envs=4</code> →
               минимум 40960. Иначе буфер заполняется коррелированным куском данных, и преимущество декорреляции аннулируется.
             </p>
 
             <h3 className="text-lg font-bold text-foreground mt-6 mb-2">Правило batch_size</h3>
-            <Math display>{String.raw`\text{batch\_size} \le \frac{\text{buffer\_size}}{10}`}</Math>
+            <MathFormula display>{String.raw`\text{batch\_size} \le \frac{\text{buffer\_size}}{10}`}</MathFormula>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Continuous PPO: 512–5120. Discrete PPO: 32–512. Батч должен быть как минимум в 10× меньше буфера для
               достаточного стохастического разнообразия мини-батчей внутри <code className="text-accent">num_epoch</code>.
@@ -448,7 +448,7 @@ mlagents-learn config/trainer.yaml \\
             </Card>
 
             <h3 className="text-lg font-bold text-foreground mt-6 mb-2">Компромисс time_horizon</h3>
-            <Math display>{String.raw`\text{time\_horizon} \times N_{agents} \times N_{envs} \le \text{buffer\_size}`}</Math>
+            <MathFormula display>{String.raw`\text{time\_horizon} \times N_{agents} \times N_{envs} \le \text{buffer\_size}`}</MathFormula>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Диапазон 32–2048. Иначе буфер переполнится до завершения локальных горизонтов — расчёт GAE сломается.
             </p>
