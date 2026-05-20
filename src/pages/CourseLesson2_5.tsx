@@ -9,7 +9,7 @@ import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
-import Math from "@/components/Math";
+import MathFormula from "@/components/Math";
 import SectionNav, { SectionNavItem } from "@/components/SectionNav";
 import TldrBox from "@/components/ui/TldrBox";
 import { Card, CardContent } from "@/components/ui/card";
