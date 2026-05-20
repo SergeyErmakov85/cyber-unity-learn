@@ -254,16 +254,21 @@ const LessonLayout = ({
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8 flex gap-8">
-        {/* Sidebar — desktop only */}
-        <aside className="hidden lg:block w-64 flex-shrink-0">
-          <div className="sticky top-20 space-y-4 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2">
-            <SidebarContent currentPath={location.pathname} />
-          </div>
-        </aside>
+      <div className={cn(
+        "container mx-auto px-4 py-8 flex gap-8",
+        isLevel2 && "max-w-5xl"
+      )}>
+        {/* Sidebar — desktop only (hidden for Level 2 to match lesson 2.6 width) */}
+        {!isLevel2 && (
+          <aside className="hidden lg:block w-64 flex-shrink-0">
+            <div className="sticky top-20 space-y-4 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2">
+              <SidebarContent currentPath={location.pathname} />
+            </div>
+          </aside>
+        )}
 
         {/* Main content */}
-        <main className="flex-1 min-w-0 max-w-3xl">
+        <main className={cn("flex-1 min-w-0", !isLevel2 && "max-w-3xl")}>
           <LessonBreadcrumbs items={breadcrumbItems} />
 
           {/* Lesson header */}
