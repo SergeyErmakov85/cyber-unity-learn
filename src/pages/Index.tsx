@@ -47,13 +47,15 @@ const Index = () => {
       <AudienceSection />
       <DemoSection />
       <UniqueValueSection />
-      <LearningPathSection />
-      <FinalCTASection />
-      <TestimonialSection />
-      <EmailCapture />
-      <AboutMeSection />
-      <OpenLearningSection />
-      <FooterSection />
+      <div className="-mt-[2cm]">
+        <LearningPathSection />
+        <FinalCTASection />
+        <TestimonialSection />
+        <EmailCapture />
+        <AboutMeSection />
+        <OpenLearningSection />
+        <FooterSection />
+      </div>
     </div>);
 
 };
