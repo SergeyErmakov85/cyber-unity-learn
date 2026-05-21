@@ -21,7 +21,7 @@ const values = [
     icon: FlaskConical,
     title: "Научный\nподход",
     description: "Следуем лучшим практикам из исследований. Алгоритмы реализованы согласно оригинальным статьям с понятными объяснениями",
-    color: "accent" as const,
+    color: "yellow" as const,
     link: "/hub/research",
   },
   {
@@ -42,7 +42,7 @@ const values = [
     icon: Zap,
     title: "Практика\nс первого дня",
     description: "Никакой месячной подготовки. Запустите первого агента в первый же день обучения и сразу увидите результаты",
-    color: "accent" as const,
+    color: "green" as const,
     link: "/courses/1-1",
   },
 ];
@@ -71,6 +71,22 @@ const colorConfig = {
     glow: "hsla(var(--accent), 0.6)",
     fill: "transparent",
     fillActive: "hsla(var(--accent), 0.32)",
+  },
+  yellow: {
+    number: "text-yellow-400",
+    text: "text-yellow-400",
+    stroke: "hsl(48 96% 53%)",
+    glow: "hsla(48, 96%, 53%, 0.6)",
+    fill: "transparent",
+    fillActive: "hsla(48, 96%, 53%, 0.32)",
+  },
+  green: {
+    number: "text-green-400",
+    text: "text-green-400",
+    stroke: "hsl(142 71% 45%)",
+    glow: "hsla(142, 71%, 45%, 0.6)",
+    fill: "transparent",
+    fillActive: "hsla(142, 71%, 45%, 0.32)",
   },
 };
 
