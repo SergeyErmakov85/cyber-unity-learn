@@ -264,7 +264,7 @@ const UniqueValueSection = () => {
                   className="text-center px-4 py-3 rounded-xl border backdrop-blur-sm transition-all duration-300"
                   style={{
                     borderColor: colorConfig[values[openIndex].color].stroke,
-                    background: "hsla(var(--background), 0.7)",
+                    background: "hsl(var(--background) / 0.7)",
                     boxShadow: `0 0 24px ${colorConfig[values[openIndex].color].glow}`,
                   }}
                 >
