@@ -1,281 +1,221 @@
-import LessonLayout from "@/components/LessonLayout";
-import CrossLinkToHub from "@/components/CrossLinkToHub";
-import ProGate from "@/components/ProGate";
-import CyberCodeBlock from "@/components/CyberCodeBlock";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Target, Trophy, CheckCircle2, ExternalLink, Download } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Home, ChevronRight, CheckCircle2 } from "lucide-react";
+import ProGate from "@/components/ProGate";
+import LessonHeader from "@/components/LessonHeader";
+import SectionNav, { SectionNavItem } from "@/components/SectionNav";
+import NextPrevLesson from "@/components/NextPrevLesson";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+import SEOHead from "@/components/SEOHead";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
+import IntroSection from "@/components/racing-agent/IntroSection";
+import Section2Setup from "@/components/racing-agent/Section2Setup";
+import Section3Sensors from "@/components/racing-agent/Section3Sensors";
+import Section4Agent from "@/components/racing-agent/Section4Agent";
+import Section5Rewards from "@/components/racing-agent/Section5Rewards";
+import Section6Algorithms from "@/components/racing-agent/Section6Algorithms";
+import Section7TensorBoard from "@/components/racing-agent/Section7TensorBoard";
+import Section8BestPractices from "@/components/racing-agent/Section8BestPractices";
+import Section9FAQ from "@/components/racing-agent/Section9FAQ";
+import Section10Conclusion from "@/components/racing-agent/Section10Conclusion";
+
+const SECTIONS: SectionNavItem[] = [
+  { id: "intro",           label: "Введение и теория" },
+  { id: "setup",           label: "Настройка окружения" },
+  { id: "sensors",         label: "Сенсоры" },
+  { id: "agent",           label: "Логика агента (C#)" },
+  { id: "rewards",         label: "Система наград" },
+  { id: "algorithms",      label: "Алгоритмы" },
+  { id: "tensorboard",     label: "TensorBoard" },
+  { id: "best-practices",  label: "Best Practices" },
+  { id: "faq",             label: "FAQ" },
+  { id: "conclusion",      label: "Заключение" },
+];
+
+const SECTION_CLASS =
+  "scroll-mt-24 py-16 px-6 md:px-10 bg-card/60 backdrop-blur-sm rounded-2xl border border-cyan-500/10";
+const SECTION_TITLE_CLASS =
+  "text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-6";
+
+const SECTION_VARIANTS = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const CompleteButton = () => {
+  const [done, setDone] = useState<boolean>(() => isLessonComplete("project-3"));
+
+  useEffect(() => {
+    if (done) return;
+    const onScroll = () => {
+      const h = document.documentElement;
+      const pct = (window.scrollY / (h.scrollHeight - window.innerHeight)) * 100;
+      if (pct >= 90) {
+        markLessonComplete("project-3");
+        setDone(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [done]);
+
+  return (
+    <Button
+      onClick={() => { markLessonComplete("project-3"); setDone(true); }}
+      disabled={done}
+      size="lg"
+      className="w-full md:w-auto bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white font-semibold shadow-[0_0_24px_hsl(var(--primary)/0.45)] hover:shadow-[0_0_32px_hsl(280_85%_65%/0.55)] hover:scale-[1.02] transition-all disabled:opacity-80 disabled:cursor-default"
+    >
+      {done ? (
+        <><CheckCircle2 className="w-5 h-5 mr-2" />Пройдено</>
+      ) : (
+        <>Отметить как пройденный ✓</>
+      )}
+    </Button>
+  );
+};
+
+const Section6Preview = () => (
+  <div className="space-y-4">
+    <p className="text-muted-foreground leading-relaxed">
+      Полный математический разбор PPO (clipped surrogate objective, GAE) и SAC (soft Bellman equation, максимизация
+      энтропии), сравнительная таблица алгоритмов, эмпирически оптимизированные YAML-конфиги и исследование
+      гиперпараметров (Savid et al. 2023).
+    </p>
+    <div className="text-sm text-muted-foreground space-y-1 opacity-40 blur-[3px] select-none pointer-events-none" aria-hidden>
+      <p>L^CLIP(θ) = E[min(r_t(θ)A_t, clip(r_t(θ), 1−ε, 1+ε)A_t)]</p>
+      <p>batch_size: 128 | learning_rate: 3e-4 | gamma: 0.99 | beta: 0.01</p>
+      <p>SAC: J(π) = E[r + α·H(π)] | replay buffer 200 000 | tau: 0.005</p>
+    </div>
+  </div>
+);
+
+const Section8Preview = () => (
+  <div className="space-y-4">
+    <p className="text-muted-foreground leading-relaxed">
+      Советы по параллельным тренировочным аренам (8–16 копий), настройке time scale, curriculum learning,
+      imitation learning для холодного старта, расположению чекпоинтов и Decision Period.
+    </p>
+    <div className="text-sm text-muted-foreground space-y-1 opacity-40 blur-[3px] select-none pointer-events-none" aria-hidden>
+      <p>TrainingAreaReplicator: ~2× ускорение при 8 параллельных аренах</p>
+      <p>time_scale: 20 (обучение) → 1 (инференс); fixedDeltaTime = 0.02</p>
+      <p>Curriculum: короткая подтрасса → полный круг | Demo Recorder → BC</p>
+    </div>
+  </div>
+);
 
 const CourseProject3 = () => {
-  const preview = (
+  const content = (
     <>
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">Задание</h2>
-        <p className="text-muted-foreground leading-relaxed">
-          Создайте <CrossLinkToHub hubPath="/unity-projects/racing" hubTitle="Проект Racing Car">гоночного агента</CrossLinkToHub> в Unity, который управляет машинкой с непрерывным рулевым
-          управлением и газом/тормозом. Агент должен проехать полный круг по трассе с чекпоинтами,
-          не вылетая за пределы дороги.
-        </p>
-        <p className="text-muted-foreground leading-relaxed mt-3">
-          Проект использует <CrossLinkToHub hubPath="/unity-ml-agents" hubAnchor="neural-networks" hubTitle="Unity ML-Agents — Нейросети">Ray Perception Sensors</CrossLinkToHub> для «зрения» агента, checkpoint-систему наград
-          и SAC/PPO для обучения непрерывному управлению.
-        </p>
-      </section>
+      {/* Breadcrumbs */}
+      <nav aria-label="Хлебные крошки" className="mb-6">
+        <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+          <li>
+            <Link to="/" className="hover:text-cyan-400 inline-flex items-center gap-1">
+              <Home className="w-3.5 h-3.5" aria-hidden="true" />
+              Главная
+            </Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li>
+            <Link to="/courses" className="hover:text-cyan-400">Курс</Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li>
+            <Link to="/courses#level-2" className="hover:text-cyan-400">Уровень 2</Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li className="text-foreground" aria-current="page">Проект 3</li>
+        </ol>
+      </nav>
+
+      <LessonHeader
+        title="Автономный гоночный агент на Unity ML-Agents"
+        subtitle="MDP → SOLID C# архитектура → Ray Sensors → Reward Shaping → PPO/SAC. Учебное руководство МГППУ."
+        estimatedMinutes={180}
+      />
+
+      <SectionNav items={SECTIONS} />
+
+      <div id="lesson-content" className="space-y-8 mt-8">
+        {SECTIONS.map((s, i) => (
+          <motion.section
+            key={s.id}
+            id={s.id}
+            className={SECTION_CLASS}
+            variants={SECTION_VARIANTS}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: Math.min(i * 0.05, 0.25) }}
+          >
+            <h2 className={`${SECTION_TITLE_CLASS} text-2xl md:text-3xl`}>{s.label}</h2>
+            {s.id === "intro" ? (
+              <IntroSection />
+            ) : s.id === "setup" ? (
+              <Section2Setup />
+            ) : s.id === "sensors" ? (
+              <Section3Sensors />
+            ) : s.id === "agent" ? (
+              <Section4Agent />
+            ) : s.id === "rewards" ? (
+              <Section5Rewards />
+            ) : s.id === "algorithms" ? (
+              <ProGate preview={<Section6Preview />}>
+                <Section6Algorithms />
+              </ProGate>
+            ) : s.id === "tensorboard" ? (
+              <Section7TensorBoard />
+            ) : s.id === "best-practices" ? (
+              <ProGate preview={<Section8Preview />}>
+                <Section8BestPractices />
+              </ProGate>
+            ) : s.id === "faq" ? (
+              <Section9FAQ />
+            ) : s.id === "conclusion" ? (
+              <Section10Conclusion />
+            ) : null}
+          </motion.section>
+        ))}
+      </div>
+
+      <Card className="mt-8 border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm">
+        <CardContent className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">Дочитали до конца? Зафиксируйте прогресс и получите XP.</p>
+          <CompleteButton />
+        </CardContent>
+      </Card>
+
+      <NextPrevLesson
+        prev={{ title: "Проект 2: 3D-охотник", path: "/courses/project-2" }}
+        next={{ title: "Урок 3.1: SAC", path: "/courses/3-1" }}
+      />
     </>
   );
 
   return (
-    <LessonLayout
-      lessonId="project-3"
-      lessonTitle="Гоночный агент с непрерывным управлением"
-      lessonNumber="П3"
-      duration="120–180 мин"
-      tags={["#project", "#unity", "#sac", "#racing"]}
-      level={2}
-      prevLesson={{ path: "/courses/project-2", title: "Проект 2" }}
-    >
-      <ProGate preview={preview}>
-        {preview}
-
-        {/* Environment */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Описание среды</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {[
-              { label: "Трасса", value: "Замкнутый контур с поворотами разной сложности" },
-              { label: "Агент", value: "Машинка с WheelColliders, Rigidbody" },
-              { label: "Сенсоры", value: "Ray Perception: 9 лучей, дальность 20м, угол 180°" },
-              { label: "Наблюдения", value: "11: 9 ray distances + скорость + угол к следующему checkpoint" },
-              { label: "Действия", value: "2 непрерывных: steering [-1,1], throttle [-1,1]" },
-              { label: "Чекпоинты", value: "12 на круг, триггеры-коллайдеры" },
-            ].map((item, i) => (
-              <div key={i} className="p-3 rounded-lg bg-card/40 border border-border/30">
-                <p className="text-xs text-primary font-semibold">{item.label}</p>
-                <p className="text-sm text-muted-foreground mt-1">{item.value}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Reward */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Checkpoint-система наград</h2>
-          <Card className="bg-card/40 border-primary/20">
-            <CardContent className="p-5">
-              <div className="flex items-start gap-3 mb-4">
-                <Target className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                <h3 className="font-bold text-foreground">Reward Structure</h3>
-              </div>
-              <div className="space-y-2">
-                {[
-                  { reward: "+1.0", event: "Прохождение очередного чекпоинта" },
-                  { reward: "+5.0", event: "Завершение полного круга" },
-                  { reward: "-0.001", event: "Каждый шаг (мотивация к скорости)" },
-                  { reward: "-1.0", event: "Вылет за пределы трассы" },
-                  { reward: "+speed×0.001", event: "Бонус за скорость в правильном направлении" },
-                  { reward: "-0.01", event: "Движение задним ходом (wrong way)" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-sm">
-                    <span className="font-mono text-xs text-primary w-24 text-right">{item.reward}</span>
-                    <span className="text-muted-foreground">{item.event}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Agent script */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Starter-код</h2>
-          <CyberCodeBlock language="csharp" filename="RacingAgent.cs">
-{`using Unity.MLAgents;
-using Unity.MLAgents.Actuators;
-using Unity.MLAgents.Sensors;
-using UnityEngine;
-
-public class RacingAgent : Agent
-{
-    public Transform[] checkpoints;
-    public float maxSpeed = 30f;
-    private Rigidbody rb;
-    private int currentCheckpoint = 0;
-
-    public override void Initialize()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    public override void OnEpisodeBegin()
-    {
-        transform.localPosition = checkpoints[0].position;
-        transform.localRotation = checkpoints[0].rotation;
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        currentCheckpoint = 1;
-    }
-
-    public override void CollectObservations(VectorSensor sensor)
-    {
-        // Скорость (нормализованная)
-        sensor.AddObservation(rb.velocity.magnitude / maxSpeed);
-
-        // Направление к следующему чекпоинту
-        Vector3 toCheckpoint = (checkpoints[currentCheckpoint].position
-            - transform.position).normalized;
-        float angle = Vector3.SignedAngle(
-            transform.forward, toCheckpoint, Vector3.up) / 180f;
-        sensor.AddObservation(angle);
-
-        // Ray Perception добавляет остальные наблюдения автоматически
-    }
-
-    public override void OnActionReceived(ActionBuffers actions)
-    {
-        float steering = actions.ContinuousActions[0];
-        float throttle = actions.ContinuousActions[1];
-
-        // Применяем управление
-        ApplyCarControl(steering, throttle);
-
-        // Бонус за скорость в правильном направлении
-        Vector3 toCP = (checkpoints[currentCheckpoint].position
-            - transform.position).normalized;
-        float alignment = Vector3.Dot(rb.velocity.normalized, toCP);
-        AddReward(alignment * rb.velocity.magnitude * 0.001f);
-
-        // Штраф за время
-        AddReward(-0.001f);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Checkpoint"))
-        {
-            AddReward(1.0f);
-            currentCheckpoint = (currentCheckpoint + 1) % checkpoints.Length;
-
-            if (currentCheckpoint == 0)
-            {
-                AddReward(5.0f); // Полный круг!
-                EndEpisode();
-            }
-        }
-        else if (other.CompareTag("Wall"))
-        {
-            AddReward(-1.0f);
-            EndEpisode();
-        }
-    }
-
-    private void ApplyCarControl(float steering, float throttle)
-    {
-        // TODO: реализуйте через WheelColliders или AddForce
-        rb.AddForce(transform.forward * throttle * 20f);
-        transform.Rotate(0, steering * 100f * Time.fixedDeltaTime, 0);
-    }
-
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var c = actionsOut.ContinuousActions;
-        c[0] = Input.GetAxis("Horizontal");
-        c[1] = Input.GetAxis("Vertical");
-    }
-}`}
-          </CyberCodeBlock>
-
-          <CyberCodeBlock language="python" filename="racing_config.yaml">
-{`behaviors:
-  RacingAgent:
-    trainer_type: ppo          # или sac для лучших результатов
-    hyperparameters:
-      batch_size: 2048
-      buffer_size: 20480
-      learning_rate: 3.0e-4
-      beta: 5.0e-3
-      epsilon: 0.2
-      lambd: 0.95
-      num_epoch: 3
-    network_settings:
-      normalize: true
-      hidden_units: 256
-      num_layers: 3
-    reward_signals:
-      extrinsic:
-        gamma: 0.995           # Высокий γ для долгосрочного планирования
-        strength: 1.0
-    max_steps: 2000000
-    time_horizon: 128
-    summary_freq: 10000`}
-          </CyberCodeBlock>
-
-          <div className="flex gap-3 mt-4 flex-wrap">
-            <Button variant="outline" size="sm" asChild>
-              <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <ExternalLink className="w-3.5 h-3.5" />
-                Unity Package
-              </a>
-            </Button>
-            <Button variant="ghost" size="sm" className="flex items-center gap-2">
-              <Download className="w-3.5 h-3.5" />
-              Скачать YAML
-            </Button>
-          </div>
-        </section>
-
-        {/* Success criteria */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Критерии успеха</h2>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border/50">
-                  <th className="text-left py-2 px-3 text-muted-foreground">Метрика</th>
-                  <th className="text-left py-2 px-3 text-muted-foreground">Минимум</th>
-                  <th className="text-left py-2 px-3 text-muted-foreground">Хорошо</th>
-                  <th className="text-left py-2 px-3 text-primary">Отлично</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  { m: "Завершение круга", min: "> 50%", good: "> 80%", great: "> 95%" },
-                  { m: "Время на круг", min: "< 60с", good: "< 40с", great: "< 30с" },
-                  { m: "Шаги обучения", min: "< 2M", good: "< 1M", great: "< 500k" },
-                  { m: "Среднее число чекпоинтов", min: "> 8/12", good: "> 10/12", great: "12/12" },
-                ].map((row, i) => (
-                  <tr key={i} className="border-b border-border/20">
-                    <td className="py-2 px-3 text-foreground">{row.m}</td>
-                    <td className="py-2 px-3 text-muted-foreground">{row.min}</td>
-                    <td className="py-2 px-3 text-secondary">{row.good}</td>
-                    <td className="py-2 px-3 text-primary font-semibold">{row.great}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        {/* Level 2 completion */}
-        <section>
-          <Card className="bg-gradient-to-r from-secondary/10 via-card/80 to-accent/10 border-secondary/30">
-            <CardContent className="p-6 text-center space-y-3">
-              <Trophy className="w-10 h-10 text-secondary mx-auto" />
-              <h3 className="text-xl font-bold text-foreground">Уровень 2 завершён!</h3>
-              <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                Вы освоили Policy Gradient, PPO, Actor-Critic, reward shaping, параллельные среды
-                и визуализацию обучения. Готовы к финальному уровню?
-              </p>
-              <div className="flex gap-3 justify-center pt-2">
-                <Button variant="cyber" size="lg" asChild>
-                  <Link to="/courses">Перейти к Уровню 3 →</Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-      </ProGate>
-    </LessonLayout>
+    <>
+      <SEOHead
+        title="Проект 3: Автономный гоночный агент на Unity ML-Agents | CyberUnityCode"
+        description="Полное учебное руководство: MDP, SOLID C# архитектура, Ray Perception Sensors, reward shaping, PPO vs SAC, TensorBoard. Unity 2023.2+, Python 3.10.12, ML-Agents release 22."
+        path="/courses/project-3"
+        type="article"
+      />
+      <a
+        href="#lesson-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-md focus:bg-card focus:text-cyan-300 focus:border focus:border-cyan-400 focus:shadow-[0_0_16px_hsl(var(--primary)/0.6)]"
+      >
+        К содержимому урока
+      </a>
+      <ScrollProgressBar color="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
+      <main className="container max-w-5xl mx-auto px-4 py-8">
+        {content}
+      </main>
+    </>
   );
 };
 
