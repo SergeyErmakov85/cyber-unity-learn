@@ -1,69 +1,108 @@
-# CLAUDE.md
+# CLAUDE.md — Neon Unity Neural
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Commands
-
-```bash
-npm i            # install dependencies
-npm run dev      # start dev server (Vite, localhost:5173)
-npm run build    # production build
-npm run lint     # ESLint
-```
-
-No test suite is configured.
+Стек: Vite + React + TypeScript + Tailwind + shadcn/ui + Supabase + react-router-dom.  
+Математика: KaTeX через CDN, рендер только через существующий компонент `Math`.
 
 ---
 
-## Architecture
+## Команды
 
-### Course data — single source of truth
+```bash
+npm i            # установить зависимости
+npm run dev      # dev-сервер (Vite, localhost:5173)
+npm run build    # production-сборка
+npm run lint     # ESLint
+```
 
-All course structure lives in **`src/content/learningMap.ts`** (`LEARNING_MAP: Stage[]`). This is the canonical list of stages, lessons, and projects. `Courses.tsx`, `LessonLayout`, and `gamification.ts` all derive their data from it. Never duplicate the lesson list elsewhere.
+Тест-сьют не настроен.
 
-- `src/content/lessonContextLinks.ts` — hub links shown inside lessons  
-- `src/config/crosslinks.ts` — bidirectional cross-links between lessons and hubs  
-- `src/content/hubs.ts` — support hub metadata (PyTorch, Unity ML-Agents, Math RL, etc.)  
-- `src/data/lessons.ts` — additional meta for specific lessons (e.g. 2.6)
+---
 
-### Lesson pages
+## Дизайн-система
 
-Each lesson page lives in `src/pages/CourseLesson*.tsx`.  
-**Reference implementation: `src/pages/CourseLesson2_6.tsx`** — this is the gold standard for all lesson pages. Every new lesson must replicate its structure exactly.
+- Фон: `#06080D`. Акценты: неон cyan `#00FFD6`, magenta `#D946EF`.
+- Заголовки: **Orbitron**. Код/формулы: **JetBrains Mono**.
+- Стиль: Kinetic Minimalism + футуристичный UI, glassmorphism-карточки.
+- Текст в визуализациях — светлый/яркий белый для максимального контраста на тёмном фоне.
 
-### Mandatory page scaffold
+Используй только семантические цветовые токены. Никаких raw-hex и Tailwind palette utilities (`text-blue-500`, `#fff` и т. д.):
 
-Every lesson page **must** follow this top-level structure in this order:
+- `text-primary` — cyan (основные концепции)
+- `text-secondary` — purple (контекст/пояснения)
+- `text-accent` — pink (акценты)
+- Карточки: `bg-card/60 backdrop-blur-sm border-primary/30`
+- Hover-свечение: `hover:shadow-glow-cyan`, `hover:shadow-glow-purple`
+
+**Исключение:** `COLOR_MAP` в страницах уроков использует Tailwind color utilities для четырёх акцентных вариантов (cyan / purple / pink / emerald) — это намеренно и соответствует эталону урока 2.6.
+
+---
+
+## Терминология и правила
+
+- В UI-метках всегда **«раздел»**, НИКОГДА «модуль».
+- Все формулы — KaTeX/LaTeX через `Math`. Никаких сырых Unicode-символов математики.
+- Кросс-линки между уроками и хабами — через компонент `HubLink` (двунаправленные, как в Википедии).
+- PRO-контент гейтится компонентом `ProGate`.
+- Интерактив (слайдеры, тогглы, hover) — React/JSX; статичный SVG только для неинтерактивных схем.
+
+---
+
+## Подводные камни
+
+- `ctx.roundRect()` падает в canvas — использовать `fillRect`.
+- Для тогглов внутри animation loop использовать `useRef`, а не `useState`.
+
+---
+
+## Архитектура
+
+### Единый источник данных о курсах
+
+Вся структура курса живёт в **`src/content/learningMap.ts`** (`LEARNING_MAP: Stage[]`). Это канонический список стейджей, уроков и проектов. `Courses.tsx`, `LessonLayout` и `gamification.ts` берут данные отсюда. Никогда не дублируй список уроков в других местах.
+
+- `src/content/lessonContextLinks.ts` — ссылки на хабы внутри уроков
+- `src/config/crosslinks.ts` — двунаправленные кросс-линки между уроками и хабами
+- `src/content/hubs.ts` — метаданные хабов поддержки (PyTorch, Unity ML-Agents, Math RL и др.)
+- `src/data/lessons.ts` — дополнительные мета-данные для конкретных уроков (напр. 2.6)
+
+### Страницы уроков
+
+Каждая страница урока — `src/pages/CourseLesson*.tsx`.  
+**Эталонная реализация: `src/pages/CourseLesson2_6.tsx`** — золотой стандарт для всех страниц уроков. Каждый новый урок должен точно повторять его структуру.
+
+### Обязательный скаффолд страницы
+
+Каждая страница урока **должна** иметь следующую структуру верхнего уровня в этом порядке:
 
 ```tsx
 // 1. SEO
 <SEOHead title="..." description="..." path="/courses/X-Y" type="article" />
 
-// 2. Skip-to-content link (accessibility)
+// 2. Ссылка «перейти к содержимому» (accessibility)
 <a href="#lesson-content" className="sr-only focus:not-sr-only ...">К содержимому урока</a>
 
-// 3. Scroll progress bar
+// 3. Полоса прогресса прокрутки
 <ScrollProgressBar color="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
 
-// 4. Main container
+// 4. Основной контейнер
 <main className="container max-w-5xl mx-auto px-4 py-8">
   <ProGate preview={content}>{content}</ProGate>
 </main>
 ```
 
-Inside `content`:
+Внутри `content`:
 
 ```tsx
 // Breadcrumbs → LessonHeader → SectionNav → sections → RelatedMaterials → CompleteButton card → NextPrevLesson
 ```
 
-### Breadcrumbs
+### Хлебные крошки
 
-Always render breadcrumbs as `<nav aria-label="Хлебные крошки">` with `<ol>` + `<ChevronRight>` separators. Path: Главная → Курс → Уровень N → Урок X.Y.
+Всегда рендери крошки как `<nav aria-label="Хлебные крошки">` с `<ol>` и разделителями `<ChevronRight>`. Путь: Главная → Курс → Уровень N → Урок X.Y.
 
-### Section list
+### Список секций
 
-Define sections as a `SECTIONS: SectionNavItem[]` constant at module level:
+Определяй секции как константу `SECTIONS: SectionNavItem[]` на уровне модуля:
 
 ```tsx
 const SECTIONS: SectionNavItem[] = [
@@ -72,33 +111,33 @@ const SECTIONS: SectionNavItem[] = [
 ];
 ```
 
-Render each section as `<motion.section>` inside a `SECTIONS.map(...)`.
+Рендери каждую секцию как `<motion.section>` внутри `SECTIONS.map(...)`.
 
 ---
 
-## Visual style — mandatory patterns (based on lesson 2.6)
+## Визуальный стиль — обязательные паттерны (на основе урока 2.6)
 
-> **These patterns are non-negotiable.** Every lesson page must implement all of them.
+> **Эти паттерны обязательны.** Каждая страница урока должна реализовывать их все.
 
-### Section wrapper class
+### Класс-обёртка секции
 
 ```tsx
 const SECTION_CLASS =
   "scroll-mt-24 py-16 px-6 md:px-10 bg-card/60 backdrop-blur-sm rounded-2xl border border-cyan-500/10";
 ```
 
-### Section heading class
+### Класс заголовка секции
 
 ```tsx
 const SECTION_TITLE_CLASS =
   "text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-6";
 ```
 
-Always use `<h2 className={`${SECTION_TITLE_CLASS} text-2xl md:text-3xl`}>` inside every section.
+Всегда используй `<h2 className={`${SECTION_TITLE_CLASS} text-2xl md:text-3xl`}>` внутри каждой секции.
 
-### Motion animations
+### Motion-анимации
 
-Import `motion` from `framer-motion`. Every `<section>` must be a `<motion.section>`:
+Импортируй `motion` из `framer-motion`. Каждый `<section>` должен быть `<motion.section>`:
 
 ```tsx
 const SECTION_VARIANTS = {
@@ -106,7 +145,7 @@ const SECTION_VARIANTS = {
   visible: { opacity: 1, y: 0 },
 };
 
-// Inside map:
+// Внутри map:
 <motion.section
   key={s.id}
   id={s.id}
@@ -119,20 +158,20 @@ const SECTION_VARIANTS = {
 >
 ```
 
-### Intro section structure (mandatory for every lesson)
+### Структура секции intro (обязательна для каждого урока)
 
-The `intro` section **must** contain three layers in this order:
+Секция `intro` **должна** содержать три слоя в этом порядке:
 
-**Layer 1 — Hero card:**
+**Слой 1 — Hero-карточка:**
 ```tsx
 <Card className="border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 backdrop-blur-sm overflow-hidden">
   <CardContent className="p-8 flex flex-col md:flex-row items-start md:items-center gap-6">
-    {/* left: title + description */}
+    {/* слева: заголовок + описание */}
     <div className="flex-1 space-y-3">
       <h3 className="text-2xl md:text-3xl font-bold text-foreground">...</h3>
       <p className="text-muted-foreground leading-relaxed">...</p>
     </div>
-    {/* right: icon in glow-box */}
+    {/* справа: иконка в glow-боксе */}
     <div className="shrink-0 w-20 h-20 rounded-2xl border border-cyan-400/40 bg-cyan-500/10
                     flex items-center justify-center
                     shadow-[0_0_32px_hsl(var(--primary)/0.45)]">
@@ -142,13 +181,13 @@ The `intro` section **must** contain three layers in this order:
 </Card>
 ```
 
-**Layer 2 — TL;DR box:**
+**Слой 2 — TL;DR-блок:**
 ```tsx
 <TldrBox items={[ <> ... </>, <> ... </> ]} />
 ```
-Must have 2–4 items. Each item should contain inline `<strong>` for key terms and `<code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">` for code snippets.
+Должен содержать 2–4 пункта. Каждый пункт — с `<strong>` для ключевых терминов и `<code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">` для сниппетов кода.
 
-**Layer 3 — Key findings grid:**
+**Слой 3 — Сетка ключевых выводов:**
 ```tsx
 const KEY_FINDINGS = [
   { title: "...", text: "...", icon: SomeLucideIcon, color: "cyan"    },
@@ -164,7 +203,7 @@ const COLOR_MAP: Record<string, string> = {
   emerald: "border-emerald-500/30 hover:border-emerald-400/70 hover:shadow-[0_0_24px_hsl(160_85%_55%/0.35)] [&_svg]:text-emerald-400",
 };
 
-// Render:
+// Рендер:
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
   {KEY_FINDINGS.map(({ title, text, icon: Icon, color }) => (
     <Card key={title}
@@ -181,9 +220,9 @@ const COLOR_MAP: Record<string, string> = {
 </div>
 ```
 
-### CompleteButton (mandatory, every lesson)
+### CompleteButton (обязателен, каждый урок)
 
-Place before `<NextPrevLesson>`. Tracks scroll position (fires at 90%) AND provides manual click:
+Размещай перед `<NextPrevLesson>`. Отслеживает позицию прокрутки (срабатывает на 90%) и поддерживает ручное нажатие:
 
 ```tsx
 const CompleteButton = () => {
@@ -217,7 +256,7 @@ const CompleteButton = () => {
 };
 ```
 
-Wrap it in the completion card:
+Оборачивай в карточку завершения:
 
 ```tsx
 <Card className="mt-8 border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm">
@@ -228,18 +267,18 @@ Wrap it in the completion card:
 </Card>
 ```
 
-### Card styles (reference)
+### Справочник стилей карточек
 
-| Use case | className |
+| Назначение | className |
 |---|---|
 | Hero gradient card | `border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 backdrop-blur-sm` |
 | Standard content card | `bg-card/60 backdrop-blur-sm border border-cyan-500/10` |
 | Completion card | `border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm` |
 | Key finding card | `group bg-card/60 backdrop-blur-sm transition-all duration-300 hover:scale-105` + `COLOR_MAP[color]` |
 
-### Section sub-components
+### Подкомпоненты секций
 
-Extract each section's content into a dedicated component in `src/components/lesson-X-Y/`:
+Выноси содержимое каждой секции в отдельный компонент в `src/components/lesson-X-Y/`:
 
 ```
 src/components/lesson-2-6/
@@ -254,73 +293,59 @@ src/components/lesson-2-6/
   RelatedMaterials.tsx
 ```
 
-The page file (`CourseLesson*.tsx`) only contains: scaffold, SECTIONS constant, intro layer, and `{s.id === "foo" ? <FooSection /> : ...}` dispatch. No inline content walls.
+Файл страницы (`CourseLesson*.tsx`) содержит только: скаффолд, константу `SECTIONS`, слой intro и диспетч `{s.id === "foo" ? <FooSection /> : ...}`. Никаких инлайн-стен контента.
 
 ---
 
-## Content components (mandatory formats)
+## Компоненты контента (обязательные форматы)
 
-| Content | Component |
+| Контент | Компонент |
 |---|---|
-| Code | `<CyberCodeBlock language="python" filename="file.py">{...}</CyberCodeBlock>` |
-| Math | `<Math display>{\`\\LaTeX\`}</Math>` (KaTeX only, no markdown math) |
-| Quiz | `<Quiz questions={[{ question, options, correctAnswer, explanation }]} />` — at least 1 per lesson |
+| Код | `<CyberCodeBlock language="python" filename="file.py">{...}</CyberCodeBlock>` |
+| Математика | `<Math display>{\`\\LaTeX\`}</Math>` (только KaTeX, без markdown math) |
+| Квиз | `<Quiz questions={[{ question, options, correctAnswer, explanation }]} />` — минимум 1 на урок |
 
-Lesson content flow: Concept → Intuition → Formula/Core idea → Code example → Key takeaway → Quiz.
-
----
-
-## Bidirectional cross-links (Wikipedia style)
-
-Cross-links between lessons and hubs are the core navigation principle of this platform.
-
-- **From lessons → hubs:** use `<HubLink hubId="math-rl" sectionId="bellman">текст</HubLink>` — renders as an inline highlighted link; clicking opens the hub at the exact section.
-- **From hubs → lessons:** use `<LessonLink lessonId="1-5" anchor="mdp-definition">текст</LessonLink>` — returns the reader to the exact scroll position in the lesson.
-- Register every new link pair in **`src/config/crosslinks.ts`**.
-- Hub links available inside lessons are declared in **`src/content/lessonContextLinks.ts`**.
-- **Rule:** never duplicate content between a lesson and a hub. Lessons are narrative entry points; hubs hold formal definitions and proofs. Cross-links bridge them.
+Поток содержимого урока: Концепция → Интуиция → Формула/Ключевая идея → Пример кода → Ключевой вывод → Квиз.
 
 ---
 
-## Design system — neon-unity-neural
+## Двунаправленные кросс-линки (стиль Википедии)
 
-Only use semantic color tokens. Never use raw hex colors or Tailwind palette utilities (`text-blue-500`, `#fff`, etc.):
+Кросс-линки между уроками и хабами — основной принцип навигации платформы.
 
-- `text-primary` — cyan (main concepts)  
-- `text-secondary` — purple (context/explanations)  
-- `text-accent` — pink (highlights)  
-- Cards: `bg-card/60 backdrop-blur-sm border-primary/30`  
-- Hover glow: `hover:shadow-glow-cyan`, `hover:shadow-glow-purple`
-
-Exception: `COLOR_MAP` in lesson pages uses Tailwind color utilities for the four accent variants (cyan/purple/pink/emerald) — this is intentional and matches the lesson 2.6 reference.
+- **Из уроков → хабы:** `<HubLink hubId="math-rl" sectionId="bellman">текст</HubLink>` — рендерится как инлайн-ссылка с подсветкой; клик открывает хаб точно в нужной секции.
+- **Из хабов → уроки:** `<LessonLink lessonId="1-5" anchor="mdp-definition">текст</LessonLink>` — возвращает читателя точно к нужной позиции прокрутки в уроке.
+- Регистрируй каждую новую пару ссылок в **`src/config/crosslinks.ts`**.
+- Ссылки на хабы внутри уроков объявляются в **`src/content/lessonContextLinks.ts`**.
+- **Правило:** никогда не дублируй контент между уроком и хабом. Уроки — нарративные точки входа; хабы содержат формальные определения и доказательства. Кросс-линки их связывают.
 
 ---
 
-## Auth & roles
+## Аутентификация и роли
 
-Auth is Supabase (`src/integrations/supabase/client.ts`) + Google OAuth via Lovable Cloud (`src/integrations/lovable/index.ts`).
+Auth — Supabase (`src/integrations/supabase/client.ts`) + Google OAuth через Lovable Cloud (`src/integrations/lovable/index.ts`).
 
-`useUserRole` (`src/hooks/useUserRole.ts`) queries the `user_roles` Postgres table. `isPro` is hardcoded to `false` — PRO billing is not yet integrated. Admins bypass the PRO gate via `isAdmin`.
+`useUserRole` (`src/hooks/useUserRole.ts`) запрашивает таблицу `user_roles` в Postgres. `isPro` захардкожен в `false` — биллинг PRO ещё не интегрирован. Администраторы обходят PRO-гейт через `isAdmin`.
 
-PRO paywall: `<ProGate preview={<VisiblePreview />}>full content</ProGate>`.
-
----
-
-## Progress / gamification
-
-`src/lib/gamification.ts` stores XP, completed lessons, quizzes, streaks, and badges in **localStorage** (key: `rl_platform_progress`). Use `markLessonComplete(id)` and `isLessonComplete(id)` from this module. Do **not** call `completeLesson()` directly from page components — use `CompleteButton` pattern above.
+PRO-пейволл: `<ProGate preview={<VisiblePreview />}>full content</ProGate>`.
 
 ---
 
-## Routing
+## Прогресс и геймификация
 
-All pages are lazy-loaded in `src/App.tsx`. Add new routes above the catch-all `path="*"` line.
+`src/lib/gamification.ts` хранит XP, пройденные уроки, квизы, стрики и бейджи в **localStorage** (ключ: `rl_platform_progress`). Используй `markLessonComplete(id)` и `isLessonComplete(id)` из этого модуля. Не вызывай `completeLesson()` напрямую из компонентов страниц — используй паттерн `CompleteButton`.
 
 ---
 
-## Deployment
+## Маршрутизация
 
-Push to `main` → automatic Vercel deploy. Environment variables required:
+Все страницы загружаются лениво в `src/App.tsx`. Добавляй новые маршруты выше catch-all строки `path="*"`.
+
+---
+
+## Деплой
+
+Push в `main` → автоматический деплой на Vercel. Необходимые переменные окружения:
 
 ```
 VITE_SUPABASE_URL=
@@ -328,4 +353,4 @@ VITE_SUPABASE_PUBLISHABLE_KEY=
 VITE_SUPABASE_PROJECT_ID=
 ```
 
-DB migrations live in `supabase/migrations/`.
+DB-миграции — в `supabase/migrations/`.
