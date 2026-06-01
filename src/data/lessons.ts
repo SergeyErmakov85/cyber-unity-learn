@@ -26,6 +26,19 @@ export const LESSONS: LessonMeta[] = [
     prev: { title: "Урок 2.5", path: "/courses/2-5" },
     next: { title: "Проект 2: 3D-охотник", path: "/courses/project-2" },
   },
+  {
+    id: "3.1",
+    title: "SAC — Soft Actor-Critic",
+    subtitle: "Максимальная энтропия, off-policy и непрерывное управление",
+    slug: "sac",
+    level: 3,
+    isPro: true,
+    estimatedMinutes: 55,
+    tags: ["SAC", "Off-policy", "Max-Entropy RL", "Unity ML-Agents"],
+    path: "/courses/3-1",
+    prev: { title: "Проект 3: Гоночный агент", path: "/courses/project-3" },
+    next: { title: "Урок 3.2: MA-POCA и Self-Play", path: "/courses/3-2" },
+  },
 ];
 
 export const getLessonById = (id: string) =>

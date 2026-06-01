@@ -14,6 +14,10 @@ const HeroSection = () => {
         <img
           src={heroBg}
           alt="AI Gaming Environment"
+          width={1920}
+          height={1080}
+          fetchPriority="high"
+          decoding="async"
           className="w-full h-full object-cover opacity-30" />
 
         <div className="absolute inset-0 bg-gradient-hero" />
