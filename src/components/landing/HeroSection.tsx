@@ -103,16 +103,16 @@ const HeroSection = () => {
           {/* Tech Pills */}
           <div className="flex flex-wrap justify-center gap-3 pt-6">
             {[
-              { label: "PyTorch", path: "/pytorch" },
-              { label: "Unity ML-Agents", path: "/unity-ml-agents" },
-              { label: "ONNX", path: "/advanced/onnx-sentis" },
-              { label: "Sentis", path: "/advanced/onnx-sentis" },
-              { label: "Jupyter", path: "/code-examples" },
-            ].map(({ label, path }) => (
+              { label: "PyTorch", path: "/hub/pytorch", cls: "border-primary/40 text-primary hover:text-primary hover:border-primary/70 hover:shadow-glow-cyan" },
+              { label: "Unity ML-Agents", path: "/hub/unity-ml-agents", cls: "border-secondary/40 text-secondary hover:text-secondary hover:border-secondary/70 hover:shadow-glow-purple" },
+              { label: "ONNX", path: "/advanced/onnx-sentis", cls: "border-accent/40 text-accent hover:text-accent hover:border-accent/70 hover:shadow-glow-pink" },
+              { label: "Sentis", path: "/advanced/onnx-sentis", cls: "border-accent/40 text-accent hover:text-accent hover:border-accent/70 hover:shadow-glow-pink" },
+              { label: "Jupyter", path: "/code-examples", cls: "border-green-400/40 text-green-300 hover:text-green-200 hover:border-green-400/70 hover:shadow-[0_0_16px_hsl(142_71%_45%/0.5)]" },
+            ].map(({ label, path, cls }) => (
               <button
                 key={label}
                 onClick={() => navigate(path)}
-                className="bg-card/50 border border-primary/20 text-xs px-3 py-1 rounded-full text-muted-foreground hover:text-primary hover:border-primary/60 hover:shadow-glow-cyan transition-all cursor-pointer"
+                className={`bg-card/50 border text-xs px-3 py-1 rounded-full transition-all cursor-pointer ${cls}`}
               >
                 {label}
               </button>
