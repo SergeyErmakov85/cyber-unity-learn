@@ -39,6 +39,20 @@ export const LESSONS: LessonMeta[] = [
     prev: { title: "Проект 3: Гоночный агент", path: "/courses/project-3" },
     next: { title: "Урок 3.2: MA-POCA и Self-Play", path: "/courses/3-2" },
   },
+  {
+    id: "3.2",
+    title: "Многоагентное обучение: MA-POCA и Self-Play",
+    subtitle:
+      "Нестационарность, CTDE, counterfactual baseline, posthumous credit assignment и Self-Play с рейтингом ELO",
+    slug: "marl-mapoca-selfplay",
+    level: 3,
+    isPro: true,
+    estimatedMinutes: 50,
+    tags: ["MA-POCA", "Self-Play", "MARL", "CTDE", "Unity ML-Agents"],
+    path: "/courses/3-2",
+    prev: { title: "Урок 3.1: SAC", path: "/courses/3-1" },
+    next: { title: "Урок 3.3: Curriculum Learning", path: "/courses/3-3" },
+  },
 ];
 
 export const getLessonById = (id: string) =>

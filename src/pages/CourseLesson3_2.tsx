@@ -1,42 +1,71 @@
-import LessonLayout from "@/components/LessonLayout";
+import { useEffect, useState, type ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Home,
+  ChevronRight,
+  CheckCircle2,
+  Sparkles,
+  Info,
+  Gamepad2,
+  AlertTriangle,
+  Users,
+  Activity,
+  Share2,
+  Trophy,
+  Link2,
+  GraduationCap,
+  Wrench,
+  ExternalLink,
+} from "lucide-react";
 import ProGate from "@/components/ProGate";
+import LessonHeader from "@/components/LessonHeader";
+import SectionNav, { type SectionNavItem } from "@/components/SectionNav";
+import NextPrevLesson from "@/components/NextPrevLesson";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+import SEOHead from "@/components/SEOHead";
+import Quiz from "@/components/Quiz";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import TldrBox from "@/components/ui/TldrBox";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
-import Quiz from "@/components/Quiz";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Lightbulb,
-  ListChecks,
-  Info,
-  AlertTriangle,
-  Sparkles,
-  BookOpen,
-  GraduationCap,
-} from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
-import type { ReactNode } from "react";
+import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import { getLessonById } from "@/data/lessons";
+import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
 
-/* ── Локальные хелперы (стиль урока 3.1) ───────────────── */
+/* ── Визуальные хелперы (эталон урока 3.1 / 2.6) ───────────────── */
 
-const SECTION_H2 = "text-2xl font-bold text-foreground mb-4 scroll-mt-24";
+const SECTION_CLASS =
+  "scroll-mt-24 py-12 md:py-16 px-5 md:px-10 bg-card/60 backdrop-blur-sm rounded-2xl border border-cyan-500/10";
 
-const KeyPoints = ({
-  title = "Ключевые моменты раздела",
-  items,
-}: {
-  title?: string;
-  items: ReactNode[];
-}) => (
-  <Card className="my-6 border-primary/30 bg-primary/5 shadow-[0_0_15px_hsl(180_100%_50%/0.08)]">
-    <CardContent className="p-5">
-      <div className="flex items-center gap-2 mb-3">
-        <ListChecks className="w-5 h-5 text-primary" />
-        <h4 className="font-semibold text-foreground">{title}</h4>
+const SECTION_VARIANTS = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+
+/** Градиентный заголовок секции (cyan→purple→pink). */
+const SECTION_H2 =
+  "scroll-mt-24 text-2xl md:text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-6";
+
+/** H3-подзаголовок внутри секции. */
+const H3_CLASS = "text-xl font-bold text-foreground mt-8 mb-3";
+
+/** «Ключевые моменты» — glassmorphism-карточка с неоновым cyan-рейлом. */
+const KeyPoints = ({ items }: { items: ReactNode[] }) => (
+  <Card className="mt-8 border-l-4 border-l-cyan-400 border-y border-r border-cyan-500/20 bg-gradient-to-r from-cyan-500/10 to-transparent backdrop-blur-sm">
+    <CardContent className="p-5 space-y-3">
+      <div className="flex items-center gap-2">
+        <Sparkles className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_hsl(var(--primary)/0.7)]" />
+        <h4 className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-300">
+          Ключевые моменты
+        </h4>
       </div>
       <ul className="space-y-2">
         {items.map((it, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-            <span className="text-primary mt-0.5">▸</span>
+          <li key={i} className="flex gap-2.5 text-sm text-foreground/90 leading-relaxed">
+            <span className="text-cyan-400 mt-0.5 shrink-0">▸</span>
             <span>{it}</span>
           </li>
         ))}
@@ -45,12 +74,13 @@ const KeyPoints = ({
   </Card>
 );
 
-const CALLOUT_COLORS: Record<string, string> = {
-  amber: "border-yellow-500/30 bg-yellow-500/5 [&_svg]:text-yellow-400",
-  purple: "border-secondary/30 bg-secondary/5 [&_svg]:text-secondary",
-  cyan: "border-primary/30 bg-primary/5 [&_svg]:text-primary",
+const CALLOUT_STYLES: Record<string, { wrap: string; icon: string; title: string }> = {
+  amber: { wrap: "border-amber-500/30 bg-amber-500/5", icon: "text-amber-400", title: "text-amber-300" },
+  purple: { wrap: "border-purple-500/30 bg-purple-500/5", icon: "text-purple-400", title: "text-purple-300" },
+  cyan: { wrap: "border-cyan-500/30 bg-cyan-500/5", icon: "text-cyan-400", title: "text-cyan-300" },
 };
 
+/** Акцентный inset-бокс для «Важная тонкость», «Замечание», «Связь с…». */
 const Callout = ({
   title,
   color = "cyan",
@@ -61,48 +91,100 @@ const Callout = ({
   color?: "amber" | "purple" | "cyan";
   icon?: typeof Info;
   children: ReactNode;
+}) => {
+  const s = CALLOUT_STYLES[color];
+  return (
+    <div className={`my-6 rounded-xl border ${s.wrap} backdrop-blur-sm p-5`}>
+      <div className="flex items-center gap-2 mb-2">
+        <Icon className={`w-4 h-4 ${s.icon} shrink-0`} />
+        {title && <span className={`font-bold text-sm ${s.title}`}>{title}</span>}
+      </div>
+      <div className="text-sm text-foreground/85 leading-relaxed space-y-2">{children}</div>
+    </div>
+  );
+};
+
+/** Плейсхолдер для опциональных интерактивных визуализаций. */
+const InteractiveStub = ({
+  title = "Интерактив",
+  children,
+}: {
+  title?: string;
+  children: ReactNode;
 }) => (
-  <Card className={`my-4 ${CALLOUT_COLORS[color]}`}>
-    <CardContent className="p-4 flex gap-3 items-start">
-      <Icon className="w-5 h-5 flex-shrink-0 mt-0.5" />
-      <div className="text-sm text-muted-foreground leading-relaxed">
-        {title && <strong className="text-foreground block mb-1">{title}</strong>}
-        {children}
-      </div>
-    </CardContent>
-  </Card>
+  <div className="my-6 rounded-xl border border-dashed border-pink-500/40 bg-pink-500/5 backdrop-blur-sm p-5">
+    <div className="flex items-center gap-2 mb-2">
+      <Gamepad2 className="w-4 h-4 text-pink-400 shrink-0" />
+      <span className="font-bold text-sm text-pink-300">🎛 {title} — в разработке</span>
+    </div>
+    <div className="text-sm text-muted-foreground leading-relaxed">{children}</div>
+  </div>
 );
 
-const InteractiveStub = ({ children }: { children: ReactNode }) => (
-  <Card className="my-4 border-secondary/30 bg-secondary/5 [&_svg]:text-secondary">
-    <CardContent className="p-4 flex gap-3 items-start">
-      <Sparkles className="w-5 h-5 flex-shrink-0 mt-0.5" />
-      <div className="text-sm text-muted-foreground leading-relaxed">
-        <strong className="text-foreground block mb-1">Интерактив (рекомендация)</strong>
-        {children}
-      </div>
-    </CardContent>
-  </Card>
-);
-
-/* Обёртка для горизонтально-скроллящихся таблиц в неоновом стиле */
+/* Обёртка для горизонтально-скроллящихся таблиц в неоновом стиле. */
 const TableWrap = ({ children }: { children: ReactNode }) => (
-  <div className="overflow-x-auto my-4">
-    <table className="w-full text-sm border-collapse">{children}</table>
+  <div className="my-6 rounded-xl border border-cyan-500/20 bg-background/40 overflow-hidden">
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[640px] text-sm [&_tbody_tr:nth-child(even)]:bg-card/30">
+        {children}
+      </table>
+    </div>
   </div>
 );
 
 const TH = ({ children }: { children: ReactNode }) => (
-  <th className="text-left py-2 px-3 text-primary font-semibold border-b border-border/50 align-top">
+  <th className="text-left px-4 py-3 text-cyan-300 font-bold border-b border-cyan-500/30 align-top">
     {children}
   </th>
 );
 
 const TD = ({ children }: { children: ReactNode }) => (
-  <td className="py-2 px-3 text-muted-foreground border-b border-border/20 align-top">
-    {children}
-  </td>
+  <td className="px-4 py-3 text-foreground/80 border-b border-border/30 align-top">{children}</td>
 );
+
+/* ── Intro: hero + key findings (эталон урока 3.1) ───────────────── */
+
+const KEY_FINDINGS = [
+  {
+    title: "Нестационарность",
+    text:
+      "Соседи обучаются — среда каждого агента всё время меняется, и марковское предположение нарушается.",
+    icon: Activity,
+    color: "cyan",
+  },
+  {
+    title: "CTDE",
+    text:
+      "Централизованный критик при обучении, децентрализованные акторы при исполнении — золотая середина MARL.",
+    icon: Share2,
+    color: "purple",
+  },
+  {
+    title: "MA-POCA",
+    text:
+      "Posthumous credit assignment через self-attention только по активным агентам — без вредных absorbing states.",
+    icon: Users,
+    color: "pink",
+  },
+  {
+    title: "Self-Play + ELO",
+    text:
+      "Игра против прошлых версий себя даёт авто-curriculum; прогресс измеряется рейтингом ELO, а не наградой.",
+    icon: Trophy,
+    color: "emerald",
+  },
+] as const;
+
+const COLOR_MAP: Record<string, string> = {
+  cyan: "border-cyan-500/30 hover:border-cyan-400/70 hover:shadow-[0_0_24px_hsl(var(--primary)/0.35)] [&_svg]:text-cyan-400",
+  purple:
+    "border-purple-500/30 hover:border-purple-400/70 hover:shadow-[0_0_24px_hsl(280_85%_65%/0.35)] [&_svg]:text-purple-400",
+  pink: "border-pink-500/30 hover:border-pink-400/70 hover:shadow-[0_0_24px_hsl(330_85%_65%/0.35)] [&_svg]:text-pink-400",
+  emerald:
+    "border-emerald-500/30 hover:border-emerald-400/70 hover:shadow-[0_0_24px_hsl(160_85%_55%/0.35)] [&_svg]:text-emerald-400",
+};
+
+const chip = "px-1.5 py-0.5 rounded bg-muted/50 text-xs font-mono";
 
 /* ── Квиз ──────────────────────────────────────────────── */
 
@@ -169,104 +251,243 @@ const quizQuestions = [
   },
 ];
 
-const CourseLesson3_2 = () => {
-  const preview = (
-    <>
-      <section>
-        <p className="text-sm text-muted-foreground mb-4">
-          <strong className="text-foreground">Уровень:</strong> Продвинутый ·{" "}
-          <strong className="text-foreground">Раздел:</strong> Многоагентное обучение
-        </p>
-        <p className="text-muted-foreground leading-relaxed">
-          <strong className="text-foreground">Предполагается, что вы знаете:</strong> MDP, политика,
-          V и Q, уравнение Беллмана, actor-critic, PPO (clipped surrogate, энтропийная
-          регуляризация) — всё это разобрано в{" "}
-          <CrossLinkToHub hubPath="/courses/3-1" hubTitle="Урок 3.1 — SAC">уроке 3.1 «SAC»</CrossLinkToHub>.
-          Функции ценности и advantage — в{" "}
-          <CrossLinkToHub hubPath="/courses/2-3" hubTitle="Урок 2.3">уроке 2.3</CrossLinkToHub>.
-          Replay buffer и off-policy — тоже{" "}
-          <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="раздел-8-replay-buffer-и-off-policy-природа" hubTitle="Урок 3.1 — Replay buffer">урок 3.1</CrossLinkToHub>.
-        </p>
+const SECTIONS: SectionNavItem[] = [
+  { id: "intro", label: "Введение" },
+  { id: "раздел-0-от-одного-гоночного-агента-к-команде", label: "0 · Зачем MARL" },
+  { id: "раздел-1-постановка-задачи-decentralized-pomdp-и-ctde", label: "1 · dec-POMDP и CTDE" },
+  { id: "раздел-2-counterfactual-baseline-и-командный-credit-assignment", label: "2 · Counterfactual baseline" },
+  { id: "раздел-3-posthumous-credit-assignment", label: "3 · Posthumous credit" },
+  { id: "раздел-4-архитектура-ma-poca", label: "4 · Архитектура MA-POCA" },
+  { id: "раздел-5-ma-poca-в-unity-ml-agents", label: "5 · MA-POCA в Unity" },
+  { id: "раздел-6-self-play", label: "6 · Self-Play" },
+  { id: "раздел-7-система-рейтинга-elo", label: "7 · Рейтинг ELO" },
+  { id: "раздел-8-self-play-в-unity-ml-agents", label: "8 · Self-Play в Unity" },
+  { id: "раздел-9-когда-что-использовать", label: "9 · Когда что" },
+  { id: "раздел-10-гиперпараметры-и-диагностика", label: "10 · Гиперпараметры" },
+  { id: "раздел-11-расширение-гоночного-агента", label: "11 · Гоночный агент" },
+  { id: "итоги-урока", label: "Итоги" },
+  { id: "источники", label: "Источники" },
+];
 
-        <Card className="mt-5 border-primary/20 bg-primary/5">
-          <CardContent className="p-5">
-            <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-              <Lightbulb className="w-5 h-5 text-primary" /> Что вы поймёте к концу урока
-            </h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              {[
-                "Почему стандартный одноагентный RL «ломается» в многоагентной среде — нестационарность и командный credit assignment.",
-                "Что такое парадигма CTDE и зачем критику знать о всех агентах, пока акторы видят только себя.",
-                "Почему «поглощающие состояния» (absorbing states) для выбывших агентов вредны — и как MA-POCA заменяет их self-attention.",
-                "Что такое posthumous credit assignment и counterfactual baseline.",
-                "Как работает Self-Play: авто-curriculum, пул снапшотов, нестационарность.",
-                "Зачем нужен рейтинг ELO и как его читать в TensorBoard.",
-                "Как собрать кооперативную команду (poca + SimpleMultiAgentGroup) и соревновательный матч (self_play) в Unity ML-Agents — полные YAML-конфиги.",
-                "Как расширить гоночный агент из проекта 3 до соревновательного или кооперативного формата.",
-              ].map((t, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="text-primary mt-0.5">▸</span>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+const CompleteButton = () => {
+  const [done, setDone] = useState<boolean>(() => isLessonComplete("3.2"));
 
-        <Callout color="purple" icon={BookOpen} title="Как читать кросс-ссылки в этом уроке.">
-          Урок — нарративная точка входа. Формальные выводы и доказательства (self-attention,
-          TD(λ), теорема сходимости PPO) вынесены в хабы и обозначены значком ↗. Секции урока
-          несут стабильные <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">id</code>-якоря,
-          чтобы хабы могли ссылаться обратно.
-        </Callout>
-      </section>
-    </>
-  );
+  useEffect(() => {
+    if (done) return;
+    const onScroll = () => {
+      const h = document.documentElement;
+      const pct = (window.scrollY / (h.scrollHeight - window.innerHeight)) * 100;
+      if (pct >= 90) {
+        markLessonComplete("3.2");
+        setDone(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [done]);
+
+  const handleClick = () => {
+    markLessonComplete("3.2");
+    setDone(true);
+  };
 
   return (
-    <LessonLayout
-      lessonId="3-2"
-      lessonTitle="Многоагентное обучение: MA-POCA и Self-Play"
-      lessonNumber="3.2"
-      duration="50 мин"
-      tags={["#mlagents", "#multiagent", "#mapoca", "#selfplay", "#advanced"]}
-      level={3}
-      prevLesson={{ path: "/courses/3-1", title: "SAC" }}
-      nextLesson={{ path: "/courses/3-3", title: "Curriculum Learning" }}
+    <Button
+      onClick={handleClick}
+      disabled={done}
+      size="lg"
+      className="w-full md:w-auto bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white font-semibold shadow-[0_0_24px_hsl(var(--primary)/0.45)] hover:shadow-[0_0_32px_hsl(280_85%_65%/0.55)] hover:scale-[1.02] transition-all disabled:opacity-80 disabled:cursor-default focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      aria-label={done ? "Урок пройден" : "Отметить урок как пройденный"}
     >
-      <ProGate preview={preview}>
-        {preview}
+      {done ? (
+        <>
+          <CheckCircle2 className="w-5 h-5 mr-2" aria-hidden="true" />
+          Пройдено
+        </>
+      ) : (
+        <>Отметить урок как пройденный ✓</>
+      )}
+    </Button>
+  );
+};
+
+const CourseLesson3_2 = () => {
+  const lesson = getLessonById("3.2")!;
+
+  const content = (
+    <>
+      {/* Breadcrumbs */}
+      <nav aria-label="Хлебные крошки" className="mb-6">
+        <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+          <li>
+            <Link to="/" className="hover:text-cyan-400 inline-flex items-center gap-1">
+              <Home className="w-3.5 h-3.5" aria-hidden="true" /> Главная
+            </Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li>
+            <Link to="/courses" className="hover:text-cyan-400">
+              Курс
+            </Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li>
+            <Link to="/courses#stage-3" className="hover:text-cyan-400">
+              Уровень 3
+            </Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li className="text-foreground" aria-current="page">
+            Урок 3.2
+          </li>
+        </ol>
+      </nav>
+
+      <LessonHeader
+        title={lesson.title}
+        subtitle={lesson.subtitle}
+        isPro={lesson.isPro}
+        estimatedMinutes={lesson.estimatedMinutes}
+      />
+
+      <SectionNav items={SECTIONS} />
+
+      <div id="lesson-content" className="space-y-8 mt-8">
+        {/* ── Intro ── */}
+        <motion.section
+          id="intro"
+          className={SECTION_CLASS}
+          variants={SECTION_VARIANTS}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <div className="space-y-8">
+            {/* Hero card */}
+            <Card className="border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 backdrop-blur-sm overflow-hidden">
+              <CardContent className="p-8 flex flex-col md:flex-row items-start md:items-center gap-6">
+                <div className="flex-1 space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">
+                    От одного агента — к команде и сопернику
+                  </h3>
+                  <p className="text-foreground/80 leading-relaxed">
+                    <strong className="text-foreground">Многоагентное обучение (MARL)</strong> решает
+                    две боли, которых нет в одноагентном RL:{" "}
+                    <strong className="text-cyan-300">нестационарность</strong> среды (соседи учатся и
+                    меняют поведение) и{" "}
+                    <strong className="text-cyan-300">командный credit assignment</strong> (кто из
+                    команды заслужил общую награду). Unity ML-Agents даёт два инструмента «из коробки»
+                    — <strong className="text-foreground">MA-POCA</strong> для кооперации и{" "}
+                    <strong className="text-foreground">Self-Play</strong> для соревнования.
+                  </p>
+                </div>
+                <div className="shrink-0 w-20 h-20 rounded-2xl border border-cyan-400/40 bg-cyan-500/10 flex items-center justify-center shadow-[0_0_32px_hsl(var(--primary)/0.45)]">
+                  <Users className="w-12 h-12 text-cyan-400 drop-shadow-[0_0_10px_hsl(var(--primary)/0.7)]" />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* TL;DR — «Что вы поймёте к концу урока» */}
+            <TldrBox
+              title="Что вы поймёте к концу урока"
+              items={[
+                <>
+                  Почему стандартный одноагентный RL «ломается» в многоагентной среде —{" "}
+                  <strong>нестационарность</strong> и командный credit assignment.
+                </>,
+                <>
+                  Что такое парадигма <strong>CTDE</strong> и зачем критику знать о всех агентах, пока
+                  акторы видят только себя.
+                </>,
+                <>
+                  Почему <em>absorbing states</em> для выбывших агентов вредны — и как{" "}
+                  <strong>MA-POCA</strong> заменяет их self-attention.
+                </>,
+                <>
+                  Что такое <strong>posthumous credit assignment</strong> и{" "}
+                  <em>counterfactual baseline</em>.
+                </>,
+                <>
+                  Как работает <strong>Self-Play</strong>: авто-curriculum, пул снапшотов,
+                  нестационарность.
+                </>,
+                <>
+                  Зачем нужен рейтинг <strong>ELO</strong> и как его читать в TensorBoard.
+                </>,
+                <>
+                  Как собрать кооперативную команду (<code className={chip}>poca</code> +{" "}
+                  <code className={chip}>SimpleMultiAgentGroup</code>) и соревновательный матч (
+                  <code className={chip}>self_play</code>) в Unity ML-Agents — полные YAML-конфиги.
+                </>,
+                <>
+                  Как расширить гоночный агент из проекта 3 до соревновательного или кооперативного
+                  формата.
+                </>,
+              ]}
+            />
+
+            {/* «Как читать кросс-ссылки» note */}
+            <div className="rounded-xl border border-purple-500/20 bg-purple-500/5 backdrop-blur-sm p-5 text-sm text-foreground/80 leading-relaxed">
+              <strong className="text-purple-300">Как читать кросс-ссылки в этом уроке.</strong> Урок
+              — нарративная точка входа. Формальные выводы и доказательства (self-attention, TD(λ),
+              теорема сходимости PPO) вынесены в хабы и обозначены значком{" "}
+              <span className="text-cyan-300">↗</span>. Секции урока несут стабильные{" "}
+              <code className={chip}>id</code>-якоря (см. навигацию выше), чтобы хабы могли ссылаться
+              обратно.
+            </div>
+
+            {/* Key findings grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {KEY_FINDINGS.map(({ title, text, icon: Icon, color }) => (
+                <Card
+                  key={title}
+                  className={`group bg-card/60 backdrop-blur-sm transition-all duration-300 hover:scale-105 ${COLOR_MAP[color]}`}
+                >
+                  <CardContent className="p-5 space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <h4 className="font-bold text-foreground leading-snug">{title}</h4>
+                      <Icon className="w-6 h-6 shrink-0 transition-transform group-hover:scale-110" />
+                    </div>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{text}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </motion.section>
 
         {/* ── Раздел 0 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-0-от-одного-гоночного-агента-к-команде" className={SECTION_H2}>
             Раздел 0. От одного гоночного агента к команде: зачем нужен MARL
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-foreground/90 leading-relaxed">
             В проекте 3 мы обучили одного гоночного агента алгоритмом PPO. Теперь представьте: на
             трассе не один, а четыре агента. Или команда роботов, которая вместе несёт груз. Или
             команда по мини-футболу. Казалось бы — просто запустим PPO на каждом агенте отдельно, и
             всё.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">Это не работает. И вот почему.</p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">Это не работает. И вот почему.</p>
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Когда агент А учится, его политика меняется. Но агент Б, который тоже учится,
             воспринимает среду через действия А. Значит, среда Б <strong className="text-foreground">нестационарна</strong> —
             она меняется в каждый момент, потому что меняются соседи. Стандартный RL предполагает
             стационарную среду, и это предположение нарушается.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Вторая проблема: в командных задачах агенты получают <strong className="text-foreground">общую</strong> награду.
             Команда забила гол — плюс всем. Но кто именно внёс вклад? Полузащитник, который отдал
             пас? Нападающий, который пробил? Или вратарь, который держался в своей зоне и не мешал?
             Это и есть <strong className="text-foreground">командный credit assignment</strong> — задача
             разобраться, кто что заслужил.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Именно для решения этих двух проблем существует{" "}
             <strong className="text-foreground">многоагентное обучение с подкреплением (MARL)</strong>.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             В этом уроке мы разберём два инструмента, которые Unity ML-Agents даёт «из коробки»:
           </p>
           <ul className="space-y-2 mt-2 text-sm text-muted-foreground">
@@ -294,16 +515,16 @@ const CourseLesson3_2 = () => {
               "Unity ML-Agents решает это двумя инструментами: MA-POCA (кооперация) и Self-Play (соревнование).",
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 1 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-1-постановка-задачи-decentralized-pomdp-и-ctde" className={SECTION_H2}>
             Раздел 1. Постановка задачи: decentralized-POMDP и CTDE
           </h2>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4 mb-2">Формальная постановка</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Формальная постановка</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Многоагентная задача формализуется как <strong className="text-foreground">decentralized-POMDP</strong> —
             кортеж <Math display={false}>{String.raw`(N, \mathcal{S}, \mathcal{O}, \mathcal{A}, P, r, \gamma)`}</Math>, где:
           </p>
@@ -314,7 +535,7 @@ const CourseLesson3_2 = () => {
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><Math display={false}>{String.raw`\mathcal{A} = \mathcal{A}_1 \times \cdots \times \mathcal{A}_N`}</Math> — совместное пространство действий,</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><Math display={false}>{String.raw`P`}</Math> — функция переходов, <Math display={false}>{String.raw`r(s, \mathbf{a})`}</Math> — <strong className="text-foreground">общая</strong> функция награды, <Math display={false}>{String.raw`\gamma`}</Math> — дисконт.</span></li>
           </ul>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Ключевое слово — <strong className="text-foreground">decentralized</strong>: агент{" "}
             <Math display={false}>{String.raw`i`}</Math> в момент <Math display={false}>{String.raw`t`}</Math> видит только своё
             локальное наблюдение <Math display={false}>{String.raw`o^i_t`}</Math>, коррелирующее с{" "}
@@ -322,30 +543,30 @@ const CourseLesson3_2 = () => {
             Совместная политика факторизуется:
           </p>
           <Math>{String.raw`\pi(\mathbf{a}_t \mid \mathbf{o}_t) = \prod_{i=1}^{N} \pi_i(a^i_t \mid o^i_t),`}</Math>
-          <p className="text-muted-foreground leading-relaxed mt-1">— каждый агент действует по своим наблюдениям, независимо.</p>
+          <p className="text-foreground/90 leading-relaxed mt-1">— каждый агент действует по своим наблюдениям, независимо.</p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Нестационарность среды</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Нестационарность среды</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Из-за совместного обучения среда с точки зрения агента <Math display={false}>{String.raw`i`}</Math> нестационарна:
             переход <Math display={false}>{String.raw`s_{t+1} \sim P(\cdot \mid s_t, a^i_t, \mathbf{a}^{-i}_t)`}</Math> зависит
             от действий всех остальных агентов <Math display={false}>{String.raw`\mathbf{a}^{-i}_t`}</Math>, политики которых
             постоянно меняются. Марковское предположение нарушается.
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Парадигма CTDE</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Парадигма CTDE</h3>
+          <p className="text-foreground/90 leading-relaxed">
             <strong className="text-foreground">Centralized Training with Decentralized Execution (CTDE)</strong> —
             главная парадигма решения: во время <strong className="text-foreground">обучения</strong> критик имеет
             доступ к глобальной информации (состояния и действия всех агентов), а во время{" "}
             <strong className="text-foreground">исполнения</strong> каждый актор работает только по своим локальным
             наблюдениям <Math display={false}>{String.raw`o^i`}</Math>.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Это элегантное разделение: вы можете обучить богатого «координатора» (критика), который
             видит всё, — но в продакшне каждый робот или агент работает автономно, без общения.
             Критик нужен только при обучении.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Три подхода к реализации CTDE (в статье MA-POCA):
           </p>
           <TableWrap>
@@ -386,52 +607,52 @@ const CourseLesson3_2 = () => {
               "MA-POCA реализует IACC: один общий критик + набор независимых акторов.",
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 2 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-2-counterfactual-baseline-и-командный-credit-assignment" className={SECTION_H2}>
             Раздел 2. Counterfactual baseline и командный credit assignment
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-foreground/90 leading-relaxed">
             Централизованный критик знает совместное <Math display={false}>{String.raw`Q^\pi(s, \mathbf{a})`}</Math> —
             ценность совместного действия всей команды. Но нам нужно приписать каждому агенту{" "}
             <Math display={false}>{String.raw`i`}</Math> его <strong className="text-foreground">индивидуальный</strong> вклад. Как?
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4 mb-2">Идея COMA: counterfactual baseline</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Идея COMA: counterfactual baseline</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Counterfactual Multi-Agent Policy Gradients (COMA, Foerster et al. 2018) предложил
             элегантный ответ: <strong className="text-foreground">сравни фактическое действие агента с тем, что
             было бы, если бы он действовал иначе, — при фиксированных действиях всех остальных.</strong>
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Определим <strong className="text-foreground">counterfactual baseline</strong> для агента{" "}
             <Math display={false}>{String.raw`i`}</Math> (уравнение (3) в MA-POCA):
           </p>
           <Math>{String.raw`b_i(s, \mathbf{a}) = \mathbb{E}_{a' \sim \pi_i(\cdot \mid o^i)}\!\left[ Q^\pi\!\left(s,\, (\mathbf{a}^{-i},\, a')\right) \right],`}</Math>
-          <p className="text-muted-foreground leading-relaxed mt-1">
+          <p className="text-foreground/90 leading-relaxed mt-1">
             где <Math display={false}>{String.raw`\mathbf{a}^{-i}`}</Math> — действия всех агентов{" "}
             <strong className="text-foreground">кроме</strong> <Math display={false}>{String.raw`i`}</Math> (зафиксированы), а{" "}
             <Math display={false}>{String.raw`a'`}</Math> — гипотетическое действие агента <Math display={false}>{String.raw`i`}</Math>,
             усреднённое по его текущей политике.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Тогда <strong className="text-foreground">counterfactual advantage</strong> агента{" "}
             <Math display={false}>{String.raw`i`}</Math> (уравнение (4)):
           </p>
           <Math>{String.raw`\hat{A}_i = Q^\pi(s, \mathbf{a}) - b_i(s, \mathbf{a}).`}</Math>
-          <p className="text-muted-foreground leading-relaxed mt-1">
+          <p className="text-foreground/90 leading-relaxed mt-1">
             Смысл прозрачен: <Math display={false}>{String.raw`\hat{A}_i > 0`}</Math> означает, что агент{" "}
             <Math display={false}>{String.raw`i`}</Math> сыграл <strong className="text-foreground">лучше</strong>, чем его
             средний ход при тех же действиях команды. <Math display={false}>{String.raw`\hat{A}_i < 0`}</Math> — хуже.
             Это и есть индивидуальный вклад.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Обновление политики агента <Math display={false}>{String.raw`i`}</Math> (уравнение (5)):
           </p>
           <Math>{String.raw`\nabla_{\theta_i} J(\theta_i) = \mathbb{E}_{\substack{s \sim \rho^\pi \\ a^i \sim \pi_i}}\!\left[ \nabla_{\theta_i} \log \pi_i(a^i \mid o^i) \cdot \hat{A}_i \right].`}</Math>
-          <p className="text-muted-foreground leading-relaxed mt-1">
+          <p className="text-foreground/90 leading-relaxed mt-1">
             Сравните с обычным policy gradient из{" "}
             <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="раздел-6-reparameterization-trick-для-стохастической-политики" hubTitle="Урок 3.1 — Reparameterization trick">урока 3.1</CrossLinkToHub> —
             структура та же, только advantage теперь контрфактический. Строгий вывод counterfactual
@@ -439,8 +660,8 @@ const CourseLesson3_2 = () => {
             <CrossLinkToHub hubPath="/algorithms/poca" hubAnchor="counterfactual-baseline" hubTitle="MA-POCA — counterfactual baseline">хабе по командному credit assignment</CrossLinkToHub>.
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Почему это работает лучше, чем просто вычесть V</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Почему это работает лучше, чем просто вычесть V</h3>
+          <p className="text-foreground/90 leading-relaxed">
             В однагентном PPO мы вычитаем <Math display={false}>{String.raw`V(s)`}</Math> — «базовый уровень» из состояния,
             независимый от действия. В MARL обычный <Math display={false}>{String.raw`V(s)`}</Math> не несёт информации о том,{" "}
             <strong className="text-foreground">кто именно</strong> помог. Counterfactual baseline делает тонче: он
@@ -456,43 +677,43 @@ const CourseLesson3_2 = () => {
               <>Это точнее обычного <Math display={false}>{String.raw`V(s)`}</Math>: сравнение «что было бы, если бы только я сыграл иначе».</>,
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 3 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-3-posthumous-credit-assignment" className={SECTION_H2}>
             Раздел 3. Posthumous credit assignment: зачем агенту умирать за команду
           </h2>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4 mb-2">Проблема</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Проблема</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Кооперативные среды часто предполагают, что агент может{" "}
             <strong className="text-foreground">выбыть из эпизода раньше остальных</strong> — погибнуть,
             разрядиться, быть деактивированным — и при этом получить командную награду, которую
             заработают другие <strong className="text-foreground">после</strong> его выбытия.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Представьте сцену из Dungeon Escape (канонический пример из статьи MA-POCA): чтобы выпал
             ключ, один из агентов должен убить дракона. Убивая дракона, агент погибает сам. Остальные
             с ключом выходят из подземелья — и только тогда команда получает награду. Агент, который
             пожертвовал собой, уже мёртв и не увидит этой награды.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Как научить агента самопожертвованию? Это и есть задача{" "}
             <strong className="text-foreground">posthumous credit assignment</strong> — назначить заслугу агенту
             за действия, последствия которых он уже не наблюдает. MA-POCA — первая работа, где эта
             проблема названа явно и решена систематически (Cohen et al., Unity, 2021).
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Стандартный «костыль»: absorbing states — и почему они плохи</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Стандартный «костыль»: absorbing states — и почему они плохи</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Обычный способ работы с выбывшими агентами — <strong className="text-foreground">поглощающее состояние</strong> (absorbing state).
             Агент <Math display={false}>{String.raw`i`}</Math> выбывает — его наблюдение фиксируется в специальном{" "}
             <Math display={false}>{String.raw`o^{abs}_i`}</Math>, и он «зависает» там до конца эпизода. Формально:{" "}
             <Math display={false}>{String.raw`P(o^{abs}_i \mid o^{abs}_i, a^i) = 1`}</Math> для любого <Math display={false}>{String.raw`a^i`}</Math>.
             Это позволяет существующим API работать без изменений.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Но статья MA-POCA доказывает <strong className="text-foreground">три проблемы</strong>:
           </p>
           <ol className="space-y-2 mt-2 text-sm text-muted-foreground list-decimal pl-5">
@@ -515,8 +736,8 @@ const CourseLesson3_2 = () => {
             </li>
           </ol>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Решение MA-POCA: self-attention только по активным агентам</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Решение MA-POCA: self-attention только по активным агентам</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Вместо absorbing states MA-POCA применяет <strong className="text-foreground">self-attention
             исключительно к активным агентам</strong> в каждый момент времени. Архитектурный блок
             называется <strong className="text-foreground">RSA (Residual Self-Attention)</strong>:
@@ -528,19 +749,19 @@ const CourseLesson3_2 = () => {
             <li>Результат <strong className="text-foreground">усредняется</strong> в фиксированный по размеру вектор.</li>
             <li><strong className="text-foreground">Без позиционных кодировок</strong> → перестановочная инвариантность: порядок агентов не важен.</li>
           </ol>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Централизованная V-функция через RSA (уравнение (6)):
           </p>
           <Math>{String.raw`V_\phi\!\left(\text{RSA}\!\left(\{g_i(o^i_t)\}_{1 \le i \le k_t}\right)\right),`}</Math>
-          <p className="text-muted-foreground leading-relaxed mt-1">
+          <p className="text-foreground/90 leading-relaxed mt-1">
             где <Math display={false}>{String.raw`k_t`}</Math> — число <strong className="text-foreground">активных</strong> агентов в момент <Math display={false}>{String.raw`t`}</Math>.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Как это решает posthumous credit assignment.</strong> TD(<Math display={false}>{String.raw`\lambda`}</Math>)-таргет
             для V (уравнение (7)):
           </p>
           <Math>{String.raw`y^{(\lambda)} = (1{-}\lambda)\sum_{n=1}^{\infty} \lambda^{n-1} G^{(n)}_t, \quad G^{(n)}_t = \sum_{l=1}^{n} \gamma^{l-1} r_{t+l} + \gamma^n\, V_\phi\!\left(\text{RSA}\!\left(\{g_j(o^j_{t+n})\}_{1 \le j \le k_{t+n}}\right)\right).`}</Math>
-          <p className="text-muted-foreground leading-relaxed mt-1">
+          <p className="text-foreground/90 leading-relaxed mt-1">
             Bootstrap-член <Math display={false}>{String.raw`\gamma^n \cdot V_\phi(\text{RSA}(\ldots))`}</Math> на шаге{" "}
             <Math display={false}>{String.raw`t{+}n`}</Math> вычисляется по <strong className="text-foreground">активным агентам в{" "}
             <Math display={false}>{String.raw`t{+}n`}</Math></strong> — которых может быть больше или меньше, чем в{" "}
@@ -561,19 +782,19 @@ const CourseLesson3_2 = () => {
               <>TD(<Math display={false}>{String.raw`\lambda`}</Math>)-bootstrap через RSA «доставляет» будущую ценность команды к моменту, когда агент ещё был активен.</>,
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 4 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-4-архитектура-ma-poca" className={SECTION_H2}>
             Раздел 4. Архитектура MA-POCA: две сети, один критик
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-foreground/90 leading-relaxed">
             Практический SAC использовал <strong className="text-foreground">две Q-сети + политику</strong> (см.{" "}
             <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="раздел-4-soft-policy-iteration-практический-sac" hubTitle="Урок 3.1 — Soft Policy Iteration">урок 3.1, раздел 4</CrossLinkToHub>).
             MA-POCA использует другой набор:
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Политика (Actor)</strong>{" "}
             <Math display={false}>{String.raw`\pi_{\theta_i}(a^i \mid o^i)`}</Math> — <strong className="text-foreground">отдельная</strong> для
             каждого агента, видит только локальное <Math display={false}>{String.raw`o^i`}</Math>. Структура: обычная
@@ -581,13 +802,13 @@ const CourseLesson3_2 = () => {
             одинаковым пространством наблюдений <strong className="text-foreground">делят веса</strong>{" "}
             <Math display={false}>{String.raw`\theta`}</Math> — это и есть "shared policy".
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Централизованный critic (V-сеть)</strong>{" "}
             <Math display={false}>{String.raw`V_\phi(\text{RSA}(\{g_i(o^i)\}_{i \text{ active}}))`}</Math> —{" "}
             <strong className="text-foreground">один на всю команду</strong>, видит наблюдения всех активных
             агентов через RSA-блок. Выдаёт скалярную оценку ценности совместного состояния.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Baseline-сеть</strong>{" "}
             <Math display={false}>{String.raw`Q_\psi(\text{RSA}(g_j(o^j),\, \{f_i(o^i, a^i)\}_{i \ne j}))`}</Math> — обусловлена парами
             наблюдение-действие всех агентов <strong className="text-foreground">кроме</strong> <Math display={false}>{String.raw`j`}</Math> и
@@ -597,7 +818,7 @@ const CourseLesson3_2 = () => {
             (по одному на каждого <Math display={false}>{String.raw`j`}</Math>), но только один для V. Общая сеть привела бы
             к «доминированию baseline» при обучении.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Все три сети обновляются через <strong className="text-foreground">PPO-клиппинг</strong> — именно поэтому
             MA-POCA не требует отдельных гиперпараметров и работает на тех же настройках, что PPO.
           </p>
@@ -609,26 +830,26 @@ const CourseLesson3_2 = () => {
               "Обновления — через PPO-клиппинг; отдельных POCA-гиперпараметров нет.",
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 5 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-5-ma-poca-в-unity-ml-agents" className={SECTION_H2}>
             Раздел 5. MA-POCA в Unity ML-Agents: групповые награды и YAML
           </h2>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4 mb-2">Групповые vs индивидуальные награды</h3>
-          <p className="text-muted-foreground leading-relaxed">Unity различает два типа наград:</p>
+          <h3 className={H3_CLASS}>Групповые vs индивидуальные награды</h3>
+          <p className="text-foreground/90 leading-relaxed">Unity различает два типа наград:</p>
           <ul className="space-y-1.5 mt-2 text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">agent.AddReward(r)</code> / <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">agent.SetReward(r)</code> — <strong className="text-foreground">индивидуальная</strong> награда конкретному агенту.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">m_AgentGroup.AddGroupReward(r)</code> — <strong className="text-foreground">групповая</strong> награда, распределяется на всю команду через MA-POCA.</span></li>
           </ul>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Групповые награды — это то, что MA-POCA умеет обрабатывать правильно. Индивидуальные тоже
             работают (они суммируются к групповым), но именно групповые активируют механизм credit
             assignment и posthumous propagation.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">Канонический C#-паттерн:</p>
+          <p className="text-foreground/90 leading-relaxed mt-3">Канонический C#-паттерн:</p>
           <CyberCodeBlock language="csharp" filename="MultiAgentGroup.cs">
 {`// Initialize()
 m_AgentGroup = new SimpleMultiAgentGroup();
@@ -644,7 +865,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
 // + сброс сцены`}
           </CyberCodeBlock>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Полный YAML-конфиг (SoccerTwos, 2v2, poca + self_play)</h3>
+          <h3 className={H3_CLASS}>Полный YAML-конфиг (SoccerTwos, 2v2, poca + self_play)</h3>
           <CyberCodeBlock language="python" filename="SoccerTwos.yaml">
 {`behaviors:
   SoccerTwos:
@@ -685,8 +906,8 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
       initial_elo: 1200.0`}
           </CyberCodeBlock>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Разбор полей POCA</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Разбор полей POCA</h3>
+          <p className="text-foreground/90 leading-relaxed">
             <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">trainer_type: poca</code> выбирает алгоритм.
             Все гиперпараметры внутри <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">hyperparameters</code> —{" "}
             <strong className="text-foreground">идентичны PPO</strong> (разобраны в{" "}
@@ -694,7 +915,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             SAC и применимы к poca так же). Отдельных POCA-специфичных полей не существует —
             архитектура RSA и baseline-сеть встроены в тренер автоматически.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Единственное, на что стоит обратить внимание в{" "}
             <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">network_settings</code>:
           </p>
@@ -709,27 +930,27 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               <><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">hidden_units: 512</code> и <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">time_horizon: 1000</code> — типичные значения для командных задач.</>,
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 6 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-6-self-play" className={SECTION_H2}>
             Раздел 6. Self-Play: агент учится у самого себя
           </h2>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4 mb-2">Концепция и авто-curriculum</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Концепция и авто-curriculum</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Self-play — обучение агента, играющего против <strong className="text-foreground">копий и прошлых
             версий себя</strong>.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Ключевое свойство: такая среда содержит <strong className="text-foreground">встроенный
             авто-curriculum</strong>. Агент-новичок сначала играет против такого же новичка — это
             посильная задача. По мере роста мастерства растёт и сложность соперника. Авто-curriculum
             не нужно проектировать вручную — он возникает сам из-за того, что оппонент — это ты сам,
             только вчерашний.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Исторически этот принцип использовался в TD-Gammon (Tesauro, 1995) и был доведён до
             сверхчеловеческого уровня в AlphaGo/AlphaZero (Silver et al., 2016). OpenAI показал его
             силу в простых физических средах: гуманоиды, обученные только на разреженной награде
@@ -737,14 +958,14 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             бег, блокирование, уклонение и подкаты — никто эти навыки не программировал явно.
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Нестационарность в self-play и пул снапшотов</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Нестационарность в self-play и пул снапшотов</h3>
+          <p className="text-foreground/90 leading-relaxed">
             В self-play нестационарность — та же проблема, что в MARL вообще: обучаешься против
             соперника, который сам учится. Если всегда играть против <strong className="text-foreground">самой
             последней</strong> версии себя, обучение нестабильно — агент «гоняется за собственным
             хвостом».
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Решение Unity ML-Agents: <strong className="text-foreground">пул снапшотов</strong>. Политика агента
             периодически сохраняется как snapshot. При каждом матче оппонент выбирается{" "}
             <strong className="text-foreground">случайно из пула прошлых версий</strong> (с вероятностью{" "}
@@ -760,13 +981,13 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             показывает, как меняется распределение выбора оппонента.
           </InteractiveStub>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Когда кумулятивная награда бесполезна: нужен ELO</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Когда кумулятивная награда бесполезна: нужен ELO</h3>
+          <p className="text-foreground/90 leading-relaxed">
             В adversarial-играх кумулятивная награда — плохая метрика прогресса. Сильный агент
             получает меньше наград против сильных соперников, чем слабый против слабых. Значение само
             по себе ни о чём не говорит.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             Вместо этого используют <strong className="text-foreground">рейтинг ELO</strong> — относительный
             уровень мастерства в zero-sum игре. При корректном обучении ELO должен{" "}
             <strong className="text-foreground">стабильно расти</strong> — это и есть нужная метрика.
@@ -778,37 +999,37 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               "Кумулятивная награда в adversarial-играх бессмысленна — нужен ELO.",
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 7 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-7-система-рейтинга-elo" className={SECTION_H2}>
             Раздел 7. Система рейтинга ELO
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-foreground/90 leading-relaxed">
             <strong className="text-foreground">ELO</strong> — рейтинговая система из шахмат (Arpad Elo,
             1960-е), адаптированная для zero-sum игр.
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4 mb-2">Ожидаемый результат</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Ожидаемый результат</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Если агент A имеет рейтинг <Math display={false}>{String.raw`R_A`}</Math>, а агент B —{" "}
             <Math display={false}>{String.raw`R_B`}</Math>, ожидаемый результат A:
           </p>
           <Math>{String.raw`E_A = \frac{1}{1 + 10^{(R_B - R_A)/400}}.`}</Math>
-          <p className="text-muted-foreground leading-relaxed mt-1">
+          <p className="text-foreground/90 leading-relaxed mt-1">
             При равных рейтингах <Math display={false}>{String.raw`E_A = 0.5`}</Math>. При разрыве 300 очков в пользу A:{" "}
             <Math display={false}>{String.raw`E_A \approx 0.85`}</Math>, <Math display={false}>{String.raw`E_B \approx 0.15`}</Math>.
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Обновление рейтинга</h3>
-          <p className="text-muted-foreground leading-relaxed">После матча:</p>
+          <h3 className={H3_CLASS}>Обновление рейтинга</h3>
+          <p className="text-foreground/90 leading-relaxed">После матча:</p>
           <Math>{String.raw`R'_A = R_A + K \cdot (S_A - E_A),`}</Math>
-          <p className="text-muted-foreground leading-relaxed mt-1">
+          <p className="text-foreground/90 leading-relaxed mt-1">
             где <Math display={false}>{String.raw`S_A \in \{1, 0.5, 0\}`}</Math> — фактический исход
             (победа/ничья/поражение), <Math display={false}>{String.raw`K = 16`}</Math> — константа скорости обновления.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Пример Tennis</strong> (из документации Unity): оба стартуют с{" "}
             <Math display={false}>{String.raw`R = 1200`}</Math>, <Math display={false}>{String.raw`E_A = E_B = 0.5`}</Math>.
           </p>
@@ -816,8 +1037,8 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span>A побеждает: <Math display={false}>{String.raw`R'_A = 1200 + 16 \cdot (1 - 0.5) = \mathbf{1208}`}</Math>, <Math display={false}>{String.raw`R'_B = 1200 + 16 \cdot (0 - 0.5) = \mathbf{1192}`}</Math>.</span></li>
           </ul>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Zero-sum условие</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Zero-sum условие</h3>
+          <p className="text-foreground/90 leading-relaxed">
             ELO требует <strong className="text-foreground">zero-sum</strong> структуры наград: когда A получает{" "}
             <Math display={false}>{String.raw`+1`}</Math>, B получает <Math display={false}>{String.raw`-1`}</Math>. Документация Unity
             предупреждает: <em>«финальная награда в траектории должна быть +1 (победа), 0 (ничья) или
@@ -826,8 +1047,8 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <strong className="text-foreground">финальную</strong> награду.
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Как читать ELO в TensorBoard</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Как читать ELO в TensorBoard</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Метрика <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">Self-Play/ELO</code> — единственная
             документированная self-play-метрика в TensorBoard. Интерпретация:
           </p>
@@ -845,14 +1066,14 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               <>В TensorBoard: только <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">Self-Play/ELO</code>; стабильный рост = прогресс.</>,
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 8 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-8-self-play-в-unity-ml-agents" className={SECTION_H2}>
             Раздел 8. Self-Play в Unity ML-Agents: YAML и все поля
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-foreground/90 leading-relaxed">
             Self-play добавляется как подсекция{" "}
             <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">self_play:</code> к{" "}
             <strong className="text-foreground">любому</strong> тренеру{" "}
@@ -869,15 +1090,15 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
   initial_elo: 1200.0      # дефолт`}
           </CyberCodeBlock>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Поле за полем</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Поле за полем</h3>
+          <p className="text-foreground/90 leading-relaxed">
             <strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">save_steps</code></strong>{" "}
             <em>(дефолт: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">20000</code>)</em> — число{" "}
             <strong className="text-foreground">trainer-шагов</strong> (шагов обучения) между сохранениями
             очередного snapshot политики в пул. Больше значение → в пуле больше «разброс по времени» →
             разнообразнее соперники. Типичный диапазон: <Math display={false}>{String.raw`10\,000`}</Math>–<Math display={false}>{String.raw`100\,000`}</Math>.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change</code></strong>{" "}
             <em>(дефолт: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">5 × save_steps</code>)</em> — число
             trainer-шагов между сменой <strong className="text-foreground">обучающейся</strong> команды (применимо в
@@ -887,7 +1108,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             В SoccerTwos: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">save_steps=50000</code>,{" "}
             <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change=200000</code> (= 4×).
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">swap_steps</code></strong>{" "}
             <em>(дефолт: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">10000</code>)</em> — число{" "}
             <strong className="text-foreground">ghost-шагов</strong> (шагов агента-«призрака», следующего
@@ -898,14 +1119,14 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">swap_steps = (1/2) × (team_change / x)</code>;
             команда из 2 агентов → <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">swap_steps = (2/1) × (team_change / x)</code>.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">window</code></strong>{" "}
             <em>(дефолт: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">10</code>)</em> — размер скользящего
             окна пула прошлых снапшотов. Старейший вытесняется, когда добавляется новый. Больше →
             разнообразнее соперники, медленнее нарастает сложность. Типичный диапазон:{" "}
             <Math display={false}>{String.raw`5`}</Math>–<Math display={false}>{String.raw`30`}</Math>.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">play_against_latest_model_ratio</code></strong>{" "}
             <em>(дефолт: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">0.5</code>)</em> — вероятность
             сыграть против <strong className="text-foreground">последней</strong> версии политики;{" "}
@@ -913,7 +1134,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             агрессивнее авто-curriculum, но нестабильнее. Ниже → стабильнее, но медленнее растёт
             сложность.
           </p>
-          <p className="text-muted-foreground leading-relaxed mt-3">
+          <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">initial_elo</code></strong>{" "}
             <em>(дефолт: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">1200.0</code>)</em> — стартовый ELO
             для всех агентов.
@@ -924,7 +1145,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             Unity предупреждает, что threaded-режим при self-play снижает производительность.
           </Callout>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Симметричные vs асимметричные игры</h3>
+          <h3 className={H3_CLASS}>Симметричные vs асимметричные игры</h3>
           <ul className="space-y-1.5 mt-2 text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Симметричные</strong> (Tennis, SoccerTwos): все агенты/команды используют <strong className="text-foreground">одно</strong> поведение (<code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">behavior_name</code>). Один YAML-блок, одна секция <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">self_play</code>.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Асимметричные</strong> (Strikers Vs Goalie): разные роли — <strong className="text-foreground">разные</strong> <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">behavior_name</code>, каждому своя секция <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">self_play</code> в YAML, каждый тренируется против ghost-версии другого.</span></li>
@@ -937,10 +1158,10 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               <>При asymmetric: разные <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">behavior_name</code>, у каждого своя секция <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">self_play</code>.</>,
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 9 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-9-когда-что-использовать" className={SECTION_H2}>
             Раздел 9. Когда что использовать: сравнительная таблица
           </h2>
@@ -1005,16 +1226,16 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               "Комбо poca + self_play = team-vs-team (SoccerTwos, DodgeBall).",
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 10 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-10-гиперпараметры-и-диагностика" className={SECTION_H2}>
             Раздел 10. Гиперпараметры и диагностика
           </h2>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4 mb-2">Тюнинг MA-POCA</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Тюнинг MA-POCA</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Поскольку POCA использует те же гиперпараметры, что PPO, большинство советов по PPO
             применимы напрямую. Специфика для командных задач:
           </p>
@@ -1025,7 +1246,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">beta</code> (энтропия) — следите в TensorBoard. Если агенты слишком быстро «согласовывают» одну стратегию и перестают исследовать — поднимите <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">beta</code>.</span></li>
           </ul>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Тюнинг Self-Play</h3>
+          <h3 className={H3_CLASS}>Тюнинг Self-Play</h3>
           <ul className="space-y-1.5 mt-2 text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">save_steps</code></strong>: начните с дефолта <Math display={false}>{String.raw`20\,000`}</Math>. Если ELO осциллирует — увеличьте.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change</code></strong>: держите <Math display={false}>{String.raw`\approx 4{-}5 \times`}</Math> <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">save_steps</code>. В SoccerTwos: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">save_steps=50000</code> → <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change=200000</code>.</span></li>
@@ -1034,7 +1255,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Ранние шаги ELO</strong>: не паникуйте, если ELO &lt; 1200 первые <Math display={false}>{String.raw`1{-}2`}</Math>M шагов — агенты ещё «случайные».</span></li>
           </ul>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Диагностика в TensorBoard</h3>
+          <h3 className={H3_CLASS}>Диагностика в TensorBoard</h3>
           <TableWrap>
             <thead>
               <tr>
@@ -1073,21 +1294,21 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               <>ELO &lt; 1200 в первые <Math display={false}>{String.raw`\sim 2`}</Math>M шагов — нормально.</>,
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Раздел 11 ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="раздел-11-расширение-гоночного-агента" className={SECTION_H2}>
             Раздел 11. Расширение гоночного агента: соревновательный и кооперативный форматы
           </h2>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-foreground/90 leading-relaxed">
             В{" "}
             <CrossLinkToHub hubPath="/courses/project-3" hubTitle="Проект 3 — Гоночный агент">проекте 3</CrossLinkToHub>{" "}
             мы обучили одиночного гоночного агента. Теперь два пути его расширения.
           </p>
 
-          <h3 className="text-lg font-semibold text-foreground mt-4 mb-2">Путь A: соревновательная гонка (self-play)</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Путь A: соревновательная гонка (self-play)</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Несколько машин на трассе, побеждает первый финишировавший:
           </p>
           <ul className="space-y-1.5 mt-2 text-sm text-muted-foreground">
@@ -1128,8 +1349,8 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
       initial_elo: 1200.0`}
           </CyberCodeBlock>
 
-          <h3 className="text-lg font-semibold text-foreground mt-5 mb-2">Путь B: командная эстафета (MA-POCA)</h3>
-          <p className="text-muted-foreground leading-relaxed">
+          <h3 className={H3_CLASS}>Путь B: командная эстафета (MA-POCA)</h3>
+          <p className="text-foreground/90 leading-relaxed">
             Команда из N машин должна «довести хотя бы одну до финиша». Машины могут «жертвовать»
             собой — тараном блокировать соперника — пока партнёр едет к финишу.
           </p>
@@ -1146,10 +1367,10 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               "Эмерджентное поведение (обгоны, жертвование) не программируется — возникает из наград и алгоритма.",
             ]}
           />
-        </section>
+        </motion.section>
 
         {/* ── Итоги ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="итоги-урока" className={SECTION_H2}>Итоги урока</h2>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Нестационарность</strong> — фундаментальная проблема MARL: среда каждого агента нестационарна, потому что соседи учатся.</span></li>
@@ -1202,10 +1423,10 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               </ul>
             </div>
           </details>
-        </section>
+        </motion.section>
 
         {/* ── Источники ── */}
-        <section>
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
           <h2 id="источники" className={SECTION_H2}>Источники</h2>
           <ol className="space-y-3 text-sm text-muted-foreground list-decimal pl-5">
             <li>
@@ -1228,68 +1449,163 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               <em>Attention is All You Need.</em> NeurIPS. — Self-attention, механизм RSA.
             </li>
           </ol>
-        </section>
+        </motion.section>
 
-        {/* ── Связанные материалы ── */}
-        <section>
-          <h2 id="связанные-материалы" className={SECTION_H2}>Связанные материалы</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="bg-card/40 border-primary/20">
-              <CardContent className="p-5">
-                <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-primary" /> Хабы по теме
-                </h3>
-                <ul className="space-y-2 text-sm">
-                  <li>
-                    <CrossLinkToHub hubPath="/algorithms/poca" hubTitle="MA-POCA">MA-POCA</CrossLinkToHub>
-                    <span className="text-xs text-muted-foreground"> — counterfactual baseline, RSA-архитектура</span>
-                  </li>
-                  <li>
-                    <CrossLinkToHub hubPath="/algorithms/ppo" hubTitle="PPO">PPO</CrossLinkToHub>
-                    <span className="text-xs text-muted-foreground"> — клиппинг, GAE (основа MA-POCA)</span>
-                  </li>
-                  <li>
-                    <CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="лекция-2-вывод-градиента-политики" hubTitle="Математика RL — Модуль 4">Градиент политики</CrossLinkToHub>
-                    <span className="text-xs text-muted-foreground"> — вывод policy gradient</span>
-                  </li>
-                  <li>
-                    <CrossLinkToHub hubPath="/deep-rl" hubAnchor="algorithms" hubTitle="Deep RL">MARL, CTDE, actor-critic</CrossLinkToHub>
-                    <span className="text-xs text-muted-foreground"> — семейство алгоритмов</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card className="bg-card/40 border-secondary/20">
-              <CardContent className="p-5">
-                <h3 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                  <GraduationCap className="w-4 h-4 text-secondary" /> Связанные уроки
-                </h3>
-                <ul className="space-y-2 text-sm">
-                  <li>
-                    <CrossLinkToHub hubPath="/courses/3-1" hubTitle="Урок 3.1">3.1 — SAC: Soft Actor-Critic</CrossLinkToHub>
-                    <span className="text-xs text-muted-foreground"> — Actor-critic, PPO — база MA-POCA</span>
-                  </li>
-                  <li>
-                    <CrossLinkToHub hubPath="/courses/project-3" hubTitle="Проект 3">project-3 — Гоночный агент</CrossLinkToHub>
-                    <span className="text-xs text-muted-foreground"> — расширяем до multi-agent</span>
-                  </li>
-                  <li>
-                    <CrossLinkToHub hubPath="/courses/2-3" hubTitle="Урок 2.3">2.3 — Непрерывные действия и Actor-Critic</CrossLinkToHub>
-                    <span className="text-xs text-muted-foreground"> — Advantage, GAE</span>
-                  </li>
-                  <li>
-                    <CrossLinkToHub hubPath="/courses/2-6" hubTitle="Урок 2.6">2.6 — TensorBoard и W&B</CrossLinkToHub>
-                    <span className="text-xs text-muted-foreground"> — читаем ELO</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+      </div>
 
-        <Quiz title="Проверь себя: MA-POCA и Self-Play" questions={quizQuestions} lessonPath="/courses/3-2" />
-      </ProGate>
-    </LessonLayout>
+      <Quiz
+        title="Проверь себя: MA-POCA и Self-Play"
+        questions={quizQuestions}
+        lessonPath="/courses/3-2"
+        nextLesson={{ path: "/courses/3-3", title: "Curriculum Learning" }}
+      />
+
+      {/* ── Связанные материалы ── */}
+      <motion.section
+        aria-label="Связанные материалы"
+        className={`mt-12 ${SECTION_CLASS}`}
+        variants={SECTION_VARIANTS}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <h2 className={SECTION_H2}>Связанные материалы</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          {/* Хабы по теме */}
+          <Card className="bg-card/40 backdrop-blur-sm border-cyan-500/20 hover:border-cyan-400/50 transition-colors">
+            <CardContent className="p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <Link2 className="w-5 h-5 text-cyan-400" />
+                <h3 className="font-bold text-foreground">Хабы по теме</h3>
+              </div>
+              <ul className="space-y-2.5 text-sm">
+                <li className="leading-snug">
+                  <CrossLinkToHub hubPath="/algorithms/poca" hubTitle="MA-POCA">MA-POCA</CrossLinkToHub>
+                  <span className="text-xs text-muted-foreground"> — counterfactual baseline, RSA-архитектура</span>
+                </li>
+                <li className="leading-snug">
+                  <CrossLinkToHub hubPath="/algorithms/ppo" hubTitle="PPO">PPO</CrossLinkToHub>
+                  <span className="text-xs text-muted-foreground"> — клиппинг, GAE (основа MA-POCA)</span>
+                </li>
+                <li className="leading-snug">
+                  <CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="лекция-2-вывод-градиента-политики" hubTitle="Математика RL — Модуль 4">Градиент политики</CrossLinkToHub>
+                  <span className="text-xs text-muted-foreground"> — вывод policy gradient</span>
+                </li>
+                <li className="leading-snug">
+                  <CrossLinkToHub hubPath="/deep-rl" hubAnchor="algorithms" hubTitle="Deep RL">MARL, CTDE, actor-critic</CrossLinkToHub>
+                  <span className="text-xs text-muted-foreground"> — семейство алгоритмов</span>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          {/* Связанные уроки */}
+          <Card className="bg-card/40 backdrop-blur-sm border-purple-500/20 hover:border-purple-400/50 transition-colors">
+            <CardContent className="p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <GraduationCap className="w-5 h-5 text-purple-400" />
+                <h3 className="font-bold text-foreground">Связанные уроки</h3>
+              </div>
+              <ul className="space-y-3 text-sm">
+                <li className="leading-snug">
+                  <CrossLinkToLesson lessonId="3.1" lessonPath="/courses/3-1" lessonTitle="SAC: Soft Actor-Critic" lessonLevel={3}>
+                    <span className="font-semibold">3.1</span>
+                    <span className="ml-1">— SAC: Soft Actor-Critic</span>
+                  </CrossLinkToLesson>
+                  <div className="text-xs text-muted-foreground mt-0.5 ml-4">Actor-critic, PPO — база MA-POCA</div>
+                </li>
+                <li className="leading-snug">
+                  <CrossLinkToLesson lessonId="project-3" lessonPath="/courses/project-3" lessonTitle="Гоночный агент" lessonLevel={2}>
+                    <span className="font-semibold">project-3</span>
+                    <span className="ml-1">— Гоночный агент</span>
+                  </CrossLinkToLesson>
+                  <div className="text-xs text-muted-foreground mt-0.5 ml-4">Расширяем до multi-agent</div>
+                </li>
+                <li className="leading-snug">
+                  <CrossLinkToLesson lessonId="2.3" lessonPath="/courses/2-3" lessonTitle="Непрерывные действия и Actor-Critic" lessonLevel={2}>
+                    <span className="font-semibold">2.3</span>
+                    <span className="ml-1">— Непрерывные действия и Actor-Critic</span>
+                  </CrossLinkToLesson>
+                  <div className="text-xs text-muted-foreground mt-0.5 ml-4">Advantage, GAE</div>
+                </li>
+                <li className="leading-snug">
+                  <CrossLinkToLesson lessonId="2.6" lessonPath="/courses/2-6" lessonTitle="TensorBoard и W&B" lessonLevel={2}>
+                    <span className="font-semibold">2.6</span>
+                    <span className="ml-1">— TensorBoard и W&B</span>
+                  </CrossLinkToLesson>
+                  <div className="text-xs text-muted-foreground mt-0.5 ml-4">Читаем ELO</div>
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          {/* Внешние ресурсы */}
+          <Card className="bg-card/40 backdrop-blur-sm border-pink-500/20 hover:border-pink-400/50 transition-colors">
+            <CardContent className="p-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <Wrench className="w-5 h-5 text-pink-400" />
+                <h3 className="font-bold text-foreground">Внешние ресурсы</h3>
+              </div>
+              <ul className="space-y-2 text-sm">
+                {[
+                  { label: "MA-POCA / absorbing states — arXiv:2111.05992", url: "https://arxiv.org/abs/2111.05992" },
+                  { label: "COMA (Foerster et al., 2018) — arXiv:1705.08926", url: "https://arxiv.org/abs/1705.08926" },
+                  { label: "Emergent Complexity via Multi-Agent Competition — arXiv:1710.03748", url: "https://arxiv.org/abs/1710.03748" },
+                  { label: "Attention is All You Need — arXiv:1706.03762", url: "https://arxiv.org/abs/1706.03762" },
+                  { label: "Unity ML-Agents — Training Configuration", url: "https://unity-technologies.github.io/ml-agents/Training-Configuration-File/" },
+                ].map((r) => (
+                  <li key={r.url}>
+                    <a
+                      href={r.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-start gap-1.5 text-cyan-300 hover:text-cyan-200 hover:underline transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                      <span>{r.label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+      </motion.section>
+
+      <Card className="mt-8 border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm">
+        <CardContent className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
+            Дочитали до конца? Зафиксируйте прогресс и получите XP.
+          </p>
+          <CompleteButton />
+        </CardContent>
+      </Card>
+
+      <NextPrevLesson prev={lesson.prev} next={lesson.next} />
+    </>
+  );
+
+  return (
+    <>
+      <SEOHead
+        title="Урок 3.2. Многоагентное обучение: MA-POCA и Self-Play | CyberUnityCode"
+        description="Полный разбор многоагентного RL в Unity ML-Agents: нестационарность, парадигма CTDE, counterfactual baseline, posthumous credit assignment, MA-POCA с self-attention (RSA), Self-Play, авто-curriculum, рейтинг ELO и готовые YAML-конфиги. PRO-урок продвинутого уровня."
+        path="/courses/3-2"
+        type="article"
+        keywords="MA-POCA, MARL, многоагентное обучение, Self-Play, CTDE, counterfactual baseline, posthumous credit assignment, RSA, self-attention, ELO, Unity ML-Agents, SimpleMultiAgentGroup, poca, self_play"
+      />
+      <a
+        href="#lesson-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-md focus:bg-card focus:text-cyan-300 focus:border focus:border-cyan-400 focus:shadow-[0_0_16px_hsl(var(--primary)/0.6)]"
+      >
+        К содержимому урока
+      </a>
+      <ScrollProgressBar color="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
+      <main className="container max-w-5xl mx-auto px-4 py-8">
+        <ProGate preview={content}>{content}</ProGate>
+      </main>
+    </>
   );
 };
 
