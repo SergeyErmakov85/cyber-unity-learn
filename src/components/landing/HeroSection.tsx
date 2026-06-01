@@ -102,13 +102,20 @@ const HeroSection = () => {
 
           {/* Tech Pills */}
           <div className="flex flex-wrap justify-center gap-3 pt-6">
-            {["PyTorch", "Unity ML-Agents", "ONNX", "Sentis", "Jupyter"].map((tech) => (
-              <span
-                key={tech}
-                className="bg-card/50 border border-primary/20 text-xs px-3 py-1 rounded-full text-muted-foreground"
+            {[
+              { label: "PyTorch", path: "/pytorch" },
+              { label: "Unity ML-Agents", path: "/unity-ml-agents" },
+              { label: "ONNX", path: "/advanced/onnx-sentis" },
+              { label: "Sentis", path: "/advanced/onnx-sentis" },
+              { label: "Jupyter", path: "/code-examples" },
+            ].map(({ label, path }) => (
+              <button
+                key={label}
+                onClick={() => navigate(path)}
+                className="bg-card/50 border border-primary/20 text-xs px-3 py-1 rounded-full text-muted-foreground hover:text-primary hover:border-primary/60 hover:shadow-glow-cyan transition-all cursor-pointer"
               >
-                {tech}
-              </span>
+                {label}
+              </button>
             ))}
             <button
               onClick={() => navigate("/hub/research")}
