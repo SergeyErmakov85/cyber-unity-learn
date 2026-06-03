@@ -67,6 +67,7 @@ export default {
         'glow-pink': 'var(--glow-pink)',
         'glow-yellow': 'var(--glow-yellow)',
         'glow-darkblue': 'var(--glow-darkblue)',
+        'glow-green': 'var(--glow-green)',
       },
       borderRadius: {
         lg: "var(--radius)",
