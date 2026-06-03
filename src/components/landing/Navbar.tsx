@@ -158,17 +158,17 @@ const Navbar = () => {
               <Code2 className="w-4 h-4 text-accent shrink-0" />
               <span className="text-sm font-medium text-foreground whitespace-nowrap">Deep RL</span>
             </button>
-            <button onClick={() => navigate("/unity-projects")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/unity-projects" ? "border-secondary/70 bg-secondary/15 shadow-glow-purple" : "border-secondary/30 shadow-glow-purple hover:bg-secondary/10"}`}>
-              <Rocket className="w-4 h-4 text-secondary shrink-0" />
-              <span className="text-sm font-medium text-foreground whitespace-nowrap">Проекты</span>
-            </button>
-            <button onClick={() => navigate("/hub/math-rl")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/hub/math-rl" ? "border-accent/70 bg-accent/15 shadow-glow-pink" : "border-accent/30 shadow-glow-pink hover:bg-accent/10"}`}>
-              <Sparkles className="w-4 h-4 text-accent shrink-0" />
+            <button onClick={() => navigate("/hub/math-rl")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/hub/math-rl" ? "border-green-400/70 bg-green-400/15 shadow-glow-green" : "border-green-400/30 shadow-glow-green hover:bg-green-400/10"}`}>
+              <Sparkles className="w-4 h-4 text-green-400 shrink-0" />
               <span className="text-sm font-medium text-foreground whitespace-nowrap">Математика RL</span>
             </button>
             <button onClick={() => navigate("/algorithms")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname.startsWith("/algorithms") ? "border-blue-500/70 bg-blue-500/15 shadow-glow-darkblue" : "border-blue-500/30 shadow-glow-darkblue hover:bg-blue-500/10"}`}>
               <Cpu className="w-4 h-4 text-blue-400 shrink-0" />
               <span className="text-sm font-medium text-foreground whitespace-nowrap">Алгоритмы RL</span>
+            </button>
+            <button onClick={() => navigate("/unity-projects")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/unity-projects" ? "border-secondary/70 bg-secondary/15 shadow-glow-purple" : "border-secondary/30 shadow-glow-purple hover:bg-secondary/10"}`}>
+              <Rocket className="w-4 h-4 text-secondary shrink-0" />
+              <span className="text-sm font-medium text-foreground whitespace-nowrap">Проекты</span>
             </button>
             <button onClick={() => navigate("/hub/research")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/hub/research" ? "border-yellow-400/70 bg-yellow-400/15 shadow-glow-yellow" : "border-yellow-400/30 shadow-glow-yellow hover:bg-yellow-400/10"}`}>
               <Microscope className="w-4 h-4 text-yellow-400 shrink-0" />
@@ -268,9 +268,9 @@ const Navbar = () => {
                     { href: "/hub/pytorch", label: "PyTorch", Icon: Brain, color: "text-primary" },
                     { href: "/hub/unity-ml-agents", label: "Unity ML-Agents", Icon: Gamepad2, color: "text-secondary" },
                     { href: "/hub/deep-rl", label: "Deep RL", Icon: Code2, color: "text-accent" },
-                    { href: "/unity-projects", label: "Проекты", Icon: Rocket, color: "text-secondary" },
-                    { href: "/hub/math-rl", label: "Математика RL", Icon: Sparkles, color: "text-accent" },
+                    { href: "/hub/math-rl", label: "Математика RL", Icon: Sparkles, color: "text-green-400" },
                     { href: "/algorithms", label: "Алгоритмы RL", Icon: Cpu, color: "text-blue-400" },
+                    { href: "/unity-projects", label: "Проекты", Icon: Rocket, color: "text-secondary" },
                     { href: "/hub/research", label: "Исследования RL", Icon: Microscope, color: "text-yellow-400" },
                     
                   ].map((item) => (
