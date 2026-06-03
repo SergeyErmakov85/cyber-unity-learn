@@ -1,4 +1,6 @@
 import { Lightbulb, Code2, Gamepad2, Trophy } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type PieceColor = "primary" | "secondary" | "accent" | "emerald";
 
@@ -10,6 +12,7 @@ const PIECES: {
   stroke: string;
   glow: string;
   iconShadow: string;
+  href: string;
 }[] = [
   {
     title: "Теория и математика",
@@ -19,6 +22,7 @@ const PIECES: {
     stroke: "hsl(180 100% 50%)",
     glow: "hsl(180 100% 50% / 0.55)",
     iconShadow: "0 0 24px hsl(180 100% 50% / 0.55)",
+    href: "/hub/math-rl",
   },
   {
     title: "Код на PyTorch",
@@ -28,6 +32,7 @@ const PIECES: {
     stroke: "hsl(280 85% 65%)",
     glow: "hsl(280 85% 65% / 0.55)",
     iconShadow: "0 0 24px hsl(280 85% 65% / 0.55)",
+    href: "/hub/pytorch",
   },
   {
     title: "Игровые среды Unity",
@@ -37,6 +42,7 @@ const PIECES: {
     stroke: "hsl(330 85% 65%)",
     glow: "hsl(330 85% 65% / 0.55)",
     iconShadow: "0 0 24px hsl(330 85% 65% / 0.55)",
+    href: "/hub/unity-ml-agents",
   },
   {
     title: "Реальные результаты",
@@ -46,6 +52,7 @@ const PIECES: {
     stroke: "hsl(142 76% 50%)",
     glow: "hsl(142 76% 50% / 0.55)",
     iconShadow: "0 0 24px hsl(142 76% 50% / 0.55)",
+    href: "/unity-projects",
   },
 ];
 
@@ -95,6 +102,8 @@ const pieceCenterPct = (i: number) => {
 };
 
 const SolutionSection = () => {
+  const navigate = useNavigate();
+  const [hovered, setHovered] = useState<number | null>(null);
   return (
     <section id="solution" className="py-20 px-4 relative overflow-hidden">
       {/* Background Effects */}
@@ -124,7 +133,7 @@ const SolutionSection = () => {
           <div className="relative w-full" style={{ aspectRatio: `${VB_W} / ${VB_H}` }}>
             <svg
               viewBox={`0 0 ${VB_W} ${VB_H}`}
-              className="absolute inset-0 w-full h-full"
+              className="absolute inset-0 w-full h-full pointer-events-none"
               aria-hidden="true"
             >
               <defs>
@@ -191,16 +200,18 @@ const SolutionSection = () => {
               {/* Puzzle pieces */}
               {PIECES.map((p, i) => {
                 const d = piecePath(i);
+                const isHover = hovered === i;
                 return (
-                  <g key={p.title} className="transition-opacity">
+                  <g key={p.title} style={{ transition: "opacity 200ms" }}>
                     {/* Outer glow */}
                     <path
                       d={d}
                       fill="none"
                       stroke={p.stroke}
-                      strokeWidth="6"
-                      opacity="0.25"
+                      strokeWidth={isHover ? 10 : 6}
+                      opacity={isHover ? 0.55 : 0.25}
                       filter="url(#neonGlow)"
+                      style={{ transition: "all 200ms ease-out" }}
                     />
                     {/* Solid fill */}
                     <path d={d} fill={`url(#pieceFill-${i})`} />
@@ -209,33 +220,48 @@ const SolutionSection = () => {
                       d={d}
                       fill="none"
                       stroke={p.stroke}
-                      strokeWidth="1.75"
-                      opacity="0.85"
+                      strokeWidth={isHover ? 2.75 : 1.75}
+                      opacity={isHover ? 1 : 0.85}
+                      style={{ transition: "all 200ms ease-out" }}
                     />
                   </g>
                 );
               })}
             </svg>
 
-            {/* Content overlays positioned over each piece */}
+            {/* Content overlays positioned over each piece — clickable */}
             {PIECES.map((p, i) => {
               const pos = pieceCenterPct(i);
               const Icon = p.Icon;
+              const isHover = hovered === i;
               return (
-                <div
+                <button
                   key={`overlay-${p.title}`}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center px-4"
+                  type="button"
+                  onClick={() => navigate(p.href)}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered((h) => (h === i ? null : h))}
+                  onFocus={() => setHovered(i)}
+                  onBlur={() => setHovered((h) => (h === i ? null : h))}
+                  aria-label={`Перейти к разделу: ${p.title}`}
+                  className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center px-4 cursor-pointer outline-none group rounded-xl focus-visible:ring-2"
                   style={{
                     left: pos.left,
                     top: pos.top,
                     width: `${(P_W / VB_W) * 100 - 4}%`,
+                    height: `${(P_H / VB_H) * 100 - 6}%`,
+                    transform: `translate(-50%, -50%) scale(${isHover ? 1.04 : 1})`,
+                    transition: "transform 200ms ease-out",
                   }}
                 >
                   <div
                     className="w-14 h-14 lg:w-16 lg:h-16 rounded-xl bg-card/70 backdrop-blur-sm border flex items-center justify-center mb-3"
                     style={{
                       borderColor: p.stroke,
-                      boxShadow: p.iconShadow,
+                      boxShadow: isHover
+                        ? `0 0 36px ${p.glow}, 0 0 12px ${p.glow}`
+                        : p.iconShadow,
+                      transition: "all 200ms ease-out",
                     }}
                   >
                     <Icon
@@ -243,26 +269,33 @@ const SolutionSection = () => {
                       style={{ color: p.stroke, filter: `drop-shadow(0 0 6px ${p.glow})` }}
                     />
                   </div>
-                  <h3 className="text-base lg:text-xl font-bold text-foreground leading-tight mb-2">
+                  <h3
+                    className="text-base lg:text-xl font-bold leading-tight mb-2 transition-colors"
+                    style={{ color: isHover ? p.stroke : "hsl(var(--foreground))" }}
+                  >
                     {p.title}
                   </h3>
                   <p className="text-[11px] lg:text-sm text-muted-foreground leading-snug">
                     {p.desc}
                   </p>
-                </div>
+                </button>
               );
             })}
           </div>
         </div>
+
 
         {/* ===== Mobile: simple stacked puzzle pieces ===== */}
         <div className="md:hidden max-w-md mx-auto space-y-4">
           {PIECES.map((p) => {
             const Icon = p.Icon;
             return (
-              <div
+              <button
                 key={p.title}
-                className="relative rounded-2xl bg-card/60 backdrop-blur-sm border p-5 text-center"
+                type="button"
+                onClick={() => navigate(p.href)}
+                aria-label={`Перейти к разделу: ${p.title}`}
+                className="w-full relative rounded-2xl bg-card/60 backdrop-blur-sm border p-5 text-center transition-transform active:scale-[0.98] hover:scale-[1.02] cursor-pointer"
                 style={{ borderColor: p.stroke, boxShadow: `0 0 18px ${p.glow}` }}
               >
                 <div
@@ -276,7 +309,7 @@ const SolutionSection = () => {
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-1">{p.title}</h3>
                 <p className="text-sm text-muted-foreground">{p.desc}</p>
-              </div>
+              </button>
             );
           })}
         </div>
