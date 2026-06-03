@@ -138,6 +138,7 @@ const LearningPathSection = () => {
                                       "text-secondary": "hsl(var(--secondary))",
                                       "text-accent": "hsl(var(--accent))",
                                       "text-yellow-400": "hsl(48, 96%, 53%)",
+                                      "text-green-400": "hsl(142, 71%, 45%)",
                                     };
                                     return (
                                       <span
@@ -171,6 +172,7 @@ const LearningPathSection = () => {
                 "text-secondary": "hsl(var(--secondary))",
                 "text-accent": "hsl(var(--accent))",
                 "text-yellow-400": "hsl(48, 96%, 53%)",
+                                      "text-green-400": "hsl(142, 71%, 45%)",
               };
               return (
                 <span key={hId} className="flex items-center gap-1.5">
