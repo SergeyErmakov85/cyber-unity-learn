@@ -136,11 +136,6 @@ const SolutionSection = () => {
               className="absolute inset-0 w-full h-full pointer-events-none"
               aria-hidden="true"
             >
-            <svg
-              viewBox={`0 0 ${VB_W} ${VB_H}`}
-              className="absolute inset-0 w-full h-full"
-              aria-hidden="true"
-            >
               <defs>
                 {/* Neon gradient sweeping across the whole bridge */}
                 <linearGradient id="archGradient" x1="0" y1="0" x2="1" y2="0">
