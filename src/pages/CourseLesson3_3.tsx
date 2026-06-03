@@ -1,298 +1,280 @@
-import LessonLayout from "@/components/LessonLayout";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Home, ChevronRight, CheckCircle2 } from "lucide-react";
 import ProGate from "@/components/ProGate";
-import CyberCodeBlock from "@/components/CyberCodeBlock";
+import LessonHeader from "@/components/LessonHeader";
+import SectionNav, { SectionNavItem } from "@/components/SectionNav";
+import NextPrevLesson from "@/components/NextPrevLesson";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
+import SEOHead from "@/components/SEOHead";
 import Quiz from "@/components/Quiz";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Lightbulb, TrendingUp, Shuffle } from "lucide-react";
-import CrossLinkToHub from "@/components/CrossLinkToHub";
+import { getLessonById } from "@/data/lessons";
+import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
 
-const quizQuestions = [
+import IntroSection from "@/components/lesson-3-3/IntroSection";
+import Section0 from "@/components/lesson-3-3/Section0";
+import Section1 from "@/components/lesson-3-3/Section1";
+import Section2 from "@/components/lesson-3-3/Section2";
+import Section3 from "@/components/lesson-3-3/Section3";
+import Section4 from "@/components/lesson-3-3/Section4";
+import Section5 from "@/components/lesson-3-3/Section5";
+import Section6 from "@/components/lesson-3-3/Section6";
+import Section7 from "@/components/lesson-3-3/Section7";
+import Section8 from "@/components/lesson-3-3/Section8";
+import Section9 from "@/components/lesson-3-3/Section9";
+import Summary from "@/components/lesson-3-3/Summary";
+import RelatedMaterials from "@/components/lesson-3-3/RelatedMaterials";
+
+/** Полный список пунктов оглавления (для SectionNav). */
+const SECTIONS: SectionNavItem[] = [
+  { id: "intro", label: "Введение" },
+  { id: "razdel-0-ot-samoigry-k-srede", label: "0 · От самоигры к среде" },
+  { id: "razdel-1-trudnaya-zadacha", label: "1 · Трудная задача" },
+  { id: "razdel-2-uchebnyy-plan-formalno", label: "2 · План формально" },
+  { id: "razdel-3-kto-vedet-za-ruku", label: "3 · Кто ведёт за руку" },
+  { id: "razdel-4-randomizatsiya", label: "4 · Рандомизация" },
+  { id: "razdel-5-adr", label: "5 · ADR" },
+  { id: "razdel-6-plr", label: "6 · PLR" },
+  { id: "razdel-7-unity-ml-agents", label: "7 · Unity ML-Agents" },
+  { id: "razdel-8-tyuning-grabli", label: "8 · Тюнинг и грабли" },
+  { id: "razdel-9-ued", label: "9 · UED" },
+  { id: "itogi", label: "Итоги" },
+  { id: "istochniki", label: "Источники" },
+];
+
+/** Секции, рендерящиеся через map (intro → разделы → итоги). «istochniki» — отдельно (RelatedMaterials). */
+const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
+  { id: "intro", Comp: IntroSection },
+  { id: "razdel-0-ot-samoigry-k-srede", Comp: Section0 },
+  { id: "razdel-1-trudnaya-zadacha", Comp: Section1 },
+  { id: "razdel-2-uchebnyy-plan-formalno", Comp: Section2 },
+  { id: "razdel-3-kto-vedet-za-ruku", Comp: Section3 },
+  { id: "razdel-4-randomizatsiya", Comp: Section4 },
+  { id: "razdel-5-adr", Comp: Section5 },
+  { id: "razdel-6-plr", Comp: Section6 },
+  { id: "razdel-7-unity-ml-agents", Comp: Section7 },
+  { id: "razdel-8-tyuning-grabli", Comp: Section8 },
+  { id: "razdel-9-ued", Comp: Section9 },
+  { id: "itogi", Comp: Summary },
+];
+
+const SECTION_CLASS =
+  "scroll-mt-24 py-12 md:py-16 px-5 md:px-10 bg-card/60 backdrop-blur-sm rounded-2xl border border-cyan-500/10";
+
+const SECTION_VARIANTS = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const QUIZ_QUESTIONS = [
   {
-    question: "Зачем использовать Curriculum Learning?",
+    question: "Почему трудную трассу почти невозможно выучить «в лоб», с нуля?",
     options: [
-      "Для уменьшения размера нейронной сети",
-      "Чтобы начать с простых задач и постепенно усложнять — агент не теряет мотивацию",
-      "Для ускорения инференса",
-      "Curriculum Learning не даёт преимуществ",
+      "Не хватает памяти GPU для трудных уровней",
+      "Награда разрежена → агент почти не финиширует, и оценка градиента политики почти всегда нулевая или шумовая",
+      "PPO в принципе не работает на трудных средах",
+      "Трудные среды нарушают марковское предположение",
     ],
     correctIndex: 1,
+    explanation:
+      "На трудной трассе агент почти никогда не доезжает до финальной награды. Сигнал слишком разрежен, поэтому оценка градиента политики почти всегда нулевая или чисто шумовая — учиться не на чем.",
   },
   {
-    question: "Какой параметр определяет переключение между уровнями curriculum?",
+    question: "Чем формально является учебный план (curriculum), по Bengio и др. (2009)?",
     options: [
-      "max_steps",
-      "measure: reward, threshold: значение при котором переходить на следующий уровень",
-      "learning_rate",
-      "Уровни переключаются случайно",
+      "Частным случаем метода продолжения: гладкую цель L₀ постепенно деформируют в трудную L⋆",
+      "Разновидностью replay buffer",
+      "Способом уменьшить число параметров сети",
+      "Алгоритмом отбора признаков",
     ],
-    correctIndex: 1,
+    correctIndex: 0,
+    explanation:
+      "Учебный план — частный случай метода продолжения (continuation method): начинаем со сглаженной, простой цели L₀ и по «ручке» λ:0→1 деформируем её в исходную трудную L⋆.",
   },
   {
-    question: "Как Environment Randomization помогает generalization?",
+    question: "Какую болезнь лечит рандомизация среды и почему она в RL особенно коварна?",
     options: [
-      "Рандомизация замедляет обучение",
-      "Агент видит разные варианты среды — учится обобщать вместо запоминания одного сценария",
-      "Рандомизация используется только для тестирования",
-      "Environment Randomization не влияет на обобщение",
+      "Замедление инференса; рандомизация ускоряет сеть",
+      "Переобучение (разрыв обобщения): по умолчанию обучение и тест идут на одной среде, и переобучение незаметно",
+      "Нестационарность соперника в self-play",
+      "Переоценку Q-функции",
     ],
     correctIndex: 1,
+    explanation:
+      "В RL по умолчанию агента обучают и тестируют на одной среде, поэтому переобучение скрыто. Раздельные train/test-уровни (Cobbe и др.) вскрывают разрыв обобщения; рандомизация заставляет учить инварианты.",
   },
   {
-    question: "Какие параметры среды можно рандомизировать в Unity ML-Agents?",
+    question: "Что делает ADR (Automatic Domain Randomization)?",
     options: [
-      "Только визуальные (цвет, текстура)",
-      "Любые: гравитация, масса объектов, размеры, скорость, позиции",
-      "Только позиции объектов",
-      "Рандомизация не поддерживается в ML-Agents",
+      "Фиксирует распределение среды на всё обучение",
+      "Стартует с нерандомизированной среды и автоматически расширяет диапазоны случайности при достижении порога качества",
+      "Курирует, какие уже виденные уровни переигрывать чаще",
+      "Генерирует уровни через обучаемого учителя, максимизируя regret",
     ],
     correctIndex: 1,
+    explanation:
+      "ADR = учебный план над рандомизацией: начинаем без случайности и расширяем границы факторизованного распределения P_φ через boundary sampling, когда успешность на границе превышает порог t_H.",
+  },
+  {
+    question: "Чем PLR принципиально отличается от ADR?",
+    options: [
+      "PLR требует полного контроля над генератором уровней",
+      "PLR не управляет генератором (он — чёрный ящик), а лишь курирует, какие уровни переигрывать — по высокому |Â_t|",
+      "PLR работает только в self-play",
+      "PLR не использует преимущество (advantage)",
+    ],
+    correctIndex: 1,
+    explanation:
+      "PLR применяется, когда генератор уровней — чёрный ящик (только сиды). Менять распределение нельзя; PLR ведёт распределение над виденными уровнями и переигрывает те, у которых высок учебный потенциал ≈ средний |Â_t| (L1 value loss), со staleness-коррекцией.",
   },
 ];
 
+const CompleteButton = () => {
+  const [done, setDone] = useState<boolean>(() => isLessonComplete("3.3"));
+
+  useEffect(() => {
+    if (done) return;
+    const onScroll = () => {
+      const h = document.documentElement;
+      const pct = (window.scrollY / (h.scrollHeight - window.innerHeight)) * 100;
+      if (pct >= 90) {
+        markLessonComplete("3.3");
+        setDone(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [done]);
+
+  const handleClick = () => {
+    markLessonComplete("3.3");
+    setDone(true);
+  };
+
+  return (
+    <Button
+      onClick={handleClick}
+      disabled={done}
+      size="lg"
+      className="w-full md:w-auto bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white font-semibold shadow-[0_0_24px_hsl(var(--primary)/0.45)] hover:shadow-[0_0_32px_hsl(280_85%_65%/0.55)] hover:scale-[1.02] transition-all disabled:opacity-80 disabled:cursor-default focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      aria-label={done ? "Урок пройден" : "Отметить урок как пройденный"}
+    >
+      {done ? (
+        <>
+          <CheckCircle2 className="w-5 h-5 mr-2" aria-hidden="true" />
+          Пройдено
+        </>
+      ) : (
+        <>Отметить урок как пройденный ✓</>
+      )}
+    </Button>
+  );
+};
+
 const CourseLesson3_3 = () => {
-  const preview = (
+  const lesson = getLessonById("3.3")!;
+
+  const content = (
     <>
-      <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">Зачем усложнять постепенно</h2>
-        <p className="text-muted-foreground leading-relaxed">
-          Представьте, что ребёнка сразу посадили за руль болида Формулы-1 — он ничему не научится.
-          Но если начать с велосипеда, потом картинг, потом обычная машина — он освоит вождение.
-          <strong className="text-foreground"> <CrossLinkToHub hubPath="/deep-rl" hubAnchor="practice" hubTitle="Deep RL — практика и curriculum">Curriculum Learning</CrossLinkToHub></strong> применяет тот же принцип к RL-агентам.
-        </p>
-        <p className="text-muted-foreground leading-relaxed mt-3">
-          А <strong className="text-primary">Environment Randomization</strong> — это способ сделать агента
-          робастным: тренируясь в разных вариациях среды (разная гравитация, масса, размеры),
-          агент учится обобщать вместо заучивания одного сценария.
-        </p>
-      </section>
+      {/* Breadcrumbs */}
+      <nav aria-label="Хлебные крошки" className="mb-6">
+        <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+          <li>
+            <Link to="/" className="hover:text-cyan-400 inline-flex items-center gap-1">
+              <Home className="w-3.5 h-3.5" aria-hidden="true" /> Главная
+            </Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li>
+            <Link to="/courses" className="hover:text-cyan-400">
+              Курс
+            </Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li>
+            <Link to="/courses#stage-3" className="hover:text-cyan-400">
+              Уровень 3
+            </Link>
+          </li>
+          <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
+          <li className="text-foreground" aria-current="page">
+            Урок 3.3
+          </li>
+        </ol>
+      </nav>
+
+      <LessonHeader
+        title={lesson.title}
+        subtitle={lesson.subtitle}
+        isPro={lesson.isPro}
+        estimatedMinutes={lesson.estimatedMinutes}
+      />
+
+      <SectionNav items={SECTIONS} />
+
+      <div id="lesson-content" className="space-y-8 mt-8">
+        {MAPPED_SECTIONS.map(({ id, Comp }, i) => (
+          <motion.section
+            key={id}
+            id={id === "intro" ? "intro" : undefined}
+            className={SECTION_CLASS}
+            variants={SECTION_VARIANTS}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: Math.min(i * 0.05, 0.25) }}
+          >
+            <Comp />
+          </motion.section>
+        ))}
+      </div>
+
+      <Quiz
+        title="Проверь себя: учебный план и рандомизация"
+        questions={QUIZ_QUESTIONS}
+        lessonPath="/courses/3-3"
+        nextLesson={{ path: "/courses/3-4", title: "Имитационное обучение (GAIL)" }}
+      />
+
+      <RelatedMaterials />
+
+      <Card className="mt-8 border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 backdrop-blur-sm">
+        <CardContent className="p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
+            Дочитали до конца? Зафиксируйте прогресс и получите XP.
+          </p>
+          <CompleteButton />
+        </CardContent>
+      </Card>
+
+      <NextPrevLesson prev={lesson.prev} next={lesson.next} />
     </>
   );
 
   return (
-    <LessonLayout
-      lessonId="3-3"
-      lessonTitle="Curriculum Learning и Environment Randomization"
-      lessonNumber="3.3"
-      duration="35 мин"
-      tags={["#mlagents", "#curriculum", "#advanced"]}
-      level={3}
-      prevLesson={{ path: "/courses/3-2", title: "MA-POCA и Self-Play" }}
-      nextLesson={{ path: "/courses/3-4", title: "Имитационное обучение" }}
-    >
-      <ProGate preview={preview}>
-        {preview}
-
-        {/* Curriculum */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Curriculum Learning в ML-Agents: <CrossLinkToHub hubPath="/unity-ml-agents" hubAnchor="training" hubTitle="Unity ML-Agents — Обучение">environment_parameters</CrossLinkToHub></h2>
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-5 h-5 text-primary" />
-            <p className="text-sm text-muted-foreground">
-              Задаём уровни сложности, агент переходит на следующий при достижении порога reward.
-            </p>
-          </div>
-
-          <CyberCodeBlock language="python" filename="curriculum_config.yaml">
-{`behaviors:
-  JumperAgent:
-    trainer_type: ppo
-    hyperparameters:
-      batch_size: 1024
-      buffer_size: 10240
-      learning_rate: 3.0e-4
-    max_steps: 2000000
-
-# Curriculum: постепенное усложнение
-environment_parameters:
-  obstacle_height:
-    curriculum:
-      - name: EasyPhase
-        completion_criteria:
-          measure: reward
-          behavior: JumperAgent
-          min_lesson_length: 100
-          threshold: 0.8             # Переход при reward > 0.8
-        value: 0.5                   # Начальная высота: 0.5
-      - name: MediumPhase
-        completion_criteria:
-          measure: reward
-          behavior: JumperAgent
-          min_lesson_length: 100
-          threshold: 0.8
-        value: 1.0                   # Средняя: 1.0
-      - name: HardPhase
-        value: 2.0                   # Финальная: 2.0
-
-  obstacle_speed:
-    curriculum:
-      - name: SlowPhase
-        completion_criteria:
-          measure: reward
-          behavior: JumperAgent
-          threshold: 0.7
-        value: 1.0
-      - name: FastPhase
-        value: 3.0`}
-          </CyberCodeBlock>
-        </section>
-
-        {/* C# side */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">C#: чтение параметров curriculum</h2>
-          <CyberCodeBlock language="csharp" filename="JumperEnvironment.cs">
-{`using Unity.MLAgents;
-using UnityEngine;
-
-public class JumperEnvironment : MonoBehaviour
-{
-    public Transform obstacle;
-    private EnvironmentParameters envParams;
-
-    void Start()
-    {
-        envParams = Academy.Instance.EnvironmentParameters;
-    }
-
-    public void ResetEnvironment()
-    {
-        // Читаем текущие параметры curriculum
-        float height = envParams.GetWithDefault(
-            "obstacle_height", 0.5f);
-        float speed = envParams.GetWithDefault(
-            "obstacle_speed", 1.0f);
-
-        // Применяем к среде
-        obstacle.localScale = new Vector3(
-            obstacle.localScale.x,
-            height,
-            obstacle.localScale.z);
-
-        // Скорость применяется в Update()
-        obstacleSpeed = speed;
-
-        Debug.Log($"Curriculum: height={height}, speed={speed}");
-    }
-
-    private float obstacleSpeed;
-
-    void FixedUpdate()
-    {
-        // Двигаем препятствие
-        obstacle.Translate(Vector3.left * obstacleSpeed * Time.fixedDeltaTime);
-
-        // Сброс если вышло за пределы
-        if (obstacle.localPosition.x < -10f)
-        {
-            obstacle.localPosition = new Vector3(10f, obstacle.localPosition.y, 0);
-        }
-    }
-}`}
-          </CyberCodeBlock>
-        </section>
-
-        {/* Environment Randomization */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Environment Randomization</h2>
-          <Card className="bg-card/40 border-primary/20 mb-4">
-            <CardContent className="p-4 flex gap-3 items-start">
-              <Shuffle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-muted-foreground">
-                <strong className="text-foreground">Domain Randomization</strong> — рандомизируем параметры
-                среды при каждом эпизоде. Агент не может «заучить» одну конфигурацию и вынужден обобщать.
-                Критически важно для sim-to-real transfer.
-              </div>
-            </CardContent>
-          </Card>
-
-          <CyberCodeBlock language="python" filename="randomization_config.yaml">
-{`environment_parameters:
-  # Uniform sampling: случайное значение из диапазона
-  gravity:
-    sampler_type: uniform
-    sampler_parameters:
-      min_value: 7.0
-      max_value: 12.0           # Земная ≈ 9.81
-
-  agent_mass:
-    sampler_type: uniform
-    sampler_parameters:
-      min_value: 0.5
-      max_value: 2.0
-
-  # Gaussian sampling: нормальное распределение
-  friction:
-    sampler_type: gaussian
-    sampler_parameters:
-      mean: 0.5
-      st_dev: 0.15
-
-  # Multirange uniform: несколько диапазонов
-  platform_size:
-    sampler_type: multirangeuniform
-    sampler_parameters:
-      ranges:
-        - [2.0, 4.0]
-        - [6.0, 8.0]            # Исключаем средний размер`}
-          </CyberCodeBlock>
-        </section>
-
-        {/* Generalization */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Как рандомизация помогает</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="bg-card/50 border-destructive/30">
-              <CardContent className="p-4 space-y-2">
-                <h3 className="font-bold text-sm text-destructive">❌ Без рандомизации</h3>
-                <ul className="text-xs text-muted-foreground space-y-1">
-                  <li>• Агент запоминает одну конфигурацию</li>
-                  <li>• Ломается при малейшем изменении среды</li>
-                  <li>• Не переносится в реальный мир (sim-to-real gap)</li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card className="bg-card/50 border-green-500/30">
-              <CardContent className="p-4 space-y-2">
-                <h3 className="font-bold text-sm text-green-400">✅ С рандомизацией</h3>
-                <ul className="text-xs text-muted-foreground space-y-1">
-                  <li>• Агент учится обобщать</li>
-                  <li>• Робастен к изменениям параметров</li>
-                  <li>• Лучше переносится в реальный мир</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
-
-        {/* Example */}
-        <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">Пример: прыжки через препятствия</h2>
-          <Card className="bg-card/40 border-border/30">
-            <CardContent className="p-5">
-              <div className="space-y-3">
-                {[
-                  { phase: "Фаза 1 (Easy)", height: "0.5м", speed: "1×", expected: "~200k шагов для reward > 0.8" },
-                  { phase: "Фаза 2 (Medium)", height: "1.0м", speed: "2×", expected: "~300k шагов (с учётом трансфера)" },
-                  { phase: "Фаза 3 (Hard)", height: "2.0м", speed: "3×", expected: "~500k шагов" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-4 text-sm">
-                    <span className="font-semibold text-primary w-32">{item.phase}</span>
-                    <span className="text-muted-foreground">H: {item.height}</span>
-                    <span className="text-muted-foreground">V: {item.speed}</span>
-                    <span className="text-xs text-muted-foreground/70">{item.expected}</span>
-                  </div>
-                ))}
-              </div>
-              <p className="text-xs text-muted-foreground mt-4">
-                Без curriculum агент на Hard-уровне может вообще не обучиться за 2M шагов.
-                С curriculum — стабильно достигает reward {">"} 0.8 за ~800k.
-              </p>
-            </CardContent>
-          </Card>
-        </section>
-
-        <Quiz title="Проверь себя: Curriculum Learning" questions={quizQuestions} />
-      </ProGate>
-    </LessonLayout>
+    <>
+      <SEOHead
+        title="Урок 3.3. Учебный план и рандомизация среды | CyberUnityCode"
+        description="Curriculum learning как метод продолжения, рандомизация среды (контекстный MDP, sim-to-real), ADR, Prioritized Level Replay и Unsupervised Environment Design. Полные YAML-конфиги Unity ML-Agents: сэмплеры и curriculum. PRO-урок продвинутого уровня."
+        path="/courses/3-3"
+        type="article"
+        keywords="curriculum learning, environment randomization, domain randomization, ADR, PLR, UED, PAIRED, контекстный MDP, sim-to-real, Unity ML-Agents, environment_parameters"
+      />
+      <a
+        href="#lesson-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-md focus:bg-card focus:text-cyan-300 focus:border focus:border-cyan-400 focus:shadow-[0_0_16px_hsl(var(--primary)/0.6)]"
+      >
+        К содержимому урока
+      </a>
+      <ScrollProgressBar color="bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500" />
+      <main className="container max-w-5xl mx-auto px-4 py-8">
+        <ProGate preview={content}>{content}</ProGate>
+      </main>
+    </>
   );
 };
 

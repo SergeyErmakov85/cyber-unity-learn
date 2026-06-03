@@ -53,6 +53,20 @@ export const LESSONS: LessonMeta[] = [
     prev: { title: "Урок 3.1: SAC", path: "/courses/3-1" },
     next: { title: "Урок 3.3: Curriculum Learning", path: "/courses/3-3" },
   },
+  {
+    id: "3.3",
+    title: "Учебный план и рандомизация среды",
+    subtitle:
+      "Curriculum learning, рандомизация среды, ADR, PLR и UED: как учить агента трудному и обобщать на новые миры",
+    slug: "curriculum-randomization",
+    level: 3,
+    isPro: true,
+    estimatedMinutes: 45,
+    tags: ["Curriculum Learning", "Domain Randomization", "ADR", "PLR", "UED", "Unity ML-Agents"],
+    path: "/courses/3-3",
+    prev: { title: "Урок 3.2: MA-POCA и Self-Play", path: "/courses/3-2" },
+    next: { title: "Урок 3.4: Имитационное обучение (GAIL)", path: "/courses/3-4" },
+  },
 ];
 
 export const getLessonById = (id: string) =>
