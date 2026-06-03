@@ -102,6 +102,8 @@ const pieceCenterPct = (i: number) => {
 };
 
 const SolutionSection = () => {
+  const navigate = useNavigate();
+  const [hovered, setHovered] = useState<number | null>(null);
   return (
     <section id="solution" className="py-20 px-4 relative overflow-hidden">
       {/* Background Effects */}
