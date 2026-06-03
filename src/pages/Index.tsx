@@ -41,11 +41,11 @@ const Index = () => {
       <ScrollToTop />
       
       <HeroSection />
+      <DemoSection />
       <ProblemSection />
       <SolutionSection />
       <FeaturesSection />
       <AudienceSection />
-      <DemoSection />
       <UniqueValueSection />
       <div className="-mt-[2cm]">
         <LearningPathSection />
