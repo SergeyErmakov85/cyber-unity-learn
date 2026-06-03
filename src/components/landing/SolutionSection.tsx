@@ -1,4 +1,6 @@
 import { Lightbulb, Code2, Gamepad2, Trophy } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type PieceColor = "primary" | "secondary" | "accent" | "emerald";
 
@@ -10,6 +12,7 @@ const PIECES: {
   stroke: string;
   glow: string;
   iconShadow: string;
+  href: string;
 }[] = [
   {
     title: "Теория и математика",
@@ -19,6 +22,7 @@ const PIECES: {
     stroke: "hsl(180 100% 50%)",
     glow: "hsl(180 100% 50% / 0.55)",
     iconShadow: "0 0 24px hsl(180 100% 50% / 0.55)",
+    href: "/hub/math-rl",
   },
   {
     title: "Код на PyTorch",
@@ -28,6 +32,7 @@ const PIECES: {
     stroke: "hsl(280 85% 65%)",
     glow: "hsl(280 85% 65% / 0.55)",
     iconShadow: "0 0 24px hsl(280 85% 65% / 0.55)",
+    href: "/hub/pytorch",
   },
   {
     title: "Игровые среды Unity",
@@ -37,6 +42,7 @@ const PIECES: {
     stroke: "hsl(330 85% 65%)",
     glow: "hsl(330 85% 65% / 0.55)",
     iconShadow: "0 0 24px hsl(330 85% 65% / 0.55)",
+    href: "/hub/unity-ml-agents",
   },
   {
     title: "Реальные результаты",
@@ -46,6 +52,7 @@ const PIECES: {
     stroke: "hsl(142 76% 50%)",
     glow: "hsl(142 76% 50% / 0.55)",
     iconShadow: "0 0 24px hsl(142 76% 50% / 0.55)",
+    href: "/unity-projects",
   },
 ];
 
