@@ -290,9 +290,12 @@ const SolutionSection = () => {
           {PIECES.map((p) => {
             const Icon = p.Icon;
             return (
-              <div
+              <button
                 key={p.title}
-                className="relative rounded-2xl bg-card/60 backdrop-blur-sm border p-5 text-center"
+                type="button"
+                onClick={() => navigate(p.href)}
+                aria-label={`Перейти к разделу: ${p.title}`}
+                className="w-full relative rounded-2xl bg-card/60 backdrop-blur-sm border p-5 text-center transition-transform active:scale-[0.98] hover:scale-[1.02] cursor-pointer"
                 style={{ borderColor: p.stroke, boxShadow: `0 0 18px ${p.glow}` }}
               >
                 <div
@@ -306,7 +309,7 @@ const SolutionSection = () => {
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-1">{p.title}</h3>
                 <p className="text-sm text-muted-foreground">{p.desc}</p>
-              </div>
+              </button>
             );
           })}
         </div>
