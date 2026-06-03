@@ -133,6 +133,11 @@ const SolutionSection = () => {
           <div className="relative w-full" style={{ aspectRatio: `${VB_W} / ${VB_H}` }}>
             <svg
               viewBox={`0 0 ${VB_W} ${VB_H}`}
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              aria-hidden="true"
+            >
+            <svg
+              viewBox={`0 0 ${VB_W} ${VB_H}`}
               className="absolute inset-0 w-full h-full"
               aria-hidden="true"
             >
