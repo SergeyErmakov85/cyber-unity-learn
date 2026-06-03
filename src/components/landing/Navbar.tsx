@@ -268,9 +268,9 @@ const Navbar = () => {
                     { href: "/hub/pytorch", label: "PyTorch", Icon: Brain, color: "text-primary" },
                     { href: "/hub/unity-ml-agents", label: "Unity ML-Agents", Icon: Gamepad2, color: "text-secondary" },
                     { href: "/hub/deep-rl", label: "Deep RL", Icon: Code2, color: "text-accent" },
-                    { href: "/unity-projects", label: "Проекты", Icon: Rocket, color: "text-secondary" },
-                    { href: "/hub/math-rl", label: "Математика RL", Icon: Sparkles, color: "text-accent" },
+                    { href: "/hub/math-rl", label: "Математика RL", Icon: Sparkles, color: "text-green-400" },
                     { href: "/algorithms", label: "Алгоритмы RL", Icon: Cpu, color: "text-blue-400" },
+                    { href: "/unity-projects", label: "Проекты", Icon: Rocket, color: "text-secondary" },
                     { href: "/hub/research", label: "Исследования RL", Icon: Microscope, color: "text-yellow-400" },
                     
                   ].map((item) => (
