@@ -158,8 +158,8 @@ const Navbar = () => {
               <Code2 className="w-4 h-4 text-accent shrink-0" />
               <span className="text-sm font-medium text-foreground whitespace-nowrap">Deep RL</span>
             </button>
-            <button onClick={() => navigate("/hub/math-rl")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/hub/math-rl" ? "border-green-400/70 bg-green-400/15 shadow-glow-green" : "border-green-400/30 shadow-glow-green hover:bg-green-400/10"}`}>
-              <Sparkles className="w-4 h-4 text-green-400 shrink-0" />
+            <button onClick={() => navigate("/hub/math-rl")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/hub/math-rl" ? "border-[hsl(var(--math-hub)/0.7)] bg-[hsl(var(--math-hub)/0.15)] shadow-glow-green" : "border-[hsl(var(--math-hub)/0.3)] shadow-glow-green hover:bg-[hsl(var(--math-hub)/0.1)]"}`}>
+              <Sparkles className="w-4 h-4 text-[hsl(var(--math-hub))] shrink-0" />
               <span className="text-sm font-medium text-foreground whitespace-nowrap">Математика RL</span>
             </button>
             <button onClick={() => navigate("/algorithms")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname.startsWith("/algorithms") ? "border-blue-500/70 bg-blue-500/15 shadow-glow-darkblue" : "border-blue-500/30 shadow-glow-darkblue hover:bg-blue-500/10"}`}>
