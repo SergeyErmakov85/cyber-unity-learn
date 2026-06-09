@@ -171,7 +171,7 @@ const Section6 = () => (
     </Callout>
 
     <h3 className={H3_CLASS}>Полный рабочий YAML (BC-warmup + GAIL + PPO + extrinsic)</h3>
-    <CyberCodeBlock language="yaml" filename="racer_gail_bc.yaml">
+    <CyberCodeBlock language="python" filename="racer_gail_bc.yaml">
 {`behaviors:
   RacerAgent:
     trainer_type: ppo
