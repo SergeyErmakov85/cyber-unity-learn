@@ -67,6 +67,20 @@ export const LESSONS: LessonMeta[] = [
     prev: { title: "Урок 3.2: MA-POCA и Self-Play", path: "/courses/3-2" },
     next: { title: "Урок 3.4: Имитационное обучение (GAIL)", path: "/courses/3-4" },
   },
+  {
+    id: "3.4",
+    title: "Imitation Learning: Behavioral Cloning и GAIL",
+    subtitle:
+      "Поведенческое клонирование, IRL и GAIL: от теоремы Ross & Bagnell до полного YAML-конфига ML-Agents 4.0",
+    slug: "imitation-learning-gail",
+    level: 3,
+    isPro: true,
+    estimatedMinutes: 50,
+    tags: ["Imitation Learning", "GAIL", "Behavioral Cloning", "AIRL", "Unity ML-Agents"],
+    path: "/courses/3-4",
+    prev: { title: "Урок 3.3: Учебный план и рандомизация", path: "/courses/3-3" },
+    next: { title: "Урок 3.5: Деплой модели", path: "/courses/3-5" },
+  },
 ];
 
 export const getLessonById = (id: string) =>
