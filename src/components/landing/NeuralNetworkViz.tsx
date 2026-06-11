@@ -7,17 +7,9 @@ const NEURON_GAP = 50;
 const WIDTH = (LAYERS.length - 1) * LAYER_GAP + 120;
 const HEIGHT = Math.max(...LAYERS) * NEURON_GAP + 60;
 
-const RAINBOW = [
-  "#FF0066", // red-pink
-  "#FF8800", // orange
-  "#FFD700", // yellow
-  "#00FF88", // green
-  "#00FFD6", // cyan
-  "#4FC3F7", // blue
-  "#B266FF", // violet
-  "#FF00CC", // magenta
-];
-const hueFor = (i: number) => RAINBOW[i % RAINBOW.length];
+// Full rainbow spectrum (HSL hues 0..360, every 15°)
+const RAINBOW = Array.from({ length: 24 }, (_, i) => `hsl(${i * 15}, 100%, 60%)`);
+const hueFor = (i: number) => RAINBOW[((i % RAINBOW.length) + RAINBOW.length) % RAINBOW.length];
 
 const colors = [
   "hsl(var(--primary))",
@@ -107,6 +99,9 @@ const NeuralNetworkViz = () => {
       return all.slice(0, Math.min(count, max));
     };
 
+    // Spread the layers across the full spectrum so a single wave shows the entire rainbow,
+    // then advance the offset each pass so the palette continuously cycles.
+    const HUE_STEP = Math.floor(RAINBOW.length / LAYERS.length); // ≈ 4 with 24 hues / 5 layers
     let waveOffset = 0;
     const runForwardPass = () => {
       if (cancelled) return;
@@ -135,11 +130,11 @@ const NeuralNetworkViz = () => {
       // Track all elements to deactivate at the end
       const toDeactivate: { nid: string; layer: number; line?: SVGLineElement }[] = [];
 
-      // Animate layer by layer — each layer gets a different rainbow hue
+      // Animate layer by layer — each layer gets a different rainbow hue (full spectrum across the network)
       activePerLayer.forEach((activeNeurons, li) => {
         const delay = li * STEP_DELAY;
-        const neuronColor = hueFor(startHue + li);
-        const lineColor = hueFor(startHue + li - 1);
+        const neuronColor = hueFor(startHue + li * HUE_STEP);
+        const lineColor = hueFor(startHue + (li - 1) * HUE_STEP + Math.floor(HUE_STEP / 2));
 
         setTimeout(() => {
           if (cancelled) return;
