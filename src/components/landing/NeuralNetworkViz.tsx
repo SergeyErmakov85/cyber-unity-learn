@@ -7,7 +7,17 @@ const NEURON_GAP = 50;
 const WIDTH = (LAYERS.length - 1) * LAYER_GAP + 120;
 const HEIGHT = Math.max(...LAYERS) * NEURON_GAP + 60;
 
-const ACTIVE_COLORS = ["#00BFFF", "#1E90FF", "#00CED1", "#4FC3F7"];
+const RAINBOW = [
+  "#FF0066", // red-pink
+  "#FF8800", // orange
+  "#FFD700", // yellow
+  "#00FF88", // green
+  "#00FFD6", // cyan
+  "#4FC3F7", // blue
+  "#B266FF", // violet
+  "#FF00CC", // magenta
+];
+const hueFor = (i: number) => RAINBOW[i % RAINBOW.length];
 
 const colors = [
   "hsl(var(--primary))",
