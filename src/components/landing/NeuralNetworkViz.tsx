@@ -7,7 +7,17 @@ const NEURON_GAP = 50;
 const WIDTH = (LAYERS.length - 1) * LAYER_GAP + 120;
 const HEIGHT = Math.max(...LAYERS) * NEURON_GAP + 60;
 
-const ACTIVE_COLORS = ["#00BFFF", "#1E90FF", "#00CED1", "#4FC3F7"];
+const RAINBOW = [
+  "#FF0066", // red-pink
+  "#FF8800", // orange
+  "#FFD700", // yellow
+  "#00FF88", // green
+  "#00FFD6", // cyan
+  "#4FC3F7", // blue
+  "#B266FF", // violet
+  "#FF00CC", // magenta
+];
+const hueFor = (i: number) => RAINBOW[i % RAINBOW.length];
 
 const colors = [
   "hsl(var(--primary))",
@@ -97,9 +107,11 @@ const NeuralNetworkViz = () => {
       return all.slice(0, Math.min(count, max));
     };
 
+    let waveOffset = 0;
     const runForwardPass = () => {
       if (cancelled) return;
-      const waveColor = ACTIVE_COLORS[Math.floor(Math.random() * ACTIVE_COLORS.length)];
+      const startHue = waveOffset;
+      waveOffset = (waveOffset + 1) % RAINBOW.length;
 
       // Build activation map: which neurons are active per layer
       // Layer 0: ALL 4 input neurons fire
@@ -123,32 +135,28 @@ const NeuralNetworkViz = () => {
       // Track all elements to deactivate at the end
       const toDeactivate: { nid: string; layer: number; line?: SVGLineElement }[] = [];
 
-      // Animate layer by layer
+      // Animate layer by layer — each layer gets a different rainbow hue
       activePerLayer.forEach((activeNeurons, li) => {
         const delay = li * STEP_DELAY;
+        const neuronColor = hueFor(startHue + li);
+        const lineColor = hueFor(startHue + li - 1);
 
         setTimeout(() => {
           if (cancelled) return;
 
-          // Output layer uses a special color
-          const isOutputLayer = li === LAYERS.length - 1;
-          const neuronColor = isOutputLayer ? "#00FF88" : waveColor;
-
-          // Activate neurons in this layer
           activeNeurons.forEach((ni) => {
             const nid = `${li}-${ni}`;
             activateNeuron(nid, neuronColor);
             toDeactivate.push({ nid, layer: li });
           });
 
-          // Activate connections from previous active layer to this layer
           if (li > 0) {
             const prevActive = activePerLayer[li - 1];
             prevActive.forEach((fi) => {
               activeNeurons.forEach((ti) => {
                 const line = getLinesBetween(li - 1, fi, ti);
                 if (line) {
-                  activateLine(line, waveColor);
+                  activateLine(line, lineColor);
                   toDeactivate.push({ nid: "", layer: li, line });
                 }
               });
