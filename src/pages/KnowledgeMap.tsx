@@ -126,7 +126,12 @@ const KnowledgeMap = () => {
         </div>
 
         {/* интерактивная карта */}
-        <MindMapCanvas difficultyFilter={diff} query={query} />
+        <MindMapCanvas
+          branches={KNOWLEDGE_MAP}
+          root={{ label: "RL для NPC", caption: "Создание интеллектуальных NPC через обучение с подкреплением", link: "/courses" }}
+          difficultyFilter={diff}
+          query={query}
+        />
 
         {/* дорожная карта */}
         <section className="mt-16">

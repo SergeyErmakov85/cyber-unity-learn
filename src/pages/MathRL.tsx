@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChevronDown } from "lucide-react";
+import { ArrowLeft, ChevronDown, Network } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
@@ -418,6 +418,7 @@ const SidebarTOC = ({ openParts, ensureOpen }: { openParts: Set<string>; ensureO
 
 const moduleToPartMap: Record<string, string> = {
   "/math-rl/module-1": "part-1",
+  "/math-rl/calculus": "part-1b",
   "/math-rl/module-2": "part-2",
   "/math-rl/module-3": "part-3",
   "/math-rl/module-4": "part-4",
@@ -506,6 +507,15 @@ const MathRL = () => {
           <p className="text-muted-foreground max-w-3xl text-lg">
             Единый учебный модуль: от пределов и производных до PPO и глубокого обучения с подкреплением. Семь частей с задачами, Python-кодом и интерактивными демо.
           </p>
+          <Button
+            onClick={() => navigate("/math-rl/mindmap")}
+            size="lg"
+            variant="outline"
+            className="mt-5 border-secondary/50 text-secondary hover:bg-secondary/10 hover:shadow-glow-purple group"
+          >
+            <Network className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
+            Mathematics Mind Map
+          </Button>
         </div>
       </div>
 

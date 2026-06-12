@@ -82,6 +82,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 const KnowledgeMap = lazy(() => import("./pages/KnowledgeMap"));
+const MathMindMap = lazy(() => import("./pages/MathMindMap"));
 const HubPage = lazy(() => import("./pages/HubPage"));
 const FcaRlModule = lazy(() => import("./pages/FcaRlModule"));
 const FrozenLakeProject = lazy(() => import("./pages/FrozenLakeProject"));
@@ -105,6 +106,8 @@ const App = () => (
             <Route path="/beginner-course" element={<Navigate to="/courses/1-1" replace />} />
             <Route path="/code-examples" element={<CodeExamples />} />
             <Route path="/math-rl" element={<MathRL />} />
+            <Route path="/math-rl/mindmap" element={<MathMindMap />} />
+            <Route path="/math-rl/calculus" element={<MathRL />} />
             <Route path="/math-rl/module-1" element={<MathRL />} />
             <Route path="/math-rl/module-2" element={<MathRL />} />
             <Route path="/math-rl/module-3" element={<MathRL />} />

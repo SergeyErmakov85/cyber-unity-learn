@@ -9,8 +9,6 @@ import {
   ChevronRight,
 } from "lucide-react";
 import {
-  KNOWLEDGE_MAP,
-  ROOT,
   BRANCH_HSL,
   DIFFICULTY_META,
   type Difficulty,
@@ -61,9 +59,9 @@ function curve(p: Pt, c: Pt): string {
   return `M ${p.x} ${p.y} C ${c1.x} ${c1.y} ${c2.x} ${c2.y} ${c.x} ${c.y}`;
 }
 
-function buildLayout(): BranchLayout[] {
-  const n = KNOWLEDGE_MAP.length;
-  return KNOWLEDGE_MAP.map((branch, i) => {
+function buildLayout(branches: MapBranch[]): BranchLayout[] {
+  const n = branches.length;
+  return branches.map((branch, i) => {
     const base = -90 + (360 / n) * i; // старт сверху, по часовой
     const pos = polar(CX, CY, BRANCH_R, base);
     const k = branch.nodes.length;
@@ -82,13 +80,15 @@ function buildLayout(): BranchLayout[] {
 /* ------------------------------------------------------------------ */
 
 interface Props {
+  branches: MapBranch[];
+  root: { label: string; caption: string; link: string };
   difficultyFilter: Difficulty | "all";
   query: string;
 }
 
-const MindMapCanvas = ({ difficultyFilter, query }: Props) => {
+const MindMapCanvas = ({ branches, root, difficultyFilter, query }: Props) => {
   const navigate = useNavigate();
-  const layout = useMemo(buildLayout, []);
+  const layout = useMemo(() => buildLayout(branches), [branches]);
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const [view, setView] = useState({ x: 0, y: 0, scale: 0.62 });
@@ -260,13 +260,13 @@ const MindMapCanvas = ({ difficultyFilter, query }: Props) => {
           {/* корневой узел */}
           <NodePill x={CX} y={CY} className="z-20">
             <button
-              onClick={() => navigate("/courses")}
+              onClick={() => navigate(root.link)}
               className="group flex max-w-[240px] flex-col items-center gap-1 rounded-2xl border border-cyan-400/50 bg-gradient-to-br from-cyan-500/25 via-purple-500/20 to-pink-500/25 px-6 py-4 text-center shadow-[0_0_40px_hsl(280_100%_60%/0.45)] backdrop-blur-md transition-transform hover:scale-[1.04]"
             >
               <span className="bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300 bg-clip-text text-lg font-bold leading-tight text-transparent">
-                {ROOT.label}
+                {root.label}
               </span>
-              <span className="text-[11px] leading-tight text-muted-foreground">{ROOT.caption}</span>
+              <span className="text-[11px] leading-tight text-muted-foreground">{root.caption}</span>
             </button>
           </NodePill>
 

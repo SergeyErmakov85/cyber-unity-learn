@@ -47,7 +47,7 @@ export interface MapBranch {
   nodes: MapNode[];
 }
 
-export type BranchColor = "cyan" | "purple" | "blue" | "pink" | "emerald";
+export type BranchColor = "cyan" | "purple" | "blue" | "pink" | "emerald" | "violet" | "amber";
 
 /** HSL-значения для SVG-коннекторов и свечения (виз-слой). */
 export const BRANCH_HSL: Record<BranchColor, string> = {
@@ -56,6 +56,8 @@ export const BRANCH_HSL: Record<BranchColor, string> = {
   blue: "220 100% 60%",
   pink: "320 100% 60%",
   emerald: "160 84% 50%",
+  violet: "265 90% 65%",
+  amber: "38 95% 55%",
 };
 
 export const DIFFICULTY_META: Record<
