@@ -174,6 +174,10 @@ const Navbar = () => {
               <Microscope className="w-4 h-4 text-yellow-400 shrink-0" />
               <span className="text-sm font-medium text-foreground whitespace-nowrap">Исследования RL</span>
             </button>
+            <button onClick={() => navigate("/knowledge-map")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/knowledge-map" ? "border-primary/70 bg-primary/15 shadow-glow-cyan" : "border-primary/30 shadow-glow-cyan hover:bg-primary/10"}`}>
+              <Network className="w-4 h-4 text-primary shrink-0" />
+              <span className="text-sm font-medium text-foreground whitespace-nowrap">Карта знаний</span>
+            </button>
             {/* Utility items */}
             <div className="flex items-center gap-3 ml-3 pl-3 border-l border-border/30">
               <button
@@ -272,7 +276,7 @@ const Navbar = () => {
                     { href: "/hub/math-rl", label: "Математика RL", Icon: Sparkles, color: "text-accent" },
                     { href: "/algorithms", label: "Алгоритмы RL", Icon: Cpu, color: "text-blue-400" },
                     { href: "/hub/research", label: "Исследования RL", Icon: Microscope, color: "text-yellow-400" },
-                    
+                    { href: "/knowledge-map", label: "Карта знаний", Icon: Network, color: "text-primary" },
                   ].map((item) => (
                     <button
                       key={item.href + item.label}

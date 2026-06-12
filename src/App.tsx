@@ -80,6 +80,7 @@ const Register = lazy(() => import("./pages/Register"));
 const Profile = lazy(() => import("./pages/Profile"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
+const KnowledgeMap = lazy(() => import("./pages/KnowledgeMap"));
 const HubPage = lazy(() => import("./pages/HubPage"));
 const FcaRlModule = lazy(() => import("./pages/FcaRlModule"));
 const FrozenLakeProject = lazy(() => import("./pages/FrozenLakeProject"));
@@ -177,6 +178,7 @@ const App = () => (
             <Route path="/profile" element={<Profile />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             
+            <Route path="/knowledge-map" element={<KnowledgeMap />} />
             <Route path="/fca-rl" element={<FcaRlModule />} />
             <Route path="/projects/frozen-lake" element={<FrozenLakeProject />} />
             <Route path="/hub/:hubId" element={<HubPage />} />
