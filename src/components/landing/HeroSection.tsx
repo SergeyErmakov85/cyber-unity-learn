@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import heroBg from "@/assets/hero-bg.jpg";
 import gamepadImg from "@/assets/gamepad-hero.png";
-import { Microscope } from "lucide-react";
+import { Microscope, Network } from "lucide-react";
 import NeuralNetworkViz from "./NeuralNetworkViz";
 
 const HeroSection = () => {
@@ -65,6 +65,15 @@ const HeroSection = () => {
               if (el) el.scrollIntoView({ behavior: 'smooth' });
             }}>
               Карта обучения
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-lg px-8 border-secondary/50 text-secondary hover:bg-secondary/10 hover:shadow-glow-purple group"
+              onClick={() => navigate("/knowledge-map")}
+            >
+              <Network className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
+              Mind Map
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => navigate("/onboarding")}>
               Пройти тест
