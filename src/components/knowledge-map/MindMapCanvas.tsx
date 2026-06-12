@@ -150,8 +150,11 @@ const MindMapCanvas = ({ difficultyFilter, query }: Props) => {
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
   const onPointerMove = (e: React.PointerEvent) => {
-    if (!drag.current) return;
-    setView((v) => ({ ...v, x: drag.current!.ox + (e.clientX - drag.current!.sx), y: drag.current!.oy + (e.clientY - drag.current!.sy) }));
+    const d = drag.current;
+    if (!d) return;
+    const dx = e.clientX - d.sx;
+    const dy = e.clientY - d.sy;
+    setView((v) => ({ ...v, x: d.ox + dx, y: d.oy + dy }));
   };
   const onPointerUp = () => {
     drag.current = null;
