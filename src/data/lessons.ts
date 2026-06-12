@@ -95,6 +95,20 @@ export const LESSONS: LessonMeta[] = [
     prev: { title: "Урок 3.4: Imitation Learning (BC и GAIL)", path: "/courses/3-4" },
     next: { title: "Урок 3.6: Оптимизация гиперпараметров", path: "/courses/3-6" },
   },
+  {
+    id: "3.6",
+    title: "Урок 3.6. Оптимизация гиперпараметров: Optuna + W&B",
+    subtitle:
+      "Формализация HPO, grid/random, байесовская оптимизация и TPE, прунинг (SHA/ASHA/Hyperband); Optuna и W&B Sweeps на сквозном примере гоночного агента",
+    slug: "hyperopt-optuna-wandb",
+    level: 3,
+    isPro: true,
+    estimatedMinutes: 55,
+    tags: ["HPO", "Optuna", "Weights & Biases", "TPE", "Hyperband", "Unity ML-Agents"],
+    path: "/courses/3-6",
+    prev: { title: "Урок 3.5: Деплой модели", path: "/courses/3-5" },
+    next: { title: "Урок 3.7: Архитектуры нейросетей", path: "/courses/3-7" },
+  },
 ];
 
 export const getLessonById = (id: string) =>
