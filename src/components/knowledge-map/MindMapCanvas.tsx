@@ -146,6 +146,10 @@ const MindMapCanvas = ({ difficultyFilter, query }: Props) => {
   const drag = useRef<{ sx: number; sy: number; ox: number; oy: number } | null>(null);
   const onPointerDown = (e: React.PointerEvent) => {
     if (e.button !== 0) return;
+    // Не начинаем pan, если клик попал в интерактивный элемент (узел/кнопку),
+    // иначе setPointerCapture перехватит pointerup и click не сработает.
+    const target = e.target as HTMLElement;
+    if (target.closest("button, a")) return;
     drag.current = { sx: e.clientX, sy: e.clientY, ox: view.x, oy: view.y };
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
