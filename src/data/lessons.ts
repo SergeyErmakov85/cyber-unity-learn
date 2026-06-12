@@ -121,7 +121,21 @@ export const LESSONS: LessonMeta[] = [
     tags: ["Архитектура", "MLP", "CNN", "LSTM", "Attention", "Unity ML-Agents"],
     path: "/courses/3-7",
     prev: { title: "Урок 3.6: Оптимизация гиперпараметров", path: "/courses/3-6" },
-    next: { title: "Финальный проект", path: "/courses/final-project" },
+    next: { title: "Урок 3.8: Финальный проект", path: "/courses/3-8" },
+  },
+  {
+    id: "3.8",
+    title: "Урок 3.8. Финальный проект: полноценная игра с обученным NPC",
+    subtitle:
+      "Системная сборка курса: среда → награда → обучение → оптимизация → деплой → геймплей. Четыре эталонных проекта, бонусы Curriculum/Self-Play/GAIL, ONNX в Unity Sentis",
+    slug: "final-project-game",
+    level: 3,
+    isPro: true,
+    estimatedMinutes: 75,
+    tags: ["Финальный проект", "Unity ML-Agents", "PPO", "SAC", "MA-POCA", "ONNX", "Sentis"],
+    path: "/courses/3-8",
+    prev: { title: "Урок 3.7: Архитектуры нейросетей", path: "/courses/3-7" },
+    next: { title: "Финальный проект (классический шаблон)", path: "/courses/final-project" },
   },
 ];
 

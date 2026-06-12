@@ -75,6 +75,7 @@ export const LEARNING_MAP: Stage[] = [
       { id: "3-5", slug: "onnx-deploy", title: "Деплой модели: ONNX-экспорт и интеграция в Unity-сборку", type: "lesson", path: "/courses/3-5", contextLinks: linksFor("onnx-deploy") },
       { id: "3-6", slug: "hyperopt", title: "Оптимизация гиперпараметров", type: "lesson", path: "/courses/3-6", contextLinks: linksFor("hyperopt") },
       { id: "3-7", slug: "nn-architectures", title: "Архитектуры нейросетей", type: "lesson", path: "/courses/3-7", contextLinks: linksFor("nn-architectures") },
+      { id: "3-8", slug: "final-project-game", title: "3.8 · Финальный проект: Полноценная игра с обученным NPC", type: "lesson", path: "/courses/3-8", contextLinks: linksFor("final-project-game") },
       { id: "p-final", slug: "final-project", title: "Финальный проект: Игра с NPC", type: "project", path: "/courses/final-project", contextLinks: linksFor("final-project") },
     ],
   },
