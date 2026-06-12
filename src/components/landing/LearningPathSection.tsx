@@ -133,7 +133,7 @@ const LearningPathSection = () => {
                                 </div>
 
                                 <div className="flex items-center gap-1.5 shrink-0">
-                                  {hubIds.slice(0, 3).map((hId) => {
+                                  {hubIds.slice(0, 6).map((hId) => {
                                     const hub = SUPPORT_HUBS[hId];
                                     const colorMap: Record<string, string> = {
                                       "text-primary": "hsl(var(--primary))",
