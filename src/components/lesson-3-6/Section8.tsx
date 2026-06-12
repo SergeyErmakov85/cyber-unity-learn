@@ -119,7 +119,7 @@ const Section8 = () => (
       Каждый процесс берёт следующее испытание из общей истории — никакой ручной синхронизации:
     </ProseP>
 
-    <CyberCodeBlock language="bash" filename="distributed.sh">
+    <CyberCodeBlock language="pseudo" filename="distributed.sh">
       {DIST_CODE}
     </CyberCodeBlock>
 
