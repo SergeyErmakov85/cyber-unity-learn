@@ -362,7 +362,7 @@ export const KNOWLEDGE_MAP: MapBranch[] = [
       {
         id: "final-project",
         label: "Игра с NPC",
-        link: "/courses/final-project",
+        link: "/courses/3-8",
         difficulty: "advanced",
         time: "финал",
         blurb: "Полноценный интеллектуальный NPC в игре.",
