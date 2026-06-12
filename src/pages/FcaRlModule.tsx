@@ -337,7 +337,7 @@ for concept in lattice:
                 <CardContent className="p-6 space-y-4 text-muted-foreground leading-relaxed">
                   <p>
                     Разберём пошагово, как применить FCA для анализа обученного PPO-агента
-                    в среде FoodCollector (Финальный проект — <CrossLinkToLesson lessonId="final-project" lessonPath="/courses/final-project" lessonTitle="Финальный проект" lessonLevel={3} />).
+                    в среде FoodCollector.
                   </p>
 
                   <h3 className="text-lg font-semibold text-foreground">Шаг 1. Сбор данных экспериментов</h3>

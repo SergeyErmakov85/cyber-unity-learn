@@ -235,7 +235,6 @@ const CourseLesson3_7 = () => {
         title="Проверь себя: архитектуры нейросетей для RL"
         questions={QUIZ_QUESTIONS}
         lessonPath="/courses/3-7"
-        nextLesson={{ path: "/courses/final-project", title: "Финальный проект" }}
       />
 
       <RelatedMaterials />
