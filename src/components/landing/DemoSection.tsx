@@ -32,11 +32,12 @@ const DemoSection = () => {
               <div className="relative h-full min-h-[320px] overflow-hidden bg-gradient-to-br from-cyber-dark via-cyber-darker to-cyber-dark">
                 <video
                   src={DEMO_VIDEO_SRC}
+                  poster="/videos/demo-unity-agent-poster.jpg"
                   autoPlay
                   loop
                   muted
                   playsInline
-                  preload="metadata"
+                  preload="auto"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute bottom-4 left-4 px-3 py-1.5 rounded-full bg-card/80 backdrop-blur-sm border border-border/50">
