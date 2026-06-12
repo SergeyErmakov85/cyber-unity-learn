@@ -47,7 +47,7 @@ const Section8 = () => (
       понимаете каждое поле.
     </ProseP>
 
-    <CyberCodeBlock language="yaml" filename="racing_agent.yaml">
+    <CyberCodeBlock language="pseudo" filename="racing_agent.yaml">
       {YAML_CONFIG}
     </CyberCodeBlock>
 
