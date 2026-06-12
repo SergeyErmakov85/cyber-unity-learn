@@ -72,7 +72,7 @@ export const LEARNING_MAP: Stage[] = [
       { id: "3-2", slug: "multi-agent", title: "MA-POCA и Self-Play", type: "lesson", path: "/courses/3-2", contextLinks: linksFor("multi-agent") },
       { id: "3-3", slug: "curriculum-learning", title: "Учебный план и рандомизация среды", type: "lesson", path: "/courses/3-3", contextLinks: linksFor("curriculum-learning") },
       { id: "3-4", slug: "gail", title: "Имитационное обучение (GAIL)", type: "lesson", path: "/courses/3-4", contextLinks: linksFor("gail") },
-      { id: "3-5", slug: "onnx-deploy", title: "Деплой модели: ONNX", type: "lesson", path: "/courses/3-5", contextLinks: linksFor("onnx-deploy") },
+      { id: "3-5", slug: "onnx-deploy", title: "Деплой модели: ONNX-экспорт и интеграция в Unity-сборку", type: "lesson", path: "/courses/3-5", contextLinks: linksFor("onnx-deploy") },
       { id: "3-6", slug: "hyperopt", title: "Оптимизация гиперпараметров", type: "lesson", path: "/courses/3-6", contextLinks: linksFor("hyperopt") },
       { id: "3-7", slug: "nn-architectures", title: "Архитектуры нейросетей", type: "lesson", path: "/courses/3-7", contextLinks: linksFor("nn-architectures") },
       { id: "p-final", slug: "final-project", title: "Финальный проект: Игра с NPC", type: "project", path: "/courses/final-project", contextLinks: linksFor("final-project") },
