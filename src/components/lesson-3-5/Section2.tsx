@@ -25,7 +25,7 @@ const Section2 = () => (
       тренер произвёл, лежит под:
     </ProseP>
 
-    <CyberCodeBlock language="text" filename="results/ — структура">
+    <CyberCodeBlock language="pseudo" filename="results/ — структура">
       {TREE}
     </CyberCodeBlock>
 

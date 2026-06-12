@@ -51,7 +51,7 @@ const Section9 = () => (
       ) → <strong>деплой</strong>.
     </ProseP>
 
-    <CyberCodeBlock language="text" filename="deploy-checklist.sh">
+    <CyberCodeBlock language="pseudo" filename="deploy-checklist.sh">
       {CHECKLIST}
     </CyberCodeBlock>
 
