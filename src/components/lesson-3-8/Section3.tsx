@@ -45,7 +45,7 @@ const Section3 = () => (
       Классическая ловушка — наградить за «дистанцию к цели» так, что агент находит способ накручивать показатель, не выполняя задачу (бесконечно крутится у цели, не касаясь её). Правило: <strong>награждайте за достигнутые состояния, а не за процесс</strong>, а dense-член держите малым относительно терминального бонуса.
     </ProseP>
 
-    <CyberCodeBlock language="text" filename="reward_pseudo.txt">{CODE}</CyberCodeBlock>
+    <CyberCodeBlock language="pseudo" filename="reward_pseudo.txt">{CODE}</CyberCodeBlock>
 
     <ProseP>
       Все интенсивные сигналы (любопытство, имитация) в ML-Agents задаются через секцию <code>reward_signals</code> (см. этап 3). Базовый — <code>extrinsic</code> (награда из среды) с параметрами <code>strength</code> и <code>gamma</code>.

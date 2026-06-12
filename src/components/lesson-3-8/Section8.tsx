@@ -52,7 +52,7 @@ const Section8 = () => (
       Если задача слишком трудна «с нуля», обучайте <strong>от простого к сложному</strong>, постепенно меняя параметр среды (например, размер арены или скорость врага). В ML-Agents это секция <code>environment_parameters → curriculum</code>: список уроков с критерием перехода <code>completion_criteria</code>.
     </ProseP>
 
-    <CyberCodeBlock language="yaml" filename="curriculum.yaml">{CURRICULUM}</CyberCodeBlock>
+    <CyberCodeBlock language="pseudo" filename="curriculum.yaml">{CURRICULUM}</CyberCodeBlock>
 
     <ProseP>
       Из C# текущее значение читается через <code>Academy.Instance.EnvironmentParameters.GetWithDefault("enemy_speed", 8.0f)</code> — при инференсе вернётся дефолт. Прогресс по урокам виден в TensorBoard.
@@ -74,7 +74,7 @@ const Section8 = () => (
       <li><strong>GAIL</strong> (Generative Adversarial Imitation Learning, Ho &amp; Ermon, 2016) — интенсивная награда <code>gail</code>, где дискриминатор учится отличать поведение агента от эксперта, а агент — его обманывать; это даёт обобщение лучше «слепого» копирования.</li>
     </ul>
 
-    <CyberCodeBlock language="yaml" filename="bc_gail.yaml">{GAIL}</CyberCodeBlock>
+    <CyberCodeBlock language="pseudo" filename="bc_gail.yaml">{GAIL}</CyberCodeBlock>
 
     <KeyPoints
       items={[
