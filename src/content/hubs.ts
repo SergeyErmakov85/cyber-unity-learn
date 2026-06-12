@@ -51,7 +51,7 @@ export const SUPPORT_HUBS: Record<HubId, SupportHub> = {
     slug: "math-rl",
     shortDescription: "Вероятности, MDP, уравнения Беллмана, градиенты политик.",
     icon: Sigma,
-    colorAccent: "text-accent",
+    colorAccent: "text-green-400",
   },
   "fca-rl": {
     id: "fca-rl",

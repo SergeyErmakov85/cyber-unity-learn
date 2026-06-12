@@ -2,7 +2,10 @@ import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Play, TrendingUp, Bot, Target } from "lucide-react";
-const DEMO_VIDEO_SRC = "/videos/demo-unity-agent.mp4";
+import demoVideoAsset from "@/assets/videos/demo-unity-agent.mp4.asset.json";
+import demoPosterAsset from "@/assets/videos/demo-unity-agent-poster.jpg.asset.json";
+const DEMO_VIDEO_SRC = demoVideoAsset.url;
+const DEMO_POSTER_SRC = demoPosterAsset.url;
 
 const DemoSection = () => {
   return (
@@ -32,11 +35,12 @@ const DemoSection = () => {
               <div className="relative h-full min-h-[320px] overflow-hidden bg-gradient-to-br from-cyber-dark via-cyber-darker to-cyber-dark">
                 <video
                   src={DEMO_VIDEO_SRC}
+                  poster={DEMO_POSTER_SRC}
                   autoPlay
                   loop
                   muted
                   playsInline
-                  preload="metadata"
+                  preload="auto"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute bottom-4 left-4 px-3 py-1.5 rounded-full bg-card/80 backdrop-blur-sm border border-border/50">

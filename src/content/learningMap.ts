@@ -70,12 +70,13 @@ export const LEARNING_MAP: Stage[] = [
     lessons: [
       { id: "3-1", slug: "sac", title: "SAC — Soft Actor-Critic", type: "lesson", path: "/courses/3-1", contextLinks: linksFor("sac") },
       { id: "3-2", slug: "multi-agent", title: "MA-POCA и Self-Play", type: "lesson", path: "/courses/3-2", contextLinks: linksFor("multi-agent") },
-      { id: "3-3", slug: "curriculum-learning", title: "Curriculum Learning", type: "lesson", path: "/courses/3-3", contextLinks: linksFor("curriculum-learning") },
+      { id: "3-3", slug: "curriculum-learning", title: "Учебный план и рандомизация среды", type: "lesson", path: "/courses/3-3", contextLinks: linksFor("curriculum-learning") },
       { id: "3-4", slug: "gail", title: "Имитационное обучение (GAIL)", type: "lesson", path: "/courses/3-4", contextLinks: linksFor("gail") },
-      { id: "3-5", slug: "onnx-deploy", title: "Деплой модели: ONNX", type: "lesson", path: "/courses/3-5", contextLinks: linksFor("onnx-deploy") },
+      { id: "3-5", slug: "onnx-deploy", title: "Деплой модели: ONNX-экспорт и интеграция в Unity-сборку", type: "lesson", path: "/courses/3-5", contextLinks: linksFor("onnx-deploy") },
       { id: "3-6", slug: "hyperopt", title: "Оптимизация гиперпараметров", type: "lesson", path: "/courses/3-6", contextLinks: linksFor("hyperopt") },
       { id: "3-7", slug: "nn-architectures", title: "Архитектуры нейросетей", type: "lesson", path: "/courses/3-7", contextLinks: linksFor("nn-architectures") },
-      { id: "p-final", slug: "final-project", title: "Финальный проект: Игра с NPC", type: "project", path: "/courses/final-project", contextLinks: linksFor("final-project") },
+      { id: "3-8", slug: "final-project-game", title: "Финальный проект", type: "lesson", path: "/courses/3-8", contextLinks: linksFor("final-project-game") },
+      
     ],
   },
 ];

@@ -536,32 +536,6 @@ export const LESSON_CONTEXT_LINKS: Record<string, ContextLink[]> = {
       isPrimary: false,
     },
   ],
-  "final-project": [
-    {
-      hubId: "project",
-      placement: "after-intro",
-      title: "Финальный проект",
-      whyThisNow: "Объедините все знания в игре с NPC.",
-      ctaLabel: "Проекты",
-      isPrimary: true,
-    },
-    {
-      hubId: "unity-ml-agents",
-      placement: "after-code",
-      title: "Полный пайплайн Unity",
-      whyThisNow: "Сборка финального проекта в Unity ML-Agents.",
-      ctaLabel: "Unity хаб",
-      isPrimary: true,
-    },
-    {
-      hubId: "deep-rl",
-      placement: "lesson-end",
-      title: "Выбор алгоритма",
-      whyThisNow: "PPO vs SAC — какой алгоритм для финального проекта.",
-      ctaLabel: "Deep RL хаб",
-      isPrimary: false,
-    },
-  ],
   "deployment": [
     {
       hubId: "project",

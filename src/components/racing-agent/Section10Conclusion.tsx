@@ -198,7 +198,7 @@ const Section10Conclusion = () => (
       </div>
     </div>
 
-    <p className="text-xs text-muted-foreground/50 italic text-center pt-4">
+    <p className="text-xs text-muted-foreground italic text-center pt-4">
       Документ подготовлен для использования в курсе «Информационные технологии в психологии», МГППУ.
       Все примеры кода протестированы на ML-Agents release_22, Unity 2023.2 LTS, PyTorch 2.2.1,
       Python 3.10.12. Лицензия учебного материала: CC BY-SA 4.0.

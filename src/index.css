@@ -60,6 +60,8 @@ html { scroll-behavior: smooth; }
     --glow-pink: 0 0 20px hsl(320 100% 60% / 0.5), 0 0 40px hsl(320 100% 60% / 0.3);
     --glow-yellow: 0 0 20px hsl(45 100% 50% / 0.5), 0 0 40px hsl(45 100% 50% / 0.3);
     --glow-darkblue: 0 0 20px hsl(220 100% 55% / 0.5), 0 0 40px hsl(220 100% 55% / 0.3);
+    --math-hub: 142 90% 55%;
+    --glow-green: 0 0 24px hsl(var(--math-hub) / 0.82), 0 0 52px hsl(var(--math-hub) / 0.56);
 
     --transition-cyber: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }

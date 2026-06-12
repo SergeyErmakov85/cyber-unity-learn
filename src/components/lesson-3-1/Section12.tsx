@@ -65,85 +65,148 @@ const Section12 = () => (
     </ProseP>
 
     <h3 className={H3_CLASS}>Гиперпараметры, общие для PPO/SAC:</h3>
-    <ul className="space-y-3 my-4 text-[15px] text-foreground/90 leading-relaxed">
-      <li>
-        <strong><code className={chip}>learning_rate</code></strong>{" "}
-        <em>(дефолт <code className={chip}>3e-4</code>)</em> — скорость градиентного шага. Уменьшайте,
-        если обучение нестабильно. Типичный диапазон{" "}
-        <Math display={false}>{String.raw`10^{-5}`}</Math>–<Math display={false}>{String.raw`10^{-3}`}</Math>.
-      </li>
-      <li>
-        <strong><code className={chip}>learning_rate_schedule</code></strong>{" "}
-        <em>(для SAC дефолт <code className={chip}>constant</code>)</em> — как меняется lr со временем.
-        Для SAC рекомендуется <strong><code className={chip}>constant</code></strong>, чтобы
-        Q-функция доучилась до естественной сходимости (в отличие от PPO, где обычно{" "}
-        <code className={chip}>linear</code>).
-      </li>
-      <li>
-        <strong><code className={chip}>batch_size</code></strong> — размер мини-батча из буфера на
-        одно обновление. Должен быть <strong>во много раз меньше</strong>{" "}
-        <code className={chip}>buffer_size</code>. Для непрерывных действий — крупный:{" "}
-        <Math display={false}>{String.raw`128`}</Math>–<Math display={false}>{String.raw`1024`}</Math>{" "}
-        (SAC); для дискретных — <Math display={false}>{String.raw`32`}</Math>–
-        <Math display={false}>{String.raw`512`}</Math>.
-      </li>
-      <li>
-        <strong><code className={chip}>buffer_size</code></strong>{" "}
-        <em>(дефолт <code className={chip}>50000</code> для SAC)</em> — максимальный размер replay
-        buffer. Для SAC это «на тысячи эпизодов вперёд», чтобы учиться и на старом, и на новом опыте.
-        Диапазон <Math display={false}>{String.raw`5\times10^4`}</Math>–
-        <Math display={false}>{String.raw`10^6`}</Math>.
-      </li>
-    </ul>
+    <div className="my-4 overflow-x-auto rounded-xl border border-cyan-500/15 bg-card/40 backdrop-blur-sm">
+      <table className="w-full text-[14px] text-foreground/90">
+        <thead>
+          <tr className="border-b border-cyan-500/20 bg-cyan-500/5">
+            <th className="text-left py-3 px-4 font-semibold text-cyan-400 w-1/3">Гиперпараметр</th>
+            <th className="text-left py-3 px-4 font-semibold text-cyan-400">Описание</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="border-b border-border/20 align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>learning_rate</code>
+              <div className="text-xs text-muted-foreground mt-1">дефолт <code className={chip}>3e-4</code></div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Скорость градиентного шага. Уменьшайте, если обучение нестабильно. Типичный диапазон{" "}
+              <Math display={false}>{String.raw`10^{-5}`}</Math>–<Math display={false}>{String.raw`10^{-3}`}</Math>.
+            </td>
+          </tr>
+          <tr className="border-b border-border/20 align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>learning_rate_schedule</code>
+              <div className="text-xs text-muted-foreground mt-1">для SAC — <code className={chip}>constant</code></div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Как меняется lr со временем. Для SAC рекомендуется <strong><code className={chip}>constant</code></strong>,
+              чтобы Q-функция доучилась до естественной сходимости (в отличие от PPO, где обычно{" "}
+              <code className={chip}>linear</code>).
+            </td>
+          </tr>
+          <tr className="border-b border-border/20 align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>batch_size</code>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Размер мини-батча из буфера на одно обновление. Должен быть <strong>во много раз меньше</strong>{" "}
+              <code className={chip}>buffer_size</code>. Для непрерывных действий —{" "}
+              <Math display={false}>{String.raw`128`}</Math>–<Math display={false}>{String.raw`1024`}</Math>{" "}
+              (SAC); для дискретных — <Math display={false}>{String.raw`32`}</Math>–
+              <Math display={false}>{String.raw`512`}</Math>.
+            </td>
+          </tr>
+          <tr className="align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>buffer_size</code>
+              <div className="text-xs text-muted-foreground mt-1">дефолт <code className={chip}>50000</code> (SAC)</div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Максимальный размер replay buffer. Для SAC — «на тысячи эпизодов вперёд», чтобы учиться и на
+              старом, и на новом опыте. Диапазон <Math display={false}>{String.raw`5\times10^4`}</Math>–
+              <Math display={false}>{String.raw`10^6`}</Math>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <h3 className={H3_CLASS}>Гиперпараметры, специфичные для SAC:</h3>
-    <ul className="space-y-3 my-4 text-[15px] text-foreground/90 leading-relaxed">
-      <li>
-        <strong><code className={chip}>buffer_init_steps</code></strong>{" "}
-        <em>(дефолт <code className={chip}>0</code>)</em> — сколько переходов набрать случайными
-        действиями <strong>до</strong> начала обучения. Раз политика поначалу случайна, прогрев
-        буфера улучшает раннее исследование. Диапазон{" "}
-        <Math display={false}>{String.raw`1000`}</Math>–<Math display={false}>{String.raw`10000`}</Math>.
-      </li>
-      <li>
-        <strong><code className={chip}>tau</code></strong>{" "}
-        <em>(дефолт <code className={chip}>0.005</code>)</em> — коэффициент soft-update target-сетей:{" "}
-        <Math display={false}>{String.raw`\bar\theta\leftarrow\tau\theta+(1-\tau)\bar\theta`}</Math>{" "}
-        (см. <Anchor to="раздел-5-два-q-критика-clipped-double-q-и-target-сети">Раздел 5</Anchor>).
-        Обычно оставляют <Math display={false}>{String.raw`0.005`}</Math>; до{" "}
-        <Math display={false}>{String.raw`0.01`}</Math> ускоряет простые задачи ценой стабильности.
-      </li>
-      <li>
-        <strong><code className={chip}>steps_per_update</code></strong>{" "}
-        <em>(дефолт <code className={chip}>1</code>)</em> — среднее число шагов агента на одно
-        обновление сетей. Одно «обновление» = взять батч из буфера и сделать по нему градиентный шаг.
-        Меньше → выше sample efficiency, дороже по CPU. Хороший баланс — равно числу агентов в сцене.
-        Диапазон <Math display={false}>{String.raw`1`}</Math>–<Math display={false}>{String.raw`20`}</Math>.
-      </li>
-      <li>
-        <strong><code className={chip}>save_replay_buffer</code></strong>{" "}
-        <em>(дефолт <code className={chip}>false</code>)</em> — сохранять ли буфер (а не только модель)
-        при остановке/возобновлении. Облегчает дообучение, но буфер занимает много места на диске.
-      </li>
-      <li>
-        <strong><code className={chip}>init_entcoef</code></strong>{" "}
-        <em>(дефолт <code className={chip}>1.0</code>)</em> — <strong>стартовое</strong> значение
-        энтропийного коэффициента (<Math display={false}>{String.raw`\alpha_0`}</Math>). Это и есть
-        наша температура <Math display={false}>{String.raw`\alpha`}</Math> из{" "}
-        <Anchor to="раздел-7-автоматическая-подстройка-температуры-alpha">Раздела 7</Anchor>: дальше
-        ML-Agents <strong>автоматически</strong> тянет её к целевой энтропии (по схеме из 1812.05905).
-        Больше <code className={chip}>init_entcoef</code> → больше исследования в начале; меньше →
-        быстрее сходимость. Диапазон для непрерывных{" "}
-        <Math display={false}>{String.raw`0.5`}</Math>–<Math display={false}>{String.raw`1.0`}</Math>,
-        для дискретных <Math display={false}>{String.raw`0.05`}</Math>–
-        <Math display={false}>{String.raw`0.5`}</Math>.
-      </li>
-      <li>
-        <strong><code className={chip}>reward_signal_steps_per_update</code></strong>{" "}
-        <em>(дефолт = <code className={chip}>steps_per_update</code>)</em> — как часто обновлять модели
-        сигналов награды (актуально в основном для GAIL/имитационного обучения).
-      </li>
-    </ul>
+    <div className="my-4 overflow-x-auto rounded-xl border border-purple-500/15 bg-card/40 backdrop-blur-sm">
+      <table className="w-full text-[14px] text-foreground/90">
+        <thead>
+          <tr className="border-b border-purple-500/20 bg-purple-500/5">
+            <th className="text-left py-3 px-4 font-semibold text-purple-400 w-1/3">Гиперпараметр</th>
+            <th className="text-left py-3 px-4 font-semibold text-purple-400">Описание</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="border-b border-border/20 align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>buffer_init_steps</code>
+              <div className="text-xs text-muted-foreground mt-1">дефолт <code className={chip}>0</code></div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Сколько переходов набрать случайными действиями <strong>до</strong> начала обучения. Раз политика
+              поначалу случайна, прогрев буфера улучшает раннее исследование. Диапазон{" "}
+              <Math display={false}>{String.raw`1000`}</Math>–<Math display={false}>{String.raw`10000`}</Math>.
+            </td>
+          </tr>
+          <tr className="border-b border-border/20 align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>tau</code>
+              <div className="text-xs text-muted-foreground mt-1">дефолт <code className={chip}>0.005</code></div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Коэффициент soft-update target-сетей:{" "}
+              <Math display={false}>{String.raw`\bar\theta\leftarrow\tau\theta+(1-\tau)\bar\theta`}</Math>{" "}
+              (см. <Anchor to="раздел-5-два-q-критика-clipped-double-q-и-target-сети">Раздел 5</Anchor>).
+              Обычно оставляют <Math display={false}>{String.raw`0.005`}</Math>; до{" "}
+              <Math display={false}>{String.raw`0.01`}</Math> ускоряет простые задачи ценой стабильности.
+            </td>
+          </tr>
+          <tr className="border-b border-border/20 align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>steps_per_update</code>
+              <div className="text-xs text-muted-foreground mt-1">дефолт <code className={chip}>1</code></div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Среднее число шагов агента на одно обновление сетей. Одно «обновление» = взять батч из буфера
+              и сделать по нему градиентный шаг. Меньше → выше sample efficiency, дороже по CPU. Хороший
+              баланс — равно числу агентов в сцене. Диапазон{" "}
+              <Math display={false}>{String.raw`1`}</Math>–<Math display={false}>{String.raw`20`}</Math>.
+            </td>
+          </tr>
+          <tr className="border-b border-border/20 align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>save_replay_buffer</code>
+              <div className="text-xs text-muted-foreground mt-1">дефолт <code className={chip}>false</code></div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Сохранять ли буфер (а не только модель) при остановке/возобновлении. Облегчает дообучение, но
+              буфер занимает много места на диске.
+            </td>
+          </tr>
+          <tr className="border-b border-border/20 align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>init_entcoef</code>
+              <div className="text-xs text-muted-foreground mt-1">дефолт <code className={chip}>1.0</code></div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              <strong>Стартовое</strong> значение энтропийного коэффициента (
+              <Math display={false}>{String.raw`\alpha_0`}</Math>). Это и есть наша температура{" "}
+              <Math display={false}>{String.raw`\alpha`}</Math> из{" "}
+              <Anchor to="раздел-7-автоматическая-подстройка-температуры-alpha">Раздела 7</Anchor>: дальше
+              ML-Agents <strong>автоматически</strong> тянет её к целевой энтропии (по схеме из 1812.05905).
+              Больше → больше исследования в начале; меньше → быстрее сходимость. Диапазон для непрерывных{" "}
+              <Math display={false}>{String.raw`0.5`}</Math>–<Math display={false}>{String.raw`1.0`}</Math>,
+              для дискретных <Math display={false}>{String.raw`0.05`}</Math>–
+              <Math display={false}>{String.raw`0.5`}</Math>.
+            </td>
+          </tr>
+          <tr className="align-top">
+            <td className="py-3 px-4">
+              <code className={chip}>reward_signal_steps_per_update</code>
+              <div className="text-xs text-muted-foreground mt-1">дефолт = <code className={chip}>steps_per_update</code></div>
+            </td>
+            <td className="py-3 px-4 leading-relaxed">
+              Как часто обновлять модели сигналов награды (актуально в основном для GAIL/имитационного обучения).
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <h3 className={H3_CLASS}><code className={chip}>network_settings</code>:</h3>
     <ul className="space-y-3 my-4 text-[15px] text-foreground/90 leading-relaxed">
