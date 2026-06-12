@@ -43,13 +43,6 @@ const Section10 = () => (
       </li>
     </ul>
 
-    <ProseP>
-      <ProseP>
-        <>
-          {/* placeholder to satisfy lint */}
-        </>
-      </ProseP>
-    </ProseP>
 
     <KeyPoints
       items={[
