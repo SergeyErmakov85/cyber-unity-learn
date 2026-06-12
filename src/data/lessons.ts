@@ -109,6 +109,20 @@ export const LESSONS: LessonMeta[] = [
     prev: { title: "Урок 3.5: Деплой модели", path: "/courses/3-5" },
     next: { title: "Урок 3.7: Архитектуры нейросетей", path: "/courses/3-7" },
   },
+  {
+    id: "3.7",
+    title: "Урок 3.7. Архитектуры нейросетей для RL-агентов",
+    subtitle:
+      "Энкодеры под тип наблюдения: MLP, CNN, LSTM, внимание — и их настройка в network_settings Unity ML-Agents 4.0.x на гоночном агенте",
+    slug: "nn-architectures",
+    level: 3,
+    isPro: true,
+    estimatedMinutes: 50,
+    tags: ["Архитектура", "MLP", "CNN", "LSTM", "Attention", "Unity ML-Agents"],
+    path: "/courses/3-7",
+    prev: { title: "Урок 3.6: Оптимизация гиперпараметров", path: "/courses/3-6" },
+    next: { title: "Финальный проект", path: "/courses/final-project" },
+  },
 ];
 
 export const getLessonById = (id: string) =>
