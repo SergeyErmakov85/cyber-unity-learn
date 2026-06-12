@@ -80,7 +80,7 @@ const levels = [
       { title: "Деплой модели: ONNX", type: "lesson", path: "/courses/3-5" },
       { title: "Оптимизация гиперпараметров", type: "lesson", path: "/courses/3-6" },
       { title: "Архитектуры нейросетей", type: "lesson", path: "/courses/3-7" },
-      { title: "Финальный проект: Игра с NPC", type: "project", path: "/courses/final-project" },
+      
     ],
   },
 ];

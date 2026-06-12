@@ -126,13 +126,6 @@ export const CROSSLINKS: CrossLink[] = [
   { lessonId: "3-7", lessonPath: "/courses/3-7", lessonTitle: "Архитектуры нейросетей", lessonLevel: 3, hubPath: "/fca-rl", hubAnchor: "fca-architecture", hubLabel: "FCA → Архитектура", contextInLesson: "FCA для выбора архитектуры по свойствам задачи", contextInHub: "FCA-анализ архитектур (Урок 3.7)" },
   { lessonId: "3-7", lessonPath: "/courses/3-7", lessonTitle: "Архитектуры нейросетей", lessonLevel: 3, hubPath: "/fca-rl", hubAnchor: "fca-basics", hubLabel: "FCA → Основы", contextInLesson: "Формальные понятия для классификации архитектур", contextInHub: "Основы FCA (Урок 3.7)" },
 
-  // ── Финальный проект ──
-  { lessonId: "final-project", lessonPath: "/courses/final-project", lessonTitle: "Финальный проект", lessonLevel: 3, hubPath: "/unity-projects", hubLabel: "Unity → Проекты", contextInLesson: "Финальный проект — объединение всех навыков", contextInHub: "Итоговый проект курса" },
-  { lessonId: "final-project", lessonPath: "/courses/final-project", lessonTitle: "Финальный проект", lessonLevel: 3, hubPath: "/algorithms/ppo", hubLabel: "Алгоритмы → PPO", contextInLesson: "PPO как основной алгоритм для игрового NPC", contextInHub: "PPO в финальном проекте" },
-  { lessonId: "final-project", lessonPath: "/courses/final-project", lessonTitle: "Финальный проект", lessonLevel: 3, hubPath: "/algorithms/sac", hubLabel: "Алгоритмы → SAC", contextInLesson: "SAC как альтернатива для continuous control", contextInHub: "SAC в финальном проекте" },
-  { lessonId: "final-project", lessonPath: "/courses/final-project", lessonTitle: "Финальный проект", lessonLevel: 3, hubPath: "/pytorch/cheatsheet", hubAnchor: "saving", hubLabel: "PyTorch → Сохранение", contextInLesson: "Экспорт финальной модели для деплоя", contextInHub: "Сохранение и деплой (Финальный проект)" },
-  { lessonId: "final-project", lessonPath: "/courses/final-project", lessonTitle: "Финальный проект", lessonLevel: 3, hubPath: "/deep-rl", hubAnchor: "practice", hubLabel: "Deep RL → Практика", contextInLesson: "Применение Deep RL в реальной игре", contextInHub: "Итоговое применение Deep RL" },
-  { lessonId: "final-project", lessonPath: "/courses/final-project", lessonTitle: "Финальный проект", lessonLevel: 3, hubPath: "/fca-rl", hubAnchor: "fca-practice", hubLabel: "FCA → Практика", contextInLesson: "FCA-анализ обученного NPC-агента", contextInHub: "FCA-анализ в Финальном проекте" },
 ];
 
 /** Get all crosslinks for a specific lesson */

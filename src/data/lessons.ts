@@ -135,7 +135,7 @@ export const LESSONS: LessonMeta[] = [
     tags: ["Финальный проект", "Unity ML-Agents", "PPO", "SAC", "MA-POCA", "ONNX", "Sentis"],
     path: "/courses/3-8",
     prev: { title: "Урок 3.7: Архитектуры нейросетей", path: "/courses/3-7" },
-    next: { title: "Финальный проект (классический шаблон)", path: "/courses/final-project" },
+    
   },
 ];
 

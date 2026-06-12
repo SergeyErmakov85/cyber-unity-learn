@@ -69,7 +69,7 @@ const level3Lessons: LessonMeta[] = [
   { id: "3-5", path: "/courses/3-5", title: "Деплой модели: ONNX", type: "lesson" },
   { id: "3-6", path: "/courses/3-6", title: "Оптимизация гиперпараметров", type: "lesson" },
   { id: "3-7", path: "/courses/3-7", title: "Архитектуры нейросетей", type: "lesson" },
-  { id: "3-fp", path: "/courses/final-project", title: "Финальный проект", type: "project" },
+  
 ];
 
 const levelConfigs = [
