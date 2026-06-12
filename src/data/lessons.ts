@@ -81,6 +81,20 @@ export const LESSONS: LessonMeta[] = [
     prev: { title: "Урок 3.3: Учебный план и рандомизация", path: "/courses/3-3" },
     next: { title: "Урок 3.5: Деплой модели", path: "/courses/3-5" },
   },
+  {
+    id: "3.5",
+    title: "Деплой модели: ONNX-экспорт и интеграция в Unity-сборку",
+    subtitle:
+      "ONNX, Unity Inference Engine, Behavior Parameters, DecisionRequester, IL2CPP-билд и диагностика рассинхрона наблюдений на гоночном агенте",
+    slug: "onnx-deploy",
+    level: 3,
+    isPro: true,
+    estimatedMinutes: 40,
+    tags: ["ONNX", "Unity Sentis", "Inference Engine", "Деплой", "Unity ML-Agents"],
+    path: "/courses/3-5",
+    prev: { title: "Урок 3.4: Imitation Learning (BC и GAIL)", path: "/courses/3-4" },
+    next: { title: "Урок 3.6: Оптимизация гиперпараметров", path: "/courses/3-6" },
+  },
 ];
 
 export const getLessonById = (id: string) =>
