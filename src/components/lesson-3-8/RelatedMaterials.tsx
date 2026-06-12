@@ -59,28 +59,27 @@ const RelatedMaterials = () => (
         <table className="w-full text-sm border border-cyan-500/20 rounded-lg overflow-hidden">
           <thead className="bg-cyan-500/10">
             <tr className="text-left text-cyan-200">
-              <th className="p-3">Цель</th>
-              <th className="p-3">Тип</th>
-              <th className="p-3">Путь / якорь</th>
+              <th className="p-3">Источник</th>
               <th className="p-3">Что оттуда берём</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-cyan-500/10 text-foreground/85">
-            <tr><td className="p-3">Урок 3.1 (SAC)</td><td className="p-3"><code>CrossLinkToLesson</code></td><td className="p-3"><code>/courses/3-1#itogi</code>, <code>#razdel-0</code></td><td className="p-3">MDP, actor-critic, replay buffer, <code>tau</code>, два критика, энтропия</td></tr>
-            <tr><td className="p-3">Урок 3.2 (MA-POCA/Self-Play)</td><td className="p-3"><code>CrossLinkToLesson</code></td><td className="p-3"><code>/courses/3-2#itogi</code>, <code>#razdel-0</code></td><td className="p-3">MARL, CTDE, контрфактический бейзлайн, Self-Play, ELO</td></tr>
-            <tr><td className="p-3">Урок 2.3 (Непрерывные действия)</td><td className="p-3"><code>CrossLinkToLesson</code></td><td className="p-3"><code>/courses/2-3</code></td><td className="p-3">непрерывная политика, Actor-Critic</td></tr>
-            <tr><td className="p-3">Урок 2.6 (TensorBoard и W&B)</td><td className="p-3"><code>CrossLinkToLesson</code></td><td className="p-3"><code>/courses/2-6</code></td><td className="p-3">диагностика обучения, логирование</td></tr>
-            <tr><td className="p-3">Проект 3 (Гоночный агент, PPO)</td><td className="p-3"><code>CrossLinkToLesson</code></td><td className="p-3"><code>/courses/project-3</code></td><td className="p-3">практика PPO-агента</td></tr>
-            <tr><td className="p-3">Хаб PPO</td><td className="p-3"><code>CrossLinkToHub</code></td><td className="p-3"><code>/algorithms/ppo</code></td><td className="p-3">клиппинг, GAE</td></tr>
-            <tr><td className="p-3">Хаб SAC</td><td className="p-3"><code>CrossLinkToHub</code></td><td className="p-3"><code>/algorithms/sac</code></td><td className="p-3">мягкий actor-critic</td></tr>
-            <tr><td className="p-3">Хаб POCA</td><td className="p-3"><code>CrossLinkToHub</code></td><td className="p-3"><code>/algorithms</code> (POCA-секция)</td><td className="p-3">командное обучение</td></tr>
-            <tr><td className="p-3">Хаб math-rl, модуль 1</td><td className="p-3"><code>CrossLinkToHub</code></td><td className="p-3"><code>/math-rl/module-1</code></td><td className="p-3">дисконтирование</td></tr>
-            <tr><td className="p-3">Хаб Unity ML-Agents</td><td className="p-3"><code>CrossLinkToHub</code></td><td className="p-3"><code>/unity-ml-agents</code></td><td className="p-3">обучение, YAML-поля</td></tr>
-            <tr><td className="p-3">Хаб FCA</td><td className="p-3"><code>CrossLinkToHub</code></td><td className="p-3"><code>/fca-rl</code></td><td className="p-3">формальный анализ понятий</td></tr>
+            <tr><td className="p-3"><CrossLinkToLesson lessonId="3.1" lessonPath="/courses/3-1#itogi" lessonTitle="Урок 3.1 — SAC" lessonLevel={3}>Урок 3.1 (SAC)</CrossLinkToLesson></td><td className="p-3">MDP, actor-critic, replay buffer, <code>tau</code>, два критика, энтропия</td></tr>
+            <tr><td className="p-3"><CrossLinkToLesson lessonId="3.2" lessonPath="/courses/3-2#itogi" lessonTitle="Урок 3.2 — MA-POCA / Self-Play" lessonLevel={3}>Урок 3.2 (MA-POCA/Self-Play)</CrossLinkToLesson></td><td className="p-3">MARL, CTDE, контрфактический бейзлайн, Self-Play, ELO</td></tr>
+            <tr><td className="p-3"><CrossLinkToLesson lessonId="2.3" lessonPath="/courses/2-3" lessonTitle="Урок 2.3 — Непрерывные действия" lessonLevel={2}>Урок 2.3 (Непрерывные действия)</CrossLinkToLesson></td><td className="p-3">непрерывная политика, Actor-Critic</td></tr>
+            <tr><td className="p-3"><CrossLinkToLesson lessonId="2.6" lessonPath="/courses/2-6" lessonTitle="Урок 2.6 — TensorBoard и W&B" lessonLevel={2}>Урок 2.6 (TensorBoard и W&B)</CrossLinkToLesson></td><td className="p-3">диагностика обучения, логирование</td></tr>
+            <tr><td className="p-3"><CrossLinkToLesson lessonId="project-3" lessonPath="/courses/project-3" lessonTitle="Проект 3 — Гоночный агент (PPO)" lessonLevel={3}>Проект 3 (Гоночный агент, PPO)</CrossLinkToLesson></td><td className="p-3">практика PPO-агента</td></tr>
+            <tr><td className="p-3"><CrossLinkToHub hubPath="/algorithms/ppo" hubTitle="Хаб PPO">Хаб PPO</CrossLinkToHub></td><td className="p-3">клиппинг, GAE</td></tr>
+            <tr><td className="p-3"><CrossLinkToHub hubPath="/algorithms/sac" hubTitle="Хаб SAC">Хаб SAC</CrossLinkToHub></td><td className="p-3">мягкий actor-critic</td></tr>
+            <tr><td className="p-3"><CrossLinkToHub hubPath="/algorithms" hubTitle="Хаб POCA">Хаб POCA</CrossLinkToHub></td><td className="p-3">командное обучение</td></tr>
+            <tr><td className="p-3"><CrossLinkToHub hubPath="/math-rl/module-1" hubTitle="Math RL — модуль 1">Хаб math-rl, модуль 1</CrossLinkToHub></td><td className="p-3">дисконтирование</td></tr>
+            <tr><td className="p-3"><CrossLinkToHub hubPath="/unity-ml-agents" hubTitle="Unity ML-Agents">Хаб Unity ML-Agents</CrossLinkToHub></td><td className="p-3">обучение, YAML-поля</td></tr>
+            <tr><td className="p-3"><CrossLinkToHub hubPath="/fca-rl" hubTitle="FCA + RL">Хаб FCA</CrossLinkToHub></td><td className="p-3">формальный анализ понятий</td></tr>
           </tbody>
         </table>
       </div>
     </section>
+
 
     <section
       id="istochniki"
