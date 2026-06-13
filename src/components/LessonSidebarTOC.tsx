@@ -77,7 +77,7 @@ const COLOR_MAP: Record<TocColor, {
   },
 };
 
-const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Содержание" }: Props) => {
+const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Содержание", side = "left" }: Props) => {
   const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
   const c = COLOR_MAP[color];
 
