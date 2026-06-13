@@ -226,7 +226,6 @@ const CourseProject1 = () => {
       tags={["#project", "#unity", "#3d", "#pytorch", "#ppo"]}
       prevLesson={{ path: "/courses/1-7", title: "Exploration vs Exploitation" }}
       nextLesson={{ path: "/courses/2-1", title: "Введение в Уровень 2" }}
-      hideCourseSidebar
     >
       {/* === Intro === */}
       <section>
