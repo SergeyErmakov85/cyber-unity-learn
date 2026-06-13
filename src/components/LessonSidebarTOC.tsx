@@ -131,8 +131,8 @@ const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Сод
             <BookOpen className={cn("w-5 h-5", c.icon)} />
             {title}
           </h2>
-          <ol className="space-y-1.5 text-sm max-h-[65vh] overflow-y-auto pr-1 scrollbar-thin">
-            {items.map(({ id, label }, idx) => {
+          <ul className="space-y-1.5 text-sm max-h-[65vh] overflow-y-auto pr-1 scrollbar-thin">
+            {items.map(({ id, label }) => {
               const isActive = activeId === id;
               return (
                 <li key={id}>
@@ -140,21 +140,18 @@ const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Сод
                     href={`#${id}`}
                     onClick={scrollTo(id)}
                     className={cn(
-                      "group flex gap-2 items-start px-2 py-1.5 rounded-md transition-all border border-transparent",
+                      "block px-2 py-1.5 rounded-md transition-all border border-transparent leading-snug",
                       isActive
                         ? cn(c.active, c.activeBg, c.activeShadow)
                         : cn(c.base, c.baseHover)
                     )}
                   >
-                    <span className={cn("shrink-0 tabular-nums text-xs leading-5", isActive ? c.activeBullet : c.bullet)}>
-                      {idx + 1}.
-                    </span>
-                    <span className="leading-snug">{label}</span>
+                    {label}
                   </a>
                 </li>
               );
             })}
-          </ol>
+          </ul>
         </CardContent>
       </Card>
     </aside>
