@@ -11,6 +11,7 @@ interface Props {
   color?: TocColor;
   offset?: number;
   title?: string;
+  side?: "left" | "right";
 }
 
 // Styling per color: base text, active text, active glow shadow, border accents
@@ -76,7 +77,7 @@ const COLOR_MAP: Record<TocColor, {
   },
 };
 
-const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Содержание" }: Props) => {
+const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Содержание", side = "left" }: Props) => {
   const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
   const c = COLOR_MAP[color];
 
@@ -120,10 +121,14 @@ const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Сод
     setActiveId(id);
   };
 
+  const sideClass = side === "right"
+    ? "right-4 2xl:right-8"
+    : "left-4 2xl:left-8";
+
   return (
     <aside
       aria-label="Содержание урока"
-      className="hidden xl:block fixed left-4 2xl:left-8 top-32 w-60 2xl:w-64 z-30"
+      className={cn("hidden xl:block fixed top-32 w-60 2xl:w-64 z-30", sideClass)}
     >
       <Card className={cn("bg-card/70 backdrop-blur-md", c.border)}>
         <CardContent className="p-4 2xl:p-5">

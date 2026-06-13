@@ -14,6 +14,7 @@ import {
 import ProGate from "@/components/ProGate";
 import LessonHeader from "@/components/LessonHeader";
 import SectionNav, { SectionNavItem } from "@/components/SectionNav";
+import LessonSidebarTOC from "@/components/LessonSidebarTOC";
 import NextPrevLesson from "@/components/NextPrevLesson";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SEOHead from "@/components/SEOHead";
@@ -265,7 +266,10 @@ const CourseLesson2_6 = () => {
         estimatedMinutes={lesson.estimatedMinutes}
       />
 
-      <SectionNav items={SECTIONS} />
+      <div className="xl:hidden">
+        <SectionNav items={SECTIONS} />
+      </div>
+      <LessonSidebarTOC items={SECTIONS} color="pink" />
 
       <div id="lesson-content" className="space-y-8 mt-8">
         {SECTIONS.map((s, i) => (
