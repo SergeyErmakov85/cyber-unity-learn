@@ -155,6 +155,7 @@ const LessonLayout = ({
   prevLesson,
   nextLesson,
   lessonId,
+  hideCourseSidebar = false,
 }: LessonLayoutProps) => {
   const location = useLocation();
   const navigate = useNavigate();
