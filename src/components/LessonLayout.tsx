@@ -46,7 +46,6 @@ interface LessonLayoutProps {
   prevLesson?: { path: string; title: string };
   nextLesson?: { path: string; title: string };
   lessonId?: string;
-  hideCourseSidebar?: boolean;
 }
 
 const level1Lessons: LessonMeta[] = [
@@ -155,7 +154,6 @@ const LessonLayout = ({
   prevLesson,
   nextLesson,
   lessonId,
-  hideCourseSidebar = false,
 }: LessonLayoutProps) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -286,7 +284,7 @@ const LessonLayout = ({
         <LessonSidebarTOC
           items={tocItems}
           color={tocColor}
-          side={hideCourseSidebar ? "left" : level === 1 ? "right" : "left"}
+          side={level === 1 ? "right" : "left"}
         />
       )}
 
@@ -320,10 +318,10 @@ const LessonLayout = ({
 
       <div className={cn(
         "container mx-auto px-4 py-8 flex gap-8",
-        (isLevel2 || hideCourseSidebar) && "max-w-5xl"
+        isLevel2 && "max-w-5xl"
       )}>
         {/* Sidebar — desktop only (hidden for Level 2 to match lesson 2.6 width) */}
-        {!isLevel2 && !hideCourseSidebar && (
+        {!isLevel2 && (
           <aside className="hidden lg:block w-64 flex-shrink-0">
             <div className="sticky top-20 space-y-4 max-h-[calc(100vh-6rem)] overflow-y-auto pr-2">
               <SidebarContent currentPath={location.pathname} />
@@ -332,7 +330,7 @@ const LessonLayout = ({
         )}
 
         {/* Main content */}
-        <main className={cn("flex-1 min-w-0", !isLevel2 && !hideCourseSidebar && "max-w-5xl")}>
+        <main className={cn("flex-1 min-w-0", !isLevel2 && "max-w-3xl")}>
           <LessonBreadcrumbs items={breadcrumbItems} />
 
           {/* Lesson header */}

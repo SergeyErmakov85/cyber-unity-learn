@@ -224,7 +224,6 @@ const CourseProject1 = () => {
       lessonNumber="П1"
       duration="60–90 мин"
       tags={["#project", "#unity", "#3d", "#pytorch", "#ppo"]}
-      hideCourseSidebar
       prevLesson={{ path: "/courses/1-7", title: "Exploration vs Exploitation" }}
       nextLesson={{ path: "/courses/2-1", title: "Введение в Уровень 2" }}
     >
@@ -339,9 +338,11 @@ const CourseProject1 = () => {
           </div>
           <CardContent className="p-0">
             {unityTab === "csharp" ? (
-              <CyberCodeBlock language="csharp" filename="Ball3DAgent.cs">
-                {CSHARP_CODE}
-              </CyberCodeBlock>
+              <div className="p-4">
+                <CyberCodeBlock language="csharp" filename="Ball3DAgent.cs">
+                  {CSHARP_CODE}
+                </CyberCodeBlock>
+              </div>
             ) : (
               <div className="p-6 text-sm text-muted-foreground leading-relaxed space-y-3">
                 <h4 className="font-bold text-lg text-foreground">Сборка сцены</h4>
