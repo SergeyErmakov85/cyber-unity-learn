@@ -330,7 +330,7 @@ const LessonLayout = ({
         )}
 
         {/* Main content */}
-        <main className={cn("flex-1 min-w-0", !isLevel2 && "max-w-3xl")}>
+        <main className={cn("flex-1 min-w-0", !isLevel2 && "max-w-5xl")}>
           <LessonBreadcrumbs items={breadcrumbItems} />
 
           {/* Lesson header */}

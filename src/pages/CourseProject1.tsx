@@ -338,11 +338,9 @@ const CourseProject1 = () => {
           </div>
           <CardContent className="p-0">
             {unityTab === "csharp" ? (
-              <div className="p-4">
-                <CyberCodeBlock language="csharp" filename="Ball3DAgent.cs">
-                  {CSHARP_CODE}
-                </CyberCodeBlock>
-              </div>
+              <CyberCodeBlock language="csharp" filename="Ball3DAgent.cs">
+                {CSHARP_CODE}
+              </CyberCodeBlock>
             ) : (
               <div className="p-6 text-sm text-muted-foreground leading-relaxed space-y-3">
                 <h4 className="font-bold text-lg text-foreground">Сборка сцены</h4>
