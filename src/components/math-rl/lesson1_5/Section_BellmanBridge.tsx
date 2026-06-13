@@ -119,6 +119,7 @@ const Section_BellmanBridge = () => {
       <h2
         className="text-2xl font-bold tracking-wide"
         style={{ fontFamily: HEADING_FONT, color: CYAN }}
+        data-toc-label="Уравнение Беллмана"
       >
         § 8. То, что мы сделали, называется{" "}
         <span className="group/bellman relative inline-block cursor-help">
