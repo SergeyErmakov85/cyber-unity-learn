@@ -414,6 +414,7 @@ const LessonLayout = ({
 
           {/* Lesson body */}
           <article
+            ref={articleRef}
             className={cn(
               "prose-cyber space-y-6",
               isLevel2 &&
