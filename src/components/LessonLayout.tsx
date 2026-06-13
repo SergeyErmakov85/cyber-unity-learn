@@ -286,7 +286,7 @@ const LessonLayout = ({
         <LessonSidebarTOC
           items={tocItems}
           color={tocColor}
-          side={level === 1 ? "right" : "left"}
+          side={hideCourseSidebar ? "left" : level === 1 ? "right" : "left"}
         />
       )}
 
