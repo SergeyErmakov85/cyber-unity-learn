@@ -259,7 +259,7 @@ const CourseLesson1_4 = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">3. Основная идея Q-обучения</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">Основная идея Q-обучения</h2>
         <p className="text-muted-foreground leading-relaxed mb-3">
           Табличный Q-learning строит и постоянно обновляет двумерную Q-таблицу:
           строки — состояния, столбцы — действия, а в ячейках хранится «качество»
@@ -292,7 +292,7 @@ const CourseLesson1_4 = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">4. Формула Q-обучения</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">Формула Q-обучения</h2>
         <Math>{`Q(s, a) \\leftarrow Q(s, a) + \\alpha \\left[ r + \\gamma \\max_{a'} Q(s', a') - Q(s, a) \\right]`}</Math>
         <p className="text-muted-foreground leading-relaxed mt-4 mb-3">
           Каждый символ в уравнении управляет поведением агента.
@@ -370,7 +370,7 @@ const CourseLesson1_4 = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">5. От математики к алгоритму</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">От математики к алгоритму</h2>
         <div className="space-y-2">
           {[
             "Инициализируем Q-таблицу и гиперпараметры (α, γ, ε).",
@@ -396,7 +396,7 @@ const CourseLesson1_4 = () => {
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">
-          6. Реализация на Python (MANDATORY)
+          Реализация на Python (MANDATORY)
         </h2>
         <p className="text-muted-foreground leading-relaxed mb-4">
           Ниже — полный рабочий код табличного Q-learning для
