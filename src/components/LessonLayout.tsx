@@ -162,6 +162,50 @@ const LessonLayout = ({
   const [lessonCompleted, setLessonCompleted] = useState(false);
   const [copied, setCopied] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const articleRef = useRef<HTMLElement>(null);
+  const [tocItems, setTocItems] = useState<SectionNavItem[]>([]);
+
+  // Auto-build TOC from <h2> headings inside the article
+  useEffect(() => {
+    const el = articleRef.current;
+    if (!el) return;
+    const build = () => {
+      const heads = Array.from(el.querySelectorAll("h2")) as HTMLHeadingElement[];
+      const seen = new Set<string>();
+      const items: SectionNavItem[] = [];
+      heads.forEach((h) => {
+        const label = (h.textContent || "").trim();
+        if (!label) return;
+        let id = h.id;
+        if (!id) {
+          id = slugifyHeading(label) || `section-${items.length + 1}`;
+          let unique = id;
+          let n = 2;
+          while (seen.has(unique) || document.getElementById(unique)) {
+            unique = `${id}-${n++}`;
+          }
+          id = unique;
+          h.id = id;
+        }
+        h.classList.add("scroll-mt-24");
+        seen.add(id);
+        items.push({ id, label });
+      });
+      setTocItems(items);
+    };
+    build();
+    const mo = new MutationObserver(() => build());
+    mo.observe(el, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, [children]);
+
+  const tocColor: TocColor = (() => {
+    const n = parseInt((lessonNumber.split(".")[1] || "1"), 10);
+    if (level === 1) return n % 2 === 1 ? "cyan" : "emerald";
+    if (level === 2) return n % 2 === 1 ? "purple" : "pink";
+    const palette: TocColor[] = ["cyan", "purple", "pink", "emerald"];
+    return palette[(n - 1) % 4];
+  })();
 
   const crossLinkGroups = useMemo(() => {
     if (!lessonId) return [];
