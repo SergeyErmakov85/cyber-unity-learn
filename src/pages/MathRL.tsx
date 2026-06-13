@@ -496,7 +496,7 @@ const MathRL = () => {
       {/* Header */}
       <div className="border-b border-border/50 bg-card/30 backdrop-blur-sm">
         <div className="container mx-auto px-4 pt-24 pb-8">
-          <Button variant="ghost" onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground mb-4 -ml-2">
+          <Button variant="ghost" onClick={() => navigate("/")} className="text-muted-foreground hover:text-foreground mb-4 ml-2">
             <ArrowLeft className="w-4 h-4 mr-2" /> На главную
           </Button>
           <h1 className="text-3xl md:text-5xl font-bold mb-3">
