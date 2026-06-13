@@ -5,6 +5,7 @@ import { Home, ChevronRight, CheckCircle2 } from "lucide-react";
 import ProGate from "@/components/ProGate";
 import LessonHeader from "@/components/LessonHeader";
 import SectionNav, { SectionNavItem } from "@/components/SectionNav";
+import LessonSidebarTOC from "@/components/LessonSidebarTOC";
 import NextPrevLesson from "@/components/NextPrevLesson";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SEOHead from "@/components/SEOHead";
