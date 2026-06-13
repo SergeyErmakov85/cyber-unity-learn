@@ -411,7 +411,7 @@ const CourseLesson1_4 = () => {
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">
-          7. Пример среды: FrozenLake
+          Пример среды: FrozenLake
         </h2>
         <p className="text-muted-foreground leading-relaxed mb-3">
           FrozenLake — сетка 4x4 с безопасными клетками, прорубями и финишем.
@@ -496,7 +496,7 @@ const CourseLesson1_4 = () => {
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">
-          8. Пошаговый разбор кода (Математика → Алгоритм → Код)
+          Пошаговый разбор кода (Математика → Алгоритм → Код)
         </h2>
         <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30">
           <table className="w-full text-sm">
@@ -580,7 +580,7 @@ const CourseLesson1_4 = () => {
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
           <AlertTriangle className="w-5 h-5 text-destructive" />
-          9. Распространенные ошибки
+          Распространенные ошибки
         </h2>
         <div className="space-y-3">
           {[
@@ -610,7 +610,7 @@ const CourseLesson1_4 = () => {
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
           <CheckCircle2 className="w-5 h-5 text-green-400" />
-          10. Ключевые выводы
+          Ключевые выводы
         </h2>
         <Card className="bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 border-primary/20">
           <CardContent className="p-6 space-y-3">
