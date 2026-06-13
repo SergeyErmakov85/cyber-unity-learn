@@ -15,7 +15,16 @@ import ScrollToTop from "@/components/ScrollToTop";
 import LessonBreadcrumbs from "@/components/LessonBreadcrumbs";
 import SEOHead from "@/components/SEOHead";
 import ProUpgradeBanner from "@/components/ProUpgradeBanner";
+import LessonSidebarTOC, { type TocColor } from "@/components/LessonSidebarTOC";
+import type { SectionNavItem } from "@/components/SectionNav";
 import { completeLesson, getProgress } from "@/lib/gamification";
+
+const slugifyHeading = (t: string) =>
+  t.toLowerCase()
+    .replace(/[^\wа-яё\s-]+/gi, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .slice(0, 80);
 
 interface LessonMeta {
   id: string;
