@@ -11,6 +11,7 @@ interface Props {
   color?: TocColor;
   offset?: number;
   title?: string;
+  side?: "left" | "right";
 }
 
 // Styling per color: base text, active text, active glow shadow, border accents
