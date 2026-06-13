@@ -278,6 +278,13 @@ const LessonLayout = ({
       />
       <ScrollProgressBar color={progressColor} />
       <ScrollToTop />
+      {tocItems.length > 1 && (
+        <LessonSidebarTOC
+          items={tocItems}
+          color={tocColor}
+          side={level === 1 ? "right" : "left"}
+        />
+      )}
 
       {/* Header */}
       <header className="border-b border-border/50 bg-card/80 backdrop-blur-xl sticky top-0 z-30">
