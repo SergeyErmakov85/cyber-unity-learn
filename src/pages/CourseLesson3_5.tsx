@@ -5,6 +5,7 @@ import { Home, ChevronRight, CheckCircle2 } from "lucide-react";
 import ProGate from "@/components/ProGate";
 import LessonHeader from "@/components/LessonHeader";
 import SectionNav, { SectionNavItem } from "@/components/SectionNav";
+import LessonSidebarTOC from "@/components/LessonSidebarTOC";
 import NextPrevLesson from "@/components/NextPrevLesson";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SEOHead from "@/components/SEOHead";
@@ -211,7 +212,10 @@ const CourseLesson3_5 = () => {
         estimatedMinutes={lesson.estimatedMinutes}
       />
 
-      <SectionNav items={SECTIONS} />
+      <div className="xl:hidden">
+        <SectionNav items={SECTIONS} />
+      </div>
+      <LessonSidebarTOC items={SECTIONS} color="cyan" />
 
       <div id="lesson-content" className="space-y-8 mt-8">
         {MAPPED_SECTIONS.map(({ id, Comp }, i) => (
