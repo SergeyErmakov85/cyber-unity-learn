@@ -46,6 +46,7 @@ interface LessonLayoutProps {
   prevLesson?: { path: string; title: string };
   nextLesson?: { path: string; title: string };
   lessonId?: string;
+  hideCourseSidebar?: boolean;
 }
 
 const level1Lessons: LessonMeta[] = [
