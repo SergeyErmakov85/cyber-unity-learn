@@ -174,7 +174,9 @@ const LessonLayout = ({
       const seen = new Set<string>();
       const items: SectionNavItem[] = [];
       heads.forEach((h) => {
-        const label = (h.textContent || "").trim();
+        const raw = (h.textContent || "").trim();
+        // Prefer explicit override; otherwise strip leading "§ N." / "§ N.N" markers.
+        const label = (h.dataset.tocLabel || raw.replace(/^§\s*\d+(?:\.\d+)?\.?\s*/u, "")).trim();
         if (!label) return;
         let id = h.id;
         if (!id) {
