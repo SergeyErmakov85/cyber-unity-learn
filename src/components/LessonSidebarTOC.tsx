@@ -137,7 +137,7 @@ const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Сод
             {title}
           </h2>
           <ul className="space-y-1.5 text-sm max-h-[65vh] overflow-y-auto pr-1 scrollbar-thin">
-            {items.map(({ id, label }) => {
+            {items.map(({ id, label }, idx) => {
               const isActive = activeId === id;
               return (
                 <li key={id}>
@@ -145,13 +145,16 @@ const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Сод
                     href={`#${id}`}
                     onClick={scrollTo(id)}
                     className={cn(
-                      "block px-2 py-1.5 rounded-md transition-all border border-transparent leading-snug",
+                      "flex gap-2 items-start px-2 py-1.5 rounded-md transition-all border border-transparent leading-snug",
                       isActive
                         ? cn(c.active, c.activeBg, c.activeShadow)
                         : cn(c.base, c.baseHover)
                     )}
                   >
-                    {label}
+                    <span className={cn("shrink-0 tabular-nums font-mono text-xs pt-0.5", isActive ? c.activeBullet : c.bullet)}>
+                      {idx + 1}.
+                    </span>
+                    <span>{label}</span>
                   </a>
                 </li>
               );
