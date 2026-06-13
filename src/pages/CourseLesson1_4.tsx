@@ -158,7 +158,7 @@ const CourseLesson1_4 = () => {
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
           <Table2 className="w-5 h-5 text-primary" />
-          2. Ключевые концепции
+          Ключевые концепции
         </h2>
         <Card className="bg-card/40 border-secondary/30 mb-4">
           <CardContent className="p-4 flex gap-3 items-start">
