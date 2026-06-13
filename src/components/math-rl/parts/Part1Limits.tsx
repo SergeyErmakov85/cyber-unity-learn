@@ -15,7 +15,7 @@ import mdpTwoStatesImg from "@/assets/mdp-two-states.png";
  */
 const BackToLessonPill = () => (
   <Link
-    to="/courses/1-3#пример-вывода-уравнения-оптимальности"
+    to="/courses/1-6#пример-вывода-уравнения-оптимальности"
     className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all duration-200 no-underline"
     style={{
       borderColor: "rgba(0,255,214,0.25)",

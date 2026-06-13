@@ -202,7 +202,7 @@ const Courses = () => {
               const isOpen = openLevel === index;
 
               return (
-                <div key={index} id={`level-${index + 1}`} className="relative pl-16 scroll-mt-24">
+                <div key={index} className="relative pl-16">
                   {/* Timeline dot */}
                   <div
                     className={`absolute left-4 top-6 w-5 h-5 rounded-full border-2 border-background ${styles.dot} z-10`}

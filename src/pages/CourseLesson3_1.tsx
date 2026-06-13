@@ -206,7 +206,7 @@ const CourseLesson3_1 = () => {
           </li>
           <ChevronRight className="w-3.5 h-3.5 opacity-50" aria-hidden="true" />
           <li>
-            <Link to="/courses#level-3" className="hover:text-cyan-400">
+            <Link to="/courses#stage-3" className="hover:text-cyan-400">
               Уровень 3
             </Link>
           </li>

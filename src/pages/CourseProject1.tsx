@@ -224,6 +224,7 @@ const CourseProject1 = () => {
       lessonNumber="П1"
       duration="60–90 мин"
       tags={["#project", "#unity", "#3d", "#pytorch", "#ppo"]}
+      hideCourseSidebar
       prevLesson={{ path: "/courses/1-7", title: "Exploration vs Exploitation" }}
       nextLesson={{ path: "/courses/2-1", title: "Введение в Уровень 2" }}
     >
