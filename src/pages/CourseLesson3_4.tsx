@@ -206,7 +206,10 @@ const CourseLesson3_4 = () => {
         estimatedMinutes={lesson.estimatedMinutes}
       />
 
-      <SectionNav items={SECTIONS} />
+      <div className="xl:hidden">
+        <SectionNav items={SECTIONS} />
+      </div>
+      <LessonSidebarTOC items={SECTIONS} color="emerald" />
 
       <div id="lesson-content" className="space-y-8 mt-8">
         {MAPPED_SECTIONS.map(({ id, Comp }, i) => (
