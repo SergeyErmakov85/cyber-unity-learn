@@ -123,7 +123,7 @@ const CourseLesson1_4 = () => {
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
               <Lightbulb className="w-5 h-5 text-primary" />
-              1. Интуитивное введение
+              Интуитивное введение
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-3">
               Обучение с подкреплением (Reinforcement Learning, RL) представляет собой
