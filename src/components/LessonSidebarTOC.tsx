@@ -122,7 +122,7 @@ const LessonSidebarTOC = ({ items, color = "cyan", offset = 120, title = "Сод
   };
 
   const sideClass = side === "right"
-    ? "right-4 2xl:right-8"
+    ? "left-[calc(50%+27rem)] 2xl:left-[calc(50%+18.5rem)]"
     : "left-4 2xl:left-8";
 
   return (
