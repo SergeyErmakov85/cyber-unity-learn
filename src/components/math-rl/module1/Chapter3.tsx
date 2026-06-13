@@ -2,11 +2,33 @@ import { Box } from "lucide-react";
 import Math from "@/components/Math";
 import { Section, InfoBox } from "./Section";
 import { MDPTreeViz } from "./Module5Charts";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import mdpPreview from "@/assets/mdp-preview.png.asset.json";
 
 const Chapter3 = () => (
   <Section icon={<Box className="w-5 h-5 text-primary" />} title="Глава 3. Марковские процессы принятия решений (MDP)" id="глава-3">
     <p>
-      В реальных задачах текущее действие агента влияет не только на сиюминутную награду, но и на то, в какой ситуации он окажется на следующем шаге. Для описания таких сред используется мощный аппарат — <strong className="text-foreground">Марковские процессы принятия решений</strong>.
+      В реальных задачах текущее действие агента влияет не только на сиюминутную награду, но и на то, в какой ситуации он окажется на следующем шаге. Для описания таких сред используется мощный аппарат —{" "}
+      <HoverCard openDelay={120} closeDelay={120}>
+        <HoverCardTrigger asChild>
+          <strong className="text-foreground cursor-help underline decoration-dotted decoration-primary/60 underline-offset-4">
+            Марковские процессы принятия решений
+          </strong>
+        </HoverCardTrigger>
+        <HoverCardContent
+          side="top"
+          align="center"
+          sideOffset={12}
+          className="w-[min(560px,90vw)] p-0 bg-transparent border-0 shadow-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
+        >
+          <img
+            src={mdpPreview.url}
+            alt="Марковский процесс принятия решений — превью"
+            className="w-full h-auto rounded-xl shadow-2xl pointer-events-none select-none"
+          />
+        </HoverCardContent>
+      </HoverCard>
+      .
     </p>
     <p>
       Математически MDP задаётся кортежем из пяти элементов: <Math display={false}>{"(S, A, P, R, \\gamma)"}</Math>.
