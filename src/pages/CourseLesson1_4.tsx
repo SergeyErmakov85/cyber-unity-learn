@@ -123,7 +123,7 @@ const CourseLesson1_4 = () => {
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
               <Lightbulb className="w-5 h-5 text-primary" />
-              1. Интуитивное введение
+              Интуитивное введение
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-3">
               Обучение с подкреплением (Reinforcement Learning, RL) представляет собой
@@ -158,7 +158,7 @@ const CourseLesson1_4 = () => {
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
           <Table2 className="w-5 h-5 text-primary" />
-          2. Ключевые концепции
+          Ключевые концепции
         </h2>
         <Card className="bg-card/40 border-secondary/30 mb-4">
           <CardContent className="p-4 flex gap-3 items-start">
@@ -259,7 +259,7 @@ const CourseLesson1_4 = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">3. Основная идея Q-обучения</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">Основная идея Q-обучения</h2>
         <p className="text-muted-foreground leading-relaxed mb-3">
           Табличный Q-learning строит и постоянно обновляет двумерную Q-таблицу:
           строки — состояния, столбцы — действия, а в ячейках хранится «качество»
@@ -292,7 +292,7 @@ const CourseLesson1_4 = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">4. Формула Q-обучения</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">Формула Q-обучения</h2>
         <Math>{`Q(s, a) \\leftarrow Q(s, a) + \\alpha \\left[ r + \\gamma \\max_{a'} Q(s', a') - Q(s, a) \\right]`}</Math>
         <p className="text-muted-foreground leading-relaxed mt-4 mb-3">
           Каждый символ в уравнении управляет поведением агента.
@@ -370,7 +370,7 @@ const CourseLesson1_4 = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">5. От математики к алгоритму</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">От математики к алгоритму</h2>
         <div className="space-y-2">
           {[
             "Инициализируем Q-таблицу и гиперпараметры (α, γ, ε).",
@@ -396,7 +396,7 @@ const CourseLesson1_4 = () => {
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">
-          6. Реализация на Python (MANDATORY)
+          Реализация на Python (MANDATORY)
         </h2>
         <p className="text-muted-foreground leading-relaxed mb-4">
           Ниже — полный рабочий код табличного Q-learning для
@@ -411,7 +411,7 @@ const CourseLesson1_4 = () => {
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">
-          7. Пример среды: FrozenLake
+          Пример среды: FrozenLake
         </h2>
         <p className="text-muted-foreground leading-relaxed mb-3">
           FrozenLake — сетка 4x4 с безопасными клетками, прорубями и финишем.
@@ -496,7 +496,7 @@ const CourseLesson1_4 = () => {
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">
-          8. Пошаговый разбор кода (Математика → Алгоритм → Код)
+          Пошаговый разбор кода (Математика → Алгоритм → Код)
         </h2>
         <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30">
           <table className="w-full text-sm">
@@ -580,7 +580,7 @@ const CourseLesson1_4 = () => {
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
           <AlertTriangle className="w-5 h-5 text-destructive" />
-          9. Распространенные ошибки
+          Распространенные ошибки
         </h2>
         <div className="space-y-3">
           {[
@@ -610,7 +610,7 @@ const CourseLesson1_4 = () => {
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
           <CheckCircle2 className="w-5 h-5 text-green-400" />
-          10. Ключевые выводы
+          Ключевые выводы
         </h2>
         <Card className="bg-gradient-to-br from-primary/5 via-card/40 to-secondary/5 border-primary/20">
           <CardContent className="p-6 space-y-3">
