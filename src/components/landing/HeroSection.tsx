@@ -77,7 +77,7 @@ const HeroSection = () => {
               onClick={() => navigate("/knowledge-map")}
             >
               <Network className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
-              Mind Map
+              Карта знаний
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => navigate("/onboarding")}>
               Пройти тест
