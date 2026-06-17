@@ -1,1 +1,8 @@
 project_id = "hpbhllpdakxedqzzlwcv"
+
+# Регистрация и вход через Google отключены намеренно.
+# ВАЖНО: для production-проекта (Lovable Cloud) источник истины —
+# панель Supabase: Authentication → Providers → Google → Disable.
+# Блок ниже отключает провайдер при применении конфигурации через Supabase CLI.
+[auth.external.google]
+enabled = false
