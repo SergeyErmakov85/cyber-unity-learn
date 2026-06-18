@@ -520,6 +520,95 @@ pip install -r requirements.txt`}
             </div>
           ))}
         </div>
+
+        {/* Раскрывающийся блок: минимальный набор для собственного проекта */}
+        <Accordion type="single" collapsible className="mt-6">
+          <AccordionItem
+            value="minimal-set"
+            className="border border-primary/30 rounded-lg bg-card/40 backdrop-blur-sm overflow-hidden"
+          >
+            <AccordionTrigger className="px-4 py-3 text-left hover:no-underline hover:bg-primary/5">
+              <span className="flex items-center gap-2 font-semibold text-foreground">
+                <Bot className="w-4 h-4 text-primary flex-shrink-0" />
+                Минимальный набор для собственного проекта Unity ML-Agents
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pb-5 pt-2 space-y-6">
+              <div>
+                <h3 className="text-lg font-bold text-foreground mb-2">
+                  1. Unity-пакет ML-Agents
+                </h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Установи через Package Manager пакет:
+                </p>
+                <CyberCodeBlock language="text" filename="Package Manager">
+                  {`com.unity.ml-agents`}
+                </CyberCodeBlock>
+                <p className="text-sm text-muted-foreground mt-3 mb-2">
+                  Он содержит весь необходимый C# SDK:
+                </p>
+                <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                  <li>Agent</li>
+                  <li>Behavior Parameters</li>
+                  <li>Academy</li>
+                  <li>Sensors</li>
+                  <li>Actuators</li>
+                  <li>Decision Requester</li>
+                  <li>Ray Perception Sensor</li>
+                  <li>Компоненты для инференса и обучения</li>
+                </ul>
+                <p className="text-sm text-muted-foreground mt-3">
+                  Этого достаточно для создания собственных агентов.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-foreground mb-2">
+                  2. Python-пакет для обучения
+                </h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  В виртуальном окружении:
+                </p>
+                <CyberCodeBlock language="bash" filename="terminal">
+                  {`pip install mlagents`}
+                </CyberCodeBlock>
+                <p className="text-sm text-muted-foreground mt-3 mb-3">
+                  Он автоматически подтянет:
+                </p>
+                <CyberCodeBlock language="text" filename="dependency">
+                  {`mlagents_envs`}
+                </CyberCodeBlock>
+                <p className="text-sm text-muted-foreground mt-3">
+                  который отвечает за обмен данными между Unity и Python.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-foreground mb-2">
+                  Что НЕ нужно копировать
+                </h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Из репозитория можно не брать:
+                </p>
+                <CyberCodeBlock language="text" filename="Project/">
+                  {`Project/
+├── Assets/ML-Agents/Examples/
+├── Assets/ML-Agents/Demos/
+config/ppo/3DBall.yaml
+config/ppo/Walker.yaml`}
+                </CyberCodeBlock>
+                <p className="text-sm text-muted-foreground mt-3 mb-3">
+                  На их основе удобно создавать собственные настройки:
+                </p>
+                <CyberCodeBlock language="yaml" filename="config.yaml">
+                  {`behaviors:
+  NPCAgent:
+    trainer_type: ppo`}
+                </CyberCodeBlock>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </section>
 
       {/* ── Step 5: Verify ── */}
