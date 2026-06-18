@@ -592,9 +592,48 @@ pip install -r requirements.txt`}
                 </p>
                 <CyberCodeBlock language="text" filename="Project/">
                   {`Project/
-├── Assets/ML-Agents/Examples/
-├── Assets/ML-Agents/Demos/
-config/ppo/3DBall.yaml
+  ├── Assets/ML-Agents/Examples/
+  ├── Assets/ML-Agents/Demonstrations/
+  ├── Assets/ML-Agents/Timers/
+  ├── Assets/ML-Agents/Examples/`}
+                </CyberCodeBlock>
+                <p className="text-sm text-muted-foreground mt-3 mb-2">
+                  Это исключительно демонстрационные среды:
+                </p>
+                <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                  <li>3DBall</li>
+                  <li>Walker</li>
+                  <li>Crawler</li>
+                  <li>FoodCollector</li>
+                  <li>GridWorld</li>
+                  <li>PushBlock</li>
+                  <li>Soccer</li>
+                  <li>Hallway</li>
+                  <li>Pyramids</li>
+                </ul>
+                <p className="text-sm text-muted-foreground mt-2">и т.д.</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-foreground mb-2">
+                  Что полезно сохранить из репозитория
+                </h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Можно скачать репозиторий один раз и оставить только:
+                </p>
+                <CyberCodeBlock language="text" filename="ml-agents/">
+                  {`ml-agents/
+  ├── config/
+       ├── ppo/
+       ├── sac/
+       └── poca/`}
+                </CyberCodeBlock>
+                <p className="text-sm text-muted-foreground mt-3">
+                  Здесь лежат готовые YAML-конфиги обучения.
+                </p>
+                <p className="text-sm text-muted-foreground mt-3 mb-3">Например:</p>
+                <CyberCodeBlock language="text" filename="config/ppo/">
+                  {`config/ppo/3DBall.yaml
 config/ppo/Walker.yaml`}
                 </CyberCodeBlock>
                 <p className="text-sm text-muted-foreground mt-3 mb-3">
@@ -605,6 +644,30 @@ config/ppo/Walker.yaml`}
   NPCAgent:
     trainer_type: ppo`}
                 </CyberCodeBlock>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-foreground mb-2">
+                  Если ты делаешь свой проект с нуля
+                </h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Тебе достаточно иметь:
+                </p>
+                <CyberCodeBlock language="text" filename="MyProject/">
+                  {`MyProject
+│
+├── Unity Project
+│   └── com.unity.ml-agents
+│
+├── Python venv
+│   └── mlagents
+│
+└── config
+    └── MyNPC.yaml`}
+                </CyberCodeBlock>
+                <p className="text-sm text-muted-foreground mt-3">
+                  Никаких примеров Unity переносить не требуется.
+                </p>
               </div>
             </AccordionContent>
           </AccordionItem>
