@@ -541,7 +541,7 @@ pip install -r requirements.txt`}
                 <p className="text-sm text-muted-foreground mb-3">
                   Установи через Package Manager пакет:
                 </p>
-                <CyberCodeBlock language="text" filename="Package Manager">
+                <CyberCodeBlock language="pseudo" filename="Package Manager">
                   {`com.unity.ml-agents`}
                 </CyberCodeBlock>
                 <p className="text-sm text-muted-foreground mt-3 mb-2">
@@ -569,13 +569,13 @@ pip install -r requirements.txt`}
                 <p className="text-sm text-muted-foreground mb-3">
                   В виртуальном окружении:
                 </p>
-                <CyberCodeBlock language="bash" filename="terminal">
+                <CyberCodeBlock language="pseudo" filename="terminal">
                   {`pip install mlagents`}
                 </CyberCodeBlock>
                 <p className="text-sm text-muted-foreground mt-3 mb-3">
                   Он автоматически подтянет:
                 </p>
-                <CyberCodeBlock language="text" filename="dependency">
+                <CyberCodeBlock language="pseudo" filename="dependency">
                   {`mlagents_envs`}
                 </CyberCodeBlock>
                 <p className="text-sm text-muted-foreground mt-3">
@@ -590,7 +590,7 @@ pip install -r requirements.txt`}
                 <p className="text-sm text-muted-foreground mb-3">
                   Из репозитория можно не брать:
                 </p>
-                <CyberCodeBlock language="text" filename="Project/">
+                <CyberCodeBlock language="pseudo" filename="Project/">
                   {`Project/
   ├── Assets/ML-Agents/Examples/
   ├── Assets/ML-Agents/Demonstrations/
@@ -621,7 +621,7 @@ pip install -r requirements.txt`}
                 <p className="text-sm text-muted-foreground mb-3">
                   Можно скачать репозиторий один раз и оставить только:
                 </p>
-                <CyberCodeBlock language="text" filename="ml-agents/">
+                <CyberCodeBlock language="pseudo" filename="ml-agents/">
                   {`ml-agents/
   ├── config/
        ├── ppo/
@@ -632,14 +632,14 @@ pip install -r requirements.txt`}
                   Здесь лежат готовые YAML-конфиги обучения.
                 </p>
                 <p className="text-sm text-muted-foreground mt-3 mb-3">Например:</p>
-                <CyberCodeBlock language="text" filename="config/ppo/">
+                <CyberCodeBlock language="pseudo" filename="config/ppo/">
                   {`config/ppo/3DBall.yaml
 config/ppo/Walker.yaml`}
                 </CyberCodeBlock>
                 <p className="text-sm text-muted-foreground mt-3 mb-3">
                   На их основе удобно создавать собственные настройки:
                 </p>
-                <CyberCodeBlock language="yaml" filename="config.yaml">
+                <CyberCodeBlock language="pseudo" filename="config.yaml">
                   {`behaviors:
   NPCAgent:
     trainer_type: ppo`}
@@ -653,7 +653,7 @@ config/ppo/Walker.yaml`}
                 <p className="text-sm text-muted-foreground mb-3">
                   Тебе достаточно иметь:
                 </p>
-                <CyberCodeBlock language="text" filename="MyProject/">
+                <CyberCodeBlock language="pseudo" filename="MyProject/">
                   {`MyProject
 │
 ├── Unity Project

@@ -6,6 +6,7 @@ import Section_PolicyAndTrace from "@/components/math-rl/lesson1_5/Section_Polic
 import Section_ValueV from "@/components/math-rl/lesson1_5/Section_ValueV";
 import Section_ValueQ from "@/components/math-rl/lesson1_5/Section_ValueQ";
 import Section_ValueIteration from "@/components/math-rl/lesson1_5/Section_ValueIteration";
+import Section_BellmanDerivation from "@/components/math-rl/lesson1_5/Section_BellmanDerivation";
 import Section_BellmanBridge from "@/components/math-rl/lesson1_5/Section_BellmanBridge";
 
 /**
@@ -39,6 +40,8 @@ const CourseLesson1_3 = () => {
       {/* промпт 8 — Q^π(s, a) */}
       <Section_ValueIteration />
       {/* промпт 9 — Value Iteration на gridworld */}
+      <Section_BellmanDerivation />
+      {/* Вывод уравнения Беллмана — пошаговый разбор */}
       <Section_BellmanBridge />
       {/* промпт 10 — мост к Bellman Optimality / Q-Learning */}
     </LessonLayout>
