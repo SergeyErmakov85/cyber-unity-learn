@@ -112,7 +112,7 @@ const Section_BellmanBridge = () => {
   return (
     <section
       id="l15-bellman-bridge"
-      aria-label="Lesson 1.5 — § 8. Мост к уравнениям Беллмана"
+      aria-label="Lesson 1.5 — § 9. Мост к уравнениям Беллмана"
       className="py-6"
       style={BODY_STYLE}
     >
@@ -121,7 +121,7 @@ const Section_BellmanBridge = () => {
         style={{ fontFamily: HEADING_FONT, color: CYAN }}
         data-toc-label="Уравнение Беллмана"
       >
-        § 8. То, что мы сделали, называется{" "}
+        § 9. То, что мы сделали, называется{" "}
         <span className="group/bellman relative inline-block cursor-help">
           <span
             className="transition-all duration-500"

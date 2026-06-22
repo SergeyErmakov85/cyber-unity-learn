@@ -98,7 +98,7 @@ const Section_BellmanDerivation = () => {
   return (
     <section
       id="l13-bellman-derivation"
-      aria-label="Урок 1.3 — Вывод уравнения Беллмана"
+      aria-label="Урок 1.3 — § 8. Вывод уравнения Беллмана"
       className="py-6"
       style={BODY_STYLE}
     >
@@ -107,7 +107,7 @@ const Section_BellmanDerivation = () => {
         style={{ fontFamily: HEADING_FONT, color: CYAN }}
         data-toc-label="Вывод уравнения Беллмана"
       >
-        Вывод уравнения Беллмана
+        § 8. Вывод уравнения Беллмана
       </h2>
 
       {/* ─────── Цветовая легенда ─────── */}
