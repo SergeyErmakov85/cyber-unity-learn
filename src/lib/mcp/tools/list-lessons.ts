@@ -1,6 +1,6 @@
 import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { LEARNING_MAP } from "@/content/learningMap";
+import { LEARNING_MAP } from "../../../content/learningMap";
 
 export default defineTool({
   name: "list_lessons",

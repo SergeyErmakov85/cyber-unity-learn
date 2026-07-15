@@ -1,5 +1,5 @@
 import { defineTool } from "@lovable.dev/mcp-js";
-import { SUPPORT_HUBS } from "@/content/hubs";
+import { SUPPORT_HUBS } from "../../../content/hubs";
 
 export default defineTool({
   name: "list_hubs",
