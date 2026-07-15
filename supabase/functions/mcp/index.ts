@@ -632,61 +632,14 @@ var list_lessons_default = defineTool({
 
 // src/lib/mcp/tools/list-hubs.ts
 import { defineTool as defineTool2 } from "npm:@lovable.dev/mcp-js@0.22.1";
-
-// src/content/hubs.ts
-import { BookOpen, Box, Brain, FolderGit2, Network, Sigma } from "npm:lucide-react@^0.462.0";
-var SUPPORT_HUBS = {
-  pytorch: {
-    id: "pytorch",
-    label: "PyTorch",
-    slug: "pytorch",
-    shortDescription: "\u041E\u0441\u043D\u043E\u0432\u044B \u0442\u0435\u043D\u0437\u043E\u0440\u043E\u0432, autograd, \u043D\u0435\u0439\u0440\u043E\u0441\u0435\u0442\u0435\u0439 \u0438 \u043E\u043F\u0442\u0438\u043C\u0438\u0437\u0430\u0446\u0438\u0438 \u0432 PyTorch.",
-    icon: Brain,
-    colorAccent: "text-primary"
-  },
-  "unity-ml-agents": {
-    id: "unity-ml-agents",
-    label: "Unity ML-Agents",
-    slug: "unity-ml-agents",
-    shortDescription: "\u0423\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0430, \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430 \u0441\u0440\u0435\u0434\u044B, \u0441\u0435\u043D\u0441\u043E\u0440\u044B \u0438 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430 \u0430\u0433\u0435\u043D\u0442\u043E\u0432 \u0432 Unity.",
-    icon: Box,
-    colorAccent: "text-secondary"
-  },
-  "deep-rl": {
-    id: "deep-rl",
-    label: "Deep RL",
-    slug: "deep-rl",
-    shortDescription: "\u0413\u043B\u0443\u0431\u043E\u043A\u043E\u0435 \u043E\u0431\u0443\u0447\u0435\u043D\u0438\u0435 \u0441 \u043F\u043E\u0434\u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0438\u0435\u043C: DQN, Policy Gradient, Actor-Critic.",
-    icon: BookOpen,
-    colorAccent: "text-accent"
-  },
-  project: {
-    id: "project",
-    label: "\u041F\u0440\u043E\u0435\u043A\u0442\u044B",
-    slug: "project",
-    shortDescription: "\u041F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u043F\u0440\u043E\u0435\u043A\u0442\u044B: \u043E\u0442 CartPole \u0434\u043E \u043C\u0443\u043B\u044C\u0442\u0438\u0430\u0433\u0435\u043D\u0442\u043D\u043E\u0433\u043E \u0444\u0443\u0442\u0431\u043E\u043B\u0430.",
-    icon: FolderGit2,
-    colorAccent: "text-secondary"
-  },
-  "math-rl": {
-    id: "math-rl",
-    label: "\u041C\u0430\u0442\u0435\u043C\u0430\u0442\u0438\u043A\u0430 RL",
-    slug: "math-rl",
-    shortDescription: "\u0412\u0435\u0440\u043E\u044F\u0442\u043D\u043E\u0441\u0442\u0438, MDP, \u0443\u0440\u0430\u0432\u043D\u0435\u043D\u0438\u044F \u0411\u0435\u043B\u043B\u043C\u0430\u043D\u0430, \u0433\u0440\u0430\u0434\u0438\u0435\u043D\u0442\u044B \u043F\u043E\u043B\u0438\u0442\u0438\u043A.",
-    icon: Sigma,
-    colorAccent: "text-green-400"
-  },
-  "fca-rl": {
-    id: "fca-rl",
-    label: "\u0418\u0441\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u043D\u0438\u044F RL",
-    slug: "fca-rl",
-    shortDescription: "\u0418\u0441\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u0441\u043A\u0438\u0435 \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u044F RL: FCA \u0434\u043B\u044F \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0439, \u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u0438\u0438 \u0438 \u0432\u0438\u0437\u0443\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u0438.",
-    icon: Network,
-    colorAccent: "text-yellow-400"
-  }
-};
-
-// src/lib/mcp/tools/list-hubs.ts
+var HUBS = [
+  { id: "pytorch", label: "PyTorch", slug: "pytorch", description: "\u041E\u0441\u043D\u043E\u0432\u044B \u0442\u0435\u043D\u0437\u043E\u0440\u043E\u0432, autograd, \u043D\u0435\u0439\u0440\u043E\u0441\u0435\u0442\u0435\u0439 \u0438 \u043E\u043F\u0442\u0438\u043C\u0438\u0437\u0430\u0446\u0438\u0438 \u0432 PyTorch." },
+  { id: "unity-ml-agents", label: "Unity ML-Agents", slug: "unity-ml-agents", description: "\u0423\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0430, \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430 \u0441\u0440\u0435\u0434\u044B, \u0441\u0435\u043D\u0441\u043E\u0440\u044B \u0438 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430 \u0430\u0433\u0435\u043D\u0442\u043E\u0432 \u0432 Unity." },
+  { id: "deep-rl", label: "Deep RL", slug: "deep-rl", description: "\u0413\u043B\u0443\u0431\u043E\u043A\u043E\u0435 \u043E\u0431\u0443\u0447\u0435\u043D\u0438\u0435 \u0441 \u043F\u043E\u0434\u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0438\u0435\u043C: DQN, Policy Gradient, Actor-Critic." },
+  { id: "project", label: "\u041F\u0440\u043E\u0435\u043A\u0442\u044B", slug: "project", description: "\u041F\u0440\u0430\u043A\u0442\u0438\u0447\u0435\u0441\u043A\u0438\u0435 \u043F\u0440\u043E\u0435\u043A\u0442\u044B: \u043E\u0442 CartPole \u0434\u043E \u043C\u0443\u043B\u044C\u0442\u0438\u0430\u0433\u0435\u043D\u0442\u043D\u043E\u0433\u043E \u0444\u0443\u0442\u0431\u043E\u043B\u0430." },
+  { id: "math-rl", label: "\u041C\u0430\u0442\u0435\u043C\u0430\u0442\u0438\u043A\u0430 RL", slug: "math-rl", description: "\u0412\u0435\u0440\u043E\u044F\u0442\u043D\u043E\u0441\u0442\u0438, MDP, \u0443\u0440\u0430\u0432\u043D\u0435\u043D\u0438\u044F \u0411\u0435\u043B\u043B\u043C\u0430\u043D\u0430, \u0433\u0440\u0430\u0434\u0438\u0435\u043D\u0442\u044B \u043F\u043E\u043B\u0438\u0442\u0438\u043A." },
+  { id: "fca-rl", label: "\u0418\u0441\u0441\u043B\u0435\u0434\u043E\u0432\u0430\u043D\u0438\u044F RL", slug: "fca-rl", description: "FCA \u0434\u043B\u044F \u0441\u0442\u0440\u0443\u043A\u0442\u0443\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F \u0441\u043E\u0441\u0442\u043E\u044F\u043D\u0438\u0439, \u043B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u0438\u0438 \u0438 \u0432\u0438\u0437\u0443\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u0438." }
+];
 var list_hubs_default = defineTool2({
   name: "list_hubs",
   title: "List knowledge hubs",
@@ -694,13 +647,7 @@ var list_hubs_default = defineTool2({
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: () => {
-    const hubs = Object.values(SUPPORT_HUBS).map((h) => ({
-      id: h.id,
-      label: h.label,
-      slug: h.slug,
-      description: h.shortDescription,
-      path: `/hub/${h.slug}`
-    }));
+    const hubs = HUBS.map((h) => ({ ...h, path: `/hub/${h.slug}` }));
     return {
       content: [{ type: "text", text: JSON.stringify(hubs, null, 2) }],
       structuredContent: { hubs }
