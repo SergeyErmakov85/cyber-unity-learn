@@ -92,7 +92,7 @@ const Register = () => {
             </Button>
             <p className="text-sm text-muted-foreground">
               Уже есть аккаунт?{" "}
-              <Link to="/login" className="text-primary hover:underline">Войти</Link>
+              <Link to={nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : "/login"} className="text-primary hover:underline">Войти</Link>
             </p>
           </CardFooter>
         </form>

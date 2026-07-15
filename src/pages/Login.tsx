@@ -122,7 +122,7 @@ const Login = () => {
             </Button>
             <p className="text-sm text-muted-foreground">
               Нет аккаунта?{" "}
-              <Link to="/register" className="text-primary hover:underline">Зарегистрироваться</Link>
+              <Link to={nextPath ? `/register?next=${encodeURIComponent(nextPath)}` : "/register"} className="text-primary hover:underline">Зарегистрироваться</Link>
             </p>
           </CardFooter>
         </form>
