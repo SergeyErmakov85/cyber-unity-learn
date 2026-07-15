@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "sdk_version": "0.22.1",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://hpbhllpdakxedqzzlwcv.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "rl-platform-mcp",
+      "version": "0.1.0",
+      "title": "RL Platform (Cyber Unity Code)"
+    },
+    "tools": [
+      {
+        "name": "list_lessons",
+        "title": "List course lessons",
+        "description": "List all stages, lessons and projects of the RL Platform course (Beginner / Intermediate / Advanced).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "stage": {
+              "type": "string",
+              "enum": [
+                "stage-1",
+                "stage-2",
+                "stage-3"
+              ],
+              "description": "Optional stage id to filter (stage-1 = Beginner, stage-2 = Intermediate, stage-3 = Advanced)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_hubs",
+        "title": "List knowledge hubs",
+        "description": "List all knowledge hubs (PyTorch, Unity ML-Agents, Deep RL, Math RL, Projects, Research) with their descriptions.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_my_profile",
+        "title": "Get my profile",
+        "description": "Return the signed-in user's profile (id, name, avatar) from the RL Platform.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_testimonials",
+        "title": "List testimonials",
+        "description": "List testimonials from RL Platform users, ordered by most recent first.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "description": "Max rows to return (default 10)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "submit_testimonial",
+        "title": "Submit a testimonial",
+        "description": "Create a testimonial for the RL Platform as the signed-in user (10-1000 chars, rating 1-5).",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "content": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 1000,
+              "description": "Testimonial text (10-1000 chars)."
+            },
+            "rating": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "Rating from 1 to 5."
+            }
+          },
+          "required": [
+            "content",
+            "rating"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
