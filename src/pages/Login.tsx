@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from "@/hooks/use-toast";
 import { LogIn } from "lucide-react";
 
+// Same-origin relative path only (starts with "/" but not "//").
+const safeNext = (raw: string | null): string | null => {
+  if (!raw) return null;
+  if (!raw.startsWith("/") || raw.startsWith("//")) return null;
+  return raw;
+};
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,6 +22,8 @@ const Login = () => {
   const [resetMode, setResetMode] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const nextPath = safeNext(params.get("next"));
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -28,7 +37,8 @@ const Login = () => {
       toast({ title: "Ошибка входа", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "Добро пожаловать!" });
-      navigate("/");
+      if (nextPath) window.location.href = nextPath;
+      else navigate("/");
     }
   };
 
