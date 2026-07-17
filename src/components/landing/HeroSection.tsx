@@ -64,35 +64,39 @@ const HeroSection = () => {
             реальные игровые среды и пошаговые руководства от основ до продвинутых техник.
           </p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-            <Button size="lg" variant="cyber" className="text-lg px-8 group" onClick={() => {
-              const el = document.querySelector('#learning-path');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}>
+          {/* CTA Buttons — hub style */}
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center pt-8">
+            <button
+              onClick={() => {
+                const el = document.querySelector('#learning-path');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border border-green-400/30 text-foreground font-medium transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-green-400/10 shadow-[0_0_20px_hsl(142_90%_55%_/_0.35),0_0_40px_hsl(142_90%_55%_/_0.2)] group"
+            >
+              <Map className="w-5 h-5 text-green-400 shrink-0 transition-transform group-hover:scale-110" />
               Карта обучения
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-lg px-8 border-secondary/50 text-secondary hover:bg-secondary/10 hover:shadow-glow-purple group"
+            </button>
+            <button
               onClick={() => navigate("/knowledge-map")}
+              className="flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border border-yellow-400/30 text-foreground font-medium transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-yellow-400/10 shadow-[0_0_20px_hsl(45_100%_50%_/_0.35),0_0_40px_hsl(45_100%_50%_/_0.2)] group"
             >
-              <Network className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
+              <Network className="w-5 h-5 text-yellow-400 shrink-0 transition-transform group-hover:scale-110" />
               Карта знаний
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => navigate("/onboarding")}>
-              Пройти тест
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-lg px-8 border-primary/50 text-primary hover:bg-primary/10 hover:shadow-glow-cyan group"
-              onClick={() => navigate(user ? "/dashboard" : "/login?next=/dashboard")}
+            </button>
+            <button
+              onClick={() => navigate("/onboarding")}
+              className="flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border border-blue-500/30 text-foreground font-medium transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-blue-500/10 shadow-[0_0_20px_hsl(220_100%_55%_/_0.35),0_0_40px_hsl(220_100%_55%_/_0.2)] group"
             >
-              <UserCircle2 className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
+              <HelpCircle className="w-5 h-5 text-blue-400 shrink-0 transition-transform group-hover:scale-110" />
+              Пройти тест
+            </button>
+            <button
+              onClick={() => navigate(user ? "/dashboard" : "/login?next=/dashboard")}
+              className="flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border border-secondary/30 text-foreground font-medium transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-secondary/10 shadow-glow-purple group"
+            >
+              <UserCircle2 className="w-5 h-5 text-secondary shrink-0 transition-transform group-hover:scale-110" />
               Войти в личный кабинет
-            </Button>
+            </button>
           </div>
 
           {/* Neural Network Visualization */}
