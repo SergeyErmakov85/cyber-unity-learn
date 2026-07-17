@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import heroBg from "@/assets/hero-bg.jpg";
 import gamepadImg from "@/assets/gamepad-hero.png";
-import { Microscope, Network } from "lucide-react";
+import { Microscope, Network, UserCircle2 } from "lucide-react";
 import NeuralNetworkViz from "./NeuralNetworkViz";
 
 const HeroSection = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -81,6 +83,15 @@ const HeroSection = () => {
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => navigate("/onboarding")}>
               Пройти тест
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-lg px-8 border-primary/50 text-primary hover:bg-primary/10 hover:shadow-glow-cyan group"
+              onClick={() => navigate(user ? "/dashboard" : "/login?next=/dashboard")}
+            >
+              <UserCircle2 className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
+              Войти в личный кабинет
             </Button>
           </div>
 
