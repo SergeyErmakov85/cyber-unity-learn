@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import heroBg from "@/assets/hero-bg.jpg";
 import gamepadImg from "@/assets/gamepad-hero.png";
-import { Microscope, Network } from "lucide-react";
+import { Microscope, Network, UserCircle2 } from "lucide-react";
 import NeuralNetworkViz from "./NeuralNetworkViz";
 
 const HeroSection = () => {
