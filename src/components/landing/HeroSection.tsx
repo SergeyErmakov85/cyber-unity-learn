@@ -8,6 +8,7 @@ import NeuralNetworkViz from "./NeuralNetworkViz";
 
 const HeroSection = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
