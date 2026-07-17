@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { UserPlus } from "lucide-react";
+import OAuthButtons from "@/components/auth/OAuthButtons";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -81,6 +82,7 @@ const Register = () => {
             <Button type="submit" className="w-full bg-gradient-neon hover:shadow-glow-cyan" disabled={loading}>
               {loading ? "Регистрация..." : "Зарегистрироваться"}
             </Button>
+            <OAuthButtons />
             <p className="text-sm text-muted-foreground">
               Уже есть аккаунт?{" "}
               <Link to="/login" className="text-primary hover:underline">Войти</Link>

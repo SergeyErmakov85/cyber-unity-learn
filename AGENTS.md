@@ -1,4 +1,4 @@
-# CLAUDE.md — Neon Unity Neural
+# AGENTS.md — Neon Unity Neural
 
 Стек: Vite + React + TypeScript + Tailwind + shadcn/ui + Supabase + react-router-dom.  
 Математика: KaTeX через CDN, рендер только через существующий компонент `Math`.
@@ -323,21 +323,11 @@ src/components/lesson-2-6/
 
 ## Аутентификация и роли
 
-Auth — Supabase (`src/integrations/supabase/client.ts`). Способы входа:
+Auth — Supabase (`src/integrations/supabase/client.ts`) + Google OAuth через Lovable Cloud (`src/integrations/lovable/index.ts`).
 
-- **Email/password** — `supabase.auth.signUp` / `signInWithPassword` (Login.tsx, Register.tsx).
-- **Яндекс и Mail.ru** — кастомный OAuth2 через Edge Functions `supabase/functions/oauth-yandex` и `oauth-mailru` (у Supabase нет встроенных провайдеров для них). Флоу: кнопка → `{SUPABASE_URL}/functions/v1/oauth-{provider}?action=start` → authorize у провайдера → callback в функции (обмен code→token, userinfo, `admin.createUser`/`generateLink(magiclink)`) → `/auth/callback` (`verifyOtp`) → `/dashboard`. Способ входа хранится в `user_metadata.provider`. Аккаунты с одинаковым email НЕ сливаются автоматически.
-- **Google отключён намеренно** (`supabase/config.toml`, `[auth.external.google] enabled = false`) — не добавлять Google-кнопки в UI.
-
-Единый источник auth-состояния — `useAuth()` (`src/hooks/useAuth.tsx`): контекст с `{ user, session, loading, roles, isAdmin, isPro }`; `AuthProvider` подключён в `App.tsx`. Не вызывай `supabase.auth.getUser()`/`onAuthStateChange` из компонентов — читай контекст. `useUserRole` — обёртка над `useAuth()` для обратной совместимости.
-
-Роли живут в таблице `user_roles` (Postgres, RLS); в политиках БД проверяются через функцию `has_role(user_id, role)`. `isPro` захардкожен в `false` — биллинг PRO ещё не интегрирован. Администраторы обходят PRO-гейт через `isAdmin`.
+`useUserRole` (`src/hooks/useUserRole.ts`) запрашивает таблицу `user_roles` в Postgres. `isPro` захардкожен в `false` — биллинг PRO ещё не интегрирован. Администраторы обходят PRO-гейт через `isAdmin`.
 
 PRO-пейволл: `<ProGate preview={<VisiblePreview />}>full content</ProGate>`.
-
-Личный кабинет — `/dashboard` (`src/pages/Dashboard.tsx`); `/profile` — редирект на него. Это НЕ страница урока: lesson-скаффолд (ProGate, SectionNav, CompleteButton, Quiz) к нему не применяется. Удаление аккаунта — Edge Function `delete-account` (service_role).
-
-Секреты Edge Functions (`supabase secrets set`): `YANDEX_CLIENT_ID/SECRET`, `MAILRU_CLIENT_ID/SECRET`, `APP_URL` — см. README.
 
 ---
 

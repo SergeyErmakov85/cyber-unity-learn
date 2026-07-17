@@ -1,8 +1,25 @@
 project_id = "hpbhllpdakxedqzzlwcv"
 
-# Регистрация и вход через Google отключены намеренно.
+# Регистрация и вход через Google ОТКЛЮЧЕНЫ НАМЕРЕННО — продуктовое решение:
+# платформа ориентирована на русскоязычную аудиторию, поддерживаются только
+# email/password и кастомный OAuth2 через Яндекс и Mail.ru (Edge Functions
+# oauth-yandex / oauth-mailru). Не включать Google обратно и не добавлять
+# Google-кнопки в UI без явного решения владельца проекта.
 # ВАЖНО: для production-проекта (Lovable Cloud) источник истины —
 # панель Supabase: Authentication → Providers → Google → Disable.
 # Блок ниже отключает провайдер при применении конфигурации через Supabase CLI.
 [auth.external.google]
 enabled = false
+
+# OAuth-функции вызываются браузером как обычная навигация (redirect-флоу),
+# поэтому JWT в запросе отсутствует — проверку отключаем. CSRF закрыт
+# подписанным state-cookie внутри самих функций.
+[functions.oauth-yandex]
+verify_jwt = false
+
+[functions.oauth-mailru]
+verify_jwt = false
+
+# Удаление аккаунта — только для аутентифицированного пользователя.
+[functions.delete-account]
+verify_jwt = true

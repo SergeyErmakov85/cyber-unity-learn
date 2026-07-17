@@ -20,18 +20,23 @@ const C = {
 };
 
 /* ─── KaTeX loader + Tex component ─── */
-let katexPromise: Promise<any> | null = null;
+interface KatexLib {
+  renderToString: (tex: string, opts: { displayMode: boolean; throwOnError: boolean }) => string;
+}
+const getWindowKatex = () => (window as unknown as { katex?: KatexLib }).katex ?? null;
+
+let katexPromise: Promise<KatexLib | null> | null = null;
 function loadKatex() {
   if (katexPromise) return katexPromise;
   katexPromise = new Promise((resolve) => {
-    if ((window as any).katex) { resolve((window as any).katex); return; }
+    if (getWindowKatex()) { resolve(getWindowKatex()); return; }
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css";
     document.head.appendChild(link);
     const script = document.createElement("script");
     script.src = "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js";
-    script.onload = () => resolve((window as any).katex);
+    script.onload = () => resolve(getWindowKatex());
     script.onerror = () => resolve(null);
     document.head.appendChild(script);
   });
@@ -43,7 +48,7 @@ function Tex({ children, display = false, size = 1.15, color }: {
 }) {
   const [html, setHtml] = useState("");
   useEffect(() => {
-    loadKatex().then((katex: any) => {
+    loadKatex().then((katex) => {
       if (!katex) { setHtml(""); return; }
       try {
         setHtml(katex.renderToString(children, { displayMode: display, throwOnError: false }));
@@ -232,7 +237,7 @@ function GammaSliderCustom({ value, min, max, step, onChange, color = C.cyan, te
           onChange={e => onChange(parseFloat(e.target.value))}
           style={{
             position: "absolute", top: -10, left: 0, width: "100%", height: 28,
-            appearance: "none", WebkitAppearance: "none" as any, background: "transparent", cursor: "pointer", outline: "none"
+            appearance: "none", WebkitAppearance: "none", background: "transparent", cursor: "pointer", outline: "none"
           }} />
       </div>
     </div>

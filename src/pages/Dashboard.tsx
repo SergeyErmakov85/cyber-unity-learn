@@ -1,34 +1,45 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
+// TODO: прогресс (XP/бейджи/уроки) сейчас живёт в localStorage (rl_platform_progress).
+// Миграция в Supabase-таблицу — отдельная большая задача (синхронизация между устройствами).
 import { getProgress, ALL_BADGES, getLevel, getLevelProgress, getLevelCompletionPercent } from "@/lib/gamification";
-import { User, Camera, BookOpen, Trophy, Settings, Lock, Trash2, Save, ArrowRight, Download } from "lucide-react";
+import { LEARNING_MAP } from "@/content/learningMap";
+import { User, Camera, BookOpen, Trophy, Settings, Lock, Trash2, Save, ArrowRight, Download, KeyRound } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
 
-const allLessonPaths = [
-  "/courses/1-1", "/courses/1-2", "/courses/1-3", "/courses/1-4", "/courses/1-5", "/courses/1-6", "/courses/1-7",
-  "/courses/2-1", "/courses/2-2", "/courses/2-3", "/courses/2-4", "/courses/2-5", "/courses/2-6",
-  "/courses/3-1", "/courses/3-2", "/courses/3-3", "/courses/3-4", "/courses/3-5", "/courses/3-6", "/courses/3-7",
-];
+const ORBITRON = "'Orbitron', ui-sans-serif, system-ui, sans-serif";
 
-const Profile = () => {
+// Способ входа хранится в user_metadata.provider (проставляется Edge Functions
+// oauth-yandex / oauth-mailru); отсутствие значения = обычная email-регистрация.
+type SignInProvider = "email" | "yandex" | "mailru";
+
+const PROVIDER_LABELS: Record<SignInProvider, string> = {
+  email: "Email",
+  yandex: "Яндекс",
+  mailru: "Mail.ru",
+};
+
+const Dashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, loading: authLoading } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [createdAt, setCreatedAt] = useState("");
 
@@ -37,47 +48,58 @@ const Profile = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [changingPassword, setChangingPassword] = useState(false);
 
-  // Gamification
+  const userId = user?.id ?? null;
+  const email = user?.email ?? "";
+  const metadataProvider = user?.user_metadata?.provider;
+  const signInProvider: SignInProvider =
+    metadataProvider === "yandex" || metadataProvider === "mailru" ? metadataProvider : "email";
+  // Пользователи Яндекс/Mail.ru созданы без пароля (вход через OAuth) —
+  // смена пароля им недоступна, чтобы не создавать «полу-парольные» аккаунты.
+  const canChangePassword = signInProvider === "email";
+
+  // Уроки берутся из канонического LEARNING_MAP (проекты в прогресс уроков не входят)
+  const allLessonPaths = useMemo(
+    () => LEARNING_MAP.flatMap((s) => s.lessons.filter((l) => l.type === "lesson").map((l) => l.path)),
+    [],
+  );
+
+  // Gamification (localStorage)
   const progress = getProgress();
   const totalLessons = allLessonPaths.length;
-  const completedLessons = progress.completedLessons.length;
+  const completedLessons = progress.completedLessons.filter((p) => allLessonPaths.includes(p)).length;
   const overallPercent = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
   const level = getLevel(progress.xp);
   const levelProgress = getLevelProgress(progress.xp);
 
-  // Determine current course
+  const stageNameForPath = (path: string) => {
+    const idx = LEARNING_MAP.findIndex((s) => s.lessons.some((l) => l.path === path));
+    return idx >= 0 ? `Уровень ${idx + 1}: ${LEARNING_MAP[idx].title}` : "Курс RL";
+  };
+
   const getCurrentCourse = () => {
-    const lastCompleted = progress.completedLessons[progress.completedLessons.length - 1];
-    if (!lastCompleted) return { name: "Уровень 1: Основы RL", path: "/courses/1-1" };
-    const nextIndex = allLessonPaths.indexOf(lastCompleted) + 1;
-    if (nextIndex >= allLessonPaths.length) return { name: "Все курсы пройдены! 🎉", path: "/courses" };
-    const nextPath = allLessonPaths[nextIndex];
-    if (nextPath.startsWith("/courses/1-")) return { name: "Уровень 1: Основы RL", path: nextPath };
-    if (nextPath.startsWith("/courses/2-")) return { name: "Уровень 2: Deep RL", path: nextPath };
-    return { name: "Уровень 3: Продвинутый RL", path: nextPath };
+    const firstUncompleted = allLessonPaths.find((p) => !progress.completedLessons.includes(p));
+    if (!firstUncompleted) return { name: "Все курсы пройдены! 🎉", path: "/courses" };
+    return { name: stageNameForPath(firstUncompleted), path: firstUncompleted };
   };
   const currentCourse = getCurrentCourse();
 
   useEffect(() => {
+    if (authLoading) return;
+    if (!user) {
+      navigate("/login");
+      return;
+    }
     const loadProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate("/login");
-        return;
-      }
-      setUserId(user.id);
-      setEmail(user.email || "");
-
       const { data } = await supabase.from("profiles").select("name, avatar_url, created_at").eq("id", user.id).maybeSingle();
       if (data) {
         setName(data.name || "");
         setAvatarUrl(data.avatar_url);
         setCreatedAt(data.created_at ? new Date(data.created_at).toLocaleDateString("ru-RU", { year: "numeric", month: "long", day: "numeric" }) : "Дата не указана");
       }
-      setLoading(false);
+      setProfileLoading(false);
     };
-    loadProfile();
-  }, [navigate]);
+    void loadProfile();
+  }, [authLoading, user, navigate]);
 
   const handleSaveProfile = async () => {
     if (!userId) return;
@@ -133,16 +155,22 @@ const Profile = () => {
   };
 
   const handleDeleteAccount = async () => {
-    // Sign out — actual deletion requires admin/edge function
+    setDeleting(true);
+    const { error } = await supabase.functions.invoke("delete-account", { method: "POST" });
+    setDeleting(false);
+    if (error) {
+      toast({ title: "Ошибка удаления", description: error.message, variant: "destructive" });
+      return;
+    }
     await supabase.auth.signOut();
-    toast({ title: "Аккаунт", description: "Вы вышли из аккаунта. Для полного удаления свяжитесь с поддержкой." });
+    toast({ title: "Аккаунт удалён", description: "Все ваши данные удалены. Будем рады увидеть вас снова!" });
     navigate("/");
   };
 
-  if (loading) {
+  if (authLoading || profileLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-pulse text-primary text-lg">Загрузка профиля...</div>
+        <div className="animate-pulse text-primary text-lg">Загрузка кабинета...</div>
       </div>
     );
   }
@@ -151,14 +179,16 @@ const Profile = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="container mx-auto px-4 pt-28 pb-16 max-w-4xl">
-        <h1 className="text-3xl font-bold text-foreground mb-8">Мой профиль</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-8" style={{ fontFamily: ORBITRON }}>
+          Личный кабинет
+        </h1>
 
         <div className="grid gap-6">
           {/* Block 1 — Personal Info */}
-          <Card className="border-primary/20 bg-card/80 backdrop-blur-xl">
+          <Card className="border-primary/30 bg-card/60 backdrop-blur-sm transition-shadow hover:shadow-glow-cyan">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-foreground">
-                <User className="w-5 h-5 text-primary" /> Личная информация
+                <User className="w-5 h-5 text-primary" /> Личные данные
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -192,8 +222,14 @@ const Profile = () => {
                     <Label>Email</Label>
                     <Input value={email} disabled className="border-primary/20 bg-background/30 text-muted-foreground" />
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    Дата регистрации: {createdAt}
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                    <span>Дата регистрации: {createdAt}</span>
+                    <span className="flex items-center gap-2">
+                      Способ входа:
+                      <Badge variant="outline" className="border-primary/40 bg-primary/10 text-primary">
+                        {PROVIDER_LABELS[signInProvider]}
+                      </Badge>
+                    </span>
                   </div>
                   <Button onClick={handleSaveProfile} disabled={saving} className="bg-gradient-neon hover:shadow-glow-cyan">
                     <Save className="w-4 h-4 mr-2" />
@@ -205,7 +241,7 @@ const Profile = () => {
           </Card>
 
           {/* Block 2 — Learning Progress */}
-          <Card className="border-primary/20 bg-card/80 backdrop-blur-xl">
+          <Card className="border-primary/30 bg-card/60 backdrop-blur-sm transition-shadow hover:shadow-glow-cyan">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-foreground">
                 <BookOpen className="w-5 h-5 text-primary" /> Прогресс обучения
@@ -252,7 +288,7 @@ const Profile = () => {
           </Card>
 
           {/* Block 3 — Achievements */}
-          <Card className="border-primary/20 bg-card/80 backdrop-blur-xl">
+          <Card className="border-primary/30 bg-card/60 backdrop-blur-sm transition-shadow hover:shadow-glow-purple">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-foreground">
                 <Trophy className="w-5 h-5 text-primary" /> Достижения
@@ -284,24 +320,21 @@ const Profile = () => {
             </CardContent>
           </Card>
 
-          {/* Block 4 — Module Progress */}
-          <Card className="border-primary/20 bg-card/80 backdrop-blur-xl">
+          {/* Block 4 — Progress by course stages */}
+          <Card className="border-primary/30 bg-card/60 backdrop-blur-sm transition-shadow hover:shadow-glow-cyan">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-foreground">
-                <BookOpen className="w-5 h-5 text-primary" /> Прогресс по модулям
+                <BookOpen className="w-5 h-5 text-primary" /> Прогресс по разделам курса
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-5">
-              {[
-                { label: "Уровень 1 — Основы RL", index: 0, color: "text-primary" },
-                { label: "Уровень 2 — Продвинутые методы", index: 1, color: "text-secondary" },
-                { label: "Уровень 3 — Мастерство", index: 2, color: "text-accent" },
-              ].map(({ label, index, color }) => {
+              {LEARNING_MAP.map((stage, index) => {
                 const percent = getLevelCompletionPercent(index);
+                const color = index === 0 ? "text-primary" : index === 1 ? "text-secondary" : "text-accent";
                 return (
-                  <div key={index}>
+                  <div key={stage.id}>
                     <div className="flex justify-between text-sm mb-1.5">
-                      <span className={`font-medium ${color}`}>{label}</span>
+                      <span className={`font-medium ${color}`}>{`Уровень ${index + 1} — ${stage.title}`}</span>
                       <span className="text-muted-foreground">{percent}%</span>
                     </div>
                     <Progress value={percent} className="h-2.5" />
@@ -312,7 +345,7 @@ const Profile = () => {
           </Card>
 
           {/* Block 4b — Jupyter Notebooks */}
-          <Card className="border-primary/20 bg-card/80 backdrop-blur-xl">
+          <Card className="border-primary/30 bg-card/60 backdrop-blur-sm transition-shadow hover:shadow-glow-purple">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-foreground">
                 <BookOpen className="w-5 h-5 text-primary" />
@@ -356,7 +389,7 @@ const Profile = () => {
           </Card>
 
           {/* Block 5 — Account Settings */}
-          <Card className="border-primary/20 bg-card/80 backdrop-blur-xl">
+          <Card className="border-primary/30 bg-card/60 backdrop-blur-sm transition-shadow hover:shadow-glow-cyan">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-foreground">
                 <Settings className="w-5 h-5 text-primary" /> Настройки аккаунта
@@ -364,22 +397,32 @@ const Profile = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Change Password */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-semibold text-foreground">Смена пароля</h3>
-                <div className="grid gap-3 max-w-md">
-                  <div className="space-y-2">
-                    <Label>Новый пароль</Label>
-                    <Input type="password" placeholder="Минимум 6 символов" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="border-primary/20 bg-background/50" />
+              {canChangePassword ? (
+                <div className="space-y-4">
+                  <h3 className="text-sm font-semibold text-foreground">Смена пароля</h3>
+                  <div className="grid gap-3 max-w-md">
+                    <div className="space-y-2">
+                      <Label>Новый пароль</Label>
+                      <Input type="password" placeholder="Минимум 6 символов" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="border-primary/20 bg-background/50" />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Подтверждение нового пароля</Label>
+                      <Input type="password" placeholder="Повторите пароль" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} className="border-primary/20 bg-background/50" />
+                    </div>
+                    <Button variant="outline" onClick={handleChangePassword} disabled={changingPassword} className="w-fit">
+                      {changingPassword ? "Сохранение..." : "Сменить пароль"}
+                    </Button>
                   </div>
-                  <div className="space-y-2">
-                    <Label>Подтверждение нового пароля</Label>
-                    <Input type="password" placeholder="Повторите пароль" value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} className="border-primary/20 bg-background/50" />
-                  </div>
-                  <Button variant="outline" onClick={handleChangePassword} disabled={changingPassword} className="w-fit">
-                    {changingPassword ? "Сохранение..." : "Сменить пароль"}
-                  </Button>
                 </div>
-              </div>
+              ) : (
+                <div className="flex items-start gap-3 p-4 rounded-lg bg-primary/5 border border-primary/10">
+                  <KeyRound className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                  <p className="text-sm text-muted-foreground">
+                    Вы входите через {PROVIDER_LABELS[signInProvider]} — пароль на платформе не задан,
+                    поэтому смена пароля недоступна. Управляйте доступом в настройках вашего аккаунта {PROVIDER_LABELS[signInProvider]}.
+                  </p>
+                </div>
+              )}
 
               {/* Delete Account */}
               <div className="border-t border-destructive/20 pt-6">
@@ -394,13 +437,13 @@ const Profile = () => {
                     <AlertDialogHeader>
                       <AlertDialogTitle>Удалить аккаунт?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Это действие необратимо. Все ваши данные и прогресс будут потеряны.
+                        Это действие необратимо: аккаунт и профиль будут удалены навсегда.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Отмена</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive hover:bg-destructive/90">
-                        Удалить
+                      <AlertDialogAction onClick={handleDeleteAccount} disabled={deleting} className="bg-destructive hover:bg-destructive/90">
+                        {deleting ? "Удаление..." : "Удалить"}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -414,4 +457,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Dashboard;

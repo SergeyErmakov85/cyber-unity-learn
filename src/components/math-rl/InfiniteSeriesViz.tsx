@@ -219,7 +219,8 @@ function SeriesCanvas({ info, nTerms, showTerms, showLimit }: {
     ctx.beginPath();
     data.sums.forEach((s, i) => {
       const px = xOf(i), py = yOf(s);
-      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
     });
     ctx.strokeStyle = `rgba(${rgb},0.25)`;
     ctx.lineWidth = 1.5;

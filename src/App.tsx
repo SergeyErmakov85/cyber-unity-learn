@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RouteScrollToTop from "@/components/RouteScrollToTop";
+import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 
 // Lazy-loaded pages for performance
@@ -78,7 +79,8 @@ const CertificatePreview = lazy(() => import("./pages/CertificatePreview"));
 const DemoPage = lazy(() => import("./pages/DemoPage"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
-const Profile = lazy(() => import("./pages/Profile"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 
 const KnowledgeMap = lazy(() => import("./pages/KnowledgeMap"));
@@ -98,6 +100,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <AuthProvider>
       <BrowserRouter>
         <RouteScrollToTop />
         <Suspense fallback={<LoadingFallback />}>
@@ -180,7 +183,9 @@ const App = () => (
             <Route path="/demo" element={<DemoPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             
             <Route path="/knowledge-map" element={<KnowledgeMap />} />
@@ -192,6 +197,7 @@ const App = () => (
           </Routes>
         </Suspense>
       </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
   </HelmetProvider>

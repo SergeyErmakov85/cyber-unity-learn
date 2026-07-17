@@ -53,6 +53,31 @@ VITE_SUPABASE_PROJECT_ID=
 В Lovable / Vercel задайте те же переменные через Settings → Environment Variables.
 Файл `.env` находится в `.gitignore` и не должен попадать в репозиторий.
 
+### Секреты Edge Functions (OAuth Яндекс / Mail.ru, удаление аккаунта)
+
+Вход через Яндекс и Mail.ru реализован кастомным OAuth2-флоу в Edge Functions
+(`supabase/functions/oauth-yandex`, `oauth-mailru`); удаление аккаунта — в
+`delete-account`. Секреты задаются только на стороне Supabase (никогда в клиентском
+коде):
+
+```bash
+supabase secrets set \
+  YANDEX_CLIENT_ID=... \
+  YANDEX_CLIENT_SECRET=... \
+  MAILRU_CLIENT_ID=... \
+  MAILRU_CLIENT_SECRET=... \
+  APP_URL=https://rl-cuber-unity-code.com
+```
+
+- `APP_URL` — origin фронтенда без завершающего `/` (для локальной проверки —
+  `http://localhost:5173`).
+- Redirect URI в кабинетах провайдеров:
+  `{SUPABASE_URL}/functions/v1/oauth-yandex?action=callback` (аналогично для
+  `oauth-mailru`).
+- `SUPABASE_URL` и `SUPABASE_SERVICE_ROLE_KEY` в функции подставляются платформой
+  автоматически.
+- Google как провайдер входа отключён намеренно (см. `supabase/config.toml`).
+
 ## Структура
 
 - `src/pages/` — страницы (уроки `CourseLesson*`, проекты `CourseProject*`, хабы)

@@ -11,6 +11,7 @@ import UserProfilePopover from "@/components/UserProfilePopover";
 import XpNotification from "@/components/XpNotification";
 import { checkStreak } from "@/lib/gamification";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import type { User } from "@supabase/supabase-js";
 
 const navLinks = [
@@ -25,10 +26,9 @@ const navLinks = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [authUser, setAuthUser] = useState<User | null>(null);
+  const { user: authUser, loading: authLoading } = useAuth();
   const [userName, setUserName] = useState<string | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [authLoading, setAuthLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -59,55 +59,18 @@ const Navbar = () => {
     checkStreak();
   }, []);
 
+  // Auth-состояние приходит из AuthProvider; здесь только имя/аватар из profiles
   useEffect(() => {
-    let mounted = true;
-
-    const syncAuthState = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-
-      if (!mounted) return;
-
-      if (!user) {
-        setAuthUser(null);
-        setAvatarUrl(null);
-        setUserName(null);
-        setAuthLoading(false);
-        return;
-      }
-
-      setAuthUser(user);
-      await loadUserDisplayName(user);
-      if (mounted) setAuthLoading(false);
-    };
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      const nextUser = session?.user ?? null;
-      setAuthUser(nextUser);
-
-      if (!nextUser) {
-        setUserName(null);
-        setAvatarUrl(null);
-        setAuthLoading(false);
-        return;
-      }
-
-      void loadUserDisplayName(nextUser);
-    });
-
-    void syncAuthState();
-    window.addEventListener("focus", syncAuthState);
-
-    return () => {
-      mounted = false;
-      window.removeEventListener("focus", syncAuthState);
-      subscription.unsubscribe();
-    };
-  }, [loadUserDisplayName]);
+    if (!authUser) {
+      setUserName(null);
+      setAvatarUrl(null);
+      return;
+    }
+    void loadUserDisplayName(authUser);
+  }, [authUser, loadUserDisplayName]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    setAuthUser(null);
-    setUserName(null);
     navigate("/");
   };
 
@@ -188,7 +151,7 @@ const Navbar = () => {
               </button>
               {!authLoading && authUser ? (
                 <button
-                  onClick={() => navigate("/profile")}
+                  onClick={() => navigate("/dashboard")}
                   className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-card/60 backdrop-blur-sm hover:bg-primary/10 transition-all duration-300 cursor-pointer"
                 >
                   <Avatar className="w-8 h-8 border border-primary/30">
@@ -332,7 +295,7 @@ const Navbar = () => {
                     </div>
                   ) : authUser ? (
                     <div className="animate-fade-in flex flex-col gap-3">
-                      <Button variant="ghost" className="w-full justify-start" onClick={() => { setIsOpen(false); navigate("/profile"); }}>
+                      <Button variant="ghost" className="w-full justify-start" onClick={() => { setIsOpen(false); navigate("/dashboard"); }}>
                         {displayName}
                       </Button>
                       <Button variant="outline" className="w-full" onClick={() => { setIsOpen(false); handleLogout(); }}>

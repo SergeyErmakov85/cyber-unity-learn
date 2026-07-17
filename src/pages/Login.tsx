@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,19 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { LogIn } from "lucide-react";
+import OAuthButtons from "@/components/auth/OAuthButtons";
+
+// Ошибки OAuth-флоу (Edge Functions редиректят на /login?error=<код>)
+const OAUTH_ERROR_MESSAGES: Record<string, string> = {
+  email_exists: "Этот email уже зарегистрирован. Войдите по паролю.",
+  oauth_denied: "Вход через провайдера был отменён.",
+  state_mismatch: "Не удалось проверить запрос (state). Попробуйте ещё раз.",
+  token_exchange_failed: "Провайдер не подтвердил вход. Попробуйте ещё раз.",
+  userinfo_failed: "Не удалось получить данные профиля у провайдера.",
+  no_email: "Провайдер не вернул email. Разрешите доступ к email и повторите.",
+  signup_failed: "Не удалось создать аккаунт. Попробуйте ещё раз.",
+  confirm_failed: "Не удалось подтвердить вход. Попробуйте ещё раз.",
+};
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +29,18 @@ const Login = () => {
   const [resetLoading, setResetLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const errorCode = searchParams.get("error");
+    if (!errorCode) return;
+    toast({
+      title: "Ошибка входа",
+      description: OAUTH_ERROR_MESSAGES[errorCode] ?? "Что-то пошло не так. Попробуйте ещё раз.",
+      variant: "destructive",
+    });
+    setSearchParams({}, { replace: true });
+  }, [searchParams, setSearchParams, toast]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,6 +135,7 @@ const Login = () => {
             <Button type="submit" className="w-full bg-gradient-neon hover:shadow-glow-cyan" disabled={loading}>
               {loading ? "Вход..." : "Войти"}
             </Button>
+            <OAuthButtons />
             <p className="text-sm text-muted-foreground">
               Нет аккаунта?{" "}
               <Link to="/register" className="text-primary hover:underline">Зарегистрироваться</Link>
