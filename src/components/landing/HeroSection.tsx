@@ -84,6 +84,15 @@ const HeroSection = () => {
             <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => navigate("/onboarding")}>
               Пройти тест
             </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-lg px-8 border-primary/50 text-primary hover:bg-primary/10 hover:shadow-glow-cyan group"
+              onClick={() => navigate(user ? "/dashboard" : "/login?next=/dashboard")}
+            >
+              <UserCircle2 className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
+              Войти в личный кабинет
+            </Button>
           </div>
 
           {/* Neural Network Visualization */}
