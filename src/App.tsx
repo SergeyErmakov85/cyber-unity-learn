@@ -82,6 +82,7 @@ const Register = lazy(() => import("./pages/Register"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 
 const KnowledgeMap = lazy(() => import("./pages/KnowledgeMap"));
 const MathMindMap = lazy(() => import("./pages/MathMindMap"));
@@ -187,6 +188,7 @@ const App = () => (
             <Route path="/profile" element={<Navigate to="/dashboard" replace />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
             
             <Route path="/knowledge-map" element={<KnowledgeMap />} />
             <Route path="/fca-rl" element={<FcaRlModule />} />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,12 @@ import { useToast } from "@/hooks/use-toast";
 import { UserPlus } from "lucide-react";
 import OAuthButtons from "@/components/auth/OAuthButtons";
 
+const safeNext = (raw: string | null): string | null => {
+  if (!raw) return null;
+  if (!raw.startsWith("/") || raw.startsWith("//")) return null;
+  return raw;
+};
+
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,6 +22,8 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const nextPath = safeNext(params.get("next"));
   const { toast } = useToast();
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -36,7 +44,7 @@ const Register = () => {
       password,
       options: {
         data: { name },
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: nextPath ? `${window.location.origin}${nextPath}` : window.location.origin,
       },
     });
     setLoading(false);
@@ -45,7 +53,8 @@ const Register = () => {
       toast({ title: "Ошибка регистрации", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "Успешно!", description: "Аккаунт создан. Проверьте почту для подтверждения." });
-      navigate("/");
+      if (nextPath) window.location.href = nextPath;
+      else navigate("/");
     }
   };
 
@@ -85,7 +94,7 @@ const Register = () => {
             <OAuthButtons />
             <p className="text-sm text-muted-foreground">
               Уже есть аккаунт?{" "}
-              <Link to="/login" className="text-primary hover:underline">Войти</Link>
+              <Link to={nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : "/login"} className="text-primary hover:underline">Войти</Link>
             </p>
           </CardFooter>
         </form>
