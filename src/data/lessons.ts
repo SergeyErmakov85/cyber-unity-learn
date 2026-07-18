@@ -14,6 +14,20 @@ export interface LessonMeta {
 
 export const LESSONS: LessonMeta[] = [
   {
+    id: "1.2",
+    title: "Урок 1.2. Установка окружения: PyTorch + Unity ML-Agents",
+    subtitle:
+      "Anaconda, conda-среда с Python 3.10, PyTorch с CUDA, Unity 6, ML-Agents Release 22 через git и VS Code + Jupyter",
+    slug: "setup-pytorch-unity",
+    level: 1,
+    isPro: false,
+    estimatedMinutes: 40,
+    tags: ["Anaconda", "PyTorch", "CUDA", "Unity ML-Agents", "VS Code"],
+    path: "/courses/1-2",
+    prev: { title: "Урок 1.1: Что такое RL?", path: "/courses/1-1" },
+    next: { title: "Урок 1.3: Марковские процессы принятия решений (MDP)", path: "/courses/1-3" },
+  },
+  {
     id: "2.6",
     title: "Урок 2.6. Визуализация обучения: TensorBoard и W&B",
     subtitle: "Зачем визуализировать обучение и как читать графики RL",
