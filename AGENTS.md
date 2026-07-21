@@ -354,3 +354,104 @@ VITE_SUPABASE_PROJECT_ID=
 ```
 
 DB-миграции — в `supabase/migrations/`.
+
+## Imported Claude Cowork project instructions
+
+На главной странице проекта есть хабы — это кнопки, по которым можно перейти и, как в интерактивном учебнике получить информацию отдельно по темам, необходимым для понимания обучения с подкреплением.
+
+Также отдельно есть карта обучения, представляющая собой три уровня: начальный, средний и продвинутый. В каждом уровне — множество уроков.
+
+Так вот, основная идея заключается в том, что из каждого урока должны вести множество интерактивных ссылок на соответствующие места в тексте хабов (для подробного разбора определенных понятий или тем урока), а из хабов — обратно на соответствующие места в уроках (Там, где остановился ученик, нажав на ссылку).
+
+Принцип — ссылки как в Википедии.
+
+Purpose & context
+
+Sergey is building Neon Unity Neural (also called CyberUnityCode) — an interactive reinforcement learning education platform hosted at data-mind-guide.lovable.app / neon-unity-neural.lovable.app, deployed via Vercel. The platform targets technical students learning RL concepts and practical Unity ML-Agents implementation across three levels (20 lessons, 4 projects, PRO-gated content).
+
+Core architecture principle: LESSONS are narrative entry points built around running examples; HUBS are formal mathematical/algorithmic reference pages (proofs, derivations, general theory). The two are connected via Wikipedia-style bidirectional cross-links — from lesson to a specific hub section, and from hub back to the exact lesson location. Content duplication between lesson and hub is strictly prohibited.
+
+Tech stack: Vite + React + TypeScript + Tailwind + shadcn/ui + Supabase + react-router-dom + KaTeX (via <Math> component). Primary build environment: Lovable. Secondary tools: Cursor, Claude Code CLI.
+
+Design system — Kinetic Minimalism + Futuristic UI:
+
+Background 
+#06080D, neon cyan 
+#00FFD6, magenta 
+#D946EF
+Fonts: Orbitron (headings), JetBrains Mono (code/formulas), IBM Plex Sans (body)
+Glassmorphism cards, cyan/purple/pink palette
+Visualizations built in JSX/React (not SVG), required for real-time interactivity
+Text must use lighter/brighter white for legibility against dark backgrounds
+
+Sergey also teaches at МГППУ and the platform content is in Russian throughout.
+
+Current state
+
+Sergey has an established lesson production pipeline for Level 3 advanced content:
+
+Fill out a lesson template (v3: 1_3__ШАБЛОН-урок-для-claude-code.md) with parameters
+Claude conducts primary-source research to verify all technical claims before writing
+Claude produces two deliverable files: a complete Russian-language lesson content .md and a Claude Code build prompt .md
+Claude Code executes the build prompt against the actual codebase
+
+Recently completed lessons: 3.3 (Curriculum Learning), 3.4 (Imitation Learning: BC + GAIL), 3.5 (ONNX Deployment), 3.6 (Hyperparameter Optimization: Optuna + W&B), 3.7 (Neural Network Architectures for RL Agents).
+
+Running example throughout Level 3: the PPO racing agent from Project 3.
+
+On the horizon
+
+Continued Level 3 lesson production using the established two-file workflow
+Potential regeneration of Lesson 3.3 build prompt under v3 template (Pattern B, monolithic) — not yet confirmed
+
+Key learnings & principles
+
+Architecture detection rule (critical): Claude Code build prompts must NOT assume file structure from template descriptions. They must instruct Claude Code to inspect the actual previous lesson file (e.g., CourseLesson3_6.tsx with fallbacks) and determine the pattern in use:
+
+Pattern A: folder per lesson (lesson-3-x/) with component files + wrapper page (exemplified by Lesson 3.1)
+Pattern B: monolithic single file with inline helpers (exemplified by Lesson 3.2)
+Rule: "Follow the code, not the description." Replicate the detected pattern exactly.
+
+Lesson structure requirements:
+
+Mandatory clickable table of contents at the top for section navigation
+KeyPoints blocks per section, Callout components, CyberCodeBlock, CrossLinkToHub, CrossLinkToLesson
+Math via <Math> KaTeX component only (never markdown math syntax)
+Bidirectional cross-links verified against actual anchor IDs in prior lessons before linking
+
+ML-Agents versioning (4.0.x) — critical facts to preserve:
+
+encoding_size field is removed in 4.0.x — must never appear in configs
+memory_size must be divisible by 2
+Unity Inference Engine package: com.unity.ai.inference (evolution: Barracuda → Sentis → Unity Inference Engine)
+multirangeuniform spelled without underscore in all shipped configs
+WeightsAndBiasesCallback migrated to separate optuna-integration package in Optuna 4.x
+
+Content architecture:
+
+Lessons explain "why and how on an example"; hubs explain "why it is true"
+Anti-duplication: cross-link to prior lessons rather than re-explaining covered concepts
+Every lesson includes a cross-reference map with section id anchors
+
+Approach & patterns
+
+Workflow for each lesson:
+
+Template submission (Part A must be filled before research begins)
+Multi-phase primary-source research (fetch official docs, verify API details, cite original papers)
+Produce lesson-X-Y-content.md (full Russian content) + claude-code-prompt-lesson-X-Y.md (build instructions)
+Claude Code executes build prompt independently
+
+Lovable workflow (for earlier-stage content): Sequential, self-contained numbered prompts pasted one at a time; checkpoint verification every 2–3 prompts; corrective prompts scoped narrowly.
+
+Research standards: Always verify from primary sources (arXiv papers, official Unity/Optuna/W&B documentation) before writing technical content. Document assumptions when template fields are empty.
+
+Section terminology: Always use "раздел" (not "модуль").
+
+Tools & resources
+
+Lovable — primary build environment for lesson pages
+Cursor — secondary, targeted file-level corrections
+Claude Code CLI — preferred for verbatim content fidelity (formulas, code blocks)
+Notion MCP — used for workspace content retrieval (two-step pattern: search → fetch by ID)
+Component library: Math, CyberCodeBlock, KeyPoints, Callout, CrossLinkToHub, CrossLinkToLesson, HubLink, ProGate
