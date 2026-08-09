@@ -1,0 +1,147 @@
+/* =============================================================
+   Оформление лекций пособия.
+   Раскраска формул живёт отдельно — styles/enf-math.css.
+   ============================================================= */
+
+/* ---------- Полотно лекции ---------- */
+.textbook-prose {
+  --tw-prose-body: hsl(var(--muted-foreground));
+  --tw-prose-headings: hsl(var(--foreground));
+  --tw-prose-bold: hsl(var(--foreground));
+  --tw-prose-links: hsl(var(--primary));
+  --tw-prose-quotes: hsl(var(--muted-foreground));
+  --tw-prose-code: hsl(var(--primary));
+  --tw-prose-th-borders: hsl(var(--border));
+  --tw-prose-td-borders: hsl(var(--border));
+  --tw-prose-hr: hsl(var(--border));
+  --tw-prose-counters: hsl(var(--muted-foreground));
+  --tw-prose-bullets: hsl(var(--primary) / 0.5);
+}
+
+.textbook-prose h2,
+.textbook-prose h3,
+.textbook-prose h4 {
+  scroll-margin-top: 7rem;
+}
+
+.textbook-prose h2 {
+  border-bottom: 1px solid hsl(var(--border) / 0.6);
+  padding-bottom: 0.35em;
+}
+
+.textbook-prose a {
+  text-decoration-color: hsl(var(--primary) / 0.4);
+  text-underline-offset: 3px;
+}
+.textbook-prose a:hover {
+  text-decoration-color: hsl(var(--primary));
+}
+
+/* Таблицы обозначений широкие — пусть скроллятся, а не ломают страницу. */
+.textbook-prose table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 0.925em;
+}
+.textbook-prose th {
+  background: hsl(var(--card));
+  text-align: left;
+}
+
+.textbook-prose :not(pre) > code {
+  background: hsl(var(--muted) / 0.5);
+  border: 1px solid hsl(var(--border));
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+  font-weight: 400;
+}
+.textbook-prose :not(pre) > code::before,
+.textbook-prose :not(pre) > code::after {
+  content: none;
+}
+
+/* Выключная формула: воздух и горизонтальная прокрутка вместо обрезки. */
+.textbook-prose .katex-display {
+  margin-block: 1.35em;
+}
+
+/* ---------- Коллауты ----------
+   Разметку ставит remark-плагин lib/remark-enf-callouts.ts.
+   Тип задаёт акцент и глиф; типографика одна на все типы. */
+.enf-callout {
+  --callout-accent: hsl(var(--primary));
+  --callout-glyph: "▸";
+  margin-block: 1.5em;
+  padding: 1em 1.15em;
+  border: 1px solid hsl(var(--border));
+  border-left: 3px solid var(--callout-accent);
+  border-radius: 0.5rem;
+  background: hsl(var(--card) / 0.55);
+}
+
+.enf-callout > :first-child {
+  margin-top: 0;
+}
+.enf-callout > :last-child {
+  margin-bottom: 0;
+}
+
+.enf-callout-title {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.6em;
+  font-weight: 600;
+  color: var(--callout-accent);
+}
+
+.enf-callout-title::before {
+  content: var(--callout-glyph);
+  flex: none;
+  opacity: 0.85;
+}
+
+.enf-callout[data-callout="definition"] {
+  --callout-accent: hsl(var(--primary));
+  --callout-glyph: "▣";
+}
+.enf-callout[data-callout="theorem"],
+.enf-callout[data-callout="lemma"],
+.enf-callout[data-callout="corollary"] {
+  --callout-accent: hsl(var(--secondary));
+  --callout-glyph: "◆";
+}
+.enf-callout[data-callout="proof"] {
+  --callout-accent: hsl(var(--muted-foreground));
+  --callout-glyph: "▢";
+  background: transparent;
+}
+.enf-callout[data-callout="intuition"] {
+  --callout-accent: hsl(var(--accent));
+  --callout-glyph: "✷";
+}
+.enf-callout[data-callout="example"] {
+  --callout-accent: hsl(var(--primary));
+  --callout-glyph: "▷";
+}
+.enf-callout[data-callout="remark"],
+.enf-callout[data-callout="note"] {
+  --callout-accent: hsl(var(--muted-foreground));
+  --callout-glyph: "·";
+}
+.enf-callout[data-callout="warning"],
+.enf-callout[data-callout="important"] {
+  --callout-accent: hsl(var(--destructive));
+  --callout-glyph: "⚠";
+}
+.enf-callout[data-callout="tip"] {
+  --callout-accent: hsl(var(--math-hub));
+  --callout-glyph: "✱";
+}
+
+/* Доказательство набирается чуть тише основного текста: оно нужно тому,
+   кто проверяет, и не должно перебивать изложение. */
+.enf-callout[data-callout="proof"] {
+  font-size: 0.95em;
+}

@@ -32,6 +32,7 @@ import Section12 from "@/components/lesson-3-1/Section12";
 import Section13 from "@/components/lesson-3-1/Section13";
 import Summary from "@/components/lesson-3-1/Summary";
 import RelatedMaterials from "@/components/lesson-3-1/RelatedMaterials";
+import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -255,6 +256,8 @@ const CourseLesson3_1 = () => {
         lessonPath="/courses/3-1"
         nextLesson={{ path: "/courses/3-2", title: "MA-POCA и Self-Play" }}
       />
+
+      <LessonTextbookLinks lessonId="3-1" lessonLabel="Урок 3.1. SAC — Soft Actor-Critic" />
 
       <RelatedMaterials />
 

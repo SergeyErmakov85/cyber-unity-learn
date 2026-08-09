@@ -32,6 +32,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
+import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 
 const KEY_FINDINGS = [
   {
@@ -362,6 +363,8 @@ const CourseLesson1_2 = () => {
             </motion.section>
           ))}
         </div>
+
+        <LessonTextbookLinks lessonId="1-2" lessonLabel="Урок 1.2. Установка окружения" />
 
         <RelatedMaterials />
 

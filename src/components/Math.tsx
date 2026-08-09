@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
+import { KATEX_OPTIONS } from "@/lib/katex-options";
 
 interface MathProps {
   /** LaTeX string */
@@ -22,9 +23,8 @@ const Math = ({ children, display = true, className = "" }: MathProps) => {
   useEffect(() => {
     if (ref.current) {
       katex.render(children, ref.current, {
+        ...KATEX_OPTIONS,
         displayMode: display,
-        throwOnError: false,
-        strict: false,
       });
     }
   }, [children, display]);

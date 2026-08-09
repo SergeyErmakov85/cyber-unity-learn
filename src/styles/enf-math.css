@@ -1,0 +1,102 @@
+/* =============================================================
+   Ermakov Notes Framework · ролевая раскраска формул
+
+   ЕДИНСТВЕННОЕ место, где живут эти цвета. Классы вешают макросы
+   \enfVar, \enfFun, \enfPar, \enfOp, \enfTgt, \enfNeu — см.
+   src/lib/katex-options.ts. В LaTeX цвет не пишется никогда:
+   \textcolor и \color в .md — ошибка, они ломают единый источник
+   истины и не переживают смену темы.
+
+   Тон закреплён за РОЛЬЮ сущности, а не за конкретным символом.
+   Значения — тёмная половина палитры ENF (css/enf-tokens.css
+   исходного репозитория). Контраст на фоне сайта hsl(230 25% 8%)
+   ≈ #0F111A проверен: 6.1:1 … 14.6:1 при требовании ENF ≥ 4.5:1;
+   на фоне карточки формулы (bg-card) — 5.6:1 … 13.5:1.
+
+   Почему тонов ровно пять: дихроматия сводит цветовое пространство
+   к светлоте и оси «синее — жёлтое»; пять ролей укладываются в неё
+   с запасом, шесть уже начинают сливаться. Роль продублирована
+   начертанием (\mathbf, \mathcal, \mathrm), поэтому текст остаётся
+   однозначным и без цвета.
+   ============================================================= */
+
+:root {
+  --enf-color-variable: #9ba3d2; /* переменная, объект действия      */
+  --enf-color-function: #e89157; /* функция, преобразование          */
+  --enf-color-parameter: #a6e768; /* параметр, то что настраивается   */
+  --enf-color-operator: #ffd6ff; /* оператор, агрегат                */
+  --enf-color-target: #d6768b; /* цель: награда, потери            */
+  --enf-color-neutral: #b9c2cc; /* служебное, индексы, константы    */
+}
+
+/* Внутри формулы KaTeX своих color не задаёт, поэтому вложенные
+   span'ы наследуют цвет обёртки, созданной \htmlClass. */
+.katex .enf-variable {
+  color: var(--enf-color-variable);
+}
+.katex .enf-function {
+  color: var(--enf-color-function);
+}
+.katex .enf-parameter {
+  color: var(--enf-color-parameter);
+}
+.katex .enf-operator {
+  color: var(--enf-color-operator);
+}
+.katex .enf-target {
+  color: var(--enf-color-target);
+}
+.katex .enf-neutral {
+  color: var(--enf-color-neutral);
+}
+
+/* Те же классы вне формул: легенда ролей, таблица «Обозначения». */
+.enf-variable {
+  color: var(--enf-color-variable);
+}
+.enf-function {
+  color: var(--enf-color-function);
+}
+.enf-parameter {
+  color: var(--enf-color-parameter);
+}
+.enf-operator {
+  color: var(--enf-color-operator);
+}
+.enf-target {
+  color: var(--enf-color-target);
+}
+.enf-neutral {
+  color: var(--enf-color-neutral);
+}
+
+/* Режим «без цвета»: печать и читатели, которым цвет мешает.
+   Класс вешается на контейнер страницы лекции.
+   Перечисляем классы явно: KaTeX добавляет свои («enclosing enf-variable»),
+   поэтому селектор по префиксу [class^="enf-"] не сработает. */
+.enf-mono .enf-variable,
+.enf-mono .enf-function,
+.enf-mono .enf-parameter,
+.enf-mono .enf-operator,
+.enf-mono .enf-target,
+.enf-mono .enf-neutral {
+  color: inherit;
+}
+
+/* Длинный вывод не должен молча терять правый край. */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 2px;
+}
+
+@media print {
+  .katex .enf-variable,
+  .katex .enf-function,
+  .katex .enf-parameter,
+  .katex .enf-operator,
+  .katex .enf-target,
+  .katex .enf-neutral {
+    color: inherit;
+  }
+}

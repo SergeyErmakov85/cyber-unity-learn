@@ -4,8 +4,12 @@ import {
   Wrench,
   Rocket,
   FlaskConical,
+  Sigma,
   type LucideIcon,
 } from "lucide-react";
+import { PART_INDEX } from "@/content/textbook/index.generated";
+import { TEXTBOOK_PARTS, TEXTBOOK_ROOT } from "@/content/textbook/parts";
+import { sections } from "@/lib/plural";
 
 /**
  * Канонический источник данных для страницы «Карта знаний RL для NPC»
@@ -32,6 +36,14 @@ export interface MapNode {
   prereq?: string[];
   /** id рекомендованных следующих тем */
   next?: string[];
+  /**
+   * Вторая цель узла. Основной клик ведёт в полную лекцию пособия,
+   * а этой ссылкой остаётся доступен прежний обзорный раздел хаба —
+   * старые deep-link'и никуда не деваются.
+   */
+  secondaryLink?: string;
+  /** Подпись второй ссылки для тултипа */
+  secondaryLabel?: string;
 }
 
 export interface MapBranch {
@@ -73,6 +85,34 @@ export const ROOT = {
   id: "root",
   label: "RL для NPC",
   caption: "Создание интеллектуальных NPC через обучение с подкреплением",
+};
+
+/**
+ * Ветвь «Математика: учебник» — семь частей пособия.
+ * Здесь именно части, а не все 51 раздел: карта сайта отвечает на вопрос
+ * «куда идти», детальная навигация по разделам — на /math-rl/mindmap.
+ */
+const MATH_TEXTBOOK_BRANCH: MapBranch = {
+  id: "math-textbook",
+  label: "Математика: учебник",
+  caption: "От предела последовательности до PPO",
+  icon: Sigma,
+  color: "emerald",
+  link: TEXTBOOK_ROOT,
+  nodes: TEXTBOOK_PARTS.map((part, i) => {
+    const lectures = PART_INDEX[part.segment] ?? [];
+    const minutes = lectures.reduce((s, l) => s + (l.duration ?? 0), 0);
+    return {
+      id: `textbook-${part.segment}`,
+      label: `${part.roman}. ${part.title}`,
+      link: `${TEXTBOOK_ROOT}/${part.segment}`,
+      secondaryLink: part.hubRoute,
+      secondaryLabel: "краткая версия в хабе",
+      difficulty: (i <= 2 ? "beginner" : i <= 4 ? "intermediate" : "advanced") as Difficulty,
+      time: minutes ? `≈ ${Math.round(minutes / 60)} ч` : `${sections(lectures.length)}`,
+      blurb: `${part.caption}. ${sections(lectures.length)}.`,
+    };
+  }),
 };
 
 export const KNOWLEDGE_MAP: MapBranch[] = [
@@ -372,7 +412,41 @@ export const KNOWLEDGE_MAP: MapBranch[] = [
       },
     ],
   },
+  MATH_TEXTBOOK_BRANCH,
 ];
+
+/**
+ * Математическая опора под уроками: узел карты → лекция учебного пособия.
+ * Пары взяты из реестра src/config/crosslinks.ts и таблицы «раздел → уроки»
+ * пособия (_meta/crosslinks.md). Основной клик по узлу по-прежнему ведёт
+ * в урок; лекция открывается второй ссылкой.
+ */
+const TEXTBOOK_UNDER: Record<string, string> = {
+  "what-is-rl": `${TEXTBOOK_ROOT}/part-6/03-mdp`,
+  mdp: `${TEXTBOOK_ROOT}/part-6/05-bellman-equations`,
+  "q-learning": `${TEXTBOOK_ROOT}/part-6/06-model-free-rl`,
+  "explore-exploit": `${TEXTBOOK_ROOT}/part-6/02-multi-armed-bandits`,
+  "math-rl": TEXTBOOK_ROOT,
+  dqn: `${TEXTBOOK_ROOT}/part-6/08-function-approximation`,
+  "policy-gradient": `${TEXTBOOK_ROOT}/part-5/02-policy-gradient-derivation`,
+  ppo: `${TEXTBOOK_ROOT}/part-5/04-ppo`,
+  "actor-critic": `${TEXTBOOK_ROOT}/part-6/09-policy-gradients`,
+  sac: `${TEXTBOOK_ROOT}/part-6/09-policy-gradients`,
+  "reward-shaping": `${TEXTBOOK_ROOT}/part-1/06-discounting-in-rl`,
+  gail: `${TEXTBOOK_ROOT}/part-5/02-policy-gradient-derivation`,
+  hyperopt: `${TEXTBOOK_ROOT}/part-5/03-gradient-descent-variants`,
+  "nn-arch": `${TEXTBOOK_ROOT}/part-3/01-vectors`,
+};
+
+for (const branch of KNOWLEDGE_MAP) {
+  if (branch.id === "math-textbook") continue;
+  for (const node of branch.nodes) {
+    const route = TEXTBOOK_UNDER[node.id];
+    if (!route) continue;
+    node.secondaryLink = route;
+    node.secondaryLabel = "математика в учебнике";
+  }
+}
 
 /** Линейная дорожная карта: рекомендованная последовательность изучения. */
 export const ROADMAP: { phase: string; color: BranchColor; ids: string[] }[] = [

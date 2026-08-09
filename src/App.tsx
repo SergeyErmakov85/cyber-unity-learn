@@ -86,6 +86,9 @@ const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 
 const KnowledgeMap = lazy(() => import("./pages/KnowledgeMap"));
 const MathMindMap = lazy(() => import("./pages/MathMindMap"));
+const TextbookIndex = lazy(() => import("./pages/textbook/TextbookIndex"));
+const TextbookPart = lazy(() => import("./pages/textbook/TextbookPart"));
+const TextbookLecture = lazy(() => import("./pages/textbook/TextbookLecture"));
 const HubPage = lazy(() => import("./pages/HubPage"));
 const FcaRlModule = lazy(() => import("./pages/FcaRlModule"));
 const FrozenLakeProject = lazy(() => import("./pages/FrozenLakeProject"));
@@ -111,6 +114,9 @@ const App = () => (
             <Route path="/code-examples" element={<CodeExamples />} />
             <Route path="/math-rl" element={<MathRL />} />
             <Route path="/math-rl/mindmap" element={<MathMindMap />} />
+            <Route path="/math-rl/textbook" element={<TextbookIndex />} />
+            <Route path="/math-rl/textbook/:part" element={<TextbookPart />} />
+            <Route path="/math-rl/textbook/:part/:slug" element={<TextbookLecture />} />
             <Route path="/math-rl/calculus" element={<MathRL />} />
             <Route path="/math-rl/module-1" element={<MathRL />} />
             <Route path="/math-rl/module-2" element={<MathRL />} />

@@ -1,11 +1,14 @@
 import { lazy, Suspense, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChevronDown, Network } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronDown, Network } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import { Skeleton } from "@/components/ui/skeleton";
 import ReturnToLessonChip from "@/components/math-rl/ReturnToLessonChip";
+import TextbookStrip from "@/components/math-rl/TextbookStrip";
+import { TOTAL_LECTURES } from "@/content/textbook/index.generated";
+import { sections } from "@/lib/plural";
 
 const Part1 = lazy(() => import("@/components/math-rl/parts/Part1Limits"));
 const Part1b = lazy(() => import("@/components/math-rl/parts/Part1bCalculus"));
@@ -248,6 +251,7 @@ const CollapsibleParts = ({ openParts, toggle }: { openParts: Set<string>; toggl
 
           {isOpen && (
             <div className="mt-8 mb-4">
+              <TextbookStrip sitePartId={part.id} />
               <Suspense fallback={<PartSkeleton />}>
                 <PartComponent />
               </Suspense>
@@ -507,15 +511,26 @@ const MathRL = () => {
           <p className="text-muted-foreground max-w-3xl text-lg">
             Единый учебный модуль: от пределов и производных до PPO и глубокого обучения с подкреплением. Семь частей с задачами, Python-кодом и интерактивными демо.
           </p>
-          <Button
-            onClick={() => navigate("/math-rl/mindmap")}
-            size="lg"
-            variant="outline"
-            className="mt-5 border-secondary/50 text-secondary hover:bg-secondary/10 hover:shadow-glow-purple group"
-          >
-            <Network className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
-            Mathematics Mind Map
-          </Button>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Button
+              onClick={() => navigate("/math-rl/textbook")}
+              size="lg"
+              variant="outline"
+              className="border-primary/50 text-primary hover:bg-primary/10 group"
+            >
+              <BookOpen className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
+              Учебник · {sections(TOTAL_LECTURES)}
+            </Button>
+            <Button
+              onClick={() => navigate("/math-rl/mindmap")}
+              size="lg"
+              variant="outline"
+              className="border-secondary/50 text-secondary hover:bg-secondary/10 hover:shadow-glow-purple group"
+            >
+              <Network className="w-5 h-5 mr-2 transition-transform group-hover:scale-110" />
+              Mathematics Mind Map
+            </Button>
+          </div>
         </div>
       </div>
 

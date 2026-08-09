@@ -8,20 +8,31 @@ import {
   BrainCircuit,
 } from "lucide-react";
 import type { MapBranch, MapNode, BranchColor } from "@/content/knowledgeMap";
+import { LECTURES } from "@/content/textbook/index.generated";
+import { partByHubRoute } from "@/content/textbook/parts";
+import { slugify } from "@/lib/slug";
 
 /**
  * Данные для интерактивной mind-map хаба «Математика RL» (/math-rl/mindmap).
- * Семь разделов хаба = семь ветвей. Листья — ключевые темы каждого раздела
- * с deep-link на соответствующий модуль и якорь подтемы внутри /math-rl.
+ * Семь разделов хаба = семь ветвей.
+ *
+ * Клик по узлу открывает полную лекцию учебного пособия; прежний deep-link
+ * на обзорный раздел хаба остаётся второй ссылкой узла. Маршрут лекции здесь
+ * не пишется руками: он ищется по паре «ветвь + подпись узла» в сгенерированном
+ * индексе (поле mindmap_node во frontmatter лекции). Опечатка в маршруте на
+ * карте — самая незаметная поломка из всех, поэтому руками их не набираем.
  *
  * Источник истины по структуре — массив `parts` и `partSubtopics`
  * в src/pages/MathRL.tsx. Не дублируй полный список подтем — здесь курируем
  * верхнеуровневые разделы.
  */
 
-/** Та же slugify, что и в MathRL.tsx — для согласованных якорей подтем. */
-const slugify = (text: string) =>
-  text.toLowerCase().replace(/[^\wа-яё]+/gi, "-").replace(/^-|-$/g, "").slice(0, 60);
+/** Лекция пособия, соответствующая узлу карты, — по части и подписи узла. */
+const textbookFor = (base: string, label: string) => {
+  const part = partByHubRoute(base);
+  if (!part) return undefined;
+  return LECTURES.find((l) => l.partSegment === part.segment && l.mindmapNode === label);
+};
 
 interface RawLeaf {
   label: string;
@@ -169,15 +180,23 @@ export const MATH_BRANCHES: MapBranch[] = RAW.map((b) => ({
   caption: b.caption,
   icon: b.icon,
   color: b.color,
-  link: b.base,
-  nodes: b.leaves.map<MapNode>((l) => ({
-    id: `${b.id}-${slugify(l.label)}`,
-    label: l.label,
-    link: leafLink(b.base, l.anchor),
-    difficulty: l.difficulty,
-    time: "тема",
-    blurb: `${b.label} · ${l.label}`,
-  })),
+  link: partByHubRoute(b.base) ? `/math-rl/textbook/${partByHubRoute(b.base)!.segment}` : b.base,
+  nodes: b.leaves.map<MapNode>((l) => {
+    const lecture = textbookFor(b.base, l.label);
+    const hubLink = leafLink(b.base, l.anchor);
+    return {
+      id: `${b.id}-${slugify(l.label)}`,
+      label: l.label,
+      link: lecture?.route ?? hubLink,
+      secondaryLink: lecture ? hubLink : undefined,
+      secondaryLabel: lecture ? "краткая версия в хабе" : undefined,
+      difficulty: l.difficulty,
+      time: lecture?.duration ? `${lecture.duration} мин` : "тема",
+      blurb: lecture?.description
+        ? lecture.description.slice(0, 160)
+        : `${b.label} · ${l.label}`,
+    };
+  }),
 }));
 
 /** Естественный порядок изучения = последовательность семи разделов. */
@@ -186,5 +205,10 @@ export const MATH_ORDER = RAW.map((b) => ({ id: b.id, label: b.label, base: b.ba
 export function getMathCoverage() {
   const branches = MATH_BRANCHES.length;
   const totalNodes = MATH_BRANCHES.reduce((s, b) => s + b.nodes.length, 0);
-  return { branches, totalNodes, links: totalNodes + branches };
+  /** Сколько узлов ведёт в полную лекцию пособия, а не только в обзор хаба. */
+  const withTextbook = MATH_BRANCHES.reduce(
+    (s, b) => s + b.nodes.filter((n) => n.secondaryLink).length,
+    0,
+  );
+  return { branches, totalNodes, withTextbook, lectures: LECTURES.length, links: totalNodes + branches };
 }

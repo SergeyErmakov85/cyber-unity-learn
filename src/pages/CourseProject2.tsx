@@ -27,6 +27,7 @@ import TensorBoardMetricsPanel from "@/components/project-2/TensorBoardMetricsPa
 import RewardSandbox from "@/components/project-2/RewardSandbox";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
+import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
@@ -1931,6 +1932,8 @@ const CourseProject2 = () => {
           <CompleteButton />
         </CardContent>
       </Card>
+
+      <LessonTextbookLinks lessonId="project-2" lessonLabel="Проект 2: 3D-охотник" />
 
       <NextPrevLesson
         prev={{ path: "/courses/2-6", title: "TensorBoard и W&B" }}

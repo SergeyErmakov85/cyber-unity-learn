@@ -26,6 +26,7 @@ import Section7 from "@/components/lesson-3-4/Section7";
 import Section8 from "@/components/lesson-3-4/Section8";
 import Summary from "@/components/lesson-3-4/Summary";
 import RelatedMaterials from "@/components/lesson-3-4/RelatedMaterials";
+import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -234,6 +235,8 @@ const CourseLesson3_4 = () => {
         lessonPath="/courses/3-4"
         nextLesson={{ path: "/courses/3-5", title: "Деплой модели" }}
       />
+
+      <LessonTextbookLinks lessonId="3-4" lessonLabel="Урок 3.4. Имитационное обучение (GAIL)" />
 
       <RelatedMaterials />
 

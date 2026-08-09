@@ -80,4 +80,65 @@
   <url><loc>https://rl-cuber-unity-code.com/unity-projects/gridworld</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/unity-projects/racing</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/unity-projects/soccer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <!-- textbook:start -->
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-2</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-3</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-4</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-5</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-7</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/00-introduction</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/01-sequence-limit</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/02-infinite-series</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/03-limits-in-rl</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/04-bellman-and-discounting</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/05-value-iteration</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/06-discounting-in-rl</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/07-examples-and-tasks</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/08-convergence-visualizations</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/09-practice-limits</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/10-sources</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-1/11-glossary</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-2/01-derivatives</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-2/02-partial-derivatives-gradient</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-2/03-gradient-descent</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-2/04-policy-gradient-application</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-2/05-big-picture</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-3/01-vectors</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-3/02-matrices</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-3/03-dot-product</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-3/04-eigenvalues</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-3/05-svd</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-3/06-advanced-topics</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-4/01-probability-theory</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-4/02-statistics</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-4/03-markov-processes</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-4/04-value-functions-bellman</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-4/05-rl-algorithms</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-4/06-python-examples</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-5/01-policy-optimization-basics</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-5/02-policy-gradient-derivation</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-5/03-gradient-descent-variants</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-5/04-ppo</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/00-introduction</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/01-probability-foundation</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/02-multi-armed-bandits</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/03-mdp</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/04-return-policy-value</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/05-bellman-equations</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/06-model-free-rl</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/07-eligibility-traces</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/08-function-approximation</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/09-policy-gradients</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/10-unity-ml-agents-bridge</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/11-conclusion</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-6/12-glossary</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-7/01-core-concepts</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-7/02-algorithms-overview</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-7/03-calculus</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-7/04-probability-statistics</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/textbook/part-7/05-differential-equations</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <!-- textbook:end -->
 </urlset>
