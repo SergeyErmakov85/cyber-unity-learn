@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Lock, Crown } from "lucide-react";
+import { Lock, Crown, Unlock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUserRole } from "@/hooks/useUserRole";
+import { isOpenAccessActive, openAccessHoursLeft } from "@/config/openAccess";
 
 interface ProGateProps {
   /** Content visible to everyone (preview) */
@@ -19,6 +20,25 @@ interface ProGateProps {
 const ProGate = ({ preview, children }: ProGateProps) => {
   const { isPro, isAdmin, loading } = useUserRole();
 
+  // Временное окно свободного доступа: весь контент открыт всем без регистрации.
+  if (isOpenAccessActive()) {
+    return (
+      <>
+        <Card className="mb-6 border-primary/30 bg-card/60 backdrop-blur-sm">
+          <CardContent className="p-4 flex items-center gap-3">
+            <Unlock className="w-5 h-5 text-primary shrink-0" />
+            <p className="text-sm text-muted-foreground">
+              <span className="text-primary font-semibold">Открытый доступ.</span>{" "}
+              Весь контент, включая PRO-уроки, свободен ещё{" "}
+              <span className="text-accent font-semibold">{openAccessHoursLeft()} ч</span> — регистрация не требуется.
+            </p>
+          </CardContent>
+        </Card>
+        {children}
+      </>
+    );
+  }
+
   if (loading) {
     return <>{preview}</>;
   }
@@ -26,6 +46,7 @@ const ProGate = ({ preview, children }: ProGateProps) => {
   if (isPro || isAdmin) {
     return <>{children}</>;
   }
+
 
   return (
     <>
