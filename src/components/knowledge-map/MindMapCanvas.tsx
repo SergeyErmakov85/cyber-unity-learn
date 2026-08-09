@@ -321,24 +321,42 @@ const MindMapCanvas = ({ branches, root, difficultyFilter, query }: Props) => {
                     const diff = DIFFICULTY_META[l.node.difficulty];
                     return (
                       <NodePill key={l.node.id} x={l.pos.x} y={l.pos.y}>
-                        <button
-                          onClick={() => navigate(l.node.link)}
-                          onMouseEnter={() => setHover(l.node.id)}
-                          onMouseLeave={() => setHover(null)}
-                          title={`${l.node.blurb} · ${diff.label} · ${l.node.time}`}
-                          className="group flex max-w-[190px] items-center gap-2 rounded-xl border bg-card/70 px-3 py-1.5 backdrop-blur-md transition-all hover:scale-[1.05]"
+                        <div
+                          className="flex max-w-[210px] items-stretch overflow-hidden rounded-xl border bg-card/70 backdrop-blur-md transition-all hover:scale-[1.05]"
                           style={{
                             borderColor: `hsl(${hsl} / ${la ? 0.55 : 0.15})`,
                             boxShadow: la ? `0 0 16px hsl(${hsl} / 0.28)` : "none",
                             opacity: la ? 1 : 0.3,
                           }}
                         >
-                          <span className={`h-2 w-2 shrink-0 rounded-full ${diff.dot}`} title={diff.label} />
-                          <span className="text-left text-xs font-medium leading-tight text-foreground">
-                            {l.node.label}
-                          </span>
-                          <span className="ml-auto whitespace-nowrap text-[10px] text-muted-foreground">{l.node.time}</span>
-                        </button>
+                          <button
+                            onClick={() => navigate(l.node.link)}
+                            onMouseEnter={() => setHover(l.node.id)}
+                            onMouseLeave={() => setHover(null)}
+                            title={`${l.node.blurb} · ${diff.label} · ${l.node.time}`}
+                            className="group flex min-w-0 flex-1 items-center gap-2 px-3 py-1.5"
+                          >
+                            <span className={`h-2 w-2 shrink-0 rounded-full ${diff.dot}`} title={diff.label} />
+                            <span className="text-left text-xs font-medium leading-tight text-foreground">
+                              {l.node.label}
+                            </span>
+                            <span className="ml-auto whitespace-nowrap text-[10px] text-muted-foreground">{l.node.time}</span>
+                          </button>
+
+                          {l.node.secondaryLink && (
+                            <button
+                              onClick={() => navigate(l.node.secondaryLink!)}
+                              onMouseEnter={() => setHover(l.node.id)}
+                              onMouseLeave={() => setHover(null)}
+                              title={l.node.secondaryLabel ?? "Другой вид этого материала"}
+                              aria-label={l.node.secondaryLabel ?? "Другой вид этого материала"}
+                              className="flex shrink-0 items-center border-l px-2 text-[11px] text-muted-foreground transition-colors hover:text-foreground"
+                              style={{ borderColor: `hsl(${hsl} / 0.2)` }}
+                            >
+                              ↗
+                            </button>
+                          )}
+                        </div>
                       </NodePill>
                     );
                   })}

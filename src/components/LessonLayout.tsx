@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
+import HubLink from "@/components/math-rl/HubLink";
 import { getLinksForLesson, type CrossLink } from "@/config/crosslinks";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -437,7 +438,7 @@ const LessonLayout = ({
 
           {/* Crosslinks section */}
           {crossLinkGroups.length > 0 && (
-            <section className="mt-12 pt-8 border-t border-border/30">
+            <section id="deep-dive" className="mt-12 pt-8 border-t border-border/30 scroll-mt-24">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
                 🔗 Углубись в тему
@@ -455,6 +456,20 @@ const LessonLayout = ({
                               {link.hubLabel}
                             </CrossLinkToHub>
                             <p className="text-xs text-muted-foreground">{link.contextInLesson}</p>
+                            {/* Второй уровень глубины: полная лекция пособия.
+                                fromPath/fromAnchor возвращают читателя ровно сюда. */}
+                            {link.textbookRoute && (
+                              <span className="mt-1 inline-block text-xs">
+                                <HubLink
+                                  to={link.textbookRoute}
+                                  fromPath={link.lessonPath}
+                                  fromAnchor="deep-dive"
+                                  fromLabel={`Урок ${lessonNumber}. ${lessonTitle}`}
+                                >
+                                  Полная лекция →
+                                </HubLink>
+                              </span>
+                            )}
                           </div>
                         </div>
                       ))}

@@ -1,7 +1,8 @@
 # CLAUDE.md — Neon Unity Neural
 
 Стек: Vite + React + TypeScript + Tailwind + shadcn/ui + Supabase + react-router-dom.  
-Математика: KaTeX через CDN, рендер только через существующий компонент `Math`.
+Математика: KaTeX (пакет `katex`), общие опции — `src/lib/katex-options.ts`. В TSX-страницах
+формулы рендерит компонент `Math`; лекции учебника приходят из `.md` — см. «Учебник по математике».
 
 ---
 
@@ -40,7 +41,8 @@ npm run lint     # ESLint
 ## Терминология и правила
 
 - В UI-метках всегда **«раздел»**, НИКОГДА «модуль».
-- Все формулы — KaTeX/LaTeX через `Math`. Никаких сырых Unicode-символов математики.
+- Все формулы — KaTeX/LaTeX: в TSX через `Math`, в лекциях учебника — из `.md`. Никаких сырых Unicode-символов математики.
+- Цвет в формуле задаётся ролью сущности, а не оттенком: макросы `\enfVar`, `\enfFun`, `\enfPar`, `\enfOp`, `\enfTgt`. `\textcolor` и `\color` запрещены — палитра живёт в `src/styles/enf-math.css`.
 - Кросс-линки между уроками и хабами — через компонент `HubLink` (двунаправленные, как в Википедии).
 - PRO-контент гейтится компонентом `ProGate`.
 - Интерактив (слайдеры, тогглы, hover) — React/JSX; статичный SVG только для неинтерактивных схем.
@@ -64,6 +66,25 @@ npm run lint     # ESLint
 - `src/config/crosslinks.ts` — двунаправленные кросс-линки между уроками и хабами
 - `src/content/hubs.ts` — метаданные хабов поддержки (PyTorch, Unity ML-Agents, Math RL и др.)
 - `src/data/lessons.ts` — дополнительные мета-данные для конкретных уроков (напр. 2.6)
+
+### Учебник по математике
+
+51 лекция на `/math-rl/textbook/...` рендерится из markdown, а не из TSX. Хаб `/math-rl`
+остаётся кратким обзором и ссылается вглубь — его якоря и реестр связей не трогаем.
+
+- `src/content/math-textbook/**/*.md` — **копия для рендера**. Содержание правится только
+  в исходном репозитории пособия (`ENF_TEXTBOOK_SRC`, по умолчанию `C:/Math_for_DS_&_RL/math-textbook`),
+  затем `npm run textbook:sync`. Правка копии разводит репозитории; `npm run textbook:check` это ловит.
+- `src/content/textbook/index.generated.ts` — **сгенерированный** индекс лекций, частей и моста
+  в код. Руками не редактируется: `npm run textbook:index` (входит в `predev` и `prebuild`).
+- `src/content/textbook/parts.ts` — каноническое соответствие частей пособия и структуры сайта.
+  Осторожно: `part_id` во frontmatter — id части **на сайте** и не совпадает с номером каталога.
+- `src/lib/slug.ts` — единственная `slugify` на весь сайт, от неё зависят все якоря.
+- Проверки: `npm run textbook:audit` (ссылки, маршруты, обе карты, раскраска), `npm run audit:links`.
+
+**Как добавить присланный `.md` с формулами** — навык `add-math-lecture`
+(`.claude/skills/add-math-lecture/SKILL.md`): выбор части, приведение раскраски и frontmatter,
+пересборка, вплетение в оглавление, mind map и реестр связей, проверки.
 
 ### Страницы уроков
 

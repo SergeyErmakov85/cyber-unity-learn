@@ -21,6 +21,7 @@ import Section7TensorBoard from "@/components/racing-agent/Section7TensorBoard";
 import Section8BestPractices from "@/components/racing-agent/Section8BestPractices";
 import Section9FAQ from "@/components/racing-agent/Section9FAQ";
 import Section10Conclusion from "@/components/racing-agent/Section10Conclusion";
+import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro",           label: "Введение и теория" },
@@ -189,6 +190,8 @@ const CourseProject3 = () => {
           <CompleteButton />
         </CardContent>
       </Card>
+
+      <LessonTextbookLinks lessonId="project-3" lessonLabel="Проект 3: Гоночный агент" />
 
       <NextPrevLesson
         prev={{ title: "Проект 2: 3D-охотник", path: "/courses/project-2" }}

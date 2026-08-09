@@ -29,6 +29,7 @@ import Section9 from "@/components/lesson-3-7/Section9";
 import Section10 from "@/components/lesson-3-7/Section10";
 import Summary from "@/components/lesson-3-7/Summary";
 import RelatedMaterials from "@/components/lesson-3-7/RelatedMaterials";
+import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -240,6 +241,8 @@ const CourseLesson3_7 = () => {
         questions={QUIZ_QUESTIONS}
         lessonPath="/courses/3-7"
       />
+
+      <LessonTextbookLinks lessonId="3-7" lessonLabel="Урок 3.7. Архитектуры нейросетей" />
 
       <RelatedMaterials />
 

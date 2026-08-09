@@ -8,7 +8,9 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { BookOpen, Code2, FileText, HelpCircle } from "lucide-react";
+import { BookOpen, Code2, FileText, HelpCircle, Sigma } from "lucide-react";
+import { LECTURES } from "@/content/textbook/index.generated";
+import { TEXTBOOK_PARTS, TEXTBOOK_ROOT } from "@/content/textbook/parts";
 
 interface SearchItem {
   title: string;
@@ -16,6 +18,27 @@ interface SearchItem {
   group: string;
   keywords?: string;
 }
+
+/**
+ * Разделы учебника подмешиваются в поиск из сгенерированного индекса:
+ * добавили лекцию — она находится, руками список не ведём.
+ * Ключевые слова — теги лекции и подпись её узла на mind map.
+ */
+const TEXTBOOK_ITEMS: SearchItem[] = [
+  { title: "Учебник по математике RL — все части", path: TEXTBOOK_ROOT, group: "Учебник", keywords: "математика учебник lectures" },
+  ...TEXTBOOK_PARTS.map((part) => ({
+    title: `Часть ${part.roman}. ${part.title}`,
+    path: `${TEXTBOOK_ROOT}/${part.segment}`,
+    group: "Учебник",
+    keywords: part.caption.toLowerCase(),
+  })),
+  ...LECTURES.map((lecture) => ({
+    title: lecture.title,
+    path: lecture.route,
+    group: "Учебник",
+    keywords: [...lecture.tags, lecture.mindmapNode ?? ""].join(" ").toLowerCase(),
+  })),
+];
 
 const searchItems: SearchItem[] = [
   // Уроки
@@ -56,6 +79,8 @@ const searchItems: SearchItem[] = [
   { title: "FAQ — Часто задаваемые вопросы", path: "/faq", group: "FAQ", keywords: "faq questions help" },
   { title: "Тарифы и цены", path: "/pricing", group: "FAQ", keywords: "pricing plans pro free" },
   { title: "Сообщество", path: "/community", group: "FAQ", keywords: "community discord" },
+
+  ...TEXTBOOK_ITEMS,
 ];
 
 const groupIcons: Record<string, typeof BookOpen> = {
@@ -63,6 +88,7 @@ const groupIcons: Record<string, typeof BookOpen> = {
   "Примеры кода": Code2,
   "Блог": FileText,
   "FAQ": HelpCircle,
+  "Учебник": Sigma,
 };
 
 const GlobalSearch = () => {

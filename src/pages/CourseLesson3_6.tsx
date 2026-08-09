@@ -32,6 +32,7 @@ import Section12 from "@/components/lesson-3-6/Section12";
 import Section13 from "@/components/lesson-3-6/Section13";
 import Summary from "@/components/lesson-3-6/Summary";
 import RelatedMaterials from "@/components/lesson-3-6/RelatedMaterials";
+import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -250,6 +251,8 @@ const CourseLesson3_6 = () => {
         lessonPath="/courses/3-6"
         nextLesson={{ path: "/courses/3-7", title: "Архитектуры нейросетей" }}
       />
+
+      <LessonTextbookLinks lessonId="3-6" lessonLabel="Урок 3.6. Оптимизация гиперпараметров" />
 
       <RelatedMaterials />
 
