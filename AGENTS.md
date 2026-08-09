@@ -1,7 +1,8 @@
 # AGENTS.md — Neon Unity Neural
 
 Стек: Vite + React + TypeScript + Tailwind + shadcn/ui + Supabase + react-router-dom.  
-Математика: KaTeX через CDN, рендер только через существующий компонент `Math`.
+Математика: KaTeX (пакет `katex`), общие опции — `src/lib/katex-options.ts`. В TSX-страницах
+формулы рендерит компонент `Math`; лекции учебника приходят из `.md` — см. «Учебник по математике».
 
 ---
 
@@ -64,6 +65,26 @@ npm run lint     # ESLint
 - `src/config/crosslinks.ts` — двунаправленные кросс-линки между уроками и хабами
 - `src/content/hubs.ts` — метаданные хабов поддержки (PyTorch, Unity ML-Agents, Math RL и др.)
 - `src/data/lessons.ts` — дополнительные мета-данные для конкретных уроков (напр. 2.6)
+
+### Учебник по математике
+
+51 лекция на `/math-rl/textbook/...` рендерится из markdown, а не из TSX. Хаб `/math-rl`
+остаётся кратким обзором и ссылается вглубь — его якоря и реестр связей не трогаем.
+
+- `src/content/math-textbook/**/*.md` — **копия для рендера**. Содержание правится только
+  в исходном репозитории пособия (`ENF_TEXTBOOK_SRC`, по умолчанию `C:/Math_for_DS_&_RL/math-textbook`),
+  затем `npm run textbook:sync`. `npm run textbook:check` ловит расхождение копий.
+- `src/content/textbook/index.generated.ts` — **сгенерированный** индекс. Руками не редактируется:
+  `npm run textbook:index` (входит в `predev` и `prebuild`).
+- `src/content/textbook/parts.ts` — соответствие частей пособия и структуры сайта. Осторожно:
+  `part_id` во frontmatter — id части **на сайте** и не совпадает с номером каталога.
+- `src/lib/slug.ts` — единственная `slugify` на весь сайт, от неё зависят все якоря.
+- Проверки: `npm run textbook:audit`, `npm run audit:links`.
+
+Цвет в формуле задаётся ролью сущности: макросы `\enfVar`, `\enfFun`, `\enfPar`, `\enfOp`,
+`\enfTgt`. `\textcolor` и `\color` запрещены — палитра живёт в `src/styles/enf-math.css`.
+
+Процедура публикации присланного `.md` с формулами — `.claude/skills/add-math-lecture/SKILL.md`.
 
 ### Страницы уроков
 
@@ -302,7 +323,7 @@ src/components/lesson-2-6/
 | Контент | Компонент |
 |---|---|
 | Код | `<CyberCodeBlock language="python" filename="file.py">{...}</CyberCodeBlock>` |
-| Математика | `<Math display>{\`\\LaTeX\`}</Math>` (только KaTeX, без markdown math) |
+| Математика | `<Math display>{\`\\LaTeX\`}</Math>` — на страницах уроков только так, без markdown math (markdown-математика есть у лекций учебника, там свой пайплайн) |
 | Квиз | `<Quiz questions={[{ question, options, correctAnswer, explanation }]} />` — минимум 1 на урок |
 
 Поток содержимого урока: Концепция → Интуиция → Формула/Ключевая идея → Пример кода → Ключевой вывод → Квиз.
