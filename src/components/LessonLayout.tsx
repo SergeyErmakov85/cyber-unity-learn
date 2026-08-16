@@ -280,7 +280,27 @@ const LessonLayout = ({
         title={`Урок ${lessonNumber}: ${lessonTitle} | RL Platform`}
         description={`${lessonTitle}. Практический урок по Reinforcement Learning с примерами кода на PyTorch.`}
         path={location.pathname}
+        type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LearningResource",
+          name: `Урок ${lessonNumber}: ${lessonTitle}`,
+          headline: lessonTitle,
+          educationalLevel: level ? `Уровень ${level}` : undefined,
+          learningResourceType: "Lesson",
+          timeRequired: duration,
+          keywords: tags.join(", "),
+          inLanguage: "ru",
+          url: `https://rl-cuber-unity-code.com${location.pathname}`,
+          isPartOf: {
+            "@type": "Course",
+            name: "Unity ML-Agents и Reinforcement Learning",
+            url: "https://rl-cuber-unity-code.com/courses",
+          },
+          provider: { "@type": "Organization", name: "CyberUnityCode" },
+        }}
       />
+
       <ScrollProgressBar color={progressColor} />
       <ScrollToTop />
       {tocItems.length > 1 && (
