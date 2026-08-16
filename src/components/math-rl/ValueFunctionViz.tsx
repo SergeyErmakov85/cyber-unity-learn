@@ -55,7 +55,7 @@ function Tex({ children, display = false, size = 1.15, color }: {
         // KATEX_OPTIONS несёт макросы ролей ENF (\enfVar и др.). Без них
         // раскраска молча не сработает — формула останется одноцветной.
         setHtml(
-          katex.renderToString(children, { ...KATEX_OPTIONS, displayMode: display })
+          katex.renderToString(children, { ...KATEX_OPTIONS, displayMode: display, throwOnError: KATEX_OPTIONS.throwOnError ?? false })
         );
       } catch { setHtml(""); }
     });
