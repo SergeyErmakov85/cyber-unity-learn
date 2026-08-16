@@ -59,6 +59,9 @@
   <url><loc>https://rl-cuber-unity-code.com/math-rl/module-4</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/math-rl/module-5</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/math-rl/module-6</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/calculus</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/math-rl/mindmap</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+
 
   <url><loc>https://rl-cuber-unity-code.com/pytorch</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/pytorch/cheatsheet</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
