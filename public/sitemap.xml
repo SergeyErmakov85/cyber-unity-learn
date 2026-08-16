@@ -8,6 +8,12 @@
   <url><loc>https://rl-cuber-unity-code.com/community</loc><priority>0.6</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/code-examples</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/onboarding</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/knowledge-map</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/certificate-preview</loc><priority>0.4</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/login</loc><priority>0.3</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/register</loc><priority>0.3</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://rl-cuber-unity-code.com/projects/frozen-lake</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+
   <url><loc>https://rl-cuber-unity-code.com/demo</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://rl-cuber-unity-code.com/demo-project</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 
