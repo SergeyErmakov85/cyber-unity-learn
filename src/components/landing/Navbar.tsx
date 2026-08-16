@@ -189,8 +189,9 @@ const Navbar = () => {
           {/* Hamburger menu - inline after badges */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="ml-2 text-primary hover:text-primary hover:bg-primary/10 hover:shadow-glow-cyan transition-all duration-300">
-                <Menu className="w-6 h-6" />
+              <Button variant="ghost" size="icon" aria-label="Открыть меню навигации" className="ml-2 text-primary hover:text-primary hover:bg-primary/10 hover:shadow-glow-cyan transition-all duration-300">
+                <Menu className="w-6 h-6" aria-hidden="true" />
+
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-80 bg-background/95 backdrop-blur-xl border-l border-primary/30">
