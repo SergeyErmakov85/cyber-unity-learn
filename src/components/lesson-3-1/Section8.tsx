@@ -21,7 +21,7 @@ const Section8 = () => (
 
     <ProseP>
       SAC — off-policy, потому что и критики, и политика обучаются на <strong>переходах</strong>{" "}
-      <Math display={false}>{String.raw`(s_t, a_t, r_t, s_{t+1})`}</Math>, а не на целых траекториях,
+      <Math display={false}>{String.raw`(\enfVar{s}_t, a_t, \enfTgt{r}_t, \enfVar{s}_{t+1})`}</Math>, а не на целых траекториях,
       привязанных к конкретной политике. Цель для{" "}
       <Math display={false}>{String.raw`Q`}</Math> строится из перехода и текущей политики — старость
       данных не мешает. Более общий разбор on/off-policy — в{" "}
@@ -42,13 +42,13 @@ const Section8 = () => (
       <Math display={false}>{String.raw`\mathcal{D}`}</Math>:
     </ProseP>
 
-    <Math>{String.raw`\mathcal{D} \leftarrow \mathcal{D} \cup \{(s_t, a_t, r_t, s_{t+1})\}.`}</Math>
+    <Math>{String.raw`\mathcal{D} \leftarrow \mathcal{D} \cup \{(\enfVar{s}_t, a_t, \enfTgt{r}_t, \enfVar{s}_{t+1})\}.`}</Math>
 
     <ProseP>
       На каждом шаге обучения из <Math display={false}>{String.raw`\mathcal{D}`}</Math> берётся{" "}
       <strong>случайный мини-батч</strong> прошлых переходов, и по нему считаются градиенты{" "}
-      <Math display={false}>{String.raw`J_Q`}</Math>, <Math display={false}>{String.raw`J_\pi`}</Math>
-      , <Math display={false}>{String.raw`J(\alpha)`}</Math>. Зачем это нужно:
+      <Math display={false}>{String.raw`\enfTgt{J}_Q`}</Math>, <Math display={false}>{String.raw`\enfTgt{J}_\pi`}</Math>
+      , <Math display={false}>{String.raw`\enfTgt{J}(\enfPar{\alpha})`}</Math>. Зачем это нужно:
     </ProseP>
 
     <ul className="space-y-2 my-4 text-[15px] text-foreground/90 leading-relaxed">

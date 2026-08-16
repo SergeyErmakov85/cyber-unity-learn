@@ -45,10 +45,10 @@ const Section7 = () => (
 
     <ProseP>
       <strong>Successive Halving (SHA)</strong> — мощнее. Раздай всем кандидатам маленький бюджет;
-      оставь лучшую долю <Math display={false}>{String.raw`1/\eta`}</Math>; удвой (умножь на{" "}
-      <Math display={false}>{String.raw`\eta`}</Math>) бюджет выжившим; повтори. «Раунды» называют
-      <strong> rung&apos;ами</strong>, <Math display={false}>{String.raw`\eta`}</Math> — фактор
-      сокращения (обычно <Math display={false}>{String.raw`\eta = 3`}</Math>). Так почти весь
+      оставь лучшую долю <Math display={false}>{String.raw`1/\enfPar{\eta}`}</Math>; удвой (умножь на{" "}
+      <Math display={false}>{String.raw`\enfPar{\eta}`}</Math>) бюджет выжившим; повтори. «Раунды» называют
+      <strong> rung&apos;ами</strong>, <Math display={false}>{String.raw`\enfPar{\eta}`}</Math> — фактор
+      сокращения (обычно <Math display={false}>{String.raw`\enfPar{\eta} = 3`}</Math>). Так почти весь
       бюджет уходит на немногих перспективных. Вот как это устроено в Optuna (упрощённо, по статье
       Akiba et al. 2019):
     </ProseP>
@@ -74,10 +74,10 @@ const Section7 = () => (
       определяется так:
     </ProseP>
 
-    <Math>{String.raw`\text{число брекетов} = \left\lfloor \log_{\eta}\!\frac{R_{\max}}{R_{\min}} \right\rfloor + 1,`}</Math>
+    <Math>{String.raw`\text{число брекетов} = \left\lfloor \log_{\eta}\!\frac{\enfTgt{R}_{\max}}{\enfTgt{R}_{\min}} \right\rfloor + 1,`}</Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`R_{\min}, R_{\max}`}</Math> — минимальный и
+      где <Math display={false}>{String.raw`\enfTgt{R}_{\min}, \enfTgt{R}_{\max}`}</Math> — минимальный и
       максимальный ресурс на испытание.
     </ProseP>
 
@@ -100,7 +100,7 @@ const Section7 = () => (
         <>Прунинг убивает бесперспективные испытания по промежуточному качеству — экономит огромную долю бюджета.</>,
         <>Median pruner отсекает то, что хуже медианы на текущем шаге.</>,
         <>
-          SHA/ASHA: оставляй лучшую долю <Math display={false}>{String.raw`1/\eta`}</Math>,
+          SHA/ASHA: оставляй лучшую долю <Math display={false}>{String.raw`1/\enfPar{\eta}`}</Math>,
           наращивай бюджет выжившим; ASHA масштабируется линейно по воркерам (дефолт Optuna).
         </>,
         <>Hyperband перебирает компромисс «много кандидатов × мало бюджета» через брекеты SHA.</>,

@@ -33,7 +33,7 @@ const Section2 = () => (
       <Math display={false}>{String.raw`10^{-4}\!-\!10^{-3}`}</Math>»:
     </ProseP>
 
-    <Math>{String.raw`\log_{10}\lambda \sim \mathcal{U}(\log_{10} a,\; \log_{10} b).`}</Math>
+    <Math>{String.raw`\log_{10}\enfPar{\lambda} \sim \mathcal{U}(\log_{10} a,\; \log_{10} b).`}</Math>
 
     <ProseP>
       <strong>Целочисленный (int).</strong> Дискретный счётчик:{" "}

@@ -69,10 +69,10 @@ const SACModule = () => {
                 В стандартном RL мы максимизируем суммарную награду. В Maximum Entropy RL мы добавляем бонус за энтропию политики:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"J(\\pi) = \\sum_{t=0}^{T} \\mathbb{E}\\left[r(s_t, a_t) + \\alpha \\mathcal{H}(\\pi(\\cdot|s_t))\\right]"}</Math>
+                <Math display>{"\\enfTgt{J}(\\pi) = \\sum_{t=0}^{T} \\mathbb{E}\\left[\\enfTgt{r}(\\enfVar{s}_t, a_t) + \\enfPar{\\alpha} \\mathcal{H}(\\pi(\\cdot \\mid \\enfVar{s}_t))\\right]"}</Math>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                где <Math>{"\\mathcal{H}(\\pi) = -\\sum_a \\pi(a|s)\\log\\pi(a|s)"}</Math> — энтропия политики, а <Math>{"\\alpha"}</Math> — температурный коэффициент.
+                где <Math>{"\\mathcal{H}(\\pi) = -\\sum_a \\pi(a \\mid \\enfVar{s})\\log\\pi(a|\\enfVar{s})"}</Math> — энтропия политики, а <Math>{"\\enfPar{\\alpha}"}</Math> — температурный коэффициент.
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li><strong className="text-foreground">Высокая энтропия</strong> — политика более случайная (исследование)</li>
@@ -92,15 +92,15 @@ const SACModule = () => {
             <CardContent className="p-6 space-y-4">
               <h3 className="text-lg font-semibold text-foreground">Soft Q-функция</h3>
               <div className="overflow-x-auto">
-                <Math display>{"Q_{soft}(s_t, a_t) = r(s_t, a_t) + \\gamma \\mathbb{E}_{s_{t+1}}\\left[V_{soft}(s_{t+1})\\right]"}</Math>
+                <Math display>{"\\enfOp{Q}_{soft}(\\enfVar{s}_t, a_t) = \\enfTgt{r}(\\enfVar{s}_t, a_t) + \\enfPar{\\gamma} \\mathbb{E}_{s_{t+1}}\\left[\\enfOp{V}_{soft}(\\enfVar{s}_{t+1})\\right]"}</Math>
               </div>
               <h3 className="text-lg font-semibold text-foreground mt-4">Soft Value Function</h3>
               <div className="overflow-x-auto">
-                <Math display>{"V_{soft}(s_t) = \\mathbb{E}_{a_t \\sim \\pi}\\left[Q_{soft}(s_t, a_t) - \\alpha \\log \\pi(a_t|s_t)\\right]"}</Math>
+                <Math display>{"\\enfOp{V}_{soft}(\\enfVar{s}_t) = \\mathbb{E}_{a_t \\sim \\pi}\\left[\\enfOp{Q}_{soft}(\\enfVar{s}_t, a_t) - \\enfPar{\\alpha} \\log \\pi(a_t \\mid \\enfVar{s}_t)\\right]"}</Math>
               </div>
               <h3 className="text-lg font-semibold text-foreground mt-4">Обновление политики</h3>
               <div className="overflow-x-auto">
-                <Math display>{"\\pi^* = \\arg\\min_{\\pi} D_{KL}\\left(\\pi(\\cdot|s_t)\\;\\|\\;\\frac{\\exp(Q(s_t, \\cdot))}{Z(s_t)}\\right)"}</Math>
+                <Math display>{"\\pi^* = \\arg\\min_{\\pi} D_{KL}\\left(\\pi(\\cdot \\mid \\enfVar{s}_t)\\;\\|\\;\\frac{\\exp(\\enfOp{Q}(\\enfVar{s}_t, \\cdot))}{Z(\\enfVar{s}_t)}\\right)"}</Math>
               </div>
             </CardContent>
           </Card>
@@ -116,11 +116,11 @@ const SACModule = () => {
             <CardContent className="p-6 space-y-4">
               <p className="text-muted-foreground leading-relaxed">SAC использует 5 нейронных сетей:</p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li><strong className="text-foreground">Actor (Политика)</strong> — <Math>{"\\pi_\\theta(a|s)"}</Math> — выход: mean + std для непрерывных действий</li>
-                <li><strong className="text-foreground">Critic 1</strong> — <Math>{"Q_{\\phi_1}(s, a)"}</Math></li>
-                <li><strong className="text-foreground">Critic 2</strong> — <Math>{"Q_{\\phi_2}(s, a)"}</Math> (для уменьшения overestimation)</li>
-                <li><strong className="text-foreground">Target Critic 1</strong> — <Math>{"Q_{\\bar{\\phi}_1}"}</Math> (мягкое обновление)</li>
-                <li><strong className="text-foreground">Target Critic 2</strong> — <Math>{"Q_{\\bar{\\phi}_2}"}</Math></li>
+                <li><strong className="text-foreground">Actor (Политика)</strong> — <Math>{"\\pi_\\theta(a \\mid \\enfVar{s})"}</Math> — выход: mean + std для непрерывных действий</li>
+                <li><strong className="text-foreground">Critic 1</strong> — <Math>{"\\enfOp{Q}_{\\phi_1}(\\enfVar{s}, a)"}</Math></li>
+                <li><strong className="text-foreground">Critic 2</strong> — <Math>{"\\enfOp{Q}_{\\phi_2}(\\enfVar{s}, a)"}</Math> (для уменьшения overestimation)</li>
+                <li><strong className="text-foreground">Target Critic 1</strong> — <Math>{"\\enfOp{Q}_{\\bar{\\phi}_1}"}</Math> (мягкое обновление)</li>
+                <li><strong className="text-foreground">Target Critic 2</strong> — <Math>{"\\enfOp{Q}_{\\bar{\\phi}_2}"}</Math></li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-4">
                 Мягкое обновление целевых сетей:

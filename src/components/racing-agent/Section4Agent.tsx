@@ -583,7 +583,7 @@ namespace RacingAgent.Agent
         </li>
         <li>
           <strong className="text-foreground">Бонус за чекпоинт, нормированный на общее число ворот</strong>:{" "}
-          <Math display={false}>{String.raw`r_{\text{cp}} = 1/N`}</Math>, где{" "}
+          <Math display={false}>{String.raw`\enfTgt{r}_{\text{cp}} = 1/N`}</Math>, где{" "}
           <Math display={false}>{String.raw`N`}</Math> — количество чекпоинтов на круге
         </li>
       </ul>
@@ -776,7 +776,7 @@ namespace AutonomousRacing.Learning
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-foreground">4.11. Математическое обоснование нормализации входов</h3>
       <p className="text-muted-foreground leading-relaxed">
-        При нормализации <Math display={false}>{String.raw`v \mapsto v / v_{\max}`}</Math> мы обеспечиваем,
+        При нормализации <Math display={false}>{String.raw`\enfVar{v} \mapsto \enfVar{v} / \enfVar{v}_{\max}`}</Math> мы обеспечиваем,
         что входы политики статистически центрированы около нуля и масштабированы в{" "}
         <Math display={false}>{String.raw`[-1, 1]`}</Math>. Это:
       </p>
@@ -792,8 +792,8 @@ namespace AutonomousRacing.Learning
         </li>
         <li>
           <strong className="text-foreground">Стабилизирует value loss</strong>:{" "}
-          <Math display={false}>{String.raw`V^\pi(s) = \sum \gamma^t r_t`}</Math> ограничено сверху, если{" "}
-          <Math display={false}>{String.raw`r_t`}</Math> ограничены и нормированы
+          <Math display={false}>{String.raw`\enfOp{V}^\pi(\enfVar{s}) = \sum \enfPar{\gamma}^t \enfTgt{r}_t`}</Math> ограничено сверху, если{" "}
+          <Math display={false}>{String.raw`\enfTgt{r}_t`}</Math> ограничены и нормированы
         </li>
       </ol>
     </div>

@@ -25,10 +25,10 @@ const Section4 = () => (
       </li>
     </ol>
 
-    <Math>{String.raw`\pi_{\text{new}} = \arg\min_{\pi'\in\Pi}\; D_{\mathrm{KL}}\!\left(\, \pi'(\cdot\mid s_t)\;\bigg\|\; \frac{\exp\!\big(\tfrac{1}{\alpha}Q^{\pi_{\text{old}}}(s_t,\cdot)\big)}{Z^{\pi_{\text{old}}}(s_t)}\right).`}</Math>
+    <Math>{String.raw`\pi_{\text{new}} = \arg\min_{\pi'\in\Pi}\; D_{\mathrm{KL}}\!\left(\, \pi'(\cdot\mid \enfVar{s}_t)\;\bigg\|\; \frac{\exp\!\big(\tfrac{1}{\enfPar{\alpha}}\enfOp{Q}^{\pi_{\text{old}}}(\enfVar{s}_t,\cdot)\big)}{Z^{\pi_{\text{old}}}(\enfVar{s}_t)}\right).`}</Math>
 
     <ProseP>
-      Здесь <Math display={false}>{String.raw`Z^{\pi_{\text{old}}}(s_t)`}</Math> — нормировочная
+      Здесь <Math display={false}>{String.raw`Z^{\pi_{\text{old}}}(\enfVar{s}_t)`}</Math> — нормировочная
       константа (partition function); она неберущаяся в общем случае, но{" "}
       <strong>не зависит от параметров политики</strong> и потому не влияет на градиент — её можно
       игнорировать. Полное доказательство сходимости (Леммы 1–2, Теорема 1) вынесено в{" "}
@@ -52,12 +52,12 @@ const Section4 = () => (
 
     <ul className="space-y-2 my-4 text-[15px] text-foreground/90 leading-relaxed">
       <li>
-        soft Q-функция (critic) <Math display={false}>{String.raw`Q_\theta(s,a)`}</Math> — на самом
+        soft Q-функция (critic) <Math display={false}>{String.raw`\enfOp{Q}_\theta(\enfVar{s},a)`}</Math> — на самом
         деле их <strong>две</strong>, см.{" "}
         <Anchor to="раздел-5-два-q-критика-clipped-double-q-и-target-сети">Раздел 5</Anchor>;
       </li>
       <li>
-        политика (actor) <Math display={false}>{String.raw`\pi_\phi(a\mid s)`}</Math>.
+        политика (actor) <Math display={false}>{String.raw`\pi_\phi(a\mid \enfVar{s})`}</Math>.
       </li>
     </ul>
 
@@ -79,7 +79,7 @@ const Section4 = () => (
         </>,
         <>
           Improvement — это KL-проекция на{" "}
-          <Math display={false}>{String.raw`\exp(Q/\alpha)/Z`}</Math>; нормировка{" "}
+          <Math display={false}>{String.raw`\exp(\enfOp{Q}/\enfPar{\alpha})/Z`}</Math>; нормировка{" "}
           <Math display={false}>{String.raw`Z`}</Math> не влияет на градиент.
         </>,
         <>Практический SAC: нейросети + по одному градиентному шагу вместо сходимости.</>,

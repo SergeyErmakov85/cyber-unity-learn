@@ -22,27 +22,27 @@ const Section3 = () => (
     </ProseP>
 
     <Math>{String.raw`\boxed{\;
-V(s_t) = \mathbb{E}_{a_t\sim\pi}\big[\, Q(s_t,a_t) - \alpha\log\pi(a_t\mid s_t)\,\big]
+\enfOp{V}(\enfVar{s}_t) = \mathbb{E}_{a_t\sim\pi}\big[\, \enfOp{Q}(\enfVar{s}_t,a_t) - \enfPar{\alpha}\log\pi(a_t\mid \enfVar{s}_t)\,\big]
 \;}`}</Math>
 
     <ProseP>
-      Заметьте: <Math display={false}>{String.raw`-\alpha\log\pi(a_t\mid s_t)`}</Math> — это в
+      Заметьте: <Math display={false}>{String.raw`-\enfPar{\alpha}\log\pi(a_t\mid \enfVar{s}_t)`}</Math> — это в
       точности вклад энтропии (вспомните{" "}
-      <Math display={false}>{String.raw`\mathcal{H}=\mathbb{E}[-\log\pi]`}</Math>). То есть{" "}
+      <Math display={false}>{String.raw`\mathcal{\enfOp{H}}=\mathbb{E}[-\log\pi]`}</Math>). То есть{" "}
       <strong>soft value = ожидаемое Q плюс бонус за случайность</strong>.
     </ProseP>
 
     <h3 className={H3_CLASS}>Soft Q-функция и soft-уравнение Беллмана</h3>
 
     <ProseP>
-      Soft Q-функция <Math display={false}>{String.raw`Q(s_t,a_t)`}</Math> оценивает: «взять действие{" "}
-      <Math display={false}>{String.raw`a_t`}</Math> в <Math display={false}>{String.raw`s_t`}</Math>,
+      Soft Q-функция <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}_t,a_t)`}</Math> оценивает: «взять действие{" "}
+      <Math display={false}>{String.raw`a_t`}</Math> в <Math display={false}>{String.raw`\enfVar{s}_t`}</Math>,
       а <em>дальше</em> следовать политике <Math display={false}>{String.raw`\pi`}</Math>, получая и
       награды, и энтропийные бонусы». Её определяет{" "}
       <strong>модифицированный (soft) оператор Беллмана</strong> (уравнение (2)):
     </ProseP>
 
-    <Math>{String.raw`\mathcal{T}^\pi Q(s_t,a_t) \;\triangleq\; r(s_t,a_t) + \gamma\,\mathbb{E}_{s_{t+1}\sim p}\big[\, V(s_{t+1})\,\big].`}</Math>
+    <Math>{String.raw`\mathcal{T}^\pi \enfOp{Q}(\enfVar{s}_t,a_t) \;\triangleq\; \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\,\mathbb{E}_{s_{t+1}\sim p}\big[\, \enfOp{V}(\enfVar{s}_{t+1})\,\big].`}</Math>
 
     <ProseP>
       Подставляя сюда определение soft value, получаем{" "}
@@ -50,12 +50,12 @@ V(s_t) = \mathbb{E}_{a_t\sim\pi}\big[\, Q(s_t,a_t) - \alpha\log\pi(a_t\mid s_t)\
     </ProseP>
 
     <Math>{String.raw`\boxed{\;
-Q(s_t,a_t) = r(s_t,a_t) + \gamma\,\mathbb{E}_{s_{t+1}\sim p}\Big[\,\mathbb{E}_{a_{t+1}\sim\pi}\big[\, Q(s_{t+1},a_{t+1}) - \alpha\log\pi(a_{t+1}\mid s_{t+1})\,\big]\Big]
+\enfOp{Q}(\enfVar{s}_t,a_t) = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\,\mathbb{E}_{s_{t+1}\sim p}\Big[\,\mathbb{E}_{a_{t+1}\sim\pi}\big[\, \enfOp{Q}(\enfVar{s}_{t+1},a_{t+1}) - \enfPar{\alpha}\log\pi(a_{t+1}\mid \enfVar{s}_{t+1})\,\big]\Big]
 \;}`}</Math>
 
     <ProseP>
       Сравните с <strong>обычным</strong> уравнением Беллмана{" "}
-      <Math display={false}>{String.raw`Q(s,a)=r+\gamma\,\mathbb{E}[\max_{a'} Q(s',a')]`}</Math> из{" "}
+      <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s},a)=\enfTgt{r}+\enfPar{\gamma}\,\mathbb{E}[\max_{a'} \enfOp{Q}(\enfVar{s}',a')]`}</Math> из{" "}
       <CrossLinkToHub
         hubPath="/math-rl/module-5"
         hubAnchor="глава-5"
@@ -73,7 +73,7 @@ Q(s_t,a_t) = r(s_t,a_t) + \gamma\,\mathbb{E}_{s_{t+1}\sim p}\Big[\,\mathbb{E}_{a
       </li>
       <li>
         добавлен энтропийный член{" "}
-        <Math display={false}>{String.raw`-\alpha\log\pi(a'\mid s')`}</Math>.
+        <Math display={false}>{String.raw`-\enfPar{\alpha}\log\pi(a'\mid \enfVar{s}')`}</Math>.
       </li>
     </ol>
 
@@ -85,20 +85,20 @@ Q(s_t,a_t) = r(s_t,a_t) + \gamma\,\mathbb{E}_{s_{t+1}\sim p}\Big[\,\mathbb{E}_{a
       Q-значениям:
     </ProseP>
 
-    <Math>{String.raw`\pi^*(a\mid s) \;\propto\; \exp\!\Big(\tfrac{1}{\alpha}\,Q^*(s,a)\Big),`}</Math>
+    <Math>{String.raw`\pi^*(a\mid \enfVar{s}) \;\propto\; \exp\!\Big(\tfrac{1}{\enfPar{\alpha}}\,\enfOp{Q}^*(\enfVar{s},a)\Big),`}</Math>
 
     <ProseP>
       а оптимальная soft value записывается через <strong>log-sum-exp</strong> — гладкий («мягкий»)
       аналог максимума:
     </ProseP>
 
-    <Math>{String.raw`V^*(s) = \alpha \log \int_{\mathcal{A}} \exp\!\Big(\tfrac{1}{\alpha}\,Q^*(s,a)\Big)\,da .`}</Math>
+    <Math>{String.raw`\enfOp{V}^*(\enfVar{s}) = \enfPar{\alpha} \log \int_{\mathcal{A}} \exp\!\Big(\tfrac{1}{\enfPar{\alpha}}\,\enfOp{Q}^*(\enfVar{s},a)\Big)\,da .`}</Math>
 
     <ProseP>
       Вот в чём смысл слова <em>soft</em>: жёсткий оператор{" "}
       <Math display={false}>{String.raw`\max_a`}</Math> заменяется на{" "}
       <strong>soft maximum</strong> (log-sum-exp). При{" "}
-      <Math display={false}>{String.raw`\alpha\to 0`}</Math> log-sum-exp снова стягивается к обычному{" "}
+      <Math display={false}>{String.raw`\enfPar{\alpha}\to 0`}</Math> log-sum-exp снова стягивается к обычному{" "}
       <Math display={false}>{String.raw`\max`}</Math>, а политика Больцмана — к жадной. Подробный
       вывод политики Больцмана и связь с soft Q-learning — в{" "}
       <CrossLinkToHub
@@ -116,13 +116,13 @@ Q(s_t,a_t) = r(s_t,a_t) + \gamma\,\mathbb{E}_{s_{t+1}\sim p}\Big[\,\mathbb{E}_{a
         <>
           Soft value:{" "}
           <Math display={false}>
-            {String.raw`V(s)=\mathbb{E}_{a\sim\pi}[Q(s,a)-\alpha\log\pi(a\mid s)]`}
+            {String.raw`\enfOp{V}(\enfVar{s})=\mathbb{E}_{a\sim\pi}[\enfOp{Q}(\enfVar{s},a)-\enfPar{\alpha}\log\pi(a\mid \enfVar{s})]`}
           </Math>{" "}
           — ценность плюс бонус за энтропию.
         </>,
         <>
           Soft-оператор Беллмана:{" "}
-          <Math display={false}>{String.raw`\mathcal{T}^\pi Q = r + \gamma\,\mathbb{E}[V(s')]`}</Math>
+          <Math display={false}>{String.raw`\mathcal{T}^\pi \enfOp{Q} = \enfTgt{r} + \enfPar{\gamma}\,\mathbb{E}[\enfOp{V}(\enfVar{s}')]`}</Math>
           .
         </>,
         <>
@@ -131,7 +131,7 @@ Q(s_t,a_t) = r(s_t,a_t) + \gamma\,\mathbb{E}_{s_{t+1}\sim p}\Big[\,\mathbb{E}_{a
         </>,
         <>
           Оптимальная политика — больцмановская{" "}
-          <Math display={false}>{String.raw`\pi^*\propto\exp(Q^*/\alpha)`}</Math>; «soft» =
+          <Math display={false}>{String.raw`\pi^*\propto\exp(\enfOp{Q}^*/\enfPar{\alpha})`}</Math>; «soft» =
           log-sum-exp вместо max.
         </>,
       ]}

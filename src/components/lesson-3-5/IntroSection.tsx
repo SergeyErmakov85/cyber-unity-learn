@@ -58,7 +58,7 @@ const IntroSection = () => (
           <p className="text-foreground/80 leading-relaxed">
             Обучение жило в Python-процессе и говорило с Unity через сокет. Игрок никакого Python не
             запустит — обученную политику{" "}
-            <Math display={false}>{String.raw`\pi_\theta(a\mid s)`}</Math> нужно{" "}
+            <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s})`}</Math> нужно{" "}
             <strong className="text-cyan-300">вынуть из тренировочного контура</strong> и зашить
             прямо в Unity-билд через формат <code className={chip}>.onnx</code>. Урок проводит весь
             путь от файла <code className={chip}>results/race_v7/RaceAgent.onnx</code> до агента,
@@ -88,7 +88,7 @@ const IntroSection = () => (
         <li className="flex gap-2.5">
           <span className="text-purple-400 mt-0.5 shrink-0">▸</span>
           <span>
-            что такое политика <Math display={false}>{String.raw`\pi_\theta(a\mid s)`}</Math> и как
+            что такое политика <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s})`}</Math> и как
             её обучает PPO/SAC —{" "}
             <CrossLinkToHub
               hubPath="/courses/3-1"

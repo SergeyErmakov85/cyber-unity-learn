@@ -16,16 +16,16 @@ const Section1 = () => (
 
     <ProseP>
       Формально HPO — это задача поиска такого вектора гиперпараметров{" "}
-      <Math display={false}>{String.raw`\boldsymbol{\lambda}`}</Math> из пространства поиска{" "}
+      <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}`}</Math> из пространства поиска{" "}
       <Math display={false}>{String.raw`\Lambda`}</Math>, который максимизирует целевую метрику
       качества:
     </ProseP>
 
-    <Math>{String.raw`\boldsymbol{\lambda}^{\star} = \arg\max_{\boldsymbol{\lambda} \in \Lambda} \; f(\boldsymbol{\lambda}),`}</Math>
+    <Math>{String.raw`\boldsymbol{\enfPar{\lambda}}^{\star} = \arg\max_{\boldsymbol{\lambda} \in \Lambda} \; \enfFun{f}(\boldsymbol{\enfPar{\lambda}}),`}</Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`f(\boldsymbol{\lambda})`}</Math> — итоговое качество
-      агента, обученного с конфигурацией <Math display={false}>{String.raw`\boldsymbol{\lambda}`}</Math>{" "}
+      где <Math display={false}>{String.raw`\enfFun{f}(\boldsymbol{\enfPar{\lambda}})`}</Math> — итоговое качество
+      агента, обученного с конфигурацией <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}`}</Math>{" "}
       (например, средняя награда за последние эпизоды или ELO из{" "}
       <CrossLinkToLesson lessonId="3.2" lessonPath="/courses/3-2" lessonTitle="Урок 3.2" lessonLevel={3}>
         урока 3.2
@@ -42,13 +42,13 @@ const Section1 = () => (
       <li>
         <strong>Чёрный ящик (black-box).</strong> У нас нет формулы{" "}
         <Math display={false}>{String.raw`f`}</Math> и нет её градиента по{" "}
-        <Math display={false}>{String.raw`\boldsymbol{\lambda}`}</Math>. Мы умеем только подставить
-        конкретный <Math display={false}>{String.raw`\boldsymbol{\lambda}`}</Math> и получить число
+        <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}`}</Math>. Мы умеем только подставить
+        конкретный <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}`}</Math> и получить число
         — обучив агента целиком.
       </li>
       <li>
         <strong>Дорогая.</strong> Одно вычисление{" "}
-        <Math display={false}>{String.raw`f(\boldsymbol{\lambda})`}</Math> — это полный (или почти
+        <Math display={false}>{String.raw`\enfFun{f}(\boldsymbol{\enfPar{\lambda}})`}</Math> — это полный (или почти
         полный) прогон обучения: минуты, часы, иногда дни. Бюджет измеряется не в секундах, а в
         числе <strong>испытаний</strong> (trials).
       </li>
@@ -59,7 +59,7 @@ const Section1 = () => (
           урока 3.3
         </CrossLinkToLesson>
         ) повторный запуск с тем же{" "}
-        <Math display={false}>{String.raw`\boldsymbol{\lambda}`}</Math> даёт чуть разное{" "}
+        <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}`}</Math> даёт чуть разное{" "}
         <Math display={false}>{String.raw`f`}</Math>. Алгоритм поиска должен быть устойчив к этому
         шуму.
       </li>
@@ -74,7 +74,7 @@ const Section1 = () => (
     <KeyPoints
       items={[
         <>
-          HPO: <Math display={false}>{String.raw`\boldsymbol{\lambda}^{\star} = \arg\max_{\boldsymbol{\lambda}} f(\boldsymbol{\lambda})`}</Math>
+          HPO: <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}^{\star} = \arg\max_{\boldsymbol{\lambda}} \enfFun{f}(\boldsymbol{\enfPar{\lambda}})`}</Math>
           , где <Math display={false}>{String.raw`f`}</Math> — качество обученного агента.
         </>,
         <>

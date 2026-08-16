@@ -36,7 +36,7 @@ const Section5 = () => (
     </ProseP>
 
     <Math>
-      {String.raw`z = \mathrm{Attention}(Q, K, V) = \mathrm{softmax}\!\Big(\frac{QK^\top}{\sqrt{d_k}}\Big)V .`}
+      {String.raw`\enfVar{z} = \mathrm{Attention}(\enfOp{Q}, K, \enfOp{V}) = \mathrm{softmax}\!\Big(\frac{QK^\top}{\sqrt{d_k}}\Big)\enfOp{V} .`}
     </Math>
 
     <ProseP>

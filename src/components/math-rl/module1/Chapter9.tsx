@@ -10,33 +10,33 @@ const Chapter9 = () => (
 
     <h3 id="параметризация-политики" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Параметризация политики</h3>
     <p>
-      Политика напрямую параметризуется нейронной сетью с весами <Math display={false}>{"\\theta"}</Math>: <Math display={false}>{"\\pi_\\theta(a|s)"}</Math>. Целевая функция — ожидаемый суммарный возврат:
+      Политика напрямую параметризуется нейронной сетью с весами <Math display={false}>{"\\enfPar{\\theta}"}</Math>: <Math display={false}>{"\\pi_\\theta(a \\mid \\enfVar{s})"}</Math>. Целевая функция — ожидаемый суммарный возврат:
     </p>
-    <Math>{"J(\\theta) = \\mathbb{E}_{\\pi_\\theta}[G_t]"}</Math>
+    <Math>{"\\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\pi_\\theta}[\\enfOp{G}_t]"}</Math>
     <p>Обновление весов методом градиентного подъёма:</p>
-    <Math>{"\\theta_{t+1} = \\theta_t + \\alpha\\, \\nabla_\\theta J(\\theta_t)"}</Math>
+    <Math>{"\\enfPar{\\theta}_{t+1} = \\enfPar{\\theta}_t + \\enfPar{\\alpha}\\, \\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}_t)"}</Math>
 
     <h3 id="теорема-о-градиенте-политики" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Теорема о градиенте политики</h3>
-    <Math>{"\\nabla_\\theta J(\\theta) \\propto \\sum_{s} d^{\\pi}(s) \\sum_{a} Q^\\pi(s,a)\\, \\nabla_\\theta \\pi_\\theta(a|s)"}</Math>
+    <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) \\propto \\sum_{s} d^{\\pi}(\\enfVar{s}) \\sum_{a} \\enfOp{Q}^\\pi(\\enfVar{s},a)\\, \\enfOp{\\nabla}_\\theta \\pi_\\theta(a \\mid \\enfVar{s})"}</Math>
     <p>
-      Здесь <Math display={false}>{"d^\\pi(s)"}</Math> — стационарное распределение состояний.
+      Здесь <Math display={false}>{"d^\\pi(\\enfVar{s})"}</Math> — стационарное распределение состояний.
     </p>
 
     <h3 id="логарифмический-трюк-log-derivative-trick" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Логарифмический трюк (Log-derivative trick)</h3>
     <p>
-      Из матанализа: <Math display={false}>{"\\nabla f(x) = f(x)\\, \\nabla \\ln f(x)"}</Math>. Применяя к <Math display={false}>{"\\pi_\\theta"}</Math>, преобразуем градиент в форму математического ожидания:
+      Из матанализа: <Math display={false}>{"\\enfOp{\\nabla} f(x) = f(x)\\, \\enfOp{\\nabla} \\ln f(x)"}</Math>. Применяя к <Math display={false}>{"\\pi_\\theta"}</Math>, преобразуем градиент в форму математического ожидания:
     </p>
-    <Math>{"\\nabla_\\theta J(\\theta) = \\mathbb{E}_{\\pi_\\theta}\\!\\left[ G_t\\, \\nabla_\\theta \\ln \\pi_\\theta(A_t | S_t) \\right]"}</Math>
+    <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\pi_\\theta}\\!\\left[ \\enfOp{G}_t\\, \\enfOp{\\nabla}_\\theta \\ln \\pi_\\theta(A_t \\mid S_t) \\right]"}</Math>
 
     <h3 id="алгоритм-reinforce" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Алгоритм REINFORCE</h3>
-    <Math>{"\\theta_{t+1} = \\theta_t + \\alpha\\, G_t\\, \\nabla_\\theta \\ln \\pi_\\theta(A_t | S_t)"}</Math>
+    <Math>{"\\enfPar{\\theta}_{t+1} = \\enfPar{\\theta}_t + \\enfPar{\\alpha}\\, \\enfOp{G}_t\\, \\enfOp{\\nabla}_\\theta \\ln \\pi_\\theta(A_t \\mid S_t)"}</Math>
 
     <InfoBox variant="secondary">
       <p className="font-semibold text-foreground mb-2">Интуиция REINFORCE</p>
       <ul className="list-disc list-inside space-y-1 text-sm">
-        <li>Вектор <Math display={false}>{"\\nabla_\\theta \\ln \\pi_\\theta(A_t|S_t)"}</Math> указывает направление, увеличивающее вероятность действия <Math display={false}>{"A_t"}</Math></li>
-        <li><Math display={false}>{"G_t > 0"}</Math> — действие было хорошим → веса сдвигаются <em>в направлении</em> градиента (вероятность ↑)</li>
-        <li><Math display={false}>{"G_t < 0"}</Math> — действие было плохим → веса сдвигаются <em>против</em> градиента (вероятность ↓)</li>
+        <li>Вектор <Math display={false}>{"\\enfOp{\\nabla}_\\theta \\ln \\pi_\\theta(A_t \\mid S_t)"}</Math> указывает направление, увеличивающее вероятность действия <Math display={false}>{"A_t"}</Math></li>
+        <li><Math display={false}>{"\\enfOp{G}_t > 0"}</Math> — действие было хорошим → веса сдвигаются <em>в направлении</em> градиента (вероятность ↑)</li>
+        <li><Math display={false}>{"\\enfOp{G}_t < 0"}</Math> — действие было плохим → веса сдвигаются <em>против</em> градиента (вероятность ↓)</li>
       </ul>
     </InfoBox>
 
@@ -45,14 +45,14 @@ const Chapter9 = () => (
       REINFORCE имеет колоссальную <strong className="text-foreground">дисперсию</strong>. Гибридная архитектура решает эту проблему, объединяя две сети:
     </p>
     <ul className="list-disc list-inside space-y-1">
-      <li><strong className="text-primary">Актор</strong> — сеть политики <Math display={false}>{"\\pi_\\theta(a|s)"}</Math>, принимающая решения</li>
-      <li><strong className="text-secondary">Критик</strong> — сеть функции ценности <Math display={false}>{"V_w(s)"}</Math>, оценивающая Актора</li>
+      <li><strong className="text-primary">Актор</strong> — сеть политики <Math display={false}>{"\\pi_\\theta(a \\mid \\enfVar{s})"}</Math>, принимающая решения</li>
+      <li><strong className="text-secondary">Критик</strong> — сеть функции ценности <Math display={false}>{"\\enfOp{V}_w(\\enfVar{s})"}</Math>, оценивающая Актора</li>
     </ul>
     <p className="mt-3">
-      Вместо зашумлённого <Math display={false}>{"G_t"}</Math> Критик на каждом шаге вычисляет TD-ошибку — «насколько реальность превзошла ожидания»:
+      Вместо зашумлённого <Math display={false}>{"\\enfOp{G}_t"}</Math> Критик на каждом шаге вычисляет TD-ошибку — «насколько реальность превзошла ожидания»:
     </p>
-    <Math>{"\\theta_{t+1} = \\theta_t + \\alpha\\, \\delta_t\\, \\nabla_\\theta \\ln \\pi_\\theta(A_t | S_t)"}</Math>
-    <Math>{"\\delta_t = R_{t+1} + \\gamma V_w(S_{t+1}) - V_w(S_t)"}</Math>
+    <Math>{"\\enfPar{\\theta}_{t+1} = \\enfPar{\\theta}_t + \\enfPar{\\alpha}\\, \\delta_t\\, \\enfOp{\\nabla}_\\theta \\ln \\pi_\\theta(A_t \\mid S_t)"}</Math>
+    <Math>{"\\delta_t = \\enfTgt{R}_{t+1} + \\enfPar{\\gamma} \\enfOp{V}_w(S_{t+1}) - \\enfOp{V}_w(S_t)"}</Math>
     <p>
       Архитектуры Actor-Critic лежат в основе передовых алгоритмов: <strong className="text-primary">PPO</strong> (Proximal Policy Optimization) и <strong className="text-primary">SAC</strong> (Soft Actor-Critic).
     </p>

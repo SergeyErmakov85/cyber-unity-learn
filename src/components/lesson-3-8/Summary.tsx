@@ -10,7 +10,7 @@ const Summary = () => (
     <ul className="space-y-3 my-4 list-disc list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>Финальный проект — это <strong>системная сборка</strong> всего курса: шесть этапов (среда → награда → обучение → оптимизация → деплой → геймплей) с обратными связями.</li>
       <li>
-        Агент максимизирует <Math display={false}>{String.raw`J(\pi)=\mathbb{E}_\pi[\sum_t \gamma^t r_t]`}</Math> — поэтому <strong>дизайн награды</strong> (потенциальное шейпинг, защита от reward hacking) определяет результат сильнее, чем гиперпараметры.
+        Агент максимизирует <Math display={false}>{String.raw`\enfTgt{J}(\pi)=\mathbb{E}_\pi[\sum_t \enfPar{\gamma}^t \enfTgt{r}_t]`}</Math> — поэтому <strong>дизайн награды</strong> (потенциальное шейпинг, защита от reward hacking) определяет результат сильнее, чем гиперпараметры.
       </li>
       <li>Обучение задаётся <strong>YAML</strong> (<code>mlagents-learn</code>, <code>--num-envs</code>, <code>--num-areas</code>); PPO — <code>linear</code>/<code>epsilon</code> 0.2/<code>beta</code> 5e-3, SAC — <code>constant</code>/<code>tau</code> 0.005, MA-POCA = конфиг PPO.</li>
       <li>Оптимизация: TensorBoard → <strong>Optuna (TPE) + W&B</strong> → <strong>FCA-анализ</strong> устойчивых конфигов.</li>

@@ -11,8 +11,8 @@ const Section4 = () => (
     <ProseP>
       Гоночный агент с дальномером в один момент времени <strong>не знает свою скорость</strong> —
       луч даёт расстояние, но не его производную. Он не помнит, был ли занос секунду назад. Формально
-      текущее наблюдение <Math display={false}>{String.raw`o_t`}</Math> <strong>не равно</strong>{" "}
-      истинному состоянию <Math display={false}>{String.raw`s_t`}</Math>: это{" "}
+      текущее наблюдение <Math display={false}>{String.raw`\enfVar{o}_t`}</Math> <strong>не равно</strong>{" "}
+      истинному состоянию <Math display={false}>{String.raw`\enfVar{s}_t`}</Math>: это{" "}
       <strong>частично наблюдаемый марковский процесс (POMDP)</strong>. Марковость, на которой стоит
       весь аппарат уравнений Беллмана (↗{" "}
       <CrossLinkToHub hubPath="/math-rl/module-5" hubTitle="Math RL — Фундамент RL">
@@ -28,7 +28,7 @@ const Section4 = () => (
     <ProseP>
       <strong>Способ 1 — кадровый стек.</strong> Склеить последние{" "}
       <Math display={false}>{String.raw`n`}</Math> наблюдений в одно:{" "}
-      <Math display={false}>{String.raw`\tilde o_t = (o_{t-n+1},\dots,o_t)`}</Math>. Именно так DQN
+      <Math display={false}>{String.raw`\enfVar{\tilde{o}}_t = (\enfVar{o}_{t-n+1},\dots,\enfVar{o}_t)`}</Math>. Именно так DQN
       получал скорость мяча из 4 кадров (<Anchor to="razdel-3-cnn">раздел 3</Anchor>). Просто и без
       новых параметров, но окно памяти жёстко ограничено{" "}
       <Math display={false}>{String.raw`n`}</Math>, и при больших{" "}
@@ -42,7 +42,7 @@ const Section4 = () => (
     </ProseP>
 
     <Math>
-      {String.raw`m_t = \mathrm{LSTM}_\phi(o_t,\, m_{t-1}),\qquad z_t = m_t .`}
+      {String.raw`m_t = \mathrm{LSTM}_\phi(\enfVar{o}_t,\, m_{t-1}),\qquad \enfVar{z}_t = m_t .`}
     </Math>
 
     <ProseP>
@@ -86,7 +86,7 @@ const Section4 = () => (
     <KeyPoints
       items={[
         <>
-          <Math display={false}>{String.raw`o_t \ne s_t`}</Math> — это <strong>POMDP</strong>;
+          <Math display={false}>{String.raw`\enfVar{o}_t \ne \enfVar{s}_t`}</Math> — это <strong>POMDP</strong>;
           агенту не хватает контекста, и марковость наблюдений нарушена.
         </>,
         <>

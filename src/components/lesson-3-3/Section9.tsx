@@ -47,7 +47,7 @@ const Section9 = () => (
       максимизируя <strong>regret</strong> — разницу между отдачей «антагониста» и «протагониста»:
     </ProseP>
 
-    <Math>{String.raw`\text{Regret} \;=\; U^{\text{antagonist}}(\theta) \;-\; U^{\text{protagonist}}(\theta).`}</Math>
+    <Math>{String.raw`\text{Regret} \;=\; U^{\text{antagonist}}(\enfPar{\theta}) \;-\; U^{\text{protagonist}}(\enfPar{\theta}).`}</Math>
 
     <ProseP>
       Создавая уровни, где антагонист справляется, а протагонист — пока нет, учитель порождает задачи
@@ -101,7 +101,7 @@ const Section9 = () => (
             </td>
             <td className="py-3 px-4">чёрный ящик (сиды)</td>
             <td className="py-3 px-4">
-              переигрывать высокий <Math display={false}>{String.raw`|\hat A_t|`}</Math>
+              переигрывать высокий <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math>
             </td>
             <td className="py-3 px-4">нет (только курирование)</td>
             <td className="py-3 px-4">

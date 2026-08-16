@@ -57,27 +57,27 @@ const Part1Limits = () => (
     <Section icon={<TrendingUp className="w-5 h-5 text-primary" />} title="1. Теоретические основы: предел последовательности">
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-4 mb-3" id="1-1-предел-последовательности">1.1 Предел последовательности</h3>
       <p>
-        <strong className="text-foreground">Интуиция:</strong> Последовательность — это набор элементов (чисел) <Math display={false}>{`x_1, x_2, x_3, \\ldots`}</Math>, определённых некоторым правилом. Последовательность имеет <em>предел</em> (или <em>сходится</em> к значению <Math display={false}>{`a`}</Math>), если её члены постепенно приближаются к <Math display={false}>{`a`}</Math>.
+        <strong className="text-foreground">Интуиция:</strong> Последовательность — это набор элементов (чисел) <Math display={false}>{`\\enfVar{x}_1, \\enfVar{x}_2, \\enfVar{x}_3, \\ldots`}</Math>, определённых некоторым правилом. Последовательность имеет <em>предел</em> (или <em>сходится</em> к значению <Math display={false}>{`a`}</Math>), если её члены постепенно приближаются к <Math display={false}>{`a`}</Math>.
       </p>
       <p>
         Например, последовательность <Math display={false}>{`1, \\tfrac{1}{2}, \\tfrac{1}{3}, \\tfrac{1}{4}, \\ldots`}</Math> приближается к 0 — её предел равен 0.
       </p>
       <p className="mt-4">
-        <strong className="text-foreground">Формально:</strong> Число <Math display={false}>{`a`}</Math> называется пределом последовательности <Math display={false}>{`x_n`}</Math>, если для любого наперёд заданного <Math display={false}>{`\\varepsilon > 0`}</Math> найдётся такой номер <Math display={false}>{`N`}</Math>, что для всех <Math display={false}>{`n > N`}</Math> расстояние между <Math display={false}>{`x_n`}</Math> и <Math display={false}>{`a`}</Math> меньше <Math display={false}>{`\\varepsilon`}</Math>:
+        <strong className="text-foreground">Формально:</strong> Число <Math display={false}>{`a`}</Math> называется пределом последовательности <Math display={false}>{`\\enfVar{x}_n`}</Math>, если для любого наперёд заданного <Math display={false}>{`\\enfPar{\\varepsilon} > 0`}</Math> найдётся такой номер <Math display={false}>{`N`}</Math>, что для всех <Math display={false}>{`n > N`}</Math> расстояние между <Math display={false}>{`\\enfVar{x}_n`}</Math> и <Math display={false}>{`a`}</Math> меньше <Math display={false}>{`\\enfPar{\\varepsilon}`}</Math>:
       </p>
-      <Math>{`\\lim_{n \\to \\infty} x_n = a \\iff \\forall \\varepsilon > 0\\; \\exists N(\\varepsilon):\\; \\forall n \\geq N,\\; |x_n - a| < \\varepsilon`}</Math>
+      <Math>{`\\lim_{n \\to \\infty} \\enfVar{x}_n = a \\iff \\forall \\enfPar{\\varepsilon} > 0\\; \\exists N(\\enfPar{\\varepsilon}):\\; \\forall n \\geq N,\\; |\\enfVar{x}_n - a| < \\enfPar{\\varepsilon}`}</Math>
 
       <InfoBox variant="primary">
         <p className="text-sm font-semibold text-primary mb-2">Примеры:</p>
         <ul className="list-disc list-inside space-y-1 text-sm">
-          <li><Math display={false}>{`x_n = \\frac{1}{n}`}</Math> — сходится к 0</li>
-          <li><Math display={false}>{`x_n = \\frac{1}{\\sqrt{n}}`}</Math> — сходится к 0 (медленнее)</li>
-          <li><Math display={false}>{`x_n = (-1)^n`}</Math> — не имеет предела (значения прыгают: +1, −1, +1, −1, …)</li>
+          <li><Math display={false}>{`\\enfVar{x}_n = \\frac{1}{n}`}</Math> — сходится к 0</li>
+          <li><Math display={false}>{`\\enfVar{x}_n = \\frac{1}{\\sqrt{n}}`}</Math> — сходится к 0 (медленнее)</li>
+          <li><Math display={false}>{`\\enfVar{x}_n = (-1)^n`}</Math> — не имеет предела (значения прыгают: +1, −1, +1, −1, …)</li>
         </ul>
       </InfoBox>
 
       <p>
-        Если <Math display={false}>{`x_n`}</Math> становится произвольно большим по модулю, говорят, что предел равен бесконечности. Последовательность, не имеющая конечного предела, называется <em>расходящейся</em>.
+        Если <Math display={false}>{`\\enfVar{x}_n`}</Math> становится произвольно большим по модулю, говорят, что предел равен бесконечности. Последовательность, не имеющая конечного предела, называется <em>расходящейся</em>.
       </p>
 
       <LimitOfSequenceViz />
@@ -99,18 +99,18 @@ const Part1Limits = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="геометрический-ряд">Геометрический ряд</h3>
       <p>
-        Классический пример: <Math display={false}>{`1 + r + r^2 + r^3 + \\cdots`}</Math>. Частичная сумма:
+        Классический пример: <Math display={false}>{`1 + \\enfTgt{r} + \\enfTgt{r}^2 + \\enfTgt{r}^3 + \\cdots`}</Math>. Частичная сумма:
       </p>
-      <Math>{`S_N = \\frac{1 - r^N}{1 - r} \\quad (r \\neq 1)`}</Math>
+      <Math>{`S_N = \\frac{1 - \\enfTgt{r}^N}{1 - \\enfTgt{r}} \\quad (\\enfTgt{r} \\neq 1)`}</Math>
       <p>
-        Если <Math display={false}>{`|r| < 1`}</Math>, то <Math display={false}>{`r^N \\to 0`}</Math> и ряд сходится:
+        Если <Math display={false}>{`|r| < 1`}</Math>, то <Math display={false}>{`\\enfTgt{r}^N \\to 0`}</Math> и ряд сходится:
       </p>
-      <Math>{`\\sum_{n=0}^{\\infty} r^n = \\frac{1}{1 - r} \\quad \\text{при } |r| < 1`}</Math>
+      <Math>{`\\sum_{n=0}^{\\infty} \\enfTgt{r}^n = \\frac{1}{1 - \\enfTgt{r}} \\quad \\text{при } |\\enfTgt{r}| < 1`}</Math>
 
       <InfoBox variant="secondary">
         <p className="text-sm font-semibold text-secondary mb-2">Важно для RL:</p>
         <p className="text-sm">
-          Дисконт-фактор <Math display={false}>{`\\gamma`}</Math> играет роль <Math display={false}>{`r`}</Math> в геометрическом ряде. Если <Math display={false}>{`\\gamma < 1`}</Math>, бесконечная сумма наград сходится, обеспечивая математическую корректность.
+          Дисконт-фактор <Math display={false}>{`\\enfPar{\\gamma}`}</Math> играет роль <Math display={false}>{`r`}</Math> в геометрическом ряде. Если <Math display={false}>{`\\enfPar{\\gamma} < 1`}</Math>, бесконечная сумма наград сходится, обеспечивая математическую корректность.
         </p>
       </InfoBox>
 
@@ -132,9 +132,9 @@ const Part1Limits = () => (
       <p>
         В RL среду моделируют как <strong className="text-foreground">марковский процесс принятия решений (MDP)</strong>. Будущее вознаграждение суммируется за все шаги с дисконтированием:
       </p>
-      <Math>{`G_t = R_{t+1} + \\gamma R_{t+2} + \\gamma^2 R_{t+3} + \\cdots = \\sum_{k=0}^{\\infty} \\gamma^k R_{t+k+1}`}</Math>
+      <Math>{`\\enfOp{G}_t = \\enfTgt{R}_{t+1} + \\enfPar{\\gamma} \\enfTgt{R}_{t+2} + \\enfPar{\\gamma}^2 \\enfTgt{R}_{t+3} + \\cdots = \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^k \\enfTgt{R}_{t+k+1}`}</Math>
       <p>
-        Это <strong className="text-foreground">дисконтированный возврат</strong> (discounted return) — бесконечный ряд с общим множителем <Math display={false}>{`\\gamma^k`}</Math>. При <Math display={false}>{`\\gamma < 1`}</Math> ряд сходится как геометрическая прогрессия.
+        Это <strong className="text-foreground">дисконтированный возврат</strong> (discounted return) — бесконечный ряд с общим множителем <Math display={false}>{`\\enfPar{\\gamma}^k`}</Math>. При <Math display={false}>{`\\enfPar{\\gamma} < 1`}</Math> ряд сходится как геометрическая прогрессия.
       </p>
 
       <InfoBox variant="primary">
@@ -142,23 +142,23 @@ const Part1Limits = () => (
         <p className="text-sm">
           Если агент каждый шаг получает <Math display={false}>{`R = 1`}</Math>, то:
         </p>
-        <Math>{`G_0 = 1 + \\gamma + \\gamma^2 + \\cdots = \\frac{1}{1 - \\gamma}`}</Math>
+        <Math>{`\\enfOp{G}_0 = 1 + \\enfPar{\\gamma} + \\enfPar{\\gamma}^2 + \\cdots = \\frac{1}{1 - \\enfPar{\\gamma}}`}</Math>
         <ul className="list-disc list-inside text-sm mt-2 space-y-1">
-          <li><Math display={false}>{`\\gamma = 0.9 \\Rightarrow G_0 = 10`}</Math></li>
-          <li><Math display={false}>{`\\gamma = 0.99 \\Rightarrow G_0 = 100`}</Math></li>
-          <li><Math display={false}>{`\\gamma = 1.0 \\Rightarrow G_0 = \\infty`}</Math> (расходится!)</li>
+          <li><Math display={false}>{`\\enfPar{\\gamma} = 0.9 \\Rightarrow \\enfOp{G}_0 = 10`}</Math></li>
+          <li><Math display={false}>{`\\enfPar{\\gamma} = 0.99 \\Rightarrow \\enfOp{G}_0 = 100`}</Math></li>
+          <li><Math display={false}>{`\\enfPar{\\gamma} = 1.0 \\Rightarrow \\enfOp{G}_0 = \\infty`}</Math> (расходится!)</li>
         </ul>
       </InfoBox>
 
       <p>
-        Дисконтирование можно интерпретировать как <em>«коэффициент нетерпения»</em> агента или <em>вероятность выживания</em>: <Math display={false}>{`\\gamma = 0.95`}</Math> эквивалентно 95% шансу продолжить на каждый шаг, что даёт <strong className="text-foreground">эффективный горизонт</strong> <Math display={false}>{`\\frac{1}{1-\\gamma} = 20`}</Math> шагов.
+        Дисконтирование можно интерпретировать как <em>«коэффициент нетерпения»</em> агента или <em>вероятность выживания</em>: <Math display={false}>{`\\enfPar{\\gamma} = 0.95`}</Math> эквивалентно 95% шансу продолжить на каждый шаг, что даёт <strong className="text-foreground">эффективный горизонт</strong> <Math display={false}>{`\\frac{1}{1-\\enfPar{\\gamma}} = 20`}</Math> шагов.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="функция-ценности-состояния">Функция ценности состояния</h3>
       <p>
         При заданной политике <Math display={false}>{`\\pi`}</Math> определим функцию ценности как математическое ожидание дисконтированного возврата:
       </p>
-      <Math>{`V^\\pi(s) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\gamma^t R_{t+1} \\;\\middle|\\; S_0 = s\\right]`}</Math>
+      <Math>{`\\enfOp{V}^\\pi(\\enfVar{s}) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; S_0 = \\enfVar{s}\\right]`}</Math>
 
       <ValueFunctionViz />
     </Section>
@@ -172,9 +172,9 @@ const Part1Limits = () => (
       <p>
         Уравнение Беллмана выражает ценность состояния через ценности последующих состояний — это рекуррентное соотношение:
       </p>
-      <Math>{`V^\\pi(s) = \\sum_a \\pi(a|s) \\sum_{s'} P(s'|s,a)\\bigl[R(s,a,s') + \\gamma\\, V^\\pi(s')\\bigr]`}</Math>
+      <Math>{`\\enfOp{V}^\\pi(\\enfVar{s}) = \\sum_a \\pi(a \\mid \\enfVar{s}) \\sum_{s'} P(\\enfVar{s}' \\mid \\enfVar{s},a)\\bigl[\\enfTgt{R}(\\enfVar{s},a,\\enfVar{s}') + \\enfPar{\\gamma}\\, \\enfOp{V}^\\pi(\\enfVar{s}')\\bigr]`}</Math>
       <p>
-        Без <Math display={false}>{`\\gamma < 1`}</Math> бесконечная сумма в определении <Math display={false}>{`V^\\pi`}</Math> часто расходится. Именно поэтому дисконтирование — <em>неотъемлемая часть</em> формулировки бесконечного горизонта RL.
+        Без <Math display={false}>{`\\enfPar{\\gamma} < 1`}</Math> бесконечная сумма в определении <Math display={false}>{`\\enfOp{V}^\\pi`}</Math> часто расходится. Именно поэтому дисконтирование — <em>неотъемлемая часть</em> формулировки бесконечного горизонта RL.
       </p>
 
       {/* 4.1 — Идея простыми словами */}
@@ -193,7 +193,7 @@ const Part1Limits = () => (
       <p>
         Для оптимальной политики <Math display={false}>{`\\pi^*`}</Math> и любого состояния <Math display={false}>{`s`}</Math>:
       </p>
-      <Math>{`V^*(s) = \\max_{a \\in A(s)} \\sum_{s'} P(s'|s,a)\\bigl[R(s,a,s') + \\gamma\\, V^*(s')\\bigr]`}</Math>
+      <Math>{`\\enfOp{V}^*(\\enfVar{s}) = \\max_{a \\in A(s)} \\sum_{s'} P(\\enfVar{s}' \\mid \\enfVar{s},a)\\bigl[\\enfTgt{R}(\\enfVar{s},a,\\enfVar{s}') + \\enfPar{\\gamma}\\, \\enfOp{V}^*(\\enfVar{s}')\\bigr]`}</Math>
 
       <div className="my-6 overflow-x-auto rounded-xl border border-primary/30 bg-card/60 backdrop-blur-sm">
         <table className="w-full text-sm">
@@ -205,7 +205,7 @@ const Part1Limits = () => (
           </thead>
           <tbody className="text-muted-foreground">
             <tr className="border-b border-border/30">
-              <td className="py-2 px-3"><Math display={false}>{`V^*(s)`}</Math></td>
+              <td className="py-2 px-3"><Math display={false}>{`\\enfOp{V}^*(\\enfVar{s})`}</Math></td>
               <td className="py-2 px-3">максимальная ожидаемая суммарная награда, начиная из состояния <Math display={false}>{`s`}</Math> и действуя оптимально</td>
             </tr>
             <tr className="border-b border-border/30">
@@ -218,10 +218,10 @@ const Part1Limits = () => (
             </tr>
             <tr className="border-b border-border/30">
               <td className="py-2 px-3"><Math display={false}>{`R(s,a,s')`}</Math></td>
-              <td className="py-2 px-3">немедленная награда за переход <Math display={false}>{`s \\to s'`}</Math> по действию <Math display={false}>{`a`}</Math></td>
+              <td className="py-2 px-3">немедленная награда за переход <Math display={false}>{`\\enfVar{s} \\to \\enfVar{s}'`}</Math> по действию <Math display={false}>{`a`}</Math></td>
             </tr>
             <tr className="border-b border-border/30">
-              <td className="py-2 px-3"><Math display={false}>{`\\gamma \\in [0,1)`}</Math></td>
+              <td className="py-2 px-3"><Math display={false}>{`\\enfPar{\\gamma} \\in [0,1)`}</Math></td>
               <td className="py-2 px-3">коэффициент дисконтирования будущего: чем ближе к 1, тем важнее далёкое будущее</td>
             </tr>
             <tr>
@@ -236,7 +236,7 @@ const Part1Limits = () => (
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="что-означает-формула">4.3 Что означает формула — по частям</h3>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 my-4">
         <div className="p-3 rounded-lg bg-primary/10 border border-primary/30">
-          <Math display={false}>{`V^*(s)`}</Math>
+          <Math display={false}>{`\\enfOp{V}^*(\\enfVar{s})`}</Math>
           <p className="text-xs text-muted-foreground mt-2">лучшая ценность состояния <Math display={false}>{`s`}</Math></p>
         </div>
         <div className="p-3 rounded-lg bg-secondary/10 border border-secondary/30">
@@ -244,7 +244,7 @@ const Part1Limits = () => (
           <p className="text-xs text-muted-foreground mt-2">выбираем действие <Math display={false}>{`a`}</Math>, которое даёт наибольшую ценность</p>
         </div>
         <div className="p-3 rounded-lg bg-accent/10 border border-accent/30">
-          <Math display={false}>{`\\sum_{s'} P(s'|s,a)`}</Math>
+          <Math display={false}>{`\\sum_{s'} P(\\enfVar{s}' \\mid \\enfVar{s},a)`}</Math>
           <p className="text-xs text-muted-foreground mt-2">учитываем все возможные следующие состояния и их вероятности</p>
         </div>
         <div className="p-3 rounded-lg bg-primary/10 border border-primary/30">
@@ -252,11 +252,11 @@ const Part1Limits = () => (
           <p className="text-xs text-muted-foreground mt-2">немедленная награда (польза прямо сейчас)</p>
         </div>
         <div className="p-3 rounded-lg bg-secondary/10 border border-secondary/30">
-          <Math display={false}>{`\\gamma\\, V^*(s')`}</Math>
+          <Math display={false}>{`\\enfPar{\\gamma}\\, \\enfOp{V}^*(\\enfVar{s}')`}</Math>
           <p className="text-xs text-muted-foreground mt-2">будущая ценность из <Math display={false}>{`s'`}</Math>, но <em>дисконтированная</em></p>
         </div>
         <div className="p-3 rounded-lg bg-accent/10 border border-accent/30">
-          <Math display={false}>{`[\\,R + \\gamma V^*\\,]`}</Math>
+          <Math display={false}>{`[\\,\\enfTgt{R} + \\enfPar{\\gamma} \\enfOp{V}^*\\,]`}</Math>
           <p className="text-xs text-muted-foreground mt-2">польза одного перехода = сейчас + будущее</p>
         </div>
       </div>
@@ -289,7 +289,7 @@ const Part1Limits = () => (
         </div>
       </div>
       <p>
-        Пусть ценность клетки <Math display={false}>{`+5`}</Math> равна <Math display={false}>{`5`}</Math>, ценность цели <Math display={false}>{`+10`}</Math> равна <Math display={false}>{`10`}</Math>, дисконт <Math display={false}>{`\\gamma = 0.9`}</Math>.
+        Пусть ценность клетки <Math display={false}>{`+5`}</Math> равна <Math display={false}>{`5`}</Math>, ценность цели <Math display={false}>{`+10`}</Math> равна <Math display={false}>{`10`}</Math>, дисконт <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math>.
       </p>
 
       <div className="grid md:grid-cols-2 gap-4 my-4">
@@ -305,21 +305,21 @@ const Part1Limits = () => (
       </div>
       <InfoBox variant="accent">
         <p className="text-sm">
-          ⭐ Берём максимум: <Math display={false}>{`V^*(s) = \\max(2.6,\\,8) = 8`}</Math> → <strong className="text-foreground">лучше идти вниз</strong> (действие <Math display={false}>{`a_2`}</Math>).
+          ⭐ Берём максимум: <Math display={false}>{`\\enfOp{V}^*(\\enfVar{s}) = \\max(2.6,\\,8) = 8`}</Math> → <strong className="text-foreground">лучше идти вниз</strong> (действие <Math display={false}>{`a_2`}</Math>).
         </p>
       </InfoBox>
 
       {/* 4.5 — Интуиция γ */}
-      <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="интуиция-gamma">4.5 Интуиция: роль <Math display={false}>{`\\gamma`}</Math></h3>
+      <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="интуиция-gamma">4.5 Интуиция: роль <Math display={false}>{`\\enfPar{\\gamma}`}</Math></h3>
       <ul className="list-disc list-inside space-y-2 text-sm">
         <li>
           🧭 <strong className="text-foreground">Сейчас выбираем действие</strong>, которое кажется лучшим не только сейчас, но и с учётом того, что будет дальше.
         </li>
         <li>
-          ⏱️ Если <Math display={false}>{`\\gamma`}</Math> <strong className="text-foreground">маленький</strong> (например 0.1) — важно только ближайшее будущее.
+          ⏱️ Если <Math display={false}>{`\\enfPar{\\gamma}`}</Math> <strong className="text-foreground">маленький</strong> (например 0.1) — важно только ближайшее будущее.
         </li>
         <li>
-          🔭 Если <Math display={false}>{`\\gamma`}</Math> <strong className="text-foreground">близок к 1</strong> (например 0.99) — важно и далёкое будущее.
+          🔭 Если <Math display={false}>{`\\enfPar{\\gamma}`}</Math> <strong className="text-foreground">близок к 1</strong> (например 0.99) — важно и далёкое будущее.
         </li>
         <li>
           ⚖️ Уравнение Беллмана «разбивает» сложную задачу на простые шаги: сначала считаем ценности всех следующих состояний, потом используем их для текущего.
@@ -332,19 +332,19 @@ const Part1Limits = () => (
         <div className="p-4 rounded-lg bg-card/60 border border-primary/30 hover:shadow-glow-cyan transition-shadow">
           <p className="text-sm font-semibold text-primary mb-2">📊 Оценка политики</p>
           <p className="text-xs text-muted-foreground">
-            <em>policy evaluation:</em> вычисляем <Math display={false}>{`V^\\pi(s)`}</Math> для фиксированной стратегии <Math display={false}>{`\\pi`}</Math> (без <Math display={false}>{`\\max`}</Math>).
+            <em>policy evaluation:</em> вычисляем <Math display={false}>{`\\enfOp{V}^\\pi(\\enfVar{s})`}</Math> для фиксированной стратегии <Math display={false}>{`\\pi`}</Math> (без <Math display={false}>{`\\max`}</Math>).
           </p>
         </div>
         <div className="p-4 rounded-lg bg-card/60 border border-secondary/30 hover:shadow-glow-purple transition-shadow">
           <p className="text-sm font-semibold text-secondary mb-2">🔄 Итерация ценности</p>
           <p className="text-xs text-muted-foreground">
-            <em>value iteration:</em> многократно применяем уравнение, пока значения не перестанут меняться → получаем <Math display={false}>{`V^*(s)`}</Math>.
+            <em>value iteration:</em> многократно применяем уравнение, пока значения не перестанут меняться → получаем <Math display={false}>{`\\enfOp{V}^*(\\enfVar{s})`}</Math>.
           </p>
         </div>
         <div className="p-4 rounded-lg bg-card/60 border border-accent/30">
           <p className="text-sm font-semibold text-accent mb-2">🎯 Извлечение стратегии</p>
           <p className="text-xs text-muted-foreground">
-            <em>policy extraction:</em> выбираем действие, которое давало максимум: <Math display={false}>{`\\pi^*(s) = \\arg\\max_a [\\,\\cdots]`}</Math>.
+            <em>policy extraction:</em> выбираем действие, которое давало максимум: <Math display={false}>{`\\pi^*(\\enfVar{s}) = \\arg\\max_a [\\,\\cdots]`}</Math>.
           </p>
         </div>
       </div>
@@ -354,7 +354,7 @@ const Part1Limits = () => (
       <p>
         Если состояния и действия непрерывны, суммы заменяются на интегралы:
       </p>
-      <Math>{`V^*(s) = \\max_{a \\in A(s)} \\int \\bigl[\\,R(s,a,s') + \\gamma\\, V^*(s')\\,\\bigr]\\, p(s'|s,a)\\, ds'`}</Math>
+      <Math>{`\\enfOp{V}^*(\\enfVar{s}) = \\max_{a \\in A(s)} \\int \\bigl[\\,\\enfTgt{R}(\\enfVar{s},a,\\enfVar{s}') + \\enfPar{\\gamma}\\, \\enfOp{V}^*(\\enfVar{s}')\\,\\bigr]\\, p(\\enfVar{s}' \\mid \\enfVar{s},a)\\, \\mathrm{d}s'`}</Math>
       <p>
         Здесь <Math display={false}>{`p(s'|s,a)`}</Math> — плотность вероятности перейти в <Math display={false}>{`s'`}</Math>. Идея та же самая.
       </p>
@@ -362,7 +362,7 @@ const Part1Limits = () => (
       {/* 4.8 — Существование и единственность */}
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="сходимость-беллмана">4.8 Почему решение существует</h3>
       <p>
-        Существование и единственность <Math display={false}>{`V^*`}</Math> гарантируются тем, что оператор Беллмана является <strong className="text-foreground">сжимающим отображением</strong> с коэффициентом <Math display={false}>{`\\gamma`}</Math>. По теореме Банаха о неподвижной точке, итеративное применение оператора сходится к единственному <Math display={false}>{`V^*`}</Math>.
+        Существование и единственность <Math display={false}>{`\\enfOp{V}^*`}</Math> гарантируются тем, что оператор Беллмана является <strong className="text-foreground">сжимающим отображением</strong> с коэффициентом <Math display={false}>{`\\enfPar{\\gamma}`}</Math>. По теореме Банаха о неподвижной точке, итеративное применение оператора сходится к единственному <Math display={false}>{`\\enfOp{V}^*`}</Math>.
       </p>
 
       {/* 4.9 — Главное в одной строке */}
@@ -380,7 +380,7 @@ const Part1Limits = () => (
           <span className="text-muted-foreground">→</span>
           <span className="px-2 py-1 rounded bg-primary/15 border border-primary/30 text-primary">награда <Math display={false}>{`R(s,a,s')`}</Math></span>
           <span className="text-muted-foreground">+</span>
-          <span className="px-2 py-1 rounded bg-secondary/15 border border-secondary/30 text-secondary">будущее <Math display={false}>{`\\gamma V^*(s')`}</Math></span>
+          <span className="px-2 py-1 rounded bg-secondary/15 border border-secondary/30 text-secondary">будущее <Math display={false}>{`\\enfPar{\\gamma} \\enfOp{V}^*(\\enfVar{s}')`}</Math></span>
           <span className="text-muted-foreground">→</span>
           <span className="px-2 py-1 rounded bg-accent/15 border border-accent/30 text-accent">берём максимум по действиям</span>
         </div>
@@ -392,7 +392,7 @@ const Part1Limits = () => (
       <p>
         Алгоритм <strong className="text-foreground">итерации ценности (Value Iteration)</strong> — это многократное применение оператора Беллмана:
       </p>
-      <Math>{`V_{k+1}(s) = \\max_a \\sum_{s'} P(s'|s,a)\\bigl[R(s,a,s') + \\gamma\\, V_k(s')\\bigr]`}</Math>
+      <Math>{`\\enfOp{V}_{k+1}(\\enfVar{s}) = \\max_a \\sum_{s'} P(\\enfVar{s}' \\mid \\enfVar{s},a)\\bigl[\\enfTgt{R}(\\enfVar{s},a,\\enfVar{s}') + \\enfPar{\\gamma}\\, \\enfOp{V}_k(\\enfVar{s}')\\bigr]`}</Math>
 
       <div className="relative group/mdp">
         <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3 cursor-pointer inline-block drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] hover:drop-shadow-[0_0_14px_rgba(255,255,255,0.8)] transition-all duration-300" id="пример-mdp-с-двумя-состояниями">Пример: MDP с двумя состояниями</h3>
@@ -405,7 +405,7 @@ const Part1Limits = () => (
         </div>
       </div>
       <p>
-        Рассмотрим простейшую MDP: из <Math display={false}>{`S_1`}</Math> агент переходит в <Math display={false}>{`S_2`}</Math> с наградой +2, из <Math display={false}>{`S_2`}</Math> — обратно в <Math display={false}>{`S_1`}</Math> с наградой 0. При <Math display={false}>{`\\gamma = 0.9`}</Math>:
+        Рассмотрим простейшую MDP: из <Math display={false}>{`S_1`}</Math> агент переходит в <Math display={false}>{`S_2`}</Math> с наградой +2, из <Math display={false}>{`S_2`}</Math> — обратно в <Math display={false}>{`S_1`}</Math> с наградой 0. При <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math>:
       </p>
       <Math>{`\\begin{cases} v_1 = 2 + 0.9 \\cdot v_2 \\\\ v_2 = 0 + 0.9 \\cdot v_1 \\end{cases}`}</Math>
       <p>
@@ -434,7 +434,7 @@ for i in range(1, 21):
       <InfoBox variant="primary">
         <p className="text-sm font-semibold text-primary mb-2">Свойство сходимости</p>
         <p className="text-sm">
-          Максимальная разница между текущими оценками и оптимальными уменьшается примерно в <Math display={false}>{`\\gamma = 0.9`}</Math> раза каждую итерацию — следствие контрактности оператора Беллмана. Через ~20 итераций значения практически совпадают с теоретическими.
+          Максимальная разница между текущими оценками и оптимальными уменьшается примерно в <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math> раза каждую итерацию — следствие контрактности оператора Беллмана. Через ~20 итераций значения практически совпадают с теоретическими.
         </p>
       </InfoBox>
     </Section>
@@ -442,14 +442,14 @@ for i in range(1, 21):
     {/* ── 6. Влияние γ ── */}
     <Section icon={<BarChart3 className="w-5 h-5 text-accent" />} title="6. Дисконтирование в RL и его влияние">
       <p>
-        С точки зрения рядов, <Math display={false}>{`\\gamma`}</Math> — это знаменатель прогрессии, от которого зависит сходимость и сумма. Чем <Math display={false}>{`\\gamma`}</Math> ближе к 1, тем медленнее ряд сходится (эффективный горизонт больше).
+        С точки зрения рядов, <Math display={false}>{`\\enfPar{\\gamma}`}</Math> — это знаменатель прогрессии, от которого зависит сходимость и сумма. Чем <Math display={false}>{`\\enfPar{\\gamma}`}</Math> ближе к 1, тем медленнее ряд сходится (эффективный горизонт больше).
       </p>
 
       <div className="my-6 overflow-x-auto">
         <table className="w-full text-sm border border-border/30 rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-card/60">
-              <th className="text-left p-3 text-foreground font-semibold border-b border-border/30"><Math display={false}>{`\\gamma`}</Math></th>
+              <th className="text-left p-3 text-foreground font-semibold border-b border-border/30"><Math display={false}>{`\\enfPar{\\gamma}`}</Math></th>
               <th className="text-left p-3 text-foreground font-semibold border-b border-border/30">Эффективный горизонт</th>
               <th className="text-left p-3 text-foreground font-semibold border-b border-border/30">Поведение</th>
             </tr>
@@ -469,7 +469,7 @@ for i in range(1, 21):
       <InfoBox variant="accent">
         <p className="text-sm font-semibold text-accent mb-2">Аналогия из финансов</p>
         <p className="text-sm">
-          Дисконтирование в RL аналогично <em>приведённой стоимости денег</em>: сегодня 1₽ ценится выше, чем обещание 1₽ через год. Если <Math display={false}>{`\\gamma = 0.95`}</Math> — это «5% годовых обесценивания», то бесконечный поток выплат по 1₽ стоит <Math display={false}>{`\\frac{1}{1-0.95} = 20`}</Math>₽ сейчас (perpetuity).
+          Дисконтирование в RL аналогично <em>приведённой стоимости денег</em>: сегодня 1₽ ценится выше, чем обещание 1₽ через год. Если <Math display={false}>{`\\enfPar{\\gamma} = 0.95`}</Math> — это «5% годовых обесценивания», то бесконечный поток выплат по 1₽ стоит <Math display={false}>{`\\frac{1}{1-0.95} = 20`}</Math>₽ сейчас (perpetuity).
         </p>
       </InfoBox>
     </Section>
@@ -481,11 +481,11 @@ for i in range(1, 21):
         <strong className="text-foreground">Задача:</strong> <Math display={false}>{`a_1 = 1`}</Math>, <Math display={false}>{`a_{n+1} = \\frac{1}{2}(a_n + 6)`}</Math>. Найти <Math display={false}>{`\\lim_{n \\to \\infty} a_n`}</Math>.
       </p>
       <p>
-        <strong className="text-foreground">Решение:</strong> Если <Math display={false}>{`a_n \\to L`}</Math>, то <Math display={false}>{`L = \\frac{1}{2}(L + 6)`}</Math>, откуда <Math display={false}>{`2L = L + 6`}</Math>, <Math display={false}>{`L = 6`}</Math>. Последовательность: 1, 3.5, 4.75, 5.375, … — монотонно стремится к 6.
+        <strong className="text-foreground">Решение:</strong> Если <Math display={false}>{`a_n \\to \\enfTgt{L}`}</Math>, то <Math display={false}>{`\\enfTgt{L} = \\frac{1}{2}(\\enfTgt{L} + 6)`}</Math>, откуда <Math display={false}>{`2L = L + 6`}</Math>, <Math display={false}>{`L = 6`}</Math>. Последовательность: 1, 3.5, 4.75, 5.375, … — монотонно стремится к 6.
       </p>
       <InfoBox variant="secondary">
         <p className="text-sm">
-          Это <em>неподвижная точка итерационного процесса</em> — аналогия с поиском <Math display={false}>{`V^*`}</Math> как неподвижной точки оператора Беллмана!
+          Это <em>неподвижная точка итерационного процесса</em> — аналогия с поиском <Math display={false}>{`\\enfOp{V}^*`}</Math> как неподвижной точки оператора Беллмана!
         </p>
       </InfoBox>
 
@@ -508,13 +508,13 @@ print(f"Сумма 50 членов: {s:.8f}")
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="7-3-дисконтированные-награды-в-rl">7.3 Дисконтированные награды в RL</h3>
       <p>
-        <strong className="text-foreground">Задача:</strong> Агент получает <Math display={false}>{`R = 1`}</Math> на каждом шаге бесконечного эпизода. Как зависит <Math display={false}>{`G_0`}</Math> от <Math display={false}>{`\\gamma`}</Math>?
+        <strong className="text-foreground">Задача:</strong> Агент получает <Math display={false}>{`R = 1`}</Math> на каждом шаге бесконечного эпизода. Как зависит <Math display={false}>{`\\enfOp{G}_0`}</Math> от <Math display={false}>{`\\enfPar{\\gamma}`}</Math>?
       </p>
-      <Math>{`G_0 = \\sum_{k=0}^{\\infty} \\gamma^k = \\frac{1}{1 - \\gamma}`}</Math>
+      <Math>{`\\enfOp{G}_0 = \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^k = \\frac{1}{1 - \\enfPar{\\gamma}}`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="7-4-конвергенция-q-обучения">7.4 Конвергенция Q-обучения</h3>
       <p>
-        Обновление Q-learning <Math display={false}>{`Q_{k+1}(s,a) = (1-\\alpha)Q_k(s,a) + \\alpha[R + \\gamma \\max_{a'} Q_k(s',a')]`}</Math> — стохастический аппроксимационный процесс, сходящийся к <Math display={false}>{`Q^*(s,a)`}</Math> при убывающем <Math display={false}>{`\\alpha`}</Math>. В основе — тот же контракционный оператор.
+        Обновление Q-learning <Math display={false}>{`\\enfOp{Q}_{k+1}(\\enfVar{s},a) = (1-\\enfPar{\\alpha})\\enfOp{Q}_k(\\enfVar{s},a) + \\enfPar{\\alpha}[\\enfTgt{R} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}_k(\\enfVar{s}',a')]`}</Math> — стохастический аппроксимационный процесс, сходящийся к <Math display={false}>{`\\enfOp{Q}^*(\\enfVar{s},a)`}</Math> при убывающем <Math display={false}>{`\\enfPar{\\alpha}`}</Math>. В основе — тот же контракционный оператор.
       </p>
     </Section>
 
@@ -522,24 +522,24 @@ print(f"Сумма 50 членов: {s:.8f}")
     <Section icon={<Code2 className="w-5 h-5 text-secondary" />} title="8. Интерактивные визуализации сходимости">
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-4 mb-3" id="8-1-сходимость-геометрического-ряда">8.1 Сходимость геометрического ряда</h3>
       <p>
-        Частичная сумма <Math display={false}>{`S_N = \\sum_{t=0}^{N} \\gamma^t`}</Math> для разных <Math display={false}>{`\\gamma`}</Math>. Перемещайте слайдеры, чтобы наблюдать зависимость скорости сходимости от <Math display={false}>{`\\gamma`}</Math>:
+        Частичная сумма <Math display={false}>{`S_N = \\sum_{t=0}^{N} \\enfPar{\\gamma}^t`}</Math> для разных <Math display={false}>{`\\enfPar{\\gamma}`}</Math>. Перемещайте слайдеры, чтобы наблюдать зависимость скорости сходимости от <Math display={false}>{`\\enfPar{\\gamma}`}</Math>:
       </p>
 
       <GeometricSeriesChart />
 
       <p>
-        При <Math display={false}>{`\\gamma = 0.5`}</Math> ряд сходится за ~6 членов. При <Math display={false}>{`\\gamma = 0.9`}</Math> — значительно медленнее, к N=30 приближаясь к ~9.58 (предел 10). Это аналог «длинного хвоста» учёта будущего в RL.
+        При <Math display={false}>{`\\enfPar{\\gamma} = 0.5`}</Math> ряд сходится за ~6 членов. При <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math> — значительно медленнее, к N=30 приближаясь к ~9.58 (предел 10). Это аналог «длинного хвоста» учёта будущего в RL.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="8-2-визуализация-итерации-ценности">8.2 Визуализация итерации ценности</h3>
       <p>
-        Наблюдайте, как значения <Math display={false}>{`V(S_1)`}</Math> и <Math display={false}>{`V(S_2)`}</Math> сходятся к оптимуму в MDP с двумя состояниями. Измените <Math display={false}>{`\\gamma`}</Math>, чтобы увидеть влияние на скорость и характер сходимости:
+        Наблюдайте, как значения <Math display={false}>{`\\enfOp{V}(S_1)`}</Math> и <Math display={false}>{`\\enfOp{V}(S_2)`}</Math> сходятся к оптимуму в MDP с двумя состояниями. Измените <Math display={false}>{`\\enfPar{\\gamma}`}</Math>, чтобы увидеть влияние на скорость и характер сходимости:
       </p>
 
       <ValueIterationChart />
 
       <p>
-        Значения осциллируют, но расстояние до предела убывает ~в <Math display={false}>{`\\gamma`}</Math> раза каждую итерацию — визуальное подтверждение <strong className="text-foreground">контрактности оператора Беллмана</strong>.
+        Значения осциллируют, но расстояние до предела убывает ~в <Math display={false}>{`\\enfPar{\\gamma}`}</Math> раза каждую итерацию — визуальное подтверждение <strong className="text-foreground">контрактности оператора Беллмана</strong>.
       </p>
     </Section>
 
@@ -594,7 +594,7 @@ print(f"Сумма 50 членов: {s:.8f}")
           <span className="text-xs text-muted-foreground">Применение в RL</span>
         </div>
         <p><strong className="text-foreground">Условие.</strong> В процессе Q-learning ошибка агента на <Math display={false}>{`n`}</Math>-м шаге:</p>
-        <Math>{`\\varepsilon_n = 0{,}5^n + \\frac{1}{n+1}`}</Math>
+        <Math>{`\\enfPar{\\varepsilon}_n = 0{,}5^n + \\frac{1}{n+1}`}</Math>
         <p>К какому значению стремится ошибка при <Math display={false}>{`n \\to \\infty`}</Math>?</p>
         <details className="text-sm">
           <summary className="text-accent cursor-pointer hover:text-accent/80">💡 Подсказка</summary>
@@ -603,7 +603,7 @@ print(f"Сумма 50 членов: {s:.8f}")
         <details className="text-sm">
           <summary className="text-accent cursor-pointer hover:text-accent/80">📝 Решение</summary>
           <div className="mt-2 space-y-2">
-            <Math>{`\\lim_{n \\to \\infty} \\varepsilon_n = \\lim_{n \\to \\infty} 0{,}5^n + \\lim_{n \\to \\infty} \\frac{1}{n+1} = 0 + 0 = 0`}</Math>
+            <Math>{`\\lim_{n \\to \\infty} \\enfPar{\\varepsilon}_n = \\lim_{n \\to \\infty} 0{,}5^n + \\lim_{n \\to \\infty} \\frac{1}{n+1} = 0 + 0 = 0`}</Math>
             <p><span className="inline-block px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-sm font-bold">Ответ: 0</span></p>
             <p className="text-muted-foreground">Ошибка агента стремится к нулю — это математическое основание <strong className="text-foreground">сходимости Q-learning</strong>.</p>
           </div>
@@ -612,12 +612,12 @@ print(f"Сумма 50 членов: {s:.8f}")
 
       <InfoBox variant="accent">
         <p className="text-sm font-semibold text-accent mb-2">Теорема о сэндвиче (Squeeze Theorem)</p>
-        <p className="text-sm">Если <Math display={false}>{`a_n \\le b_n \\le c_n`}</Math> и <Math display={false}>{`\\lim a_n = \\lim c_n = L`}</Math>, то <Math display={false}>{`\\lim b_n = L`}</Math>. Используется в доказательстве сходимости TD-методов.</p>
+        <p className="text-sm">Если <Math display={false}>{`a_n \\le b_n \\le c_n`}</Math> и <Math display={false}>{`\\lim a_n = \\lim c_n = \\enfTgt{L}`}</Math>, то <Math display={false}>{`\\lim b_n = \\enfTgt{L}`}</Math>. Используется в доказательстве сходимости TD-методов.</p>
       </InfoBox>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="связь-с-rl-условия-роббинса-монро">🔗 Связь с RL: условия Роббинса-Монро</h3>
       <p>
-        Сходимость последовательностей — фундамент теорем о сходимости RL. При выполнении условий <strong className="text-foreground">Роббинса-Монро</strong> (<Math display={false}>{`\\sum \\alpha_t = \\infty`}</Math>, <Math display={false}>{`\\sum \\alpha_t^2 < \\infty`}</Math>) TD-ошибка <Math display={false}>{`\\delta_t`}</Math> образует <strong className="text-primary">сходящуюся последовательность</strong>: <Math display={false}>{`\\delta_t \\to 0`}</Math>.
+        Сходимость последовательностей — фундамент теорем о сходимости RL. При выполнении условий <strong className="text-foreground">Роббинса-Монро</strong> (<Math display={false}>{`\\sum \\enfPar{\\alpha}_t = \\infty`}</Math>, <Math display={false}>{`\\sum \\enfPar{\\alpha}_t^2 < \\infty`}</Math>) TD-ошибка <Math display={false}>{`\\delta_t`}</Math> образует <strong className="text-primary">сходящуюся последовательность</strong>: <Math display={false}>{`\\delta_t \\to 0`}</Math>.
       </p>
       <p>Это математическое доказательство того, что Q-learning находит оптимум.</p>
 

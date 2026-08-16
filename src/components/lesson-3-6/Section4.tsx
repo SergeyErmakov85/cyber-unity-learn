@@ -18,9 +18,9 @@ const Section4 = () => (
       Причина — <strong>низкая эффективная размерность (low effective dimensionality)</strong>. На
       практике из десятка гиперпараметров на качество сильно влияют лишь немногие, и какие именно
       — заранее неизвестно и меняется от задачи к задаче. Формально: для{" "}
-      <Math display={false}>{String.raw`\boldsymbol{\lambda} = (\lambda_1, \lambda_2)`}</Math> часто
+      <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}} = (\enfPar{\lambda}_1, \enfPar{\lambda}_2)`}</Math> часто
       оказывается, что{" "}
-      <Math display={false}>{String.raw`f(\boldsymbol{\lambda}) \approx g(\lambda_1)`}</Math> — то
+      <Math display={false}>{String.raw`\enfFun{f}(\boldsymbol{\enfPar{\lambda}}) \approx \enfFun{g}(\enfPar{\lambda}_1)`}</Math> — то
       есть вторая ось почти не важна.
     </ProseP>
 

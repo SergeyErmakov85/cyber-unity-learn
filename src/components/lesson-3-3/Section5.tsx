@@ -44,12 +44,12 @@ const Section5 = () => (
       <Math display={false}>{String.raw`P_\phi`}</Math> над параметрами среды: по каждой из{" "}
       <Math display={false}>{String.raw`d`}</Math> размерностей — равномерное распределение между
       обучаемыми границами{" "}
-      <Math display={false}>{String.raw`[\phi_i^L, \phi_i^H]`}</Math>. Итого{" "}
+      <Math display={false}>{String.raw`[\enfPar{\phi}_i^L, \enfPar{\phi}_i^H]`}</Math>. Итого{" "}
       <Math display={false}>{String.raw`2d`}</Math> настраиваемых чисел (нижняя и верхняя граница на
       каждый параметр):
     </ProseP>
 
-    <Math>{String.raw`P_\phi(\lambda) \;=\; \prod_{i=1}^{d} \mathcal{U}\big(\phi_i^L,\, \phi_i^H\big).`}</Math>
+    <Math>{String.raw`P_\phi(\enfPar{\lambda}) \;=\; \prod_{i=1}^{d} \mathcal{U}\big(\enfPar{\phi}_i^L,\, \enfPar{\phi}_i^H\big).`}</Math>
 
     <ProseP>
       Расширение границ управляется приёмом <strong>boundary sampling</strong>: с некоторой
@@ -82,11 +82,11 @@ const Section5 = () => (
       шире, разнообразнее распределение):
     </ProseP>
 
-    <Math>{String.raw`H(P_\phi) \;=\; -\,\frac{1}{d}\int P_\phi(\lambda)\,\log P_\phi(\lambda)\,d\lambda.`}</Math>
+    <Math>{String.raw`H(P_\phi) \;=\; -\,\frac{1}{d}\int P_\phi(\enfPar{\lambda})\,\log P_\phi(\enfPar{\lambda})\,d\enfPar{\lambda}.`}</Math>
 
     <ProseP>
       Для факторизованных равномерных распределений она растёт с шириной диапазонов{" "}
-      <Math display={false}>{String.raw`\sum_i \log(\phi_i^H - \phi_i^L)`}</Math>: расширили границу →
+      <Math display={false}>{String.raw`\sum_i \log(\enfPar{\phi}_i^H - \enfPar{\phi}_i^L)`}</Math>: расширили границу →
       энтропия поднялась. По сути ADR-энтропия — это «номер урока» для рандомизации. (О связи энтропии и
       распределений см. хаб{" "}
       <CrossLinkToHub
@@ -135,10 +135,10 @@ const Section5 = () => (
     <InteractiveStub title="Интерактив (рекомендация): «Расширение границ ADR»">
       Горизонтальная ось параметра (например, сцепление{" "}
       <Math display={false}>{String.raw`\mu`}</Math>) с текущим диапазоном{" "}
-      <Math display={false}>{String.raw`[\phi^L,\phi^H]`}</Math>; слайдеры{" "}
+      <Math display={false}>{String.raw`[\enfPar{\phi}^L,\enfPar{\phi}^H]`}</Math>; слайдеры{" "}
       <Math display={false}>{String.raw`t_L`}</Math>, <Math display={false}>{String.raw`t_H`}</Math> и
       «текущая успешность на границе»; кнопка «оценить границу» сдвигает{" "}
-      <Math display={false}>{String.raw`\phi^L/\phi^H`}</Math> наружу или внутрь по правилу ADR; рядом
+      <Math display={false}>{String.raw`\enfPar{\phi}^L/\enfPar{\phi}^H`}</Math> наружу или внутрь по правилу ADR; рядом
       счётчик ADR-энтропии. Видно, как агрессивные пороги «разносят» диапазон, а строгие — держат узким.
       JSX с анимацией расширения/сжатия.
     </InteractiveStub>

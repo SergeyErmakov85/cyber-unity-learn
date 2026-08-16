@@ -52,12 +52,12 @@ const A3CModule = () => {
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Policy Gradient с Advantage</h3>
-                  <Math>{"\\nabla_\\theta J(\\theta) = \\mathbb{E}\\left[ \\nabla_\\theta \\log \\pi_\\theta(a_t|s_t) \\cdot A(s_t, a_t) \\right]"}</Math>
+                  <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}\\left[ \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot A(\\enfVar{s}_t, a_t) \\right]"}</Math>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Advantage Function</h3>
-                  <Math>{"A(s_t, a_t) = r_t + \\gamma V(s_{t+1}) - V(s_t)"}</Math>
+                  <Math>{"A(\\enfVar{s}_t, a_t) = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
                   <p className="text-sm text-muted-foreground mt-1">
                     Advantage показывает насколько действие лучше «среднего» — critic V(s) оценивает baseline.
                   </p>

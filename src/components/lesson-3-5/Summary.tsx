@@ -32,7 +32,7 @@ const Summary = () => (
       <li>
         <strong>Behavior Type = Inference Only</strong> для прода; <strong>Decision Period</strong>{" "}
         <Math display={false}>{String.raw`d`}</Math> задаёт частоту решений{" "}
-        <Math display={false}>{String.raw`f_{\text{decision}}=f_{\text{env}}/d`}</Math> и должен
+        <Math display={false}>{String.raw`\enfFun{f}_{\text{decision}}=\enfFun{f}_{\text{env}}/d`}</Math> и должен
         совпадать с обучением; <strong>детерминированный</strong> инференс убирает сэмплирование (
         <Math display={false}>{String.raw`\arg\max`}</Math> вместо{" "}
         <Math display={false}>{String.raw`\sim\pi_\theta`}</Math>).

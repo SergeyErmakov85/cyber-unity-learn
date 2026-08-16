@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { KATEX_OPTIONS } from "@/lib/katex-options";
 
 /* ═══════════════════════════════════════════════════
    NEON UNITY NEURAL — Функция ценности V(s)
@@ -51,7 +52,11 @@ function Tex({ children, display = false, size = 1.15, color }: {
     loadKatex().then((katex) => {
       if (!katex) { setHtml(""); return; }
       try {
-        setHtml(katex.renderToString(children, { displayMode: display, throwOnError: false }));
+        // KATEX_OPTIONS несёт макросы ролей ENF (\enfVar и др.). Без них
+        // раскраска молча не сработает — формула останется одноцветной.
+        setHtml(
+          katex.renderToString(children, { ...KATEX_OPTIONS, displayMode: display })
+        );
       } catch { setHtml(""); }
     });
   }, [children, display]);
@@ -280,8 +285,11 @@ const ValueFunctionViz = () => {
   const numericParts = steps.map((s, i) =>
     `${i > 0 ? " + " : ""}${s.disc.toFixed(3)} \\cdot (${s.reward >= 0 ? "+" : ""}${s.reward})`
   ).join("");
+  // Вклады — это награды, то есть роль target (ENF-COLOR-010). Знак «+»/«−»
+  // печатается явно и служит вторым признаком, поэтому пара «зелёное/красное»
+  // как единственное отличие не нужна и запрещена (ENF-COLOR-041).
   const contribParts = steps.map((s, i) =>
-    `${i > 0 ? " + " : ""}\\textcolor{${s.contrib >= 0 ? "#34D399" : "#F87171"}}{${s.contrib >= 0 ? "+" : ""}${s.contrib.toFixed(3)}}`
+    `${i > 0 ? " + " : ""}\\enfTgt{${s.contrib >= 0 ? "+" : ""}${s.contrib.toFixed(3)}}`
   ).join("");
 
   return (
@@ -434,7 +442,7 @@ const ValueFunctionViz = () => {
                   <Tex display size={1.1} color={C.txtDim}>{`= ${numericParts}`}</Tex>
                 </div>
                 <div>
-                  <Tex display size={1.2}>{`= ${contribParts} = \\textcolor{#00FFD6}{\\mathbf{${G.toFixed(3)}}}`}</Tex>
+                  <Tex display size={1.2}>{`= ${contribParts} = \\enfOp{\\mathbf{${G.toFixed(3)}}}`}</Tex>
                 </div>
               </div>
             </div>

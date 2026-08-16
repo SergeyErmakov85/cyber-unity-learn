@@ -146,18 +146,18 @@ const IntroSection = () => (
           <strong>Behavioral Cloning</strong> — обычное supervised-обучение на парах{" "}
           <Math display={false}>{String.raw`(s,a)`}</Math> эксперта; страдает от{" "}
           <strong>covariate shift</strong>: по теореме 2.1 Ross &amp; Bagnell (2010) ошибка растёт как{" "}
-          <Math display={false}>{String.raw`O(T^2\epsilon)`}</Math> против{" "}
-          <Math display={false}>{String.raw`O(T\epsilon)`}</Math> у методов со средой. Поэтому BC в
+          <Math display={false}>{String.raw`O(T^2\enfPar{\epsilon})`}</Math> против{" "}
+          <Math display={false}>{String.raw`O(T\enfPar{\epsilon})`}</Math> у методов со средой. Поэтому BC в
           ML-Agents — это <strong>warmup</strong>, а не самостоятельный метод.
         </>,
         <>
           <strong>GAIL</strong> (Ho &amp; Ermon, 2016) выводится из max-entropy IRL через{" "}
           <em>occupancy measure</em> и сводит имитацию к GAN-минимаксу{" "}
           <Math display={false}>
-            {String.raw`\min_\pi\max_D \mathbb{E}_\pi[\log D]+\mathbb{E}_{\pi_E}[\log(1-D)]-\lambda H(\pi)`}
+            {String.raw`\min_\pi\max_D \mathbb{E}_\pi[\log \enfFun{D}]+\mathbb{E}_{\pi_E}[\log(1-\enfFun{D})]-\enfPar{\lambda} \enfOp{H}(\pi)`}
           </Math>
           {" "}с наградой{" "}
-          <Math display={false}>{String.raw`r(s,a)=-\log(1-D(s,a))`}</Math>; на порядок экономнее по
+          <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s},a)=-\log(1-\enfFun{D}(\enfVar{s},a))`}</Math>; на порядок экономнее по
           числу демо, чем классический IRL.
         </>,
         <>

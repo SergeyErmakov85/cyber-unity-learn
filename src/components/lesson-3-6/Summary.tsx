@@ -10,7 +10,7 @@ const Summary = () => (
     <ul className="space-y-3 my-4 list-disc list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>
         <strong>Задача HPO:</strong>{" "}
-        <Math display={false}>{String.raw`\boldsymbol{\lambda}^{\star} = \arg\max_{\boldsymbol{\lambda}} f(\boldsymbol{\lambda})`}</Math>
+        <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}^{\star} = \arg\max_{\boldsymbol{\lambda}} \enfFun{f}(\boldsymbol{\enfPar{\lambda}})`}</Math>
         , где <Math display={false}>{String.raw`f`}</Math> — дорогой, шумный чёрный ящик; бюджет
         считаем в числе испытаний.
       </li>
@@ -29,8 +29,8 @@ const Summary = () => (
       <li>
         <strong>TPE</strong> — дешёвый (<Math display={false}>{String.raw`O(n)`}</Math>) суррогат
         через две плотности:{" "}
-        <Math display={false}>{String.raw`\mathrm{EI} \propto \big(\gamma + \tfrac{g}{\ell}(1-\gamma)\big)^{-1}`}</Math>
-        , максимизируем <Math display={false}>{String.raw`\ell/g`}</Math>. Дефолтный сэмплер
+        <Math display={false}>{String.raw`\mathrm{EI} \propto \big(\enfPar{\gamma} + \tfrac{\enfFun{g}}{\enfFun{\ell}}(1-\enfPar{\gamma})\big)^{-1}`}</Math>
+        , максимизируем <Math display={false}>{String.raw`\enfFun{\ell}/\enfFun{g}`}</Math>. Дефолтный сэмплер
         Optuna.
       </li>
       <li>

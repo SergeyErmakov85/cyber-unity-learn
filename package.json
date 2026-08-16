@@ -15,7 +15,8 @@
     "textbook:sync": "node scripts/sync-textbook.mjs && npm run textbook:index",
     "textbook:check": "node scripts/sync-textbook.mjs --check",
     "textbook:audit": "node scripts/textbook-audit.mjs",
-    "audit:links": "node scripts/link-audit.mjs"
+    "audit:links": "node scripts/link-audit.mjs",
+    "math:audit": "node scripts/math-audit.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

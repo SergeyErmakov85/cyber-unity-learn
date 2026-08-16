@@ -41,15 +41,15 @@ const Chapter6 = () => (
 
     <h3 id="td-обучение-величайший-прорыв" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">TD-обучение: величайший прорыв</h3>
     <p>
-      Мы делаем один шаг, получаем <Math display={false}>{"R_{t+1}"}</Math>, смотрим на оценку нового состояния <Math display={false}>{"V(S_{t+1})"}</Math> и используем сумму как «цель» (Target):
+      Мы делаем один шаг, получаем <Math display={false}>{"\\enfTgt{R}_{t+1}"}</Math>, смотрим на оценку нового состояния <Math display={false}>{"\\enfOp{V}(S_{t+1})"}</Math> и используем сумму как «цель» (Target):
     </p>
-    <Math>{"V(S_t) \\leftarrow V(S_t) + \\alpha \\left[ \\underbrace{R_{t+1} + \\gamma V(S_{t+1})}_{\\text{TD Target}} - V(S_t) \\right]"}</Math>
+    <Math>{"\\enfOp{V}(S_t) \\leftarrow \\enfOp{V}(S_t) + \\enfPar{\\alpha} \\left[ \\underbrace{\\enfTgt{R}_{t+1} + \\enfPar{\\gamma} \\enfOp{V}(S_{t+1})}_{\\text{TD Target}} - \\enfOp{V}(S_t) \\right]"}</Math>
     <p>
       Разница между целью и текущей оценкой — <strong className="text-primary">ошибка TD</strong>:
     </p>
-    <Math>{"\\delta_t = R_{t+1} + \\gamma V(S_{t+1}) - V(S_t)"}</Math>
+    <Math>{"\\delta_t = \\enfTgt{R}_{t+1} + \\enfPar{\\gamma} \\enfOp{V}(S_{t+1}) - \\enfOp{V}(S_t)"}</Math>
     <p>
-      Коэффициент <Math display={false}>{"\\alpha"}</Math> (Learning Rate) определяет, насколько сильно мы готовы изменить старую оценку. Обновление оценок на основе других оценок называется <strong className="text-foreground">бутстраппингом</strong>.
+      Коэффициент <Math display={false}>{"\\enfPar{\\alpha}"}</Math> (Learning Rate) определяет, насколько сильно мы готовы изменить старую оценку. Обновление оценок на основе других оценок называется <strong className="text-foreground">бутстраппингом</strong>.
     </p>
 
     <h3 id="sarsa-vs-q-learning" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">SARSA vs Q-learning</h3>
@@ -57,13 +57,13 @@ const Chapter6 = () => (
     <InfoBox>
       <p className="font-semibold text-foreground mb-2">SARSA (On-policy)</p>
       <p className="text-sm mb-2">Обновляет Q-значение, предполагая, что агент продолжит следовать текущей (исследующей) политике:</p>
-      <Math>{"Q(S_t, A_t) \\leftarrow Q(S_t, A_t) + \\alpha\\left[ R_{t+1} + \\gamma\\, Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t) \\right]"}</Math>
+      <Math>{"\\enfOp{Q}(S_t, A_t) \\leftarrow \\enfOp{Q}(S_t, A_t) + \\enfPar{\\alpha}\\left[ \\enfTgt{R}_{t+1} + \\enfPar{\\gamma}\\, \\enfOp{Q}(S_{t+1}, A_{t+1}) - \\enfOp{Q}(S_t, A_t) \\right]"}</Math>
     </InfoBox>
 
     <InfoBox variant="secondary">
       <p className="font-semibold text-foreground mb-2">Q-learning (Off-policy)</p>
       <p className="text-sm mb-2">Обновляет Q-значение так, как будто на следующем шаге агент гарантированно выберет лучшее действие — прямо зашит оператор <Math display={false}>{"\\max"}</Math> из уравнения оптимальности Беллмана:</p>
-      <Math>{"Q(S_t, A_t) \\leftarrow Q(S_t, A_t) + \\alpha\\left[ R_{t+1} + \\gamma \\max_{a'} Q(S_{t+1}, a') - Q(S_t, A_t) \\right]"}</Math>
+      <Math>{"\\enfOp{Q}(S_t, A_t) \\leftarrow \\enfOp{Q}(S_t, A_t) + \\enfPar{\\alpha}\\left[ \\enfTgt{R}_{t+1} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(S_{t+1}, a') - \\enfOp{Q}(S_t, A_t) \\right]"}</Math>
     </InfoBox>
 
     <TDErrorViz />

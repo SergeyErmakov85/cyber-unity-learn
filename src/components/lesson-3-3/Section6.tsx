@@ -30,20 +30,20 @@ const Section6 = () => (
       Идея PLR: вести распределение над <em>уже виденными</em> уровнями и переигрывать те, у которых
       выше <strong>учебный потенциал</strong> (learning potential) — то есть где агенту сейчас есть чему
       поучиться. Как измерить потенциал? Удачным оказался сигнал, который мы уже знаем по PPO:{" "}
-      <strong>средняя величина преимущества</strong> <Math display={false}>{String.raw`|\hat A_t|`}</Math>{" "}
+      <strong>средняя величина преимущества</strong> <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math>{" "}
       — тот самый GAE из{" "}
       <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="ppo" hubTitle="Урок 3.1 — PPO">
         урока 3.1
       </CrossLinkToHub>
       . По сути это L1-ошибка ценности (L1 value loss): большое{" "}
-      <Math display={false}>{String.raw`|\hat A_t|`}</Math> означает, что критик сильно ошибается на этом
+      <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math> означает, что критик сильно ошибается на этом
       уровне — там «сюрприз», там обучение даст больше всего:
     </ProseP>
 
-    <Math>{String.raw`S_l \;=\; \frac{1}{T}\sum_{t=0}^{T-1} \big|\hat A_t^{\text{GAE}}\big| \qquad (\text{учебный потенциал уровня } l).`}</Math>
+    <Math>{String.raw`\enfOp{S}_l \;=\; \frac{1}{T}\sum_{t=0}^{T-1} \big|\enfOp{\hat{A}}_t^{\text{GAE}}\big| \qquad (\text{учебный потенциал уровня } l).`}</Math>
 
     <ProseP>
-      Дальше — тонкость, без которой PLR ломается. Балл <Math display={false}>{String.raw`S_l`}</Math>{" "}
+      Дальше — тонкость, без которой PLR ломается. Балл <Math display={false}>{String.raw`\enfOp{S}_l`}</Math>{" "}
       устаревает: его посчитали давно, политика с тех пор изменилась. Чтобы не переигрывать уровни на
       основе протухших оценок, PLR смешивает распределение <strong>по баллу</strong>{" "}
       <Math display={false}>{String.raw`P_S`}</Math> с распределением <strong>по свежести</strong>{" "}
@@ -51,7 +51,7 @@ const Section6 = () => (
       давно не пересчитывавшихся:
     </ProseP>
 
-    <Math>{String.raw`\boxed{\,P_{\text{replay}}(l) \;=\; (1-\rho)\,P_S(l \mid \Lambda_{\text{seen}}, S) \;+\; \rho\,P_C(l \mid \Lambda_{\text{seen}}, C, c)\,}`}</Math>
+    <Math>{String.raw`\boxed{\,P_{\text{replay}}(l) \;=\; (1-\rho)\,P_S(l \mid \Lambda_{\text{seen}}, \enfOp{S}) \;+\; \rho\,P_C(l \mid \Lambda_{\text{seen}}, C, c)\,}`}</Math>
 
     <ProseP>
       где <Math display={false}>{String.raw`\rho`}</Math> — коэффициент свежести (
@@ -71,7 +71,7 @@ const Section6 = () => (
       Замечательно, что <strong>никто не задавал лестницу сложности</strong> — а на лабиринтах MiniGrid
       PLR сам порождает <strong>неявный учебный план</strong> от простых уровней к трудным: пока трудные
       уровни агенту не по зубам, их потенциал (ошибка критика) низок, и PLR их откладывает; как только
-      агент дорос — их <Math display={false}>{String.raw`|\hat A_t|`}</Math> взлетает, и PLR начинает их
+      агент дорос — их <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math> взлетает, и PLR начинает их
       подсовывать.
     </ProseP>
 
@@ -91,7 +91,7 @@ const Section6 = () => (
           управляем только тем, <strong>что переигрывать</strong>.
         </>,
         <>
-          Учебный потенциал уровня ≈ средний <Math display={false}>{String.raw`|\hat A_t|`}</Math>{" "}
+          Учебный потенциал уровня ≈ средний <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math>{" "}
           (<strong>L1 value loss</strong> ≈ |GAE| из{" "}
           <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="ppo" hubTitle="Урок 3.1 — PPO">
             урока 3.1

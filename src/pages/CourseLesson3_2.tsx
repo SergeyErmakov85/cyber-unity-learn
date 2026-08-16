@@ -530,29 +530,29 @@ const CourseLesson3_2 = () => {
           <h3 className={H3_CLASS}>Формальная постановка</h3>
           <p className="text-foreground/90 leading-relaxed">
             Многоагентная задача формализуется как <strong className="text-foreground">decentralized-POMDP</strong> —
-            кортеж <Math display={false}>{String.raw`(N, \mathcal{S}, \mathcal{O}, \mathcal{A}, P, r, \gamma)`}</Math>, где:
+            кортеж <Math display={false}>{String.raw`(N, \mathcal{S}, \mathcal{O}, \mathcal{A}, P, \enfTgt{r}, \enfPar{\gamma})`}</Math>, где:
           </p>
           <ul className="space-y-1.5 mt-2 text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><Math display={false}>{String.raw`N`}</Math> — число агентов (может быть переменным),</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><Math display={false}>{String.raw`\mathcal{S}`}</Math> — глобальное пространство состояний среды,</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><Math display={false}>{String.raw`\mathcal{O} = \mathcal{O}_1 \times \cdots \times \mathcal{O}_N`}</Math> — совместное пространство наблюдений,</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><Math display={false}>{String.raw`\mathcal{A} = \mathcal{A}_1 \times \cdots \times \mathcal{A}_N`}</Math> — совместное пространство действий,</span></li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><Math display={false}>{String.raw`P`}</Math> — функция переходов, <Math display={false}>{String.raw`r(s, \mathbf{a})`}</Math> — <strong className="text-foreground">общая</strong> функция награды, <Math display={false}>{String.raw`\gamma`}</Math> — дисконт.</span></li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><Math display={false}>{String.raw`P`}</Math> — функция переходов, <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s}, \mathbf{a})`}</Math> — <strong className="text-foreground">общая</strong> функция награды, <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> — дисконт.</span></li>
           </ul>
           <p className="text-foreground/90 leading-relaxed mt-3">
             Ключевое слово — <strong className="text-foreground">decentralized</strong>: агент{" "}
             <Math display={false}>{String.raw`i`}</Math> в момент <Math display={false}>{String.raw`t`}</Math> видит только своё
-            локальное наблюдение <Math display={false}>{String.raw`o^i_t`}</Math>, коррелирующее с{" "}
-            <Math display={false}>{String.raw`s_t`}</Math>, но не сам глобальный <Math display={false}>{String.raw`s_t`}</Math>.
+            локальное наблюдение <Math display={false}>{String.raw`\enfVar{o}^i_t`}</Math>, коррелирующее с{" "}
+            <Math display={false}>{String.raw`\enfVar{s}_t`}</Math>, но не сам глобальный <Math display={false}>{String.raw`\enfVar{s}_t`}</Math>.
             Совместная политика факторизуется:
           </p>
-          <Math>{String.raw`\pi(\mathbf{a}_t \mid \mathbf{o}_t) = \prod_{i=1}^{N} \pi_i(a^i_t \mid o^i_t),`}</Math>
+          <Math>{String.raw`\pi(\mathbf{a}_t \mid \mathbf{\enfVar{o}}_t) = \prod_{i=1}^{N} \pi_i(a^i_t \mid \enfVar{o}^i_t),`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">— каждый агент действует по своим наблюдениям, независимо.</p>
 
           <h3 className={H3_CLASS}>Нестационарность среды</h3>
           <p className="text-foreground/90 leading-relaxed">
             Из-за совместного обучения среда с точки зрения агента <Math display={false}>{String.raw`i`}</Math> нестационарна:
-            переход <Math display={false}>{String.raw`s_{t+1} \sim P(\cdot \mid s_t, a^i_t, \mathbf{a}^{-i}_t)`}</Math> зависит
+            переход <Math display={false}>{String.raw`\enfVar{s}_{t+1} \sim P(\cdot \mid \enfVar{s}_t, a^i_t, \mathbf{a}^{-i}_t)`}</Math> зависит
             от действий всех остальных агентов <Math display={false}>{String.raw`\mathbf{a}^{-i}_t`}</Math>, политики которых
             постоянно меняются. Марковское предположение нарушается.
           </p>
@@ -563,7 +563,7 @@ const CourseLesson3_2 = () => {
             главная парадигма решения: во время <strong className="text-foreground">обучения</strong> критик имеет
             доступ к глобальной информации (состояния и действия всех агентов), а во время{" "}
             <strong className="text-foreground">исполнения</strong> каждый актор работает только по своим локальным
-            наблюдениям <Math display={false}>{String.raw`o^i`}</Math>.
+            наблюдениям <Math display={false}>{String.raw`\enfVar{o}^i`}</Math>.
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
             Это элегантное разделение: вы можете обучить богатого «координатора» (критика), который
@@ -619,7 +619,7 @@ const CourseLesson3_2 = () => {
             Раздел 2. Counterfactual baseline и командный credit assignment
           </h2>
           <p className="text-foreground/90 leading-relaxed">
-            Централизованный критик знает совместное <Math display={false}>{String.raw`Q^\pi(s, \mathbf{a})`}</Math> —
+            Централизованный критик знает совместное <Math display={false}>{String.raw`\enfOp{Q}^\pi(\enfVar{s}, \mathbf{a})`}</Math> —
             ценность совместного действия всей команды. Но нам нужно приписать каждому агенту{" "}
             <Math display={false}>{String.raw`i`}</Math> его <strong className="text-foreground">индивидуальный</strong> вклад. Как?
           </p>
@@ -634,7 +634,7 @@ const CourseLesson3_2 = () => {
             Определим <strong className="text-foreground">counterfactual baseline</strong> для агента{" "}
             <Math display={false}>{String.raw`i`}</Math> (уравнение (3) в MA-POCA):
           </p>
-          <Math>{String.raw`b_i(s, \mathbf{a}) = \mathbb{E}_{a' \sim \pi_i(\cdot \mid o^i)}\!\left[ Q^\pi\!\left(s,\, (\mathbf{a}^{-i},\, a')\right) \right],`}</Math>
+          <Math>{String.raw`b_i(\enfVar{s}, \mathbf{a}) = \mathbb{E}_{a' \sim \pi_i(\cdot \mid o^i)}\!\left[ \enfOp{Q}^\pi\!\left(\enfVar{s},\, (\mathbf{a}^{-i},\, a')\right) \right],`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
             где <Math display={false}>{String.raw`\mathbf{a}^{-i}`}</Math> — действия всех агентов{" "}
             <strong className="text-foreground">кроме</strong> <Math display={false}>{String.raw`i`}</Math> (зафиксированы), а{" "}
@@ -645,7 +645,7 @@ const CourseLesson3_2 = () => {
             Тогда <strong className="text-foreground">counterfactual advantage</strong> агента{" "}
             <Math display={false}>{String.raw`i`}</Math> (уравнение (4)):
           </p>
-          <Math>{String.raw`\hat{A}_i = Q^\pi(s, \mathbf{a}) - b_i(s, \mathbf{a}).`}</Math>
+          <Math>{String.raw`\hat{A}_i = \enfOp{Q}^\pi(\enfVar{s}, \mathbf{a}) - b_i(\enfVar{s}, \mathbf{a}).`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
             Смысл прозрачен: <Math display={false}>{String.raw`\hat{A}_i > 0`}</Math> означает, что агент{" "}
             <Math display={false}>{String.raw`i`}</Math> сыграл <strong className="text-foreground">лучше</strong>, чем его
@@ -655,7 +655,7 @@ const CourseLesson3_2 = () => {
           <p className="text-foreground/90 leading-relaxed mt-3">
             Обновление политики агента <Math display={false}>{String.raw`i`}</Math> (уравнение (5)):
           </p>
-          <Math>{String.raw`\nabla_{\theta_i} J(\theta_i) = \mathbb{E}_{\substack{s \sim \rho^\pi \\ a^i \sim \pi_i}}\!\left[ \nabla_{\theta_i} \log \pi_i(a^i \mid o^i) \cdot \hat{A}_i \right].`}</Math>
+          <Math>{String.raw`\enfOp{\nabla}_{\theta_i} \enfTgt{J}(\enfPar{\theta}_i) = \mathbb{E}_{\substack{s \sim \rho^\pi \\ a^i \sim \pi_i}}\!\left[ \enfOp{\nabla}_{\theta_i} \log \pi_i(a^i \mid \enfVar{o}^i) \cdot \hat{A}_i \right].`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
             Сравните с обычным policy gradient из{" "}
             <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="раздел-6-reparameterization-trick-для-стохастической-политики" hubTitle="Урок 3.1 — Reparameterization trick">урока 3.1</CrossLinkToHub> —
@@ -676,7 +676,7 @@ const CourseLesson3_2 = () => {
           <KeyPoints
             items={[
               <>Counterfactual baseline <Math display={false}>{String.raw`b_i`}</Math>: маргинализирует действие агента <Math display={false}>{String.raw`i`}</Math> при фиксированных <Math display={false}>{String.raw`\mathbf{a}^{-i}`}</Math>.</>,
-              <>Counterfactual advantage <Math display={false}>{String.raw`\hat{A}_i = Q^\pi(s, \mathbf{a}) - b_i`}</Math> — индивидуальный вклад агента.</>,
+              <>Counterfactual advantage <Math display={false}>{String.raw`\hat{A}_i = \enfOp{Q}^\pi(\enfVar{s}, \mathbf{a}) - b_i`}</Math> — индивидуальный вклад агента.</>,
               <>Обновление политики — стандартный policy gradient с <Math display={false}>{String.raw`\hat{A}_i`}</Math> вместо обычного advantage.</>,
               <>Это точнее обычного <Math display={false}>{String.raw`V(s)`}</Math>: сравнение «что было бы, если бы только я сыграл иначе».</>,
             ]}
@@ -713,8 +713,8 @@ const CourseLesson3_2 = () => {
           <p className="text-foreground/90 leading-relaxed">
             Обычный способ работы с выбывшими агентами — <strong className="text-foreground">поглощающее состояние</strong> (absorbing state).
             Агент <Math display={false}>{String.raw`i`}</Math> выбывает — его наблюдение фиксируется в специальном{" "}
-            <Math display={false}>{String.raw`o^{abs}_i`}</Math>, и он «зависает» там до конца эпизода. Формально:{" "}
-            <Math display={false}>{String.raw`P(o^{abs}_i \mid o^{abs}_i, a^i) = 1`}</Math> для любого <Math display={false}>{String.raw`a^i`}</Math>.
+            <Math display={false}>{String.raw`\enfVar{o}^{abs}_i`}</Math>, и он «зависает» там до конца эпизода. Формально:{" "}
+            <Math display={false}>{String.raw`P(\enfVar{o}^{abs}_i \mid \enfVar{o}^{abs}_i, a^i) = 1`}</Math> для любого <Math display={false}>{String.raw`a^i`}</Math>.
             Это позволяет существующим API работать без изменений.
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
@@ -734,7 +734,7 @@ const CourseLesson3_2 = () => {
               неограниченно «пухнет».
             </li>
             <li>
-              <strong className="text-foreground">Высокая дисперсия.</strong> Одно <Math display={false}>{String.raw`o^{abs}`}</Math> соответствует
+              <strong className="text-foreground">Высокая дисперсия.</strong> Одно <Math display={false}>{String.raw`\enfVar{o}^{abs}`}</Math> соответствует
               всем исходам после раннего выхода (победа, поражение, ничья) — таргеты для этого состояния
               противоречивы и шумны.
             </li>
@@ -747,7 +747,7 @@ const CourseLesson3_2 = () => {
             называется <strong className="text-foreground">RSA (Residual Self-Attention)</strong>:
           </p>
           <ol className="space-y-2 mt-2 text-sm text-muted-foreground list-decimal pl-5">
-            <li>Наблюдения активных агентов эмбеддятся полносвязным слоем: <Math display={false}>{String.raw`e^i = \text{FC}(o^i)`}</Math>.</li>
+            <li>Наблюдения активных агентов эмбеддятся полносвязным слоем: <Math display={false}>{String.raw`e^i = \text{FC}(\enfVar{o}^i)`}</Math>.</li>
             <li>Layer Normalization, затем multi-head scaled dot-product attention (Vaswani et al. 2017) по эмбеддингам активных агентов.</li>
             <li>Residual-связь + LayerNorm.</li>
             <li>Результат <strong className="text-foreground">усредняется</strong> в фиксированный по размеру вектор.</li>
@@ -756,17 +756,17 @@ const CourseLesson3_2 = () => {
           <p className="text-foreground/90 leading-relaxed mt-3">
             Централизованная V-функция через RSA (уравнение (6)):
           </p>
-          <Math>{String.raw`V_\phi\!\left(\text{RSA}\!\left(\{g_i(o^i_t)\}_{1 \le i \le k_t}\right)\right),`}</Math>
+          <Math>{String.raw`\enfOp{V}_\phi\!\left(\text{RSA}\!\left(\{g_i(\enfVar{o}^i_t)\}_{1 \le i \le k_t}\right)\right),`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
             где <Math display={false}>{String.raw`k_t`}</Math> — число <strong className="text-foreground">активных</strong> агентов в момент <Math display={false}>{String.raw`t`}</Math>.
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
-            <strong className="text-foreground">Как это решает posthumous credit assignment.</strong> TD(<Math display={false}>{String.raw`\lambda`}</Math>)-таргет
+            <strong className="text-foreground">Как это решает posthumous credit assignment.</strong> TD(<Math display={false}>{String.raw`\enfPar{\lambda}`}</Math>)-таргет
             для V (уравнение (7)):
           </p>
-          <Math>{String.raw`y^{(\lambda)} = (1{-}\lambda)\sum_{n=1}^{\infty} \lambda^{n-1} G^{(n)}_t, \quad G^{(n)}_t = \sum_{l=1}^{n} \gamma^{l-1} r_{t+l} + \gamma^n\, V_\phi\!\left(\text{RSA}\!\left(\{g_j(o^j_{t+n})\}_{1 \le j \le k_{t+n}}\right)\right).`}</Math>
+          <Math>{String.raw`y^{(\lambda)} = (1{-}\enfPar{\lambda})\sum_{n=1}^{\infty} \enfPar{\lambda}^{n-1} \enfOp{G}^{(n)}_t, \quad \enfOp{G}^{(n)}_t = \sum_{l=1}^{n} \enfPar{\gamma}^{l-1} \enfTgt{r}_{t+l} + \enfPar{\gamma}^n\, \enfOp{V}_\phi\!\left(\text{RSA}\!\left(\{g_j(\enfVar{o}^j_{t+n})\}_{1 \le j \le k_{t+n}}\right)\right).`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
-            Bootstrap-член <Math display={false}>{String.raw`\gamma^n \cdot V_\phi(\text{RSA}(\ldots))`}</Math> на шаге{" "}
+            Bootstrap-член <Math display={false}>{String.raw`\enfPar{\gamma}^n \cdot \enfOp{V}_\phi(\text{RSA}(\ldots))`}</Math> на шаге{" "}
             <Math display={false}>{String.raw`t{+}n`}</Math> вычисляется по <strong className="text-foreground">активным агентам в{" "}
             <Math display={false}>{String.raw`t{+}n`}</Math></strong> — которых может быть больше или меньше, чем в{" "}
             <Math display={false}>{String.raw`t`}</Math>. Именно через этот bootstrap ценность из будущего (когда команда
@@ -775,7 +775,7 @@ const CourseLesson3_2 = () => {
           </p>
           <InteractiveStub>
             Временная шкала эпизода. Агент A выбывает на шаге 5 из 10. Показать, как{" "}
-            <Math display={false}>{String.raw`\gamma^5 \cdot V(\text{RSA}(\ldots))`}</Math> на шаге 10 «доходит» до шага 5 через
+            <Math display={false}>{String.raw`\enfPar{\gamma}^5 \cdot \enfOp{V}(\text{RSA}(\ldots))`}</Math> на шаге 10 «доходит» до шага 5 через
             bootstrap-цепочку.
           </InteractiveStub>
           <KeyPoints
@@ -783,7 +783,7 @@ const CourseLesson3_2 = () => {
               "Posthumous credit assignment — задача наградить агента за вклад в результат, который он уже не увидит.",
               "Absorbing states — стандартный, но плохой подход: высокая дисперсия, раздутая сеть, сложность обучения.",
               "MA-POCA: self-attention только по активным агентам, RSA-блок с перестановочной инвариантностью.",
-              <>TD(<Math display={false}>{String.raw`\lambda`}</Math>)-bootstrap через RSA «доставляет» будущую ценность команды к моменту, когда агент ещё был активен.</>,
+              <>TD(<Math display={false}>{String.raw`\enfPar{\lambda}`}</Math>)-bootstrap через RSA «доставляет» будущую ценность команды к моменту, когда агент ещё был активен.</>,
             ]}
           />
         </motion.section>
@@ -800,21 +800,21 @@ const CourseLesson3_2 = () => {
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Политика (Actor)</strong>{" "}
-            <Math display={false}>{String.raw`\pi_{\theta_i}(a^i \mid o^i)`}</Math> — <strong className="text-foreground">отдельная</strong> для
-            каждого агента, видит только локальное <Math display={false}>{String.raw`o^i`}</Math>. Структура: обычная
+            <Math display={false}>{String.raw`\pi_{\theta_i}(a^i \mid \enfVar{o}^i)`}</Math> — <strong className="text-foreground">отдельная</strong> для
+            каждого агента, видит только локальное <Math display={false}>{String.raw`\enfVar{o}^i`}</Math>. Структура: обычная
             нейросеть (MLP или CNN), выдаёт параметры распределения над действиями. Агенты с
             одинаковым пространством наблюдений <strong className="text-foreground">делят веса</strong>{" "}
-            <Math display={false}>{String.raw`\theta`}</Math> — это и есть "shared policy".
+            <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> — это и есть "shared policy".
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Централизованный critic (V-сеть)</strong>{" "}
-            <Math display={false}>{String.raw`V_\phi(\text{RSA}(\{g_i(o^i)\}_{i \text{ active}}))`}</Math> —{" "}
+            <Math display={false}>{String.raw`\enfOp{V}_\phi(\text{RSA}(\{g_i(\enfVar{o}^i)\}_{i \text{ active}}))`}</Math> —{" "}
             <strong className="text-foreground">один на всю команду</strong>, видит наблюдения всех активных
             агентов через RSA-блок. Выдаёт скалярную оценку ценности совместного состояния.
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Baseline-сеть</strong>{" "}
-            <Math display={false}>{String.raw`Q_\psi(\text{RSA}(g_j(o^j),\, \{f_i(o^i, a^i)\}_{i \ne j}))`}</Math> — обусловлена парами
+            <Math display={false}>{String.raw`\enfOp{Q}_\psi(\text{RSA}(g_j(\enfVar{o}^j),\, \{f_i(\enfVar{o}^i, a^i)\}_{i \ne j}))`}</Math> — обусловлена парами
             наблюдение-действие всех агентов <strong className="text-foreground">кроме</strong> <Math display={false}>{String.raw`j`}</Math> и
             только наблюдением агента <Math display={false}>{String.raw`j`}</Math>. Нужна для вычисления counterfactual
             advantage. Обучается <strong className="text-foreground">отдельной сетью</strong> — потому что с одной
@@ -828,7 +828,7 @@ const CourseLesson3_2 = () => {
           </p>
           <KeyPoints
             items={[
-              <>Actor: отдельный на каждого агента (или общий при одинаковых obs-пространствах), видит только <Math display={false}>{String.raw`o^i`}</Math>.</>,
+              <>Actor: отдельный на каждого агента (или общий при одинаковых obs-пространствах), видит только <Math display={false}>{String.raw`\enfVar{o}^i`}</Math>.</>,
               "V-критик: один на команду, RSA по всем активным агентам.",
               <>Baseline-сеть: считает counterfactual Q для каждого агента <Math display={false}>{String.raw`j`}</Math>; обучается отдельно от V.</>,
               "Обновления — через PPO-клиппинг; отдельных POCA-гиперпараметров нет.",
@@ -1017,8 +1017,8 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
 
           <h3 className={H3_CLASS}>Ожидаемый результат</h3>
           <p className="text-foreground/90 leading-relaxed">
-            Если агент A имеет рейтинг <Math display={false}>{String.raw`R_A`}</Math>, а агент B —{" "}
-            <Math display={false}>{String.raw`R_B`}</Math>, ожидаемый результат A:
+            Если агент A имеет рейтинг <Math display={false}>{String.raw`\enfTgt{R}_A`}</Math>, а агент B —{" "}
+            <Math display={false}>{String.raw`\enfTgt{R}_B`}</Math>, ожидаемый результат A:
           </p>
           <Math>{String.raw`E_A = \frac{1}{1 + 10^{(R_B - R_A)/400}}.`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
@@ -1028,7 +1028,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
 
           <h3 className={H3_CLASS}>Обновление рейтинга</h3>
           <p className="text-foreground/90 leading-relaxed">После матча:</p>
-          <Math>{String.raw`R'_A = R_A + K \cdot (S_A - E_A),`}</Math>
+          <Math>{String.raw`\enfTgt{R}'_A = \enfTgt{R}_A + K \cdot (S_A - E_A),`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
             где <Math display={false}>{String.raw`S_A \in \{1, 0.5, 0\}`}</Math> — фактический исход
             (победа/ничья/поражение), <Math display={false}>{String.raw`K = 16`}</Math> — константа скорости обновления.
@@ -1038,7 +1038,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <Math display={false}>{String.raw`R = 1200`}</Math>, <Math display={false}>{String.raw`E_A = E_B = 0.5`}</Math>.
           </p>
           <ul className="space-y-1.5 mt-2 text-sm text-muted-foreground">
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span>A побеждает: <Math display={false}>{String.raw`R'_A = 1200 + 16 \cdot (1 - 0.5) = \mathbf{1208}`}</Math>, <Math display={false}>{String.raw`R'_B = 1200 + 16 \cdot (0 - 0.5) = \mathbf{1192}`}</Math>.</span></li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span>A побеждает: <Math display={false}>{String.raw`\enfTgt{R}'_A = 1200 + 16 \cdot (1 - 0.5) = \mathbf{1208}`}</Math>, <Math display={false}>{String.raw`\enfTgt{R}'_B = 1200 + 16 \cdot (0 - 0.5) = \mathbf{1192}`}</Math>.</span></li>
           </ul>
 
           <h3 className={H3_CLASS}>Zero-sum условие</h3>
@@ -1065,7 +1065,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
           <KeyPoints
             items={[
               <><Math display={false}>{String.raw`E_A = 1/(1 + 10^{(R_B - R_A)/400})`}</Math> — ожидаемый результат по рейтингам.</>,
-              <><Math display={false}>{String.raw`R'_A = R_A + K \cdot (S_A - E_A)`}</Math>, <Math display={false}>{String.raw`K = 16`}</Math> в ML-Agents.</>,
+              <><Math display={false}>{String.raw`\enfTgt{R}'_A = \enfTgt{R}_A + K \cdot (S_A - E_A)`}</Math>, <Math display={false}>{String.raw`K = 16`}</Math> в ML-Agents.</>,
               <>Zero-sum требование: финальная награда строго <Math display={false}>{String.raw`+1 / 0 / -1`}</Math>.</>,
               <>В TensorBoard: только <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">Self-Play/ELO</code>; стабильный рост = прогресс.</>,
             ]}
@@ -1380,12 +1380,12 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Нестационарность</strong> — фундаментальная проблема MARL: среда каждого агента нестационарна, потому что соседи учатся.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Командный credit assignment</strong> — задача понять индивидуальный вклад при общей награде.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">CTDE</strong> — решение: централизованный критик при обучении, децентрализованные акторы при исполнении.</span></li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Counterfactual baseline</strong> <Math display={false}>{String.raw`b_i = \mathbb{E}_{a' \sim \pi_i}[Q^\pi(s, (\mathbf{a}^{-i}, a'))]`}</Math> — сравнивает фактическое действие с «что было бы, если бы я сыграл иначе».</span></li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Counterfactual baseline</strong> <Math display={false}>{String.raw`b_i = \mathbb{E}_{a' \sim \pi_i}[\enfOp{Q}^\pi(\enfVar{s}, (\mathbf{a}^{-i}, a'))]`}</Math> — сравнивает фактическое действие с «что было бы, если бы я сыграл иначе».</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Posthumous credit assignment</strong> — задача наградить агента за вклад, чьи последствия он уже не наблюдает; MA-POCA решает её через self-attention без absorbing states.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">RSA-блок</strong> — self-attention по активным агентам с перестановочной инвариантностью; масштабируется на переменное <Math display={false}>{String.raw`N`}</Math>.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">MA-POCA в Unity</strong>: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">trainer_type: poca</code> + <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">SimpleMultiAgentGroup</code> + <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">AddGroupReward</code>; те же гиперпараметры, что PPO.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Self-play</strong> — авто-curriculum через игру против прошлых версий себя; пул снапшотов гасит нестационарность.</span></li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">ELO</strong> = <Math display={false}>{String.raw`R'_A = R_A + K(S_A - E_A)`}</Math>, <Math display={false}>{String.raw`K=16`}</Math> в ML-Agents; единственная осмысленная метрика в adversarial-играх.</span></li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">ELO</strong> = <Math display={false}>{String.raw`\enfTgt{R}'_A = \enfTgt{R}_A + K(S_A - E_A)`}</Math>, <Math display={false}>{String.raw`K=16`}</Math> в ML-Agents; единственная осмысленная метрика в adversarial-играх.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Self-play в Unity</strong>: секция <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">self_play:</code> к любому тренеру; <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change ≈ 4–5× save_steps</code>; финальная награда строго <Math display={false}>{String.raw`\pm 1 / 0`}</Math>.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Комбо poca + self_play</strong> = team-vs-team (SoccerTwos, DodgeBall).</span></li>
           </ul>

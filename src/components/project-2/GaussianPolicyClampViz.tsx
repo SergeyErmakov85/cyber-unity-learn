@@ -498,7 +498,7 @@ const GaussianPolicyClampViz = () => {
         }}
       >
         <MathTex>
-          {"\\pi_{\\theta}(a \\mid s) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(s),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(s)\\big)"}
+          {"\\pi_{\\theta}(a \\mid \\enfVar{s}) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(\\enfVar{s}),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(\\enfVar{s})\\big)"}
         </MathTex>
         <MathTex display={false}>
           {"a_{\\text{env}} = \\operatorname{clip}(a,\\, -1,\\, +1)"}

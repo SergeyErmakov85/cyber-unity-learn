@@ -53,7 +53,7 @@ const IntroSection = () => (
           <p className="text-foreground/80 leading-relaxed">
             Кульминация курса. Вы собираете <strong className="text-cyan-300">весь конвейер RL-в-gamedev</strong> в одно целое:
             от пустой Unity-сцены до играбельного билда, где поведением NPC управляет ваша обученная политика
-            <Math display={false}>{String.raw`\;\pi_\theta(a\mid s)`}</Math>. Шесть этапов, четыре эталонных проекта, три бонусные техники.
+            <Math display={false}>{String.raw`\;\pi_\theta(a\mid \enfVar{s})`}</Math>. Шесть этапов, четыре эталонных проекта, три бонусные техники.
           </p>
           <p className="text-xs text-muted-foreground">
             <strong>Уровень:</strong> 3 (продвинутый) · <strong>Раздел программы:</strong> 3.8 · <strong>Доступ:</strong> PRO

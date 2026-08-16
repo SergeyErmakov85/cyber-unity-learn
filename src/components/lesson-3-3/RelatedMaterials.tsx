@@ -126,7 +126,7 @@ const SOURCES: ReactNode[] = [
   <>
     <strong className="text-foreground/90">Jiang, Grefenstette, Rocktäschel (2021).</strong>{" "}
     <em>Prioritized Level Replay.</em> ICML 2021 (arXiv:2010.03934). — <strong>PLR</strong>: учебный
-    потенциал как средний <Math display={false}>{String.raw`|\hat A_t|`}</Math> / L1 value loss;
+    потенциал как средний <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math> / L1 value loss;
     staleness-коррекция{" "}
     <Math display={false}>{String.raw`P_{\text{replay}}=(1-\rho)P_S+\rho P_C`}</Math>; неявный
     курриккулум на MiniGrid. Связанная работа:{" "}

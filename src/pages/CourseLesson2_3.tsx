@@ -151,7 +151,7 @@ const CourseLesson2_3 = () => {
                   <Settings className="w-4 h-4 text-secondary" />
                   Непрерывное пространство
                 </h3>
-                <Math>{`\\mathcal{A} \\subseteq \\mathbb{R}^d`}</Math>
+                <Math>{`\\mathcal{A} \\subseteq \\mathbb{\\enfTgt{R}}^d`}</Math>
                 <p className="text-xs text-muted-foreground">
                   «повернуть руль на 15.3°», «приложить момент 4.7 Н·м». Нужно для физических моделей.
                 </p>
@@ -182,7 +182,7 @@ const CourseLesson2_3 = () => {
             </CrossLinkToHub>{" "}
             учат функцию ценности <Math display={false}>{`Q(s, a)`}</Math> и выбирают действие так:
           </p>
-          <Math>{`a^{*} = \\arg\\max_{a \\in \\mathcal{A}} Q(s, a)`}</Math>
+          <Math>{`a^{*} = \\arg\\max_{a \\in \\mathcal{A}} \\enfOp{Q}(\\enfVar{s}, a)`}</Math>
           <p className="text-muted-foreground mb-4">
             В дискретном случае это просто <code className="px-1 rounded bg-muted text-xs">argmax</code>{" "}
             по конечному набору. Если же <Math display={false}>{`\\mathcal{A}`}</Math> непрерывно — взять
@@ -193,13 +193,13 @@ const CourseLesson2_3 = () => {
             Почему чистый policy gradient нестабилен
           </h3>
           <p className="text-muted-foreground mb-3">
-            Альтернатива — учить политику <Math display={false}>{`\\pi_{\\theta}(a \\mid s)`}</Math>{" "}
+            Альтернатива — учить политику <Math display={false}>{`\\pi_{\\theta}(a \\mid \\enfVar{s})`}</Math>{" "}
             напрямую. Классический REINFORCE использует:
           </p>
-          <Math>{`\\nabla_{\\theta} J(\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_{\\theta}}\\!\\left[\\sum_{t=0}^{T} \\nabla_{\\theta} \\log \\pi_{\\theta}(a_t \\mid s_t) \\cdot G_t \\right]`}</Math>
+          <Math>{`\\enfOp{\\nabla}_{\\theta} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau \\sim \\pi_{\\theta}}\\!\\left[\\sum_{t=0}^{T} \\enfOp{\\nabla}_{\\theta} \\log \\pi_{\\theta}(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t \\right]`}</Math>
           <p className="text-muted-foreground mb-3">
             Здесь{" "}
-            <Math display={false}>{`G_t = \\sum_{k=t}^{T} \\gamma^{k-t} r_k`}</Math> — суммарная будущая
+            <Math display={false}>{`\\enfOp{G}_t = \\sum_{k=t}^{T} \\enfPar{\\gamma}^{k-t} \\enfTgt{r}_k`}</Math> — суммарная будущая
             награда. Проблема: <strong className="text-foreground">огромная дисперсия</strong>. Одна
             неудачная сессия с большим штрафом ломает обучение, потому что сигнал «было плохо»
             применяется ко всем действиям эпизода без разбора.
@@ -242,8 +242,8 @@ const CourseLesson2_3 = () => {
                   <h3 className="font-bold text-foreground">Среда (Unity)</h3>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Поставляет состояния <Math display={false}>{`s_t`}</Math> и награду{" "}
-                  <Math display={false}>{`r_t`}</Math> через физический движок и твой код в{" "}
+                  Поставляет состояния <Math display={false}>{`\\enfVar{s}_t`}</Math> и награду{" "}
+                  <Math display={false}>{`\\enfTgt{r}_t`}</Math> через физический движок и твой код в{" "}
                   <code className="px-1 rounded bg-muted">CollectObservations</code>.
                 </p>
               </CardContent>
@@ -253,12 +253,12 @@ const CourseLesson2_3 = () => {
                 <div className="flex items-center gap-2">
                   <Brain className="w-5 h-5 text-secondary" />
                   <h3 className="font-bold text-foreground">
-                    Actor: <Math display={false}>{`\\pi_{\\theta}(a \\mid s)`}</Math>
+                    Actor: <Math display={false}>{`\\pi_{\\theta}(a \\mid \\enfVar{s})`}</Math>
                   </h3>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Выдаёт параметры распределения <Math display={false}>{`\\mu_{\\theta}(s)`}</Math> и{" "}
-                  <Math display={false}>{`\\sigma_{\\theta}(s)`}</Math>. Из него сэмплируется действие.
+                  Выдаёт параметры распределения <Math display={false}>{`\\mu_{\\theta}(\\enfVar{s})`}</Math> и{" "}
+                  <Math display={false}>{`\\sigma_{\\theta}(\\enfVar{s})`}</Math>. Из него сэмплируется действие.
                 </p>
               </CardContent>
             </Card>
@@ -267,7 +267,7 @@ const CourseLesson2_3 = () => {
                 <div className="flex items-center gap-2">
                   <Scale className="w-5 h-5 text-accent" />
                   <h3 className="font-bold text-foreground">
-                    Critic: <Math display={false}>{`V_{\\phi}(s)`}</Math>
+                    Critic: <Math display={false}>{`\\enfOp{V}_{\\phi}(\\enfVar{s})`}</Math>
                   </h3>
                 </div>
                 <p className="text-xs text-muted-foreground">
@@ -281,36 +281,36 @@ const CourseLesson2_3 = () => {
           <h3 className="text-xl font-bold text-foreground mb-2">Три ключевые функции ценности</h3>
 
           <p className="text-sm text-foreground font-semibold mt-4 mb-1">
-            Функция ценности состояния <Math display={false}>{`V^{\\pi}(s)`}</Math>:
+            Функция ценности состояния <Math display={false}>{`\\enfOp{V}^{\\pi}(\\enfVar{s})`}</Math>:
           </p>
           <p className="text-sm text-muted-foreground mb-2">
             Ожидаемая суммарная награда, если стартовать из <Math display={false}>{`s`}</Math> и далее
             действовать по политике <Math display={false}>{`\\pi`}</Math>.
           </p>
-          <Math>{`V^{\\pi}(s) = \\mathbb{E}_{\\pi}\\!\\left[\\sum_{k=0}^{\\infty} \\gamma^k r_{t+k} \\,\\middle|\\, s_t = s \\right]`}</Math>
+          <Math>{`\\enfOp{V}^{\\pi}(\\enfVar{s}) = \\mathbb{E}_{\\pi}\\!\\left[\\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^k \\enfTgt{r}_{t+k} \\,\\middle|\\, \\enfVar{s}_t = \\enfVar{s} \\right]`}</Math>
 
           <p className="text-sm text-foreground font-semibold mt-4 mb-1">
-            Функция «состояние-действие» <Math display={false}>{`Q^{\\pi}(s, a)`}</Math>:
+            Функция «состояние-действие» <Math display={false}>{`\\enfOp{Q}^{\\pi}(\\enfVar{s}, a)`}</Math>:
           </p>
           <p className="text-sm text-muted-foreground mb-2">
             То же, но при условии, что <em>первое</em> действие — это{" "}
             <Math display={false}>{`a`}</Math>.
           </p>
-          <Math>{`Q^{\\pi}(s, a) = \\mathbb{E}_{\\pi}\\!\\left[\\sum_{k=0}^{\\infty} \\gamma^k r_{t+k} \\,\\middle|\\, s_t = s, a_t = a \\right]`}</Math>
+          <Math>{`\\enfOp{Q}^{\\pi}(\\enfVar{s}, a) = \\mathbb{E}_{\\pi}\\!\\left[\\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^k \\enfTgt{r}_{t+k} \\,\\middle|\\, \\enfVar{s}_t = \\enfVar{s}, a_t = a \\right]`}</Math>
 
           <p className="text-sm text-foreground font-semibold mt-4 mb-1">
-            Функция преимущества <Math display={false}>{`A^{\\pi}(s, a)`}</Math>:
+            Функция преимущества <Math display={false}>{`A^{\\pi}(\\enfVar{s}, a)`}</Math>:
           </p>
-          <Math>{`A^{\\pi}(s, a) = Q^{\\pi}(s, a) - V^{\\pi}(s)`}</Math>
+          <Math>{`A^{\\pi}(\\enfVar{s}, a) = \\enfOp{Q}^{\\pi}(\\enfVar{s}, a) - \\enfOp{V}^{\\pi}(\\enfVar{s})`}</Math>
 
           <Card className="bg-card/60 backdrop-blur-sm border-secondary/30 mt-4 mb-6">
             <CardContent className="p-4 flex gap-3 items-start">
               <Lightbulb className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
               <p className="text-sm text-muted-foreground">
                 <strong className="text-foreground">Зачем нужна A?</strong> Это сигнал, которого не
-                хватало REINFORCE. Если <Math display={false}>{`A^{\\pi}(s,a) > 0`}</Math> — действие
+                хватало REINFORCE. Если <Math display={false}>{`A^{\\pi}(\\enfVar{s},a) > 0`}</Math> — действие
                 лучше среднего, увеличиваем его вероятность. Если &lt; 0 — уменьшаем. Вычитание{" "}
-                <Math display={false}>{`V^{\\pi}(s)`}</Math> убирает «общий уровень» состояния и резко
+                <Math display={false}>{`\\enfOp{V}^{\\pi}(\\enfVar{s})`}</Math> убирает «общий уровень» состояния и резко
                 снижает дисперсию градиента.
               </p>
             </CardContent>
@@ -319,27 +319,27 @@ const CourseLesson2_3 = () => {
           <h3 className="text-xl font-bold text-foreground mb-2">
             Как Critic учится: уравнение Беллмана
           </h3>
-          <Math>{`V^{\\pi}(s_t) = \\mathbb{E}_{\\pi}\\bigl[r_t + \\gamma \\, V^{\\pi}(s_{t+1})\\bigr]`}</Math>
+          <Math>{`\\enfOp{V}^{\\pi}(\\enfVar{s}_t) = \\mathbb{E}_{\\pi}\\bigl[\\enfTgt{r}_t + \\enfPar{\\gamma} \\, \\enfOp{V}^{\\pi}(\\enfVar{s}_{t+1})\\bigr]`}</Math>
           <p className="text-muted-foreground mb-3">
             Цель обучения Critic — минимизировать <strong className="text-foreground">TD-ошибку</strong>:
           </p>
-          <Math>{`\\delta_t = r_t + \\gamma \\, V_{\\phi}(s_{t+1}) - V_{\\phi}(s_t)`}</Math>
+          <Math>{`\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\, \\enfOp{V}_{\\phi}(\\enfVar{s}_{t+1}) - \\enfOp{V}_{\\phi}(\\enfVar{s}_t)`}</Math>
           <Math>{`\\mathcal{L}_{\\text{Critic}}(\\phi) = \\mathbb{E}\\bigl[\\delta_t^{2}\\bigr]`}</Math>
 
           <h3 className="text-xl font-bold text-foreground mt-6 mb-2">
             Как Actor учится: градиент политики с преимуществом
           </h3>
-          <Math>{`\\nabla_{\\theta} J(\\theta) = \\mathbb{E}_t\\!\\bigl[\\nabla_{\\theta} \\log \\pi_{\\theta}(a_t \\mid s_t) \\cdot \\hat{A}_t \\bigr]`}</Math>
+          <Math>{`\\enfOp{\\nabla}_{\\theta} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_t\\!\\bigl[\\enfOp{\\nabla}_{\\theta} \\log \\pi_{\\theta}(a_t \\mid \\enfVar{s}_t) \\cdot \\hat{A}_t \\bigr]`}</Math>
           <p className="text-muted-foreground mb-3">
             Внешне почти как REINFORCE, но вместо «сырой»{" "}
-            <Math display={false}>{`G_t`}</Math> стоит «очищенная» оценка{" "}
+            <Math display={false}>{`\\enfOp{G}_t`}</Math> стоит «очищенная» оценка{" "}
             <Math display={false}>{`\\hat{A}_t`}</Math>.
           </p>
 
           <p className="text-sm text-foreground font-semibold mt-4 mb-1">
             Параметризация Actor для непрерывных действий:
           </p>
-          <Math>{`\\pi_{\\theta}(a \\mid s) = \\mathcal{N}\\!\\bigl(a \\,;\\, \\mu_{\\theta}(s),\\, \\sigma_{\\theta}(s)^{2} \\bigr)`}</Math>
+          <Math>{`\\pi_{\\theta}(a \\mid \\enfVar{s}) = \\mathcal{N}\\!\\bigl(a \\,;\\, \\mu_{\\theta}(\\enfVar{s}),\\, \\sigma_{\\theta}(\\enfVar{s})^{2} \\bigr)`}</Math>
           <p className="text-sm text-muted-foreground italic">
             Действие сэмплируется из распределения. <Math display={false}>{`\\sigma`}</Math>{" "}
             контролирует исследование: большое — пробует разное, маленькое — действует уверенно.
@@ -407,16 +407,16 @@ class ContinuousActorCritic(nn.Module):
                 PPO исходит из идеи: <em>политика не должна меняться слишком резко за один шаг</em>.
                 Вводится отношение вероятностей новой и старой политик:
               </p>
-              <Math>{`r_t(\\theta) = \\frac{\\pi_{\\theta}(a_t \\mid s_t)}{\\pi_{\\theta_{\\text{old}}}(a_t \\mid s_t)}`}</Math>
+              <Math>{`\\enfTgt{r}_t(\\enfPar{\\theta}) = \\frac{\\pi_{\\theta}(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{\\text{old}}}(a_t \\mid \\enfVar{s}_t)}`}</Math>
               <p className="text-sm text-muted-foreground">
                 Целевая функция — <strong className="text-foreground">clipped surrogate objective</strong>:
               </p>
-              <Math>{`L^{\\text{CLIP}}(\\theta) = \\mathbb{E}_t\\!\\left[\\min\\!\\bigl(r_t(\\theta)\\, \\hat{A}_t,\\;\\; \\text{clip}(r_t(\\theta),\\, 1-\\varepsilon,\\, 1+\\varepsilon)\\,\\hat{A}_t \\bigr)\\right]`}</Math>
+              <Math>{`L^{\\text{CLIP}}(\\enfPar{\\theta}) = \\mathbb{E}_t\\!\\left[\\min\\!\\bigl(\\enfTgt{r}_t(\\enfPar{\\theta})\\, \\hat{A}_t,\\;\\; \\text{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}),\\, 1-\\enfPar{\\varepsilon},\\, 1+\\enfPar{\\varepsilon})\\,\\hat{A}_t \\bigr)\\right]`}</Math>
               <p className="text-sm text-muted-foreground">
                 Операция <code className="px-1 rounded bg-muted">clip</code> обрезает{" "}
-                <Math display={false}>{`r_t(\\theta)`}</Math> в коридоре{" "}
-                <Math display={false}>{`[1-\\varepsilon, 1+\\varepsilon]`}</Math> (обычно{" "}
-                <Math display={false}>{`\\varepsilon = 0.2`}</Math>).
+                <Math display={false}>{`\\enfTgt{r}_t(\\enfPar{\\theta})`}</Math> в коридоре{" "}
+                <Math display={false}>{`[1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon}]`}</Math> (обычно{" "}
+                <Math display={false}>{`\\enfPar{\\varepsilon} = 0.2`}</Math>).
               </p>
               <ul className="text-sm space-y-1.5 mt-3">
                 <li className="flex gap-2">
@@ -457,14 +457,14 @@ class ContinuousActorCritic(nn.Module):
                 Вместо ограничения <em>величины</em> шага SAC добавляет в целевую функцию слагаемое{" "}
                 <strong className="text-foreground">энтропии</strong> политики:
               </p>
-              <Math>{`J(\\pi) = \\sum_t \\mathbb{E}_{(s_t, a_t) \\sim \\pi}\\!\\left[r(s_t, a_t) + \\alpha \\cdot \\mathcal{H}\\bigl(\\pi(\\cdot \\mid s_t)\\bigr) \\right]`}</Math>
+              <Math>{`\\enfTgt{J}(\\pi) = \\sum_t \\mathbb{E}_{(s_t, a_t) \\sim \\pi}\\!\\left[\\enfTgt{r}(\\enfVar{s}_t, a_t) + \\enfPar{\\alpha} \\cdot \\mathcal{H}\\bigl(\\pi(\\cdot \\mid \\enfVar{s}_t)\\bigr) \\right]`}</Math>
               <p className="text-sm text-muted-foreground">где энтропия:</p>
-              <Math>{`\\mathcal{H}\\bigl(\\pi(\\cdot \\mid s)\\bigr) = -\\mathbb{E}_{a \\sim \\pi}\\bigl[\\log \\pi(a \\mid s)\\bigr]`}</Math>
+              <Math>{`\\mathcal{H}\\bigl(\\pi(\\cdot \\mid \\enfVar{s})\\bigr) = -\\mathbb{E}_{a \\sim \\pi}\\bigl[\\log \\pi(a \\mid \\enfVar{s})\\bigr]`}</Math>
               <p className="text-sm text-muted-foreground">
-                Коэффициент <Math display={false}>{`\\alpha`}</Math> (в Unity это{" "}
+                Коэффициент <Math display={false}>{`\\enfPar{\\alpha}`}</Math> (в Unity это{" "}
                 <code className="px-1 rounded bg-muted">init_entcoef</code>) задаёт компромисс
                 «эксплуатация ↔ исследование». При большом{" "}
-                <Math display={false}>{`\\alpha`}</Math> агент получает бонус за{" "}
+                <Math display={false}>{`\\enfPar{\\alpha}`}</Math> агент получает бонус за{" "}
                 <em>непредсказуемость</em> своих действий.
               </p>
               <ul className="text-sm space-y-1.5 mt-3">
@@ -557,7 +557,7 @@ class ContinuousActorCritic(nn.Module):
                 Почему PPO быстро стартует и затем выходит на плато?
               </p>
               <p className="text-sm text-muted-foreground">
-                Клиппинг <Math display={false}>{`\\text{clip}(r_t(\\theta), 1-\\varepsilon, 1+\\varepsilon)`}</Math>{" "}
+                Клиппинг <Math display={false}>{`\\text{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})`}</Math>{" "}
                 работает в обе стороны: защищает от катастрофических обновлений и{" "}
                 <em>ограничивает</em> скорость роста. Когда политика уже неплоха, дальнейший прогресс
                 требует более «смелых» шагов, чем коридор{" "}
@@ -572,7 +572,7 @@ class ContinuousActorCritic(nn.Module):
                 Почему SAC медленно стартует и потом превосходит PPO?
               </p>
               <p className="text-sm text-muted-foreground">
-                Слагаемое <Math display={false}>{`\\alpha \\cdot \\mathcal{H}(\\pi(\\cdot \\mid s))`}</Math>{" "}
+                Слагаемое <Math display={false}>{`\\enfPar{\\alpha} \\cdot \\mathcal{H}(\\pi(\\cdot \\mid \\enfVar{s}))`}</Math>{" "}
                 намеренно <em>штрафует</em> уверенные действия в начале. Награда от среды ещё низкая,
                 энтропийный бонус большой — агент почти случайно блуждает, накапливая разнообразный опыт
                 в Replay Buffer. Затем сеть использует широкий накопленный опыт и превосходит жадную

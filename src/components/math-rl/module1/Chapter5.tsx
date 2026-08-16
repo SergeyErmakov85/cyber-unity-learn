@@ -5,27 +5,27 @@ import { Section, InfoBox, CodeBlock } from "./Section";
 const Chapter5 = () => (
   <Section icon={<Zap className="w-5 h-5 text-primary" />} title="Глава 5. Сердце RL: Уравнения Беллмана" id="глава-5">
     <p>
-      Весь математический аппарат RL опирается на принцип <strong className="text-foreground">динамического программирования</strong>, заложенный Ричардом Беллманом в 1950-х. Гениальность подхода — обнаружение рекурсивной структуры: возврат <Math display={false}>{"G_t"}</Math> раскладывается на немедленную награду и дисконтированный возврат следующего шага.
+      Весь математический аппарат RL опирается на принцип <strong className="text-foreground">динамического программирования</strong>, заложенный Ричардом Беллманом в 1950-х. Гениальность подхода — обнаружение рекурсивной структуры: возврат <Math display={false}>{"\\enfOp{G}_t"}</Math> раскладывается на немедленную награду и дисконтированный возврат следующего шага.
     </p>
 
     <h3 id="рекурсивное-разложение-возврата" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Рекурсивное разложение возврата</h3>
-    <Math>{"G_t = R_{t+1} + \\gamma\\big(R_{t+2} + \\gamma R_{t+3} + \\dots\\big) = R_{t+1} + \\gamma\\, G_{t+1}"}</Math>
+    <Math>{"\\enfOp{G}_t = \\enfTgt{R}_{t+1} + \\enfPar{\\gamma}\\big(\\enfTgt{R}_{t+2} + \\enfPar{\\gamma} \\enfTgt{R}_{t+3} + \\dots\\big) = \\enfTgt{R}_{t+1} + \\enfPar{\\gamma}\\, \\enfOp{G}_{t+1}"}</Math>
 
     <h3 id="уравнение-ожиданий-беллмана" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Уравнение ожиданий Беллмана</h3>
-    <p>Подставив рекурсию в определение <Math display={false}>{"V_\\pi(s)"}</Math>, получаем:</p>
-    <Math>{"V_\\pi(s) = \\sum_{a} \\pi(a|s) \\sum_{s', r} p(s', r \\mid s, a) \\left[ r + \\gamma\\, V_\\pi(s') \\right]"}</Math>
+    <p>Подставив рекурсию в определение <Math display={false}>{"\\enfOp{V}_\\pi(\\enfVar{s})"}</Math>, получаем:</p>
+    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\sum_{a} \\pi(a \\mid \\enfVar{s}) \\sum_{s', r} p(\\enfVar{s}', \\enfTgt{r} \\mid \\enfVar{s}, a) \\left[ \\enfTgt{r} + \\enfPar{\\gamma}\\, \\enfOp{V}_\\pi(\\enfVar{s}') \\right]"}</Math>
 
     <InfoBox variant="secondary">
       <p className="font-semibold text-foreground mb-2">Чтение формулы «справа налево»</p>
       <ul className="list-disc list-inside space-y-2 text-sm">
         <li>
-          <Math display={false}>{"[r + \\gamma V_\\pi(s')]"}</Math> — польза одного перехода: немедленная награда + дисконтированная ценность нового состояния
+          <Math display={false}>{"[\\enfTgt{r} + \\enfPar{\\gamma} \\enfOp{V}_\\pi(\\enfVar{s}')]"}</Math> — польза одного перехода: немедленная награда + дисконтированная ценность нового состояния
         </li>
         <li>
           Внутренняя сумма <Math display={false}>{"\\sum_{s',r}"}</Math> — усредняем по всем возможным переходам среды (динамика <Math display={false}>{"p(s',r|s,a)"}</Math>)
         </li>
         <li>
-          Внешняя сумма <Math display={false}>{"\\sum_a"}</Math> — усредняем по всем действиям, взвешенным вероятностью политики <Math display={false}>{"\\pi(a|s)"}</Math>
+          Внешняя сумма <Math display={false}>{"\\sum_a"}</Math> — усредняем по всем действиям, взвешенным вероятностью политики <Math display={false}>{"\\pi(a \\mid \\enfVar{s})"}</Math>
         </li>
       </ul>
       <p className="text-sm mt-2">
@@ -35,22 +35,22 @@ const Chapter5 = () => (
 
     <h3 id="уравнение-оптимальности-беллмана" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Уравнение оптимальности Беллмана</h3>
     <p>
-      Оптимальная политика <Math display={false}>{"\\pi^*"}</Math> порождает <Math display={false}>{"V^*(s) = \\max_\\pi V_\\pi(s)"}</Math>. В оптимальном поведении усреднение по действиям заменяется оператором <Math display={false}>{"\\max"}</Math>:
+      Оптимальная политика <Math display={false}>{"\\pi^*"}</Math> порождает <Math display={false}>{"\\enfOp{V}^*(\\enfVar{s}) = \\max_\\pi \\enfOp{V}_\\pi(\\enfVar{s})"}</Math>. В оптимальном поведении усреднение по действиям заменяется оператором <Math display={false}>{"\\max"}</Math>:
     </p>
-    <Math>{"V^*(s) = \\max_a \\sum_{s', r} p(s', r \\mid s, a)\\left[ r + \\gamma\\, V^*(s') \\right]"}</Math>
+    <Math>{"\\enfOp{V}^*(\\enfVar{s}) = \\max_a \\sum_{s', r} p(\\enfVar{s}', \\enfTgt{r} \\mid \\enfVar{s}, a)\\left[ \\enfTgt{r} + \\enfPar{\\gamma}\\, \\enfOp{V}^*(\\enfVar{s}') \\right]"}</Math>
     <p className="mt-4">Аналогично для Q-функции:</p>
-    <Math>{"Q^*(s, a) = \\sum_{s', r} p(s', r \\mid s, a)\\left[ r + \\gamma \\max_{a'} Q^*(s', a') \\right]"}</Math>
+    <Math>{"\\enfOp{Q}^*(\\enfVar{s}, a) = \\sum_{s', r} p(\\enfVar{s}', \\enfTgt{r} \\mid \\enfVar{s}, a)\\left[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}^*(\\enfVar{s}', a') \\right]"}</Math>
 
     <InfoBox variant="accent">
       <p className="font-semibold text-foreground mb-2">Почему Q* так важно?</p>
       <p className="text-sm">
-        Если агент знает точные <Math display={false}>{"Q^*(s,a)"}</Math> для каждой пары (состояние, действие), ему <strong className="text-foreground">не нужна отдельная политика</strong>. Оптимальное поведение сводится к банальному поиску максимума: находясь в <Math display={false}>{"s"}</Math>, просто выбери <Math display={false}>{"a"}</Math> с наибольшим <Math display={false}>{"Q^*"}</Math>. Это краеугольный камень алгоритма <strong className="text-primary">Q-learning</strong>.
+        Если агент знает точные <Math display={false}>{"\\enfOp{Q}^*(\\enfVar{s},a)"}</Math> для каждой пары (состояние, действие), ему <strong className="text-foreground">не нужна отдельная политика</strong>. Оптимальное поведение сводится к банальному поиску максимума: находясь в <Math display={false}>{"s"}</Math>, просто выбери <Math display={false}>{"a"}</Math> с наибольшим <Math display={false}>{"\\enfOp{Q}^*"}</Math>. Это краеугольный камень алгоритма <strong className="text-primary">Q-learning</strong>.
       </p>
     </InfoBox>
 
     <h4 className="text-lg font-semibold text-foreground mt-6 mb-2">Пример: MDP с двумя состояниями</h4>
     <p>
-      <Math display={false}>{"S_1 \\to S_2"}</Math> (награда +2), <Math display={false}>{"S_2 \\to S_1"}</Math> (награда 0), <Math display={false}>{"\\gamma = 0.9"}</Math>:
+      <Math display={false}>{"S_1 \\to S_2"}</Math> (награда +2), <Math display={false}>{"S_2 \\to S_1"}</Math> (награда 0), <Math display={false}>{"\\enfPar{\\gamma} = 0.9"}</Math>:
     </p>
     <Math>{"\\begin{cases} v_1 = 2 + 0.9\\,v_2 \\\\ v_2 = 0.9\\,v_1 \\end{cases} \\;\\Rightarrow\\; v_1 \\approx 10.53,\\quad v_2 \\approx 9.47"}</Math>
     <CodeBlock>{`gamma = 0.9

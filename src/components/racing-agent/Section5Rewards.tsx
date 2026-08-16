@@ -22,7 +22,7 @@ const Section5Rewards = () => (
       <p className="text-muted-foreground leading-relaxed">
         Для обеспечения плавной сходимости разработана <strong className="text-foreground">потенциальная
         функция вознаграждения</strong>: суммарная мгновенная награда{" "}
-        <Math display={false}>{String.raw`r_t`}</Math> формируется как суперпозиция нескольких непрерывных
+        <Math display={false}>{String.raw`\enfTgt{r}_t`}</Math> формируется как суперпозиция нескольких непрерывных
         физических полей.
       </p>
     </div>
@@ -33,18 +33,18 @@ const Section5Rewards = () => (
       <p className="text-muted-foreground leading-relaxed">
         На каждом шаге <Math display={false}>{String.raw`t`}</Math> агент получает:
       </p>
-      <Math>{String.raw`r_t \;=\; \underbrace{R_{\text{cp}}\cdot \mathbb{1}[\text{cp}_t]}_{\text{чекпоинт}} \;+\; \underbrace{R_{\text{coll}}\cdot \mathbb{1}[\text{wall}_t]}_{\text{стена}} \;+\; \underbrace{\alpha \frac{v_t}{v_{\max}}}_{\text{скорость}} \;+\; \underbrace{\beta\, \langle \mathbf{f}_t, \mathbf{d}_t \rangle}_{\text{ориентация}} \;-\; \underbrace{\eta}_{\text{время}} \;-\; \underbrace{\rho\,(|\Delta s_t| + |\Delta a_t|)}_{\text{плавность}},`}</Math>
+      <Math>{String.raw`\enfTgt{r}_t \;=\; \underbrace{\enfTgt{R}_{\text{cp}}\cdot \mathbb{1}[\text{cp}_t]}_{\text{чекпоинт}} \;+\; \underbrace{\enfTgt{R}_{\text{coll}}\cdot \mathbb{1}[\text{wall}_t]}_{\text{стена}} \;+\; \underbrace{\enfPar{\alpha} \frac{\enfVar{v}_t}{\enfVar{v}_{\max}}}_{\text{скорость}} \;+\; \underbrace{\beta\, \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle}_{\text{ориентация}} \;-\; \underbrace{\eta}_{\text{время}} \;-\; \underbrace{\rho\,(|\Delta \enfVar{s}_t| + |\Delta a_t|)}_{\text{плавность}},`}</Math>
       <p className="text-sm text-muted-foreground">
         где <Math display={false}>{String.raw`\mathbf{f}_t`}</Math> — forward автомобиля,{" "}
-        <Math display={false}>{String.raw`\mathbf{d}_t`}</Math> — направление на следующий чекпоинт,{" "}
-        <Math display={false}>{String.raw`\Delta s_t, \Delta a_t`}</Math> — приращения руля и газа.
+        <Math display={false}>{String.raw`\mathbf{\enfVar{d}}_t`}</Math> — направление на следующий чекпоинт,{" "}
+        <Math display={false}>{String.raw`\Delta \enfVar{s}_t, \Delta a_t`}</Math> — приращения руля и газа.
       </p>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Компонент сонаправленности и скорости</strong>{" "}
-        <Math display={false}>{String.raw`r_{\text{align}}`}</Math> поощряет движение болида в направлении
+        <Math display={false}>{String.raw`\enfTgt{r}_{\text{align}}`}</Math> поощряет движение болида в направлении
         следующего чекпоинта, масштабированное по текущей скорости:
       </p>
-      <Math>{String.raw`r_{\text{align}}(t) \;=\; \begin{cases} +\,k_+\, \langle \mathbf{f}_t, \mathbf{d}_t \rangle \cdot \dfrac{v_t}{v_{\max}}, & \text{если } \langle \mathbf{f}_t, \mathbf{d}_t \rangle > 0,\\[1.4ex] -\,k_-\, \big|\langle \mathbf{f}_t, \mathbf{d}_t \rangle\big|, & \text{иначе.} \end{cases}`}</Math>
+      <Math>{String.raw`\enfTgt{r}_{\text{align}}(t) \;=\; \begin{cases} +\,k_+\, \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle \cdot \dfrac{\enfVar{v}_t}{\enfVar{v}_{\max}}, & \text{если } \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle > 0,\\[1.4ex] -\,k_-\, \big|\langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle\big|, & \text{иначе.} \end{cases}`}</Math>
       <p className="text-sm text-muted-foreground">
         где <Math display={false}>{String.raw`k_+ \approx 0.04`}</Math> — масштабирующий коэффициент
         пошаговой награды за скорость,{" "}

@@ -39,17 +39,17 @@ const Section1 = () => (
       (continuation method) из невыпуклой оптимизации. Идея метода продолжения: начать с{" "}
       <strong>сглаженной</strong>, легко оптимизируемой версии целевой функции и постепенно деформировать
       её в исходную — трудную, невыпуклую. Введём параметр-«ручку»{" "}
-      <Math display={false}>{String.raw`\lambda \in [0,1]`}</Math> и семейство целей{" "}
-      <Math display={false}>{String.raw`\mathcal{L}_\lambda`}</Math>:
+      <Math display={false}>{String.raw`\enfPar{\lambda} \in [0,1]`}</Math> и семейство целей{" "}
+      <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_\lambda`}</Math>:
     </ProseP>
 
-    <Math>{String.raw`\mathcal{L}_0 \;\xrightarrow[\text{постепенно}]{\;\lambda:\,0\to 1\;}\; \mathcal{L}_1 = \mathcal{L}^{\star},`}</Math>
+    <Math>{String.raw`\mathcal{\enfTgt{L}}_0 \;\xrightarrow[\text{постепенно}]{\;\enfPar{\lambda}:\,0\to 1\;}\; \mathcal{\enfTgt{L}}_1 = \mathcal{\enfTgt{L}}^{\star},`}</Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`\mathcal{L}_0`}</Math> — гладкая и простая (наша широкая
-      прямая трасса), а <Math display={false}>{String.raw`\mathcal{L}_1=\mathcal{L}^\star`}</Math> —
+      где <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_0`}</Math> — гладкая и простая (наша широкая
+      прямая трасса), а <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_1=\mathcal{\enfTgt{L}}^\star`}</Math> —
       настоящая трудная задача (узкая трасса с соперниками). Двигаясь по{" "}
-      <Math display={false}>{String.raw`\lambda`}</Math> от 0 к 1, мы ведём оптимизатор по «хребту»
+      <Math display={false}>{String.raw`\enfPar{\lambda}`}</Math> от 0 к 1, мы ведём оптимизатор по «хребту»
       хороших решений, не давая ему застрять в плохом локальном минимуме на старте.
     </ProseP>
 
@@ -73,7 +73,7 @@ const Section1 = () => (
     </ul>
 
     <ProseP>
-      Для нашего гонщика «ручка» <Math display={false}>{String.raw`\lambda`}</Math> — это сложность
+      Для нашего гонщика «ручка» <Math display={false}>{String.raw`\enfPar{\lambda}`}</Math> — это сложность
       трассы. Разобьём её на дискретные <strong>уроки</strong> (lessons):
     </ProseP>
 
@@ -83,7 +83,7 @@ const Section1 = () => (
           <tr className="border-b border-cyan-500/20 bg-cyan-500/5">
             <th className="text-left py-3 px-4 font-semibold text-cyan-400">Урок</th>
             <th className="text-left py-3 px-4 font-semibold text-cyan-400">
-              <Math display={false}>{String.raw`\lambda`}</Math>
+              <Math display={false}>{String.raw`\enfPar{\lambda}`}</Math>
             </th>
             <th className="text-left py-3 px-4 font-semibold text-cyan-400">Что меняется</th>
             <th className="text-left py-3 px-4 font-semibold text-cyan-400">Что осваивает агент</th>
@@ -143,9 +143,9 @@ const Section1 = () => (
         </>,
         <>
           Формально учебный план — это <strong>метод продолжения</strong>: гладкую цель{" "}
-          <Math display={false}>{String.raw`\mathcal{L}_0`}</Math> постепенно деформируем в трудную{" "}
-          <Math display={false}>{String.raw`\mathcal{L}^\star`}</Math> по «ручке»{" "}
-          <Math display={false}>{String.raw`\lambda:0\to 1`}</Math>.
+          <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_0`}</Math> постепенно деформируем в трудную{" "}
+          <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}^\star`}</Math> по «ручке»{" "}
+          <Math display={false}>{String.raw`\enfPar{\lambda}:0\to 1`}</Math>.
         </>,
         <>
           Эффект двойной: ускоряет сходимость <strong>и</strong> улучшает качество локального минимума

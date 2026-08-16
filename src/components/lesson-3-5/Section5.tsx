@@ -71,7 +71,7 @@ const Section5 = () => (
     </ProseP>
 
     <ProseP>Эффективная частота решений связана с частотой среды просто:</ProseP>
-    <Math display>{String.raw`\boxed{\,f_{\text{decision}} = \dfrac{f_{\text{env}}}{d}\,}`}</Math>
+    <Math display>{String.raw`\boxed{\,\enfFun{f}_{\text{decision}} = \dfrac{\enfFun{f}_{\text{env}}}{d}\,}`}</Math>
 
     <ProseP>
       Гоночному агенту, как правило, не нужно перекладывать руль 50 раз в секунду:{" "}
@@ -87,7 +87,7 @@ const Section5 = () => (
 
     <ProseP>
       Во время обучения политика <strong>стохастична</strong>: действие сэмплируется из распределения{" "}
-      <Math display={false}>{String.raw`a \sim \pi_\theta(\cdot\mid s)`}</Math> — это и есть
+      <Math display={false}>{String.raw`a \sim \pi_\theta(\cdot\mid \enfVar{s})`}</Math> — это и есть
       исследование (
       <CrossLinkToHub
         hubPath="/algorithms/ppo"
@@ -101,7 +101,7 @@ const Section5 = () => (
       <strong>самое вероятное</strong> действие (argmax для дискретных, среднее для непрерывных).
     </ProseP>
 
-    <Math display>{String.raw`a_{\text{deploy}} = \arg\max_{a} \pi_\theta(a \mid s) \quad\text{(детерминированно)} \qquad\text{vs}\qquad a_{\text{train}} \sim \pi_\theta(\cdot \mid s)\ \text{(стохастично)}`}</Math>
+    <Math display>{String.raw`a_{\text{deploy}} = \arg\max_{a} \pi_\theta(a \mid \enfVar{s}) \quad\text{(детерминированно)} \qquad\text{vs}\qquad a_{\text{train}} \sim \pi_\theta(\cdot \mid \enfVar{s})\ \text{(стохастично)}`}</Math>
 
     <Callout title="💡 Когда что" color="purple">
       Соперникам в гонке детерминизм даёт предсказуемую, «вылизанную» траекторию. Но если все боты
@@ -122,7 +122,7 @@ const Section5 = () => (
         <>
           <strong>Decision Period</strong>{" "}
           <Math display={false}>{String.raw`d`}</Math> задаёт частоту решений{" "}
-          <Math display={false}>{String.raw`f_{\text{decision}} = f_{\text{env}}/d`}</Math>; он
+          <Math display={false}>{String.raw`\enfFun{f}_{\text{decision}} = \enfFun{f}_{\text{env}}/d`}</Math>; он
           должен совпадать с обучением.
         </>,
         <>
