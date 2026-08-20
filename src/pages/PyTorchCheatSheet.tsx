@@ -456,6 +456,7 @@ print(f"Total trainable params: {total_params:,}")`}</CyberCodeBlock>
           <CyberCodeBlock language="python" filename="seed.py">{`# Фиксация seed для воспроизводимости результатов
 import random
 import numpy as np
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 seed = 42
 torch.manual_seed(seed)
@@ -476,6 +477,9 @@ torch.backends.cudnn.benchmark = False`}</CyberCodeBlock>
             На главную
           </Button>
         </div>
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/pytorch/cheatsheet" />
+
       </article>
     </div>
   );

@@ -22,6 +22,7 @@ import Section8BestPractices from "@/components/racing-agent/Section8BestPractic
 import Section9FAQ from "@/components/racing-agent/Section9FAQ";
 import Section10Conclusion from "@/components/racing-agent/Section10Conclusion";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro",           label: "Введение и теория" },
@@ -192,6 +193,9 @@ const CourseProject3 = () => {
       </Card>
 
       <LessonTextbookLinks lessonId="project-3" lessonLabel="Проект 3: Гоночный агент" />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="project-3" />
 
       <NextPrevLesson
         prev={{ title: "Проект 2: 3D-охотник", path: "/courses/project-2" }}

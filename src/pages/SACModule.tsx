@@ -146,6 +146,7 @@ const SACModule = () => {
 {`import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import LabPracticeSection from "@/components/LabPracticeSection";
 from torch.distributions import Normal
 
 class GaussianPolicy(nn.Module):
@@ -296,6 +297,9 @@ class GaussianPolicy(nn.Module):
             },
           ]}
         />
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/algorithms/sac" />
 
         <div className="flex justify-between items-center pt-8 border-t border-border/50">
           <Button variant="outline" onClick={() => navigate("/algorithms/ppo")} className="border-accent/50 text-accent hover:bg-accent/10">

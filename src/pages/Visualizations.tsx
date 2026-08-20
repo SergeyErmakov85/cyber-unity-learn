@@ -6,6 +6,7 @@ import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft } from "lucide-react";
 import Math from "@/components/Math";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const RAW_LOGITS = [2.0, 1.0, 0.5, 0.3];
 const ACTIONS = ["Вверх", "Вниз", "Влево", "Вправо"];
@@ -174,6 +175,9 @@ const Visualizations = () => {
           <TabsContent value="policy"><PolicyGradientViz /></TabsContent>
           <TabsContent value="ppo"><PPOClippingViz /></TabsContent>
         </Tabs>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/visualizations" />
       </div>
     </div>
   );

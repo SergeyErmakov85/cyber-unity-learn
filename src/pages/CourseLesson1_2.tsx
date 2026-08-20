@@ -33,6 +33,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const KEY_FINDINGS = [
   {
@@ -365,6 +366,9 @@ const CourseLesson1_2 = () => {
         </div>
 
         <LessonTextbookLinks lessonId="1-2" lessonLabel="Урок 1.2. Установка окружения" />
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="1-2" />
 
         <RelatedMaterials />
 

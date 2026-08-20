@@ -34,6 +34,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getLessonById } from "@/data/lessons";
 import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const KEY_FINDINGS = [
   {
@@ -313,6 +314,9 @@ const CourseLesson2_6 = () => {
       </div>
 
       <LessonTextbookLinks lessonId="2-6" lessonLabel="Урок 2.6. TensorBoard и W&B" />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="2-6" />
 
       <RelatedMaterials />
 

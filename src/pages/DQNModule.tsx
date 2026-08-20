@@ -92,6 +92,7 @@ import torch.optim as optim
 import numpy as np
 from collections import deque
 import random
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 class DQN(nn.Module):
     def __init__(self, state_dim, action_dim, hidden_dim=128):
@@ -303,6 +304,9 @@ with torch.no_grad():
             },
           ]}
         />
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/algorithms/dqn" />
 
         <div className="flex justify-between mt-8">
           <Button variant="outline" onClick={() => navigate("/algorithms")} className="border-primary/50 text-primary">

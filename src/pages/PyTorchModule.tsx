@@ -332,6 +332,7 @@ print("Q-таблица сохранена в файл taxi_q_table.npy")`}</Cyb
 import torch.nn as nn
 import torch.optim as optim
 import random
+import LabPracticeSection from "@/components/LabPracticeSection";
 from collections import deque
 
 env_dqn = gym.make("Taxi-v3", render_mode="ansi")
@@ -693,6 +694,9 @@ print("Оценка DQN завершена.")`}</CyberCodeBlock>
             </CardContent>
           </Card>
         </Section>
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/pytorch" />
 
       </article>
     </div>

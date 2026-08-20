@@ -112,6 +112,7 @@ const OnnxSentisGuide = () => {
                 <CyberCodeBlock language="python" filename="prepare_model.py">
 {`import torch
 import torch.nn as nn
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 class PolicyNet(nn.Module):
     def __init__(self, obs_dim=64, action_dim=3):
@@ -328,6 +329,9 @@ public class AgentInference : MonoBehaviour
               </CardContent>
             </Card>
           </section>
+
+          {/* Практика: собранная среда лаборатории для этой темы. */}
+          <LabPracticeSection contextKey="/advanced/onnx-sentis" />
 
           {/* Navigation */}
           <div className="flex justify-between items-center pt-8 border-t border-border/50">

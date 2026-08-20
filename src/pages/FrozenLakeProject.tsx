@@ -493,6 +493,7 @@ from matplotlib import animation
 from IPython.display import display, HTML, clear_output
 import time
 import warnings
+import LabPracticeSection from "@/components/LabPracticeSection";
 warnings.filterwarnings('ignore')
 
 # ── Определения для отображения действий ──
@@ -938,6 +939,9 @@ env_slippery.close()`}
         </div>
         </main>
       </div>
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/projects/frozen-lake" />
 
       <FooterSection />
     </div>

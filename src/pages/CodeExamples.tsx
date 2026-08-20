@@ -462,6 +462,7 @@ public class BasicAgent : Agent
     code: `import torch
 import torch.nn as nn
 import torch.optim as optim
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 class SACAlpha:
     """SAC with automatic temperature (alpha) tuning."""
@@ -1048,6 +1049,9 @@ const CodeExamples = () => {
             </a>
           </Button>
         </div>
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/code-examples" />
+
       </main>
     </div>
   );

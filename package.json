@@ -16,6 +16,7 @@
     "textbook:check": "node scripts/sync-textbook.mjs --check",
     "textbook:audit": "node scripts/textbook-audit.mjs",
     "audit:links": "node scripts/link-audit.mjs",
+    "audit:lab": "node scripts/lab-links-audit.mjs",
     "math:audit": "node scripts/math-audit.mjs"
   },
   "dependencies": {

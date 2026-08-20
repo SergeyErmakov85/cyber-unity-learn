@@ -136,6 +136,7 @@ for each worker i (parallel):
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.multiprocessing as mp
+import LabPracticeSection from "@/components/LabPracticeSection";
 from torch.distributions import Categorical
 
 class ActorCritic(nn.Module):
@@ -272,6 +273,9 @@ if __name__ == "__main__":
             },
           ]}
         />
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/algorithms/a3c" />
 
         <div className="flex justify-between mt-8">
           <Button variant="outline" onClick={() => navigate("/algorithms/sac")} className="border-primary/50 text-primary">

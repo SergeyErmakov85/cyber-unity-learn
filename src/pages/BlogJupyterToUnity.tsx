@@ -97,6 +97,7 @@ torch.onnx.export(
 
 # Верификация
 import onnxruntime as ort
+import LabPracticeSection from "@/components/LabPracticeSection";
 sess = ort.InferenceSession("npc_policy.onnx")
 test_input = torch.randn(1, 8).numpy()
 result = sess.run(None, {"obs_0": test_input})
@@ -225,6 +226,9 @@ public class NPCAgent : Agent
         переобучили модель → заменили .onnx файл → готово. Теперь ваши NPC по-настоящему умны.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/jupyter-to-unity" />
+
   </BlogLayout>
 );
 

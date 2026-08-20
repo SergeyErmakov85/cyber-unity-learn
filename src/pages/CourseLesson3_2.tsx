@@ -35,6 +35,7 @@ import CrossLinkToHub from "@/components/CrossLinkToHub";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import { getLessonById } from "@/data/lessons";
 import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 /* ── Визуальные хелперы (эталон урока 3.1 / 2.6) ───────────────── */
 
@@ -1585,6 +1586,9 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
           <CompleteButton />
         </CardContent>
       </Card>
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="3-2" />
 
       <NextPrevLesson prev={lesson.prev} next={lesson.next} />
     </>

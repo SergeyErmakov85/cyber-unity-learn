@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { BookOpen, Brain, Zap, Target, Code2, TrendingUp, Layers, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const DeepRLModule = () => {
   const navigate = useNavigate();
@@ -408,6 +409,9 @@ const DeepRLModule = () => {
           </Card>
 
         </section>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/deep-rl" />
 
         </div>
       </div>
