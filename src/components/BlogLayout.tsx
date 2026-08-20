@@ -16,7 +16,26 @@ const BlogLayout = ({ post, toc, children }: BlogLayoutProps) => (
       title={`${post.title} | RL Blog`}
       description={post.description}
       path={`/blog/${post.slug}`}
+      type="article"
+      keywords={post.tags.join(", ")}
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: post.title,
+        description: post.description,
+        datePublished: post.date,
+        dateModified: post.date,
+        author: { "@type": "Person", name: post.author },
+        publisher: { "@type": "Organization", name: "CyberUnityCode" },
+        inLanguage: "ru",
+        keywords: post.tags.join(", "),
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://rl-cuber-unity-code.com/blog/${post.slug}`,
+        },
+      }}
     />
+
     <header className="border-b border-border/50 bg-card/50 backdrop-blur-sm sticky top-0 z-30">
       <div className="container mx-auto px-4 py-3 flex items-center gap-2 text-sm">
         <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
