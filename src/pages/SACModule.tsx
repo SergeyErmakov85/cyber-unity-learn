@@ -6,6 +6,7 @@ import Math from "@/components/Math";
 import Quiz from "@/components/Quiz";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const SACModule = () => {
   const navigate = useNavigate();
@@ -146,7 +147,6 @@ const SACModule = () => {
 {`import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import LabPracticeSection from "@/components/LabPracticeSection";
 from torch.distributions import Normal
 
 class GaussianPolicy(nn.Module):

@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "reinforce-vs-ppo")!;
 
@@ -122,7 +123,6 @@ def reinforce_update(policy, optimizer, rewards, log_probs, gamma=0.99):
 {`# PPO — минимальная реализация (~40 строк ядра)
 import torch
 import torch.nn as nn
-import LabPracticeSection from "@/components/LabPracticeSection";
 
 def ppo_update(model, optimizer, obs, actions, old_log_probs,
                advantages, returns, clip_eps=0.2, epochs=4):

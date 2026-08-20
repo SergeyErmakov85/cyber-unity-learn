@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "parallel-envs")!;
 
@@ -101,7 +102,6 @@ mlagents-learn config.yaml --run-id=fast_train \\
 from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 from stable_baselines3.common.env_util import make_vec_env
 import gym
-import LabPracticeSection from "@/components/LabPracticeSection";
 
 # Простой способ: make_vec_env
 env = make_vec_env("CartPole-v1", n_envs=8, vec_env_cls=SubprocVecEnv)
