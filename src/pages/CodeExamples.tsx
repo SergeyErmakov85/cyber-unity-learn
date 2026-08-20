@@ -21,6 +21,7 @@ import {
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import LabPracticeSection from "@/components/LabPracticeSection";
 import {
   Collapsible,
   CollapsibleContent,
@@ -462,7 +463,6 @@ public class BasicAgent : Agent
     code: `import torch
 import torch.nn as nn
 import torch.optim as optim
-import LabPracticeSection from "@/components/LabPracticeSection";
 
 class SACAlpha:
     """SAC with automatic temperature (alpha) tuning."""

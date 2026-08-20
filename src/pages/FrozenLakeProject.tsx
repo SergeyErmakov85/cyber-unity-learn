@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { ArrowLeft, Download, Snowflake, BookOpen, Brain, Calculator, Settings, Dumbbell, BarChart3, Gamepad2, FlaskConical, FileText } from "lucide-react";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const TOC_ITEMS = [
   { id: "rl-basics", label: "Что такое RL?", emoji: "🌍", Icon: BookOpen },
@@ -493,7 +494,6 @@ from matplotlib import animation
 from IPython.display import display, HTML, clear_output
 import time
 import warnings
-import LabPracticeSection from "@/components/LabPracticeSection";
 warnings.filterwarnings('ignore')
 
 # ── Определения для отображения действий ──

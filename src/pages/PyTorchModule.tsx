@@ -6,6 +6,7 @@ import Math from "@/components/Math";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import HubLessonBadges from "@/components/HubLessonBadges";
+import LabPracticeSection from "@/components/LabPracticeSection";
 import {
   Accordion,
   AccordionContent,
@@ -332,7 +333,6 @@ print("Q-таблица сохранена в файл taxi_q_table.npy")`}</Cyb
 import torch.nn as nn
 import torch.optim as optim
 import random
-import LabPracticeSection from "@/components/LabPracticeSection";
 from collections import deque
 
 env_dqn = gym.make("Taxi-v3", render_mode="ansi")

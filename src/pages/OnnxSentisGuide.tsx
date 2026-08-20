@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ScrollToTop from "@/components/ScrollToTop";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const TOC_ITEMS = [
   { id: "prepare-model", label: "1. Подготовка модели PyTorch" },
@@ -112,7 +113,6 @@ const OnnxSentisGuide = () => {
                 <CyberCodeBlock language="python" filename="prepare_model.py">
 {`import torch
 import torch.nn as nn
-import LabPracticeSection from "@/components/LabPracticeSection";
 
 class PolicyNet(nn.Module):
     def __init__(self, obs_dim=64, action_dim=3):

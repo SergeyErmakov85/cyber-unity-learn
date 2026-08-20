@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "jupyter-to-unity")!;
 
@@ -97,7 +98,6 @@ torch.onnx.export(
 
 # Верификация
 import onnxruntime as ort
-import LabPracticeSection from "@/components/LabPracticeSection";
 sess = ort.InferenceSession("npc_policy.onnx")
 test_input = torch.randn(1, 8).numpy()
 result = sess.run(None, {"obs_0": test_input})

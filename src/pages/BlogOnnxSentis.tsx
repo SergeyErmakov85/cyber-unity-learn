@@ -2,6 +2,7 @@ import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "onnx-sentis-pipeline")!;
 
@@ -66,7 +67,6 @@ const BlogOnnxSentis = () => (
 {`import torch
 import torch.nn as nn
 import onnx
-import LabPracticeSection from "@/components/LabPracticeSection";
 
 class UnityONNXWrapper(nn.Module):
     """Обёртка для экспорта PyTorch-модели в формат Unity ML-Agents."""

@@ -7,6 +7,7 @@ import Quiz from "@/components/Quiz";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const PPOModule = () => {
   const navigate = useNavigate();
@@ -304,7 +305,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.distributions import MultivariateNormal
 import numpy as np
-import LabPracticeSection from "@/components/LabPracticeSection";
 
 class ActorCritic(nn.Module):
     def __init__(self, obs_dim, action_dim):

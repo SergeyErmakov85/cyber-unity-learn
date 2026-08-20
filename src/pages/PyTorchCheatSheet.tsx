@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const PyTorchCheatSheet = () => {
   const navigate = useNavigate();
@@ -456,7 +457,6 @@ print(f"Total trainable params: {total_params:,}")`}</CyberCodeBlock>
           <CyberCodeBlock language="python" filename="seed.py">{`# Фиксация seed для воспроизводимости результатов
 import random
 import numpy as np
-import LabPracticeSection from "@/components/LabPracticeSection";
 
 seed = 42
 torch.manual_seed(seed)
