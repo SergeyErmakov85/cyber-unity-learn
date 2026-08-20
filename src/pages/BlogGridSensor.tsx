@@ -67,6 +67,7 @@ obs_pytorch = obs.permute(0, 3, 1, 2)  # NHWC → NCHW`}
       <CyberCodeBlock language="python" filename="gridsensor_fix.py">
 {`import torch
 import torch.nn as nn
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 class GridSensorCNN(nn.Module):
     def __init__(self, channels, grid_size, action_dim):
@@ -140,6 +141,9 @@ behaviors:
         </Link>, где GridSensor используется по умолчанию.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/gridsensor-guide" />
+
   </BlogLayout>
 );
 

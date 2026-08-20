@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, GraduationCap, Users, Eye, Swords, Cpu } from "lucide-react";
 import { Link } from "react-router-dom";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const codeBlock = (code: string, lang = "yaml") => (
   <pre className="bg-card/80 border border-primary/20 rounded-lg p-4 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed">
@@ -228,6 +229,9 @@ mlagents-learn config/gail.yaml --run-id=gail_run`, "bash")}
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/advanced" />
       </div>
     </div>
   );

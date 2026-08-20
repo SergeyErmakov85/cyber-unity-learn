@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, ArrowRight, BookOpen, Settings, Code, Rocket, Target, Grid3X3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import HubLessonBadges from "@/components/HubLessonBadges";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const GridWorldProject = () => {
   const navigate = useNavigate();
@@ -287,6 +288,9 @@ public class GridWorldAgent : Agent
             </CardContent>
           </Card>
         </section>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/unity-projects/gridworld" />
 
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8 border-t border-border/50">

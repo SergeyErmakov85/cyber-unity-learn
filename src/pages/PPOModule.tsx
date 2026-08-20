@@ -304,6 +304,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.distributions import MultivariateNormal
 import numpy as np
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 class ActorCritic(nn.Module):
     def __init__(self, obs_dim, action_dim):
@@ -472,6 +473,9 @@ def ppo_update(model, optimizer, obs, actions, old_log_probs,
             },
           ]}
         />
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/algorithms/ppo" />
 
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8 border-t border-border/50">

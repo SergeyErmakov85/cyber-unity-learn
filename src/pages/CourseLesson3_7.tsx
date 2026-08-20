@@ -30,6 +30,7 @@ import Section10 from "@/components/lesson-3-7/Section10";
 import Summary from "@/components/lesson-3-7/Summary";
 import RelatedMaterials from "@/components/lesson-3-7/RelatedMaterials";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -243,6 +244,9 @@ const CourseLesson3_7 = () => {
       />
 
       <LessonTextbookLinks lessonId="3-7" lessonLabel="Урок 3.7. Архитектуры нейросетей" />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="3-7" />
 
       <RelatedMaterials />
 

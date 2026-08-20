@@ -7,6 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { ArrowLeft, FlaskConical, ArrowUp, ArrowDown } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
+import LabPracticeSection from "@/components/LabPracticeSection";
 // Lab 1: Discounting interactive
 const DiscountLab = () => {
   const [gamma, setGamma] = useState(0.99);
@@ -451,6 +452,9 @@ const Labs = () => {
           <TabsContent value="advantage"><AdvantageLab /></TabsContent>
           <TabsContent value="pg"><PolicyGradientLab /></TabsContent>
         </Tabs>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/labs" />
       </div>
     </div>
   );

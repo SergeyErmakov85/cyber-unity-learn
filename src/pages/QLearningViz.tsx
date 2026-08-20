@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Play, Pause, RotateCcw, Zap } from "lucide-react";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const GRID_SIZE = 5;
 const ACTIONS = ["up", "down", "left", "right"] as const;
@@ -266,6 +267,8 @@ const QLearningViz = () => {
             </Card>
           </div>
         </div>
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/visualizations/q-learning" />
       </div>
     </div>
   );

@@ -101,6 +101,7 @@ mlagents-learn config.yaml --run-id=fast_train \\
 from stable_baselines3.common.vec_env import SubprocVecEnv, DummyVecEnv
 from stable_baselines3.common.env_util import make_vec_env
 import gym
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 # Простой способ: make_vec_env
 env = make_vec_env("CartPole-v1", n_envs=8, vec_env_cls=SubprocVecEnv)
@@ -162,6 +163,9 @@ model.learn(total_timesteps=500_000)
         Помните: каждый час обучения — это итерация дизайна. Быстрее обучение = больше экспериментов = лучший агент.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/parallel-envs" />
+
   </BlogLayout>
 );
 

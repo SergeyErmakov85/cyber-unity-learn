@@ -66,6 +66,7 @@ const BlogOnnxSentis = () => (
 {`import torch
 import torch.nn as nn
 import onnx
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 class UnityONNXWrapper(nn.Module):
     """Обёртка для экспорта PyTorch-модели в формат Unity ML-Agents."""
@@ -214,6 +215,9 @@ public class SentisAgent : MonoBehaviour
         проверяйте формы тензоров и нормализацию. С практикой весь процесс занимает менее 30 минут.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/onnx-sentis-pipeline" />
+
   </BlogLayout>
 );
 

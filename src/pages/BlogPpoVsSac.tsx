@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "ppo-vs-sac")!;
 
@@ -161,6 +162,9 @@ mlagents-learn config.yaml --run-id=sac_4env --num-envs=4`}
         каждую строку кода.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/ppo-vs-sac" />
+
   </BlogLayout>
 );
 

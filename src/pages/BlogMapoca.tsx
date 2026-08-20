@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "mapoca-guide")!;
 
@@ -199,6 +200,9 @@ public class SoccerManager : MonoBehaviour
         и постепенно усложняйте. ML-Agents делает это доступным без PhD в мультиагентных системах.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/mapoca-guide" />
+
   </BlogLayout>
 );
 

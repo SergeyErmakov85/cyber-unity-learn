@@ -4857,148 +4857,403 @@ export interface UnityBridgeRow {
 export const UNITY_BRIDGE: UnityBridgeRow[] = [
   {
     "tag": "advantage",
-    "what": "lambd — параметр GAE",
-    "path": "Assets/ML-ENVIRONMENTS/01-Basics/Hit_the_ball/config/RollerAgent.yaml"
+    "what": "GAE: преимущество как усечённая сумма TD-ошибок",
+    "path": "python/labrl/algos/ppo.py"
+  },
+  {
+    "tag": "advantage",
+    "what": "gae_lambda: 0.95 — компромисс смещения и дисперсии",
+    "path": "configs/E06_Hunter3D__ppo.yaml"
+  },
+  {
+    "tag": "attention",
+    "what": "Внимание над переменным числом агентов (RSA)",
+    "path": "python/labrl/nets/attention.py"
+  },
+  {
+    "tag": "bandits",
+    "what": "ε-greedy, UCB1 и Thompson — три стратегии одним кодом",
+    "path": "python/labrl/algos/bandits.py"
+  },
+  {
+    "tag": "bandits",
+    "what": "Пять рук с вероятностями 0.80 / 0.65 / …",
+    "path": "unity/MLAgentsLab/Assets/Envs/E00_Bandit/Scripts/BanditArea.cs"
+  },
+  {
+    "tag": "bandits",
+    "what": "ucb_c: 1.414 — ширина доверительного интервала",
+    "path": "configs/E00_Bandit__ucb.yaml"
   },
   {
     "tag": "bellman",
-    "what": "GridWorld: CurrentStateIndex 0–24 для табличного Q",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/Scripts/GridWorldAgent.cs"
+    "what": "Value Iteration: стягивающее отображение на 25 состояниях",
+    "path": "python/labrl/algos/tabular/value_iteration.py"
+  },
+  {
+    "tag": "bellman",
+    "what": "Табличное обновление Q по TD-ошибке",
+    "path": "python/labrl/algos/tabular/q_learning.py"
+  },
+  {
+    "tag": "bellman",
+    "what": "GridWorld: индекс состояния 0–24 для табличного Q",
+    "path": "unity/MLAgentsLab/Assets/Envs/E01_GridWorld/Scripts/GridWorldAgent.cs"
   },
   {
     "tag": "clipping",
-    "what": "epsilon: 0.2 — клиппинг PPO",
-    "path": "Assets/ML-ENVIRONMENTS/01-Basics/Hit_the_ball/config/RollerAgent.yaml"
+    "what": "clip_range: 0.2 — клиппинг отношения вероятностей",
+    "path": "configs/E06_Hunter3D__ppo.yaml"
+  },
+  {
+    "tag": "concept-lattice",
+    "what": "Формальный анализ понятий: алгоритм Close-by-One",
+    "path": "python/labrl/utils/fca.py"
+  },
+  {
+    "tag": "concept-lattice",
+    "what": "Слой понятий внутри графа политики",
+    "path": "python/labrl/nets/fca.py"
+  },
+  {
+    "tag": "concept-lattice",
+    "what": "Среда «ключ и дверь»: устройство и признаки",
+    "path": "unity/MLAgentsLab/Assets/Envs/E11_Research/Scripts/KeyDoorArea.cs"
+  },
+  {
+    "tag": "curriculum",
+    "what": "Расписание сложности и рандомизация домена",
+    "path": "python/labrl/train/curriculum.py"
+  },
+  {
+    "tag": "curriculum",
+    "what": "Лабиринт 5→11 клеток: генерация и проверка разрешимости",
+    "path": "unity/MLAgentsLab/Assets/Envs/E09_CurriculumMaze/Scripts/MazeArea.cs"
   },
   {
     "tag": "deep-rl",
-    "what": "Обучение нейросетевой политики через mlagents-learn",
-    "path": "docs/TRAINING.md"
+    "what": "Карточки всех тринадцати алгоритмов лаборатории",
+    "path": "docs/algos/"
+  },
+  {
+    "tag": "deep-rl",
+    "what": "Карточка на каждую из двенадцати сред",
+    "path": "docs/envs/"
   },
   {
     "tag": "discounting",
-    "what": "gamma: 0.95 в конфиге GridWorld",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/config/GridWorldQLearning.yaml"
+    "what": "gamma: 0.99 — горизонт дисконтирования GridWorld",
+    "path": "configs/E01_GridWorld__qlearning.yaml"
   },
   {
     "tag": "discounting",
-    "what": "gamma: 0.99 в конфиге RollerAgent",
-    "path": "Assets/ML-ENVIRONMENTS/01-Basics/Hit_the_ball/config/RollerAgent.yaml"
+    "what": "gamma обязана совпадать с shapingGamma агента в Unity",
+    "path": "configs/E06_Hunter3D__ppo.yaml"
   },
   {
     "tag": "dp",
-    "what": "GridWorld: перебор клеток 5×5 как модель для value iteration",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/INSTRUCTIONS.md"
+    "what": "Value Iteration против Q-learning на одной модели",
+    "path": "python/labrl/envs/gridworld_mdp.py"
+  },
+  {
+    "tag": "dqn",
+    "what": "Double DQN: буфер, целевая сеть, функция Хубера",
+    "path": "python/labrl/algos/dqn.py"
+  },
+  {
+    "tag": "dqn",
+    "what": "double_dqn: true, target_update_interval: 500",
+    "path": "configs/E03_RollerBall__dqn.yaml"
+  },
+  {
+    "tag": "entropy",
+    "what": "Энтропийный бонус и автоподстройка α",
+    "path": "python/labrl/algos/sac.py"
   },
   {
     "tag": "exploration",
-    "what": "beta: 5.0e-3 — энтропийный бонус GridWorld",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/config/GridWorldQLearning.yaml"
+    "what": "Спад ε с 1.0 до 0.05 как расписание",
+    "path": "python/labrl/utils/schedules.py"
+  },
+  {
+    "tag": "exploration",
+    "what": "Три стратегии разведки на одной задаче",
+    "path": "docs/envs/E00_Bandit.md"
+  },
+  {
+    "tag": "fca",
+    "what": "Ключ и дверь: семь бинарных признаков = формальный контекст",
+    "path": "unity/MLAgentsLab/Assets/Envs/E11_Research/Scripts/KeyDoorAgent.cs"
+  },
+  {
+    "tag": "fca",
+    "what": "Решётка понятий как слой признаков политики",
+    "path": "docs/algos/fca_ppo.md"
   },
   {
     "tag": "gradient-descent",
-    "what": "learning_rate 3.0e-4, learning_rate_schedule: linear",
-    "path": "Assets/ML-ENVIRONMENTS/01-Basics/Hit_the_ball/config/RollerAgent.yaml"
+    "what": "learning_rate линейным расписанием до нуля",
+    "path": "configs/E06_Hunter3D__ppo.yaml"
   },
   {
     "tag": "hyperparameters",
-    "what": "Все trainer-конфиги проекта",
-    "path": "config/ml-agents-reference/"
+    "what": "HPO: случайный поиск и последовательное деление пополам",
+    "path": "python/labrl/eval/hpo.py"
   },
   {
     "tag": "hyperparameters",
-    "what": "Проверка обучаемости сред",
-    "path": "Assets/Editor/MLAgentsTrainingValidator.cs"
+    "what": "Все восемнадцать конфигов лаборатории",
+    "path": "configs/"
+  },
+  {
+    "tag": "hyperparameters",
+    "what": "Эталонные конфиги штатного тренера ML-Agents",
+    "path": "configs/mlagents/"
+  },
+  {
+    "tag": "imitation",
+    "what": "Поведенческое клонирование: обучение с учителем на записях",
+    "path": "python/labrl/algos/bc.py"
+  },
+  {
+    "tag": "imitation",
+    "what": "GAIL: награда −log(1−D) от дискриминатора",
+    "path": "python/labrl/algos/gail.py"
+  },
+  {
+    "tag": "imitation",
+    "what": "Коридор-змейка, где чистый RL буксует, а BC решает",
+    "path": "unity/MLAgentsLab/Assets/Envs/E10_Imitation/Scripts/CorridorArea.cs"
+  },
+  {
+    "tag": "imitation",
+    "what": "Запись демонстраций эксперта и чтение их обратно",
+    "path": "python/labrl/envs/demos.py"
+  },
+  {
+    "tag": "imitation",
+    "what": "Измерено: BC решает коридор, чистый RL — нет",
+    "path": "docs/envs/E10_Imitation.md"
   },
   {
     "tag": "linear-algebra",
-    "what": "network_settings: hidden_units, num_layers",
-    "path": "Assets/ML-ENVIRONMENTS/01-Basics/Hit_the_ball/config/RollerAgent.yaml"
+    "what": "Полносвязная сеть: слои, ширина, активации",
+    "path": "python/labrl/nets/mlp.py"
   },
   {
     "tag": "markov",
-    "what": "GridWorld: детерминированные переходы, slipProbability",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/Scripts/GridWorldEnvironment.cs"
+    "what": "GridWorld: переходы и необязательное скольжение",
+    "path": "unity/MLAgentsLab/Assets/Envs/E01_GridWorld/Scripts/GridWorldEnvironment.cs"
   },
   {
     "tag": "matrix",
-    "what": "GridWorld: one-hot наблюдение размера 25",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/Scripts/GridWorldAgent.cs"
+    "what": "Матрица Q 25×4 и её экспорт линейным слоем",
+    "path": "python/labrl/nets/tabular.py"
   },
   {
     "tag": "mdp",
     "what": "GridWorld 5×5 — MDP на индексах клеток",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/INSTRUCTIONS.md"
+    "path": "unity/MLAgentsLab/Assets/Envs/E01_GridWorld/ENV_SPEC.md"
+  },
+  {
+    "tag": "mdp",
+    "what": "Явная модель переходов и наград на стороне Python",
+    "path": "python/labrl/envs/gridworld_mdp.py"
+  },
+  {
+    "tag": "multi-agent",
+    "what": "MA-POCA: централизованный критик и контрфактный базис",
+    "path": "python/labrl/algos/mapoca.py"
+  },
+  {
+    "tag": "multi-agent",
+    "what": "Футбол 2×2: зеркальный порядок тегов у двух команд",
+    "path": "unity/MLAgentsLab/Assets/Envs/E08_SoccerArena/Scripts/SoccerArea.cs"
+  },
+  {
+    "tag": "multi-agent",
+    "what": "Буфер для групп агентов переменного размера",
+    "path": "python/labrl/buffers/group_rollout.py"
+  },
+  {
+    "tag": "onnx",
+    "what": "Контракт экспорта: имена входов, выходов, opset",
+    "path": "docs/04_ONNX_CONTRACT.md"
+  },
+  {
+    "tag": "onnx",
+    "what": "Сборка графа политики под Unity Inference Engine",
+    "path": "python/labrl/export/onnx_export.py"
   },
   {
     "tag": "policy-gradient",
-    "what": "RollerAgent: непрерывная политика, 2 действия",
-    "path": "Assets/ML-ENVIRONMENTS/01-Basics/Hit_the_ball/Scripts/RollerAgent.cs"
+    "what": "REINFORCE с базисом",
+    "path": "python/labrl/algos/reinforce.py"
+  },
+  {
+    "tag": "policy-gradient",
+    "what": "Сборщик еды: гибридные действия и GridSensor",
+    "path": "unity/MLAgentsLab/Assets/Envs/E05_FoodCollector/Scripts/FoodCollectorAgent.cs"
+  },
+  {
+    "tag": "policy-gradient",
+    "what": "Гауссова политика: среднее и обучаемое log σ",
+    "path": "python/labrl/nets/gaussian_policy.py"
+  },
+  {
+    "tag": "policy-gradient",
+    "what": "Категориальная политика с маской действий",
+    "path": "python/labrl/nets/categorical_policy.py"
   },
   {
     "tag": "ppo",
-    "what": "PPO-конфиг RollerAgent (epsilon 0.2, lambd, num_epoch)",
-    "path": "Assets/ML-ENVIRONMENTS/01-Basics/Hit_the_ball/config/RollerAgent.yaml"
+    "what": "PPO целиком: отношение, клиппинг, GAE, несколько эпох",
+    "path": "python/labrl/algos/ppo.py"
   },
   {
     "tag": "ppo",
-    "what": "Справочные конфиги PPO из ml-agents",
-    "path": "config/ml-agents-reference/ppo/"
+    "what": "A2C — тот же actor-critic без клиппинга, для сравнения",
+    "path": "python/labrl/algos/a2c.py"
+  },
+  {
+    "tag": "ppo",
+    "what": "Платформа с шаром: два непрерывных действия",
+    "path": "unity/MLAgentsLab/Assets/Envs/E04_BallBalance/Scripts/BallBalanceAgent.cs"
   },
   {
     "tag": "probability",
-    "what": "slipProbability — модель скольжения FrozenLake",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/Scripts/GridWorldEnvironment.cs"
+    "what": "Скольжение как стохастика переходов",
+    "path": "unity/MLAgentsLab/Assets/Envs/E01_GridWorld/Scripts/GridWorldEnvironment.cs"
+  },
+  {
+    "tag": "probability",
+    "what": "Сжатая гауссиана: tanh и поправка к логарифму плотности",
+    "path": "python/labrl/nets/squashed_gaussian.py"
   },
   {
     "tag": "q-learning",
-    "what": "GridWorld: state = r·5 + c, действия N/S/E/W",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/Scripts/GridWorldEnvironment.cs"
+    "what": "Табличный Q-learning: одна строка обновления",
+    "path": "python/labrl/algos/tabular/q_learning.py"
+  },
+  {
+    "tag": "q-learning",
+    "what": "Дискретизация непрерывного состояния под таблицу",
+    "path": "python/labrl/nets/discretized.py"
+  },
+  {
+    "tag": "q-learning",
+    "what": "CartPole в Unity: непрерывное состояние из четырёх чисел",
+    "path": "unity/MLAgentsLab/Assets/Envs/E02_CartPoleUnity/Scripts/CartPoleAgent.cs"
   },
   {
     "tag": "return",
-    "what": "GridWorld: доходность кратчайшего пути +0.68",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/INSTRUCTIONS.md"
+    "what": "GridWorld: доходность кратчайшего пути ровно +0.68",
+    "path": "configs/E01_GridWorld__qlearning.yaml"
   },
   {
     "tag": "reward-design",
-    "what": "GridWorld: шаг −0.04, цель +1.0, ловушка −1.0",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/INSTRUCTIONS.md"
+    "what": "Потенциальное формирование награды (теорема Ына)",
+    "path": "docs/algos/ppo.md"
+  },
+  {
+    "tag": "reward-design",
+    "what": "Формирование награды по расстоянию до цели",
+    "path": "unity/MLAgentsLab/Assets/Envs/E06_Hunter3D/Scripts/HunterAgent.cs"
+  },
+  {
+    "tag": "reward-design",
+    "what": "Почему без формирования награды футбол необучаем",
+    "path": "docs/envs/E08_SoccerArena.md"
   },
   {
     "tag": "rl-bridge",
-    "what": "Обзор лаборатории сред",
+    "what": "Обзор лаборатории: двенадцать сред и своё ядро",
     "path": "README.md"
   },
   {
+    "tag": "rl-bridge",
+    "what": "Карта «урок курса → среда → алгоритм → статус»",
+    "path": "docs/02_LESSON_MAP.md"
+  },
+  {
+    "tag": "sac",
+    "what": "SAC: два критика, max-entropy цель, автоподстройка α",
+    "path": "python/labrl/algos/sac.py"
+  },
+  {
+    "tag": "sac",
+    "what": "tau: 0.005, autotune_alpha: true",
+    "path": "configs/E07_RacingCar__sac.yaml"
+  },
+  {
+    "tag": "sac",
+    "what": "Гоночная машина: лучи как наблюдение, руль и газ как действие",
+    "path": "unity/MLAgentsLab/Assets/Envs/E07_RacingCar/Scripts/RacingAgent.cs"
+  },
+  {
+    "tag": "self-play",
+    "what": "Пул снимков соперников и рейтинг ELO",
+    "path": "python/labrl/train/selfplay.py"
+  },
+  {
     "tag": "statistics",
-    "what": "Метрики обучения в results/",
-    "path": "docs/TRAINING.md"
+    "what": "IQM и доверительные интервалы по трём сидам",
+    "path": "python/labrl/eval/aggregate.py"
+  },
+  {
+    "tag": "statistics",
+    "what": "Базовая линия случайной политики по четырём уровням сложности",
+    "path": "docs/envs/E09_CurriculumMaze.md"
+  },
+  {
+    "tag": "statistics",
+    "what": "Сводка результатов всех примеров",
+    "path": "docs/RESULTS.md"
   },
   {
     "tag": "unity",
-    "what": "Обучение: scripts/train.ps1",
-    "path": "docs/TRAINING.md"
+    "what": "Связь Python ↔ Unity через ML-Agents",
+    "path": "python/labrl/envs/unity_env.py"
   },
   {
     "tag": "unity",
-    "what": "Сборка сцен из кода",
-    "path": "Assets/Editor/ProjectBootstrap.cs"
+    "what": "Векторизация: N арен как N параллельных сред",
+    "path": "python/labrl/envs/vec_unity_env.py"
+  },
+  {
+    "tag": "unity",
+    "what": "Сцена собирается кодом, а не руками",
+    "path": "unity/MLAgentsLab/Assets/Envs/E01_GridWorld/Editor/GridWorldSetup.cs"
   },
   {
     "tag": "value-function",
-    "what": "GridWorld: разметка наград по клеткам",
-    "path": "Assets/ML-ENVIRONMENTS/02-Examples/Greed_world/Scripts/GridWorldEnvironment.cs"
+    "what": "Разметка наград по клеткам",
+    "path": "unity/MLAgentsLab/Assets/Envs/E01_GridWorld/Scripts/GridWorldEnvironment.cs"
+  },
+  {
+    "tag": "value-function",
+    "what": "Целевое значение: terminated против truncated",
+    "path": "python/labrl/buffers/rollout.py"
   },
   {
     "tag": "vector",
-    "what": "RollerAgent: вектор наблюдений из 8 чисел",
-    "path": "Assets/ML-ENVIRONMENTS/01-Basics/Hit_the_ball/Scripts/RollerAgent.cs"
+    "what": "RollerBall: вектор наблюдений из восьми чисел",
+    "path": "unity/MLAgentsLab/Assets/Envs/E03_RollerBall/Scripts/RollerAgent.cs"
+  },
+  {
+    "tag": "vector",
+    "what": "Склейка нескольких сенсоров в один вход политики",
+    "path": "python/labrl/envs/vec_unity_env.py"
   },
   {
     "tag": "viz",
-    "what": "TensorBoard: scripts/tensorboard.ps1",
-    "path": "docs/TRAINING.md"
+    "what": "Обязательная схема тегов TensorBoard",
+    "path": "docs/05_TENSORBOARD.md"
+  },
+  {
+    "tag": "viz",
+    "what": "Запись метрик по ходу обучения",
+    "path": "python/labrl/logging/tb_logger.py"
   }
 ];
 

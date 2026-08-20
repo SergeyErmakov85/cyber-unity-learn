@@ -9,6 +9,7 @@ import ReturnToLessonChip from "@/components/math-rl/ReturnToLessonChip";
 import TextbookStrip from "@/components/math-rl/TextbookStrip";
 import { TOTAL_LECTURES } from "@/content/textbook/index.generated";
 import { sections } from "@/lib/plural";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const Part1 = lazy(() => import("@/components/math-rl/parts/Part1Limits"));
 const Part1b = lazy(() => import("@/components/math-rl/parts/Part1bCalculus"));
@@ -581,6 +582,9 @@ const MathRL = () => {
               FCA + RL для NPC →
             </Button>
           </div>
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/math-rl" />
+
         </article>
       </div>
     </div>

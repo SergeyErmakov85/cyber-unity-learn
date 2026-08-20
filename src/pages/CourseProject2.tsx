@@ -28,6 +28,7 @@ import RewardSandbox from "@/components/project-2/RewardSandbox";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
@@ -1934,6 +1935,9 @@ const CourseProject2 = () => {
       </Card>
 
       <LessonTextbookLinks lessonId="project-2" lessonLabel="Проект 2: 3D-охотник" />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="project-2" />
 
       <NextPrevLesson
         prev={{ path: "/courses/2-6", title: "TensorBoard и W&B" }}

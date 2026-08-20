@@ -16,6 +16,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import LessonBreadcrumbs from "@/components/LessonBreadcrumbs";
 import SEOHead from "@/components/SEOHead";
 import ProUpgradeBanner from "@/components/ProUpgradeBanner";
+import LabPracticeSection from "@/components/LabPracticeSection";
 import LessonSidebarTOC, { type TocColor } from "@/components/LessonSidebarTOC";
 import type { SectionNavItem } from "@/components/SectionNav";
 import { completeLesson, getProgress } from "@/lib/gamification";
@@ -479,6 +480,11 @@ const LessonLayout = ({
               </div>
             </section>
           )}
+
+          {/* Собранная среда лаборатории для этого урока — практика под теорией.
+              Блок сам решает, показываться ли: если среды для урока нет,
+              он возвращает null. */}
+          {lessonId && <LabPracticeSection contextKey={lessonId} />}
 
           {/* Pro upgrade banner for free lessons */}
           {level === 1 && <ProUpgradeBanner />}

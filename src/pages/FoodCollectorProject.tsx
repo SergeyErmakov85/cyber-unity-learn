@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, AlertTriangle, CheckCircle, Download, Brain, Cod
 import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import SEOHead from "@/components/SEOHead";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const FoodCollectorProject = () => {
   const navigate = useNavigate();
@@ -197,6 +198,9 @@ const FoodCollectorProject = () => {
             </CardContent>
           </Card>
         </section>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/unity-projects/food-collector" />
 
         {/* 7. Навигация */}
         <div className="flex flex-col sm:flex-row justify-between gap-4 pt-4">
