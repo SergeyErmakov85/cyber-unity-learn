@@ -2,6 +2,7 @@ import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
 import { Link } from "react-router-dom";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "gridsensor-guide")!;
 
@@ -67,7 +68,6 @@ obs_pytorch = obs.permute(0, 3, 1, 2)  # NHWC → NCHW`}
       <CyberCodeBlock language="python" filename="gridsensor_fix.py">
 {`import torch
 import torch.nn as nn
-import LabPracticeSection from "@/components/LabPracticeSection";
 
 class GridSensorCNN(nn.Module):
     def __init__(self, channels, grid_size, action_dim):
