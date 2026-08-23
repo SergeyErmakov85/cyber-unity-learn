@@ -9,14 +9,14 @@ const Section0 = () => (
 
     <ProseP>
       В{" "}
-      <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="self-play" hubTitle="Урок 3.2 — Self-Play">
+      <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-6-self-play" hubTitle="Урок 3.2 — Self-Play">
         уроке 3.2
       </CrossLinkToHub>{" "}
       мы уже встречали идею «постепенно усложняющейся задачи», хотя и не называли её так.{" "}
       <strong>Self-play</strong> работает потому, что соперник растёт вместе с агентом: как только
       агент становится сильнее, его новые версии становятся соперниками — и планка поднимается сама.
       Рейтинг{" "}
-      <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="elo" hubTitle="Урок 3.2 — ELO">
+      <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-7-система-рейтинга-elo" hubTitle="Урок 3.2 — ELO">
         ELO
       </CrossLinkToHub>{" "}
       ползёт вверх именно потому, что среда сопротивления непрерывно настраивается под текущий навык.
@@ -78,7 +78,7 @@ const Section0 = () => (
       items={[
         <>
           Self-play из{" "}
-          <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="self-play" hubTitle="Урок 3.2 — Self-Play">
+          <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-6-self-play" hubTitle="Урок 3.2 — Self-Play">
             урока 3.2
           </CrossLinkToHub>{" "}
           — это автоматический учебный план <strong>по сопернику</strong>; здесь мы переносим ту же

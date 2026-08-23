@@ -55,7 +55,7 @@ const Summary = () => (
       <li>
         Рубеж — <strong className="text-primary">UED</strong> (PAIRED, POET, ACCEL): «<strong>self-play
         над средами</strong>», прямое продолжение автокурриккулума из{" "}
-        <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="self-play" hubTitle="Урок 3.2 — Self-Play">
+        <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-6-self-play" hubTitle="Урок 3.2 — Self-Play">
           урока 3.2
         </CrossLinkToHub>
         .

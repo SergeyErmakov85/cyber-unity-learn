@@ -56,7 +56,6 @@ const Section5 = () => (
       вероятностей:{" "}
       <CrossLinkToHub
         hubPath="/math-rl/module-3"
-        hubAnchor="байесовская-оптимизация"
         hubTitle="Хаб: теорвер и информация — байесовская оптимизация"
       >
         ↗ теорвер и информация

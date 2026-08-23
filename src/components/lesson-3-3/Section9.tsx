@@ -132,7 +132,7 @@ const Section9 = () => (
 
     <ProseP>
       И вот мост, замыкающий три урока продвинутого раздела. В{" "}
-      <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="self-play" hubTitle="Урок 3.2 — Self-Play">
+      <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-6-self-play" hubTitle="Урок 3.2 — Self-Play">
         уроке 3.2
       </CrossLinkToHub>{" "}
       self-play был игрой <strong>двух политик</strong> друг против друга. UED — это игра между{" "}

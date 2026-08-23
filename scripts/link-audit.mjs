@@ -58,6 +58,21 @@ for (const f of files) {
   const src = readFileSync(f, "utf8");
   for (const m of src.matchAll(/title="([^"]+)"/g)) globalIds.add(slugify(m[1]));
 }
+// Секции многих уроков рендерятся как <motion.section id={s.id}> из константы
+// SECTIONS — в разметке id виден только как объектный литерал { id: "..." }.
+for (const f of files) {
+  const src = readFileSync(f, "utf8");
+  for (const m of src.matchAll(/\bid:\s*["'`]([\wЀ-ӿ-]+)["'`]/g)) globalIds.add(m[1]);
+}
+
+// Лекции учебника приходят из .md: их якоря — slugify() от заголовков.
+const mdFiles = execSync('git ls-files "src/content/**/*.md"', { encoding: "utf8" })
+  .split("\n").filter(Boolean);
+for (const f of mdFiles) {
+  const src = readFileSync(f, "utf8");
+  for (const m of src.matchAll(/^#{1,6}\s+(.+?)\s*$/gm)) globalIds.add(slugify(m[1]));
+}
+
 // Known templated ids (e.g. Courses.tsx: id={`level-${index+1}`}).
 ["level-1", "level-2", "level-3"].forEach((id) => globalIds.add(id));
 
@@ -79,6 +94,46 @@ for (const f of files) {
     if (anchor.includes("${")) continue;
     if (!globalIds.has(anchor))
       allIssues.push(`[CROSS-NO-TARGET] ${f}: "${path}#${anchorRaw}" -> no id "${anchor}" anywhere in src`);
+  }
+}
+
+// (a2) JSX-пропсы <CrossLinkToHub hubPath=".." hubAnchor=".."> и
+// <CrossLinkToLesson ... anchor="..">. Форма записи не href="/path#anchor",
+// поэтому crossLinkRe их не ловит — проверяем отдельно.
+const jsxLinkRe = /<CrossLinkTo(?:Hub|Lesson)\b([^>]*?)\/?>/g;
+for (const f of files) {
+  if (f.includes("/ui/")) continue;
+  const src = readFileSync(f, "utf8");
+  for (const m of src.matchAll(jsxLinkRe)) {
+    const attrs = m[1];
+    const pathM = attrs.match(/(?:hubPath|lessonPath)="([^"]+)"/);
+    const anchorM = attrs.match(/(?:hubAnchor|anchor)="([^"]+)"/);
+    const titleM = attrs.match(/hubTitle="([^"]+)"/);
+
+    // Путь может нести якорь прямо в себе: hubPath="/courses/3-1#итоги"
+    if (pathM) {
+      const [p, inlineAnchor] = pathM[1].split("#");
+      if (p && !p.startsWith("http") && !routes.has(p))
+        allIssues.push(`[JSX-NO-ROUTE] ${f}: hubPath="${pathM[1]}" -> нет маршрута "${p}" в App.tsx`);
+      if (inlineAnchor) {
+        totalCross++;
+        const a = decode(inlineAnchor);
+        if (!a.includes("${") && !globalIds.has(a))
+          allIssues.push(`[JSX-NO-TARGET] ${f}: "${pathM[1]}" -> нет id "${a}" в src`);
+      }
+    }
+    if (anchorM) {
+      totalCross++;
+      const a = decode(anchorM[1]);
+      if (!a.includes("${") && !globalIds.has(a))
+        allIssues.push(
+          `[JSX-NO-TARGET] ${f}: hubAnchor="${anchorM[1]}" -> нет id "${a}" в src` +
+            (pathM ? ` (цель ${pathM[1]})` : "")
+        );
+    }
+    // hubTitle виден пользователю в тултипе — заглушки туда попадать не должны.
+    if (titleM && /TODO|FIXME|XXX|заглушк/i.test(titleM[1]))
+      allIssues.push(`[JSX-PLACEHOLDER] ${f}: hubTitle="${titleM[1]}" — текст-заглушка виден в тултипе`);
   }
 }
 

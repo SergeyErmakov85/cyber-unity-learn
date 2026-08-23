@@ -12,7 +12,7 @@ const Section0 = () => (
       В прошлый раз (
       <CrossLinkToHub
         hubPath="/courses/3-4"
-        hubAnchor="razdel-5-pipeline"
+        hubAnchor="razdel-8-pipeline"
         hubTitle="Урок 3.4 — пайплайн BC + GAIL"
       >
         ↩ Урок 3.4
@@ -21,7 +21,7 @@ const Section0 = () => (
       behavioral cloning, а затем дообучили её связкой PPO + GAIL поверх рандомизированных трасс из{" "}
       <CrossLinkToHub
         hubPath="/courses/3-3"
-        hubAnchor="razdel-1-domain-randomization"
+        hubAnchor="razdel-4-randomizatsiya"
         hubTitle="Урок 3.3 — Domain Randomization"
       >
         ↩ Урока 3.3

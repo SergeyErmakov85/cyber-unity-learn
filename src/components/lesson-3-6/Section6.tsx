@@ -72,7 +72,6 @@ const Section6 = () => (
       Байеса) вынесен в хаб:{" "}
       <CrossLinkToHub
         hubPath="/math-rl/module-3"
-        hubAnchor="tpe-вывод-ei"
         hubTitle="Хаб: теорвер и информация — TPE"
       >
         ↗ теорвер и информация

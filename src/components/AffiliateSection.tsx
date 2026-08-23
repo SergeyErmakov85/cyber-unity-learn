@@ -4,8 +4,12 @@ import { Users, LinkIcon, DollarSign, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
 
 const AffiliateSection = () => {
+  // Реферальная программа ещё не подключена к биллингу, поэтому ссылку выдать
+  // нечем. Сообщаем об этом честно, а не имитируем успешное копирование.
   const handleGetLink = () => {
-    toast.success("Реферальная ссылка скопирована! (заглушка)");
+    toast("Реферальная программа скоро запустится", {
+      description: "Мы пришлём вашу персональную ссылку на почту, как только она заработает.",
+    });
   };
 
   return (
@@ -42,7 +46,7 @@ const AffiliateSection = () => {
 
         <Button onClick={handleGetLink} className="bg-gradient-neon gap-2">
           <LinkIcon className="w-4 h-4" />
-          Получить реферальную ссылку
+          Узнать о запуске программы
         </Button>
       </div>
     </div>

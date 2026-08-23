@@ -92,7 +92,7 @@ const IntroSection = () => (
             её обучает PPO/SAC —{" "}
             <CrossLinkToHub
               hubPath="/courses/3-1"
-              hubAnchor="razdel-2-politika-i-tsennost"
+              hubAnchor="раздел-2-maximum-entropy-rl-objective"
               hubTitle="Урок 3.1 — SAC/PPO"
             >
               урок 3.1
@@ -106,7 +106,7 @@ const IntroSection = () => (
             как мы дообучили гоночного агента через BC-разогрев и GAIL —{" "}
             <CrossLinkToHub
               hubPath="/courses/3-4"
-              hubAnchor="razdel-5-pipeline"
+              hubAnchor="razdel-8-pipeline"
               hubTitle="Урок 3.4 — Imitation Learning"
             >
               урок 3.4
@@ -120,7 +120,7 @@ const IntroSection = () => (
             зачем нужна доменная рандомизация для устойчивости —{" "}
             <CrossLinkToHub
               hubPath="/courses/3-3"
-              hubAnchor="razdel-1-domain-randomization"
+              hubAnchor="razdel-4-randomizatsiya"
               hubTitle="Урок 3.3 — Curriculum & Randomization"
             >
               урок 3.3
@@ -134,7 +134,7 @@ const IntroSection = () => (
             как читать кривые в TensorBoard —{" "}
             <CrossLinkToHub
               hubPath="/courses/2-6"
-              hubAnchor="razdel-1-tensorboard"
+              hubAnchor="tensorboard"
               hubTitle="Урок 2.6 — TensorBoard и W&B"
             >
               урок 2.6

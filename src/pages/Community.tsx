@@ -139,7 +139,7 @@ const Community = () => {
             <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
             <div className="relative z-10 max-w-2xl space-y-4">
               <Badge className="bg-primary/20 text-primary border-primary/30 mb-2">
-                <Users className="w-3 h-3 mr-1" /> 500+ участников
+                <Users className="w-3 h-3 mr-1" /> Скоро открытие
               </Badge>
               <h1 className="text-3xl md:text-5xl font-bold text-foreground">
                 Присоединяйтесь к{" "}
@@ -148,15 +148,10 @@ const Community = () => {
               <p className="text-muted-foreground text-lg">
                 Обсуждайте RL, получайте помощь, делитесь проектами и участвуйте в еженедельных челленджах вместе с единомышленниками.
               </p>
-              <Button
-                size="lg"
-                className="bg-gradient-neon hover:shadow-glow-cyan hover:scale-105 transition-all mt-2"
-                asChild
-              >
-                <a href="https://discord.gg/lovable-dev" target="_blank" rel="noopener noreferrer">
-                  Присоединиться к Discord
-                  <ExternalLink className="w-4 h-4 ml-2" />
-                </a>
+              {/* Инвайт появится, когда сервер будет создан. До тех пор кнопка
+                  неактивна — вести пользователя на чужой сервер нельзя. */}
+              <Button size="lg" className="bg-gradient-neon mt-2" disabled>
+                Discord скоро откроется
               </Button>
             </div>
           </div>

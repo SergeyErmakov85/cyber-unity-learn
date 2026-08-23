@@ -56,7 +56,7 @@ const Section4 = () => (
       , которого вы кодили в{" "}
       <CrossLinkToHub
         hubPath="/courses/3-1"
-        hubAnchor="razdel-1-mdp"
+        hubAnchor="раздел-0-от-гоночного-агента-к-sac"
         hubTitle="Урок 3.1 — MDP и агент"
       >
         ↩ Уроке 3.1

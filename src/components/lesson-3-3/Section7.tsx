@@ -101,7 +101,6 @@ const Section7 = () => (
       Сама привязка параметров к сцене и YAML — в хабе{" "}
       <CrossLinkToHub
         hubPath="/unity-ml-agents"
-        hubAnchor="environment-parameters"
         hubTitle="Unity ML-Agents → environment_parameters"
       >
         Unity ML-Agents ↗
@@ -220,7 +219,7 @@ const Section7 = () => (
               По чему мерить прогресс: <code className={chip}>reward</code> (награда),{" "}
               <code className={chip}>progress</code> (доля <code className={chip}>steps/max_steps</code>
               ), <code className={chip}>Elo</code> (<strong>только</strong> для self-play — см.{" "}
-              <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="elo" hubTitle="Урок 3.2 — ELO">
+              <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-7-система-рейтинга-elo" hubTitle="Урок 3.2 — ELO">
                 урок 3.2
               </CrossLinkToHub>
               )
@@ -284,7 +283,7 @@ const Section7 = () => (
     <ProseP>
       А если трасса тренируется через <strong>self-play</strong> (как в Проекте 3 с соперниками), мерой
       прогресса можно взять <strong>ELO</strong> — то самое, что мы считали в{" "}
-      <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="elo" hubTitle="Урок 3.2 — ELO">
+      <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-7-система-рейтинга-elo" hubTitle="Урок 3.2 — ELO">
         уроке 3.2
       </CrossLinkToHub>
       :
@@ -329,7 +328,7 @@ const Section7 = () => (
         </>,
         <>
           <code className={chip}>measure: Elo</code> доступна <strong>только</strong> в self-play (см.{" "}
-          <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="elo" hubTitle="Урок 3.2 — ELO">
+          <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-7-система-рейтинга-elo" hubTitle="Урок 3.2 — ELO">
             урок 3.2
           </CrossLinkToHub>
           ); <code className={chip}>value</code>-как-сэмплер = учебный план над рандомизацией прямо в

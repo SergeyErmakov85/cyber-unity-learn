@@ -91,7 +91,7 @@ const Section5 = () => (
       исследование (
       <CrossLinkToHub
         hubPath="/algorithms/ppo"
-        hubAnchor="stochastic-policy"
+        hubAnchor="ppo-overview"
         hubTitle="Хаб PPO — стохастическая политика"
       >
         ↗ Хаб: PPO → стохастическая политика

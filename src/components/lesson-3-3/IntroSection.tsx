@@ -117,7 +117,7 @@ const IntroSection = () => (
           <span>
             <strong>Self-play</strong>, рейтинг <strong>ELO</strong>, <strong>нестационарность</strong>{" "}
             и <strong>CTDE</strong> —{" "}
-            <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="self-play" hubTitle="Урок 3.2 — Self-Play">
+            <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-6-self-play" hubTitle="Урок 3.2 — Self-Play">
               урок 3.2
             </CrossLinkToHub>{" "}
             и хаб{" "}

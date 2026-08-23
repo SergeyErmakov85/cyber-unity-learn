@@ -8,6 +8,12 @@ interface SEOHeadProps {
   jsonLd?: object | object[];
   image?: string;
   keywords?: string;
+  /**
+   * Закрыть страницу от индексации. Нужно для служебных страниц и 404:
+   * SPA отдаёт их с кодом 200, поэтому без noindex они попадают в выдачу
+   * как soft-404. При noindex canonical не выставляем.
+   */
+  noindex?: boolean;
 }
 
 const BASE_URL = "https://rl-cuber-unity-code.com";
@@ -20,6 +26,7 @@ const SEOHead = ({
   jsonLd,
   image,
   keywords,
+  noindex = false,
 }: SEOHeadProps) => {
   const url = `${BASE_URL}${path}`;
   const ogImage = image
@@ -35,7 +42,11 @@ const SEOHead = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       {keywords && <meta name="keywords" content={keywords} />}
-      <link rel="canonical" href={url} />
+      {noindex ? (
+        <meta name="robots" content="noindex, follow" />
+      ) : (
+        <link rel="canonical" href={url} />
+      )}
 
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />

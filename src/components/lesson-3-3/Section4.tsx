@@ -68,8 +68,7 @@ const Section4 = () => (
       ; формальную глубину про обобщение/контекстный MDP — в хабе{" "}
       <CrossLinkToHub
         hubPath="/deep-rl"
-        hubAnchor="generalization"
-        hubTitle="Deep RL → Обобщение (TODO-якорь)"
+        hubTitle="Deep RL → хаб «Глубокий RL»"
       >
         Глубокий RL ↗
       </CrossLinkToHub>

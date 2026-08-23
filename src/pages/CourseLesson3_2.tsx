@@ -662,7 +662,7 @@ const CourseLesson3_2 = () => {
             <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="раздел-6-reparameterization-trick-для-стохастической-политики" hubTitle="Урок 3.1 — Reparameterization trick">урока 3.1</CrossLinkToHub> —
             структура та же, только advantage теперь контрфактический. Строгий вывод counterfactual
             baseline — в{" "}
-            <CrossLinkToHub hubPath="/algorithms/poca" hubAnchor="counterfactual-baseline" hubTitle="MA-POCA — counterfactual baseline">хабе по командному credit assignment</CrossLinkToHub>.
+            <CrossLinkToHub hubPath="/blog/mapoca-guide" hubTitle="MA-POCA — counterfactual baseline">хабе по командному credit assignment</CrossLinkToHub>.
           </p>
 
           <h3 className={H3_CLASS}>Почему это работает лучше, чем просто вычесть V</h3>
@@ -796,7 +796,7 @@ const CourseLesson3_2 = () => {
           </h2>
           <p className="text-foreground/90 leading-relaxed">
             Практический SAC использовал <strong className="text-foreground">две Q-сети + политику</strong> (см.{" "}
-            <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="раздел-4-soft-policy-iteration-практический-sac" hubTitle="Урок 3.1 — Soft Policy Iteration">урок 3.1, раздел 4</CrossLinkToHub>).
+            <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="раздел-4-soft-policy-iteration" hubTitle="Урок 3.1 — Soft Policy Iteration">урок 3.1, раздел 4</CrossLinkToHub>).
             MA-POCA использует другой набор:
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
@@ -1486,7 +1486,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
               </div>
               <ul className="space-y-2.5 text-sm">
                 <li className="leading-snug">
-                  <CrossLinkToHub hubPath="/algorithms/poca" hubTitle="MA-POCA">MA-POCA</CrossLinkToHub>
+                  <CrossLinkToHub hubPath="/blog/mapoca-guide" hubTitle="MA-POCA">MA-POCA</CrossLinkToHub>
                   <span className="text-xs text-muted-foreground"> — counterfactual baseline, RSA-архитектура</span>
                 </li>
                 <li className="leading-snug">

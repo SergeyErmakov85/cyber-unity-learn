@@ -42,7 +42,7 @@ const Section7 = () => (
       Вот где окупается доменная рандомизация (
       <CrossLinkToHub
         hubPath="/courses/3-3"
-        hubAnchor="razdel-1-domain-randomization"
+        hubAnchor="razdel-4-randomizatsiya"
         hubTitle="Урок 3.3 — Domain Randomization"
       >
         ↩ Урок 3.3

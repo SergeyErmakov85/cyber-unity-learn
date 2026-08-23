@@ -32,7 +32,7 @@ const Section3 = () => (
       <li>
         <strong>Само-организующийся (self-play и автокурриккулумы).</strong> Здесь учебный план{" "}
         <em>возникает сам</em> из взаимодействия. В{" "}
-        <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="self-play" hubTitle="Урок 3.2 — Self-Play">
+        <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-6-self-play" hubTitle="Урок 3.2 — Self-Play">
           self-play
         </CrossLinkToHub>{" "}
         соперник — это и есть учитель: он автоматически держит сложность на уровне текущего навыка.
@@ -61,7 +61,7 @@ const Section3 = () => (
         <>
           <strong>Self-play</strong> — это автокурриккулум, где учебный план рождается из
           взаимодействия, а не задаётся вручную; прямое продолжение{" "}
-          <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="self-play" hubTitle="Урок 3.2 — Self-Play">
+          <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-6-self-play" hubTitle="Урок 3.2 — Self-Play">
             урока 3.2
           </CrossLinkToHub>
           .

@@ -27,7 +27,7 @@ const Section2 = () => (
       <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> см. хаб{" "}
       <CrossLinkToHub
         hubPath="/math-rl/module-1"
-        hubAnchor="discounting"
+        hubAnchor="4-уравнения-беллмана-и-дисконтирование"
         hubTitle="Математика → Дисконтирование"
       >
         Дисконтирование ↗
@@ -85,7 +85,7 @@ const Section2 = () => (
       меняется во времени), а с нестационарностью мы уже сталкивались в{" "}
       <CrossLinkToHub
         hubPath="/courses/3-2"
-        hubAnchor="nonstationarity"
+        hubAnchor="раздел-1-постановка-задачи-decentralized-pomdp-и-ctde"
         hubTitle="Урок 3.2 — нестационарность"
       >
         уроке 3.2
@@ -115,7 +115,7 @@ const Section2 = () => (
           соперника в{" "}
           <CrossLinkToHub
             hubPath="/courses/3-2"
-            hubAnchor="nonstationarity"
+            hubAnchor="раздел-1-постановка-задачи-decentralized-pomdp-и-ctde"
             hubTitle="Урок 3.2 — нестационарность"
           >
             self-play

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Github, Mail, MessageCircle, Twitter, Youtube, ExternalLink } from "lucide-react";
+import { Mail } from "lucide-react";
 
 const footerLinks = {
   platform: {
@@ -40,11 +40,10 @@ const footerLinks = {
   },
 };
 
+// Соцсети появятся здесь, когда будут заведены реальные аккаунты. Ссылки на
+// голые домены (github.com, twitter.com) выглядят рабочими, но никуда не ведут,
+// поэтому в проде их не показываем.
 const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
-  { icon: MessageCircle, href: "https://discord.gg", label: "Discord" },
   { icon: Mail, href: "mailto:support@rlplatform.ru", label: "Email" },
 ];
 
@@ -109,17 +108,6 @@ const FooterSection = () => {
           <span>📧 Поддержка:</span>
           <a href="mailto:support@rlplatform.ru" className="hover:text-primary transition-colors duration-200">
             support@rlplatform.ru
-          </a>
-          <span className="hidden sm:inline text-border">|</span>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 hover:text-primary transition-colors duration-200"
-          >
-            <Github className="w-4 h-4" />
-            GitHub репозиторий
-            <ExternalLink className="w-3 h-3" />
           </a>
         </div>
 

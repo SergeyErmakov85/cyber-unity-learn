@@ -50,7 +50,7 @@ const Section1 = () => (
       PPO (
       <CrossLinkToHub
         hubPath="/algorithms/ppo"
-        hubAnchor="policy-network"
+        hubAnchor="architecture"
         hubTitle="Хаб PPO — политика как сеть"
       >
         ↗ Хаб: PPO → политика как сеть

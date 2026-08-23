@@ -64,8 +64,8 @@ const RelatedMaterials = () => (
             </tr>
           </thead>
           <tbody className="divide-y divide-cyan-500/10 text-foreground/85">
-            <tr><td className="p-3"><CrossLinkToLesson lessonId="3.1" lessonPath="/courses/3-1#itogi" lessonTitle="Урок 3.1 — SAC" lessonLevel={3}>Урок 3.1 (SAC)</CrossLinkToLesson></td><td className="p-3">MDP, actor-critic, replay buffer, <code>tau</code>, два критика, энтропия</td></tr>
-            <tr><td className="p-3"><CrossLinkToLesson lessonId="3.2" lessonPath="/courses/3-2#itogi" lessonTitle="Урок 3.2 — MA-POCA / Self-Play" lessonLevel={3}>Урок 3.2 (MA-POCA/Self-Play)</CrossLinkToLesson></td><td className="p-3">MARL, CTDE, контрфактический бейзлайн, Self-Play, ELO</td></tr>
+            <tr><td className="p-3"><CrossLinkToLesson lessonId="3.1" lessonPath="/courses/3-1#итоги" lessonTitle="Урок 3.1 — SAC" lessonLevel={3}>Урок 3.1 (SAC)</CrossLinkToLesson></td><td className="p-3">MDP, actor-critic, replay buffer, <code>tau</code>, два критика, энтропия</td></tr>
+            <tr><td className="p-3"><CrossLinkToLesson lessonId="3.2" lessonPath="/courses/3-2#итоги-урока" lessonTitle="Урок 3.2 — MA-POCA / Self-Play" lessonLevel={3}>Урок 3.2 (MA-POCA/Self-Play)</CrossLinkToLesson></td><td className="p-3">MARL, CTDE, контрфактический бейзлайн, Self-Play, ELO</td></tr>
             <tr><td className="p-3"><CrossLinkToLesson lessonId="2.3" lessonPath="/courses/2-3" lessonTitle="Урок 2.3 — Непрерывные действия" lessonLevel={2}>Урок 2.3 (Непрерывные действия)</CrossLinkToLesson></td><td className="p-3">непрерывная политика, Actor-Critic</td></tr>
             <tr><td className="p-3"><CrossLinkToLesson lessonId="2.6" lessonPath="/courses/2-6" lessonTitle="Урок 2.6 — TensorBoard и W&B" lessonLevel={2}>Урок 2.6 (TensorBoard и W&B)</CrossLinkToLesson></td><td className="p-3">диагностика обучения, логирование</td></tr>
             <tr><td className="p-3"><CrossLinkToLesson lessonId="project-3" lessonPath="/courses/project-3" lessonTitle="Проект 3 — Гоночный агент (PPO)" lessonLevel={3}>Проект 3 (Гоночный агент, PPO)</CrossLinkToLesson></td><td className="p-3">практика PPO-агента</td></tr>
