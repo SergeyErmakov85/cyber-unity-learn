@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 import { Card, CardContent } from "@/components/ui/card";
