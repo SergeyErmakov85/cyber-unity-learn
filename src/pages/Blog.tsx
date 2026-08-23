@@ -18,6 +18,16 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "unity-ml-agents-tutorial",
+    title: "Unity ML-Agents с нуля: от установки до обученного агента",
+    description: "Пошаговый туториал: установка PyTorch и mlagents, сборка сцены в Unity, скрипт агента на C#, reward shaping, конфиг PPO, запуск обучения, чтение метрик в TensorBoard и инференс ONNX-модели в билде. С разбором типичных ошибок.",
+    author: "RL Platform",
+    date: "2026-08-23",
+    readTime: "9 мин",
+    tags: ["ML-Agents", "Туториал", "PPO"],
+    gradient: "from-accent/40 via-primary/20 to-accent/10",
+  },
+  {
     slug: "ppo-vs-sac",
     title: "PPO vs SAC: что выбрать для вашего игрового RL-проекта?",
     description: "Подробное сравнение двух самых популярных алгоритмов RL по стабильности, скорости обучения, типу действий и сложности реализации. Таблица и рекомендации по сценариям.",

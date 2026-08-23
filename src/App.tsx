@@ -72,6 +72,7 @@ const BlogJupyterToUnity = lazy(() => import("./pages/BlogJupyterToUnity"));
 const BlogGridSensor = lazy(() => import("./pages/BlogGridSensor"));
 const BlogReinforceVsPpo = lazy(() => import("./pages/BlogReinforceVsPpo"));
 const BlogOnnxSentis = lazy(() => import("./pages/BlogOnnxSentis"));
+const BlogUnityMlAgentsTutorial = lazy(() => import("./pages/BlogUnityMlAgentsTutorial"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const FAQ = lazy(() => import("./pages/FAQ"));
@@ -185,6 +186,7 @@ const App = () => (
             <Route path="/blog/gridsensor-guide" element={<BlogGridSensor />} />
             <Route path="/blog/reinforce-vs-ppo" element={<BlogReinforceVsPpo />} />
             <Route path="/blog/onnx-sentis-pipeline" element={<BlogOnnxSentis />} />
+            <Route path="/blog/unity-ml-agents-tutorial" element={<BlogUnityMlAgentsTutorial />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
