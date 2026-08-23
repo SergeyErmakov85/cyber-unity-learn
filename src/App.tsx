@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import RouteScrollToTop from "@/components/RouteScrollToTop";
+import YandexMetrika from "@/components/YandexMetrika";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 
@@ -72,6 +73,7 @@ const BlogGridSensor = lazy(() => import("./pages/BlogGridSensor"));
 const BlogReinforceVsPpo = lazy(() => import("./pages/BlogReinforceVsPpo"));
 const BlogOnnxSentis = lazy(() => import("./pages/BlogOnnxSentis"));
 const Pricing = lazy(() => import("./pages/Pricing"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Community = lazy(() => import("./pages/Community"));
 const OnboardingQuiz = lazy(() => import("./pages/OnboardingQuiz"));
@@ -107,6 +109,7 @@ const App = () => (
       <AuthProvider>
       <BrowserRouter>
         <RouteScrollToTop />
+        <YandexMetrika />
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -184,6 +187,7 @@ const App = () => (
             <Route path="/blog/onnx-sentis-pipeline" element={<BlogOnnxSentis />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/community" element={<Community />} />
             <Route path="/onboarding" element={<OnboardingQuiz />} />
             <Route path="/certificate-preview" element={<CertificatePreview />} />

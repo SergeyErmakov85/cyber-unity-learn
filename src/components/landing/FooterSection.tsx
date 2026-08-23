@@ -114,8 +114,11 @@ const FooterSection = () => {
         {/* Bottom */}
         <div className="pt-6 border-t border-border/50">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-xs text-muted-foreground">
-              © 2026 RL Platform. Все материалы на русском языке.
+            <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span>© 2026 RL Platform. Все материалы на русском языке.</span>
+              <Link to="/privacy" className="hover:text-primary transition-colors duration-200">
+                Политика конфиденциальности
+              </Link>
             </div>
             <span className="text-xs px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-muted-foreground">
               Unity ML-Agents + PyTorch + Deep RL

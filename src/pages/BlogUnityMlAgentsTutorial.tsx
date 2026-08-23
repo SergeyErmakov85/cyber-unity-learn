@@ -101,7 +101,7 @@ const BlogUnityMlAgentsTutorial = () => (
         Всегда отдельное окружение conda и PyTorch <strong className="text-foreground">до</strong> mlagents:
         иначе pip подтянет CPU-сборку torch поверх вашей CUDA-версии.
       </p>
-      <CyberCodeBlock language="bash" filename="setup.sh">
+      <CyberCodeBlock language="pseudo" filename="setup.sh">
 {`# 1. Отдельное окружение
 conda create -n mlagents python=3.10 -y
 conda activate mlagents
@@ -261,7 +261,7 @@ prevDistance = d;`}
         Файл YAML описывает алгоритм и гиперпараметры. Имя поведения в конфиге обязано
         совпадать с Behavior Name в Unity.
       </p>
-      <CyberCodeBlock language="yaml" filename="config/rollerball.yaml">
+      <CyberCodeBlock language="pseudo" filename="config/rollerball.yaml">
 {`behaviors:
   RollerBall:
     trainer_type: ppo
@@ -297,7 +297,7 @@ prevDistance = d;`}
 
     <section id="training">
       <h2 className="text-2xl font-bold text-foreground mb-3">Шаг 6. Запуск обучения</h2>
-      <CyberCodeBlock language="bash" filename="train.sh">
+      <CyberCodeBlock language="pseudo" filename="train.sh">
 {`# 1. Запускаем тренер и ждём подключения редактора
 mlagents-learn config/rollerball.yaml --run-id=roller_01
 
@@ -321,7 +321,7 @@ mlagents-learn config/rollerball.yaml --run-id=roller_02 \\
 
     <section id="tensorboard">
       <h2 className="text-2xl font-bold text-foreground mb-3">Шаг 7. Чтение метрик</h2>
-      <CyberCodeBlock language="bash" filename="tensorboard.sh">
+      <CyberCodeBlock language="pseudo" filename="tensorboard.sh">
 {`tensorboard --logdir results --port 6006`}
       </CyberCodeBlock>
       <div className="overflow-x-auto mt-4">

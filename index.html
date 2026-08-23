@@ -41,5 +41,12 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Яндекс.Метрика: запасной пиксель на случай выключенного JS.
+         Сам счётчик поднимает src/lib/metrika.ts (только в проде), там же
+         живёт номер счётчика — при смене менять в обоих местах. -->
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/111876228" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
   </body>
 </html>

@@ -10,6 +10,7 @@
     "prebuild": "npm run textbook:index",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "preview": "vite preview",
     "textbook:index": "node scripts/build-textbook-index.mjs",
     "textbook:sync": "node scripts/sync-textbook.mjs && npm run textbook:index",
