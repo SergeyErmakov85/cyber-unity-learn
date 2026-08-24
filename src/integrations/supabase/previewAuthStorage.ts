@@ -35,11 +35,7 @@ export function brokeredPreviewStorage() {
     new Promise((resolve) => {
       const requestId = newId();
       let done = false;
-      // Явный undefined в инициализаторе: таймер выставляется ниже, а
-      // clearTimeout(undefined) безопасен. Без инициализатора prefer-const
-      // считает переменную присвоенной один раз и требует const, которым
-      // она быть не может — присваивание происходит позже объявления.
-      let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+      let timer: ReturnType<typeof setTimeout>;
       const finish = (r: { ok: boolean; value?: string | null } | null) => {
         if (done) return;
         done = true;
