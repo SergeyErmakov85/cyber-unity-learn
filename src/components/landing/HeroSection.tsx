@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import heroBg from "@/assets/hero-bg.jpg";
 import gamepadImg from "@/assets/gamepad-hero.png";
-import { BookOpen, HelpCircle, Map, Microscope, Network, UserCircle2 } from "lucide-react";
+import { BookOpen, HelpCircle, Map, Microscope, Network, Newspaper, UserCircle2 } from "lucide-react";
 import NeuralNetworkViz from "./NeuralNetworkViz";
 
 const HeroSection = () => {
@@ -96,6 +96,17 @@ const HeroSection = () => {
             >
               <UserCircle2 className="w-5 h-5 text-secondary shrink-0 transition-transform group-hover:scale-110" />
               Войти в личный кабинет
+            </button>
+            <button
+              onClick={() => navigate("/blog")}
+              className="relative flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border-2 border-accent/40 text-foreground font-semibold transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-accent/15 shadow-[0_0_20px_hsl(var(--accent)/0.35),0_0_40px_hsl(var(--accent)/0.2)] group"
+            >
+              <span className="absolute -top-1.5 -right-1.5 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
+              </span>
+              <Newspaper className="w-5 h-5 text-accent shrink-0 transition-transform group-hover:scale-110" />
+              Блог
             </button>
           </div>
 
