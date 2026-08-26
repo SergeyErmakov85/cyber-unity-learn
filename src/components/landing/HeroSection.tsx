@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import heroBg from "@/assets/hero-bg.jpg";
 import gamepadImg from "@/assets/gamepad-hero.png";
-import { BookOpen, HelpCircle, Map, Microscope, Network, UserCircle2 } from "lucide-react";
+import { BookOpen, HelpCircle, Map, Microscope, Network, Newspaper, UserCircle2 } from "lucide-react";
 import NeuralNetworkViz from "./NeuralNetworkViz";
 
 const HeroSection = () => {
