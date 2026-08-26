@@ -105,21 +105,17 @@ const HeroSection = () => {
           </div>
 
           {/* Trust Indicators */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 max-w-3xl mx-auto">
             <div className="space-y-2 p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl md:text-3xl font-bold text-primary">5</div>
-              <div className="text-xs md:text-sm text-muted-foreground">Практических проектов</div>
+              <div className="text-2xl md:text-3xl font-bold text-secondary">12</div>
+              <div className="text-xs md:text-sm text-muted-foreground">Практических проектов в игровых средах Unity</div>
             </div>
             <div className="space-y-2 p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl md:text-3xl font-bold text-secondary">100%</div>
+              <div className="text-2xl md:text-3xl font-bold text-green-400">100%</div>
               <div className="text-xs md:text-sm text-muted-foreground">Воспроизводимый код</div>
             </div>
             <div className="space-y-2 p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl md:text-3xl font-bold text-accent">7</div>
-              <div className="text-xs md:text-sm text-muted-foreground">Игровых сред Unity</div>
-            </div>
-            <div className="space-y-2 p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl md:text-3xl font-bold text-primary">24/7</div>
+              <div className="text-2xl md:text-3xl font-bold text-blue-400">24/7</div>
               <div className="text-xs md:text-sm text-muted-foreground">Доступ к материалам</div>
             </div>
           </div>
