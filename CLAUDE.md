@@ -81,6 +81,13 @@ npm run lint     # ESLint
 
 - `ctx.roundRect()` падает в canvas — использовать `fillRect`.
 - Для тогглов внутри animation loop использовать `useRef`, а не `useState`.
+- `supabase/functions/mcp/index.ts` — сгенерированный бандл, руками не редактируется. Его
+  пересобирает vite-плагин `@lovable.dev/mcp-js` из `src/lib/mcp/**` на каждом `dev`/`build`.
+  Под Windows плагин ломался (абсолютный путь `C:\…` уезжал в `npm:`-импорт, бандл схлопывался
+  в три строки) — чинится патчем `scripts/patch-mcp-plugin.mjs` из `postinstall`. Если файл
+  вдруг снова стал коротким, сначала `node scripts/patch-mcp-plugin.mjs`, потом пересборка.
+  Версия `@lovable.dev/mcp-js` попадает в `npm:`-импорты бандла, поэтому апдейт пакета
+  меняет и этот файл — его нужно пересобрать и закоммитить вместе с зависимостью.
 
 ---
 

@@ -3,10 +3,10 @@
 // supabase function: mcp
 // Bundled from src/lib/mcp/index.ts by @lovable.dev/mcp-js.
 // src/lib/mcp/index.ts
-import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.22.2";
+import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.22.1";
 
 // src/lib/mcp/tools/list-lessons.ts
-import { defineTool } from "npm:@lovable.dev/mcp-js@0.22.2";
+import { defineTool } from "npm:@lovable.dev/mcp-js@0.22.1";
 import { z } from "npm:zod@^3.25.76";
 
 // src/content/lessonContextLinks.ts
@@ -631,7 +631,7 @@ var list_lessons_default = defineTool({
 });
 
 // src/lib/mcp/tools/list-hubs.ts
-import { defineTool as defineTool2 } from "npm:@lovable.dev/mcp-js@0.22.2";
+import { defineTool as defineTool2 } from "npm:@lovable.dev/mcp-js@0.22.1";
 var HUBS = [
   { id: "pytorch", label: "PyTorch", slug: "pytorch", description: "\u041E\u0441\u043D\u043E\u0432\u044B \u0442\u0435\u043D\u0437\u043E\u0440\u043E\u0432, autograd, \u043D\u0435\u0439\u0440\u043E\u0441\u0435\u0442\u0435\u0439 \u0438 \u043E\u043F\u0442\u0438\u043C\u0438\u0437\u0430\u0446\u0438\u0438 \u0432 PyTorch." },
   { id: "unity-ml-agents", label: "Unity ML-Agents", slug: "unity-ml-agents", description: "\u0423\u0441\u0442\u0430\u043D\u043E\u0432\u043A\u0430, \u043D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430 \u0441\u0440\u0435\u0434\u044B, \u0441\u0435\u043D\u0441\u043E\u0440\u044B \u0438 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0430 \u0430\u0433\u0435\u043D\u0442\u043E\u0432 \u0432 Unity." },
@@ -656,7 +656,7 @@ var list_hubs_default = defineTool2({
 });
 
 // src/lib/mcp/tools/get-my-profile.ts
-import { defineTool as defineTool3 } from "npm:@lovable.dev/mcp-js@0.22.2";
+import { defineTool as defineTool3 } from "npm:@lovable.dev/mcp-js@0.22.1";
 
 // src/lib/mcp/tools/_supabase.ts
 import { createClient } from "npm:@supabase/supabase-js@^2.100.1";
@@ -695,7 +695,7 @@ var get_my_profile_default = defineTool3({
 });
 
 // src/lib/mcp/tools/list-testimonials.ts
-import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.22.2";
+import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.22.1";
 import { z as z2 } from "npm:zod@^3.25.76";
 var list_testimonials_default = defineTool4({
   name: "list_testimonials",
@@ -722,7 +722,7 @@ var list_testimonials_default = defineTool4({
 });
 
 // src/lib/mcp/tools/submit-testimonial.ts
-import { defineTool as defineTool5 } from "npm:@lovable.dev/mcp-js@0.22.2";
+import { defineTool as defineTool5 } from "npm:@lovable.dev/mcp-js@0.22.1";
 import { z as z3 } from "npm:zod@^3.25.76";
 var submit_testimonial_default = defineTool5({
   name: "submit_testimonial",
@@ -764,5 +764,5 @@ var mcp_default = defineMcp({
 });
 
 // lovable-mcp-supabase-entry.ts
-import { createSupabaseHandler } from "npm:@lovable.dev/mcp-js@0.22.2/stacks/supabase";
+import { createSupabaseHandler } from "npm:@lovable.dev/mcp-js@0.22.1/stacks/supabase";
 Deno.serve(createSupabaseHandler(mcp_default, { functionName: "mcp" }));
