@@ -58,7 +58,7 @@ const HeroSection = () => {
 
 
           {/* Subheading */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-foreground max-w-3xl mx-auto leading-relaxed font-heading tracking-wide drop-shadow-[0_0_12px_hsl(var(--foreground)/0.35)]">
             Практические проекты на <span className="text-primary font-semibold">PyTorch</span> с интеграцией{" "}
             <span className="text-secondary font-semibold">Unity ML-Agents</span>. Воспроизводимые эксперименты,
             реальные игровые среды и пошаговые руководства от основ до продвинутых техник.
