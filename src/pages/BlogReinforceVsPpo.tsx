@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "reinforce-vs-ppo")!;
 
@@ -160,6 +161,9 @@ def ppo_update(model, optimizer, obs, actions, old_log_probs,
         Это не вопрос «лучше/хуже», а вопрос инструмента под задачу.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/reinforce-vs-ppo" />
+
   </BlogLayout>
 );
 

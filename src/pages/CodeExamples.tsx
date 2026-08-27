@@ -21,6 +21,7 @@ import {
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import LabPracticeSection from "@/components/LabPracticeSection";
 import {
   Collapsible,
   CollapsibleContent,
@@ -1048,6 +1049,9 @@ const CodeExamples = () => {
             </a>
           </Button>
         </div>
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/code-examples" />
+
       </main>
     </div>
   );

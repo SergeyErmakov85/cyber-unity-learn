@@ -56,7 +56,7 @@ const IntroSection = () => (
           <p className="text-foreground/80 leading-relaxed">
             Лучший алгоритм обучения не спасёт плохо подобранную архитектуру. Этот урок разбирает
             сеть агента как <strong className="text-cyan-300">энкодер + голову</strong>:
-            <Math display={false}>{String.raw`\;a = h_\psi\big(f_\phi(o)\big)`}</Math>{" "}
+            <Math display={false}>{String.raw`\;a = \enfFun{h}_\psi\big(\enfFun{f}_\phi(\enfVar{o})\big)`}</Math>{" "}
             и показывает, как выбирать энкодер под тип наблюдения (вектор, пиксели, история,
             множество сущностей), а потом собирает всё в один блок{" "}
             <code className={chip}>network_settings</code> Unity ML-Agents 4.0.x на примере

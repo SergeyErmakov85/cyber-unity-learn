@@ -9,6 +9,7 @@ import Math from "@/components/Math";
 import SEOHead from "@/components/SEOHead";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const FcaRlModule = () => {
   const navigate = useNavigate();
@@ -417,6 +418,9 @@ else:
                 </CardContent>
               </Card>
             </section>
+
+            {/* Практика: собранная среда лаборатории для этой темы. */}
+            <LabPracticeSection contextKey="/fca-rl" />
 
             {/* Navigation */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">

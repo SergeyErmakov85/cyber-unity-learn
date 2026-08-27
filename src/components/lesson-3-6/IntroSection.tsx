@@ -59,7 +59,7 @@ const IntroSection = () => (
           <p className="text-foreground/80 leading-relaxed">
             Ручной подбор гиперпараметров — это дорого, необъективно и плохо воспроизводимо. Этот
             урок формализует задачу <strong className="text-cyan-300">HPO</strong>{" "}
-            <Math display={false}>{String.raw`\boldsymbol{\lambda}^{\star} = \arg\max_{\boldsymbol{\lambda}\in\Lambda}\,f(\boldsymbol{\lambda})`}</Math>
+            <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}^{\star} = \arg\max_{\boldsymbol{\lambda}\in\Lambda}\,\enfFun{f}(\boldsymbol{\enfPar{\lambda}})`}</Math>
             , разбирает стратегии поиска (grid → random → байесовская оптимизация → TPE) и
             прунинг (Median, SHA/ASHA, Hyperband), а затем применяет всё это к{" "}
             <strong>гоночному агенту</strong> на стеке{" "}

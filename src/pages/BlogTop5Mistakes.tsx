@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "top-5-mistakes")!;
 
@@ -159,6 +160,9 @@ tensorboard --logdir results
         в чеклист каждого нового проекта, и вы сэкономите десятки часов на отладке.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/top-5-mistakes" />
+
   </BlogLayout>
 );
 

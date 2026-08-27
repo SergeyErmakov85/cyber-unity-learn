@@ -28,6 +28,7 @@ import Section8 from "@/components/lesson-3-3/Section8";
 import Section9 from "@/components/lesson-3-3/Section9";
 import Summary from "@/components/lesson-3-3/Summary";
 import RelatedMaterials from "@/components/lesson-3-3/RelatedMaterials";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 /** Полный список пунктов оглавления (для SectionNav). */
 const SECTIONS: SectionNavItem[] = [
@@ -243,6 +244,9 @@ const CourseLesson3_3 = () => {
         lessonPath="/courses/3-3"
         nextLesson={{ path: "/courses/3-4", title: "Имитационное обучение (GAIL)" }}
       />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="3-3" />
 
       <RelatedMaterials />
 

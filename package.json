@@ -8,14 +8,18 @@
     "predev": "npm run textbook:index",
     "build": "vite build",
     "prebuild": "npm run textbook:index",
+    "postinstall": "node scripts/patch-mcp-plugin.mjs",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "preview": "vite preview",
     "textbook:index": "node scripts/build-textbook-index.mjs",
     "textbook:sync": "node scripts/sync-textbook.mjs && npm run textbook:index",
     "textbook:check": "node scripts/sync-textbook.mjs --check",
     "textbook:audit": "node scripts/textbook-audit.mjs",
-    "audit:links": "node scripts/link-audit.mjs"
+    "audit:links": "node scripts/link-audit.mjs",
+    "audit:lab": "node scripts/lab-links-audit.mjs",
+    "math:audit": "node scripts/math-audit.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

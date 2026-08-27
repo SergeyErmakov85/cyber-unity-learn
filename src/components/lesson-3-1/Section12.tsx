@@ -150,7 +150,7 @@ const Section12 = () => (
             </td>
             <td className="py-3 px-4 leading-relaxed">
               Коэффициент soft-update target-сетей:{" "}
-              <Math display={false}>{String.raw`\bar\theta\leftarrow\tau\theta+(1-\tau)\bar\theta`}</Math>{" "}
+              <Math display={false}>{String.raw`\enfPar{\bar{\theta}}\leftarrow\enfPar{\tau}\enfPar{\theta}+(1-\enfPar{\tau})\enfPar{\bar{\theta}}`}</Math>{" "}
               (см. <Anchor to="раздел-5-два-q-критика-clipped-double-q-и-target-сети">Раздел 5</Anchor>).
               Обычно оставляют <Math display={false}>{String.raw`0.005`}</Math>; до{" "}
               <Math display={false}>{String.raw`0.01`}</Math> ускоряет простые задачи ценой стабильности.
@@ -185,8 +185,8 @@ const Section12 = () => (
             </td>
             <td className="py-3 px-4 leading-relaxed">
               <strong>Стартовое</strong> значение энтропийного коэффициента (
-              <Math display={false}>{String.raw`\alpha_0`}</Math>). Это и есть наша температура{" "}
-              <Math display={false}>{String.raw`\alpha`}</Math> из{" "}
+              <Math display={false}>{String.raw`\enfPar{\alpha}_0`}</Math>). Это и есть наша температура{" "}
+              <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> из{" "}
               <Anchor to="раздел-7-автоматическая-подстройка-температуры-alpha">Раздела 7</Anchor>: дальше
               ML-Agents <strong>автоматически</strong> тянет её к целевой энтропии (по схеме из 1812.05905).
               Больше → больше исследования в начале; меньше → быстрее сходимость. Диапазон для непрерывных{" "}
@@ -248,7 +248,7 @@ const Section12 = () => (
         >
           связь дисконтированной суммы наград с геометрическим рядом
         </CrossLinkToHub>{" "}
-        — именно <Math display={false}>{String.raw`\gamma<1`}</Math> гарантирует конечность суммы.
+        — именно <Math display={false}>{String.raw`\enfPar{\gamma}<1`}</Math> гарантирует конечность суммы.
         Диапазон <Math display={false}>{String.raw`0.8`}</Math>–<Math display={false}>{String.raw`0.995`}</Math>.
       </li>
       <li>
@@ -304,7 +304,7 @@ const Section12 = () => (
         </>,
         <>
           <code className={chip}>init_entcoef</code> — это стартовая температура{" "}
-          <Math display={false}>{String.raw`\alpha`}</Math>; дальше она автоподстраивается.
+          <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>; дальше она автоподстраивается.
         </>,
         <>
           Для непрерывного управления: <code className={chip}>normalize: true</code>,{" "}

@@ -3,12 +3,96 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import heroBg from "@/assets/hero-bg.jpg";
 import gamepadImg from "@/assets/gamepad-hero.png";
-import { BookOpen, HelpCircle, Map, Microscope, Network, UserCircle2 } from "lucide-react";
+import { BookOpen, HelpCircle, Map, Microscope, Network, Newspaper, UserCircle2, type LucideIcon } from "lucide-react";
 import NeuralNetworkViz from "./NeuralNetworkViz";
+
+type HeroCta = {
+  label: string;
+  icon: LucideIcon;
+  /** Куда вести. Не задаётся для кнопок, которые скроллят по якорю. */
+  to?: string;
+  /** Плавный скролл к секции с этим id вместо навигации. */
+  scrollTo?: string;
+  /** Требует авторизации: гостя уводим на /login?next=... */
+  authGate?: boolean;
+  /** Пульсирующая точка «новое» в правом верхнем углу. */
+  badge?: boolean;
+  iconClass: string;
+  className: string;
+};
+
+/**
+ * Одинаковая ширина у всех кнопок + justify-center у контейнера дают
+ * симметричную сетку: 3 + 2 по центру на десктопе, 2 + 2 + 1 на планшете.
+ * Толщина рамки и насыщенность шрифта задаются в className каждой кнопки,
+ * чтобы акцентный «Блог» мог их переопределить.
+ */
+const CTA_BASE_CLASS =
+  "w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)] relative flex items-center justify-center gap-2 " +
+  "h-12 px-4 rounded-full bg-card/60 backdrop-blur-sm text-foreground whitespace-nowrap text-sm md:text-base " +
+  "transition-all duration-300 cursor-pointer hover:scale-105 group";
+
+const HERO_CTAS: HeroCta[] = [
+  {
+    label: "Карта обучения",
+    icon: Map,
+    scrollTo: "learning-path",
+    iconClass: "text-green-400",
+    className:
+      "border border-green-400/30 font-medium hover:bg-green-400/10 " +
+      "shadow-[0_0_20px_hsl(142_90%_55%_/_0.35),0_0_40px_hsl(142_90%_55%_/_0.2)]",
+  },
+  {
+    label: "Карта знаний",
+    icon: Network,
+    to: "/knowledge-map",
+    iconClass: "text-yellow-400",
+    className:
+      "border border-yellow-400/30 font-medium hover:bg-yellow-400/10 " +
+      "shadow-[0_0_20px_hsl(45_100%_50%_/_0.35),0_0_40px_hsl(45_100%_50%_/_0.2)]",
+  },
+  {
+    label: "Пройти тест",
+    icon: HelpCircle,
+    to: "/onboarding",
+    iconClass: "text-blue-400",
+    className:
+      "border border-blue-500/30 font-medium hover:bg-blue-500/10 " +
+      "shadow-[0_0_20px_hsl(220_100%_55%_/_0.35),0_0_40px_hsl(220_100%_55%_/_0.2)]",
+  },
+  {
+    label: "Войти в личный кабинет",
+    icon: UserCircle2,
+    to: "/dashboard",
+    authGate: true,
+    iconClass: "text-secondary",
+    className: "border border-secondary/30 font-medium hover:bg-secondary/10 shadow-glow-purple",
+  },
+  {
+    label: "Блог",
+    icon: Newspaper,
+    to: "/blog",
+    badge: true,
+    iconClass: "text-accent",
+    className:
+      "border-2 border-accent/40 font-semibold hover:bg-accent/15 " +
+      "shadow-[0_0_20px_hsl(var(--accent)/0.35),0_0_40px_hsl(var(--accent)/0.2)]",
+  },
+];
 
 const HeroSection = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+
+  const handleCta = (cta: HeroCta) => {
+    if (cta.scrollTo) {
+      document.querySelector(`#${cta.scrollTo}`)?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    if (!cta.to) return;
+    navigate(cta.authGate && !user ? `/login?next=${cta.to}` : cta.to);
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image with Overlay */}
@@ -52,51 +136,39 @@ const HeroSection = () => {
             <span className="text-foreground">через тренировку</span>
             <br />
             <span className="bg-gradient-neon bg-clip-text text-transparent">
-              игровых агентов <img src={gamepadImg} alt="Gamepad" className="inline-block h-12 md:h-16 lg:h-20 w-auto align-middle -mt-2 drop-shadow-[0_0_15px_hsl(var(--secondary)/0.6)]" />
+              игровых агентов <img src={gamepadImg} alt="" aria-hidden="true" className="inline-block h-12 md:h-16 lg:h-20 w-auto align-middle -mt-2 drop-shadow-[0_0_15px_hsl(var(--secondary)/0.6)]" /><span className="sr-only">игровой контроллер</span>
             </span>
           </h1>
 
 
           {/* Subheading */}
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-foreground max-w-3xl mx-auto leading-relaxed font-heading tracking-wide drop-shadow-[0_0_12px_hsl(var(--foreground)/0.35)]">
             Практические проекты на <span className="text-primary font-semibold">PyTorch</span> с интеграцией{" "}
             <span className="text-secondary font-semibold">Unity ML-Agents</span>. Воспроизводимые эксперименты,
             реальные игровые среды и пошаговые руководства от основ до продвинутых техник.
           </p>
 
-          {/* CTA Buttons — hub style */}
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center pt-8">
-            <button
-              onClick={() => {
-                const el = document.querySelector('#learning-path');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border border-green-400/30 text-foreground font-medium transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-green-400/10 shadow-[0_0_20px_hsl(142_90%_55%_/_0.35),0_0_40px_hsl(142_90%_55%_/_0.2)] group"
-            >
-              <Map className="w-5 h-5 text-green-400 shrink-0 transition-transform group-hover:scale-110" />
-              Карта обучения
-            </button>
-            <button
-              onClick={() => navigate("/knowledge-map")}
-              className="flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border border-yellow-400/30 text-foreground font-medium transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-yellow-400/10 shadow-[0_0_20px_hsl(45_100%_50%_/_0.35),0_0_40px_hsl(45_100%_50%_/_0.2)] group"
-            >
-              <Network className="w-5 h-5 text-yellow-400 shrink-0 transition-transform group-hover:scale-110" />
-              Карта знаний
-            </button>
-            <button
-              onClick={() => navigate("/onboarding")}
-              className="flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border border-blue-500/30 text-foreground font-medium transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-blue-500/10 shadow-[0_0_20px_hsl(220_100%_55%_/_0.35),0_0_40px_hsl(220_100%_55%_/_0.2)] group"
-            >
-              <HelpCircle className="w-5 h-5 text-blue-400 shrink-0 transition-transform group-hover:scale-110" />
-              Пройти тест
-            </button>
-            <button
-              onClick={() => navigate(user ? "/dashboard" : "/login?next=/dashboard")}
-              className="flex items-center justify-center gap-2 h-12 px-8 rounded-full bg-card/60 backdrop-blur-sm border border-secondary/30 text-foreground font-medium transition-all duration-300 cursor-pointer hover:scale-105 hover:bg-secondary/10 shadow-glow-purple group"
-            >
-              <UserCircle2 className="w-5 h-5 text-secondary shrink-0 transition-transform group-hover:scale-110" />
-              Войти в личный кабинет
-            </button>
+          {/* CTA Buttons — hub style, симметричная сетка */}
+          <div className="flex flex-wrap justify-center gap-4 pt-8 max-w-4xl mx-auto">
+            {HERO_CTAS.map((cta) => {
+              const Icon = cta.icon;
+              return (
+                <button
+                  key={cta.label}
+                  onClick={() => handleCta(cta)}
+                  className={`${CTA_BASE_CLASS} ${cta.className}`}
+                >
+                  {cta.badge && (
+                    <span className="absolute -top-1.5 -right-1.5 flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent" />
+                    </span>
+                  )}
+                  <Icon className={`w-5 h-5 shrink-0 transition-transform group-hover:scale-110 ${cta.iconClass}`} />
+                  {cta.label}
+                </button>
+              );
+            })}
           </div>
 
           {/* Neural Network Visualization */}
@@ -105,21 +177,17 @@ const HeroSection = () => {
           </div>
 
           {/* Trust Indicators */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 max-w-3xl mx-auto">
             <div className="space-y-2 p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl md:text-3xl font-bold text-primary">5</div>
-              <div className="text-xs md:text-sm text-muted-foreground">Практических проектов</div>
+              <div className="text-2xl md:text-3xl font-bold text-secondary">12</div>
+              <div className="text-xs md:text-sm text-muted-foreground">Практических проектов в игровых средах Unity</div>
             </div>
             <div className="space-y-2 p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl md:text-3xl font-bold text-secondary">100%</div>
+              <div className="text-2xl md:text-3xl font-bold text-green-400">100%</div>
               <div className="text-xs md:text-sm text-muted-foreground">Воспроизводимый код</div>
             </div>
             <div className="space-y-2 p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl md:text-3xl font-bold text-accent">7</div>
-              <div className="text-xs md:text-sm text-muted-foreground">Игровых сред Unity</div>
-            </div>
-            <div className="space-y-2 p-4 rounded-lg bg-card/30 backdrop-blur-sm border border-border/50">
-              <div className="text-2xl md:text-3xl font-bold text-primary">24/7</div>
+              <div className="text-2xl md:text-3xl font-bold text-blue-400">24/7</div>
               <div className="text-xs md:text-sm text-muted-foreground">Доступ к материалам</div>
             </div>
           </div>

@@ -110,6 +110,10 @@ html { scroll-behavior: smooth; }
     font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
   }
 
+  .font-heading {
+    font-family: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+  }
+
   /* Focus states — visible neon ring for all interactive elements */
   :focus-visible {
     outline: 2px solid hsl(var(--ring));

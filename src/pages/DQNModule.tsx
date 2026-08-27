@@ -6,6 +6,7 @@ import Math from "@/components/Math";
 import Quiz from "@/components/Quiz";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const codeBlock = (code: string) => (
   <pre className="bg-card/80 border border-primary/20 rounded-lg p-4 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed">
@@ -67,12 +68,12 @@ const DQNModule = () => {
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Q-Learning обновление</h3>
-                  <Math>{"Q(s, a) \\leftarrow Q(s, a) + \\alpha \\left[ r + \\gamma \\max_{a'} Q(s', a') - Q(s, a) \\right]"}</Math>
+                  <Math>{"\\enfOp{Q}(\\enfVar{s}, a) \\leftarrow \\enfOp{Q}(\\enfVar{s}, a) + \\enfPar{\\alpha} \\left[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a') - \\enfOp{Q}(\\enfVar{s}, a) \\right]"}</Math>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Функция потерь DQN</h3>
-                  <Math>{"L(\\theta) = \\mathbb{E}\\left[ \\left( r + \\gamma \\max_{a'} Q(s', a'; \\theta^-) - Q(s, a; \\theta) \\right)^2 \\right]"}</Math>
+                  <Math>{"L(\\enfPar{\\theta}) = \\mathbb{E}\\left[ \\left( \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a'; \\enfPar{\\theta}^-) - \\enfOp{Q}(\\enfVar{s}, a; \\enfPar{\\theta}) \\right)^2 \\right]"}</Math>
                   <p className="text-sm text-muted-foreground mt-2">
                     θ⁻ — параметры target network, которая обновляется периодически для стабильности.
                   </p>
@@ -180,7 +181,7 @@ class DQNAgent:
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Решение Double DQN</h3>
-                  <Math>{"Y^{\\text{DDQN}} = r + \\gamma Q\\left(s', \\arg\\max_{a'} Q(s', a'; \\theta); \\theta^-\\right)"}</Math>
+                  <Math>{"Y^{\\text{DDQN}} = \\enfTgt{r} + \\enfPar{\\gamma} \\enfOp{Q}\\left(\\enfVar{s}', \\arg\\max_{a'} \\enfOp{Q}(\\enfVar{s}', a'; \\enfPar{\\theta}); \\enfPar{\\theta}^-\\right)"}</Math>
                   <p className="text-sm text-muted-foreground mt-2">
                     Online-сеть (θ) выбирает лучшее действие, а target-сеть (θ⁻) оценивает его Q-значение.
                   </p>
@@ -213,7 +214,7 @@ with torch.no_grad():
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Декомпозиция</h3>
-                  <Math>{"Q(s, a; \\theta, \\alpha, \\beta) = V(s; \\theta, \\beta) + \\left( A(s, a; \\theta, \\alpha) - \\frac{1}{|\\mathcal{A}|} \\sum_{a'} A(s, a'; \\theta, \\alpha) \\right)"}</Math>
+                  <Math>{"\\enfOp{Q}(\\enfVar{s}, a; \\enfPar{\\theta}, \\enfPar{\\alpha}, \\beta) = \\enfOp{V}(\\enfVar{s}; \\enfPar{\\theta}, \\beta) + \\left( A(\\enfVar{s}, a; \\enfPar{\\theta}, \\enfPar{\\alpha}) - \\frac{1}{|\\mathcal{A}|} \\sum_{a'} A(\\enfVar{s}, a'; \\enfPar{\\theta}, \\enfPar{\\alpha}) \\right)"}</Math>
                 </div>
 
                 {codeBlock(`class DuelingDQN(nn.Module):
@@ -262,7 +263,7 @@ with torch.no_grad():
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Приоритет</h3>
-                  <Math>{"p_i = |\\delta_i| + \\varepsilon"}</Math>
+                  <Math>{"p_i = |\\delta_i| + \\enfPar{\\varepsilon}"}</Math>
                   <Math>{"P(i) = \\frac{p_i^\\alpha}{\\sum_k p_k^\\alpha}"}</Math>
                 </div>
 
@@ -303,6 +304,9 @@ with torch.no_grad():
             },
           ]}
         />
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/algorithms/dqn" />
 
         <div className="flex justify-between mt-8">
           <Button variant="outline" onClick={() => navigate("/algorithms")} className="border-primary/50 text-primary">

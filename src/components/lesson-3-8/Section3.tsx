@@ -23,7 +23,7 @@ const Section3 = () => (
       <CrossLinkToHub hubPath="/math-rl/module-1" hubTitle="Math RL — Модуль 1">хаб math-rl, модуль 1</CrossLinkToHub>):
     </ProseP>
 
-    <Math>{String.raw`J(\pi) = \mathbb{E}_{\pi}\!\left[\sum_{t=0}^{\infty} \gamma^t\, r_t\right].`}</Math>
+    <Math>{String.raw`\enfTgt{J}(\pi) = \mathbb{E}_{\pi}\!\left[\sum_{t=0}^{\infty} \enfPar{\gamma}^t\, \enfTgt{r}_t\right].`}</Math>
 
     <h3 className={H3_CLASS}>Dense vs sparse</h3>
     <ul className="space-y-2 my-4 list-disc list-inside text-[15px] text-foreground/90 leading-relaxed">
@@ -34,10 +34,10 @@ const Section3 = () => (
       Компромисс — <strong>reward shaping</strong>: добавляем плотный направляющий член, не меняющий оптимальную политику. Безопасная форма — <strong>потенциальное шейпинг</strong> (potential-based), где добавка строится из разности потенциалов состояний:
     </ProseP>
 
-    <Math>{String.raw`r'_t = r_t + \big(\gamma\,\Phi(s_{t+1}) - \Phi(s_t)\big).`}</Math>
+    <Math>{String.raw`\enfTgt{r}'_t = \enfTgt{r}_t + \big(\enfPar{\gamma}\,\Phi(\enfVar{s}_{t+1}) - \Phi(\enfVar{s}_t)\big).`}</Math>
 
     <ProseP>
-      Здесь <Math display={false}>{String.raw`\Phi(s)`}</Math> — например, «близость к цели». Такой член гарантированно <strong>не сдвигает</strong> оптимум, в отличие от произвольной добавки.
+      Здесь <Math display={false}>{String.raw`\Phi(\enfVar{s})`}</Math> — например, «близость к цели». Такой член гарантированно <strong>не сдвигает</strong> оптимум, в отличие от произвольной добавки.
     </ProseP>
 
     <h3 className={H3_CLASS}>Анти-паттерн: reward hacking</h3>

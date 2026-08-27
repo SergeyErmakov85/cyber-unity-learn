@@ -6,6 +6,8 @@ import demoVideoAsset from "@/assets/videos/demo-unity-agent.mp4.asset.json";
 import demoPosterAsset from "@/assets/videos/demo-unity-agent-poster.jpg.asset.json";
 const DEMO_VIDEO_SRC = demoVideoAsset.url;
 const DEMO_POSTER_SRC = demoPosterAsset.url;
+const BALL_BALANCE_VIDEO_SRC = "/videos/ball-balance.mp4";
+const BALL_BALANCE_POSTER_SRC = "/videos/ball-balance-poster.jpg";
 
 const DemoSection = () => {
   return (
@@ -27,6 +29,28 @@ const DemoSection = () => {
             Наблюдайте, как агенты обучаются решать задачи в Unity-окружениях
           </p>
         </div>
+
+        {/* Ball Balance — запись обучения агента */}
+        <Card className="mb-16 max-w-6xl mx-auto bg-card/60 backdrop-blur-sm border-primary/30 overflow-hidden">
+          <CardContent className="p-0">
+            <div className="relative w-full aspect-[1094/286] bg-gradient-to-br from-cyber-dark via-cyber-darker to-cyber-dark">
+              <video
+                src={BALL_BALANCE_VIDEO_SRC}
+                poster={BALL_BALANCE_POSTER_SRC}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                aria-label="Запись обучения агента в окружении Ball Balance"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute bottom-4 left-4 px-3 py-1.5 rounded-full bg-card/80 backdrop-blur-sm border border-border/50">
+                <span className="text-xs text-muted-foreground">Ball Balance</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Demo Video */}

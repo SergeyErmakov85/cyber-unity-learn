@@ -32,7 +32,7 @@ const Summary = () => (
       </li>
       <li>
         Return-to-go и <strong>Decision Transformer</strong> (
-        <Math display={false}>{String.raw`\tau = (\hat R_t, s_t, a_t)`}</Math>) — взгляд на политику
+        <Math display={false}>{String.raw`\tau = (\enfTgt{\hat{R}}_t, \enfVar{s}_t, a_t)`}</Math>) — взгляд на политику
         как на языковую модель; направление развития области.
       </li>
     </ul>

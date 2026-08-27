@@ -61,7 +61,7 @@ const Section2 = () => (
       хабе:{" "}
       <CrossLinkToHub
         hubPath="/unity-ml-agents"
-        hubAnchor="yaml-config"
+        hubAnchor="installation"
         hubTitle="Unity ML-Agents — YAML-конфигурация"
       >
         ↗ Хаб: Unity ML-Agents → YAML-конфигурация

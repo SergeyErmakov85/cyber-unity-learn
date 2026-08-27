@@ -41,37 +41,37 @@ const Summary = () => (
       </li>
       <li>
         <strong className="text-primary">Max-ent objective:</strong>{" "}
-        <Math display={false}>{String.raw`J(\pi)=\sum_t\mathbb{E}[\,r+\alpha\mathcal{H}(\pi)\,]`}</Math>
-        ; при <Math display={false}>{String.raw`\alpha\to 0`}</Math> возвращается обычный RL.
+        <Math display={false}>{String.raw`\enfTgt{J}(\pi)=\sum_t\mathbb{E}[\,\enfTgt{r}+\enfPar{\alpha}\mathcal{\enfOp{H}}(\pi)\,]`}</Math>
+        ; при <Math display={false}>{String.raw`\enfPar{\alpha}\to 0`}</Math> возвращается обычный RL.
       </li>
       <li>
         <strong className="text-primary">Soft величины:</strong>{" "}
-        <Math display={false}>{String.raw`V(s)=\mathbb{E}_{a\sim\pi}[Q-\alpha\log\pi]`}</Math>;
+        <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})=\mathbb{E}_{a\sim\pi}[\enfOp{Q}-\enfPar{\alpha}\log\pi]`}</Math>;
         soft-Беллман заменяет <Math display={false}>{String.raw`\max_{a'}`}</Math> на{" "}
         <Math display={false}>{String.raw`\mathbb{E}_{a'\sim\pi}`}</Math> + энтропия; «soft» =
         log-sum-exp вместо max.
       </li>
       <li>
         <strong className="text-primary">
-          Два критика + target + <Math display={false}>{String.raw`\tau`}</Math>:
+          Два критика + target + <Math display={false}>{String.raw`\enfPar{\tau}`}</Math>:
         </strong>{" "}
         clipped double-Q (<Math display={false}>{String.raw`\min`}</Math> из двух) гасит переоценку;
         target-сети ползут по{" "}
-        <Math display={false}>{String.raw`\bar\theta\leftarrow\tau\theta+(1-\tau)\bar\theta`}</Math>.
+        <Math display={false}>{String.raw`\enfPar{\bar{\theta}}\leftarrow\enfPar{\tau}\enfPar{\theta}+(1-\enfPar{\tau})\enfPar{\bar{\theta}}`}</Math>.
       </li>
       <li>
         <strong className="text-primary">Reparameterization trick:</strong>{" "}
-        <Math display={false}>{String.raw`a=\tanh(\mu_\phi(s)+\sigma_\phi(s)\odot\epsilon)`}</Math> →
+        <Math display={false}>{String.raw`a=\tanh(\mu_\phi(\enfVar{s})+\sigma_\phi(\enfVar{s})\odot\enfPar{\epsilon})`}</Math> →
         градиент течёт через сэмпл; нужна поправка на{" "}
         <Math display={false}>{String.raw`\tanh`}</Math>.
       </li>
       <li>
         <strong className="text-primary">
-          Автоподстройка <Math display={false}>{String.raw`\alpha`}</Math>:
+          Автоподстройка <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>:
         </strong>{" "}
         двойственная переменная при ограничении на энтропию;{" "}
-        <Math display={false}>{String.raw`J(\alpha)=\mathbb{E}[-\alpha\log\pi-\alpha\bar{\mathcal{H}}]`}</Math>
-        , порог <Math display={false}>{String.raw`\bar{\mathcal{H}}=-\dim(\mathcal{A})`}</Math>.
+        <Math display={false}>{String.raw`\enfTgt{J}(\enfPar{\alpha})=\mathbb{E}[-\enfPar{\alpha}\log\pi-\enfPar{\alpha}\bar{\mathcal{\enfOp{H}}}]`}</Math>
+        , порог <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}=-\dim(\mathcal{A})`}</Math>.
       </li>
       <li>
         <strong className="text-primary">Off-policy + replay buffer:</strong> переиспользование опыта

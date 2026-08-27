@@ -28,6 +28,7 @@ import RewardSandbox from "@/components/project-2/RewardSandbox";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
@@ -692,9 +693,9 @@ const CourseProject2 = () => {
           </p>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Формальное определение
-            <Math>{"\\pi_{\\theta}(a \\mid s) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(s),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(s)\\big)"}</Math>
+            <Math>{"\\pi_{\\theta}(a \\mid \\enfVar{s}) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(\\enfVar{s}),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(\\enfVar{s})\\big)"}</Math>
             reparameterization trick, вывод{" "}
-            <Math display={false}>{"\\log \\pi(a \\mid s)"}</Math> и
+            <Math display={false}>{"\\log \\pi(a \\mid \\enfVar{s})"}</Math> и
             якобиана <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-squashing
             (когда его всё-таки включают) — в хабе:{" "}
             <HubLink
@@ -756,8 +757,8 @@ const CourseProject2 = () => {
             <Math display={false}>{"A"}</Math> положительное,
             политика смещается в его сторону.
           </p>
-          <Math>{"V^{\\pi}(s) = \\mathbb{E}_{\\pi}\\!\\left[\\, r_t + \\gamma V^{\\pi}(s_{t+1}) \\mid s_t = s \\right]"}</Math>
-          <Math>{"A^{\\pi}(s,a) = Q^{\\pi}(s,a) - V^{\\pi}(s)"}</Math>
+          <Math>{"\\enfOp{V}^{\\pi}(\\enfVar{s}) = \\mathbb{E}_{\\pi}\\!\\left[\\, \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}^{\\pi}(\\enfVar{s}_{t+1}) \\mid \\enfVar{s}_t = \\enfVar{s} \\right]"}</Math>
+          <Math>{"A^{\\pi}(\\enfVar{s},a) = \\enfOp{Q}^{\\pi}(\\enfVar{s},a) - \\enfOp{V}^{\\pi}(\\enfVar{s})"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             <Math display={false}>{"A"}</Math> можно
             считать одним шагом (шумно) или всем эпизодом (запоздало). GAE даёт
@@ -766,11 +767,11 @@ const CourseProject2 = () => {
             между этими крайностями — компромисс bias / variance, который для
             Охотника решает, сходится ли обучение за 1М шагов или за 5М.
           </p>
-          <Math>{"\\delta_t = r_t + \\gamma V(s_{t+1}) - V(s_t)"}</Math>
-          <Math>{"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\gamma\\lambda)^{l}\\, \\delta_{t+l}"}</Math>
+          <Math>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
+          <Math>{"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma}\\enfPar{\\lambda})^{l}\\, \\delta_{t+l}"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Сама же сумма дисконтированных наград{" "}
-            <Math display={false}>{"G_t = \\sum_{k=0}^{\\infty} \\gamma^{k}\\, r_{t+k}"}</Math>{" "}
+            <Math display={false}>{"\\enfOp{G}_t = \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^{k}\\, \\enfTgt{r}_{t+k}"}</Math>{" "}
             конечна именно потому, что{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>γ &lt; 1</span> — это
             та самая геометрическая прогрессия, без которой бесконечные эпизоды
@@ -825,7 +826,7 @@ const CourseProject2 = () => {
             </li>
             <li>
               Сходимость{" "}
-              <Math display={false}>{"\\sum_{k} \\gamma^{k} r"}</Math> и
+              <Math display={false}>{"\\sum_{k} \\enfPar{\\gamma}^{k} \\enfTgt{r}"}</Math> и
               смысл дисконта:{" "}
               <HubLink
                 to="/hub/math-rl"
@@ -1066,8 +1067,8 @@ const CourseProject2 = () => {
               <span style={{ color: TEXT }}>Potential-based shaping (PBRS)</span>{" "}
               на расстоянии до цели:
               <div className="mt-2 space-y-1">
-                <Math>{"\\Phi(s) = -\\dfrac{d(s)}{d_{\\max}}"}</Math>
-                <Math>{"F(s, s') = \\gamma\\,\\Phi(s') - \\Phi(s)"}</Math>
+                <Math>{"\\enfFun{\\Phi}(\\enfVar{s}) = -\\dfrac{d(\\enfVar{s})}{d_{\\max}}"}</Math>
+                <Math>{"F(\\enfVar{s}, \\enfVar{s}') = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</Math>
               </div>
               <p className="mt-2" style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
                 По модулю на шаг — около{" "}
@@ -1122,14 +1123,14 @@ const CourseProject2 = () => {
           </p>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             PBRS-форма{" "}
-            <Math display={false}>{"F = \\gamma\\,\\Phi(s') - \\Phi(s)"}</Math>{" "}
+            <Math display={false}>{"F = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</Math>{" "}
             отличается тем, что её сумма по любому замкнутому циклу телескопически
             сходится в ноль: за «кружение» вокруг цели накопить плюсов нельзя.
             При этом «приближение к цели» по-прежнему даёт положительный сигнал —
             ровно тогда, когда оно реально приближение.
           </p>
           <PBRSPotentialField />
-          <Math>{"\\sum_{t=0}^{T-1} \\gamma^{t}\\, F(s_t, s_{t+1}) = \\gamma^{T}\\Phi(s_T) - \\Phi(s_0)"}</Math>
+          <Math>{"\\sum_{t=0}^{T-1} \\enfPar{\\gamma}^{t}\\, F(\\enfVar{s}_t, \\enfVar{s}_{t+1}) = \\enfPar{\\gamma}^{T}\\enfFun{\\Phi}(\\enfVar{s}_T) - \\enfFun{\\Phi}(\\enfVar{s}_0)"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Формальное обоснование (теорема Ng – Harada – Russell, 1999) и его
             расширения — в хабе:{" "}
@@ -1471,7 +1472,7 @@ const CourseProject2 = () => {
           replay buffer — это вопрос on-policy vs off-policy и importance
           sampling:
         </p>
-        <Math>{"r_t(\\theta) = \\dfrac{\\pi_{\\theta}(a_t \\mid s_t)}{\\pi_{\\theta_{\\mathrm{old}}}(a_t \\mid s_t)}"}</Math>
+        <Math>{"\\enfTgt{r}_t(\\enfPar{\\theta}) = \\dfrac{\\pi_{\\theta}(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{\\mathrm{old}}}(a_t \\mid \\enfVar{s}_t)}"}</Math>
         <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
           Формальный разбор — в хабе:{" "}
           <HubLink
@@ -1755,7 +1756,7 @@ const CourseProject2 = () => {
             гарантирует <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span>.
             Из этих rewards PPO собирает clipped surrogate objective:
           </p>
-          <Math>{"L^{\\mathrm{CLIP}}(\\theta) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(r_t(\\theta)\\hat{A}_t,\\ \\operatorname{clip}(r_t(\\theta), 1-\\varepsilon, 1+\\varepsilon)\\hat{A}_t\\big)\\right]"}</Math>
+          <Math>{"L^{\\mathrm{CLIP}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(\\enfTgt{r}_t(\\enfPar{\\theta})\\hat{A}_t,\\ \\operatorname{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\hat{A}_t\\big)\\right]"}</Math>
           <CyberCodeBlock language="csharp" filename="HunterAgent.cs">
 {`public class HunterAgent : Agent
 {
@@ -1934,6 +1935,9 @@ const CourseProject2 = () => {
       </Card>
 
       <LessonTextbookLinks lessonId="project-2" lessonLabel="Проект 2: 3D-охотник" />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="project-2" />
 
       <NextPrevLesson
         prev={{ path: "/courses/2-6", title: "TensorBoard и W&B" }}

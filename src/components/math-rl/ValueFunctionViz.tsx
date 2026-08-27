@@ -1,5 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
+import katex from "katex";
+import "katex/dist/katex.min.css";
 import { Card, CardContent } from "@/components/ui/card";
+import { KATEX_OPTIONS } from "@/lib/katex-options";
 
 /* ═══════════════════════════════════════════════════
    NEON UNITY NEURAL — Функция ценности V(s)
@@ -19,41 +22,18 @@ const C = {
   trans:"all 0.3s cubic-bezier(0.22,1,0.36,1)",
 };
 
-/* ─── KaTeX loader + Tex component ─── */
-interface KatexLib {
-  renderToString: (tex: string, opts: { displayMode: boolean; throwOnError: boolean }) => string;
-}
-const getWindowKatex = () => (window as unknown as { katex?: KatexLib }).katex ?? null;
-
-let katexPromise: Promise<KatexLib | null> | null = null;
-function loadKatex() {
-  if (katexPromise) return katexPromise;
-  katexPromise = new Promise((resolve) => {
-    if (getWindowKatex()) { resolve(getWindowKatex()); return; }
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css";
-    document.head.appendChild(link);
-    const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js";
-    script.onload = () => resolve(getWindowKatex());
-    script.onerror = () => resolve(null);
-    document.head.appendChild(script);
-  });
-  return katexPromise;
-}
-
+/* ─── Tex component ─── */
 function Tex({ children, display = false, size = 1.15, color }: {
   children: string; display?: boolean; size?: number; color?: string;
 }) {
-  const [html, setHtml] = useState("");
-  useEffect(() => {
-    loadKatex().then((katex) => {
-      if (!katex) { setHtml(""); return; }
-      try {
-        setHtml(katex.renderToString(children, { displayMode: display, throwOnError: false }));
-      } catch { setHtml(""); }
-    });
+  // KaTeX идёт из бандла (пакет `katex`), а не с CDN: одна версия на весь сайт
+  // и никакой зависимости от внешнего хоста в рантайме.
+  const html = useMemo(() => {
+    try {
+      // KATEX_OPTIONS несёт макросы ролей ENF (\enfVar и др.). Без них
+      // раскраска молча не сработает — формула останется одноцветной.
+      return katex.renderToString(children, { ...KATEX_OPTIONS, displayMode: display });
+    } catch { return ""; }
   }, [children, display]);
 
   const style: React.CSSProperties = {
@@ -280,8 +260,11 @@ const ValueFunctionViz = () => {
   const numericParts = steps.map((s, i) =>
     `${i > 0 ? " + " : ""}${s.disc.toFixed(3)} \\cdot (${s.reward >= 0 ? "+" : ""}${s.reward})`
   ).join("");
+  // Вклады — это награды, то есть роль target (ENF-COLOR-010). Знак «+»/«−»
+  // печатается явно и служит вторым признаком, поэтому пара «зелёное/красное»
+  // как единственное отличие не нужна и запрещена (ENF-COLOR-041).
   const contribParts = steps.map((s, i) =>
-    `${i > 0 ? " + " : ""}\\textcolor{${s.contrib >= 0 ? "#34D399" : "#F87171"}}{${s.contrib >= 0 ? "+" : ""}${s.contrib.toFixed(3)}}`
+    `${i > 0 ? " + " : ""}\\enfTgt{${s.contrib >= 0 ? "+" : ""}${s.contrib.toFixed(3)}}`
   ).join("");
 
   return (
@@ -434,7 +417,7 @@ const ValueFunctionViz = () => {
                   <Tex display size={1.1} color={C.txtDim}>{`= ${numericParts}`}</Tex>
                 </div>
                 <div>
-                  <Tex display size={1.2}>{`= ${contribParts} = \\textcolor{#00FFD6}{\\mathbf{${G.toFixed(3)}}}`}</Tex>
+                  <Tex display size={1.2}>{`= ${contribParts} = \\enfOp{\\mathbf{${G.toFixed(3)}}}`}</Tex>
                 </div>
               </div>
             </div>

@@ -18,20 +18,20 @@ const Section11 = () => (
     <ul className="space-y-3 my-4 text-[15px] text-foreground/90 leading-relaxed">
       <li>
         <strong>Масштаб награды / целевая энтропия.</strong> Исторически <em>главный</em>{" "}
-        гиперпараметр SAC. С автоподстройкой <Math display={false}>{String.raw`\alpha`}</Math> его
+        гиперпараметр SAC. С автоподстройкой <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> его
         роль берёт на себя целевая энтропия{" "}
-        <Math display={false}>{String.raw`\bar{\mathcal{H}}=-\dim(\mathcal{A})`}</Math>. Если агент
+        <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}=-\dim(\mathcal{A})`}</Math>. Если агент
         схлопывается в детерминизм слишком рано — поднимите стартовый энтропийный коэффициент (
         <code className={chip}>init_entcoef</code>); если бесцельно «дёргается» и не эксплуатирует
         награду — снизьте.
       </li>
       <li>
         <strong>
-          <Math display={false}>{String.raw`\tau`}</Math> (<code className={chip}>tau</code>),
+          <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> (<code className={chip}>tau</code>),
           сглаживание target.
         </strong>{" "}
         Дефолт <Math display={false}>{String.raw`0.005`}</Math>. Большое{" "}
-        <Math display={false}>{String.raw`\tau`}</Math> (
+        <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> (
         <Math display={false}>{String.raw`\to 0.01`}</Math>) ускоряет на простых задачах, но рискует
         нестабильностью; меньшее — стабильнее, но медленнее.
       </li>
@@ -74,7 +74,7 @@ const Section11 = () => (
       </li>
       <li>
         <strong>
-          Дисконт <Math display={false}>{String.raw`\gamma`}</Math> (<code className={chip}>gamma</code>).
+          Дисконт <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> (<code className={chip}>gamma</code>).
         </strong>{" "}
         <Math display={false}>{String.raw`0.99`}</Math> по умолчанию; чем дальновиднее задача, тем
         ближе к 1 (строго <Math display={false}>{String.raw`<1`}</Math>).
@@ -94,12 +94,12 @@ const Section11 = () => (
       </li>
       <li>
         Кривая награды <strong>дёргается/расходится</strong> → возможно, слишком большой{" "}
-        <Math display={false}>{String.raw`\tau`}</Math> или слишком частые обновления; уменьшите.
+        <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> или слишком частые обновления; уменьшите.
       </li>
       <li>
         Кривая ползёт <strong>слишком медленно</strong> → увеличьте update-to-data (уменьшите{" "}
         <code className={chip}>steps_per_update</code>) или слегка поднимите{" "}
-        <Math display={false}>{String.raw`\tau`}</Math>.
+        <Math display={false}>{String.raw`\enfPar{\tau}`}</Math>.
       </li>
     </ul>
 
@@ -122,7 +122,7 @@ const Section11 = () => (
           <code className={chip}>init_entcoef</code>) и согласование с масштабом награды.
         </>,
         <>
-          <Math display={false}>{String.raw`\tau=0.005`}</Math>, lr{" "}
+          <Math display={false}>{String.raw`\enfPar{\tau}=0.005`}</Math>, lr{" "}
           <Math display={false}>{String.raw`\approx 3\times10^{-4}`}</Math> (constant), буфер{" "}
           <Math display={false}>{String.raw`10^5`}</Math>–<Math display={false}>{String.raw`10^6`}</Math>
           , батч <Math display={false}>{String.raw`128`}</Math>–<Math display={false}>{String.raw`1024`}</Math>{" "}

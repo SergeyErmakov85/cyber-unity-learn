@@ -29,7 +29,7 @@ const Section4 = () => (
       контекстный — это семейство
     </ProseP>
 
-    <Math>{String.raw`\mathcal{M}_c = (\mathcal{S}, \mathcal{A}, P_c, R_c, \gamma), \qquad c \sim p(c),`}</Math>
+    <Math>{String.raw`\mathcal{M}_c = (\mathcal{S}, \mathcal{A}, P_c, \enfTgt{R}_c, \enfPar{\gamma}), \qquad c \sim p(c),`}</Math>
 
     <ProseP>
       где контекст <Math display={false}>{String.raw`c`}</Math> задаёт конкретную реализацию мира
@@ -37,19 +37,19 @@ const Section4 = () => (
       <Math display={false}>{String.raw`c_0`}</Math>:
     </ProseP>
 
-    <Math>{String.raw`\max_{\pi}\; J_{c_0}(\pi).`}</Math>
+    <Math>{String.raw`\max_{\pi}\; \enfTgt{J}_{c_0}(\pi).`}</Math>
 
     <ProseP>
       Правильная цель — ожидаемая отдача <strong>по распределению контекстов</strong>:
     </ProseP>
 
-    <Math>{String.raw`\boxed{\;\max_{\pi}\; \mathbb{E}_{c \sim p(c)}\big[\, J_c(\pi) \,\big],\qquad J_c(\pi)=\mathbb{E}_{\pi}\!\Big[\textstyle\sum_{t\ge 0}\gamma^t r_t \,\big|\, c\Big].\;}`}</Math>
+    <Math>{String.raw`\boxed{\;\max_{\pi}\; \mathbb{E}_{c \sim p(c)}\big[\, \enfTgt{J}_c(\pi) \,\big],\qquad \enfTgt{J}_c(\pi)=\mathbb{E}_{\pi}\!\Big[\textstyle\sum_{t\ge 0}\enfPar{\gamma}^t \enfTgt{r}_t \,\big|\, c\Big].\;}`}</Math>
 
     <ProseP>
       А разрыв обобщения — это разница между качеством на «виденных» и «отложенных» контекстах:
     </ProseP>
 
-    <Math>{String.raw`\mathrm{Gap}(\pi) \;=\; \underbrace{\mathbb{E}_{c\sim p_{\text{train}}}[J_c(\pi)]}_{\text{обучение}} \;-\; \underbrace{\mathbb{E}_{c\sim p_{\text{test}}}[J_c(\pi)]}_{\text{отложенные контексты}}.`}</Math>
+    <Math>{String.raw`\mathrm{Gap}(\pi) \;=\; \underbrace{\mathbb{E}_{c\sim p_{\text{train}}}[\enfTgt{J}_c(\pi)]}_{\text{обучение}} \;-\; \underbrace{\mathbb{E}_{c\sim p_{\text{test}}}[\enfTgt{J}_c(\pi)]}_{\text{отложенные контексты}}.`}</Math>
 
     <ProseP>
       <strong>Рандомизация среды</strong> = обучать на распределении{" "}
@@ -68,8 +68,7 @@ const Section4 = () => (
       ; формальную глубину про обобщение/контекстный MDP — в хабе{" "}
       <CrossLinkToHub
         hubPath="/deep-rl"
-        hubAnchor="generalization"
-        hubTitle="Deep RL → Обобщение (TODO-якорь)"
+        hubTitle="Deep RL → хаб «Глубокий RL»"
       >
         Глубокий RL ↗
       </CrossLinkToHub>
@@ -109,13 +108,13 @@ const Section4 = () => (
     </ProseP>
 
     <InteractiveStub title="Интерактив (рекомендация): «Контекстный MDP и разрыв обобщения»">
-      Слайдер «ширина рандомизации» <Math display={false}>{String.raw`\sigma`}</Math>; слева — облако из
+      Слайдер «ширина рандомизации» <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math>; слева — облако из
       нескольких трасс, сэмплированных из <Math display={false}>{String.raw`p(c)`}</Math> (чем больше{" "}
-      <Math display={false}>{String.raw`\sigma`}</Math>, тем разнообразнее); справа — две полоски{" "}
+      <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math>, тем разнообразнее); справа — две полоски{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">train reward</code> и{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">test reward</code> и их разрыв.
-      Видно, как с ростом <Math display={false}>{String.raw`\sigma`}</Math> разрыв сокращается, но при
-      чрезмерном <Math display={false}>{String.raw`\sigma`}</Math> обе полоски проседают (консервативная
+      Видно, как с ростом <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math> разрыв сокращается, но при
+      чрезмерном <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math> обе полоски проседают (консервативная
       политика). JSX со слайдером и живыми барами.
     </InteractiveStub>
 

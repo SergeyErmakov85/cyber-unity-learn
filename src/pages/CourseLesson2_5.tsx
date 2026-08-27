@@ -217,12 +217,12 @@ const CourseLesson2_5 = () => {
             <p className="text-muted-foreground leading-relaxed mb-3">
               Цель алгоритмов на базе градиента политики — максимизация ожидания дисконтированной награды:
             </p>
-            <MathFormula display>{String.raw`J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \gamma^t \, r(s_t, a_t) \right]`}</MathFormula>
+            <MathFormula display>{String.raw`\enfTgt{J}(\enfPar{\theta}) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \enfPar{\gamma}^t \, \enfTgt{r}(\enfVar{s}_t, a_t) \right]`}</MathFormula>
 
             <p className="text-muted-foreground leading-relaxed mt-3">
               Эмпирический градиент по N траекториям с функцией преимущества <em>A(s,a)</em>:
             </p>
-            <MathFormula display>{String.raw`\nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t^i \mid s_t^i) \, A(s_t^i, a_t^i)`}</MathFormula>
+            <MathFormula display>{String.raw`\enfOp{\nabla}_\theta \enfTgt{J}(\enfPar{\theta}) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=0}^{T} \enfOp{\nabla}_\theta \log \pi_\theta(a_t^i \mid \enfVar{s}_t^i) \, A(\enfVar{s}_t^i, a_t^i)`}</MathFormula>
 
             <Card className="bg-card/60 backdrop-blur-sm border-secondary/30 mt-4">
               <CardContent className="p-6">
@@ -238,7 +238,7 @@ const CourseLesson2_5 = () => {
             <p className="text-muted-foreground leading-relaxed mt-4">
               Усечённая (clipped) функция потерь PPO, особо чувствительная к качеству батча:
             </p>
-            <MathFormula display>{String.raw`L^{CLIP}(\theta) = \mathbb{E}_t \left[ \min\left( r_t(\theta) \, \hat{A}_t, \; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \, \hat{A}_t \right) \right]`}</MathFormula>
+            <MathFormula display>{String.raw`L^{CLIP}(\enfPar{\theta}) = \mathbb{E}_t \left[ \min\left( \enfTgt{r}_t(\enfPar{\theta}) \, \hat{A}_t, \; \text{clip}(\enfTgt{r}_t(\enfPar{\theta}), 1-\enfPar{\epsilon}, 1+\enfPar{\epsilon}) \, \hat{A}_t \right) \right]`}</MathFormula>
             <p className="text-muted-foreground leading-relaxed text-sm">
               Параметр <code className="text-accent">ε = 0.2</code> ограничивает размер шага. Параллельные среды дают
               устойчивую оценку GAE из разнообразных начальных состояний.

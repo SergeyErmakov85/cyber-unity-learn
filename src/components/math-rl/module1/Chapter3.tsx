@@ -31,7 +31,7 @@ const Chapter3 = () => (
       .
     </p>
     <p>
-      Математически MDP задаётся кортежем из пяти элементов: <Math display={false}>{"(S, A, P, R, \\gamma)"}</Math>.
+      Математически MDP задаётся кортежем из пяти элементов: <Math display={false}>{"(S, A, P, \\enfTgt{R}, \\enfPar{\\gamma})"}</Math>.
     </p>
 
     <div className="my-6 overflow-x-auto">
@@ -65,7 +65,7 @@ const Chapter3 = () => (
     <p>
       Центральное свойство MDP: будущее зависит <em>исключительно</em> от текущего состояния и действия, а не от всей истории:
     </p>
-    <Math>{"P(S_{t+1}=s',\\, R_{t+1}=r \\mid S_0, A_0, \\ldots, S_t, A_t) = P(S_{t+1}=s',\\, R_{t+1}=r \\mid S_t, A_t)"}</Math>
+    <Math>{"P(S_{t+1}=\\enfVar{s}',\\, \\enfTgt{R}_{t+1}=\\enfTgt{r} \\mid S_0, A_0, \\ldots, S_t, A_t) = P(S_{t+1}=\\enfVar{s}',\\, \\enfTgt{R}_{t+1}=\\enfTgt{r} \\mid S_t, A_t)"}</Math>
 
     <InfoBox variant="accent">
       <p className="font-semibold text-foreground mb-2">Интуиция: Фотография футбольного мяча</p>

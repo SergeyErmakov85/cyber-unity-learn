@@ -418,7 +418,7 @@ const RewardSandbox = () => {
       {/* Formula */}
       <div className="mt-4 overflow-x-auto">
         <MathTex>
-          {"r_t = \\underbrace{\\gamma\\Phi(s')-\\Phi(s)}_{\\text{PBRS}} \\;-\\; \\underbrace{\\tfrac{1}{\\text{MaxStep}}}_{\\text{time}} \\;+\\; \\underbrace{\\mathbb{1}[\\text{catch}]\\cdot R_{\\text{term}}}_{\\text{terminal}} \\;-\\; \\underbrace{\\mathbb{1}[\\text{hit}]\\cdot c}_{\\text{collision}}"}
+          {"\\enfTgt{r}_t = \\underbrace{\\enfPar{\\gamma}\\enfFun{\\Phi}(\\enfVar{s}')-\\enfFun{\\Phi}(\\enfVar{s})}_{\\text{PBRS}} \\;-\\; \\underbrace{\\tfrac{1}{\\text{MaxStep}}}_{\\text{time}} \\;+\\; \\underbrace{\\mathbb{1}[\\text{catch}]\\cdot \\enfTgt{R}_{\\text{term}}}_{\\text{terminal}} \\;-\\; \\underbrace{\\mathbb{1}[\\text{hit}]\\cdot c}_{\\text{collision}}"}
         </MathTex>
       </div>
 

@@ -33,6 +33,7 @@ import Section13 from "@/components/lesson-3-6/Section13";
 import Summary from "@/components/lesson-3-6/Summary";
 import RelatedMaterials from "@/components/lesson-3-6/RelatedMaterials";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -253,6 +254,9 @@ const CourseLesson3_6 = () => {
       />
 
       <LessonTextbookLinks lessonId="3-6" lessonLabel="Урок 3.6. Оптимизация гиперпараметров" />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="3-6" />
 
       <RelatedMaterials />
 

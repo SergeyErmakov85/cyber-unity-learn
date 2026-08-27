@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { ArrowLeft, Download, Snowflake, BookOpen, Brain, Calculator, Settings, Dumbbell, BarChart3, Gamepad2, FlaskConical, FileText } from "lucide-react";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const TOC_ITEMS = [
   { id: "rl-basics", label: "Что такое RL?", emoji: "🌍", Icon: BookOpen },
@@ -374,7 +375,7 @@ const FrozenLakeProject = () => {
                 <h3 className="text-lg font-bold text-foreground mb-3">📝 Уравнение Беллмана</h3>
                 <p className="text-muted-foreground mb-4">Формула обновления Q-значений:</p>
                 <div className="overflow-x-auto py-2">
-                  <MathBlock>{`Q(s, a) \\leftarrow Q(s, a) + \\alpha \\cdot \\Big[ r + \\gamma \\cdot \\max_{a'} Q(s', a') - Q(s, a) \\Big]`}</MathBlock>
+                  <MathBlock>{`\\enfOp{Q}(\\enfVar{s}, a) \\leftarrow \\enfOp{Q}(\\enfVar{s}, a) + \\enfPar{\\alpha} \\cdot \\Big[ \\enfTgt{r} + \\enfPar{\\gamma} \\cdot \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a') - \\enfOp{Q}(\\enfVar{s}, a) \\Big]`}</MathBlock>
                 </div>
 
                 <p className="text-muted-foreground mt-4 mb-3"><strong className="text-foreground">Разберём каждый символ:</strong></p>
@@ -415,7 +416,7 @@ const FrozenLakeProject = () => {
                 <h3 className="text-lg font-bold text-foreground mb-3">🔍 Разбор формулы по шагам</h3>
                 <p className="text-muted-foreground mb-3">Перепишем формулу простым языком:</p>
                 <div className="overflow-x-auto py-2">
-                  <MathBlock>{`\\underbrace{Q_{\\text{новое}}}_{\\text{обновлённая оценка}} = \\underbrace{Q_{\\text{старое}}}_{\\text{что было}} + \\underbrace{\\alpha}_{\\text{скорость}} \\cdot \\underbrace{\\Big[ \\overbrace{r}^{\\text{награда сейчас}} + \\overbrace{\\gamma \\cdot \\max Q_{\\text{будущее}}}^{\\text{лучшее впереди}} - \\overbrace{Q_{\\text{старое}}}^{\\text{что думали}} \\Big]}_{\\text{ошибка предсказания (TD-ошибка)}}`}</MathBlock>
+                  <MathBlock>{`\\underbrace{\\enfOp{Q}_{\\text{новое}}}_{\\text{обновлённая оценка}} = \\underbrace{\\enfOp{Q}_{\\text{старое}}}_{\\text{что было}} + \\underbrace{\\enfPar{\\alpha}}_{\\text{скорость}} \\cdot \\underbrace{\\Big[ \\overbrace{\\enfTgt{r}}^{\\text{награда сейчас}} + \\overbrace{\\enfPar{\\gamma} \\cdot \\max \\enfOp{Q}_{\\text{будущее}}}^{\\text{лучшее впереди}} - \\overbrace{\\enfOp{Q}_{\\text{старое}}}^{\\text{что думали}} \\Big]}_{\\text{ошибка предсказания (TD-ошибка)}}`}</MathBlock>
                 </div>
                 <p className="text-muted-foreground mt-4">
                   <strong className="text-foreground">Словами:</strong>
@@ -436,14 +437,14 @@ const FrozenLakeProject = () => {
                 <p className="text-muted-foreground mb-3">Допустим:</p>
                 <ul className="list-disc pl-6 space-y-1 text-muted-foreground text-sm">
                   <li>Агент в клетке <strong className="text-foreground">6</strong>, идёт <strong className="text-foreground">вправо</strong> и попадает в клетку <strong className="text-foreground">7</strong></li>
-                  <li><InlineMath>{"Q(6, \\text{вправо}) = 0.3"}</InlineMath> (старая оценка)</li>
+                  <li><InlineMath>{"\\enfOp{Q}(6, \\text{вправо}) = 0.3"}</InlineMath> (старая оценка)</li>
                   <li>Награда <InlineMath>{"r = 0"}</InlineMath> (просто перешёл на лёд)</li>
-                  <li><InlineMath>{"\\max Q(7, \\cdot) = 0.8"}</InlineMath> (лучшая оценка в клетке 7)</li>
-                  <li><InlineMath>{"\\alpha = 0.1, \\gamma = 0.99"}</InlineMath></li>
+                  <li><InlineMath>{"\\max \\enfOp{Q}(7, \\cdot) = 0.8"}</InlineMath> (лучшая оценка в клетке 7)</li>
+                  <li><InlineMath>{"\\enfPar{\\alpha} = 0.1, \\enfPar{\\gamma} = 0.99"}</InlineMath></li>
                 </ul>
                 <p className="text-muted-foreground mt-3">Считаем:</p>
                 <div className="overflow-x-auto py-2 space-y-1">
-                  <MathBlock>{`Q(6, \\text{вправо}) \\leftarrow 0.3 + 0.1 \\cdot [0 + 0.99 \\cdot 0.8 - 0.3]`}</MathBlock>
+                  <MathBlock>{`\\enfOp{Q}(6, \\text{вправо}) \\leftarrow 0.3 + 0.1 \\cdot [0 + 0.99 \\cdot 0.8 - 0.3]`}</MathBlock>
                   <MathBlock>{`= 0.3 + 0.1 \\cdot [0 + 0.792 - 0.3] = 0.3 + 0.1 \\cdot 0.492 = \\mathbf{0.3492}`}</MathBlock>
                 </div>
                 <p className="text-muted-foreground mt-3">
@@ -457,15 +458,15 @@ const FrozenLakeProject = () => {
                 <h3 className="text-lg font-bold text-foreground mb-3">🎲 Стратегия ε-greedy (эпсилон-жадная)</h3>
                 <p className="text-muted-foreground mb-3">Как агент выбирает действия во время обучения?</p>
                 <div className="overflow-x-auto py-2">
-                  <MathBlock>{`\\text{Действие} = \\begin{cases} \\text{случайное действие} & \\text{с вероятностью } \\varepsilon \\\\ \\arg\\max_a Q(s, a) & \\text{с вероятностью } 1 - \\varepsilon \\end{cases}`}</MathBlock>
+                  <MathBlock>{`\\text{Действие} = \\begin{cases} \\text{случайное действие} & \\text{с вероятностью } \\enfPar{\\varepsilon} \\\\ \\arg\\max_a \\enfOp{Q}(\\enfVar{s}, a) & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\end{cases}`}</MathBlock>
                 </div>
                 <p className="text-muted-foreground mt-3">Простыми словами:</p>
                 <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
-                  <li>С вероятностью <InlineMath>{"\\varepsilon"}</InlineMath> — <strong className="text-foreground">исследуем</strong> (пробуем случайное действие)</li>
-                  <li>С вероятностью <InlineMath>{"1 - \\varepsilon"}</InlineMath> — <strong className="text-foreground">используем</strong> (выбираем лучшее известное действие)</li>
+                  <li>С вероятностью <InlineMath>{"\\enfPar{\\varepsilon}"}</InlineMath> — <strong className="text-foreground">исследуем</strong> (пробуем случайное действие)</li>
+                  <li>С вероятностью <InlineMath>{"1 - \\enfPar{\\varepsilon}"}</InlineMath> — <strong className="text-foreground">используем</strong> (выбираем лучшее известное действие)</li>
                 </ul>
                 <p className="text-muted-foreground mt-3">
-                  В начале обучения <InlineMath>{"\\varepsilon"}</InlineMath> большой (много исследуем), потом <strong className="text-foreground">постепенно уменьшается</strong> (всё больше доверяем таблице).
+                  В начале обучения <InlineMath>{"\\enfPar{\\varepsilon}"}</InlineMath> большой (много исследуем), потом <strong className="text-foreground">постепенно уменьшается</strong> (всё больше доверяем таблице).
                 </p>
               </CardContent>
             </Card>
@@ -666,7 +667,7 @@ for episode in range(n_episodes):
                 <h3 className="text-lg font-bold text-foreground mb-3">🔥 Тепловая карта Q-таблицы</h3>
                 <p className="text-muted-foreground">
                   Тепловая карта показывает <strong className="text-foreground">лучшее Q-значение</strong> в каждой клетке
-                  (т.е. <InlineMath>{"\\max_a Q(s,a)"}</InlineMath>). Чем ярче клетка — тем ближе она к цели по мнению агента.
+                  (т.е. <InlineMath>{"\\max_a \\enfOp{Q}(\\enfVar{s},a)"}</InlineMath>). Чем ярче клетка — тем ближе она к цели по мнению агента.
                 </p>
               </CardContent>
             </Card>
@@ -938,6 +939,9 @@ env_slippery.close()`}
         </div>
         </main>
       </div>
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/projects/frozen-lake" />
 
       <FooterSection />
     </div>

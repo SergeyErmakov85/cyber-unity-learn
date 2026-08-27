@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, ArrowRight, Gamepad2, CircleDot, Grid3X3, Car, Users, Apple, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import HubLessonBadges from "@/components/HubLessonBadges";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 interface Project {
   id: string;
@@ -166,6 +167,9 @@ const UnityProjectsHub = () => {
             );
           })}
         </div>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/unity-projects" />
 
         <div className="flex justify-center mt-12">
           <Button onClick={() => navigate("/")} variant="outline" className="border-primary/50 text-primary hover:bg-primary/10">

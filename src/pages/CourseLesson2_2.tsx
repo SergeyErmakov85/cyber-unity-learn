@@ -176,7 +176,7 @@ const CourseLesson2_2 = () => {
           <p className="text-muted-foreground leading-relaxed mb-4">
             В классическом Policy Gradient мы максимизируем:
           </p>
-          <Math>{"L^{PG}(\\theta) = \\hat{\\mathbb{E}}_t \\left[ \\log \\pi_\\theta(a_t|s_t) \\, \\hat{A}_t \\right]"}</Math>
+          <Math>{"L^{PG}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t \\left[ \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\, \\hat{A}_t \\right]"}</Math>
 
           <Card className="bg-card/60 backdrop-blur-sm border-accent/30 mt-4">
             <CardContent className="p-5">
@@ -204,7 +204,7 @@ const CourseLesson2_2 = () => {
           <p className="text-muted-foreground leading-relaxed mb-3">
             Сначала вводим <strong className="text-foreground">отношение вероятностей</strong>:
           </p>
-          <Math>{"r_t(\\theta) = \\frac{\\pi_\\theta(a_t|s_t)}{\\pi_{\\theta_{old}}(a_t|s_t)}"}</Math>
+          <Math>{"\\enfTgt{r}_t(\\enfPar{\\theta}) = \\frac{\\pi_\\theta(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{old}}(a_t|\\enfVar{s}_t)}"}</Math>
 
           <p className="text-sm text-muted-foreground my-4">
             На старте эпохи θ = θ_old, поэтому r_t = 1. Если r_t &gt; 1 — действие стало вероятнее, если r_t &lt; 1 — наоборот.
@@ -213,7 +213,7 @@ const CourseLesson2_2 = () => {
           <p className="text-muted-foreground leading-relaxed mb-3">
             Clipped objective — берём минимум из обычного и обрезанного ratio (типичное ε = 0.2):
           </p>
-          <Math>{"L^{CLIP}(\\theta) = \\hat{\\mathbb{E}}_t \\left[ \\min\\left( r_t(\\theta) \\hat{A}_t, \\; \\text{clip}(r_t(\\theta), 1-\\varepsilon, 1+\\varepsilon) \\hat{A}_t \\right) \\right]"}</Math>
+          <Math>{"L^{CLIP}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t \\left[ \\min\\left( \\enfTgt{r}_t(\\enfPar{\\theta}) \\hat{A}_t, \\; \\text{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon}) \\hat{A}_t \\right) \\right]"}</Math>
 
           <PPOClipChart />
 
@@ -253,13 +253,13 @@ actor_loss = -torch.min(surr1, surr2).mean()`}
           </p>
 
           <h3 className="text-lg font-bold text-foreground mb-2">TD-ошибка</h3>
-          <Math>{"\\delta_t = r_t + \\gamma V_\\phi(s_{t+1}) - V_\\phi(s_t)"}</Math>
+          <Math>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}_\\phi(\\enfVar{s}_{t+1}) - \\enfOp{V}_\\phi(\\enfVar{s}_t)"}</Math>
           <p className="text-sm text-muted-foreground mt-2 mb-4 border-l-2 border-primary/40 pl-4">
             δ_t — «сюрприз»: разница между предсказанием критика V(s_t) и тем, что произошло реально.
           </p>
 
           <h3 className="text-lg font-bold text-foreground mb-2">GAE</h3>
-          <Math>{"\\hat{A}_t^{GAE(\\gamma, \\lambda)} = \\sum_{l=0}^{\\infty} (\\gamma \\lambda)^l \\delta_{t+l}"}</Math>
+          <Math>{"\\hat{A}_t^{GAE(\\gamma, \\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma} \\enfPar{\\lambda})^l \\delta_{t+l}"}</Math>
 
           <div className="grid md:grid-cols-2 gap-3 my-4">
             <Card className="bg-card/60 backdrop-blur-sm border-secondary/30">
@@ -319,7 +319,7 @@ def compute_gae(rewards, values, next_value, dones, gamma=0.99, lam=0.95):
           <p className="text-sm text-muted-foreground mb-3">
             Простая MSE между V_φ(s_t) и таргетом R̂_t = Â_t + V_φ(s_t)_old:
           </p>
-          <Math>{"L^{VF}(\\phi) = \\hat{\\mathbb{E}}_t \\left[ \\left( V_\\phi(s_t) - \\hat{R}_t \\right)^2 \\right]"}</Math>
+          <Math>{"L^{VF}(\\phi) = \\hat{\\mathbb{E}}_t \\left[ \\left( \\enfOp{V}_\\phi(\\enfVar{s}_t) - \\hat{\\enfTgt{R}}_t \\right)^2 \\right]"}</Math>
         </section>
 
         {/* === 5. Полная реализация === */}
@@ -332,7 +332,7 @@ def compute_gae(rewards, values, next_value, dones, gamma=0.99, lam=0.95):
           <p className="text-muted-foreground leading-relaxed mb-3">
             Полная функция потерь PPO — три члена: clipped actor, MSE critic, entropy bonus:
           </p>
-          <Math>{"L^{PPO}(\\theta, \\phi) = \\hat{\\mathbb{E}}_t \\left[ L^{CLIP}_t(\\theta) - c_1 L^{VF}_t(\\phi) + c_2 H[\\pi_\\theta](s_t) \\right]"}</Math>
+          <Math>{"L^{PPO}(\\enfPar{\\theta}, \\phi) = \\hat{\\mathbb{E}}_t \\left[ L^{CLIP}_t(\\enfPar{\\theta}) - c_1 L^{VF}_t(\\phi) + c_2 H[\\pi_\\theta](\\enfVar{s}_t) \\right]"}</Math>
           <p className="text-sm text-muted-foreground mt-2 mb-6">
             c₁ ≈ 0.5 — вес критика, c₂ ≈ 0.01 — вес <CrossLinkToHub hubPath="/math-rl/module-5" hubAnchor="глава-9" hubTitle="Энтропия">энтропии</CrossLinkToHub>, H — энтропия распределения политики.
           </p>

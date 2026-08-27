@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getLevelCompletionPercent, getProgress } from "@/lib/gamification";
+import LabPracticeSection from "@/components/LabPracticeSection";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const levels = [
@@ -325,6 +326,9 @@ const Courses = () => {
             <Link to="/courses/1-1">Начать обучение</Link>
           </Button>
         </div>
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/courses" />
+
       </main>
     </div>
   );

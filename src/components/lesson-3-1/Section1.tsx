@@ -48,25 +48,25 @@ const Section1 = () => (
 
     <InteractiveStub title="Интерактив: карта действий и температура α">
       Двумерная карта действий <Math display={false}>{String.raw`a\in[-1,1]^2`}</Math>. Слайдер
-      температуры <Math display={false}>{String.raw`\alpha`}</Math>: при{" "}
-      <Math display={false}>{String.raw`\alpha\to 0`}</Math> распределение политики стягивается в одну
-      точку (жадность), при росте <Math display={false}>{String.raw`\alpha`}</Math> — расплывается к
+      температуры <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>: при{" "}
+      <Math display={false}>{String.raw`\enfPar{\alpha}\to 0`}</Math> распределение политики стягивается в одну
+      точку (жадность), при росте <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> — расплывается к
       равномерному. Поверх — цветом «истинная»{" "}
       <Math display={false}>{String.raw`Q(s,a)`}</Math> с двумя пиками; видно, как при умеренном{" "}
-      <Math display={false}>{String.raw`\alpha`}</Math> политика покрывает оба пика (многомодальность).
+      <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> политика покрывает оба пика (многомодальность).
     </InteractiveStub>
 
     <h3 className={H3_CLASS}>Что такое энтропия политики</h3>
 
     <ProseP>
       Энтропия распределения измеряет его «случайность»/неопределённость. Для политики{" "}
-      <Math display={false}>{String.raw`\pi(\cdot \mid s)`}</Math> в состоянии{" "}
+      <Math display={false}>{String.raw`\pi(\cdot \mid \enfVar{s})`}</Math> в состоянии{" "}
       <Math display={false}>{String.raw`s`}</Math>:
     </ProseP>
 
-    <Math>{String.raw`\mathcal{H}\big(\pi(\cdot \mid s)\big)
-= \mathbb{E}_{a \sim \pi(\cdot\mid s)}\big[-\log \pi(a \mid s)\big]
-= -\int_{\mathcal{A}} \pi(a\mid s)\,\log \pi(a\mid s)\,da .`}</Math>
+    <Math>{String.raw`\mathcal{\enfOp{H}}\big(\pi(\cdot \mid \enfVar{s})\big)
+= \mathbb{E}_{a \sim \pi(\cdot\mid s)}\big[-\log \pi(a \mid \enfVar{s})\big]
+= -\int_{\mathcal{A}} \pi(a\mid \enfVar{s})\,\log \pi(a\mid \enfVar{s})\,da .`}</Math>
 
     <ProseP>
       Чем «острее» распределение (вся масса в одной точке) — тем энтропия ниже (в пределе{" "}
@@ -89,7 +89,7 @@ const Section1 = () => (
         <>Максимизация энтропии → исследование + устойчивость + многомодальность.</>,
         <>
           <Math display={false}>
-            {String.raw`\mathcal{H}(\pi(\cdot\mid s)) = \mathbb{E}_{a\sim\pi}[-\log\pi(a\mid s)]`}
+            {String.raw`\mathcal{\enfOp{H}}(\pi(\cdot\mid \enfVar{s})) = \mathbb{E}_{a\sim\pi}[-\log\pi(a\mid \enfVar{s})]`}
           </Math>{" "}
           — «случайность» политики.
         </>,

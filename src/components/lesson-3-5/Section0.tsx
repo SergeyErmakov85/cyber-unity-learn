@@ -12,7 +12,7 @@ const Section0 = () => (
       В прошлый раз (
       <CrossLinkToHub
         hubPath="/courses/3-4"
-        hubAnchor="razdel-5-pipeline"
+        hubAnchor="razdel-8-pipeline"
         hubTitle="Урок 3.4 — пайплайн BC + GAIL"
       >
         ↩ Урок 3.4
@@ -21,7 +21,7 @@ const Section0 = () => (
       behavioral cloning, а затем дообучили её связкой PPO + GAIL поверх рандомизированных трасс из{" "}
       <CrossLinkToHub
         hubPath="/courses/3-3"
-        hubAnchor="razdel-1-domain-randomization"
+        hubAnchor="razdel-4-randomizatsiya"
         hubTitle="Урок 3.3 — Domain Randomization"
       >
         ↩ Урока 3.3
@@ -39,7 +39,7 @@ const Section0 = () => (
 
     <ProseP>
       Это и есть <strong>деплой</strong>. Тема урока — как именно политика-функция{" "}
-      <Math display={false}>{String.raw`\pi_\theta(a\mid s)`}</Math> превращается из тензоров
+      <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s})`}</Math> превращается из тензоров
       PyTorch в файл, который Unity умеет исполнять в реальном времени внутри готовой игры. Звучит
       как рутина, но именно здесь ломается больше всего проектов: модель «не та», устройство выбрано
       неудачно, пространства наблюдений разъехались — и идеально обученный агент в билде ведёт себя

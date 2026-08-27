@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const PyTorchCheatSheet = () => {
   const navigate = useNavigate();
@@ -476,6 +477,9 @@ torch.backends.cudnn.benchmark = False`}</CyberCodeBlock>
             На главную
           </Button>
         </div>
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/pytorch/cheatsheet" />
+
       </article>
     </div>
   );

@@ -14,11 +14,11 @@ const Section2 = () => (
     </ProseP>
 
     <Math>
-      {String.raw`z = f_\phi(o) = \sigma\big(W_L\,\sigma(\cdots \sigma(W_1 o + b_1)\cdots) + b_L\big),`}
+      {String.raw`\enfVar{z} = \enfFun{f}_\phi(\enfVar{o}) = \enfFun{\sigma}\big(\enfPar{W}_L\,\enfFun{\sigma}(\cdots \enfFun{\sigma}(\enfPar{W}_1 \enfVar{o} + \enfPar{b}_1)\cdots) + \enfPar{b}_L\big),`}
     </Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`\sigma`}</Math> — функция активации (в ML-Agents —
+      где <Math display={false}>{String.raw`\enfFun{\sigma}`}</Math> — функция активации (в ML-Agents —
       Swish/ReLU-семейство), <Math display={false}>{String.raw`L =`}</Math>{" "}
       <code>num_layers</code>, ширина каждого слоя = <code>hidden_units</code>.
     </ProseP>

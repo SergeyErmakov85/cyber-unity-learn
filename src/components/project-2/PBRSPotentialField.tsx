@@ -267,9 +267,9 @@ const PBRSPotentialField = () => {
 
       {/* Formulas */}
       <div className="mt-4 space-y-2 overflow-x-auto">
-        <MathTex>{"\\Phi(s) = -\\dfrac{d(s)}{d_{\\max}}"}</MathTex>
-        <MathTex>{"F(s, s') = \\gamma\\,\\Phi(s') - \\Phi(s)"}</MathTex>
-        <MathTex>{"\\sum_{t=0}^{T-1} \\gamma^{t} F(s_t, s_{t+1}) = \\gamma^{T}\\Phi(s_T) - \\Phi(s_0)"}</MathTex>
+        <MathTex>{"\\enfFun{\\Phi}(\\enfVar{s}) = -\\dfrac{d(\\enfVar{s})}{d_{\\max}}"}</MathTex>
+        <MathTex>{"F(\\enfVar{s}, \\enfVar{s}') = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</MathTex>
+        <MathTex>{"\\sum_{t=0}^{T-1} \\enfPar{\\gamma}^{t} F(\\enfVar{s}_t, \\enfVar{s}_{t+1}) = \\enfPar{\\gamma}^{T}\\enfFun{\\Phi}(\\enfVar{s}_T) - \\enfFun{\\Phi}(\\enfVar{s}_0)"}</MathTex>
       </div>
 
       {/* Citation badge */}

@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "parallel-envs")!;
 
@@ -162,6 +163,9 @@ model.learn(total_timesteps=500_000)
         Помните: каждый час обучения — это итерация дизайна. Быстрее обучение = больше экспериментов = лучший агент.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/parallel-envs" />
+
   </BlogLayout>
 );
 

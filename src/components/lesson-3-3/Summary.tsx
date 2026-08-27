@@ -19,14 +19,14 @@ const Summary = () => (
       <li>
         <strong className="text-primary">Учебный план</strong> управляет <em>порядком</em> трудности;
         формально это <strong>метод продолжения</strong>{" "}
-        <Math display={false}>{String.raw`\mathcal{L}_0 \to \mathcal{L}^\star`}</Math>. Переход между
+        <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_0 \to \mathcal{\enfTgt{L}}^\star`}</Math>. Переход между
         уроками — по <strong>сглаженной мере</strong> прогресса и <strong>порогу</strong>, не короче{" "}
         <code className={chip}>min_lesson_length</code>.
       </li>
       <li>
         <strong className="text-primary">Рандомизация среды</strong> управляет <em>разнообразием</em>;
         цель — максимум отдачи по распределению контекстов{" "}
-        <Math display={false}>{String.raw`\max_\pi \mathbb{E}_{c\sim p(c)}[J_c(\pi)]`}</Math>. Две
+        <Math display={false}>{String.raw`\max_\pi \mathbb{E}_{c\sim p(c)}[\enfTgt{J}_c(\pi)]`}</Math>. Две
         мотивации: <strong>обобщение</strong> (Cobbe и др.) и <strong>sim-to-real</strong> (Tobin и
         др.). Цена — риск <strong>чрезмерно осторожной</strong> политики.
       </li>
@@ -55,7 +55,7 @@ const Summary = () => (
       <li>
         Рубеж — <strong className="text-primary">UED</strong> (PAIRED, POET, ACCEL): «<strong>self-play
         над средами</strong>», прямое продолжение автокурриккулума из{" "}
-        <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="self-play" hubTitle="Урок 3.2 — Self-Play">
+        <CrossLinkToHub hubPath="/courses/3-2" hubAnchor="раздел-6-self-play" hubTitle="Урок 3.2 — Self-Play">
           урока 3.2
         </CrossLinkToHub>
         .

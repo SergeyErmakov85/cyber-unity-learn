@@ -309,12 +309,12 @@ const AdvantageGAEViz = () => {
           overflowX: "auto",
         }}
       >
-        <MathTex>{"\\delta_t = r_t + \\gamma V(s_{t+1}) - V(s_t)"}</MathTex>
+        <MathTex>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</MathTex>
         <MathTex>
-          {"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\gamma\\lambda)^{l}\\, \\delta_{t+l}"}
+          {"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma}\\enfPar{\\lambda})^{l}\\, \\delta_{t+l}"}
         </MathTex>
         <MathTex display={false}>
-          {"A^{\\pi}(s,a) = Q^{\\pi}(s,a) - V^{\\pi}(s)"}
+          {"A^{\\pi}(\\enfVar{s},a) = \\enfOp{Q}^{\\pi}(\\enfVar{s},a) - \\enfOp{V}^{\\pi}(\\enfVar{s})"}
         </MathTex>
       </div>
 

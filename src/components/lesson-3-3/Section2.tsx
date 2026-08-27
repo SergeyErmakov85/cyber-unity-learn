@@ -11,7 +11,7 @@ const Section2 = () => (
     <ProseP>
       Опишем учебный план аккуратно. Пусть среда параметризована <strong>контекстом</strong>{" "}
       <Math display={false}>{String.raw`c`}</Math> (у нас <Math display={false}>{String.raw`c`}</Math> —
-      сложность трассы <Math display={false}>{String.raw`\lambda`}</Math> и всё, что от неё зависит).
+      сложность трассы <Math display={false}>{String.raw`\enfPar{\lambda}`}</Math> и всё, что от неё зависит).
       Каждый урок задаёт значение контекста (или распределение значений). Тогда учебный план — это{" "}
       <strong>последовательность распределений задач</strong>
     </ProseP>
@@ -24,10 +24,10 @@ const Section2 = () => (
       хорошей политики. Внутри урока <Math display={false}>{String.raw`k`}</Math> агент обучается
       максимизировать ожидаемую отдачу при{" "}
       <Math display={false}>{String.raw`c \sim \mathcal{D}_k`}</Math> (отдачу и дисконт{" "}
-      <Math display={false}>{String.raw`\gamma`}</Math> см. хаб{" "}
+      <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> см. хаб{" "}
       <CrossLinkToHub
         hubPath="/math-rl/module-1"
-        hubAnchor="discounting"
+        hubAnchor="4-уравнения-беллмана-и-дисконтирование"
         hubTitle="Математика → Дисконтирование"
       >
         Дисконтирование ↗
@@ -42,12 +42,12 @@ const Section2 = () => (
       <Math display={false}>{String.raw`\tau`}</Math> в течение минимального числа эпизодов:
     </ProseP>
 
-    <Math>{String.raw`\text{если}\quad \overline{m}_k \;\geq\; \tau_k \quad\text{на протяжении}\ \ge L_{\min}\ \text{эпизодов} \;\Rightarrow\; \text{перейти к уроку } k{+}1.`}</Math>
+    <Math>{String.raw`\text{если}\quad \overline{m}_k \;\geq\; \tau_k \quad\text{на протяжении}\ \ge \enfTgt{L}_{\min}\ \text{эпизодов} \;\Rightarrow\; \text{перейти к уроку } k{+}1.`}</Math>
 
     <ProseP>
       Здесь <Math display={false}>{String.raw`\overline{m}_k`}</Math> — сглаженная мера
       (награда/прогресс), <Math display={false}>{String.raw`\tau_k`}</Math> — порог урока,{" "}
-      <Math display={false}>{String.raw`L_{\min}`}</Math> — минимальная длина урока. Сглаживание нужно,
+      <Math display={false}>{String.raw`\enfTgt{L}_{\min}`}</Math> — минимальная длина урока. Сглаживание нужно,
       чтобы случайный удачный заезд не «протолкнул» агента дальше раньше времени. Это ровно те поля,
       которые мы увидим в YAML ML-Agents (раздел 7): <code className="px-1 rounded bg-muted/50 text-xs font-mono">measure</code>,{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">threshold</code>,{" "}
@@ -85,7 +85,7 @@ const Section2 = () => (
       меняется во времени), а с нестационарностью мы уже сталкивались в{" "}
       <CrossLinkToHub
         hubPath="/courses/3-2"
-        hubAnchor="nonstationarity"
+        hubAnchor="раздел-1-постановка-задачи-decentralized-pomdp-и-ctde"
         hubTitle="Урок 3.2 — нестационарность"
       >
         уроке 3.2
@@ -115,7 +115,7 @@ const Section2 = () => (
           соперника в{" "}
           <CrossLinkToHub
             hubPath="/courses/3-2"
-            hubAnchor="nonstationarity"
+            hubAnchor="раздел-1-постановка-задачи-decentralized-pomdp-и-ctde"
             hubTitle="Урок 3.2 — нестационарность"
           >
             self-play

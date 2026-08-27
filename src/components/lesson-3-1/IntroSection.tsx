@@ -84,13 +84,13 @@ const IntroSection = () => (
         </>,
         <>
           Почему SAC использует <strong>два</strong> Q-критика, target-сети и медленное обновление{" "}
-          <Math display={false}>{String.raw`\tau`}</Math>.
+          <Math display={false}>{String.raw`\enfPar{\tau}`}</Math>.
         </>,
         <>
           Что такое <em>reparameterization trick</em> и зачем он для стохастической политики.
         </>,
         <>
-          Как температура <Math display={false}>{String.raw`\alpha`}</Math> подстраивается{" "}
+          Как температура <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> подстраивается{" "}
           <strong>автоматически</strong>.
         </>,
         <>

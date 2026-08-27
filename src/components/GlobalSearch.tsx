@@ -64,6 +64,9 @@ const searchItems: SearchItem[] = [
   { title: "Оптимизация гиперпараметров", path: "/courses/3-6", group: "Уроки", keywords: "hyperparameters optuna" },
   { title: "Архитектуры нейросетей", path: "/courses/3-7", group: "Уроки", keywords: "neural networks architecture" },
 
+  // Поиск
+  { title: "Поиск по урокам и блогу", path: "/search", group: "FAQ", keywords: "поиск search фильтры темы" },
+
   // Примеры кода
   { title: "Примеры кода", path: "/code-examples", group: "Примеры кода", keywords: "code examples" },
   { title: "PyTorch шпаргалка", path: "/pytorch/cheatsheet", group: "Примеры кода", keywords: "pytorch cheatsheet" },

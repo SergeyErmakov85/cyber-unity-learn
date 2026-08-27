@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
 import RouteScrollToTop from "@/components/RouteScrollToTop";
+import YandexMetrika from "@/components/YandexMetrika";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 
@@ -35,6 +36,7 @@ const AdvancedTopics = lazy(() => import("./pages/AdvancedTopics"));
 const OnnxSentisGuide = lazy(() => import("./pages/OnnxSentisGuide"));
 const Labs = lazy(() => import("./pages/Labs"));
 const ResearchIndex = lazy(() => import("./pages/ResearchIndex"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 const DemoProject = lazy(() => import("./pages/DemoProject"));
 const DeepRLModule = lazy(() => import("./pages/DeepRLModule"));
 const Courses = lazy(() => import("./pages/Courses"));
@@ -72,7 +74,9 @@ const BlogJupyterToUnity = lazy(() => import("./pages/BlogJupyterToUnity"));
 const BlogGridSensor = lazy(() => import("./pages/BlogGridSensor"));
 const BlogReinforceVsPpo = lazy(() => import("./pages/BlogReinforceVsPpo"));
 const BlogOnnxSentis = lazy(() => import("./pages/BlogOnnxSentis"));
+const BlogUnityMlAgentsTutorial = lazy(() => import("./pages/BlogUnityMlAgentsTutorial"));
 const Pricing = lazy(() => import("./pages/Pricing"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Community = lazy(() => import("./pages/Community"));
 const OnboardingQuiz = lazy(() => import("./pages/OnboardingQuiz"));
@@ -108,6 +112,7 @@ const App = () => (
       <AuthProvider>
       <BrowserRouter>
         <RouteScrollToTop />
+        <YandexMetrika />
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Index />} />
@@ -146,6 +151,7 @@ const App = () => (
             <Route path="/advanced/onnx-sentis" element={<OnnxSentisGuide />} />
             <Route path="/labs" element={<Labs />} />
             <Route path="/hub/research" element={<ResearchIndex />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/demo-project" element={<DemoProject />} />
             <Route path="/deep-rl" element={<DeepRLModule />} />
             <Route path="/courses" element={<Courses />} />
@@ -183,9 +189,11 @@ const App = () => (
             <Route path="/blog/gridsensor-guide" element={<BlogGridSensor />} />
             <Route path="/blog/reinforce-vs-ppo" element={<BlogReinforceVsPpo />} />
             <Route path="/blog/onnx-sentis-pipeline" element={<BlogOnnxSentis />} />
+            <Route path="/blog/unity-ml-agents-tutorial" element={<BlogUnityMlAgentsTutorial />} />
             {/* Тарифы: при выключенной монетизации страница не показывается, а старые ссылки ведут на главную. */}
             <Route path="/pricing" element={MONETIZATION_ENABLED ? <Pricing /> : <Navigate to="/" replace />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/community" element={<Community />} />
             <Route path="/onboarding" element={<OnboardingQuiz />} />
             <Route path="/certificate-preview" element={<CertificatePreview />} />

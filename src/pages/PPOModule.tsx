@@ -7,6 +7,7 @@ import Quiz from "@/components/Quiz";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const PPOModule = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const PPOModule = () => {
                 Градиент политики выражается как:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"\\nabla J(\\theta) = \\mathbb{E}\\left[\\nabla \\log \\pi_\\theta(a|s) \\cdot A(s,a)\\right]"}</Math>
+                <Math display>{"\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\enfOp{\\nabla} \\log \\pi_\\theta(a \\mid \\enfVar{s}) \\cdot A(\\enfVar{s},a)\\right]"}</Math>
               </div>
               <p className="text-muted-foreground leading-relaxed">
                 Основные проблемы:
@@ -101,18 +102,18 @@ const PPOModule = () => {
                 Ключевая идея PPO — использование «обрезанной» (clipped) целевой функции:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"L^{CLIP}(\\theta) = \\mathbb{E}\\left[\\min\\left(r_t(\\theta)\\hat{A}_t,\\; \\text{clip}(r_t(\\theta),\\; 1-\\varepsilon,\\; 1+\\varepsilon)\\hat{A}_t\\right)\\right]"}</Math>
+                <Math display>{"L^{CLIP}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\min\\left(\\enfTgt{r}_t(\\enfPar{\\theta})\\hat{A}_t,\\; \\text{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}),\\; 1-\\enfPar{\\varepsilon},\\; 1+\\enfPar{\\varepsilon})\\hat{A}_t\\right)\\right]"}</Math>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                где <Math>{"r_t(\\theta)"}</Math> — отношение вероятностей:
+                где <Math>{"\\enfTgt{r}_t(\\enfPar{\\theta})"}</Math> — отношение вероятностей:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"r_t(\\theta) = \\frac{\\pi_\\theta(a_t|s_t)}{\\pi_{\\theta_{old}}(a_t|s_t)}"}</Math>
+                <Math display>{"\\enfTgt{r}_t(\\enfPar{\\theta}) = \\frac{\\pi_\\theta(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{old}}(a_t|\\enfVar{s}_t)}"}</Math>
               </div>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li>Если <Math>{"r_t > 1 + \\varepsilon"}</Math> — политика слишком изменилась (обрезаем)</li>
-                <li>Если <Math>{"r_t < 1 - \\varepsilon"}</Math> — политика слишком изменилась (обрезаем)</li>
-                <li>Типичное значение <Math>{"\\varepsilon = 0.2"}</Math></li>
+                <li>Если <Math>{"\\enfTgt{r}_t > 1 + \\enfPar{\\varepsilon}"}</Math> — политика слишком изменилась (обрезаем)</li>
+                <li>Если <Math>{"\\enfTgt{r}_t < 1 - \\enfPar{\\varepsilon}"}</Math> — политика слишком изменилась (обрезаем)</li>
+                <li>Типичное значение <Math>{"\\enfPar{\\varepsilon} = 0.2"}</Math></li>
               </ul>
               <p className="text-muted-foreground leading-relaxed">
                 Это гарантирует, что обновление политики не будет слишком большим на каждом шаге.
@@ -133,16 +134,16 @@ const PPOModule = () => {
                 GAE обеспечивает баланс между bias и variance при оценке advantage function:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"\\hat{A}_t = \\delta_t + (\\gamma\\lambda)\\delta_{t+1} + (\\gamma\\lambda)^2\\delta_{t+2} + \\ldots"}</Math>
+                <Math display>{"\\hat{A}_t = \\delta_t + (\\enfPar{\\gamma}\\enfPar{\\lambda})\\delta_{t+1} + (\\enfPar{\\gamma}\\enfPar{\\lambda})^2\\delta_{t+2} + \\ldots"}</Math>
               </div>
               <p className="text-muted-foreground leading-relaxed">где TD-ошибка:</p>
               <div className="overflow-x-auto">
-                <Math display>{"\\delta_t = r_t + \\gamma V(s_{t+1}) - V(s_t)"}</Math>
+                <Math display>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
               </div>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li><Math>{"\\lambda = 0"}</Math> — чистый TD (низкая дисперсия, высокий bias)</li>
-                <li><Math>{"\\lambda = 1"}</Math> — чистый MC (высокая дисперсия, низкий bias)</li>
-                <li><Math>{"\\lambda = 0.95"}</Math> — типичное значение (хороший баланс)</li>
+                <li><Math>{"\\enfPar{\\lambda} = 0"}</Math> — чистый TD (низкая дисперсия, высокий bias)</li>
+                <li><Math>{"\\enfPar{\\lambda} = 1"}</Math> — чистый MC (высокая дисперсия, низкий bias)</li>
+                <li><Math>{"\\enfPar{\\lambda} = 0.95"}</Math> — типичное значение (хороший баланс)</li>
               </ul>
             </CardContent>
           </Card>
@@ -160,8 +161,8 @@ const PPOModule = () => {
                 PPO использует архитектуру Actor-Critic с двумя нейронными сетями:
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li><strong className="text-foreground">Actor (Политика)</strong> — выбирает действия: <Math>{"\\pi_\\theta(a|s)"}</Math></li>
-                <li><strong className="text-foreground">Critic (Оценщик)</strong> — оценивает состояние: <Math>{"V_\\phi(s)"}</Math></li>
+                <li><strong className="text-foreground">Actor (Политика)</strong> — выбирает действия: <Math>{"\\pi_\\theta(a \\mid \\enfVar{s})"}</Math></li>
+                <li><strong className="text-foreground">Critic (Оценщик)</strong> — оценивает состояние: <Math>{"\\enfOp{V}_\\phi(\\enfVar{s})"}</Math></li>
               </ul>
 
               <h3 className="text-lg font-semibold text-foreground mt-4">Псевдокод PPO:</h3>
@@ -472,6 +473,9 @@ def ppo_update(model, optimizer, obs, actions, old_log_probs,
             },
           ]}
         />
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/algorithms/ppo" />
 
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8 border-t border-border/50">

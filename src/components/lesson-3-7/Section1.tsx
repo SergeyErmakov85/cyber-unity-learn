@@ -12,18 +12,18 @@ const Section1 = () => (
     </ProseP>
 
     <Math>
-      {String.raw`a \;=\; \underbrace{h_\psi}_{\text{голова}}\Big(\underbrace{f_\phi(o)}_{\text{энкодер}}\Big),\qquad z = f_\phi(o)\in\mathbb{R}^d .`}
+      {String.raw`a \;=\; \underbrace{\enfFun{h}_\psi}_{\text{голова}}\Big(\underbrace{\enfFun{f}_\phi(\enfVar{o})}_{\text{энкодер}}\Big),\qquad \enfVar{z} = \enfFun{f}_\phi(\enfVar{o})\in\mathbb{\enfTgt{R}}^d .`}
     </Math>
 
     <ProseP>
-      <strong>Энкодер</strong> <Math display={false}>{String.raw`f_\phi`}</Math> берёт сырое
+      <strong>Энкодер</strong> <Math display={false}>{String.raw`\enfFun{f}_\phi`}</Math> берёт сырое
       наблюдение <Math display={false}>{String.raw`o`}</Math> (вектор чисел, картинку, набор
       сущностей) и сжимает его в плотный <strong>эмбеддинг</strong>{" "}
       <Math display={false}>{String.raw`z`}</Math> фиксированной размерности{" "}
       <Math display={false}>{String.raw`d`}</Math>. <strong>Голова</strong>{" "}
-      <Math display={false}>{String.raw`h_\psi`}</Math> — обычно один-два полносвязных слоя —
+      <Math display={false}>{String.raw`\enfFun{h}_\psi`}</Math> — обычно один-два полносвязных слоя —
       превращает <Math display={false}>{String.raw`z`}</Math> в то, что нужно алгоритму:
-      распределение действий <Math display={false}>{String.raw`\pi(a\mid z)`}</Math> для актора
+      распределение действий <Math display={false}>{String.raw`\pi(a\mid \enfVar{z})`}</Math> для актора
       или скаляр <Math display={false}>{String.raw`V(z)`}</Math> для критика.
     </ProseP>
 
@@ -49,9 +49,9 @@ const Section1 = () => (
       items={[
         <>
           Сеть агента = <strong>энкодер</strong>{" "}
-          <Math display={false}>{String.raw`f_\phi`}</Math> (наблюдение → эмбеддинг{" "}
+          <Math display={false}>{String.raw`\enfFun{f}_\phi`}</Math> (наблюдение → эмбеддинг{" "}
           <Math display={false}>{String.raw`z`}</Math>) + <strong>голова</strong>{" "}
-          <Math display={false}>{String.raw`h_\psi`}</Math> (
+          <Math display={false}>{String.raw`\enfFun{h}_\psi`}</Math> (
           <Math display={false}>{String.raw`z`}</Math> → действие/оценка).
         </>,
         <>

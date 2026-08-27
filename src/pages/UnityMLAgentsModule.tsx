@@ -4,6 +4,7 @@ import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import { BookOpen, Cpu, Layers, Settings, Code, Wrench, Rocket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const TOC_ITEMS = [
   { id: "installation", label: "1. Установка и настройка" },
@@ -522,6 +523,9 @@ torch.onnx.export(network, dummy_input, "model.onnx")`}
             </CardContent>
           </Card>
         </section>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/unity-ml-agents" />
 
         </div>{/* end flex-1 main content */}
       </div>{/* end flex container */}

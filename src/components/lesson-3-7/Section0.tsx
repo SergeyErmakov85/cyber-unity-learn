@@ -27,11 +27,11 @@ const Section0 = () => (
         урок 3.4
       </CrossLinkToLesson>
       ). Во всех этих уроках <strong>сама нейросеть</strong> была чёрным ящиком: «политика{" "}
-      <Math display={false}>{String.raw`\pi_\theta(a\mid s)`}</Math>» — и всё.
+      <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s})`}</Math>» — и всё.
     </ProseP>
 
     <ProseP>
-      Но <Math display={false}>{String.raw`\theta`}</Math> — это не абстракция. Это конкретная{" "}
+      Но <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> — это не абстракция. Это конкретная{" "}
       <strong>архитектура</strong>: сколько слоёв, какой энкодер для картинки, есть ли память о
       прошлом, как обрабатывается переменное число соседних машин на трассе. И вот в чём проблема:{" "}
       <strong>самый лучший алгоритм обучения не спасёт плохо подобранную архитектуру.</strong> Если

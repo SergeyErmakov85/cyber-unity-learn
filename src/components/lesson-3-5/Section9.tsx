@@ -43,7 +43,7 @@ const Section9 = () => (
       стадия пайплайна Уровня 3: демонстрации → BC-разогрев → PPO + GAIL (
       <CrossLinkToHub
         hubPath="/courses/3-4"
-        hubAnchor="razdel-5-pipeline"
+        hubAnchor="razdel-8-pipeline"
         hubTitle="Урок 3.4 — пайплайн"
       >
         ↩ Урок 3.4
@@ -60,7 +60,7 @@ const Section9 = () => (
       <code>network_settings</code> смотрите в хабе:{" "}
       <CrossLinkToHub
         hubPath="/unity-ml-agents"
-        hubAnchor="yaml-config"
+        hubAnchor="installation"
         hubTitle="Unity ML-Agents — YAML и обучение"
       >
         ↗ Хаб: Unity ML-Agents → YAML и обучение
@@ -68,7 +68,7 @@ const Section9 = () => (
       . Формальный разбор того, <em>что</em> за политику мы деплоим (актор PPO, голова стратегии), —{" "}
       <CrossLinkToHub
         hubPath="/algorithms/ppo"
-        hubAnchor="policy-network"
+        hubAnchor="architecture"
         hubTitle="Хаб PPO — политика как сеть"
       >
         ↗ Хаб: PPO

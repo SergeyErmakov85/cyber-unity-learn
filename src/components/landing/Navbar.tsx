@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, GraduationCap, Code2, FileText, CreditCard, HelpCircle, Users, Search, LogOut, Brain, Gamepad2, Sparkles, Rocket, Network, User as UserIcon, Cpu, Microscope } from "lucide-react";
+import { Menu, GraduationCap, Code2, FileText, CreditCard, HelpCircle, Users, Search, LogOut, Brain, Gamepad2, Sparkles, Rocket, User as UserIcon, Cpu, Microscope } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import logoImage from "@/assets/logo-rl-platform.png";
@@ -139,10 +139,6 @@ const Navbar = () => {
               <Microscope className="w-4 h-4 text-yellow-400 shrink-0" />
               <span className="text-sm font-medium text-foreground whitespace-nowrap">Исследования RL</span>
             </button>
-            <button onClick={() => navigate("/knowledge-map")} className={`flex items-center justify-center gap-2 w-[148px] h-10 rounded-full bg-card/60 backdrop-blur-sm border transition-all duration-300 cursor-pointer hover:scale-105 ${location.pathname === "/knowledge-map" ? "border-primary/70 bg-primary/15 shadow-glow-cyan" : "border-primary/30 shadow-glow-cyan hover:bg-primary/10"}`}>
-              <Network className="w-4 h-4 text-primary shrink-0" />
-              <span className="text-sm font-medium text-foreground whitespace-nowrap">Карта знаний</span>
-            </button>
             {/* Utility items */}
             <div className="flex items-center gap-3 ml-3 pl-3 border-l border-border/30">
               {MONETIZATION_ENABLED && (
@@ -193,8 +189,9 @@ const Navbar = () => {
           {/* Hamburger menu - inline after badges */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="ml-2 text-primary hover:text-primary hover:bg-primary/10 hover:shadow-glow-cyan transition-all duration-300">
-                <Menu className="w-6 h-6" />
+              <Button variant="ghost" size="icon" aria-label="Открыть меню навигации" className="ml-2 text-primary hover:text-primary hover:bg-primary/10 hover:shadow-glow-cyan transition-all duration-300">
+                <Menu className="w-6 h-6" aria-hidden="true" />
+
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-80 bg-background/95 backdrop-blur-xl border-l border-primary/30">
@@ -243,7 +240,6 @@ const Navbar = () => {
                     { href: "/algorithms", label: "Алгоритмы RL", Icon: Cpu, color: "text-blue-400" },
                     { href: "/unity-projects", label: "Проекты", Icon: Rocket, color: "text-secondary" },
                     { href: "/hub/research", label: "Исследования RL", Icon: Microscope, color: "text-yellow-400" },
-                    { href: "/knowledge-map", label: "Карта знаний", Icon: Network, color: "text-primary" },
                   ].map((item) => (
                     <button
                       key={item.href + item.label}

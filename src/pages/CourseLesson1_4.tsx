@@ -223,7 +223,7 @@ const CourseLesson1_4 = () => {
                 <td className="p-3">
                   Числовой сигнал обратной связи после действия.
                   <div className="mt-1">
-                    <Math display={false}>{`R: S \\times A \\to \\mathbb{R}`}</Math>
+                    <Math display={false}>{`\\enfTgt{R}: S \\times A \\to \\mathbb{\\enfTgt{R}}`}</Math>
                   </div>
                 </td>
                 <td className="p-3">+10 за батарею, -1 за стену, -100 за яму.</td>
@@ -293,7 +293,7 @@ const CourseLesson1_4 = () => {
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">Формула Q-обучения</h2>
-        <Math>{`Q(s, a) \\leftarrow Q(s, a) + \\alpha \\left[ r + \\gamma \\max_{a'} Q(s', a') - Q(s, a) \\right]`}</Math>
+        <Math>{`\\enfOp{Q}(\\enfVar{s}, a) \\leftarrow \\enfOp{Q}(\\enfVar{s}, a) + \\enfPar{\\alpha} \\left[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a') - \\enfOp{Q}(\\enfVar{s}, a) \\right]`}</Math>
         <p className="text-muted-foreground leading-relaxed mt-4 mb-3">
           Каждый символ в уравнении управляет поведением агента.
         </p>
@@ -345,7 +345,7 @@ const CourseLesson1_4 = () => {
               </tr>
               <tr>
                 <td className="p-3">
-                  <Math display={false}>{`\\max_{a'} Q(s', a')`}</Math>
+                  <Math display={false}>{`\\max_{a'} \\enfOp{Q}(\\enfVar{s}', a')`}</Math>
                 </td>
                 <td className="p-3">
                   Лучшая будущая оценка из следующего состояния.
@@ -357,7 +357,7 @@ const CourseLesson1_4 = () => {
         <h3 className="text-xl font-semibold text-foreground mb-2">
           Почему формула работает (TD Error)
         </h3>
-        <Math>{`\\left[ r + \\gamma \\max_{a'} Q(s', a') - Q(s, a) \\right]`}</Math>
+        <Math>{`\\left[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a') - \\enfOp{Q}(\\enfVar{s}, a) \\right]`}</Math>
         <p className="text-muted-foreground leading-relaxed">
           Это и есть ошибка временного различия (Temporal Difference Error). Она
           показывает меру «удивления» агента и направление корректировки значения.
@@ -365,8 +365,8 @@ const CourseLesson1_4 = () => {
         <h3 className="text-xl font-semibold text-foreground mt-4 mb-2">
           Пошаговый числовой пример
         </h3>
-        <Math>{`Q(0, 1) \\leftarrow 0 + 0.1 \\times [10 + 0.9 \\times 0 - 0]`}</Math>
-        <Math>{`Q(0, 1) \\leftarrow 1.0`}</Math>
+        <Math>{`\\enfOp{Q}(0, 1) \\leftarrow 0 + 0.1 \\times [10 + 0.9 \\times 0 - 0]`}</Math>
+        <Math>{`\\enfOp{Q}(0, 1) \\leftarrow 1.0`}</Math>
       </section>
 
       <section>
@@ -490,8 +490,8 @@ const CourseLesson1_4 = () => {
         <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
           Перетекание ценности назад от цели:
         </p>
-        <Math>{`Q(14, 2) \\leftarrow 0 + 0.8 \\times [1 + 0.95 \\times 0 - 0] = 0.8`}</Math>
-        <Math>{`Q(13, 2) \\leftarrow 0 + 0.8 \\times [0 + 0.95 \\times 0.8 - 0] = 0.608`}</Math>
+        <Math>{`\\enfOp{Q}(14, 2) \\leftarrow 0 + 0.8 \\times [1 + 0.95 \\times 0 - 0] = 0.8`}</Math>
+        <Math>{`\\enfOp{Q}(13, 2) \\leftarrow 0 + 0.8 \\times [0 + 0.95 \\times 0.8 - 0] = 0.608`}</Math>
       </section>
 
       <section>

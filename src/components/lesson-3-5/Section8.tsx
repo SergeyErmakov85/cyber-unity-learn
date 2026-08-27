@@ -63,7 +63,7 @@ const Section8 = () => (
       смотрели в TensorBoard (
       <CrossLinkToHub
         hubPath="/courses/2-6"
-        hubAnchor="razdel-1-tensorboard"
+        hubAnchor="tensorboard"
         hubTitle="Урок 2.6 — TensorBoard"
       >
         ↩ Урок 2.6

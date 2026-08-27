@@ -1,6 +1,7 @@
 import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "jupyter-to-unity")!;
 
@@ -225,6 +226,9 @@ public class NPCAgent : Agent
         переобучили модель → заменили .onnx файл → готово. Теперь ваши NPC по-настоящему умны.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/jupyter-to-unity" />
+
   </BlogLayout>
 );
 

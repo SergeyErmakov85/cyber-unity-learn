@@ -38,9 +38,9 @@ const Section2 = () => (
           <strong>Ziebart, Maas, Bagnell, Dey (AAAI 2008) — Maximum Entropy IRL</strong> разрешает
           неоднозначность принципом максимальной энтропии. Распределение по траекториям:
           <Math display>
-            {String.raw`p(\tau)\ =\ \frac{1}{Z}\exp(R_\theta(\tau)),\qquad R_\theta(\tau)=\sum_t R_\theta(s_t,a_t),\qquad Z=\sum_\tau \exp(R_\theta(\tau)).`}
+            {String.raw`p(\tau)\ =\ \frac{1}{Z}\exp(\enfTgt{R}_\theta(\tau)),\qquad \enfTgt{R}_\theta(\tau)=\sum_t \enfTgt{R}_\theta(\enfVar{s}_t,a_t),\qquad Z=\sum_\tau \exp(\enfTgt{R}_\theta(\tau)).`}
           </Math>
-          Параметры <Math display={false}>{String.raw`\theta`}</Math> находят максимизацией
+          Параметры <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> находят максимизацией
           log-likelihood демонстраций (эквивалентно минимизации KL до max-entropy распределения).
         </span>
       </li>
@@ -60,7 +60,7 @@ const Section2 = () => (
         </>,
         <>
           Max-entropy IRL (Ziebart, 2008) — мост от классического IRL к GAIL: вероятность траектории{" "}
-          <Math display={false}>{String.raw`\propto \exp(R(\tau))`}</Math>.
+          <Math display={false}>{String.raw`\propto \exp(\enfTgt{R}(\tau))`}</Math>.
         </>,
         <>
           Узкое место — partition function и вложенный RL-цикл; ровно его GAIL заменяет GAN-чередованием.

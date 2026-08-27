@@ -2,6 +2,7 @@ import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
 import { Link } from "react-router-dom";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "gridsensor-guide")!;
 
@@ -140,6 +141,9 @@ behaviors:
         </Link>, где GridSensor используется по умолчанию.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/gridsensor-guide" />
+
   </BlogLayout>
 );
 

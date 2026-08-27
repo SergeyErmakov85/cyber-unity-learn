@@ -164,13 +164,13 @@ const IntroSection = () => (
         Формально среда задаётся как{" "}
         <HubLink to="/hub/math-rl" anchor="марковское-свойство">Марковский процесс принятия решений</HubLink>:
       </p>
-      <Math>{String.raw`\mathcal{M} = \langle \mathcal{S}, \mathcal{A}, P, R, \gamma \rangle,`}</Math>
+      <Math>{String.raw`\mathcal{M} = \langle \mathcal{S}, \mathcal{A}, P, \enfTgt{R}, \enfPar{\gamma} \rangle,`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         где <Math display={false}>{String.raw`\mathcal{S}`}</Math> — множество состояний,{" "}
         <Math display={false}>{String.raw`\mathcal{A}`}</Math> — множество действий,{" "}
-        <Math display={false}>{String.raw`P(s'\mid s,a)`}</Math> — вероятность перехода,{" "}
+        <Math display={false}>{String.raw`P(\enfVar{s}'\mid \enfVar{s},a)`}</Math> — вероятность перехода,{" "}
         <Math display={false}>{String.raw`R(s,a)`}</Math> — функция награды,{" "}
-        <Math display={false}>{String.raw`\gamma \in [0,1)`}</Math> — коэффициент дисконтирования.
+        <Math display={false}>{String.raw`\enfPar{\gamma} \in [0,1)`}</Math> — коэффициент дисконтирования.
         Марковское свойство означает, что распределение следующего состояния зависит только от
         текущего состояния и действия, а не от истории.
       </p>
@@ -179,20 +179,20 @@ const IntroSection = () => (
         <Math display={false}>{String.raw`\pi^*`}</Math>, максимизирующую ожидаемую дисконтированную
         сумму наград:
       </p>
-      <Math>{String.raw`J(\pi) = \mathbb{E}_{\tau \sim \pi}\!\left[\sum_{t=0}^{\infty} \gamma^t r_t\right].`}</Math>
+      <Math>{String.raw`\enfTgt{J}(\pi) = \mathbb{E}_{\tau \sim \pi}\!\left[\sum_{t=0}^{\infty} \enfPar{\gamma}^t \enfTgt{r}_t\right].`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Функция ценности состояния</strong> определяется рекурсивно через{" "}
         <HubLink to="/hub/math-rl" anchor="уравнение-ожиданий-беллмана">уравнение Беллмана</HubLink>:
       </p>
-      <Math>{String.raw`V^\pi(s) = \mathbb{E}_{a \sim \pi,\, s'\sim P}\!\left[R(s,a) + \gamma V^\pi(s')\right].`}</Math>
+      <Math>{String.raw`\enfOp{V}^\pi(\enfVar{s}) = \mathbb{E}_{a \sim \pi,\, s'\sim P}\!\left[\enfTgt{R}(\enfVar{s},a) + \enfPar{\gamma} \enfOp{V}^\pi(\enfVar{s}')\right].`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         Для оптимальной политики справедливо{" "}
         <HubLink to="/hub/math-rl" anchor="уравнение-оптимальности-беллмана">уравнение оптимальности Беллмана</HubLink>:
       </p>
-      <Math>{String.raw`V^*(s) = \max_{a \in \mathcal{A}} \mathbb{E}_{s'}\!\left[R(s,a) + \gamma V^*(s')\right], \qquad Q^*(s,a) = \mathbb{E}_{s'}\!\left[R(s,a) + \gamma \max_{a'} Q^*(s',a')\right].`}</Math>
+      <Math>{String.raw`\enfOp{V}^*(\enfVar{s}) = \max_{a \in \mathcal{A}} \mathbb{E}_{s'}\!\left[\enfTgt{R}(\enfVar{s},a) + \enfPar{\gamma} \enfOp{V}^*(\enfVar{s}')\right], \qquad \enfOp{Q}^*(\enfVar{s},a) = \mathbb{E}_{s'}\!\left[\enfTgt{R}(\enfVar{s},a) + \enfPar{\gamma} \max_{a'} \enfOp{Q}^*(\enfVar{s}',a')\right].`}</Math>
       <p className="text-muted-foreground leading-relaxed text-sm">
         Уравнение Беллмана — основа всех современных RL-алгоритмов: глубокие нейросети учатся аппроксимировать
-        либо <Math display={false}>{String.raw`V^*/Q^*`}</Math>, либо политику{" "}
+        либо <Math display={false}>{String.raw`\enfOp{V}^*/\enfOp{Q}^*`}</Math>, либо политику{" "}
         <Math display={false}>{String.raw`\pi^*`}</Math>, минимизируя отклонение от этих рекурсивных тождеств.
       </p>
     </div>
@@ -207,14 +207,14 @@ const IntroSection = () => (
           <strong className="text-foreground">Дискретное пространство</strong>{" "}
           (<Math display={false}>{String.raw`\mathcal{A} = \{0,1,\ldots,K-1\}`}</Math>): агент выбирает одно
           из конечного числа действий. Политика — категориальное распределение{" "}
-          <Math display={false}>{String.raw`\pi(a\mid s) = \text{softmax}(\phi_\theta(s))`}</Math>.
+          <Math display={false}>{String.raw`\pi(a\mid \enfVar{s}) = \operatorname{softmax}(\phi_\theta(\enfVar{s}))`}</Math>.
         </li>
         <li>
           <strong className="text-foreground">Непрерывное пространство</strong>{" "}
-          (<Math display={false}>{String.raw`\mathcal{A} \subseteq \mathbb{R}^d`}</Math>): действие — вектор
+          (<Math display={false}>{String.raw`\mathcal{A} \subseteq \mathbb{\enfTgt{R}}^d`}</Math>): действие — вектор
           вещественных чисел. В ML-Agents политика для непрерывных действий — мультивариативное Гауссово
           распределение{" "}
-          <Math display={false}>{String.raw`\pi_\theta(a\mid s) = \mathcal{N}(\mu_\theta(s), \sigma_\theta(s))`}</Math>.
+          <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s}) = \mathcal{N}(\mu_\theta(\enfVar{s}), \sigma_\theta(\enfVar{s}))`}</Math>.
         </li>
       </ul>
     </div>

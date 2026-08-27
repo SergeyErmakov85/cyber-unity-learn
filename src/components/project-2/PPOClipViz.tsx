@@ -236,8 +236,8 @@ const PPOClipViz = () => {
 
       {/* Formulas */}
       <div className="mt-4 space-y-2 overflow-x-auto">
-        <MathTex>{"L^{\\mathrm{CLIP}}(\\theta) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(r_t\\hat{A}_t,\\ \\operatorname{clip}(r_t, 1-\\varepsilon, 1+\\varepsilon)\\hat{A}_t\\big)\\right]"}</MathTex>
-        <MathTex display={false}>{"r_t(\\theta) = \\dfrac{\\pi_{\\theta}(a_t \\mid s_t)}{\\pi_{\\theta_{\\mathrm{old}}}(a_t \\mid s_t)}"}</MathTex>
+        <MathTex>{"L^{\\mathrm{CLIP}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(\\enfTgt{r}_t\\hat{A}_t,\\ \\operatorname{clip}(\\enfTgt{r}_t, 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\hat{A}_t\\big)\\right]"}</MathTex>
+        <MathTex display={false}>{"\\enfTgt{r}_t(\\enfPar{\\theta}) = \\dfrac{\\pi_{\\theta}(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{\\mathrm{old}}}(a_t \\mid \\enfVar{s}_t)}"}</MathTex>
       </div>
 
       <p style={{ color: DIM, fontSize: 13, marginTop: 12, lineHeight: 1.6 }}>

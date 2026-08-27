@@ -468,7 +468,7 @@ const CourseLesson1_7 = () => (
             <h3 className="font-semibold text-foreground mb-2">
               Истинная ценность действия
             </h3>
-            <Math>{`q(a) = \\mathbb{E}[R_t \\mid A_t = a]`}</Math>
+            <Math>{`q(a) = \\mathbb{E}[\\enfTgt{R}_t \\mid A_t = a]`}</Math>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Если бы агент заранее знал точные значения <Math display={false}>q(a)</Math>{" "}
               для всех действий, задача была бы тривиальной: всегда выбирать действие
@@ -504,7 +504,7 @@ const CourseLesson1_7 = () => (
         Полный отказ от исследования приводит к наивной жадной стратегии. На каждом
         шаге агент выбирает действие с максимальной текущей оценкой:
       </p>
-      <Math>{`A_t = \\underset{a}{\\operatorname{argmax}}\\ Q_t(a)`}</Math>
+      <Math>{`A_t = \\underset{a}{\\operatorname{argmax}}\\ \\enfOp{Q}_t(a)`}</Math>
       <p className="text-muted-foreground leading-relaxed mt-4 mb-3">
         Проблема в абсолютной зависимости от ранней случайности. Допустим, у первого
         автомата истинная ценность <Math display={false}>q(1)=2</Math>, но в первый
@@ -528,14 +528,14 @@ const CourseLesson1_7 = () => (
       </h2>
       <p className="text-muted-foreground leading-relaxed mb-3">
         epsilon-greedy - базовый и очень практичный способ добавить контролируемую
-        случайность. Параметр <Math display={false}>{`\\varepsilon`}</Math> задает
+        случайность. Параметр <Math display={false}>{`\\enfPar{\\varepsilon}`}</Math> задает
         вероятность того, что агент проигнорирует текущие оценки и выполнит случайное
         исследовательское действие.
       </p>
       <Math>{`A_t =
 \\begin{cases}
-\\underset{a}{\\operatorname{argmax}}\\ Q_t(a), & \\text{с вероятностью } 1 - \\varepsilon \\\\
-\\text{случайное действие из } \\mathcal{A}, & \\text{с вероятностью } \\varepsilon
+\\underset{a}{\\operatorname{argmax}}\\ \\enfOp{Q}_t(a), & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\\\
+\\text{случайное действие из } \\mathcal{A}, & \\text{с вероятностью } \\enfPar{\\varepsilon}
 \\end{cases}`}</Math>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -545,7 +545,7 @@ const CourseLesson1_7 = () => (
               Сильная сторона
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Если <Math display={false}>{`\\varepsilon > 0`}</Math>, то при
+              Если <Math display={false}>{`\\enfPar{\\varepsilon} > 0`}</Math>, то при
               достаточно долгом обучении каждое действие будет проверяться снова и
               снова. Оценки <Math display={false}>Q_t(a)</Math> сходятся к истинным{" "}
               <Math display={false}>q(a)</Math> по закону больших чисел.
@@ -572,11 +572,11 @@ const CourseLesson1_7 = () => (
       <p className="text-muted-foreground leading-relaxed mb-3">
         Чтобы убрать постоянный штраф, используют decaying epsilon-greedy. В начале
         агент исследует активно, например с{" "}
-        <Math display={false}>{`\\varepsilon_0=1.0`}</Math>, а затем постепенно снижает
+        <Math display={false}>{`\\enfPar{\\varepsilon}_0=1.0`}</Math>, а затем постепенно снижает
         случайность:
       </p>
-      <Math>{`\\varepsilon_t = \\varepsilon_0 \\cdot \\alpha^t,\\quad \\alpha < 1`}</Math>
-      <Math>{`\\varepsilon_t = \\frac{1}{t}`}</Math>
+      <Math>{`\\enfPar{\\varepsilon}_t = \\enfPar{\\varepsilon}_0 \\cdot \\enfPar{\\alpha}^t,\\quad \\enfPar{\\alpha} < 1`}</Math>
+      <Math>{`\\enfPar{\\varepsilon}_t = \\frac{1}{t}`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         Идея проста: сначала данных мало и нужно рисковать, позже оценки становятся
         надежнее, поэтому агент все чаще использует найденную стратегию.
@@ -595,7 +595,7 @@ const CourseLesson1_7 = () => (
         чем кажется сейчас.
       </p>
       <Math>{`A_t = \\underset{a}{\\operatorname{argmax}}\\left[
-Q_t(a) + c \\sqrt{\\frac{\\ln t}{N_t(a)}}
+\\enfOp{Q}_t(a) + c \\sqrt{\\frac{\\ln t}{N_t(a)}}
 \\right]`}</Math>
 
       <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30 mt-4">
@@ -661,7 +661,7 @@ Q_t(a) + c \\sqrt{\\frac{\\ln t}{N_t(a)}}
         Для бинарных наград Бернулли - например, клик/нет клика - удобно использовать
         Бета-распределение:
       </p>
-      <Math>{`\\theta_a \\sim \\operatorname{Beta}(\\alpha_a, \\beta_a)`}</Math>
+      <Math>{`\\enfPar{\\theta}_a \\sim \\operatorname{Beta}(\\enfPar{\\alpha}_a, \\beta_a)`}</Math>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
         {[
           ["alpha", "Количество успехов: наград, равных 1."],
@@ -803,7 +803,7 @@ Q_t(a) + c \\sqrt{\\frac{\\ln t}{N_t(a)}}
               Это дорого по памяти и времени. Вместо этого используется
               инкрементальная формула:
             </p>
-            <Math>{`Q_n = Q_{n-1} + \\frac{1}{n}\\left(R_n - Q_{n-1}\\right)`}</Math>
+            <Math>{`\\enfOp{Q}_n = \\enfOp{Q}_{n-1} + \\frac{1}{n}\\left(\\enfTgt{R}_n - \\enfOp{Q}_{n-1}\\right)`}</Math>
             <p className="text-sm text-muted-foreground leading-relaxed">
               В коде это строка{" "}
               <code className="text-primary text-xs">

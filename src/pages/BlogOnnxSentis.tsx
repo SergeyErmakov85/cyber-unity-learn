@@ -2,6 +2,7 @@ import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const post = blogPosts.find((p) => p.slug === "onnx-sentis-pipeline")!;
 
@@ -214,6 +215,9 @@ public class SentisAgent : MonoBehaviour
         проверяйте формы тензоров и нормализацию. С практикой весь процесс занимает менее 30 минут.
       </p>
     </section>
+  {/* Практика: собранная среда лаборатории для этой темы. */}
+  <LabPracticeSection contextKey="/blog/onnx-sentis-pipeline" />
+
   </BlogLayout>
 );
 

@@ -130,7 +130,7 @@ const Section3Sensors = () => (
       <ol className="list-decimal list-inside space-y-2 text-muted-foreground leading-relaxed">
         <li>
           <strong className="text-foreground">Локальная скорость</strong> автомобиля (3 float,
-          нормированы на <Math display={false}>{String.raw`v_{\max}`}</Math>)
+          нормированы на <Math display={false}>{String.raw`\enfVar{v}_{\max}`}</Math>)
         </li>
         <li>
           <strong className="text-foreground">Угловая скорость</strong> (1 float,{" "}
@@ -163,13 +163,13 @@ const Section3Sensors = () => (
         Нейросети с активациями tanh/ReLU работают эффективнее, когда входы лежат в{" "}
         <Math display={false}>{String.raw`[-1, 1]`}</Math> с центром около нуля:
       </p>
-      <Math>{String.raw`\tilde{v} = \frac{v}{v_{\max}}, \quad \tilde{\omega} = \frac{\omega}{\omega_{\max}}, \quad d_{\text{cp}}^{\text{norm}} = \min\!\left(\frac{d_{\text{cp}}}{d_{\max}},\, 1\right).`}</Math>
+      <Math>{String.raw`\tilde{\enfVar{v}} = \frac{\enfVar{v}}{\enfVar{v}_{\max}}, \quad \tilde{\omega} = \frac{\omega}{\omega_{\max}}, \quad \enfVar{d}_{\text{cp}}^{\text{norm}} = \min\!\left(\frac{\enfVar{d}_{\text{cp}}}{\enfVar{d}_{\max}},\, 1\right).`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         {/* TODO(HubLink): target -> hub "math-rl" или "algorithms", anchor "нормализация" */}
         Нормализация: (1) ускоряет сходимость SGD/Adam (равномерные градиенты по осям входа);
         (2) предотвращает раннюю насыщенность нелинейностей;
         (3) стабилизирует value loss, поскольку целевые{" "}
-        <Math display={false}>{String.raw`V^\pi(s)`}</Math> ограничены.
+        <Math display={false}>{String.raw`\enfOp{V}^\pi(\enfVar{s})`}</Math> ограничены.
       </p>
       <p className="text-sm text-muted-foreground">
         RayPerceptionSensor нормализует дистанции автоматически. В YAML-конфиге также включается{" "}

@@ -5,6 +5,7 @@ import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, ArrowRight, FlaskConical, LineChart, Microscope } from "lucide-react";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 interface ResearchEntry {
   id: string;
@@ -117,6 +118,9 @@ const ResearchIndex = () => {
           })}
         </div>
       </div>
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/hub/research" />
 
       <FooterSection />
     </div>

@@ -6,18 +6,11 @@ const SITE = "https://rl-cuber-unity-code.com";
 export const SOURCE_REPO = "https://github.com/SergeyErmakov85/Math_for_DS_-_RL/blob/main";
 
 /**
- * Лаборатория сред Unity ML-Agents — третий репозиторий связки.
- * Ref `HEAD`: GitHub сам разрешает его в ветку по умолчанию, поэтому ссылки
- * переживают её переименование.
+ * Лаборатория сред Unity ML-Agents — третий репозиторий связки. Адрес и правило
+ * построения ссылок живут в реестре сред: он один на весь сайт, и второй копии
+ * этих правил быть не должно.
  */
-const UNITY_LAB = "https://github.com/SergeyErmakov85/unity-ml-agents-lab";
-
-/** Путь от корня лаборатории → адрес файла или каталога на GitHub. */
-export const unityLabUrl = (path: string): string => {
-  const isDirectory = path.endsWith("/");
-  const clean = isDirectory ? path.slice(0, -1) : path;
-  return `${UNITY_LAB}/${isDirectory ? "tree" : "blob"}/HEAD/${clean}`;
-};
+export { labUrl as unityLabUrl } from "@/content/labEnvironments";
 
 const CONTENT_ROOT = "math-textbook";
 

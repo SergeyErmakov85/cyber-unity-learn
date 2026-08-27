@@ -33,6 +33,7 @@ import Section13 from "@/components/lesson-3-1/Section13";
 import Summary from "@/components/lesson-3-1/Summary";
 import RelatedMaterials from "@/components/lesson-3-1/RelatedMaterials";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -258,6 +259,9 @@ const CourseLesson3_1 = () => {
       />
 
       <LessonTextbookLinks lessonId="3-1" lessonLabel="Урок 3.1. SAC — Soft Actor-Critic" />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="3-1" />
 
       <RelatedMaterials />
 

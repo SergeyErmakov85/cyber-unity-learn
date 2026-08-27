@@ -122,16 +122,16 @@ const CourseLesson2_1 = () => {
             Цель — максимизировать ожидаемую суммарную награду J(θ):
           </p>
 
-          <Math>{"J(\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\gamma^t r_t \\right]"}</Math>
+          <Math>{"\\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfPar{\\gamma}^t \\enfTgt{r}_t \\right]"}</Math>
 
           <p className="text-muted-foreground leading-relaxed my-4">
             Применяя log-trick, получаем <strong className="text-foreground">теорему градиента политики</strong> — <CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="целевая-функция-политики" hubTitle="Математика RL — Целевая функция политики">∇<sub>θ</sub>J(θ)</CrossLinkToHub>:
           </p>
 
-          <Math>{"\\nabla_\\theta J(\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\nabla_\\theta \\log \\pi_\\theta(a_t | s_t) \\cdot G_t \\right]"}</Math>
+          <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t \\right]"}</Math>
 
           <p className="text-muted-foreground leading-relaxed mt-4">
-            где <Math display={false}>{"G_t = \\sum_{k=t}^{T} \\gamma^{k-t} r_k"}</Math> — return (суммарная дисконтированная награда с шага t).
+            где <Math display={false}>{"\\enfOp{G}_t = \\sum_{k=t}^{T} \\enfPar{\\gamma}^{k-t} \\enfTgt{r}_k"}</Math> — return (суммарная дисконтированная награда с шага t).
           </p>
         </section>
 
@@ -145,12 +145,12 @@ const CourseLesson2_1 = () => {
               <div className="text-sm text-muted-foreground">
                 Оценка градиента через REINFORCE имеет <strong className="text-foreground">высокую дисперсию</strong>.
                 Вычитание baseline b(s) не меняет математическое ожидание, но значительно снижает дисперсию.
-                Лучший выбор: <Math display={false}>{"b(s) = V^\\pi(s)"}</Math>.
+                Лучший выбор: <Math display={false}>{"b(\\enfVar{s}) = \\enfOp{V}^\\pi(\\enfVar{s})"}</Math>.
               </div>
             </CardContent>
           </Card>
 
-          <Math>{"\\nabla_\\theta J(\\theta) = \\mathbb{E} \\left[ \\sum_t \\nabla_\\theta \\log \\pi_\\theta(a_t|s_t) \\cdot \\underbrace{(G_t - V(s_t))}_{\\text{Advantage } A(s_t, a_t)} \\right]"}</Math>
+          <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E} \\left[ \\sum_t \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\underbrace{(\\enfOp{G}_t - \\enfOp{V}(\\enfVar{s}_t))}_{\\text{Advantage } A(s_t, a_t)} \\right]"}</Math>
         </section>
 
         {/* PyTorch implementation */}

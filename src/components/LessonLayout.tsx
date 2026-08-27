@@ -16,6 +16,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import LessonBreadcrumbs from "@/components/LessonBreadcrumbs";
 import SEOHead from "@/components/SEOHead";
 import ProUpgradeBanner from "@/components/ProUpgradeBanner";
+import LabPracticeSection from "@/components/LabPracticeSection";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
 import LessonSidebarTOC, { type TocColor } from "@/components/LessonSidebarTOC";
 import type { SectionNavItem } from "@/components/SectionNav";
@@ -281,7 +282,27 @@ const LessonLayout = ({
         title={`Урок ${lessonNumber}: ${lessonTitle} | RL Platform`}
         description={`${lessonTitle}. Практический урок по Reinforcement Learning с примерами кода на PyTorch.`}
         path={location.pathname}
+        type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "LearningResource",
+          name: `Урок ${lessonNumber}: ${lessonTitle}`,
+          headline: lessonTitle,
+          educationalLevel: level ? `Уровень ${level}` : undefined,
+          learningResourceType: "Lesson",
+          timeRequired: duration,
+          keywords: tags.join(", "),
+          inLanguage: "ru",
+          url: `https://rl-cuber-unity-code.com${location.pathname}`,
+          isPartOf: {
+            "@type": "Course",
+            name: "Unity ML-Agents и Reinforcement Learning",
+            url: "https://rl-cuber-unity-code.com/courses",
+          },
+          provider: { "@type": "Organization", name: "CyberUnityCode" },
+        }}
       />
+
       <ScrollProgressBar color={progressColor} />
       <ScrollToTop />
       {tocItems.length > 1 && (
@@ -482,6 +503,11 @@ const LessonLayout = ({
               </div>
             </section>
           )}
+
+          {/* Собранная среда лаборатории для этого урока — практика под теорией.
+              Блок сам решает, показываться ли: если среды для урока нет,
+              он возвращает null. */}
+          {lessonId && <LabPracticeSection contextKey={lessonId} />}
 
           {/* Pro upgrade banner for free lessons */}
           {level === 1 && <ProUpgradeBanner />}

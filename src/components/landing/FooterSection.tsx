@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Github, Mail, MessageCircle, Twitter, Youtube, ExternalLink } from "lucide-react";
+import { Mail } from "lucide-react";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const footerLinks = {
@@ -41,11 +41,10 @@ const footerLinks = {
   },
 };
 
+// Соцсети появятся здесь, когда будут заведены реальные аккаунты. Ссылки на
+// голые домены (github.com, twitter.com) выглядят рабочими, но никуда не ведут,
+// поэтому в проде их не показываем.
 const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
-  { icon: MessageCircle, href: "https://discord.gg", label: "Discord" },
   { icon: Mail, href: "mailto:support@rlplatform.ru", label: "Email" },
 ];
 
@@ -111,24 +110,16 @@ const FooterSection = () => {
           <a href="mailto:support@rlplatform.ru" className="hover:text-primary transition-colors duration-200">
             support@rlplatform.ru
           </a>
-          <span className="hidden sm:inline text-border">|</span>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 hover:text-primary transition-colors duration-200"
-          >
-            <Github className="w-4 h-4" />
-            GitHub репозиторий
-            <ExternalLink className="w-3 h-3" />
-          </a>
         </div>
 
         {/* Bottom */}
         <div className="pt-6 border-t border-border/50">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-xs text-muted-foreground">
-              © 2026 RL Platform. Все материалы на русском языке.
+            <div className="text-xs text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span>© 2026 RL Platform. Все материалы на русском языке.</span>
+              <Link to="/privacy" className="hover:text-primary transition-colors duration-200">
+                Политика конфиденциальности
+              </Link>
             </div>
             <span className="text-xs px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-muted-foreground">
               Unity ML-Agents + PyTorch + Deep RL

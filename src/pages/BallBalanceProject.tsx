@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import Math from "@/components/Math";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const BallBalanceProject = () => {
   const navigate = useNavigate();
@@ -299,6 +300,9 @@ tensorboard --logdir results`}
             </CardContent>
           </Card>
         </section>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/unity-projects/ball-balance" />
 
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8 border-t border-border/50">

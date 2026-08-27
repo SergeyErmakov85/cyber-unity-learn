@@ -29,6 +29,7 @@ import Section9 from "@/components/lesson-3-8/Section9";
 import Section10 from "@/components/lesson-3-8/Section10";
 import Summary from "@/components/lesson-3-8/Summary";
 import RelatedMaterials from "@/components/lesson-3-8/RelatedMaterials";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -231,6 +232,9 @@ const CourseLesson3_8 = () => {
         questions={QUIZ_QUESTIONS}
         lessonPath="/courses/3-8"
       />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="3-8" />
 
       <RelatedMaterials />
 

@@ -58,7 +58,7 @@ const IntroSection = () => (
           <p className="text-foreground/80 leading-relaxed">
             Обучение жило в Python-процессе и говорило с Unity через сокет. Игрок никакого Python не
             запустит — обученную политику{" "}
-            <Math display={false}>{String.raw`\pi_\theta(a\mid s)`}</Math> нужно{" "}
+            <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s})`}</Math> нужно{" "}
             <strong className="text-cyan-300">вынуть из тренировочного контура</strong> и зашить
             прямо в Unity-билд через формат <code className={chip}>.onnx</code>. Урок проводит весь
             путь от файла <code className={chip}>results/race_v7/RaceAgent.onnx</code> до агента,
@@ -88,11 +88,11 @@ const IntroSection = () => (
         <li className="flex gap-2.5">
           <span className="text-purple-400 mt-0.5 shrink-0">▸</span>
           <span>
-            что такое политика <Math display={false}>{String.raw`\pi_\theta(a\mid s)`}</Math> и как
+            что такое политика <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s})`}</Math> и как
             её обучает PPO/SAC —{" "}
             <CrossLinkToHub
               hubPath="/courses/3-1"
-              hubAnchor="razdel-2-politika-i-tsennost"
+              hubAnchor="раздел-2-maximum-entropy-rl-objective"
               hubTitle="Урок 3.1 — SAC/PPO"
             >
               урок 3.1
@@ -106,7 +106,7 @@ const IntroSection = () => (
             как мы дообучили гоночного агента через BC-разогрев и GAIL —{" "}
             <CrossLinkToHub
               hubPath="/courses/3-4"
-              hubAnchor="razdel-5-pipeline"
+              hubAnchor="razdel-8-pipeline"
               hubTitle="Урок 3.4 — Imitation Learning"
             >
               урок 3.4
@@ -120,7 +120,7 @@ const IntroSection = () => (
             зачем нужна доменная рандомизация для устойчивости —{" "}
             <CrossLinkToHub
               hubPath="/courses/3-3"
-              hubAnchor="razdel-1-domain-randomization"
+              hubAnchor="razdel-4-randomizatsiya"
               hubTitle="Урок 3.3 — Curriculum & Randomization"
             >
               урок 3.3
@@ -134,7 +134,7 @@ const IntroSection = () => (
             как читать кривые в TensorBoard —{" "}
             <CrossLinkToHub
               hubPath="/courses/2-6"
-              hubAnchor="razdel-1-tensorboard"
+              hubAnchor="tensorboard"
               hubTitle="Урок 2.6 — TensorBoard и W&B"
             >
               урок 2.6

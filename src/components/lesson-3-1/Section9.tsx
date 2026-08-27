@@ -40,9 +40,9 @@ const Section9 = () => (
       <strong>
         собрали опыт → положили в буфер → сделали несколько градиентных шагов на случайных батчах
       </strong>
-      . Цикл повторяется. Все три цели (<Math display={false}>{String.raw`J_Q`}</Math>,{" "}
-      <Math display={false}>{String.raw`J_\pi`}</Math>,{" "}
-      <Math display={false}>{String.raw`J(\alpha)`}</Math>) минимизируются совместно, а target-сети
+      . Цикл повторяется. Все три цели (<Math display={false}>{String.raw`\enfTgt{J}_Q`}</Math>,{" "}
+      <Math display={false}>{String.raw`\enfTgt{J}_\pi`}</Math>,{" "}
+      <Math display={false}>{String.raw`\enfTgt{J}(\enfPar{\alpha})`}</Math>) минимизируются совместно, а target-сети
       плавно ползут за основными.
     </ProseP>
 
@@ -50,9 +50,9 @@ const Section9 = () => (
       items={[
         <>Чередуем сбор опыта в буфер и градиентные шаги на случайных мини-батчах.</>,
         <>
-          Обновляем: 2 критика (<Math display={false}>{String.raw`J_Q`}</Math>), политику (
-          <Math display={false}>{String.raw`J_\pi`}</Math>), температуру (
-          <Math display={false}>{String.raw`J(\alpha)`}</Math>), затем soft-update target.
+          Обновляем: 2 критика (<Math display={false}>{String.raw`\enfTgt{J}_Q`}</Math>), политику (
+          <Math display={false}>{String.raw`\enfTgt{J}_\pi`}</Math>), температуру (
+          <Math display={false}>{String.raw`\enfTgt{J}(\enfPar{\alpha})`}</Math>), затем soft-update target.
         </>,
         <>
           Всё обучается на off-policy данных из{" "}

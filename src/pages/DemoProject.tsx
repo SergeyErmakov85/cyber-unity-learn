@@ -788,31 +788,31 @@ const DemoProject = () => {
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Теорема о градиенте политики и REINFORCE</h4>
-                        <p>Целевая функция: <Math display={false}>{"J(\\pi_\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta}[R(\\tau)]"}</Math>. Градиент:</p>
-                        <Math>{"\\nabla_\\theta J(\\pi_\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\nabla_\\theta \\log \\pi_\\theta(a_t|s_t) \\cdot G_t \\right]"}</Math>
-                        <p>где <Math display={false}>{"G_t = \\sum_{k=t}^{T} \\gamma^{k-t} r_k"}</Math> — кумулятивная дисконтированная награда (reward-to-go).</p>
+                        <p>Целевая функция: <Math display={false}>{"\\enfTgt{J}(\\pi_\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta}[\\enfTgt{R}(\\tau)]"}</Math>. Градиент:</p>
+                        <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\pi_\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t \\right]"}</Math>
+                        <p>где <Math display={false}>{"\\enfOp{G}_t = \\sum_{k=t}^{T} \\enfPar{\\gamma}^{k-t} \\enfTgt{r}_k"}</Math> — кумулятивная дисконтированная награда (reward-to-go).</p>
                         <p className="mt-2">В PyTorch максимизация J(π) заменяется минимизацией policy loss:</p>
-                        <Math>{"L_{policy} = -\\frac{1}{N} \\sum \\log \\pi_\\theta(a_t|s_t) \\cdot G_t"}</Math>
+                        <Math>{"L_{policy} = -\\frac{1}{N} \\sum \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t"}</Math>
                       </div>
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Actor-Critic Lite и Advantage</h4>
                         <p>Классический REINFORCE страдает от колоссальной дисперсии оценок градиента. Решение — <strong className="text-foreground">базовая линия (baseline)</strong> V_w(s):</p>
-                        <Math>{"A(s_t, a_t) = G_t - V_w(s_t)"}</Math>
+                        <Math>{"A(\\enfVar{s}_t, a_t) = \\enfOp{G}_t - \\enfOp{V}_w(\\enfVar{s}_t)"}</Math>
                         <p>Если A &gt; 0 — действие лучше среднего, вероятность увеличивается. Если A &lt; 0 — уменьшается.</p>
                       </div>
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Регуляризация энтропии</h4>
-                        <Math>{"L_{total} = L_{policy} + \\alpha L_{value} - \\beta H(\\pi)"}</Math>
+                        <Math>{"L_{total} = L_{policy} + \\enfPar{\\alpha} L_{value} - \\beta H(\\pi)"}</Math>
                         <p>где β = <code className="text-primary text-xs">ENTROPY_COEFF = 0.02</code>. Вычитание энтропии из loss эквивалентно её максимизации — предотвращает преждевременную сходимость.</p>
                       </div>
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Гибридное пространство действий</h4>
-                        <Math>{"\\pi_\\theta(a|s) = \\pi_{cont}(a_{cont}|s) \\cdot \\pi_{disc}(a_{disc}|s)"}</Math>
+                        <Math>{"\\pi_\\theta(a \\mid \\enfVar{s}) = \\pi_{cont}(a_{cont} \\mid \\enfVar{s}) \\cdot \\pi_{disc}(a_{disc} \\mid \\enfVar{s})"}</Math>
                         <p>Логарифм произведения = сумма логарифмов:</p>
-                        <Math>{"\\log \\pi_\\theta(a|s) = \\sum_{i=1}^{3} \\log \\mathcal{N}(a_{cont,i}|\\mu_i, \\sigma_i) + \\log \\text{Cat}(a_{disc}|p)"}</Math>
+                        <Math>{"\\log \\pi_\\theta(a \\mid \\enfVar{s}) = \\sum_{i=1}^{3} \\log \\mathcal{N}(a_{cont,i}|\\mu_i, \\sigma_i) + \\log \\text{Cat}(a_{disc}|p)"}</Math>
                       </div>
                     </div>
                   </AccordionContent>
@@ -983,7 +983,7 @@ adv = (adv - adv.mean()) / (adv.std() + 1e-8)`}</CyberCodeBlock>
                           <li>Агент сэмплирует: <Math display={false}>{"\\tilde{a} \\sim \\mathcal{N}(\\mu, \\sigma^2)"}</Math></li>
                           <li>Усечение: <Math display={false}>{"a = \\text{clamp}(\\tilde{a}, -1, 1)"}</Math></li>
                           <li>В буфер сохранялось <em>усечённое</em> a</li>
-                          <li>На этапе оптимизации: <Math display={false}>{"\\log \\pi_\\theta(a|s)"}</Math> — <span className="text-destructive font-semibold">некорректно!</span></li>
+                          <li>На этапе оптимизации: <Math display={false}>{"\\log \\pi_\\theta(a \\mid \\enfVar{s})"}</Math> — <span className="text-destructive font-semibold">некорректно!</span></li>
                         </ol>
                         <p className="mt-3"><strong className="text-foreground">Пример:</strong> μ=2.0, σ=1.0, сэмплирован ã=2.5, clamped a=1.0. Градиент от <code className="text-primary text-xs">log_prob(1.0)</code> при μ=2.0 укажет оптимизатору сдвинуть μ к 1.0 вместо 2.5. Возникает <strong className="text-destructive">Gradient Bias</strong>.</p>
                         <CyberCodeBlock language="python" filename="fix4_raw_samples.py">{`# Правильно: сохраняем raw_action

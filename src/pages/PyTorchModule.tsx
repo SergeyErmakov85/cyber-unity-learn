@@ -6,6 +6,7 @@ import Math from "@/components/Math";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import HubLessonBadges from "@/components/HubLessonBadges";
+import LabPracticeSection from "@/components/LabPracticeSection";
 import {
   Accordion,
   AccordionContent,
@@ -107,22 +108,22 @@ print("Состояний:", n_states, "Действий:", n_actions)`}</CyberC
               </thead>
               <tbody className="text-muted-foreground">
                 <tr className="border-b border-border/20">
-                  <td className="p-3"><Math display={false}>{`\\alpha`}</Math></td>
+                  <td className="p-3"><Math display={false}>{`\\enfPar{\\alpha}`}</Math></td>
                   <td className="p-3">0.1</td>
                   <td className="p-3">Скорость обучения</td>
                 </tr>
                 <tr className="border-b border-border/20">
-                  <td className="p-3"><Math display={false}>{`\\gamma`}</Math></td>
+                  <td className="p-3"><Math display={false}>{`\\enfPar{\\gamma}`}</Math></td>
                   <td className="p-3">0.99</td>
                   <td className="p-3">Коэффициент дисконтирования</td>
                 </tr>
                 <tr className="border-b border-border/20">
-                  <td className="p-3"><Math display={false}>{`\\varepsilon`}</Math></td>
+                  <td className="p-3"><Math display={false}>{`\\enfPar{\\varepsilon}`}</Math></td>
                   <td className="p-3">1.0 → 0.01</td>
                   <td className="p-3">Убывающая вероятность случайного действия</td>
                 </tr>
                 <tr className="border-b border-border/20">
-                  <td className="p-3"><Math display={false}>{`\\varepsilon_{\\text{decay}}`}</Math></td>
+                  <td className="p-3"><Math display={false}>{`\\enfPar{\\varepsilon}_{\\text{decay}}`}</Math></td>
                   <td className="p-3">0.999</td>
                   <td className="p-3">Множитель затухания epsilon</td>
                 </tr>
@@ -141,7 +142,7 @@ print("Состояний:", n_states, "Действий:", n_actions)`}</CyberC
           </div>
 
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Формула обновления Q-значений</h3>
-          <Math>{`Q(s,a) \\leftarrow Q(s,a) + \\alpha \\bigl[ r + \\gamma \\max_{a'} Q(s',a') - Q(s,a) \\bigr]`}</Math>
+          <Math>{`\\enfOp{Q}(\\enfVar{s},a) \\leftarrow \\enfOp{Q}(\\enfVar{s},a) + \\enfPar{\\alpha} \\bigl[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}',a') - \\enfOp{Q}(\\enfVar{s},a) \\bigr]`}</Math>
 
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">3. Цикл обучения Q-Learning</h3>
           <CyberCodeBlock language="python" filename="q_learning.py">{`# Гиперпараметры Q-обучения
@@ -201,7 +202,7 @@ print("Обучение завершено.")`}</CyberCodeBlock>
 
           <InfoBox color="accent" title="Epsilon Decay">
             <p className="text-sm">
-              В отличие от фиксированного ε, здесь используется экспоненциальное затухание: <Math display={false}>{`\\varepsilon \\leftarrow \\max(\\varepsilon_{\\min},\\; \\varepsilon \\cdot 0.999)`}</Math>. Это обеспечивает сначала активное исследование (exploration), а затем плавный переход к эксплуатации (exploitation).
+              В отличие от фиксированного ε, здесь используется экспоненциальное затухание: <Math display={false}>{`\\enfPar{\\varepsilon} \\leftarrow \\max(\\enfPar{\\varepsilon}_{\\min},\\; \\enfPar{\\varepsilon} \\cdot 0.999)`}</Math>. Это обеспечивает сначала активное исследование (exploration), а затем плавный переход к эксплуатации (exploitation).
             </p>
           </InfoBox>
 
@@ -288,17 +289,17 @@ print("Q-таблица сохранена в файл taxi_q_table.npy")`}</Cyb
                   <td className="p-3">Полносвязные слои с ReLU</td>
                 </tr>
                 <tr className="border-b border-border/20">
-                  <td className="p-3"><Math display={false}>{`\\alpha`}</Math> (lr)</td>
+                  <td className="p-3"><Math display={false}>{`\\enfPar{\\alpha}`}</Math> (lr)</td>
                   <td className="p-3">1e-3</td>
                   <td className="p-3">Скорость обучения Adam</td>
                 </tr>
                 <tr className="border-b border-border/20">
-                  <td className="p-3"><Math display={false}>{`\\gamma`}</Math></td>
+                  <td className="p-3"><Math display={false}>{`\\enfPar{\\gamma}`}</Math></td>
                   <td className="p-3">0.99</td>
                   <td className="p-3">Дисконтирование</td>
                 </tr>
                 <tr className="border-b border-border/20">
-                  <td className="p-3"><Math display={false}>{`\\varepsilon`}</Math></td>
+                  <td className="p-3"><Math display={false}>{`\\enfPar{\\varepsilon}`}</Math></td>
                   <td className="p-3">1.0 → 0.01 (decay 0.999)</td>
                   <td className="p-3">Epsilon-greedy исследование</td>
                 </tr>
@@ -323,9 +324,9 @@ print("Q-таблица сохранена в файл taxi_q_table.npy")`}</Cyb
 
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Формулы DQN</h3>
           <p>Целевое значение (target):</p>
-          <Math>{`y = r + \\gamma \\cdot \\max_{a'} Q_{\\text{target}}(s', a') \\cdot (1 - \\text{done})`}</Math>
+          <Math>{`y = \\enfTgt{r} + \\enfPar{\\gamma} \\cdot \\max_{a'} \\enfOp{Q}_{\\text{target}}(\\enfVar{s}', a') \\cdot (1 - \\text{done})`}</Math>
           <p>Функция потерь:</p>
-          <Math>{`L(\\theta) = \\text{MSE}\\bigl(Q_{\\theta}(s,a),\\; y\\bigr)`}</Math>
+          <Math>{`L(\\enfPar{\\theta}) = \\text{MSE}\\bigl(\\enfOp{Q}_{\\theta}(\\enfVar{s},a),\\; y\\bigr)`}</Math>
 
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">1. Нейросеть и Replay Buffer</h3>
           <CyberCodeBlock language="python" filename="dqn_model.py">{`import torch
@@ -556,7 +557,7 @@ print("Оценка DQN завершена.")`}</CyberCodeBlock>
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Упражнения для самопроверки</h3>
           <ol className="list-decimal list-inside space-y-2 text-sm">
             <li>Сравните кривые обучения Q-Learning и DQN — какой метод быстрее достигает оптимальной награды ~7.5?</li>
-            <li>Измените <Math display={false}>{`\\varepsilon_{\\text{decay}}`}</Math> на 0.995 и 0.9999 — как это влияет на баланс exploration/exploitation?</li>
+            <li>Измените <Math display={false}>{`\\enfPar{\\varepsilon}_{\\text{decay}}`}</Math> на 0.995 и 0.9999 — как это влияет на баланс exploration/exploitation?</li>
             <li>Добавьте третий скрытый слой в DQN (128 → 64 → 32) — ускорит ли это сходимость?</li>
             <li>Увеличьте TARGET_UPDATE до 50 — стабилизирует ли это обучение DQN?</li>
             <li>Замените MSE на Huber Loss (<code className="text-foreground">nn.SmoothL1Loss</code>) в DQN — что изменится?</li>
@@ -693,6 +694,9 @@ print("Оценка DQN завершена.")`}</CyberCodeBlock>
             </CardContent>
           </Card>
         </Section>
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="/pytorch" />
 
       </article>
     </div>

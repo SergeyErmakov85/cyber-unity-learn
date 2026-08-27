@@ -118,7 +118,7 @@ const CourseLesson2_4 = () => {
                   <Target className="w-4 h-4 text-destructive" /> Sparse Reward
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Награда выдаётся редко: <Math display={false}>{`r_t = +1`}</Math> за успех, иначе <Math display={false}>{`0`}</Math>.
+                  Награда выдаётся редко: <Math display={false}>{`\\enfTgt{r}_t = +1`}</Math> за успех, иначе <Math display={false}>{`0`}</Math>.
                 </p>
                 <p className="text-xs text-muted-foreground"><strong className="text-foreground">Плюс:</strong> исключает Reward Hacking — цель чётко определена.</p>
                 <p className="text-xs text-muted-foreground"><strong className="text-foreground">Минус:</strong> агент может миллионы шагов не получать сигнала.</p>
@@ -152,7 +152,7 @@ if (reachedGoal) AddReward(1.0f);`}
             за достижение цели — это ускоряет поиск кратчайшего пути. Формально цель агента — максимизировать
             ожидаемую дисконтированную сумму:
           </p>
-          <Math>{String.raw`G_t = \sum_{k=0}^{\infty} \gamma^{k} \, r_{t+k+1}, \qquad 0 < \gamma < 1`}</Math>
+          <Math>{String.raw`\enfOp{G}_t = \sum_{k=0}^{\infty} \enfPar{\gamma}^{k} \, \enfTgt{r}_{t+k+1}, \qquad 0 < \enfPar{\gamma} < 1`}</Math>
 
           <div className="mt-6">
             <LearningCurvesChart />
@@ -197,9 +197,9 @@ if (reachedGoal) AddReward(1.0f);`}
           <Card className="bg-card/60 backdrop-blur-sm border-secondary/30 mb-6">
             <CardContent className="p-5">
               <p className="text-sm text-muted-foreground mb-2">Дисконтированная награда для шага <Math display={false}>{`t = 0`}</Math> при горизонте <Math display={false}>{`T = 1000`}</Math>:</p>
-              <Math>{String.raw`\nabla_\theta J(\theta) \;\propto\; \mathbb{E}\!\left[ \sum_{t=0}^{T} \gamma^{t}\, r_t \, \nabla_\theta \log \pi_\theta(a_t \mid s_t) \right]`}</Math>
+              <Math>{String.raw`\enfOp{\nabla}_\theta \enfTgt{J}(\enfPar{\theta}) \;\propto\; \mathbb{E}\!\left[ \sum_{t=0}^{T} \enfPar{\gamma}^{t}\, \enfTgt{r}_t \, \enfOp{\nabla}_\theta \log \pi_\theta(a_t \mid \enfVar{s}_t) \right]`}</Math>
               <p className="text-xs text-muted-foreground mt-3">
-                При <Math display={false}>{`\\gamma = 0.99`}</Math> и <Math display={false}>{`t = 1000`}</Math>:{" "}
+                При <Math display={false}>{`\\enfPar{\\gamma} = 0.99`}</Math> и <Math display={false}>{`t = 1000`}</Math>:{" "}
                 <Math display={false}>{`0.99^{1000} \\approx 4.3 \\times 10^{-5}`}</Math> — градиент практически исчезает.
               </p>
             </CardContent>
@@ -242,13 +242,13 @@ for t in range(max_steps):
               <h4 className="font-semibold text-foreground flex items-center gap-2">
                 <Shield className="w-4 h-4 text-accent" /> Теорема Ng (1999)
               </h4>
-              <Math>{String.raw`R'(s, a, s') \;=\; R(s, a, s') \;+\; F(s, s'), \qquad F(s, s') = \gamma \, \Phi(s') - \Phi(s)`}</Math>
+              <Math>{String.raw`\enfTgt{R}'(\enfVar{s}, a, \enfVar{s}') \;=\; \enfTgt{R}(\enfVar{s}, a, \enfVar{s}') \;+\; F(\enfVar{s}, \enfVar{s}'), \qquad F(\enfVar{s}, \enfVar{s}') = \enfPar{\gamma} \, \enfFun{\Phi}(\enfVar{s}') - \enfFun{\Phi}(\enfVar{s})`}</Math>
               <p className="text-sm text-muted-foreground">
-                Где <Math display={false}>{`\\Phi : \\mathcal{S} \\to \\mathbb{R}`}</Math> — потенциальная функция (эвристическая
+                Где <Math display={false}>{`\\enfFun{\\Phi} : \\mathcal{S} \\to \\mathbb{\\enfTgt{R}}`}</Math> — потенциальная функция (эвристическая
                 «хорошесть» состояния). Тогда <Math display={false}>{`\\pi^{*}_{R'} = \\pi^{*}_{R}`}</Math>.
               </p>
               <p className="text-xs text-muted-foreground">
-                <strong className="text-foreground">Условие:</strong> <Math display={false}>{`\\Phi(s_{\\text{terminal}}) = 0`}</Math> — иначе
+                <strong className="text-foreground">Условие:</strong> <Math display={false}>{`\\enfFun{\\Phi}(\\enfVar{s}_{\\text{terminal}}) = 0`}</Math> — иначе
                 суммарное дисконтированное вознаграждение эпизода сместится.
               </p>
             </CardContent>
@@ -260,7 +260,7 @@ for t in range(max_steps):
             циклу равна нулю — фарм невозможен.
           </p>
 
-          <Math>{String.raw`\sum_{t=0}^{T-1} \gamma^{t} F(s_t, s_{t+1}) \;=\; \gamma^{T} \Phi(s_T) - \Phi(s_0)`}</Math>
+          <Math>{String.raw`\sum_{t=0}^{T-1} \enfPar{\gamma}^{t} F(\enfVar{s}_t, \enfVar{s}_{t+1}) \;=\; \enfPar{\gamma}^{T} \enfFun{\Phi}(\enfVar{s}_T) - \enfFun{\Phi}(\enfVar{s}_0)`}</Math>
 
           <div className="mt-6 mb-6">
             <RewardHackingChart />
@@ -268,7 +268,7 @@ for t in range(max_steps):
 
           <Card className="bg-card/60 backdrop-blur-sm border-primary/30">
             <CardContent className="p-5 space-y-3">
-              <h4 className="font-semibold text-foreground">Пример: <Math display={false}>{`\\Phi(s) = -\\| s - s_{\\text{goal}} \\|`}</Math></h4>
+              <h4 className="font-semibold text-foreground">Пример: <Math display={false}>{`\\enfFun{\\Phi}(\\enfVar{s}) = -\\| \\enfVar{s} - \\enfVar{s}_{\\text{goal}} \\|`}</Math></h4>
               <CyberCodeBlock language="python" filename="potential_shaping.py">
 {`# Phi(s) = -расстояние до цели
 phi_current = -np.linalg.norm(agent.position - target.position)

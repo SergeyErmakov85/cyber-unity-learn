@@ -5,6 +5,7 @@ import RaycastVisualizer from "@/components/RaycastVisualizer";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import { useNavigate } from "react-router-dom";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const RacingCarProject = () => {
   const navigate = useNavigate();
@@ -386,6 +387,9 @@ tensorboard --logdir results`}
             </CardContent>
           </Card>
         </section>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/unity-projects/racing" />
 
         {/* Navigation */}
         <div className="flex justify-between items-center pt-8 border-t border-border/50">

@@ -6,6 +6,7 @@ import CyberCodeBlock from "@/components/CyberCodeBlock";
 import SEOHead from "@/components/SEOHead";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useMemo } from "react";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const TaxiProject = () => {
   const navigate = useNavigate();
@@ -186,6 +187,9 @@ for episode in range(10000):
             </CardContent>
           </Card>
         </section>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/unity-projects/taxi-v3" />
 
         {/* 7. Навигация */}
         <div className="flex flex-col sm:flex-row justify-between gap-4 pt-4">

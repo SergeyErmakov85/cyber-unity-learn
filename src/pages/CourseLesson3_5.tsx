@@ -28,6 +28,7 @@ import Section8 from "@/components/lesson-3-5/Section8";
 import Section9 from "@/components/lesson-3-5/Section9";
 import Summary from "@/components/lesson-3-5/Summary";
 import RelatedMaterials from "@/components/lesson-3-5/RelatedMaterials";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -240,6 +241,9 @@ const CourseLesson3_5 = () => {
         lessonPath="/courses/3-5"
         nextLesson={{ path: "/courses/3-6", title: "Оптимизация гиперпараметров" }}
       />
+
+      {/* Практика: собранная среда лаборатории для этой темы. */}
+      <LabPracticeSection contextKey="3-5" />
 
       <RelatedMaterials />
 

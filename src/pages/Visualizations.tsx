@@ -6,6 +6,7 @@ import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft } from "lucide-react";
 import Math from "@/components/Math";
+import LabPracticeSection from "@/components/LabPracticeSection";
 
 const RAW_LOGITS = [2.0, 1.0, 0.5, 0.3];
 const ACTIONS = ["Вверх", "Вниз", "Влево", "Вправо"];
@@ -28,7 +29,7 @@ const PolicyGradientViz = () => {
         Визуализация softmax-распределения вероятностей действий. Температура контролирует «уверенность» политики.
       </p>
 
-      <Math>{"\\pi(a|s) = \\frac{e^{Q(s,a) / \\tau}}{\\sum_{a'} e^{Q(s,a') / \\tau}}"}</Math>
+      <Math>{"\\pi(a \\mid \\enfVar{s}) = \\frac{e^{Q(s,a) / \\tau}}{\\sum_{a'} e^{Q(s,a') / \\tau}}"}</Math>
 
       <div>
         <div className="flex justify-between text-sm mb-2">
@@ -101,7 +102,7 @@ const PPOClippingViz = () => {
         Визуализация функции потерь PPO: clip ограничивает размер обновления политики.
       </p>
 
-      <Math>{"L^{CLIP}(\\theta) = \\mathbb{E}\\left[\\min\\left(r_t(\\theta)\\hat{A}_t,\\; \\text{clip}(r_t(\\theta), 1-\\varepsilon, 1+\\varepsilon)\\hat{A}_t\\right)\\right]"}</Math>
+      <Math>{"L^{CLIP}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\min\\left(\\enfTgt{r}_t(\\enfPar{\\theta})\\hat{A}_t,\\; \\text{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\hat{A}_t\\right)\\right]"}</Math>
 
       <div className="grid md:grid-cols-2 gap-4">
         <div>
@@ -174,6 +175,9 @@ const Visualizations = () => {
           <TabsContent value="policy"><PolicyGradientViz /></TabsContent>
           <TabsContent value="ppo"><PPOClippingViz /></TabsContent>
         </Tabs>
+
+        {/* Практика: собранная среда лаборатории для этой темы. */}
+        <LabPracticeSection contextKey="/visualizations" />
       </div>
     </div>
   );

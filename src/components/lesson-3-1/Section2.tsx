@@ -17,7 +17,7 @@ const Section2 = () => (
 
     <ProseP>Обычный RL ищет политику, максимизирующую ожидаемую сумму наград:</ProseP>
 
-    <Math>{String.raw`J_{\text{std}}(\pi) = \sum_{t} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\big[r(s_t,a_t)\big],`}</Math>
+    <Math>{String.raw`\enfTgt{J}_{\text{std}}(\pi) = \sum_{t} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\big[\enfTgt{r}(\enfVar{s}_t,a_t)\big],`}</Math>
 
     <ProseP>
       где <Math display={false}>{String.raw`\rho_\pi`}</Math> — распределение состояний-действий,
@@ -29,7 +29,7 @@ const Section2 = () => (
     </ProseP>
 
     <Math>{String.raw`\boxed{\;
-J(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\Big[\, r(s_t,a_t) + \alpha\,\mathcal{H}\big(\pi(\cdot\mid s_t)\big)\,\Big]
+\enfTgt{J}(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\Big[\, \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\alpha}\,\mathcal{\enfOp{H}}\big(\pi(\cdot\mid \enfVar{s}_t)\big)\,\Big]
 \;}`}</Math>
 
     <ProseP>
@@ -39,20 +39,20 @@ J(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\Big[\, r(s_t,a_t) + \
 
     <ul className="space-y-2 my-4 text-[15px] text-foreground/90 leading-relaxed">
       <li>
-        <Math display={false}>{String.raw`r(s_t,a_t)`}</Math> — обычная награда среды.
+        <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s}_t,a_t)`}</Math> — обычная награда среды.
       </li>
       <li>
-        <Math display={false}>{String.raw`\alpha\,\mathcal{H}(\pi(\cdot\mid s_t))`}</Math> —{" "}
+        <Math display={false}>{String.raw`\enfPar{\alpha}\,\mathcal{\enfOp{H}}(\pi(\cdot\mid \enfVar{s}_t))`}</Math> —{" "}
         <strong>бонус за энтропию</strong> на каждом шаге.
       </li>
       <li>
-        <Math display={false}>{String.raw`\alpha`}</Math> — <strong>температура</strong>{" "}
+        <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> — <strong>температура</strong>{" "}
         (temperature). Она задаёт, насколько важна случайность относительно награды.
       </li>
     </ul>
 
     <h3 className={H3_CLASS}>
-      Роль температуры <Math display={false}>{String.raw`\alpha`}</Math>
+      Роль температуры <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>
     </h3>
 
     <ProseP>
@@ -61,15 +61,15 @@ J(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\Big[\, r(s_t,a_t) + \
 
     <ul className="space-y-2 my-4 text-[15px] text-foreground/90 leading-relaxed">
       <li>
-        <Math display={false}>{String.raw`\alpha \to 0`}</Math>: бонус за энтропию исчезает, и мы{" "}
+        <Math display={false}>{String.raw`\enfPar{\alpha} \to 0`}</Math>: бонус за энтропию исчезает, и мы{" "}
         <strong>восстанавливаем обычный RL</strong>. Политика становится жадной/детерминированной.
       </li>
       <li>
-        большие <Math display={false}>{String.raw`\alpha`}</Math>: энтропия доминирует, политика
+        большие <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>: энтропия доминирует, политика
         стремится к равномерной (исследует «вслепую»).
       </li>
       <li>
-        умеренные <Math display={false}>{String.raw`\alpha`}</Math>: золотая середина — высокая
+        умеренные <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>: золотая середина — высокая
         награда при здоровой стохастичности.
       </li>
     </ul>
@@ -78,13 +78,13 @@ J(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\Big[\, r(s_t,a_t) + \
       <p>
         В отличие от обычного RL, где оптимальная политика <strong>не зависит</strong> от масштаба
         награды, в максэнтропийном RL масштаб награды напрямую конкурирует с фиксированным{" "}
-        <Math display={false}>{String.raw`\alpha`}</Math>. Умножьте все награды на 100 — и тот же{" "}
-        <Math display={false}>{String.raw`\alpha`}</Math> станет «слишком слабым», политика почти
+        <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>. Умножьте все награды на 100 — и тот же{" "}
+        <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> станет «слишком слабым», политика почти
         детерминируется. Поэтому масштаб награды и{" "}
-        <Math display={false}>{String.raw`\alpha`}</Math> нужно согласовывать. Эту проблему мы
+        <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> нужно согласовывать. Эту проблему мы
         радикально решим в{" "}
         <Anchor to="раздел-7-автоматическая-подстройка-температуры-alpha">Разделе 7</Anchor>{" "}
-        автоподстройкой <Math display={false}>{String.raw`\alpha`}</Math>.
+        автоподстройкой <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>.
       </p>
     </Callout>
 
@@ -110,15 +110,15 @@ J(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\Big[\, r(s_t,a_t) + \
         <>
           Цель SAC:{" "}
           <Math display={false}>
-            {String.raw`J(\pi)=\sum_t \mathbb{E}[\,r + \alpha\mathcal{H}(\pi)\,]`}
+            {String.raw`\enfTgt{J}(\pi)=\sum_t \mathbb{E}[\,\enfTgt{r} + \enfPar{\alpha}\mathcal{\enfOp{H}}(\pi)\,]`}
           </Math>
           .
         </>,
         <>
-          <Math display={false}>{String.raw`\alpha\to 0`}</Math> возвращает обычный RL.
+          <Math display={false}>{String.raw`\enfPar{\alpha}\to 0`}</Math> возвращает обычный RL.
         </>,
         <>
-          Масштаб награды и <Math display={false}>{String.raw`\alpha`}</Math> связаны — это решит
+          Масштаб награды и <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> связаны — это решит
           автоподстройка.
         </>,
         <>Энтропия здесь — часть цели, а не побочный регуляризатор как в PPO.</>,

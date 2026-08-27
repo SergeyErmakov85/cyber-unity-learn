@@ -21,23 +21,23 @@ const Section9 = () => (
     </ProseP>
 
     <Math>
-      {String.raw`\tau = \big(\hat R_1,\, s_1,\, a_1,\; \hat R_2,\, s_2,\, a_2,\; \dots\big),`}
+      {String.raw`\tau = \big(\enfTgt{\hat{R}}_1,\, \enfVar{s}_1,\, a_1,\; \enfTgt{\hat{R}}_2,\, \enfVar{s}_2,\, a_2,\; \dots\big),`}
     </Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`\hat R_t`}</Math> — <strong>return-to-go</strong>,
+      где <Math display={false}>{String.raw`\enfTgt{\hat{R}}_t`}</Math> — <strong>return-to-go</strong>,
       желаемая будущая суммарная награда:
     </ProseP>
 
     <Math>
-      {String.raw`\hat R_t = R^{\text{target}} - \sum_{t'=1}^{t-1} r_{t'} .`}
+      {String.raw`\enfTgt{\hat{R}}_t = \enfTgt{R}^{\text{target}} - \sum_{t'=1}^{t-1} \enfTgt{r}_{t'} .`}
     </Math>
 
     <ProseP>
       Модель учится предсказывать следующее действие{" "}
       <Math display={false}>{String.raw`a_t`}</Math> по предыдущим токенам (causal-маска внимания).
       На инференсе вы <strong>задаёте желаемый возврат</strong>{" "}
-      <Math display={false}>{String.raw`R^{\text{target}}`}</Math> — и сеть авторегрессионно
+      <Math display={false}>{String.raw`\enfTgt{R}^{\text{target}}`}</Math> — и сеть авторегрессионно
       генерирует действия, ведущие к нему. Никаких уравнений Беллмана: только supervised-обучение
       «продолжи последовательность».
     </ProseP>
@@ -68,7 +68,7 @@ const Section9 = () => (
         </>,
         <>
           На инференсе политика задаётся целевым возвратом{" "}
-          <Math display={false}>{String.raw`R^{\text{target}}`}</Math>; обучение — чисто supervised,
+          <Math display={false}>{String.raw`\enfTgt{R}^{\text{target}}`}</Math>; обучение — чисто supervised,
           без Беллмана.
         </>,
         <>Силён в <strong>offline RL</strong>; слабые места — стохастичность среды и «сшивание» траекторий.</>,
