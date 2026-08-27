@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Github, Mail, MessageCircle, Twitter, Youtube, ExternalLink } from "lucide-react";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const footerLinks = {
   platform: {
@@ -32,7 +33,7 @@ const footerLinks = {
   account: {
     title: "Аккаунт",
     links: [
-      { label: "Тарифы", href: "/pricing" },
+      ...(MONETIZATION_ENABLED ? [{ label: "Тарифы", href: "/pricing" }] : []),
       { label: "Сообщество", href: "/community" },
       { label: "Войти", href: "/login" },
       { label: "Регистрация", href: "/register" },

@@ -260,7 +260,7 @@ const CourseLesson3_5 = () => {
     <>
       <SEOHead
         title="Урок 3.5. Деплой модели: ONNX и Unity-сборка | CyberUnityCode"
-        description="ONNX-экспорт обученной политики, Unity Inference Engine (Sentis), Behavior Parameters, Inference Device, DecisionRequester, детерминизм, IL2CPP-билд, WebGL/Mobile и диагностика рассинхрона наблюдений и действий на примере гоночного агента. PRO-урок."
+        description="ONNX-экспорт обученной политики, Unity Inference Engine (Sentis), Behavior Parameters, Inference Device, DecisionRequester, детерминизм, IL2CPP-билд, WebGL/Mobile и диагностика рассинхрона наблюдений и действий на примере гоночного агента. Урок."
         path="/courses/3-5"
         type="article"
         keywords="ONNX, Unity Sentis, Inference Engine, Barracuda, ML-Agents deploy, Behavior Parameters, Inference Device, DecisionRequester, IL2CPP, WebGL, Unity build, гоночный агент"

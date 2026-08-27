@@ -11,6 +11,7 @@ import {
 import { BookOpen, Code2, FileText, HelpCircle, Sigma } from "lucide-react";
 import { LECTURES } from "@/content/textbook/index.generated";
 import { TEXTBOOK_PARTS, TEXTBOOK_ROOT } from "@/content/textbook/parts";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 interface SearchItem {
   title: string;
@@ -77,7 +78,9 @@ const searchItems: SearchItem[] = [
 
   // FAQ
   { title: "FAQ — Часто задаваемые вопросы", path: "/faq", group: "FAQ", keywords: "faq questions help" },
-  { title: "Тарифы и цены", path: "/pricing", group: "FAQ", keywords: "pricing plans pro free" },
+  ...(MONETIZATION_ENABLED
+    ? [{ title: "Тарифы и цены", path: "/pricing", group: "FAQ", keywords: "pricing plans pro free" }]
+    : []),
   { title: "Сообщество", path: "/community", group: "FAQ", keywords: "community discord" },
 
   ...TEXTBOOK_ITEMS,

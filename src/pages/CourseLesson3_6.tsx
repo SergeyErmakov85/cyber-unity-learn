@@ -273,7 +273,7 @@ const CourseLesson3_6 = () => {
     <>
       <SEOHead
         title="Урок 3.6. Оптимизация гиперпараметров: Optuna + W&B | CyberUnityCode"
-        description="HPO для RL: формализация задачи (λ* = argmax f(λ)), grid vs random, байесовская оптимизация и TPE (EI ∝ (γ + g/ℓ(1−γ))⁻¹), прунинг (Median, SHA/ASHA, Hyperband), Optuna (study/trial/objective, define-by-run, распределёнка), W&B Sweeps и связка Optuna ↔ W&B через WeightsAndBiasesCallback. Сквозной пример — гоночный агент в Unity ML-Agents 4.0.x. PRO-урок."
+        description="HPO для RL: формализация задачи (λ* = argmax f(λ)), grid vs random, байесовская оптимизация и TPE (EI ∝ (γ + g/ℓ(1−γ))⁻¹), прунинг (Median, SHA/ASHA, Hyperband), Optuna (study/trial/objective, define-by-run, распределёнка), W&B Sweeps и связка Optuna ↔ W&B через WeightsAndBiasesCallback. Сквозной пример — гоночный агент в Unity ML-Agents 4.0.x. Урок."
         path="/courses/3-6"
         type="article"
         keywords="HPO, гиперпараметры, Optuna, W&B Sweeps, TPE, ASHA, Hyperband, Successive Halving, байесовская оптимизация, Expected Improvement, ML-Agents, гоночный агент, PPO"

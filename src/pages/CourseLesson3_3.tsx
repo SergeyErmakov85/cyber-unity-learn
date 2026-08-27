@@ -263,7 +263,7 @@ const CourseLesson3_3 = () => {
     <>
       <SEOHead
         title="Урок 3.3. Учебный план и рандомизация среды | CyberUnityCode"
-        description="Curriculum learning как метод продолжения, рандомизация среды (контекстный MDP, sim-to-real), ADR, Prioritized Level Replay и Unsupervised Environment Design. Полные YAML-конфиги Unity ML-Agents: сэмплеры и curriculum. PRO-урок продвинутого уровня."
+        description="Curriculum learning как метод продолжения, рандомизация среды (контекстный MDP, sim-to-real), ADR, Prioritized Level Replay и Unsupervised Environment Design. Полные YAML-конфиги Unity ML-Agents: сэмплеры и curriculum. Урок продвинутого уровня."
         path="/courses/3-3"
         type="article"
         keywords="curriculum learning, environment randomization, domain randomization, ADR, PLR, UED, PAIRED, контекстный MDP, sim-to-real, Unity ML-Agents, environment_parameters"

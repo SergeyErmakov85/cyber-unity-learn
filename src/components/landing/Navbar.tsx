@@ -12,13 +12,15 @@ import XpNotification from "@/components/XpNotification";
 import { checkStreak } from "@/lib/gamification";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 import type { User } from "@supabase/supabase-js";
 
 const navLinks = [
   { href: "/courses", label: "Курсы", icon: GraduationCap },
   { href: "/code-examples", label: "Примеры кода", icon: Code2 },
   { href: "/blog", label: "Блог", icon: FileText },
-  { href: "/pricing", label: "Тарифы", icon: CreditCard },
+  // Ссылка на тарифы появляется только при включённой монетизации.
+  ...(MONETIZATION_ENABLED ? [{ href: "/pricing", label: "Тарифы", icon: CreditCard }] : []),
   { href: "/faq", label: "FAQ", icon: HelpCircle },
   { href: "/community", label: "Сообщество", icon: Users },
 ];
@@ -143,12 +145,14 @@ const Navbar = () => {
             </button>
             {/* Utility items */}
             <div className="flex items-center gap-3 ml-3 pl-3 border-l border-border/30">
-              <button
-                onClick={() => navigate("/pricing")}
-                className={`text-sm transition-all duration-300 ${location.pathname === "/pricing" ? "text-primary" : "text-muted-foreground hover:text-primary"}`}
-              >
-                Тарифы
-              </button>
+              {MONETIZATION_ENABLED && (
+                <button
+                  onClick={() => navigate("/pricing")}
+                  className={`text-sm transition-all duration-300 ${location.pathname === "/pricing" ? "text-primary" : "text-muted-foreground hover:text-primary"}`}
+                >
+                  Тарифы
+                </button>
+              )}
               {!authLoading && authUser ? (
                 <button
                   onClick={() => navigate("/dashboard")}
@@ -258,15 +262,17 @@ const Navbar = () => {
 
                 {/* Utility links */}
                 <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/30 px-2">
-                  <button
-                    onClick={() => { setIsOpen(false); navigate("/pricing"); }}
-                    className={`flex items-center px-4 py-3 text-left rounded-lg transition-all duration-300 ${
-                      isActive("/pricing") ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-primary hover:bg-primary/10"
-                    }`}
-                  >
-                    <CreditCard className="w-4 h-4 mr-3" />
-                    Тарифы
-                  </button>
+                  {MONETIZATION_ENABLED && (
+                    <button
+                      onClick={() => { setIsOpen(false); navigate("/pricing"); }}
+                      className={`flex items-center px-4 py-3 text-left rounded-lg transition-all duration-300 ${
+                        isActive("/pricing") ? "text-primary bg-primary/10" : "text-muted-foreground hover:text-primary hover:bg-primary/10"
+                      }`}
+                    >
+                      <CreditCard className="w-4 h-4 mr-3" />
+                      Тарифы
+                    </button>
+                  )}
                   {!authUser && (
                     <>
                       <Button

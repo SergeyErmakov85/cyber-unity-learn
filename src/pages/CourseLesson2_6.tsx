@@ -333,7 +333,7 @@ const CourseLesson2_6 = () => {
     <>
       <SEOHead
         title="Урок 2.6. Визуализация обучения: TensorBoard и W&B | CyberUnityCode"
-        description="Полный гайд по мониторингу RL-обучения: 15 ключевых метрик с интерпретацией, code-примеры PPO + SB3 + TensorBoard + W&B, диагностика 6 типичных проблем обучения. PRO-урок курса CyberUnityCode."
+        description="Полный гайд по мониторингу RL-обучения: 15 ключевых метрик с интерпретацией, code-примеры PPO + SB3 + TensorBoard + W&B, диагностика 6 типичных проблем обучения. Урок курса CyberUnityCode."
         path="/courses/2-6"
         type="article"
         image="/og/lesson-2-6.png"

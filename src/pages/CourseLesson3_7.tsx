@@ -263,7 +263,7 @@ const CourseLesson3_7 = () => {
     <>
       <SEOHead
         title="Урок 3.7. Архитектуры нейросетей для RL-агентов | CyberUnityCode"
-        description="Разбор архитектуры RL-агента как энкодер + голова: MLP для векторов, CNN (simple/nature_cnn/resnet) для пикселей, LSTM и кадровый стек для POMDP, self-attention для множеств сущностей. Shared vs separate backbone, полный network_settings ML-Agents 4.0.x, Decision Transformer. PRO-урок."
+        description="Разбор архитектуры RL-агента как энкодер + голова: MLP для векторов, CNN (simple/nature_cnn/resnet) для пикселей, LSTM и кадровый стек для POMDP, self-attention для множеств сущностей. Shared vs separate backbone, полный network_settings ML-Agents 4.0.x, Decision Transformer. Урок."
         path="/courses/3-7"
         type="article"
         keywords="архитектура RL, энкодер, голова, MLP, CNN, nature_cnn, IMPALA ResNet, LSTM, POMDP, self-attention, shared_critic, network_settings, ML-Agents, Decision Transformer"

@@ -38,4 +38,4 @@
 
 ## Optional
 
-- [FAQ](/faq), [Pricing](/pricing), [Сообщество](/community).
+- [FAQ](/faq), [Сообщество](/community).

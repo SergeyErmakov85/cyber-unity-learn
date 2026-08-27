@@ -3,6 +3,7 @@ import TldrBox from "@/components/ui/TldrBox";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import Math from "@/components/Math";
 import { Trophy, Gamepad2, Cpu, Rocket, Sparkles, Layers } from "lucide-react";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const chip = "px-1.5 py-0.5 rounded bg-muted/50 text-xs font-mono";
 
@@ -56,7 +57,13 @@ const IntroSection = () => (
             <Math display={false}>{String.raw`\;\pi_\theta(a\mid s)`}</Math>. Шесть этапов, четыре эталонных проекта, три бонусные техники.
           </p>
           <p className="text-xs text-muted-foreground">
-            <strong>Уровень:</strong> 3 (продвинутый) · <strong>Раздел программы:</strong> 3.8 · <strong>Доступ:</strong> PRO
+            <strong>Уровень:</strong> 3 (продвинутый) · <strong>Раздел программы:</strong> 3.8
+            {MONETIZATION_ENABLED && (
+              <>
+                {" · "}
+                <strong>Доступ:</strong> PRO
+              </>
+            )}
           </p>
         </div>
         <div className="shrink-0 w-20 h-20 rounded-2xl border border-cyan-400/40 bg-cyan-500/10 flex items-center justify-center shadow-[0_0_32px_hsl(var(--primary)/0.45)]">

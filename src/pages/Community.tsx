@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
 import Leaderboard from "@/components/Leaderboard";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const discordChannels = [
   {
@@ -292,7 +293,7 @@ const Community = () => {
               <div className="grid sm:grid-cols-3 gap-4">
                 {[
                   { icon: Calendar, label: "Следующий хакатон", value: "5 апреля 2026" },
-                  { icon: Gift, label: "Призы", value: "PRO-подписки, мерч, менторство" },
+                  { icon: Gift, label: "Призы", value: MONETIZATION_ENABLED ? "PRO-подписки, мерч, менторство" : "Мерч и менторство" },
                   { icon: Users, label: "Формат", value: "Соло или команды до 3 человек" },
                 ].map((item) => {
                   const Icon = item.icon;

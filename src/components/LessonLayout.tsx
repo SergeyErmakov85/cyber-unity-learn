@@ -16,6 +16,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import LessonBreadcrumbs from "@/components/LessonBreadcrumbs";
 import SEOHead from "@/components/SEOHead";
 import ProUpgradeBanner from "@/components/ProUpgradeBanner";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 import LessonSidebarTOC, { type TocColor } from "@/components/LessonSidebarTOC";
 import type { SectionNavItem } from "@/components/SectionNav";
 import { completeLesson, getProgress } from "@/lib/gamification";
@@ -104,7 +105,7 @@ const SidebarContent = ({ currentPath }: { currentPath: string }) => {
         <div key={li}>
           <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 px-3 flex items-center gap-2">
             {cfg.label}
-            {cfg.tag === "PRO" && <Crown className="w-3 h-3 text-secondary" />}
+            {MONETIZATION_ENABLED && cfg.tag === "PRO" && <Crown className="w-3 h-3 text-secondary" />}
           </h3>
           <div className="space-y-0.5">
             {cfg.lessons.map((l) => {
@@ -127,7 +128,7 @@ const SidebarContent = ({ currentPath }: { currentPath: string }) => {
                     <CheckCircle2 className="w-3 h-3 flex-shrink-0 text-green-400" />
                   ) : active ? (
                     <BarChart3 className="w-3 h-3 flex-shrink-0" />
-                  ) : cfg.tag === "PRO" ? (
+                  ) : MONETIZATION_ENABLED && cfg.tag === "PRO" ? (
                     <Lock className="w-3 h-3 flex-shrink-0" />
                   ) : (
                     <Circle className="w-3 h-3 flex-shrink-0" />
@@ -339,14 +340,16 @@ const LessonLayout = ({
           {/* Lesson header */}
           <div className="mb-8 space-y-3">
             <div className="flex items-center gap-3 flex-wrap">
-              <span className={cn(
-                "text-xs font-semibold px-2 py-0.5 rounded-full border",
-                isPro
-                  ? "bg-secondary/20 text-secondary border-secondary/30"
-                  : "bg-green-500/20 text-green-400 border-green-500/30"
-              )}>
-                {isPro ? "PRO" : "FREE"}
-              </span>
+              {MONETIZATION_ENABLED && (
+                <span className={cn(
+                  "text-xs font-semibold px-2 py-0.5 rounded-full border",
+                  isPro
+                    ? "bg-secondary/20 text-secondary border-secondary/30"
+                    : "bg-green-500/20 text-green-400 border-green-500/30"
+                )}>
+                  {isPro ? "PRO" : "FREE"}
+                </span>
+              )}
               <span className={cn("text-xs font-semibold px-2 py-0.5 rounded-full border", diff.color)}>
                 {diff.label}
               </span>

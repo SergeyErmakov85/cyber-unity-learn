@@ -44,7 +44,7 @@ npm run lint     # ESLint
 - Все формулы — KaTeX/LaTeX: в TSX через `Math`, в лекциях учебника — из `.md`. Никаких сырых Unicode-символов математики.
 - Цвет в формуле задаётся ролью сущности, а не оттенком: макросы `\enfVar`, `\enfFun`, `\enfPar`, `\enfOp`, `\enfTgt`. `\textcolor` и `\color` запрещены — палитра живёт в `src/styles/enf-math.css`.
 - Кросс-линки между уроками и хабами — через компонент `HubLink` (двунаправленные, как в Википедии).
-- PRO-контент гейтится компонентом `ProGate`.
+- PRO-контент гейтится компонентом `ProGate` — но сейчас монетизация выключена (`MONETIZATION_ENABLED = false`), и гейт пропускает всех. См. «Монетизация».
 - Интерактив (слайдеры, тогглы, hover) — React/JSX; статичный SVG только для неинтерактивных схем.
 
 ---
@@ -354,11 +354,38 @@ Auth — Supabase (`src/integrations/supabase/client.ts`). Способы вхо
 
 Роли живут в таблице `user_roles` (Postgres, RLS); в политиках БД проверяются через функцию `has_role(user_id, role)`. `isPro` захардкожен в `false` — биллинг PRO ещё не интегрирован. Администраторы обходят PRO-гейт через `isAdmin`.
 
-PRO-пейволл: `<ProGate preview={<VisiblePreview />}>full content</ProGate>`.
+PRO-пейволл: `<ProGate preview={<VisiblePreview />}>full content</ProGate>` (сейчас прозрачен — см. «Монетизация»).
 
 Личный кабинет — `/dashboard` (`src/pages/Dashboard.tsx`); `/profile` — редирект на него. Это НЕ страница урока: lesson-скаффолд (ProGate, SectionNav, CompleteButton, Quiz) к нему не применяется. Удаление аккаунта — Edge Function `delete-account` (service_role).
 
 Секреты Edge Functions (`supabase secrets set`): `YANDEX_CLIENT_ID/SECRET`, `MAILRU_CLIENT_ID/SECRET`, `APP_URL` — см. README.
+
+---
+
+## Монетизация
+
+Весь платный контур выключен одним флагом — **`src/config/monetization.ts`**:
+
+```ts
+export const MONETIZATION_ENABLED = false;
+```
+
+При `false` (текущее состояние сайта):
+
+- весь контент открыт всем, включая незарегистрированных: `ProGate` рендерит `children` без paywall;
+- нет меток `FREE`/`PRO`, корон и замков (`LessonHeader`, `LessonLayout`, `Courses`, `RelatedMaterials` уроков, интро 3.6–3.8);
+- `CrossLinkToLesson` / `CrossLinkBadge` считают доступными все уроки;
+- маршрут `/pricing` редиректит на `/`; ссылок на тарифы нет в `Navbar`, `FooterSection`, `GlobalSearch`, `sitemap.xml`, `llms.txt`;
+- `ProUpgradeBanner` возвращает `null`; в FAQ вместо раздела «Тарифы и оплата» — «Доступ и стоимость»;
+- из денежной темы остаётся только добровольное пожертвование в `OpenLearningSection` на главной (CloudTips).
+
+Чтобы снова включить платные тарифы и закрыть уровни 2–3, достаточно поставить `true`:
+страница `Pricing.tsx`, `AffiliateSection`, `ProUpgradeBanner`, тексты про подписку и вся гейт-логика
+сохранены в коде и оживают вместе с флагом. Новые платные элементы UI добавляй только под
+`MONETIZATION_ENABLED`, чтобы выключатель оставался единственной точкой переключения.
+
+`src/config/openAccess.ts` — отдельный, более ранний механизм: временное окно свободного доступа
+по дате. Он проверяется уже после флага и имеет значение только при `MONETIZATION_ENABLED = true`.
 
 ---
 

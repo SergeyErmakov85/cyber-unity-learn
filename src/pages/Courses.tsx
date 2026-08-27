@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getLevelCompletionPercent, getProgress } from "@/lib/gamification";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const levels = [
   {
@@ -196,9 +197,10 @@ const Courses = () => {
 
           <div className="space-y-8">
             {levels.map((level, index) => {
-              const isLocked = isAdmin ? false : level.locked;
+              // Монетизация выключена — уровни открыты всем; админ обходит замки всегда.
+              const isLocked = MONETIZATION_ENABLED && !isAdmin && level.locked;
               const styles = accentStyles[level.accentColor];
-              const status = isAdmin && level.locked ? statusLabels["in_progress"] : statusLabels[level.status];
+              const status = !isLocked && level.status === "locked" ? statusLabels["in_progress"] : statusLabels[level.status];
               const isOpen = openLevel === index;
 
               return (
@@ -229,11 +231,13 @@ const Courses = () => {
                                 <h3 className="text-xl font-bold text-foreground">
                                   Уровень {index + 1} — {level.title}
                                 </h3>
-                                <span
-                                  className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${level.tagColor}`}
-                                >
-                                  {level.tag}
-                                </span>
+                                {MONETIZATION_ENABLED && (
+                                  <span
+                                    className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${level.tagColor}`}
+                                  >
+                                    {level.tag}
+                                  </span>
+                                )}
                               </div>
 
                               <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">

@@ -278,7 +278,7 @@ const CourseLesson3_1 = () => {
     <>
       <SEOHead
         title="Урок 3.1. SAC — Soft Actor-Critic | CyberUnityCode"
-        description="Полный разбор Soft Actor-Critic: принцип максимальной энтропии, soft-уравнение Беллмана, два Q-критика, reparameterization trick, автоподстройка температуры α, replay buffer и YAML-конфиг SAC в Unity ML-Agents. PRO-урок продвинутого уровня."
+        description="Полный разбор Soft Actor-Critic: принцип максимальной энтропии, soft-уравнение Беллмана, два Q-критика, reparameterization trick, автоподстройка температуры α, replay buffer и YAML-конфиг SAC в Unity ML-Agents. Урок продвинутого уровня."
         path="/courses/3-1"
         type="article"
         keywords="SAC, Soft Actor-Critic, maximum entropy RL, off-policy, reparameterization trick, replay buffer, Unity ML-Agents, непрерывное управление, PPO vs SAC"

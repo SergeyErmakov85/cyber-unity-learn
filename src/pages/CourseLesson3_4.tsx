@@ -257,7 +257,7 @@ const CourseLesson3_4 = () => {
     <>
       <SEOHead
         title="Урок 3.4. Imitation Learning: BC и GAIL | CyberUnityCode"
-        description="Behavioral Cloning, IRL и GAIL: квадратичный covariate shift (Ross & Bagnell), occupancy matching и GAN-минимакс Ho & Ermon, AIRL и disentangled reward, полный YAML для com.unity.ml-agents@4.0 — BC-warmup + GAIL + PPO для гоночного агента. PRO-урок."
+        description="Behavioral Cloning, IRL и GAIL: квадратичный covariate shift (Ross & Bagnell), occupancy matching и GAN-минимакс Ho & Ermon, AIRL и disentangled reward, полный YAML для com.unity.ml-agents@4.0 — BC-warmup + GAIL + PPO для гоночного агента. Урок."
         path="/courses/3-4"
         type="article"
         keywords="imitation learning, behavioral cloning, GAIL, AIRL, DAgger, Ho Ermon, Ross Bagnell, occupancy measure, Unity ML-Agents, demonstration recorder, gail strength, use_vail"

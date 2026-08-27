@@ -1594,7 +1594,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
     <>
       <SEOHead
         title="Урок 3.2. Многоагентное обучение: MA-POCA и Self-Play | CyberUnityCode"
-        description="Полный разбор многоагентного RL в Unity ML-Agents: нестационарность, парадигма CTDE, counterfactual baseline, posthumous credit assignment, MA-POCA с self-attention (RSA), Self-Play, авто-curriculum, рейтинг ELO и готовые YAML-конфиги. PRO-урок продвинутого уровня."
+        description="Полный разбор многоагентного RL в Unity ML-Agents: нестационарность, парадигма CTDE, counterfactual baseline, posthumous credit assignment, MA-POCA с self-attention (RSA), Self-Play, авто-curriculum, рейтинг ELO и готовые YAML-конфиги. Урок продвинутого уровня."
         path="/courses/3-2"
         type="article"
         keywords="MA-POCA, MARL, многоагентное обучение, Self-Play, CTDE, counterfactual baseline, posthumous credit assignment, RSA, self-attention, ELO, Unity ML-Agents, SimpleMultiAgentGroup, poca, self_play"
