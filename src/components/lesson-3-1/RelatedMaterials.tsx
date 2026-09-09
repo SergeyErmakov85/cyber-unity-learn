@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link2, GraduationCap, Wrench, ExternalLink } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const HUBS: Array<{ path: string; anchor?: string; title: string; label: string }> = [
   {
@@ -132,15 +133,17 @@ const RelatedMaterials = () => (
                 >
                   <span className="font-semibold">{l.id}</span>
                   <span className="ml-1">— {l.title}</span>
-                  <span
-                    className={`ml-2 text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded border ${
-                      l.level === 1
-                        ? "border-emerald-500/40 text-emerald-300 bg-emerald-500/10"
-                        : "border-amber-500/40 text-amber-300 bg-amber-500/10"
-                    }`}
-                  >
-                    {l.level === 1 ? "🔓 FREE" : "🔒 PRO"}
-                  </span>
+                  {MONETIZATION_ENABLED && (
+                    <span
+                      className={`ml-2 text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded border ${
+                        l.level === 1
+                          ? "border-emerald-500/40 text-emerald-300 bg-emerald-500/10"
+                          : "border-amber-500/40 text-amber-300 bg-amber-500/10"
+                      }`}
+                    >
+                      {l.level === 1 ? "🔓 FREE" : "🔒 PRO"}
+                    </span>
+                  )}
                 </CrossLinkToLesson>
                 <div className="text-xs text-muted-foreground mt-0.5 ml-4">{l.note}</div>
               </li>

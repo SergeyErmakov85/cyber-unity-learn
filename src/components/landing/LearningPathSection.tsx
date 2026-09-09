@@ -126,8 +126,10 @@ const LearningPathSection = () => {
                                     <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                                   ) : isCurrent ? (
                                     <Circle className={`w-4 h-4 ${colors.text} shrink-0`} />
-                                  ) : (
+                                  ) : isLocked ? (
                                     <Lock className="w-3.5 h-3.5 text-muted-foreground/40 shrink-0" />
+                                  ) : (
+                                    <Circle className="w-4 h-4 text-muted-foreground/50 shrink-0" />
                                   )}
                                   <span className="truncate">{lesson.title}</span>
                                 </div>

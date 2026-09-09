@@ -1,6 +1,7 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { LEARNING_MAP } from "@/content/learningMap";
 import { markLessonComplete } from "@/lib/gamification";
+import { SEQUENTIAL_LESSON_LOCK } from "@/config/lessonAccess";
 
 const STORAGE_KEY = "rl-platform-completed-lessons";
 
@@ -54,7 +55,11 @@ function stableSnapshot(): string[] {
   return cached;
 }
 
-export type LessonStatus = "completed" | "current" | "locked";
+/**
+ * `current` — следующий урок по порядку, `available` — открыт, но не «следующий»
+ * (последовательный замок выключен), `locked` — ещё не открыт.
+ */
+export type LessonStatus = "completed" | "current" | "available" | "locked";
 
 export function useLearningProgress(isAdmin = false) {
   const completed = useSyncExternalStore(subscribe, stableSnapshot, () => []);
@@ -76,13 +81,19 @@ export function useLearningProgress(isAdmin = false) {
   /** Determine status of any lesson slug */
   const getStatus = useCallback(
     (slug: string): LessonStatus => {
-      if (isAdmin) return completed.includes(slug) ? "completed" : "current";
       if (completed.includes(slug)) return "completed";
+
       const idx = ALL_SLUGS.indexOf(slug);
-      if (idx === 0) return "current";
-      const prev = ALL_SLUGS[idx - 1];
-      if (prev && completed.includes(prev)) return "current";
-      return "locked";
+      const isNext =
+        idx === 0 || (idx > 0 && completed.includes(ALL_SLUGS[idx - 1]));
+
+      // Последовательный замок выключен (или это админ): открыты все уроки,
+      // «следующий по порядку» лишь подсвечивается.
+      if (!SEQUENTIAL_LESSON_LOCK || isAdmin) {
+        return isNext ? "current" : "available";
+      }
+
+      return isNext ? "current" : "locked";
     },
     [completed, isAdmin],
   );

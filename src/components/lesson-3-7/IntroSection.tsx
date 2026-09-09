@@ -4,6 +4,7 @@ import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import Math from "@/components/Math";
 import { Network, Layers, Eye, Brain, Sparkles } from "lucide-react";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const chip = "px-1.5 py-0.5 rounded bg-muted/50 text-xs font-mono";
 
@@ -62,8 +63,13 @@ const IntroSection = () => (
             гоночного агента.
           </p>
           <p className="text-xs text-muted-foreground">
-            <strong>Уровень:</strong> 3 (продвинутый) · <strong>Раздел программы:</strong> 3.7 ·{" "}
-            <strong>Доступ:</strong> PRO
+            <strong>Уровень:</strong> 3 (продвинутый) · <strong>Раздел программы:</strong> 3.7
+            {MONETIZATION_ENABLED && (
+              <>
+                {" · "}
+                <strong>Доступ:</strong> PRO
+              </>
+            )}
           </p>
         </div>
         <div className="shrink-0 w-20 h-20 rounded-2xl border border-cyan-400/40 bg-cyan-500/10 flex items-center justify-center shadow-[0_0_32px_hsl(var(--primary)/0.45)]">

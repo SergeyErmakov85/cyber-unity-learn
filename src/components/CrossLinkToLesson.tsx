@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useUserRole } from "@/hooks/useUserRole";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 interface CrossLinkToLessonProps {
   lessonId: string;
@@ -37,8 +38,8 @@ const CrossLinkToLesson = ({
   const { isAdmin } = useUserRole();
   const [showDialog, setShowDialog] = useState(false);
 
-  // Admin bypasses all locks; level 1 is always free
-  const isAccessible = lessonLevel === 1 || isAdmin;
+  // Монетизация выключена — открыт любой урок. Иначе: admin обходит замки, уровень 1 всегда бесплатен.
+  const isAccessible = !MONETIZATION_ENABLED || lessonLevel === 1 || isAdmin;
 
   const handleClick = () => {
     if (isAccessible) {
@@ -126,7 +127,7 @@ export const CrossLinkBadge = ({
   const { isAdmin } = useUserRole();
   const [showDialog, setShowDialog] = useState(false);
 
-  const isAccessible = lessonLevel === 1 || isAdmin;
+  const isAccessible = !MONETIZATION_ENABLED || lessonLevel === 1 || isAdmin;
 
   const handleClick = () => {
     if (isAccessible) {

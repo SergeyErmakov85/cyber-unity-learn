@@ -6,6 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 import RouteScrollToTop from "@/components/RouteScrollToTop";
 import YandexMetrika from "@/components/YandexMetrika";
 import { AuthProvider } from "@/hooks/useAuth";
@@ -189,7 +190,8 @@ const App = () => (
             <Route path="/blog/reinforce-vs-ppo" element={<BlogReinforceVsPpo />} />
             <Route path="/blog/onnx-sentis-pipeline" element={<BlogOnnxSentis />} />
             <Route path="/blog/unity-ml-agents-tutorial" element={<BlogUnityMlAgentsTutorial />} />
-            <Route path="/pricing" element={<Pricing />} />
+            {/* Тарифы: при выключенной монетизации страница не показывается, а старые ссылки ведут на главную. */}
+            <Route path="/pricing" element={MONETIZATION_ENABLED ? <Pricing /> : <Navigate to="/" replace />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/community" element={<Community />} />

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Heart, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const PRESET_AMOUNTS = [200, 500, 1000] as const;
 
@@ -48,34 +49,55 @@ const OpenLearningSection = () => {
             <p>
               CUBER создаётся как открытая образовательная платформа.
             </p>
-            <p>
-              Ты можешь изучить{" "}
-              <strong className="text-foreground font-medium">основы бесплатно</strong>{" "}
-              — без ограничений и paywall.
-            </p>
-            <p>
-              Если хотите двигаться дальше — глубже, быстрее и с практикой —
-              доступ к следующим модулям открывается по подписке.
-              Подписка не только помогает вам расти в обучении,
-              но и способствует развитию платформы.
-            </p>
+            {MONETIZATION_ENABLED ? (
+              <>
+                <p>
+                  Ты можешь изучить{" "}
+                  <strong className="text-foreground font-medium">основы бесплатно</strong>{" "}
+                  — без ограничений и paywall.
+                </p>
+                <p>
+                  Если хотите двигаться дальше — глубже, быстрее и с практикой —
+                  доступ к следующим модулям открывается по подписке.
+                  Подписка не только помогает вам расти в обучении,
+                  но и способствует развитию платформы.
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  Все материалы —{" "}
+                  <strong className="text-foreground font-medium">полностью бесплатны и открыты</strong>{" "}
+                  для всех: уроки, проекты, учебник по математике и примеры кода.
+                  Ни paywall, ни подписок — регистрация нужна только для того,
+                  чтобы сохранять прогресс.
+                </p>
+                <p>
+                  Платформа развивается на добровольные пожертвования: если материалы
+                  оказались полезны, вы можете поддержать проект — это помогает
+                  писать новые разделы и держать всё содержимое открытым.
+                </p>
+              </>
+            )}
           </div>
         </div>
 
-        {/* ── Primary CTA: Subscription ───────────────── */}
+        {/* ── Primary CTA ─────────────────────────────── */}
         <div className="flex flex-col items-center gap-3 mb-16">
           <Button
             size="lg"
             variant="cyber"
             className="text-base px-8 group"
-            onClick={() => navigate("/pricing")}
+            onClick={() => navigate(MONETIZATION_ENABLED ? "/pricing" : "/courses")}
           >
             <Sparkles className="w-4 h-4 mr-2 group-hover:animate-glow-pulse" />
             Продолжить обучение
             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
           <p className="text-xs text-muted-foreground/70">
-            Доступ к продвинутым модулям и проектам
+            {MONETIZATION_ENABLED
+              ? "Доступ к продвинутым модулям и проектам"
+              : "Все разделы и проекты открыты — без регистрации"}
           </p>
         </div>
 
@@ -99,8 +121,9 @@ const OpenLearningSection = () => {
               Поддержать проект
             </div>
             <p className="text-xs text-muted-foreground max-w-md mx-auto">
-              Разовый взнос — помогает развивать открытые материалы и сохранять
-              базовый курс бесплатным
+              {MONETIZATION_ENABLED
+                ? "Разовый взнос — помогает развивать открытые материалы и сохранять базовый курс бесплатным"
+                : "Добровольный разовый взнос — помогает развивать материалы и сохранять весь курс открытым и бесплатным"}
             </p>
           </div>
 

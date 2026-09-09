@@ -5,6 +5,7 @@ import { Lock, Crown, Unlock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUserRole } from "@/hooks/useUserRole";
 import { isOpenAccessActive, openAccessHoursLeft } from "@/config/openAccess";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 interface ProGateProps {
   /** Content visible to everyone (preview) */
@@ -19,6 +20,11 @@ interface ProGateProps {
  */
 const ProGate = ({ preview, children }: ProGateProps) => {
   const { isPro, isAdmin, loading } = useUserRole();
+
+  // Монетизация выключена: контент открыт всем, гейт полностью прозрачен.
+  if (!MONETIZATION_ENABLED) {
+    return <>{children}</>;
+  }
 
   // Временное окно свободного доступа: весь контент открыт всем без регистрации.
   if (isOpenAccessActive()) {

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { Crown, Zap, BookOpen, Code2, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { MONETIZATION_ENABLED } from "@/config/monetization";
 
-const ProUpgradeBanner = () => (
+const ProUpgradeBanner = () =>
+  !MONETIZATION_ENABLED ? null : (
   <div className="mt-10 p-6 md:p-8 rounded-xl border border-secondary/30 bg-gradient-to-br from-secondary/10 via-card to-primary/5 relative overflow-hidden">
     {/* Glow */}
     <div className="absolute -top-20 -right-20 w-40 h-40 bg-secondary/20 rounded-full blur-3xl" />
@@ -45,8 +47,8 @@ const ProUpgradeBanner = () => (
           <Link to="/courses">Посмотреть программу</Link>
         </Button>
       </div>
+      </div>
     </div>
-  </div>
-);
+  );
 
 export default ProUpgradeBanner;
