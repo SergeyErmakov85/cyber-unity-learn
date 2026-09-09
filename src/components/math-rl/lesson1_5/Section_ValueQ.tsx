@@ -23,15 +23,13 @@ const BODY_STYLE: React.CSSProperties = { fontSize: 14, lineHeight: 1.7 };
 
 const Q_FROM_V_CODE = `# Если V^π уже оценён (§ 5), перейти к Q^π — один шаг «заглянуть вперёд».
 # Формулу оформим в § 7 — это будет уравнение Беллмана для Q. Пока — просто код.
-def Q_from_V(V: dict, gamma: float = 0.95) -> dict:
-    Q = {}
-    for s in all_states:
-        for a in Action:
-            q = 0.0
-            for p, s2 in next_states(s, a):
-                q += p * (reward(s2) + gamma * V.get(s2, 0))
-            Q[(s, a)] = q
-    return Q
+def Q_from_V(V, gamma=0.95):
+    """Q(s, a) = Σ p · (r(s') + γ · V(s')) по всем переходам из § 3."""
+    return {
+        (s, a): sum(p * (reward(s2) + gamma * V[s2]) for p, s2 in next_states(s, a))
+        for s in STATES
+        for a in ACTIONS
+    }
 `;
 
 /* ─────────────── World model RoomBot (тот же, что в § 5) ─────────────── */

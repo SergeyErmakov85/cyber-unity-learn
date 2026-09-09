@@ -23,6 +23,8 @@ const CourseLesson1_3 = () => {
       duration="35 мин"
       tags={["#theory", "#math", "#bellman"]}
       level={1}
+      notebookUrl="/RoomBot_MDP_Lesson_1.3.ipynb"
+      notebookHint="RoomBot целиком: среда, Value Iteration, тепловые карты V — запускается как есть"
       prevLesson={{ path: "/courses/1-2", title: "Установка окружения" }}
       nextLesson={{ path: "/courses/1-4", title: "Q-Learning: табличный метод" }}
     >

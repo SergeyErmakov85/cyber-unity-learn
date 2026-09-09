@@ -30,67 +30,67 @@ const BODY_STYLE: React.CSSProperties = { fontSize: 14, lineHeight: 1.7 };
 
 /* ─────────────── Python-сниппеты ─────────────── */
 
-const NUMPY_VI_CODE = `import numpy as np
+const NUMPY_VI_CODE = `def value_iteration(gamma=0.95, tol=1e-9):
+    """V*(s) = max_a Q*(s, a). Считать Q из V мы уже умеем (§ 6),
+    так что вся итерация — это lookahead плюс max."""
+    V = {s: 0.0 for s in STATES}
+    residuals, history = [], [V]
 
-def to_idx(s: State) -> int:
-    return s.row * 3 + s.col
+    while True:
+        Q = Q_from_V(V, gamma)
+        new = {s: 0.0 if s in TERMINAL else max(Q[(s, a)] for a in ACTIONS)
+               for s in STATES}                       # V* на терминале = 0
 
-def value_iteration_np(gamma: float = 0.95, max_iter: int = 200, tol: float = 1e-6):
-    V = np.zeros(9)
-    residuals: list[float] = []
+        residuals.append(max(abs(new[s] - V[s]) for s in STATES))
+        V = new
+        history.append(V)                             # снимок для картинки обучения
+        if residuals[-1] < tol:
+            return V, residuals, history
 
-    for _ in range(max_iter):
-        V_new = np.zeros(9)
-        for s_idx, s in enumerate(all_states):
-            if s in TERMINAL:
-                continue                                      # V* на терминале = 0
-            best = -np.inf
-            for a in Action:
-                q = sum(p * (reward(s2) + gamma * V[to_idx(s2)])
-                        for p, s2 in next_states(s, a))
-                best = max(best, q)
-            V_new[s_idx] = best
+def greedy_policy(V, gamma=0.95):
+    """Оптимальная политика — просто argmax по Q, посчитанному из V*."""
+    Q = Q_from_V(V, gamma)
+    return {s: max(ACTIONS, key=lambda a: Q[(s, a)])
+            for s in STATES if s not in TERMINAL}
 
-        delta = float(np.max(np.abs(V_new - V)))
-        residuals.append(delta)
-        V = V_new
-        if delta < tol:
-            break
+V_star, residuals, history = value_iteration()
+print(len(residuals), "итераций до сходимости")
+print({s: NAMES[a] for s, a in greedy_policy(V_star).items()})
 
-    return V, residuals
+# plot_V из § 5.2 — теперь на оптимальных значениях:
+plot_V(V_star, title="V*, оптимальная политика")
+plt.show()
 `;
 
 const TORCH_VI_CODE = `import torch
 
-def build_tensors():
-    """Транслирует next_states() из § 3 в тензоры P[s,a,s'] и R[s']."""
-    S = len(all_states)
-    P = torch.zeros(S, 4, S)
-    R = torch.tensor([reward(s) for s in all_states], dtype=torch.float32)
-    idx = {s: i for i, s in enumerate(all_states)}
-    for s in all_states:
-        for a in Action:
-            for p, s2 in next_states(s, a):
-                P[idx[s], int(a), idx[s2]] += p
-    return P, R
+# Та же модель из § 3, но разложенная по тензорам. Строится один раз.
+IDX = {s: i for i, s in enumerate(STATES)}
+P = torch.zeros(9, 4, 9)                                      # P[s, a, s']
+for s in STATES:
+    for a in ACTIONS:
+        for p, s2 in next_states(s, a):
+            P[IDX[s], a, IDX[s2]] += p
 
-def value_iteration_torch(gamma: float = 0.95, max_iter: int = 200, tol: float = 1e-6):
-    P, R = build_tensors()
-    V = torch.zeros(P.size(0))
-    residuals: list[float] = []
+R = torch.tensor([reward(s) for s in STATES])                 # R[s']
+ALIVE = torch.tensor([0.0 if s in TERMINAL else 1.0 for s in STATES])
 
-    for _ in range(max_iter):
-        # Q[s, a] = Σ_{s'} P[s, a, s'] · (R[s'] + γ · V[s'])
-        Q = torch.einsum("sap,p->sa", P, R + gamma * V)
-        V_new = Q.max(dim=1).values
+def value_iteration_torch(gamma=0.95, tol=1e-9):
+    V = torch.zeros(9)
+    residuals = []
 
-        delta = (V_new - V).abs().max().item()
-        residuals.append(delta)
+    while True:
+        # Q[s, a] = Σ_{s'} P[s, a, s'] · (R[s'] + γ · V[s']) — один matmul
+        # вместо всего тройного цикла из версии выше.
+        V_new = (P @ (R + gamma * V)).max(dim=1).values * ALIVE
+
+        residuals.append((V_new - V).abs().max().item())
         V = V_new
-        if delta < tol:
-            break
+        if residuals[-1] < tol:
+            return V, residuals
 
-    return V, residuals
+V_torch, _ = value_iteration_torch()
+print(V_torch.reshape(3, 3).numpy().round(3))
 `;
 
 /* ─────────────── Модель мира RoomBot (та же, что в § 5–6) ─────────────── */
@@ -781,12 +781,15 @@ const Section_ValueIteration = () => {
               letterSpacing: "0.04em",
             }}
           >
-            7.2 · Реализация 1: чистый NumPy
+            7.2 · Реализация 1: словари и один переиспользованный lookahead
           </h3>
           <p style={{ color: "rgba(255,255,255,0.85)" }}>
-            Побуквенный перевод математики — цикл по состояниям, внутри цикл по
-            действиям, внутри сумма по переходам. Работает на RoomBot, сходится
-            за десятки итераций:
+            Ни одного нового цикла писать не нужно: «заглянуть на шаг вперёд» мы
+            уже умеем — это{" "}
+            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>Q_from_V</span>{" "}
+            из § 6. Value Iteration добавляет к нему ровно одну операцию —{" "}
+            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>max</span> по
+            действиям. Сходится на RoomBot за десятки итераций:
           </p>
           <CyberCodeBlock language="python">{NUMPY_VI_CODE}</CyberCodeBlock>
         </div>
@@ -806,13 +809,12 @@ const Section_ValueIteration = () => {
           <p style={{ color: "rgba(255,255,255,0.85)" }}>
             Переход на тензоры — это <em>не</em> другое решение, это та же
             математика, переписанная так, чтобы один{" "}
-            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>einsum</span>{" "}
-            делал работу всего внутреннего тройного цикла. Вспомогательный{" "}
-            <span style={{ fontFamily: MONO_FONT }}>build_tensors()</span>{" "}
-            просто транслирует{" "}
+            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>@</span>{" "}
+            делал работу всего внутреннего тройного цикла. Таблицу переходов{" "}
             <span style={{ fontFamily: MONO_FONT }}>next_states()</span> из § 3
-            в предвычисленный тензор переходов{" "}
-            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>P[s, a, s′]</span>.
+            один раз раскладываем в тензор{" "}
+            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>P[s, a, s′]</span>
+            {" "}— после этого весь алгоритм умещается в три строки цикла.
           </p>
           <CyberCodeBlock language="python">{TORCH_VI_CODE}</CyberCodeBlock>
 
@@ -851,8 +853,9 @@ const Section_ValueIteration = () => {
             >
               <span style={{ color: MAGENTA, fontFamily: MONO_FONT }}>(а)</span>
               <span>
-                <strong>Батчинг по состояниям.</strong> Один{" "}
-                <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>einsum</span>{" "}
+                <strong>Батчинг по состояниям.</strong> Одно матричное
+                умножение{" "}
+                <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>P @ (R + γV)</span>{" "}
                 обновляет все 9 значений одновременно — в реальных задачах
                 состояний миллионы, и векторизация ускоряет в сотни раз.
               </span>

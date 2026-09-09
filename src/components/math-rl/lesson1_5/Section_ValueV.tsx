@@ -21,45 +21,84 @@ const BODY_STYLE: React.CSSProperties = { fontSize: 14, lineHeight: 1.7 };
 
 /* ─────────────── Code snippets ─────────────── */
 
-const ROLLOUT_CODE = `# Одно полное «прохождение» по миру: генерируем эпизод до терминала.
-TERMINAL: set[State] = {State(1, 1), State(2, 2)}   # лужа и батарея
+const ROLLOUT_CODE = `TERMINAL = {BATTERY, PUDDLE}   # из этих клеток эпизод уже не продолжается
 
-def rollout(
-    s0: State,
-    policy,
-    rng: np.random.Generator,
-    horizon: int = 50,
-) -> list[tuple[State, Action, float]]:
-    traj: list[tuple[State, Action, float]] = []
-    s = s0
+def rollout(s, policy, rng, horizon=50):
+    """Один эпизод: список троек (s, a, r) до терминала или до horizon шагов."""
+    traj = []
     for _ in range(horizon):
         a = policy(s, rng)
-        probs, outs = zip(*next_states(s, a))         # из § 3
-        s_next = outs[rng.choice(len(outs), p=probs)]
-        r = reward(s_next)                             # из § 2.3
-        traj.append((s, a, r))
+        probs, outs = zip(*next_states(s, a))       # из § 3
+        s_next = outs[rng.choice(4, p=probs)]
+        traj.append((s, a, reward(s_next)))         # reward — из § 2.3
         if s_next in TERMINAL:
             break
         s = s_next
     return traj
 `;
 
-const MC_CODE = `def estimate_V(policy, n_episodes: int = 2000, gamma: float = 0.95, rng=None):
+const MC_CODE = `from collections import defaultdict
+
+def estimate_V(policy, n_episodes=5000, gamma=0.95, seed=0):
     """Монте-Карло оценка V^π: усредняем возвраты G_t по всем посещениям s."""
-    rng = rng or np.random.default_rng(0)
-    returns: dict[State, list[float]] = {s: [] for s in all_states}
+    rng = np.random.default_rng(seed)
+    total, count = defaultdict(float), defaultdict(int)
+    starts = [s for s in STATES if s not in TERMINAL]   # из терминала не стартуем
 
     for _ in range(n_episodes):
-        s0 = all_states[rng.integers(len(all_states))]
-        traj = rollout(s0, policy, rng)
-
+        s0 = starts[rng.integers(len(starts))]
         G = 0.0
-        # идём по траектории с конца, накапливая discounted return
-        for (s, _a, r) in reversed(traj):
+        # идём по траектории с конца: один проход даёт G_t сразу для всех шагов
+        for s, _a, r in reversed(rollout(s0, policy, rng)):
             G = r + gamma * G
-            returns[s].append(G)
+            total[s] += G
+            count[s] += 1
 
-    return {s: float(np.mean(rs)) if rs else 0.0 for s, rs in returns.items()}
+    return {s: total[s] / count[s] if count[s] else 0.0 for s in STATES}
+`;
+
+const EVAL_CODE = `def evaluate_policy(gamma=0.95, tol=1e-9):
+    """Аналитическая оценка V^π для равномерной политики π(a|s)=1/4:
+    крутим уравнение Беллмана, пока значения не перестанут меняться."""
+    V = {s: 0.0 for s in STATES}
+    while True:
+        new = {
+            s: 0.0 if s in TERMINAL else sum(
+                0.25 * p * (reward(s2) + gamma * V[s2])
+                for a in ACTIONS
+                for p, s2 in next_states(s, a)
+            )
+            for s in STATES
+        }
+        delta = max(abs(new[s] - V[s]) for s in STATES)
+        V = new
+        if delta < tol:
+            return V
+`;
+
+const PLOT_CODE = `import matplotlib.pyplot as plt
+
+def plot_V(V, title="V^pi, равномерная политика", ax=None,
+           vmin=None, vmax=None, fontsize=11):
+    """Тепловая карта ценности состояний на сетке 3x3."""
+    grid = np.array([[V[(r, c)] for c in range(GRID)] for r in range(GRID)])
+    if ax is None:
+        _, ax = plt.subplots(figsize=(4.2, 4.2))
+
+    im = ax.imshow(grid, cmap="viridis", vmin=vmin, vmax=vmax)
+    for (r, c), v in np.ndenumerate(grid):
+        mark = {BATTERY: "батарея", PUDDLE: "лужа"}.get((r, c), "")
+        ax.text(c, r, f"{mark}\\n{v:+.2f}", ha="center", va="center",
+                color="white", fontsize=fontsize)
+
+    ax.set_title(title)
+    ax.set_xticks(range(GRID)); ax.set_yticks(range(GRID))
+    ax.set_xlabel("столбец"); ax.set_ylabel("строка")
+    return im
+
+im = plot_V(evaluate_policy(gamma=0.95))
+plt.colorbar(im, label="ценность состояния")
+plt.show()
 `;
 
 /* ─────────────── World model for the interactive heatmap ─────────────── */
@@ -662,6 +701,23 @@ const Section_ValueV = () => {
             равномерной π. Терминальные клетки (лужа и батарея) по соглашению
             имеют V=0 — из них уже ничего не происходит.
           </p>
+
+          <p style={{ color: "rgba(255,255,255,0.85)" }}>
+            Та же карта считается в Python двумя короткими функциями. Первая —
+            сама оценка: вместо тысяч случайных эпизодов просто крутим уравнение
+            Беллмана, пока значения не перестанут меняться.
+          </p>
+
+          <CyberCodeBlock language="python">{EVAL_CODE}</CyberCodeBlock>
+
+          <p style={{ color: "rgba(255,255,255,0.85)" }}>
+            Вторая рисует результат — это и есть тепловая карта выше, только
+            средствами matplotlib. Мы вернёмся к{" "}
+            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>plot_V</span> в
+            § 7, чтобы сравнить случайную политику с оптимальной на одной шкале.
+          </p>
+
+          <CyberCodeBlock language="python">{PLOT_CODE}</CyberCodeBlock>
         </div>
       </div>
     </section>

@@ -17,38 +17,29 @@ const BODY_STYLE: React.CSSProperties = { fontSize: 14, lineHeight: 1.7 };
 
 /* ─────────────── Code snippets ─────────────── */
 
-const RANDOM_CODE = `def policy_random(s: State, rng: np.random.Generator) -> Action:
-    """Равномерная политика: каждое действие равновероятно."""
-    return Action(int(rng.integers(4)))
+const RANDOM_CODE = `def policy_random(s, rng):
+    """Равномерная политика: каждое из четырёх действий равновероятно."""
+    return rng.integers(4)
 `;
 
-const FIXED_CODE = `# v2 — детерминированная политика «вправо пока можешь, потом вниз».
-# Позже мы извлечём такую же, но уже из Q-функции (§ 7).
-fixed_policy: dict[State, Action] = {
-    State(r, c): (Action.RIGHT if c < 2 else Action.DOWN)
-    for r in range(3)
-    for c in range(3)
-}
+const FIXED_CODE = `# v2 — детерминированная политика «вправо пока можешь, потом вниз»:
+# словарь «клетка → действие». В § 7 такую же таблицу выдаст Value Iteration.
+fixed_policy = {(r, c): (RIGHT if c < 2 else DOWN) for r, c in STATES}
 
-print(fixed_policy[State(0, 0)])   # Action.RIGHT
-print(fixed_policy[State(0, 2)])   # Action.DOWN
+print(NAMES[fixed_policy[(0, 0)]])   # вправо
+print(NAMES[fixed_policy[(0, 2)]])   # вниз
 `;
 
 const SOFTMAX_CODE = `import numpy as np
 
-def policy_softmax(q_row: np.ndarray, tau: float = 1.0) -> np.ndarray:
-    """Распределение над действиями через softmax от Q-значений.
-
-    q_row — вектор Q(s, ·) длины 4.
-    tau   — «температура»: tau→0 жёстче (почти argmax), tau→∞ — равномерно.
-    """
-    z = q_row / tau
-    e = np.exp(z - z.max())    # вычитаем max ради численной устойчивости
+def softmax(q, tau=1.0):
+    """Распределение над действиями из вектора Q(s, ·) длины 4.
+    tau — «температура»: tau→0 почти argmax, tau→∞ почти равномерно."""
+    e = np.exp((q - q.max()) / tau)   # вычитаем max ради устойчивости
     return e / e.sum()
 
 # Пока Q-значений нет, но механизм уже работает:
-demo_q = np.array([0.2, -0.1, 0.0, 0.9])
-print(policy_softmax(demo_q, tau=1.0).round(3))
+print(softmax(np.array([0.2, -0.1, 0.0, 0.9])).round(3))
 `;
 
 /* ─────────────── Baked trajectory (for v1 illustration) ─────────────── */
@@ -340,7 +331,7 @@ const Section_PolicyAndTrace = () => {
       <div style={BODY_STYLE} className="space-y-3 text-foreground/90">
         <p>
           Чтобы увидеть, что даёт политика v1, запустим один эпизод: до
-          тридцати шагов или до ближайшего терминального состояния — батареи
+          пятидесяти шагов или до ближайшего терминального состояния — батареи
           или лужи. На каждом шаге сохраняем тройку{" "}
           <span style={{ fontFamily: MONO_FONT, color: "rgba(255,255,255,0.8)" }}>(s, a, r)</span>,
           пока эпизод не закончится. Ниже — одна из таких траекторий,

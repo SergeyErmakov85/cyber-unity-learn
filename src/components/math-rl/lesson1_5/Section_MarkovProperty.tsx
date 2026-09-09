@@ -14,37 +14,23 @@ const DANGER = "#FF4D6D";
 
 const BODY_STYLE: React.CSSProperties = { fontSize: 14, lineHeight: 1.7 };
 
-const TRANSITION_CODE = `import numpy as np
-from typing import List, Tuple
+const TRANSITION_CODE = `SLIP = 0.1   # вероятность проскальзывания
 
-GRID = 3
-SLIP = 0.1   # вероятность проскальзывания
+def move(s, a):
+    """Клетка назначения; стена возвращает бота на место (clamp)."""
+    r, c = s
+    dr, dc = MOVES[a]
+    return (min(max(r + dr, 0), GRID - 1), min(max(c + dc, 0), GRID - 1))
 
-_DELTAS = {
-    Action.UP:    (-1,  0),
-    Action.DOWN:  (+1,  0),
-    Action.LEFT:  ( 0, -1),
-    Action.RIGHT: ( 0, +1),
-}
+def next_states(s, a):
+    """[(вероятность, следующее состояние), ...] — по одной паре на действие:
+    0.9 на задуманное, оставшиеся 0.1 поровну на три остальных."""
+    return [((1 - SLIP) if b == a else SLIP / 3, move(s, b)) for b in ACTIONS]
 
-def _move(s: State, a: Action) -> State:
-    """Клетка назначения с clamp на границы 3x3."""
-    dr, dc = _DELTAS[a]
-    nr = max(0, min(GRID - 1, s.row + dr))
-    nc = max(0, min(GRID - 1, s.col + dc))
-    return State(nr, nc)
-
-def next_states(s: State, a: Action) -> List[Tuple[float, State]]:
-    """Возвращает [(вероятность, следующее_состояние), ...]"""
-    intended = _move(s, a)
-    others = [_move(s, b) for b in Action if b != a]
-    p_other = SLIP / len(others)
-    return [(1 - SLIP, intended)] + [(p_other, s2) for s2 in others]
-
-# Sanity-check: из (0,0) UP упираемся в стену и остаёмся в (0,0) с p=0.9
-print(next_states(State(0, 0), Action.UP))
-# Из (1,1) RIGHT: 0.9 → (1,2), по 0.033... на каждое из трёх других
-print(next_states(State(1, 1), Action.RIGHT))
+# Sanity-check: из (0,0) вверх упираемся в стену и остаёмся в (0,0) с p=0.9
+print(next_states((0, 0), UP))
+# Из (1,1) вправо: 0.9 → (1,2), по 0.033... на каждое из трёх других
+print(next_states((1, 1), RIGHT))
 `;
 
 interface TupleSlot {

@@ -11,42 +11,35 @@ const AMBER = "#F59E0B";
 
 const BODY_STYLE: React.CSSProperties = { fontSize: 14, lineHeight: 1.7 };
 
-const STATE_CODE = `from dataclasses import dataclass
+const STATE_CODE = `# Состояние RoomBot — это просто пара координат (строка, столбец).
+GRID = 3
+STATES = [(r, c) for r in range(GRID) for c in range(GRID)]
 
-@dataclass(frozen=True)
-class State:
-    row: int
-    col: int
-
-all_states = [State(r, c) for r in range(3) for c in range(3)]
-
-print(len(all_states))    # 9
-print(all_states[0])      # State(row=0, col=0)
+print(len(STATES))   # 9
+print(STATES[0])     # (0, 0)
 `;
 
-const ACTION_CODE = `from enum import IntEnum
+const ACTION_CODE = `# Действие — индекс 0..3. Рядом храним сдвиг по сетке и подпись для вывода.
+UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
+ACTIONS = (UP, DOWN, LEFT, RIGHT)
+MOVES = [(-1, 0), (+1, 0), (0, -1), (0, +1)]   # (Δстрока, Δстолбец)
+NAMES = ["вверх", "вниз", "влево", "вправо"]
 
-class Action(IntEnum):
-    UP = 0
-    DOWN = 1
-    LEFT = 2
-    RIGHT = 3
-
-print(list(Action))       # [Action.UP, Action.DOWN, Action.LEFT, Action.RIGHT]
-print(int(Action.RIGHT))  # 3
+print(ACTIONS)                       # (0, 1, 2, 3)
+print(NAMES[RIGHT], MOVES[RIGHT])    # вправо (0, 1)
 `;
 
-const REWARD_CODE = `def reward(state: State) -> float:
-    if state == State(2, 2):
-        return +1.0          # батарея
-    if state == State(1, 1):
-        return -1.0          # лужа
-    return -0.02             # штраф за шаг
+const REWARD_CODE = `BATTERY = (2, 2)   # зарядная станция: +1
+PUDDLE  = (1, 1)   # лужа: -1
+
+def reward(s):
+    """Награда за то, что бот оказался в клетке s."""
+    return {BATTERY: +1.0, PUDDLE: -1.0}.get(s, -0.02)
 
 # Sanity-check:
-print(reward(State(2, 2)))   #  1.0
-print(reward(State(1, 1)))   # -1.0
-print(reward(State(0, 2)))   # -0.02
+print(reward(BATTERY))   #  1.0
+print(reward(PUDDLE))    # -1.0
+print(reward((0, 2)))    # -0.02
 `;
 
 interface TrajectoryNode {
@@ -238,10 +231,11 @@ const Section_WorldAndState = () => {
         }}
       >
         <p className="text-foreground/80">
-          Мы делаем <code style={{ fontFamily: MONO_FONT, color: CYAN }}>State</code>{" "}
-          неизменяемым через <code style={{ fontFamily: MONO_FONT, color: CYAN }}>frozen=True</code>:
-          это сразу даёт корректное сравнение по значению и хеш, так что позже
-          мы сможем класть состояния в словари и множества.
+          Никакого класса заводить не нужно:{" "}
+          <code style={{ fontFamily: MONO_FONT, color: CYAN }}>tuple</code>{" "}
+          уже неизменяем и хешируем, поэтому сравнивается по значению и
+          спокойно кладётся в словари и множества — а это ровно то, что нам
+          понадобится дальше для таблиц V и Q.
         </p>
       </div>
 
@@ -250,9 +244,10 @@ const Section_WorldAndState = () => {
       <div style={BODY_STYLE} className="space-y-3 text-foreground/90">
         <p>
           Действие — это то, что бот умеет делать. В нашем мире действий ровно
-          четыре: шаг вверх, вниз, влево, вправо. Удобно представить их как
-          нумерованное перечисление — так пригодится и человеку (читаемые
-          имена), и коду (целочисленные индексы).
+          четыре: шаг вверх, вниз, влево, вправо. Держим их как индексы{" "}
+          <code style={{ fontFamily: MONO_FONT, color: CYAN }}>0..3</code> — так
+          действие одинаково удобно ложится и в ключ словаря, и в индекс
+          массива, — а рядом кладём сдвиг по сетке и читаемую подпись.
         </p>
       </div>
       <div className="my-4">

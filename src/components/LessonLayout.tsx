@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowLeft, ArrowRight, BookOpen, FolderKanban, Circle, CheckCircle2,
-  Lock, Crown, Menu, ExternalLink, Lightbulb, BarChart3, Share2, Check
+  Lock, Crown, Menu, ExternalLink, Lightbulb, BarChart3, Share2, Check, Download
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
@@ -44,6 +44,10 @@ interface LessonLayoutProps {
   level?: number;
   difficulty?: "easy" | "medium" | "hard";
   colabUrl?: string;
+  /** Путь к .ipynb в /public — рисует кнопку «Скачать IPNB-файл урока» под заголовком. */
+  notebookUrl?: string;
+  /** Подпись под кнопкой: что внутри ноутбука. */
+  notebookHint?: string;
   keyConcepts?: string[];
   prevLesson?: { path: string; title: string };
   nextLesson?: { path: string; title: string };
@@ -153,6 +157,8 @@ const LessonLayout = ({
   level = 1,
   difficulty = "medium",
   colabUrl,
+  notebookUrl,
+  notebookHint,
   keyConcepts,
   prevLesson,
   nextLesson,
@@ -407,6 +413,28 @@ const LessonLayout = ({
                 lessonTitle
               )}
             </h1>
+
+            {notebookUrl && (
+              <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-3">
+                <a
+                  href={notebookUrl}
+                  download
+                  className="group relative inline-flex items-center gap-2.5 self-start px-5 py-2.5 rounded-xl
+                             font-semibold text-white whitespace-nowrap
+                             bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500
+                             shadow-[0_0_24px_hsl(var(--primary)/0.45)]
+                             hover:shadow-[0_0_36px_hsl(280_85%_65%/0.6)] hover:scale-[1.03]
+                             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
+                             transition-all duration-300"
+                >
+                  <Download className="w-5 h-5 transition-transform group-hover:translate-y-0.5" />
+                  Скачать IPNB-файл урока
+                </a>
+                {notebookHint && (
+                  <span className="text-xs text-muted-foreground">{notebookHint}</span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Key Concepts */}
