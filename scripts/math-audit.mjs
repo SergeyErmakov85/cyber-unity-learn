@@ -27,11 +27,11 @@ import katex from "katex";
 // Те же макросы, что в src/lib/katex-options.ts. Держим копию здесь, чтобы
 // скрипт не тащил транспиляцию TypeScript ради шести строк.
 const ENF_MACROS = {
-  "\\enfVar": "\\htmlClass{enf-variable}{#1}",
-  "\\enfFun": "\\htmlClass{enf-function}{#1}",
-  "\\enfPar": "\\htmlClass{enf-parameter}{#1}",
-  "\\enfOp": "\\htmlClass{enf-operator}{#1}",
-  "\\enfTgt": "\\htmlClass{enf-target}{#1}",
+  "\\enfVar": "\\htmlClass{enf-variable enf-sym}{#1}",
+  "\\enfFun": "\\htmlClass{enf-function enf-sym}{#1}",
+  "\\enfPar": "\\htmlClass{enf-parameter enf-sym}{#1}",
+  "\\enfOp": "\\htmlClass{enf-operator enf-sym}{#1}",
+  "\\enfTgt": "\\htmlClass{enf-target enf-sym}{#1}",
   "\\enfNeu": "\\htmlClass{enf-neutral}{#1}",
 };
 const KATEX_OPTIONS = {

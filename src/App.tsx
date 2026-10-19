@@ -98,6 +98,8 @@ const HubPage = lazy(() => import("./pages/HubPage"));
 const FcaRlModule = lazy(() => import("./pages/FcaRlModule"));
 const FrozenLakeProject = lazy(() => import("./pages/FrozenLakeProject"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+// Пояснения по клику на символ формулы — один слушатель на весь сайт.
+const SymbolPopoverLayer = lazy(() => import("@/components/math-symbols/SymbolPopoverLayer"));
 
 const queryClient = new QueryClient();
 
@@ -113,6 +115,9 @@ const App = () => (
       <BrowserRouter>
         <RouteScrollToTop />
         <YandexMetrika />
+        <Suspense fallback={null}>
+          <SymbolPopoverLayer />
+        </Suspense>
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Index />} />
