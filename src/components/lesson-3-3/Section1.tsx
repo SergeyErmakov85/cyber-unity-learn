@@ -40,14 +40,14 @@ const Section1 = () => (
       <strong>сглаженной</strong>, легко оптимизируемой версии целевой функции и постепенно деформировать
       её в исходную — трудную, невыпуклую. Введём параметр-«ручку»{" "}
       <Math display={false}>{String.raw`\enfPar{\lambda} \in [0,1]`}</Math> и семейство целей{" "}
-      <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_\lambda`}</Math>:
+      <Math display={false}>{String.raw`\enfTgt{\mathcal{L}}_\lambda`}</Math>:
     </ProseP>
 
-    <Math>{String.raw`\mathcal{\enfTgt{L}}_0 \;\xrightarrow[\text{постепенно}]{\;\enfPar{\lambda}:\,0\to 1\;}\; \mathcal{\enfTgt{L}}_1 = \mathcal{\enfTgt{L}}^{\star},`}</Math>
+    <Math>{String.raw`\enfTgt{\mathcal{L}}_0 \;\xrightarrow[\text{постепенно}]{\;\enfPar{\lambda}:\,0\to 1\;}\; \enfTgt{\mathcal{L}}_1 = \enfTgt{\mathcal{L}}^{\star},`}</Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_0`}</Math> — гладкая и простая (наша широкая
-      прямая трасса), а <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_1=\mathcal{\enfTgt{L}}^\star`}</Math> —
+      где <Math display={false}>{String.raw`\enfTgt{\mathcal{L}}_0`}</Math> — гладкая и простая (наша широкая
+      прямая трасса), а <Math display={false}>{String.raw`\enfTgt{\mathcal{L}}_1=\enfTgt{\mathcal{L}}^\star`}</Math> —
       настоящая трудная задача (узкая трасса с соперниками). Двигаясь по{" "}
       <Math display={false}>{String.raw`\enfPar{\lambda}`}</Math> от 0 к 1, мы ведём оптимизатор по «хребту»
       хороших решений, не давая ему застрять в плохом локальном минимуме на старте.
@@ -143,8 +143,8 @@ const Section1 = () => (
         </>,
         <>
           Формально учебный план — это <strong>метод продолжения</strong>: гладкую цель{" "}
-          <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_0`}</Math> постепенно деформируем в трудную{" "}
-          <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}^\star`}</Math> по «ручке»{" "}
+          <Math display={false}>{String.raw`\enfTgt{\mathcal{L}}_0`}</Math> постепенно деформируем в трудную{" "}
+          <Math display={false}>{String.raw`\enfTgt{\mathcal{L}}^\star`}</Math> по «ручке»{" "}
           <Math display={false}>{String.raw`\enfPar{\lambda}:0\to 1`}</Math>.
         </>,
         <>

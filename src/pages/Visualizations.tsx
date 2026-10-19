@@ -29,7 +29,7 @@ const PolicyGradientViz = () => {
         Визуализация softmax-распределения вероятностей действий. Температура контролирует «уверенность» политики.
       </p>
 
-      <Math>{"\\pi(a \\mid \\enfVar{s}) = \\frac{e^{Q(s,a) / \\tau}}{\\sum_{a'} e^{Q(s,a') / \\tau}}"}</Math>
+      <Math>{"\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s}) = \\frac{e^{Q(s,a) / \\tau}}{\\sum_{a'} e^{Q(s,a') / \\tau}}"}</Math>
 
       <div>
         <div className="flex justify-between text-sm mb-2">
@@ -102,7 +102,7 @@ const PPOClippingViz = () => {
         Визуализация функции потерь PPO: clip ограничивает размер обновления политики.
       </p>
 
-      <Math>{"L^{CLIP}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\min\\left(\\enfTgt{r}_t(\\enfPar{\\theta})\\hat{A}_t,\\; \\text{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\hat{A}_t\\right)\\right]"}</Math>
+      <Math>{"\\enfTgt{L}^{\\text{CLIP}}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\min\\left(\\enfVar{r}_t(\\enfPar{\\theta})\\enfOp{\\hat{A}}_t,\\; \\text{clip}(\\enfVar{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\enfOp{\\hat{A}}_t\\right)\\right]"}</Math>
 
       <div className="grid md:grid-cols-2 gap-4">
         <div>

@@ -19,7 +19,7 @@ const Summary = () => (
       <li>
         <strong className="text-primary">Учебный план</strong> управляет <em>порядком</em> трудности;
         формально это <strong>метод продолжения</strong>{" "}
-        <Math display={false}>{String.raw`\mathcal{\enfTgt{L}}_0 \to \mathcal{\enfTgt{L}}^\star`}</Math>. Переход между
+        <Math display={false}>{String.raw`\enfTgt{\mathcal{L}}_0 \to \enfTgt{\mathcal{L}}^\star`}</Math>. Переход между
         уроками — по <strong>сглаженной мере</strong> прогресса и <strong>порогу</strong>, не короче{" "}
         <code className={chip}>min_lesson_length</code>.
       </li>
@@ -32,15 +32,15 @@ const Summary = () => (
       </li>
       <li>
         <strong className="text-primary">ADR</strong> = учебный план над рандомизацией: факторизованное{" "}
-        <Math display={false}>{String.raw`P_\phi`}</Math>, <strong>boundary sampling</strong>, пороги{" "}
+        <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math>, <strong>boundary sampling</strong>, пороги{" "}
         <Math display={false}>{String.raw`t_L/t_H`}</Math>, <strong>ADR-энтропия</strong> как «номер
         урока».
       </li>
       <li>
         <strong className="text-primary">PLR</strong> строит неявный план без контроля над генератором:
-        переигрывать уровни с высоким <Math display={false}>{String.raw`|\hat A_t|`}</Math>{" "}
+        переигрывать уровни с высоким <Math display={false}>{String.raw`|\enfOp{\hat A}_t|`}</Math>{" "}
         (<strong>L1 value loss</strong> ≈ |GAE|), со <strong>staleness-коррекцией</strong>{" "}
-        <Math display={false}>{String.raw`P_{\text{replay}} = (1-\rho)P_S + \rho P_C`}</Math>;{" "}
+        <Math display={false}>{String.raw`\enfFun{P}_{\text{replay}} = (1-\enfPar{\rho})\enfFun{P}_S + \enfPar{\rho} \enfFun{P}_C`}</Math>;{" "}
         <Math display={false}>{String.raw`\text{PLR}^{\perp}`}</Math> → минимакс-regret.
       </li>
       <li>

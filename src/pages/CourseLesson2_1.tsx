@@ -145,7 +145,7 @@ const CourseLesson2_1 = () => {
               <div className="text-sm text-muted-foreground">
                 Оценка градиента через REINFORCE имеет <strong className="text-foreground">высокую дисперсию</strong>.
                 Вычитание baseline b(s) не меняет математическое ожидание, но значительно снижает дисперсию.
-                Лучший выбор: <Math display={false}>{"b(\\enfVar{s}) = \\enfOp{V}^\\pi(\\enfVar{s})"}</Math>.
+                Лучший выбор: <Math display={false}>{"\\enfOp{b}(\\enfVar{s}) = \\enfOp{V}^\\pi(\\enfVar{s})"}</Math>.
               </div>
             </CardContent>
           </Card>

@@ -163,7 +163,7 @@ const Section3Sensors = () => (
         Нейросети с активациями tanh/ReLU работают эффективнее, когда входы лежат в{" "}
         <Math display={false}>{String.raw`[-1, 1]`}</Math> с центром около нуля:
       </p>
-      <Math>{String.raw`\tilde{\enfVar{v}} = \frac{\enfVar{v}}{\enfVar{v}_{\max}}, \quad \tilde{\omega} = \frac{\omega}{\omega_{\max}}, \quad \enfVar{d}_{\text{cp}}^{\text{norm}} = \min\!\left(\frac{\enfVar{d}_{\text{cp}}}{\enfVar{d}_{\max}},\, 1\right).`}</Math>
+      <Math>{String.raw`\enfVar{\tilde{v}} = \frac{\enfVar{v}}{\enfVar{v}_{\max}}, \quad \enfVar{\tilde{\omega}} = \frac{\enfVar{\omega}}{\enfVar{\omega}_{\max}}, \quad \enfVar{d}_{\text{cp}}^{\text{norm}} = \min\!\left(\frac{\enfVar{d}_{\text{cp}}}{\enfVar{d}_{\max}},\, 1\right).`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         {/* TODO(HubLink): target -> hub "math-rl" или "algorithms", anchor "нормализация" */}
         Нормализация: (1) ускоряет сходимость SGD/Adam (равномерные градиенты по осям входа);

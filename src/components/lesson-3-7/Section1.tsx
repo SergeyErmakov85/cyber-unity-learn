@@ -12,27 +12,27 @@ const Section1 = () => (
     </ProseP>
 
     <Math>
-      {String.raw`a \;=\; \underbrace{\enfFun{h}_\psi}_{\text{голова}}\Big(\underbrace{\enfFun{f}_\phi(\enfVar{o})}_{\text{энкодер}}\Big),\qquad \enfVar{z} = \enfFun{f}_\phi(\enfVar{o})\in\mathbb{\enfTgt{R}}^d .`}
+      {String.raw`\enfFun{a} \;=\; \underbrace{\enfFun{h}_\psi}_{\text{голова}}\Big(\underbrace{\enfFun{f}_\phi(\enfVar{o})}_{\text{энкодер}}\Big),\qquad \enfVar{z} = \enfFun{f}_\phi(\enfVar{o})\in\mathbb{R}^d .`}
     </Math>
 
     <ProseP>
       <strong>Энкодер</strong> <Math display={false}>{String.raw`\enfFun{f}_\phi`}</Math> берёт сырое
-      наблюдение <Math display={false}>{String.raw`o`}</Math> (вектор чисел, картинку, набор
+      наблюдение <Math display={false}>{String.raw`\enfVar{o}`}</Math> (вектор чисел, картинку, набор
       сущностей) и сжимает его в плотный <strong>эмбеддинг</strong>{" "}
-      <Math display={false}>{String.raw`z`}</Math> фиксированной размерности{" "}
+      <Math display={false}>{String.raw`\enfVar{z}`}</Math> фиксированной размерности{" "}
       <Math display={false}>{String.raw`d`}</Math>. <strong>Голова</strong>{" "}
       <Math display={false}>{String.raw`\enfFun{h}_\psi`}</Math> — обычно один-два полносвязных слоя —
-      превращает <Math display={false}>{String.raw`z`}</Math> в то, что нужно алгоритму:
-      распределение действий <Math display={false}>{String.raw`\pi(a\mid \enfVar{z})`}</Math> для актора
-      или скаляр <Math display={false}>{String.raw`V(z)`}</Math> для критика.
+      превращает <Math display={false}>{String.raw`\enfVar{z}`}</Math> в то, что нужно алгоритму:
+      распределение действий <Math display={false}>{String.raw`\enfFun{\pi}(\enfFun{a}\mid \enfVar{z})`}</Math> для актора
+      или скаляр <Math display={false}>{String.raw`\enfOp{V}(\enfVar{z})`}</Math> для критика.
     </ProseP>
 
     <ProseP>
       Почему это разделение настолько важно? Потому что{" "}
       <strong>энкодер несёт всю специфику задачи, а голова почти всегда одинакова.</strong> Меняется
       модальность наблюдения — меняется только энкодер; правило обучения (PPO/SAC) работает поверх{" "}
-      <Math display={false}>{String.raw`z`}</Math> и не знает, пришёл ли{" "}
-      <Math display={false}>{String.raw`z`}</Math> из пикселей или из вектора. Именно поэтому Unity
+      <Math display={false}>{String.raw`\enfVar{z}`}</Math> и не знает, пришёл ли{" "}
+      <Math display={false}>{String.raw`\enfVar{z}`}</Math> из пикселей или из вектора. Именно поэтому Unity
       ML-Agents отдаёт вам ровно две ручки: <code>vis_encode_type</code> (какой энкодер для
       картинок) и <code>hidden_units</code>/<code>num_layers</code> (насколько мощная голова и
       MLP-часть) — об этом в <Anchor to="razdel-8-unity-yaml">разделе 8</Anchor>.
@@ -41,7 +41,7 @@ const Section1 = () => (
     <ProseP>
       В гоночном агенте это выглядит так: лучи дальномера (raycast) → MLP-энкодер; кадр с камеры →
       CNN-энкодер; оба эмбеддинга <strong>конкатенируются</strong> в один{" "}
-      <Math display={false}>{String.raw`z`}</Math>, и уже над ним стоит общая голова актора.
+      <Math display={false}>{String.raw`\enfVar{z}`}</Math>, и уже над ним стоит общая голова актора.
       ML-Agents делает эту конкатенацию автоматически, когда у агента несколько сенсоров.
     </ProseP>
 
@@ -50,17 +50,17 @@ const Section1 = () => (
         <>
           Сеть агента = <strong>энкодер</strong>{" "}
           <Math display={false}>{String.raw`\enfFun{f}_\phi`}</Math> (наблюдение → эмбеддинг{" "}
-          <Math display={false}>{String.raw`z`}</Math>) + <strong>голова</strong>{" "}
+          <Math display={false}>{String.raw`\enfVar{z}`}</Math>) + <strong>голова</strong>{" "}
           <Math display={false}>{String.raw`\enfFun{h}_\psi`}</Math> (
-          <Math display={false}>{String.raw`z`}</Math> → действие/оценка).
+          <Math display={false}>{String.raw`\enfVar{z}`}</Math> → действие/оценка).
         </>,
         <>
           Специфика задачи живёт в энкодере; голова и алгоритм обучения универсальны над{" "}
-          <Math display={false}>{String.raw`z`}</Math>.
+          <Math display={false}>{String.raw`\enfVar{z}`}</Math>.
         </>,
         <>
           Несколько сенсоров → несколько энкодеров, их эмбеддинги конкатенируются в общий{" "}
-          <Math display={false}>{String.raw`z`}</Math>.
+          <Math display={false}>{String.raw`\enfVar{z}`}</Math>.
         </>,
         <>Выбор архитектуры = в первую очередь <strong>выбор энкодера под тип наблюдения</strong>.</>,
       ]}

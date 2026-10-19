@@ -98,7 +98,7 @@ const FcaRlModule = () => {
                     задаваемый тройкой:
                   </p>
 
-                  <Math>{`\\mathbb{K} = (G,\\, M,\\, I)`}</Math>
+                  <Math>{`\\mathbb{K} = (G,\\, M,\\, \\enfFun{I})`}</Math>
 
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li><strong className="text-foreground">G</strong> — множество объектов (эксперименты, конфигурации, состояния)</li>
@@ -110,8 +110,8 @@ const FcaRlModule = () => {
                     <strong className="text-foreground">Замыкание Галуа</strong> определяет пару операторов:
                   </p>
 
-                  <Math>{`A' = \\{m \\in M \\mid \\forall g \\in A:\\, (g, m) \\in I\\}`}</Math>
-                  <Math>{`B' = \\{g \\in G \\mid \\forall m \\in B:\\, (g, m) \\in I\\}`}</Math>
+                  <Math>{`\\enfVar{A}' = \\{m \\in M \\mid \\forall g \\in \\enfVar{A}:\\, (g, m) \\in \\enfFun{I}\\}`}</Math>
+                  <Math>{`\\enfVar{B}' = \\{g \\in G \\mid \\forall m \\in \\enfVar{B}:\\, (g, m) \\in \\enfFun{I}\\}`}</Math>
 
                   <p>
                     <strong className="text-foreground">Формальное понятие</strong> — пара (A, B), где A' = B и B' = A.

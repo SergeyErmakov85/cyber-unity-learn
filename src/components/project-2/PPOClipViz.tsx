@@ -236,8 +236,8 @@ const PPOClipViz = () => {
 
       {/* Formulas */}
       <div className="mt-4 space-y-2 overflow-x-auto">
-        <MathTex>{"L^{\\mathrm{CLIP}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(\\enfTgt{r}_t\\hat{A}_t,\\ \\operatorname{clip}(\\enfTgt{r}_t, 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\hat{A}_t\\big)\\right]"}</MathTex>
-        <MathTex display={false}>{"\\enfTgt{r}_t(\\enfPar{\\theta}) = \\dfrac{\\pi_{\\theta}(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{\\mathrm{old}}}(a_t \\mid \\enfVar{s}_t)}"}</MathTex>
+        <MathTex>{"\\enfTgt{L}^{\\mathrm{CLIP}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(\\enfVar{r}_t\\enfOp{\\hat{A}}_t,\\ \\operatorname{clip}(\\enfVar{r}_t, 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\enfOp{\\hat{A}}_t\\big)\\right]"}</MathTex>
+        <MathTex display={false}>{"\\enfVar{r}_t(\\enfPar{\\theta}) = \\dfrac{\\enfFun{\\pi}_{\\theta}(\\enfFun{a}_t \\mid \\enfVar{s}_t)}{\\enfFun{\\pi}_{\\theta_{\\mathrm{old}}}(\\enfFun{a}_t \\mid \\enfVar{s}_t)}"}</MathTex>
       </div>
 
       <p style={{ color: DIM, fontSize: 13, marginTop: 12, lineHeight: 1.6 }}>

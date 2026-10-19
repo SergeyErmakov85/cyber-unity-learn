@@ -17,8 +17,8 @@ const Section2 = () => (
     <ProseP>
       <strong>Непрерывный (uniform).</strong> Параметр берётся из отрезка равномерно. Подходит для
       величин, изменяющихся в «линейном» масштабе: например,{" "}
-      <Code>lambd</Code> <Math display={false}>{String.raw`\in [0.9, 0.99]`}</Math> или{" "}
-      <Code>epsilon</Code> <Math display={false}>{String.raw`\in [0.1, 0.3]`}</Math>.
+      <Code>lambd</Code> <Math display={false}>{String.raw`\in [0{,}9, 0{,}99]`}</Math> или{" "}
+      <Code>epsilon</Code> <Math display={false}>{String.raw`\in [0{,}1, 0{,}3]`}</Math>.
     </ProseP>
 
     <ProseP>
@@ -33,7 +33,7 @@ const Section2 = () => (
       <Math display={false}>{String.raw`10^{-4}\!-\!10^{-3}`}</Math>»:
     </ProseP>
 
-    <Math>{String.raw`\log_{10}\enfPar{\lambda} \sim \mathcal{U}(\log_{10} a,\; \log_{10} b).`}</Math>
+    <Math>{String.raw`\log_{10}\enfPar{\lambda} \sim \mathcal{U}(\log_{10} \enfPar{a},\; \log_{10} \enfPar{b}).`}</Math>
 
     <ProseP>
       <strong>Целочисленный (int).</strong> Дискретный счётчик:{" "}

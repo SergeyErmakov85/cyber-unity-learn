@@ -33,22 +33,22 @@ const Section5Rewards = () => (
       <p className="text-muted-foreground leading-relaxed">
         На каждом шаге <Math display={false}>{String.raw`t`}</Math> агент получает:
       </p>
-      <Math>{String.raw`\enfTgt{r}_t \;=\; \underbrace{\enfTgt{R}_{\text{cp}}\cdot \mathbb{1}[\text{cp}_t]}_{\text{чекпоинт}} \;+\; \underbrace{\enfTgt{R}_{\text{coll}}\cdot \mathbb{1}[\text{wall}_t]}_{\text{стена}} \;+\; \underbrace{\enfPar{\alpha} \frac{\enfVar{v}_t}{\enfVar{v}_{\max}}}_{\text{скорость}} \;+\; \underbrace{\beta\, \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle}_{\text{ориентация}} \;-\; \underbrace{\eta}_{\text{время}} \;-\; \underbrace{\rho\,(|\Delta \enfVar{s}_t| + |\Delta a_t|)}_{\text{плавность}},`}</Math>
+      <Math>{String.raw`\enfTgt{r}_t \;=\; \underbrace{\enfTgt{R}_{\text{cp}}\cdot \mathbb{1}[\text{cp}_t]}_{\text{чекпоинт}} \;+\; \underbrace{\enfTgt{R}_{\text{coll}}\cdot \mathbb{1}[\text{wall}_t]}_{\text{стена}} \;+\; \underbrace{\enfPar{\alpha} \frac{\enfVar{v}_t}{\enfVar{v}_{\max}}}_{\text{скорость}} \;+\; \underbrace{\enfPar{\beta}\, \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle}_{\text{ориентация}} \;-\; \underbrace{\enfPar{\eta}}_{\text{время}} \;-\; \underbrace{\enfPar{\rho}\,(|\Delta \enfVar{s}_t| + |\Delta \enfFun{a}_t|)}_{\text{плавность}},`}</Math>
       <p className="text-sm text-muted-foreground">
-        где <Math display={false}>{String.raw`\mathbf{f}_t`}</Math> — forward автомобиля,{" "}
-        <Math display={false}>{String.raw`\mathbf{\enfVar{d}}_t`}</Math> — направление на следующий чекпоинт,{" "}
-        <Math display={false}>{String.raw`\Delta \enfVar{s}_t, \Delta a_t`}</Math> — приращения руля и газа.
+        где <Math display={false}>{String.raw`\enfVar{\mathbf{f}}_t`}</Math> — forward автомобиля,{" "}
+        <Math display={false}>{String.raw`\enfVar{\mathbf{d}}_t`}</Math> — направление на следующий чекпоинт,{" "}
+        <Math display={false}>{String.raw`\Delta \enfVar{s}_t, \Delta \enfFun{a}_t`}</Math> — приращения руля и газа.
       </p>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Компонент сонаправленности и скорости</strong>{" "}
         <Math display={false}>{String.raw`\enfTgt{r}_{\text{align}}`}</Math> поощряет движение болида в направлении
         следующего чекпоинта, масштабированное по текущей скорости:
       </p>
-      <Math>{String.raw`\enfTgt{r}_{\text{align}}(t) \;=\; \begin{cases} +\,k_+\, \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle \cdot \dfrac{\enfVar{v}_t}{\enfVar{v}_{\max}}, & \text{если } \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle > 0,\\[1.4ex] -\,k_-\, \big|\langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle\big|, & \text{иначе.} \end{cases}`}</Math>
+      <Math>{String.raw`\enfTgt{r}_{\text{align}}(t) \;=\; \begin{cases} +\,k_+\, \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle \cdot \dfrac{\enfVar{v}_t}{\enfVar{v}_{\max}}, & \text{если } \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle > 0,\\[1.4ex] -\,k_-\, \big|\langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle\big|, & \text{иначе.} \end{cases}`}</Math>
       <p className="text-sm text-muted-foreground">
-        где <Math display={false}>{String.raw`k_+ \approx 0.04`}</Math> — масштабирующий коэффициент
+        где <Math display={false}>{String.raw`k_+ \approx 0{,}04`}</Math> — масштабирующий коэффициент
         пошаговой награды за скорость,{" "}
-        <Math display={false}>{String.raw`k_- \approx 0.02`}</Math> — коэффициент штрафа за разворот.
+        <Math display={false}>{String.raw`k_- \approx 0{,}02`}</Math> — коэффициент штрафа за разворот.
         Данный дизайн гарантирует, что <strong className="text-foreground">любое микроперемещение рулевого
         колеса, смещающее вектор движения ближе к апексу виража, генерирует положительную разность
         потенциалов награды</strong>.
@@ -72,13 +72,13 @@ const Section5Rewards = () => (
           </thead>
           <tbody className="text-muted-foreground">
             {[
-              [String.raw`R_{\text{cp}}`,   "+1.0",       "Karting Mod: «If AI success reaching checkpoint will be given reward +1»"],
-              [String.raw`R_{\text{final}}`,"+0.5",       "Savid et al. 2023: «the agent reaches the final checkpoint, a reward of 0.5 is given»"],
-              [String.raw`R_{\text{coll}}`, "−1.0 + EndEpisode", "Karting Mod: «If AI hit obstacle/track AI position will be reset to the starting point and will be given penalty -1»"],
-              [String.raw`\eta\text{ (time)}`, "0.0005…0.001", "Savid et al. 2023: «To incentivize speed, agents are given a small −0.001 reward (punishment)»"],
-              [String.raw`\alpha\text{ (speed)}`, "0.001", "Эмпирически, сообщество ML-Agents"],
-              [String.raw`\beta\text{ (orient)}`, "0.0005","Эмпирически"],
-              [String.raw`\rho\text{ (smoothness)}`,"0.0002","Низкое значение — иначе агент не исследует"],
+              [String.raw`\enfTgt{R}_{\text{cp}}`,   "+1.0",       "Karting Mod: «If AI success reaching checkpoint will be given reward +1»"],
+              [String.raw`\enfTgt{R}_{\text{final}}`,"+0.5",       "Savid et al. 2023: «the agent reaches the final checkpoint, a reward of 0.5 is given»"],
+              [String.raw`\enfTgt{R}_{\text{coll}}`, "−1.0 + EndEpisode", "Karting Mod: «If AI hit obstacle/track AI position will be reset to the starting point and will be given penalty -1»"],
+              [String.raw`\enfPar{\eta}\text{ (time)}`, "0.0005…0.001", "Savid et al. 2023: «To incentivize speed, agents are given a small −0.001 reward (punishment)»"],
+              [String.raw`\enfPar{\alpha}\text{ (speed)}`, "0.001", "Эмпирически, сообщество ML-Agents"],
+              [String.raw`\enfPar{\beta}\text{ (orient)}`, "0.0005","Эмпирически"],
+              [String.raw`\enfPar{\rho}\text{ (smoothness)}`,"0.0002","Низкое значение — иначе агент не исследует"],
             ].map(([coeff, val, note]) => (
               <tr key={coeff} className="border-b border-white/5 hover:bg-white/2 transition-colors">
                 <td className="py-2 px-3 font-mono text-xs text-purple-300">

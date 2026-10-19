@@ -56,7 +56,7 @@ const IntroSection = () => (
           <p className="text-foreground/80 leading-relaxed">
             Лучший алгоритм обучения не спасёт плохо подобранную архитектуру. Этот урок разбирает
             сеть агента как <strong className="text-cyan-300">энкодер + голову</strong>:
-            <Math display={false}>{String.raw`\;a = \enfFun{h}_\psi\big(\enfFun{f}_\phi(\enfVar{o})\big)`}</Math>{" "}
+            <Math display={false}>{String.raw`\;\enfFun{a} = \enfFun{h}_\psi\big(\enfFun{f}_\phi(\enfVar{o})\big)`}</Math>{" "}
             и показывает, как выбирать энкодер под тип наблюдения (вектор, пиксели, история,
             множество сущностей), а потом собирает всё в один блок{" "}
             <code className={chip}>network_settings</code> Unity ML-Agents 4.0.x на примере
@@ -85,8 +85,8 @@ const IntroSection = () => (
         <li className="flex gap-2.5">
           <span className="text-purple-400 mt-0.5 shrink-0">▸</span>
           <span>
-            политику <Math display={false}>{String.raw`\pi_\theta`}</Math>, функции{" "}
-            <Math display={false}>{String.raw`V/Q`}</Math> и схему actor–critic —{" "}
+            политику <Math display={false}>{String.raw`\enfFun{\pi}_\theta`}</Math>, функции{" "}
+            <Math display={false}>{String.raw`\enfOp{V}/\enfOp{Q}`}</Math> и схему actor–critic —{" "}
             <CrossLinkToLesson
               lessonId="3.1"
               lessonPath="/courses/3-1"

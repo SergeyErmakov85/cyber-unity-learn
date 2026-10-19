@@ -31,7 +31,7 @@ const Chapter3 = () => (
       .
     </p>
     <p>
-      Математически MDP задаётся кортежем из пяти элементов: <Math display={false}>{"(S, A, P, \\enfTgt{R}, \\enfPar{\\gamma})"}</Math>.
+      Математически MDP задаётся кортежем из пяти элементов: <Math display={false}>{"(\\mathcal{S}, \\mathcal{A}, \\enfFun{P}, \\enfTgt{R}, \\enfPar{\\gamma})"}</Math>.
     </p>
 
     <div className="my-6 overflow-x-auto">
@@ -65,12 +65,12 @@ const Chapter3 = () => (
     <p>
       Центральное свойство MDP: будущее зависит <em>исключительно</em> от текущего состояния и действия, а не от всей истории:
     </p>
-    <Math>{"P(S_{t+1}=\\enfVar{s}',\\, \\enfTgt{R}_{t+1}=\\enfTgt{r} \\mid S_0, A_0, \\ldots, S_t, A_t) = P(S_{t+1}=\\enfVar{s}',\\, \\enfTgt{R}_{t+1}=\\enfTgt{r} \\mid S_t, A_t)"}</Math>
+    <Math>{"\\enfFun{P}(\\enfVar{S}_{t+1}=\\enfVar{s}',\\, \\enfTgt{R}_{t+1}=\\enfTgt{r} \\mid \\enfVar{S}_0, \\enfFun{A}_0, \\ldots, \\enfVar{S}_t, \\enfFun{A}_t) = \\enfFun{P}(\\enfVar{S}_{t+1}=\\enfVar{s}',\\, \\enfTgt{R}_{t+1}=\\enfTgt{r} \\mid \\enfVar{S}_t, \\enfFun{A}_t)"}</Math>
 
     <InfoBox variant="accent">
       <p className="font-semibold text-foreground mb-2">Интуиция: Фотография футбольного мяча</p>
       <p className="text-sm">
-        Если состояние — только координаты мяча <Math display={false}>{"(x, y, z)"}</Math>, оно <strong className="text-foreground">не является Марковским</strong>: по фотографии нельзя предсказать траекторию. Но если добавить векторы скорости и ускорения, новое состояние становится полностью Марковским — текущих данных достаточно для предсказания будущего.
+        Если состояние — только координаты мяча <Math display={false}>{"(\\enfVar{x}, \\enfVar{y}, \\enfVar{z})"}</Math>, оно <strong className="text-foreground">не является Марковским</strong>: по фотографии нельзя предсказать траекторию. Но если добавить векторы скорости и ускорения, новое состояние становится полностью Марковским — текущих данных достаточно для предсказания будущего.
       </p>
       <p className="text-sm mt-2">
         <strong className="text-primary">В Unity ML-Agents:</strong> если вы забудете добавить критический параметр в <code className="text-primary">CollectObservations</code> (например, время перезарядки оружия NPC), алгоритмы будут работать нестабильно.

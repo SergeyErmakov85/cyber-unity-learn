@@ -713,7 +713,7 @@ const Section_ValueIteration = () => {
           <FormulaBlock
             big
             emphasized
-            tex="V_{k+1}(s) \;\leftarrow\; \max_{a} \sum_{s'} P(s' \mid s, a)\,\bigl[\, R(s') + \gamma\, V_{k}(s') \,\bigr]"
+            tex="\enfOp{V}_{k+1}(\enfVar{s}) \;\leftarrow\; \max_{a} \sum_{s'} P(s' \mid \enfVar{s}, a)\,\bigl[\, \enfTgt{R}(s') + \enfPar{\gamma}\, \enfOp{V}_{k}(s') \,\bigr]"
           />
         </div>
 
@@ -741,7 +741,7 @@ const Section_ValueIteration = () => {
               <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>a</span>, то
               естественно брать то, после которого мы живём лучше всего:
             </p>
-            <FormulaBlock tex="V^{*}(s) \;=\; \max_{a} Q^{*}(s, a)" />
+            <FormulaBlock tex="\enfOp{V}^{*}(\enfVar{s}) \;=\; \max_{a} \enfOp{Q}^{*}(\enfVar{s}, a)" />
           </div>
 
           <div className="flex flex-col gap-2">
@@ -754,7 +754,7 @@ const Section_ValueIteration = () => {
               только под V теперь понимается{" "}
               <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V*</span>:
             </p>
-            <FormulaBlock tex="Q^{*}(s, a) \;=\; \sum_{s'} P(s' \mid s, a)\,\bigl[\, R(s') + \gamma\, V^{*}(s') \,\bigr]" />
+            <FormulaBlock tex="\enfOp{Q}^{*}(\enfVar{s}, a) \;=\; \sum_{s'} P(s' \mid \enfVar{s}, a)\,\bigl[\, \enfTgt{R}(s') + \enfPar{\gamma}\, \enfOp{V}^{*}(s') \,\bigr]" />
           </div>
 
           <div className="flex flex-col gap-2">

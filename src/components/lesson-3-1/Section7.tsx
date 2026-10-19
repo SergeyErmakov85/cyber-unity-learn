@@ -33,12 +33,12 @@ const Section7 = () => (
       <strong>
         максимизируй награду при условии, что средняя энтропия политики не ниже порога
       </strong>{" "}
-      <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}`}</Math> (уравнение (11)):
+      <Math display={false}>{String.raw`\enfOp{\bar{\mathcal{H}}}`}</Math> (уравнение (11)):
     </ProseP>
 
-    <Math>{String.raw`\max_{\pi_{0:T}}\; \mathbb{E}_{\rho_\pi}\!\left[\sum_{t=0}^{T} \enfTgt{r}(\enfVar{s}_t,a_t)\right]
+    <Math>{String.raw`\max_{\pi_{0:T}}\; \mathbb{E}_{\rho_\pi}\!\left[\sum_{t=0}^{T} \enfTgt{r}(\enfVar{s}_t,\enfFun{a}_t)\right]
 \quad\text{при условии}\quad
-\mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\big[-\log\pi_t(a_t\mid \enfVar{s}_t)\big] \;\geq\; \bar{\mathcal{\enfOp{H}}}\quad \forall t .`}</Math>
+\mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\big[-\log\pi_t(\enfFun{a}_t\mid \enfVar{s}_t)\big] \;\geq\; \enfOp{\bar{\mathcal{H}}}\quad \forall t .`}</Math>
 
     <ProseP>
       Через двойственность (dual problem) и динамическое программирование по времени это даёт обычные
@@ -48,7 +48,7 @@ const Section7 = () => (
     </ProseP>
 
     <Math>{String.raw`\boxed{\;
-\enfTgt{J}(\enfPar{\alpha}) = \mathbb{E}_{a_t\sim\pi_t}\big[\,-\enfPar{\alpha}\log\pi_t(a_t\mid \enfVar{s}_t) - \enfPar{\alpha}\,\bar{\mathcal{\enfOp{H}}}\,\big]
+\enfTgt{J}(\enfPar{\alpha}) = \mathbb{E}_{a_t\sim\pi_t}\big[\,-\enfPar{\alpha}\log\pi_t(a_t\mid \enfVar{s}_t) - \enfPar{\alpha}\,\enfOp{\bar{\mathcal{H}}}\,\big]
 \;}`}</Math>
 
     <ProseP>Интуиция простая и красивая:</ProseP>
@@ -56,7 +56,7 @@ const Section7 = () => (
     <ul className="space-y-2 my-4 text-[15px] text-foreground/90 leading-relaxed">
       <li>
         Если <strong>текущая энтропия ниже целевой</strong>{" "}
-        <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}`}</Math> → градиент{" "}
+        <Math display={false}>{String.raw`\enfOp{\bar{\mathcal{H}}}`}</Math> → градиент{" "}
         <strong>увеличивает</strong> <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> → бонус за
         энтропию весомее → агент исследует больше.
       </li>
@@ -81,20 +81,20 @@ const Section7 = () => (
     </ProseP>
 
     <h3 className={H3_CLASS}>
-      Целевая энтропия <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}`}</Math>: эвристика
+      Целевая энтропия <Math display={false}>{String.raw`\enfOp{\bar{\mathcal{H}}}`}</Math>: эвристика
     </h3>
 
     <ProseP>
-      Остаётся задать порог <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}`}</Math>. Стандартная
+      Остаётся задать порог <Math display={false}>{String.raw`\enfOp{\bar{\mathcal{H}}}`}</Math>. Стандартная
       эвристика из статьи — взять его равным{" "}
       <strong>минус размерности пространства действий</strong>:
     </ProseP>
 
-    <Math>{String.raw`\bar{\mathcal{\enfOp{H}}} = -\dim(\mathcal{A}).`}</Math>
+    <Math>{String.raw`\enfOp{\bar{\mathcal{H}}} = -\dim(\mathcal{A}).`}</Math>
 
     <ProseP>
       Для гоночного агента с двумя непрерывными действиями (руль, газ) это{" "}
-      <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}=-2`}</Math>. Эвристика грубая, но работает
+      <Math display={false}>{String.raw`\enfOp{\bar{\mathcal{H}}}=-2`}</Math>. Эвристика грубая, но работает
       на удивление широко и почти полностью снимает ручную настройку температуры.
     </ProseP>
 
@@ -117,18 +117,18 @@ const Section7 = () => (
         </>,
         <>
           Переформулируем как «макс. награда при ограничении на энтропию{" "}
-          <Math display={false}>{String.raw`\geq\bar{\mathcal{\enfOp{H}}}`}</Math>».
+          <Math display={false}>{String.raw`\geq\enfOp{\bar{\mathcal{H}}}`}</Math>».
         </>,
         <>
           <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> = двойственная переменная, обучается по{" "}
           <Math display={false}>
-            {String.raw`\enfTgt{J}(\enfPar{\alpha})=\mathbb{E}[-\enfPar{\alpha}\log\pi-\enfPar{\alpha}\bar{\mathcal{\enfOp{H}}}]`}
+            {String.raw`\enfTgt{J}(\enfPar{\alpha})=\mathbb{E}[-\enfPar{\alpha}\log\enfFun{\pi}-\enfPar{\alpha}\enfOp{\bar{\mathcal{H}}}]`}
           </Math>
           .
         </>,
         <>
           Эвристика порога:{" "}
-          <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}=-\dim(\mathcal{A})`}</Math>.
+          <Math display={false}>{String.raw`\enfOp{\bar{\mathcal{H}}}=-\dim(\mathcal{A})`}</Math>.
         </>,
         <>
           Низкая энтропия → <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> растёт; высокая →{" "}

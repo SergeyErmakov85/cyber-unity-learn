@@ -53,12 +53,12 @@ const A3CModule = () => {
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Policy Gradient с Advantage</h3>
-                  <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}\\left[ \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot A(\\enfVar{s}_t, a_t) \\right]"}</Math>
+                  <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}\\left[ \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{A}(\\enfVar{s}_t, a_t) \\right]"}</Math>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Advantage Function</h3>
-                  <Math>{"A(\\enfVar{s}_t, a_t) = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
+                  <Math>{"\\enfOp{A}(\\enfVar{s}_t, a_t) = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
                   <p className="text-sm text-muted-foreground mt-1">
                     Advantage показывает насколько действие лучше «среднего» — critic V(s) оценивает baseline.
                   </p>
@@ -66,7 +66,7 @@ const A3CModule = () => {
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Полная функция потерь</h3>
-                  <Math>{"L = L_{\\text{policy}} + c_1 L_{\\text{value}} - c_2 H(\\pi)"}</Math>
+                  <Math>{"\\enfTgt{L} = \\enfTgt{L}_{\\text{policy}} + \\enfPar{c}_1 \\enfTgt{L}_{\\text{value}} - \\enfPar{c}_2 \\enfOp{H}(\\enfFun{\\pi})"}</Math>
                   <p className="text-sm text-muted-foreground mt-1">
                     H(π) — энтропийная регуляризация для поощрения исследования.
                   </p>

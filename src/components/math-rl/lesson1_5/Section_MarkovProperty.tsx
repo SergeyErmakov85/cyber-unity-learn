@@ -210,7 +210,7 @@ const Section_MarkovProperty = () => {
       {/* 3.2 Formula */}
       <div className="mt-5">
         <Math>
-          {"P(S_{t+1} \\mid S_t, A_t) \\;=\\; P(S_{t+1} \\mid S_0, A_0, \\dots, S_t, A_t)"}
+          {"\\enfFun{P}(\\enfVar{S}_{t+1} \\mid \\enfVar{S}_t, \\enfFun{A}_t) \\;=\\; \\enfFun{P}(\\enfVar{S}_{t+1} \\mid \\enfVar{S}_0, \\enfFun{A}_0, \\dots, \\enfVar{S}_t, \\enfFun{A}_t)"}
         </Math>
         <p
           className="mt-1 italic text-muted-foreground"

@@ -17,11 +17,11 @@ const Section2 = () => (
 
     <ProseP>Обычный RL ищет политику, максимизирующую ожидаемую сумму наград:</ProseP>
 
-    <Math>{String.raw`\enfTgt{J}_{\text{std}}(\pi) = \sum_{t} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\big[\enfTgt{r}(\enfVar{s}_t,a_t)\big],`}</Math>
+    <Math>{String.raw`\enfTgt{J}_{\text{std}}(\enfFun{\pi}) = \sum_{t} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\big[\enfTgt{r}(\enfVar{s}_t,\enfFun{a}_t)\big],`}</Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`\rho_\pi`}</Math> — распределение состояний-действий,
-      порождённое политикой <Math display={false}>{String.raw`\pi`}</Math>.
+      где <Math display={false}>{String.raw`\enfFun{\rho}_\pi`}</Math> — распределение состояний-действий,
+      порождённое политикой <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>.
     </ProseP>
 
     <ProseP>
@@ -29,7 +29,7 @@ const Section2 = () => (
     </ProseP>
 
     <Math>{String.raw`\boxed{\;
-\enfTgt{J}(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\Big[\, \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\alpha}\,\mathcal{\enfOp{H}}\big(\pi(\cdot\mid \enfVar{s}_t)\big)\,\Big]
+\enfTgt{J}(\pi) = \sum_{t=0}^{T} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\Big[\, \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\alpha}\,\enfOp{\mathcal{H}}\big(\pi(\cdot\mid \enfVar{s}_t)\big)\,\Big]
 \;}`}</Math>
 
     <ProseP>
@@ -39,10 +39,10 @@ const Section2 = () => (
 
     <ul className="space-y-2 my-4 text-[15px] text-foreground/90 leading-relaxed">
       <li>
-        <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s}_t,a_t)`}</Math> — обычная награда среды.
+        <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s}_t,\enfFun{a}_t)`}</Math> — обычная награда среды.
       </li>
       <li>
-        <Math display={false}>{String.raw`\enfPar{\alpha}\,\mathcal{\enfOp{H}}(\pi(\cdot\mid \enfVar{s}_t))`}</Math> —{" "}
+        <Math display={false}>{String.raw`\enfPar{\alpha}\,\enfOp{\mathcal{H}}(\enfFun{\pi}(\cdot\mid \enfVar{s}_t))`}</Math> —{" "}
         <strong>бонус за энтропию</strong> на каждом шаге.
       </li>
       <li>
@@ -110,7 +110,7 @@ const Section2 = () => (
         <>
           Цель SAC:{" "}
           <Math display={false}>
-            {String.raw`\enfTgt{J}(\pi)=\sum_t \mathbb{E}[\,\enfTgt{r} + \enfPar{\alpha}\mathcal{\enfOp{H}}(\pi)\,]`}
+            {String.raw`\enfTgt{J}(\enfFun{\pi})=\sum_t \mathbb{E}[\,\enfTgt{r} + \enfPar{\alpha}\enfOp{\mathcal{H}}(\enfFun{\pi})\,]`}
           </Math>
           .
         </>,

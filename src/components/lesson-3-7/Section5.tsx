@@ -31,7 +31,7 @@ const Section5 = () => (
       агента: каждая видимая машина кодируется в «сущность»-эмбеддинг{" "}
       <Math display={false}>{String.raw`e_i`}</Math>, а слой внимания сжимает их множество{" "}
       <Math display={false}>{String.raw`\{e_1,\dots,e_K\}`}</Math> в один вектор{" "}
-      <Math display={false}>{String.raw`z`}</Math> независимо от{" "}
+      <Math display={false}>{String.raw`\enfVar{z}`}</Math> независимо от{" "}
       <Math display={false}>{String.raw`K`}</Math>:
     </ProseP>
 

@@ -202,7 +202,7 @@ print("Обучение завершено.")`}</CyberCodeBlock>
 
           <InfoBox color="accent" title="Epsilon Decay">
             <p className="text-sm">
-              В отличие от фиксированного ε, здесь используется экспоненциальное затухание: <Math display={false}>{`\\enfPar{\\varepsilon} \\leftarrow \\max(\\enfPar{\\varepsilon}_{\\min},\\; \\enfPar{\\varepsilon} \\cdot 0.999)`}</Math>. Это обеспечивает сначала активное исследование (exploration), а затем плавный переход к эксплуатации (exploitation).
+              В отличие от фиксированного ε, здесь используется экспоненциальное затухание: <Math display={false}>{`\\enfPar{\\varepsilon} \\leftarrow \\max(\\enfPar{\\varepsilon}_{\\min},\\; \\enfPar{\\varepsilon} \\cdot 0{,}999)`}</Math>. Это обеспечивает сначала активное исследование (exploration), а затем плавный переход к эксплуатации (exploitation).
             </p>
           </InfoBox>
 
@@ -324,9 +324,9 @@ print("Q-таблица сохранена в файл taxi_q_table.npy")`}</Cyb
 
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Формулы DQN</h3>
           <p>Целевое значение (target):</p>
-          <Math>{`y = \\enfTgt{r} + \\enfPar{\\gamma} \\cdot \\max_{a'} \\enfOp{Q}_{\\text{target}}(\\enfVar{s}', a') \\cdot (1 - \\text{done})`}</Math>
+          <Math>{`\\enfTgt{y} = \\enfTgt{r} + \\enfPar{\\gamma} \\cdot \\max_{a'} \\enfOp{Q}_{\\text{target}}(\\enfVar{s}', a') \\cdot (1 - \\text{done})`}</Math>
           <p>Функция потерь:</p>
-          <Math>{`L(\\enfPar{\\theta}) = \\text{MSE}\\bigl(\\enfOp{Q}_{\\theta}(\\enfVar{s},a),\\; y\\bigr)`}</Math>
+          <Math>{`\\enfTgt{L}(\\enfPar{\\theta}) = \\text{MSE}\\bigl(\\enfOp{Q}_{\\theta}(\\enfVar{s},a),\\; \\enfTgt{y}\\bigr)`}</Math>
 
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">1. Нейросеть и Replay Buffer</h3>
           <CyberCodeBlock language="python" filename="dqn_model.py">{`import torch

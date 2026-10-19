@@ -199,8 +199,8 @@ if (reachedGoal) AddReward(1.0f);`}
               <p className="text-sm text-muted-foreground mb-2">Дисконтированная награда для шага <Math display={false}>{`t = 0`}</Math> при горизонте <Math display={false}>{`T = 1000`}</Math>:</p>
               <Math>{String.raw`\enfOp{\nabla}_\theta \enfTgt{J}(\enfPar{\theta}) \;\propto\; \mathbb{E}\!\left[ \sum_{t=0}^{T} \enfPar{\gamma}^{t}\, \enfTgt{r}_t \, \enfOp{\nabla}_\theta \log \pi_\theta(a_t \mid \enfVar{s}_t) \right]`}</Math>
               <p className="text-xs text-muted-foreground mt-3">
-                При <Math display={false}>{`\\enfPar{\\gamma} = 0.99`}</Math> и <Math display={false}>{`t = 1000`}</Math>:{" "}
-                <Math display={false}>{`0.99^{1000} \\approx 4.3 \\times 10^{-5}`}</Math> — градиент практически исчезает.
+                При <Math display={false}>{`\\enfPar{\\gamma} = 0{,}99`}</Math> и <Math display={false}>{`t = 1000`}</Math>:{" "}
+                <Math display={false}>{`0{,}99^{1000} \\approx 4{,}3 \\times 10^{-5}`}</Math> — градиент практически исчезает.
               </p>
             </CardContent>
           </Card>
@@ -242,10 +242,10 @@ for t in range(max_steps):
               <h4 className="font-semibold text-foreground flex items-center gap-2">
                 <Shield className="w-4 h-4 text-accent" /> Теорема Ng (1999)
               </h4>
-              <Math>{String.raw`\enfTgt{R}'(\enfVar{s}, a, \enfVar{s}') \;=\; \enfTgt{R}(\enfVar{s}, a, \enfVar{s}') \;+\; F(\enfVar{s}, \enfVar{s}'), \qquad F(\enfVar{s}, \enfVar{s}') = \enfPar{\gamma} \, \enfFun{\Phi}(\enfVar{s}') - \enfFun{\Phi}(\enfVar{s})`}</Math>
+              <Math>{String.raw`\enfTgt{R}'(\enfVar{s}, \enfFun{a}, \enfVar{s}') \;=\; \enfTgt{R}(\enfVar{s}, \enfFun{a}, \enfVar{s}') \;+\; \enfFun{F}(\enfVar{s}, \enfVar{s}'), \qquad \enfFun{F}(\enfVar{s}, \enfVar{s}') = \enfPar{\gamma} \, \enfFun{\Phi}(\enfVar{s}') - \enfFun{\Phi}(\enfVar{s})`}</Math>
               <p className="text-sm text-muted-foreground">
-                Где <Math display={false}>{`\\enfFun{\\Phi} : \\mathcal{S} \\to \\mathbb{\\enfTgt{R}}`}</Math> — потенциальная функция (эвристическая
-                «хорошесть» состояния). Тогда <Math display={false}>{`\\pi^{*}_{R'} = \\pi^{*}_{R}`}</Math>.
+                Где <Math display={false}>{`\\enfFun{\\Phi} : \\mathcal{S} \\to \\mathbb{R}`}</Math> — потенциальная функция (эвристическая
+                «хорошесть» состояния). Тогда <Math display={false}>{`\\enfFun{\\pi}^{*}_{R'} = \\enfFun{\\pi}^{*}_{R}`}</Math>.
               </p>
               <p className="text-xs text-muted-foreground">
                 <strong className="text-foreground">Условие:</strong> <Math display={false}>{`\\enfFun{\\Phi}(\\enfVar{s}_{\\text{terminal}}) = 0`}</Math> — иначе
@@ -260,7 +260,7 @@ for t in range(max_steps):
             циклу равна нулю — фарм невозможен.
           </p>
 
-          <Math>{String.raw`\sum_{t=0}^{T-1} \enfPar{\gamma}^{t} F(\enfVar{s}_t, \enfVar{s}_{t+1}) \;=\; \enfPar{\gamma}^{T} \enfFun{\Phi}(\enfVar{s}_T) - \enfFun{\Phi}(\enfVar{s}_0)`}</Math>
+          <Math>{String.raw`\sum_{t=0}^{T-1} \enfPar{\gamma}^{t} \enfFun{F}(\enfVar{s}_t, \enfVar{s}_{t+1}) \;=\; \enfPar{\gamma}^{T} \enfFun{\Phi}(\enfVar{s}_T) - \enfFun{\Phi}(\enfVar{s}_0)`}</Math>
 
           <div className="mt-6 mb-6">
             <RewardHackingChart />

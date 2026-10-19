@@ -9,7 +9,7 @@ const Section3 = () => (
 
     <ProseP>
       Если гоночный агент получает наблюдение <strong>с камеры</strong> (картинка{" "}
-      <Math display={false}>{String.raw`H\times \enfPar{W}\times C`}</Math>), MLP бесполезен: он не знает,
+      <Math display={false}>{String.raw`H\times W\times C`}</Math>), MLP бесполезен: он не знает,
       что соседние пиксели связаны, и не переиспользует один и тот же детектор «края дороги» по
       всему кадру. Нужен <strong>свёрточный энкодер (CNN)</strong> с двумя индуктивными смещениями:{" "}
       <strong>локальность</strong> (фильтр смотрит на маленькое окно) и{" "}
@@ -24,7 +24,7 @@ const Section3 = () => (
     </Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`s`}</Math> — шаг (stride),{" "}
+      где <Math display={false}>{String.raw`\enfVar{s}`}</Math> — шаг (stride),{" "}
       <Math display={false}>{String.raw`k`}</Math> — индекс фильтра. После нескольких таких слоёв
       пространственная карта «сплющивается» в вектор и идёт в MLP-голову.
     </ProseP>
@@ -80,7 +80,7 @@ const Section3 = () => (
 
     <ProseP>
       <code>resnet</code> добавляет <strong>остаточные связи</strong>{" "}
-      <Math display={false}>{String.raw`\enfVar{z}^{(l+1)} = \enfVar{z}^{(l)} + \mathcal{F}(\enfVar{z}^{(l)})`}</Math>,
+      <Math display={false}>{String.raw`\enfVar{z}^{(l+1)} = \enfVar{z}^{(l)} + \enfFun{\mathcal{F}}(\enfVar{z}^{(l)})`}</Math>,
       которые позволяют обучать гораздо более глубокие сети без затухания градиента — но это
       заметно дороже по вычислениям, поэтому берут его только когда <code>simple</code>/
       <code>nature_cnn</code> явно не вытягивают сложность сцены.

@@ -70,10 +70,10 @@ const SACModule = () => {
                 В стандартном RL мы максимизируем суммарную награду. В Maximum Entropy RL мы добавляем бонус за энтропию политики:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"\\enfTgt{J}(\\pi) = \\sum_{t=0}^{T} \\mathbb{E}\\left[\\enfTgt{r}(\\enfVar{s}_t, a_t) + \\enfPar{\\alpha} \\mathcal{H}(\\pi(\\cdot \\mid \\enfVar{s}_t))\\right]"}</Math>
+                <Math display>{"\\enfTgt{J}(\\pi) = \\sum_{t=0}^{T} \\mathbb{E}\\left[\\enfTgt{r}(\\enfVar{s}_t, a_t) + \\enfPar{\\alpha} \\enfOp{\\mathcal{H}}(\\pi(\\cdot \\mid \\enfVar{s}_t))\\right]"}</Math>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                где <Math>{"\\mathcal{H}(\\pi) = -\\sum_a \\pi(a \\mid \\enfVar{s})\\log\\pi(a|\\enfVar{s})"}</Math> — энтропия политики, а <Math>{"\\enfPar{\\alpha}"}</Math> — температурный коэффициент.
+                где <Math>{"\\enfOp{\\mathcal{H}}(\\enfFun{\\pi}) = -\\sum_a \\enfFun{\\pi}(a \\mid \\enfVar{s})\\log\\enfFun{\\pi}(a\\mid \\enfVar{s})"}</Math> — энтропия политики, а <Math>{"\\enfPar{\\alpha}"}</Math> — температурный коэффициент.
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li><strong className="text-foreground">Высокая энтропия</strong> — политика более случайная (исследование)</li>
@@ -93,15 +93,15 @@ const SACModule = () => {
             <CardContent className="p-6 space-y-4">
               <h3 className="text-lg font-semibold text-foreground">Soft Q-функция</h3>
               <div className="overflow-x-auto">
-                <Math display>{"\\enfOp{Q}_{soft}(\\enfVar{s}_t, a_t) = \\enfTgt{r}(\\enfVar{s}_t, a_t) + \\enfPar{\\gamma} \\mathbb{E}_{s_{t+1}}\\left[\\enfOp{V}_{soft}(\\enfVar{s}_{t+1})\\right]"}</Math>
+                <Math display>{"\\enfOp{Q}_{\\text{soft}}(\\enfVar{s}_t, a_t) = \\enfTgt{r}(\\enfVar{s}_t, a_t) + \\enfPar{\\gamma} \\mathbb{E}_{s_{t+1}}\\left[\\enfOp{V}_{\\text{soft}}(\\enfVar{s}_{t+1})\\right]"}</Math>
               </div>
               <h3 className="text-lg font-semibold text-foreground mt-4">Soft Value Function</h3>
               <div className="overflow-x-auto">
-                <Math display>{"\\enfOp{V}_{soft}(\\enfVar{s}_t) = \\mathbb{E}_{a_t \\sim \\pi}\\left[\\enfOp{Q}_{soft}(\\enfVar{s}_t, a_t) - \\enfPar{\\alpha} \\log \\pi(a_t \\mid \\enfVar{s}_t)\\right]"}</Math>
+                <Math display>{"\\enfOp{V}_{\\text{soft}}(\\enfVar{s}_t) = \\mathbb{E}_{a_t \\sim \\pi}\\left[\\enfOp{Q}_{\\text{soft}}(\\enfVar{s}_t, \\enfFun{a}_t) - \\enfPar{\\alpha} \\log \\enfFun{\\pi}(\\enfFun{a}_t \\mid \\enfVar{s}_t)\\right]"}</Math>
               </div>
               <h3 className="text-lg font-semibold text-foreground mt-4">Обновление политики</h3>
               <div className="overflow-x-auto">
-                <Math display>{"\\pi^* = \\arg\\min_{\\pi} D_{KL}\\left(\\pi(\\cdot \\mid \\enfVar{s}_t)\\;\\|\\;\\frac{\\exp(\\enfOp{Q}(\\enfVar{s}_t, \\cdot))}{Z(\\enfVar{s}_t)}\\right)"}</Math>
+                <Math display>{"\\pi^* = \\arg\\min_{\\pi} \\enfOp{D}_{\\text{KL}}\\left(\\pi(\\cdot \\mid \\enfVar{s}_t)\\;\\|\\;\\frac{\\exp(\\enfOp{Q}(\\enfVar{s}_t, \\cdot))}{\\enfOp{Z}(\\enfVar{s}_t)}\\right)"}</Math>
               </div>
             </CardContent>
           </Card>
@@ -117,9 +117,9 @@ const SACModule = () => {
             <CardContent className="p-6 space-y-4">
               <p className="text-muted-foreground leading-relaxed">SAC использует 5 нейронных сетей:</p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li><strong className="text-foreground">Actor (Политика)</strong> — <Math>{"\\pi_\\theta(a \\mid \\enfVar{s})"}</Math> — выход: mean + std для непрерывных действий</li>
-                <li><strong className="text-foreground">Critic 1</strong> — <Math>{"\\enfOp{Q}_{\\phi_1}(\\enfVar{s}, a)"}</Math></li>
-                <li><strong className="text-foreground">Critic 2</strong> — <Math>{"\\enfOp{Q}_{\\phi_2}(\\enfVar{s}, a)"}</Math> (для уменьшения overestimation)</li>
+                <li><strong className="text-foreground">Actor (Политика)</strong> — <Math>{"\\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})"}</Math> — выход: mean + std для непрерывных действий</li>
+                <li><strong className="text-foreground">Critic 1</strong> — <Math>{"\\enfOp{Q}_{\\phi_1}(\\enfVar{s}, \\enfFun{a})"}</Math></li>
+                <li><strong className="text-foreground">Critic 2</strong> — <Math>{"\\enfOp{Q}_{\\phi_2}(\\enfVar{s}, \\enfFun{a})"}</Math> (для уменьшения overestimation)</li>
                 <li><strong className="text-foreground">Target Critic 1</strong> — <Math>{"\\enfOp{Q}_{\\bar{\\phi}_1}"}</Math> (мягкое обновление)</li>
                 <li><strong className="text-foreground">Target Critic 2</strong> — <Math>{"\\enfOp{Q}_{\\bar{\\phi}_2}"}</Math></li>
               </ul>
@@ -127,7 +127,7 @@ const SACModule = () => {
                 Мягкое обновление целевых сетей:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"\\bar{\\phi} \\leftarrow \\tau \\phi + (1 - \\tau) \\bar{\\phi}, \\quad \\tau = 0.005"}</Math>
+                <Math display>{"\\enfPar{\\bar{\\phi}} \\leftarrow \\enfPar{\\tau} \\enfPar{\\phi} + (1 - \\enfPar{\\tau}) \\enfPar{\\bar{\\phi}}, \\quad \\enfPar{\\tau} = 0{,}005"}</Math>
               </div>
             </CardContent>
           </Card>

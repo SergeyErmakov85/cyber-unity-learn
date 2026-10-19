@@ -17,7 +17,7 @@ const Chapter4 = () => (
       <p className="font-semibold text-foreground mb-2">Интуитивный смысл γ — «горизонт планирования»</p>
       <ul className="list-disc list-inside space-y-1 text-sm">
         <li><Math display={false}>{"\\enfPar{\\gamma} = 0"}</Math> — агент абсолютно близорук, учитывает только немедленную награду</li>
-        <li><Math display={false}>{"\\enfPar{\\gamma} = 0.99"}</Math> — агент крайне дальновиден</li>
+        <li><Math display={false}>{"\\enfPar{\\gamma} = 0{,}99"}</Math> — агент крайне дальновиден</li>
         <li>Эффективный горизонт ≈ <Math display={false}>{"\\frac{1}{1-\\enfPar{\\gamma}}"}</Math> шагов</li>
       </ul>
       <p className="text-sm mt-2">
@@ -27,22 +27,22 @@ const Chapter4 = () => (
 
     <h3 id="политика-policy" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Политика (Policy)</h3>
     <p>
-      Поведение агента формализуется <strong className="text-foreground">политикой</strong> <Math display={false}>{"\\pi"}</Math> — функцией, сопоставляющей состояниям вероятности выбора действий. Запись <Math display={false}>{"\\pi(a \\mid \\enfVar{s})"}</Math> означает: вероятность выбрать действие <Math display={false}>{"a"}</Math> в состоянии <Math display={false}>{"s"}</Math>.
+      Поведение агента формализуется <strong className="text-foreground">политикой</strong> <Math display={false}>{"\\enfFun{\\pi}"}</Math> — функцией, сопоставляющей состояниям вероятности выбора действий. Запись <Math display={false}>{"\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s})"}</Math> означает: вероятность выбрать действие <Math display={false}>{"\\enfFun{a}"}</Math> в состоянии <Math display={false}>{"\\enfVar{s}"}</Math>.
     </p>
 
     <h3 id="функции-ценности-value-functions" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Функции ценности (Value Functions)</h3>
     <p>
-      <strong className="text-foreground">Функция ценности состояния</strong> <Math display={false}>{"\\enfOp{V}_\\pi(\\enfVar{s})"}</Math> — «насколько выгодно находиться в состоянии <Math display={false}>{"s"}</Math>, следуя политике <Math display={false}>{"\\pi"}</Math>?»:
+      <strong className="text-foreground">Функция ценности состояния</strong> <Math display={false}>{"\\enfOp{V}_\\pi(\\enfVar{s})"}</Math> — «насколько выгодно находиться в состоянии <Math display={false}>{"\\enfVar{s}"}</Math>, следуя политике <Math display={false}>{"\\enfFun{\\pi}"}</Math>?»:
     </p>
-    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; S_0 = \\enfVar{s}\\right]"}</Math>
+    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}\\right]"}</Math>
 
     <p className="mt-4">
-      <strong className="text-foreground">Функция ценности действия</strong> <Math display={false}>{"\\enfOp{Q}_\\pi(\\enfVar{s}, a)"}</Math> — «насколько выгодно совершить действие <Math display={false}>{"a"}</Math> в состоянии <Math display={false}>{"s"}</Math>, а далее следовать <Math display={false}>{"\\pi"}</Math>?»:
+      <strong className="text-foreground">Функция ценности действия</strong> <Math display={false}>{"\\enfOp{Q}_\\pi(\\enfVar{s}, \\enfFun{a})"}</Math> — «насколько выгодно совершить действие <Math display={false}>{"\\enfFun{a}"}</Math> в состоянии <Math display={false}>{"\\enfVar{s}"}</Math>, а далее следовать <Math display={false}>{"\\enfFun{\\pi}"}</Math>?»:
     </p>
-    <Math>{"\\enfOp{Q}_\\pi(\\enfVar{s}, a) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; S_0 = \\enfVar{s},\\, A_0 = a\\right]"}</Math>
+    <Math>{"\\enfOp{Q}_\\pi(\\enfVar{s}, a) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s},\\, A_0 = a\\right]"}</Math>
 
     <p className="mt-4">Элегантная связь между ними:</p>
-    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\sum_{a \\in A} \\pi(a \\mid \\enfVar{s})\\, \\enfOp{Q}_\\pi(\\enfVar{s}, a)"}</Math>
+    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\sum_{a \\in A} \\enfFun{\\pi}(a \\mid \\enfVar{s})\\, \\enfOp{Q}_\\pi(\\enfVar{s}, a)"}</Math>
   </Section>
 );
 

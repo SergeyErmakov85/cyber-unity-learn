@@ -518,7 +518,7 @@ const Section_ValueQ = () => {
           <FormulaBlock
             big
             accent={MAGENTA}
-            tex="Q^{\pi}(s, a) \;=\; \mathbb{E}_{\pi}\!\left[\, G_t \,\middle|\, S_t = s,\; A_t = a \,\right]"
+            tex="\enfOp{Q}^{\pi}(\enfVar{s}, \enfFun{a}) \;=\; \mathbb{E}_{\pi}\!\left[\, \enfOp{G}_t \,\middle|\, \enfVar{S}_t = \enfVar{s},\; \enfFun{A}_t = \enfFun{a} \,\right]"
           />
 
           <p style={{ color: "rgba(255,255,255,0.8)" }}>
@@ -581,7 +581,7 @@ const Section_ValueQ = () => {
             <FormulaBlock
               big
               emphasized
-              tex="V^{\pi}(s) \;=\; \sum_{a} \pi(a \mid s)\, Q^{\pi}(s, a)"
+              tex="\enfOp{V}^{\pi}(\enfVar{s}) \;=\; \sum_{a} \enfFun{\pi}(a \mid \enfVar{s})\, \enfOp{Q}^{\pi}(\enfVar{s}, a)"
             />
 
             <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 13 }}>

@@ -15,43 +15,43 @@ const Section6Algorithms = () => (
       </p>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Идея:</strong> обновлять политику{" "}
-        <Math display={false}>{String.raw`\pi_\theta`}</Math> ограниченными шагами, чтобы новая политика не
+        <Math display={false}>{String.raw`\enfFun{\pi}_\theta`}</Math> ограниченными шагами, чтобы новая политика не
         сильно отклонялась от старой{" "}
-        <Math display={false}>{String.raw`\pi_{\theta_{\text{old}}}`}</Math>. Это достигается через{" "}
+        <Math display={false}>{String.raw`\enfFun{\pi}_{\theta_{\text{old}}}`}</Math>. Это достигается через{" "}
         <strong className="text-foreground">clipped surrogate objective</strong>:
       </p>
-      <Math>{String.raw`L^{\text{CLIP}}(\enfPar{\theta}) \;=\; \hat{\mathbb{E}}_t \!\left[\min\!\big(\enfTgt{r}_t(\enfPar{\theta})\hat A_t,\; \mathrm{clip}(\enfTgt{r}_t(\enfPar{\theta}), 1-\enfPar{\epsilon}, 1+\enfPar{\epsilon})\,\hat A_t\big)\right],`}</Math>
+      <Math>{String.raw`\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) \;=\; \hat{\mathbb{E}}_t \!\left[\min\!\big(\enfVar{r}_t(\enfPar{\theta})\enfOp{\hat A}_t,\; \mathrm{clip}(\enfVar{r}_t(\enfPar{\theta}), 1-\enfPar{\epsilon}, 1+\enfPar{\epsilon})\,\enfOp{\hat A}_t\big)\right],`}</Math>
       <p className="text-sm text-muted-foreground">
         где{" "}
-        <Math display={false}>{String.raw`\enfTgt{r}_t(\enfPar{\theta}) = \dfrac{\pi_\theta(a_t\mid \enfVar{s}_t)}{\pi_{\theta_{\text{old}}}(a_t\mid \enfVar{s}_t)}`}</Math>,{" "}
-        <Math display={false}>{String.raw`\enfPar{\epsilon} \approx 0.2`}</Math>.
+        <Math display={false}>{String.raw`\enfVar{r}_t(\enfPar{\theta}) = \dfrac{\enfFun{\pi}_\theta(\enfFun{a}_t\mid \enfVar{s}_t)}{\enfFun{\pi}_{\theta_{\text{old}}}(\enfFun{a}_t\mid \enfVar{s}_t)}`}</Math>,{" "}
+        <Math display={false}>{String.raw`\enfPar{\epsilon} \approx 0{,}2`}</Math>.
         Минимум выбирается между «нормальным» и «клиппированным» термами — PPO обновляется только при
         «безопасном» увеличении вероятности действия.
       </p>
 
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Generalized Advantage Estimation (GAE)</strong> — оценка
-        преимущества <Math display={false}>{String.raw`\hat A_t`}</Math>. Сначала вычисляется одношаговая
+        преимущества <Math display={false}>{String.raw`\enfOp{\hat A}_t`}</Math>. Сначала вычисляется одношаговая
         TD-ошибка:
       </p>
-      <Math>{String.raw`\delta_t = \enfTgt{r}_t + \enfPar{\gamma} \enfOp{V}(\enfVar{s}_{t+1}) - \enfOp{V}(\enfVar{s}_t).`}</Math>
+      <Math>{String.raw`\enfVar{\delta}_t = \enfTgt{r}_t + \enfPar{\gamma} \enfOp{V}(\enfVar{s}_{t+1}) - \enfOp{V}(\enfVar{s}_t).`}</Math>
       <p className="text-muted-foreground leading-relaxed">GAE-оценка:</p>
-      <Math>{String.raw`\hat A_t^{\text{GAE}(\gamma,\lambda)} \;=\; \sum_{l=0}^{\infty} (\enfPar{\gamma}\enfPar{\lambda})^l \, \delta_{t+l}.`}</Math>
+      <Math>{String.raw`\enfOp{\hat A}_t^{\text{GAE}(\gamma,\lambda)} \;=\; \sum_{l=0}^{\infty} (\enfPar{\gamma}\enfPar{\lambda})^l \, \enfVar{\delta}_{t+l}.`}</Math>
       <p className="text-sm text-muted-foreground">
         При <Math display={false}>{String.raw`\enfPar{\lambda}=0`}</Math> получаем TD(0) (низкая дисперсия, высокое
         смещение); при <Math display={false}>{String.raw`\enfPar{\lambda}=1`}</Math> — Monte-Carlo (несмещённая,
         но шумная). Типичное значение{" "}
-        <Math display={false}>{String.raw`\enfPar{\lambda} = 0.95`}</Math> балансирует bias–variance.
+        <Math display={false}>{String.raw`\enfPar{\lambda} = 0{,}95`}</Math> балансирует bias–variance.
       </p>
 
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Совокупная функция потерь актёра-критика PPO:</strong>
       </p>
-      <Math>{String.raw`L^{\text{PPO}}(\enfPar{\theta}) \;=\; \hat{\mathbb{E}}_t\!\left[L^{\text{CLIP}}(\enfPar{\theta}) - c_1 \big(\enfOp{V}_\theta(\enfVar{s}_t) - \enfOp{V}^{\text{targ}}_t\big)^2 + c_2 H[\pi_\theta(\cdot\mid \enfVar{s}_t)]\right],`}</Math>
+      <Math>{String.raw`\enfTgt{L}^{\text{PPO}}(\enfPar{\theta}) \;=\; \hat{\mathbb{E}}_t\!\left[\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) - \enfPar{c}_1 \big(\enfOp{V}_\theta(\enfVar{s}_t) - \enfOp{V}^{\text{targ}}_t\big)^2 + \enfPar{c}_2 \enfOp{H}[\pi_\theta(\cdot\mid \enfVar{s}_t)]\right],`}</Math>
       <p className="text-sm text-muted-foreground">
-        где <Math display={false}>{String.raw`H`}</Math> — энтропия (в ML-Agents — параметр{" "}
+        где <Math display={false}>{String.raw`\enfOp{H}`}</Math> — энтропия (в ML-Agents — параметр{" "}
         <code className="bg-muted/50 px-1 text-xs">beta</code>),{" "}
-        <Math display={false}>{String.raw`c_1`}</Math> — вес value-loss.
+        <Math display={false}>{String.raw`\enfPar{c}_1`}</Math> — вес value-loss.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -84,10 +84,10 @@ const Section6Algorithms = () => (
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Цель:</strong>
       </p>
-      <Math>{String.raw`\enfTgt{J}(\pi) \;=\; \sum_{t=0}^{\infty} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\!\left[\enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\alpha}\, \mathcal{H}\big(\pi(\cdot\mid \enfVar{s}_t)\big)\right],`}</Math>
+      <Math>{String.raw`\enfTgt{J}(\pi) \;=\; \sum_{t=0}^{\infty} \mathbb{E}_{(s_t,a_t)\sim\rho_\pi}\!\left[\enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\alpha}\, \enfOp{\mathcal{H}}\big(\pi(\cdot\mid \enfVar{s}_t)\big)\right],`}</Math>
       <p className="text-sm text-muted-foreground">
         где{" "}
-        <Math display={false}>{String.raw`\mathcal{H}(\pi(\cdot\mid \enfVar{s})) = -\mathbb{E}_{a\sim\pi}[\log\pi(a\mid \enfVar{s})]`}</Math>{" "}
+        <Math display={false}>{String.raw`\enfOp{\mathcal{H}}(\enfFun{\pi}(\cdot\mid \enfVar{s})) = -\mathbb{E}_{a\sim\pi}[\log\enfFun{\pi}(\enfFun{a}\mid \enfVar{s})]`}</Math>{" "}
         — энтропия политики, <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> — температурный коэффициент
         (в ML-Agents автоматически подстраивается; стартовое значение задаётся параметром{" "}
         <code className="bg-muted/50 px-1 text-xs">init_entcoef</code>).
@@ -96,7 +96,7 @@ const Section6Algorithms = () => (
         <strong className="text-foreground">Soft Q-функция</strong> удовлетворяет soft уравнению Беллмана:
       </p>
       <Math>{String.raw`\enfOp{Q}_{\text{soft}}(\enfVar{s}_t,a_t) = \enfTgt{r}_t + \enfPar{\gamma}\, \mathbb{E}_{s_{t+1}}\!\left[\enfOp{V}_{\text{soft}}(\enfVar{s}_{t+1})\right],`}</Math>
-      <Math>{String.raw`\enfOp{V}_{\text{soft}}(\enfVar{s}) = \mathbb{E}_{a\sim\pi}\!\left[\enfOp{Q}_{\text{soft}}(\enfVar{s},a) - \enfPar{\alpha} \log\pi(a\mid \enfVar{s})\right].`}</Math>
+      <Math>{String.raw`\enfOp{V}_{\text{soft}}(\enfVar{s}) = \mathbb{E}_{a\sim\pi}\!\left[\enfOp{Q}_{\text{soft}}(\enfVar{s},\enfFun{a}) - \enfPar{\alpha} \log\enfFun{\pi}(\enfFun{a}\mid \enfVar{s})\right].`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Правила обновления:</strong>
       </p>
@@ -104,16 +104,16 @@ const Section6Algorithms = () => (
         <li>
           Два Q-критика <Math display={false}>{String.raw`\enfOp{Q}_{\phi_1}, \enfOp{Q}_{\phi_2}`}</Math> минимизируют MSE
           к soft target{" "}
-          <Math display={false}>{String.raw`y = \enfTgt{r} + \enfPar{\gamma} \big(\min_{i=1,2} \enfOp{Q}_{\bar\phi_i}(\enfVar{s}', a') - \enfPar{\alpha}\log\pi(a'\mid \enfVar{s}')\big)`}</Math>
+          <Math display={false}>{String.raw`\enfTgt{y} = \enfTgt{r} + \enfPar{\gamma} \big(\min_{i=1,2} \enfOp{Q}_{\bar\phi_i}(\enfVar{s}', a') - \enfPar{\alpha}\log\pi(a'\mid \enfVar{s}')\big)`}</Math>
         </li>
         <li>
-          Актёр <Math display={false}>{String.raw`\pi_\theta`}</Math> минимизирует KL-расхождение с «softmax от Q»:
+          Актёр <Math display={false}>{String.raw`\enfFun{\pi}_\theta`}</Math> минимизирует KL-расхождение с «softmax от Q»:
           {" "}<Math display={false}>{String.raw`\enfOp{\nabla}_\theta \enfTgt{J}_\pi \propto \enfOp{\nabla}_\theta\big(\enfPar{\alpha} \log\pi_\theta(a\mid \enfVar{s}) - \enfOp{Q}_\phi(\enfVar{s},a)\big)`}</Math>
         </li>
         <li>
           Целевые сети — soft-update:{" "}
-          <Math display={false}>{String.raw`\bar\phi \leftarrow \tau\phi + (1-\tau)\bar\phi`}</Math>,{" "}
-          <Math display={false}>{String.raw`\tau \approx 0.005`}</Math>
+          <Math display={false}>{String.raw`\enfPar{\bar\phi} \leftarrow \enfPar{\tau}\enfPar{\phi} + (1-\enfPar{\tau})\enfPar{\bar\phi}`}</Math>,{" "}
+          <Math display={false}>{String.raw`\enfPar{\tau} \approx 0{,}005`}</Math>
         </li>
       </ul>
       <p className="text-sm text-muted-foreground">

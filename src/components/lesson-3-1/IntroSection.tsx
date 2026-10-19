@@ -79,8 +79,8 @@ const IntroSection = () => (
         </>,
         <>
           Как энтропия встраивается прямо в цель обучения (<em>maximum-entropy RL objective</em>) и
-          порождает <em>soft</em> версии <Math display={false}>{String.raw`Q`}</Math>,{" "}
-          <Math display={false}>{String.raw`V`}</Math> и уравнения Беллмана.
+          порождает <em>soft</em> версии <Math display={false}>{String.raw`\enfOp{Q}`}</Math>,{" "}
+          <Math display={false}>{String.raw`\enfOp{V}`}</Math> и уравнения Беллмана.
         </>,
         <>
           Почему SAC использует <strong>два</strong> Q-критика, target-сети и медленное обновление{" "}

@@ -87,7 +87,7 @@ const Section5 = () => (
 
     <ProseP>
       Во время обучения политика <strong>стохастична</strong>: действие сэмплируется из распределения{" "}
-      <Math display={false}>{String.raw`a \sim \pi_\theta(\cdot\mid \enfVar{s})`}</Math> — это и есть
+      <Math display={false}>{String.raw`\enfFun{a} \sim \enfFun{\pi}_\theta(\cdot\mid \enfVar{s})`}</Math> — это и есть
       исследование (
       <CrossLinkToHub
         hubPath="/algorithms/ppo"
@@ -101,7 +101,7 @@ const Section5 = () => (
       <strong>самое вероятное</strong> действие (argmax для дискретных, среднее для непрерывных).
     </ProseP>
 
-    <Math display>{String.raw`a_{\text{deploy}} = \arg\max_{a} \pi_\theta(a \mid \enfVar{s}) \quad\text{(детерминированно)} \qquad\text{vs}\qquad a_{\text{train}} \sim \pi_\theta(\cdot \mid \enfVar{s})\ \text{(стохастично)}`}</Math>
+    <Math display>{String.raw`\enfFun{a}_{\text{deploy}} = \arg\max_{a} \enfFun{\pi}_\theta(a \mid \enfVar{s}) \quad\text{(детерминированно)} \qquad\text{vs}\qquad \enfFun{a}_{\text{train}} \sim \enfFun{\pi}_\theta(\cdot \mid \enfVar{s})\ \text{(стохастично)}`}</Math>
 
     <Callout title="💡 Когда что" color="purple">
       Соперникам в гонке детерминизм даёт предсказуемую, «вылизанную» траекторию. Но если все боты

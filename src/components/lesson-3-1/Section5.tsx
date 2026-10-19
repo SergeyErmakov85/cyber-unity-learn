@@ -10,11 +10,11 @@ const Section5 = () => (
     <h3 className={H3_CLASS}>Проблема: Q-обучение переоценивает ценность</h3>
 
     <ProseP>
-      Любой метод, обучающий <Math display={false}>{String.raw`Q`}</Math> через бутстрэп (цель
-      содержит саму оценку <Math display={false}>{String.raw`Q`}</Math>), страдает{" "}
+      Любой метод, обучающий <Math display={false}>{String.raw`\enfOp{Q}`}</Math> через бутстрэп (цель
+      содержит саму оценку <Math display={false}>{String.raw`\enfOp{Q}`}</Math>), страдает{" "}
       <strong>смещением переоценки (overestimation bias)</strong>. Берём шумную оценку, прогоняем
       через операцию максимума/минимума — и систематически завышаем значения. Завышенные{" "}
-      <Math display={false}>{String.raw`Q`}</Math> толкают политику к ложно-привлекательным
+      <Math display={false}>{String.raw`\enfOp{Q}`}</Math> толкают политику к ложно-привлекательным
       действиям, обучение разваливается. Это известная болезнь DDPG.
     </ProseP>
 
@@ -28,7 +28,7 @@ const Section5 = () => (
     </ProseP>
 
     <Math>{String.raw`\boxed{\;
-y = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\Big(\, \min_{i=1,2} \enfOp{Q}_{\bar\theta_i}(\enfVar{s}_{t+1}, a_{t+1}) \;-\; \enfPar{\alpha}\log\pi_\phi(a_{t+1}\mid \enfVar{s}_{t+1})\,\Big),
+\enfTgt{y} = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\Big(\, \min_{i=1,2} \enfOp{Q}_{\bar\theta_i}(\enfVar{s}_{t+1}, a_{t+1}) \;-\; \enfPar{\alpha}\log\pi_\phi(a_{t+1}\mid \enfVar{s}_{t+1})\,\Big),
 \qquad a_{t+1}\sim\pi_\phi(\cdot\mid \enfVar{s}_{t+1})
 \;}`}</Math>
 
@@ -37,7 +37,7 @@ y = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\Big(\, \min_{i=1,2} \enfOp{Q}
       независимо на <strong>soft Bellman residual</strong> (уравнение (5)):
     </ProseP>
 
-    <Math>{String.raw`\enfTgt{J}_Q(\enfPar{\theta}_i) = \mathbb{E}_{(s_t,a_t)\sim\mathcal{D}}\left[\tfrac{1}{2}\Big( \enfOp{Q}_{\theta_i}(\enfVar{s}_t,a_t) - y \Big)^2\right],
+    <Math>{String.raw`\enfTgt{J}_Q(\enfPar{\theta}_i) = \mathbb{E}_{(s_t,a_t)\sim\mathcal{D}}\left[\tfrac{1}{2}\Big( \enfOp{Q}_{\theta_i}(\enfVar{s}_t,a_t) - \enfTgt{y} \Big)^2\right],
 \qquad i\in\{1,2\}.`}</Math>
 
     <ProseP>
@@ -50,9 +50,9 @@ y = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\Big(\, \min_{i=1,2} \enfOp{Q}
     </h3>
 
     <ProseP>
-      Если цель <Math display={false}>{String.raw`y`}</Math> считать теми же сетями, что и обучаем,
+      Если цель <Math display={false}>{String.raw`\enfTgt{y}`}</Math> считать теми же сетями, что и обучаем,
       она «убегает» вместе с ними — обучение нестабильно (собака гонится за собственным хвостом).
-      Поэтому в цели <Math display={false}>{String.raw`y`}</Math> используются{" "}
+      Поэтому в цели <Math display={false}>{String.raw`\enfTgt{y}`}</Math> используются{" "}
       <strong>target-сети</strong> <Math display={false}>{String.raw`\enfOp{Q}_{\bar\theta_i}`}</Math> —
       медленно отстающие копии. После каждого шага их веса подтягиваются к основным экспоненциальным
       скользящим средним (Polyak averaging):
@@ -74,7 +74,7 @@ y = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\Big(\, \min_{i=1,2} \enfOp{Q}
       </li>
       <li>
         <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> маленькое (например{" "}
-        <Math display={false}>{String.raw`0.005`}</Math>) — цель движется очень медленно → стабильно,
+        <Math display={false}>{String.raw`0{,}005`}</Math>) — цель движется очень медленно → стабильно,
         но медленнее.
       </li>
       <li>
@@ -83,7 +83,7 @@ y = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\Big(\, \min_{i=1,2} \enfOp{Q}
     </ul>
 
     <ProseP>
-      В экспериментах Haarnoja <Math display={false}>{String.raw`\enfPar{\tau} = 0.005`}</Math> работает
+      В экспериментах Haarnoja <Math display={false}>{String.raw`\enfPar{\tau} = 0{,}005`}</Math> работает
       практически на всех задачах; диапазон подходящих значений широкий. В Unity ML-Agents это поле
       так и называется — <code className="px-1 rounded bg-muted/50 text-xs font-mono">tau</code> — с
       дефолтом <code className="px-1 rounded bg-muted/50 text-xs font-mono">0.005</code>.
@@ -91,17 +91,17 @@ y = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\Big(\, \min_{i=1,2} \enfOp{Q}
 
     <InteractiveStub title="Интерактив: влияние τ на стабильность">
       График обучения с тремя кривыми для{" "}
-      <Math display={false}>{String.raw`\enfPar{\tau}\in\{0.0001, 0.005, 0.05\}`}</Math>: при большом{" "}
+      <Math display={false}>{String.raw`\enfPar{\tau}\in\{0{,}0001, 0{,}005, 0{,}05\}`}</Math>: при большом{" "}
       <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> кривая дёргается/расходится (нестабильность),
       при крошечном — ползёт медленно, при{" "}
-      <Math display={false}>{String.raw`0.005`}</Math> — гладко и быстро. (Воспроизводит рис. 3c из
+      <Math display={false}>{String.raw`0{,}005`}</Math> — гладко и быстро. (Воспроизводит рис. 3c из
       статьи.)
     </InteractiveStub>
 
     <KeyPoints
       items={[
         <>
-          Бутстрэп-обучение <Math display={false}>{String.raw`Q`}</Math> переоценивает ценность →
+          Бутстрэп-обучение <Math display={false}>{String.raw`\enfOp{Q}`}</Math> переоценивает ценность →
           нестабильность.
         </>,
         <>
@@ -114,7 +114,7 @@ y = \enfTgt{r}(\enfVar{s}_t,a_t) + \enfPar{\gamma}\Big(\, \min_{i=1,2} \enfOp{Q}
           .
         </>,
         <>
-          <Math display={false}>{String.raw`\enfPar{\tau}=0.005`}</Math> — надёжный дефолт.
+          <Math display={false}>{String.raw`\enfPar{\tau}=0{,}005`}</Math> — надёжный дефолт.
         </>,
       ]}
     />

@@ -23,25 +23,25 @@ interface Sequence {
 
 const SEQUENCES: Sequence[] = [
   {
-    id: "1/n", label: "1 / n", latex: "xₙ = 1/n",
+    id: "1/n", label: "1 / n", latex: "\\enfVar{x}_n = 1/n",
     fn: (n) => 1 / n, limit: 0, limitLabel: "0", converges: true,
     desc: "Классическая — убывает к нулю как гипербола",
     hue: "primary", canvasColor: "#00FFD6",
   },
   {
-    id: "1/sqrt(n)", label: "1 / √n", latex: "xₙ = 1/√n",
+    id: "1/sqrt(n)", label: "1 / √n", latex: "\\enfVar{x}_n = 1/\\sqrt{n}",
     fn: (n) => 1 / Math.sqrt(n), limit: 0, limitLabel: "0", converges: true,
     desc: "Медленная сходимость — корневое затухание",
     hue: "secondary", canvasColor: "#D946EF",
   },
   {
-    id: "(-1)^n", label: "(-1)ⁿ", latex: "xₙ = (-1)ⁿ",
+    id: "(-1)^n", label: "(-1)ⁿ", latex: "\\enfVar{x}_n = (-1)^n",
     fn: (n) => Math.pow(-1, n), limit: null, limitLabel: "∄", converges: false,
     desc: "Расходится — осциллирует между +1 и −1",
     hue: "accent", canvasColor: "#FBBF24",
   },
   {
-    id: "(n+1)/n", label: "(n+1) / n", latex: "xₙ = (n+1)/n",
+    id: "(n+1)/n", label: "(n+1) / n", latex: "\\enfVar{x}_n = (n+1)/n",
     fn: (n) => (n + 1) / n, limit: 1, limitLabel: "1", converges: true,
     desc: "Сходится к единице сверху",
     hue: "primary", canvasColor: "#34D399",

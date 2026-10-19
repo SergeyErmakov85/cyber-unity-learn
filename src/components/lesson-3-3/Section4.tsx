@@ -29,12 +29,12 @@ const Section4 = () => (
       контекстный — это семейство
     </ProseP>
 
-    <Math>{String.raw`\mathcal{M}_c = (\mathcal{S}, \mathcal{A}, P_c, \enfTgt{R}_c, \enfPar{\gamma}), \qquad c \sim p(c),`}</Math>
+    <Math>{String.raw`\mathcal{M}_c = (\mathcal{S}, \mathcal{A}, \enfFun{P}_c, \enfTgt{R}_c, \enfPar{\gamma}), \qquad \enfPar{c} \sim \enfFun{p}(\enfPar{c}),`}</Math>
 
     <ProseP>
-      где контекст <Math display={false}>{String.raw`c`}</Math> задаёт конкретную реализацию мира
+      где контекст <Math display={false}>{String.raw`\enfPar{c}`}</Math> задаёт конкретную реализацию мира
       (геометрию трассы, сцепление, освещение). Ошибка — оптимизировать политику под один контекст{" "}
-      <Math display={false}>{String.raw`c_0`}</Math>:
+      <Math display={false}>{String.raw`\enfPar{c}_0`}</Math>:
     </ProseP>
 
     <Math>{String.raw`\max_{\pi}\; \enfTgt{J}_{c_0}(\pi).`}</Math>
@@ -43,21 +43,21 @@ const Section4 = () => (
       Правильная цель — ожидаемая отдача <strong>по распределению контекстов</strong>:
     </ProseP>
 
-    <Math>{String.raw`\boxed{\;\max_{\pi}\; \mathbb{E}_{c \sim p(c)}\big[\, \enfTgt{J}_c(\pi) \,\big],\qquad \enfTgt{J}_c(\pi)=\mathbb{E}_{\pi}\!\Big[\textstyle\sum_{t\ge 0}\enfPar{\gamma}^t \enfTgt{r}_t \,\big|\, c\Big].\;}`}</Math>
+    <Math>{String.raw`\boxed{\;\max_{\pi}\; \mathbb{E}_{c \sim p(c)}\big[\, \enfTgt{J}_c(\pi) \,\big],\qquad \enfTgt{J}_c(\pi)=\mathbb{E}_{\pi}\!\Big[\textstyle\sum_{t\ge 0}\enfPar{\gamma}^t \enfTgt{r}_t \,\big|\, \enfPar{c}\Big].\;}`}</Math>
 
     <ProseP>
       А разрыв обобщения — это разница между качеством на «виденных» и «отложенных» контекстах:
     </ProseP>
 
-    <Math>{String.raw`\mathrm{Gap}(\pi) \;=\; \underbrace{\mathbb{E}_{c\sim p_{\text{train}}}[\enfTgt{J}_c(\pi)]}_{\text{обучение}} \;-\; \underbrace{\mathbb{E}_{c\sim p_{\text{test}}}[\enfTgt{J}_c(\pi)]}_{\text{отложенные контексты}}.`}</Math>
+    <Math>{String.raw`\mathrm{Gap}(\enfFun{\pi}) \;=\; \underbrace{\mathbb{E}_{c\sim p_{\text{train}}}[\enfTgt{J}_c(\enfFun{\pi})]}_{\text{обучение}} \;-\; \underbrace{\mathbb{E}_{c\sim p_{\text{test}}}[\enfTgt{J}_c(\enfFun{\pi})]}_{\text{отложенные контексты}}.`}</Math>
 
     <ProseP>
       <strong>Рандомизация среды</strong> = обучать на распределении{" "}
-      <Math display={false}>{String.raw`p(c)`}</Math>, а не на одной точке. Для гонщика рандомизируем:
+      <Math display={false}>{String.raw`\enfFun{p}(\enfPar{c})`}</Math>, а не на одной точке. Для гонщика рандомизируем:
       коэффициент сцепления покрытия, уровень освещённости/время суток, стиль соперников, шум датчиков,
       массу и мощность машины, раскладку трассы. Тогда агент вынужден выучить инварианты («перед
       поворотом тормозить»), а не подгонку под одну дорожку. Базу для{" "}
-      <Math display={false}>{String.raw`|\hat A_t|`}</Math> и преимущества см. в хабе{" "}
+      <Math display={false}>{String.raw`|\enfOp{\hat A}_t|`}</Math> и преимущества см. в хабе{" "}
       <CrossLinkToHub hubPath="/algorithms/ppo" hubTitle="Алгоритмы → PPO">
         PPO ↗
       </CrossLinkToHub>{" "}
@@ -109,7 +109,7 @@ const Section4 = () => (
 
     <InteractiveStub title="Интерактив (рекомендация): «Контекстный MDP и разрыв обобщения»">
       Слайдер «ширина рандомизации» <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math>; слева — облако из
-      нескольких трасс, сэмплированных из <Math display={false}>{String.raw`p(c)`}</Math> (чем больше{" "}
+      нескольких трасс, сэмплированных из <Math display={false}>{String.raw`\enfFun{p}(\enfPar{c})`}</Math> (чем больше{" "}
       <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math>, тем разнообразнее); справа — две полоски{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">train reward</code> и{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">test reward</code> и их разрыв.
@@ -127,8 +127,8 @@ const Section4 = () => (
         </>,
         <>
           Правильная цель — максимум отдачи <strong>по распределению контекстов</strong>{" "}
-          <Math display={false}>{String.raw`p(c)`}</Math>, а не для одного контекста{" "}
-          <Math display={false}>{String.raw`c_0`}</Math>.
+          <Math display={false}>{String.raw`\enfFun{p}(\enfPar{c})`}</Math>, а не для одного контекста{" "}
+          <Math display={false}>{String.raw`\enfPar{c}_0`}</Math>.
         </>,
         <>
           Рандомизация преследует <strong>две разные</strong> цели: обобщение (новые конфигурации) и{" "}
