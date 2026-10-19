@@ -11,7 +11,9 @@ const RichText = ({ text, className }: { text: ReactNode; className?: string }) 
   // Не строка (готовый JSX, число) — рендерим как есть: так RichText можно
   // ставить вместо `{item.text}` и там, где в данных встречается разметка.
   if (typeof text !== "string") return <span className={className}>{text}</span>;
-  const parts = text.split(TOKEN);
+  // В String.raw`…` обратную кавычку приходится экранировать, и `\`` доходит
+  // сюда вместе с обратной косой чертой: снимаем её до разбора.
+  const parts = text.replace(/\\`/g, "`").split(TOKEN);
   return (
     <span className={className}>
       {parts.map((part, i) => {

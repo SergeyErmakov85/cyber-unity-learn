@@ -116,7 +116,7 @@ const QUIZ_QUESTIONS = [
     ],
     correctIndex: 1,
     explanation:
-      "$\\enfPar{\\alpha}$ — «ручка» компромисса эксплуатация/исследование. При $\\enfPar{\\alpha} \\to 0$ восстанавливается обычный RL; в современном SAC $\\enfPar{\\alpha}$ подстраивается автоматически к целевой энтропии $\\bar{\\mathcal{H}} = -\\dim(\\mathcal{A})$.",
+      "$\\enfPar{\\alpha}$ — «ручка» компромисса эксплуатация/исследование. При $\\enfPar{\\alpha} \\to 0$ восстанавливается обычный RL; в современном SAC $\\enfPar{\\alpha}$ подстраивается автоматически к целевой энтропии $\\enfTgt{\\bar{\\mathcal{H}}} = -\\dim(\\mathcal{A})$.",
   },
   {
     question: "Зачем нужен reparameterization trick?",

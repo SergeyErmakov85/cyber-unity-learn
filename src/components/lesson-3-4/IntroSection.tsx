@@ -16,7 +16,7 @@ const KEY_FINDINGS = [
   {
     title: "Квадратичный дефект BC",
     text:
-      "Теорема Ross & Bagnell (2010): $\\enfTgt{J}(\\enfFun{\\pi}) \\le \\enfTgt{J}(\\enfFun{\\pi}^{*}) + T^{2}\\cdot \\enfPar{\\varepsilon}$. Граница тугая. DAgger даёт линейную $O(T\\cdot \\enfPar{\\varepsilon})$ ценой онлайн-дозапросов эксперта.",
+      "Теорема Ross & Bagnell (2010): $\\enfTgt{J}(\\enfFun{\\pi}) \\le \\enfTgt{J}(\\enfFun{\\pi}^{*}) + T^{2}\\cdot \\enfVar{\\varepsilon}$. Граница тугая. DAgger даёт линейную $O(T\\cdot \\enfVar{\\varepsilon})$ ценой онлайн-дозапросов эксперта.",
     icon: Swords,
     color: "purple",
   },
@@ -147,8 +147,8 @@ const IntroSection = () => (
           <strong>Behavioral Cloning</strong> — обычное supervised-обучение на парах{" "}
           <Math display={false}>{String.raw`(\enfVar{s},\enfFun{a})`}</Math> эксперта; страдает от{" "}
           <strong>covariate shift</strong>: по теореме 2.1 Ross &amp; Bagnell (2010) ошибка растёт как{" "}
-          <Math display={false}>{String.raw`O(T^2\enfPar{\epsilon})`}</Math> против{" "}
-          <Math display={false}>{String.raw`O(T\enfPar{\epsilon})`}</Math> у методов со средой. Поэтому BC в
+          <Math display={false}>{String.raw`O(T^2\enfVar{\epsilon})`}</Math> против{" "}
+          <Math display={false}>{String.raw`O(T\enfVar{\epsilon})`}</Math> у методов со средой. Поэтому BC в
           ML-Agents — это <strong>warmup</strong>, а не самостоятельный метод.
         </>,
         <>

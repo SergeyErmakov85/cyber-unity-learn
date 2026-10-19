@@ -32,7 +32,7 @@ const Chapter3 = () => (
       .
     </p>
     <p>
-      Математически MDP задаётся кортежем из пяти элементов: <Math display={false}>{"(S, A, \\enfFun{P}, \\enfTgt{R}, \\enfPar{\\gamma})"}</Math>.
+      Математически MDP задаётся кортежем из пяти элементов: <Math display={false}>{"(\\mathcal{S}, \\mathcal{A}, \\enfFun{P}, \\enfTgt{R}, \\enfPar{\\gamma})"}</Math>.
     </p>
 
     <div className="my-6 overflow-x-auto">

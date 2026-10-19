@@ -6,7 +6,7 @@ const ROWS: Array<{ label: string; bc: string; dagger: string; gail: string; air
   { label: "Доступ к эксперту во время обучения", bc: "Нет (offline)", dagger: "Да (интерактивно)", gail: "Нет", airl: "Нет", ppo: "—" },
   { label: "Нужна среда (взаимодействие)", bc: "Нет", dagger: "Да", gail: "Да", airl: "Да", ppo: "Да" },
   { label: "Нужна функция награды", bc: "Нет", dagger: "Нет", gail: "Нет", airl: "Нет", ppo: "Да" },
-  { label: "Устойчивость к covariate shift", bc: "Низкая $O(T^{2}\\enfPar{\\varepsilon})$", dagger: "Высокая $O(T\\enfPar{\\varepsilon})$", gail: "Высокая", airl: "Высокая", ppo: "Н/Д" },
+  { label: "Устойчивость к covariate shift", bc: "Низкая $O(T^{2}\\enfVar{\\varepsilon})$", dagger: "Высокая $O(T\\enfVar{\\varepsilon})$", gail: "Высокая", airl: "Высокая", ppo: "Н/Д" },
   { label: "Требуемое число демо", bc: "Много", dagger: "Среднее + дозапросы", gail: "Мало", airl: "Мало", ppo: "0" },
   { label: "Шаги среды (стоимость)", bc: "Минимум", dagger: "Средне", gail: "Высоко (млн)", airl: "Высоко", ppo: "Высоко" },
   { label: "Восстанавливает функцию награды", bc: "Нет", dagger: "Нет", gail: "Нет", airl: "Да (disentangled)", ppo: "Н/Д" },

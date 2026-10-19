@@ -10,7 +10,7 @@ const Section1 = () => (
     <ProseP>
       <strong>Формальная постановка.</strong> Дан набор экспертных демонстраций
     </ProseP>
-    <Math display>{String.raw`D_E = \{(\enfVar{s}_i, \enfFun{a}_i)\}_{i=1}^{N}, \qquad (\enfVar{s}_i,\enfFun{a}_i)\ \text{из траекторий}\ \enfFun{\pi}_E.`}</Math>
+    <Math display>{String.raw`\mathcal{D}_E = \{(\enfVar{s}_i, \enfFun{a}_i)\}_{i=1}^{N}, \qquad (\enfVar{s}_i,\enfFun{a}_i)\ \text{из траекторий}\ \enfFun{\pi}_E.`}</Math>
     <ProseP>
       BC ищет параметрическую политику <Math display={false}>{String.raw`\enfFun{\pi}_\theta`}</Math>, которая
       воспроизводит отображение «состояние → действие», игнорируя то, что в развёртывании политика сама

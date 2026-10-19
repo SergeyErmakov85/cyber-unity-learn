@@ -37,16 +37,16 @@ const Section4 = () => (
 
     <ProseP>
       <strong>Способ 2 — рекуррентность (LSTM).</strong> Дать энкодеру внутреннее{" "}
-      <strong>скрытое состояние</strong> <Math display={false}>{String.raw`m_t`}</Math>, которое он
+      <strong>скрытое состояние</strong> <Math display={false}>{String.raw`\enfVar{m}_t`}</Math>, которое он
       сам обновляет на каждом шаге:
     </ProseP>
 
     <Math>
-      {String.raw`m_t = \mathrm{LSTM}_\phi(\enfVar{o}_t,\, m_{t-1}),\qquad \enfVar{z}_t = m_t .`}
+      {String.raw`\enfVar{m}_t = \mathrm{LSTM}_\phi(\enfVar{o}_t,\, \enfVar{m}_{t-1}),\qquad \enfVar{z}_t = \enfVar{m}_t .`}
     </Math>
 
     <ProseP>
-      Теперь <Math display={false}>{String.raw`m_t`}</Math> — это обучаемое сжатие{" "}
+      Теперь <Math display={false}>{String.raw`\enfVar{m}_t`}</Math> — это обучаемое сжатие{" "}
       <strong>всей истории</strong> до момента <Math display={false}>{String.raw`t`}</Math>, а не
       фиксированного окна. Сеть сама решает, что запомнить (была ли коллизия, в какую сторону
       входили в поворот) и что забыть. Подробный разбор гейтов LSTM и проблемы затухающего
@@ -65,7 +65,7 @@ const Section4 = () => (
     <ul className="space-y-2 my-4 list-disc list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>
         <code>memory_size</code> (дефолт 128, <strong>должно делиться на 2</strong>, диапазон
-        32–256) — размер скрытого вектора <Math display={false}>{String.raw`m_t`}</Math>; сколько
+        32–256) — размер скрытого вектора <Math display={false}>{String.raw`\enfVar{m}_t`}</Math>; сколько
         информации агент способен удержать.
       </li>
       <li>

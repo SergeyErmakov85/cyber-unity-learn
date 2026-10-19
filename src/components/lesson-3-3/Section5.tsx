@@ -55,7 +55,7 @@ const Section5 = () => (
       Расширение границ управляется приёмом <strong>boundary sampling</strong>: с некоторой
       вероятностью один параметр <Math display={false}>{String.raw`i`}</Math> фиксируется ровно на своей
       границе (нижней <strong>или</strong> верхней), остальные сэмплируются как обычно. Политика играет
-      эпизод, её успешность кладётся в буфер <Math display={false}>{String.raw`D_i^b`}</Math> конкретной
+      эпизод, её успешность кладётся в буфер <Math display={false}>{String.raw`\mathcal{D}_i^b`}</Math> конкретной
       границы <Math display={false}>{String.raw`b`}</Math>. Когда буфер наполнился:
     </ProseP>
 

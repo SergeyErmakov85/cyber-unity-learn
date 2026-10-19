@@ -1,13 +1,18 @@
 import type { SymbolEntry } from "./types";
+import { RL_SYMBOLS } from "./glossary/rl";
+import { MATH_SYMBOLS } from "./glossary/math";
+import { NEUTRAL_SYMBOLS } from "./glossary/neutral";
 
-/** Глобальный словарь символов сайта (заполняется). */
-export const GLOSSARY: SymbolEntry[] = [
-  {
-    tex: "\\gamma",
-    role: "parameter",
-    name: "Коэффициент дисконтирования",
-    meaning: "Число $0 \\le \\enfPar{\\gamma} < 1$: во сколько раз награда следующего шага ценится меньше текущей.",
-    code: "gamma",
-    codeType: "float, обычно 0.99",
-  },
-];
+/**
+ * Глобальный словарь символов сайта — то, что показывает карточка по клику,
+ * если у страницы нет своей таблицы символов или в ней нет этого символа.
+ *
+ * Ключ строки — пара «TeX символа + роль». Одна буква в разных ролях — разные
+ * строки (`\enfTgt{r}` — награда, `\enfFun{r}` — отношение вероятностей PPO).
+ * Если у пары на разных страницах разный смысл, общий словарь хранит самый
+ * частый, а частный задаёт таблица страницы (src/content/math-symbols/pages).
+ *
+ * Полноту словаря проверяет `npm run math:audit`: каждый символ, который
+ * встречается в формулах сайта, должен находиться здесь или в таблице страницы.
+ */
+export const GLOSSARY: SymbolEntry[] = [...RL_SYMBOLS, ...MATH_SYMBOLS, ...NEUTRAL_SYMBOLS];
