@@ -5,13 +5,14 @@ import CrossLinkToHub from "@/components/CrossLinkToHub";
 import Math from "@/components/Math";
 import { Network, Layers, Eye, Brain, Sparkles } from "lucide-react";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
+import RichText from "@/components/math-symbols/RichText";
 
 const chip = "px-1.5 py-0.5 rounded bg-muted/50 text-xs font-mono";
 
 const KEY_FINDINGS = [
   {
     title: "Энкодер + голова",
-    text: "Любая сеть RL-агента = энкодер f_φ (наблюдение → эмбеддинг z) + голова h_ψ (z → действие/оценка). Алгоритм работает над z.",
+    text: "Любая сеть RL-агента = энкодер $\\enfFun{f}_{\\phi}$ (наблюдение → эмбеддинг $\\enfVar{z}$) + голова $\\enfFun{h}_{\\psi}$ ($\\enfVar{z}$ → действие/оценка). Алгоритм работает над $\\enfVar{z}$.",
     icon: Layers,
     color: "cyan",
   },
@@ -195,10 +196,10 @@ const IntroSection = () => (
         >
           <CardContent className="p-5 space-y-3">
             <div className="flex items-start justify-between gap-2">
-              <h4 className="font-bold text-foreground leading-snug">{title}</h4>
+              <h4 className="font-bold text-foreground leading-snug"><RichText text={title} /></h4>
               <Icon className="w-6 h-6 shrink-0 transition-transform group-hover:scale-110" />
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">{text}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed"><RichText text={text} /></p>
           </CardContent>
         </Card>
       ))}

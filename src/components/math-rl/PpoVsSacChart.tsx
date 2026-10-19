@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import RichText from "@/components/math-symbols/RichText";
 import {
   ResponsiveContainer,
   LineChart,
@@ -21,9 +22,9 @@ type View = "ppo" | "sac" | "both";
 
 const insights: Record<View, string> = {
   ppo:
-    "PPO: быстрый старт за счёт клиппинга r_t(θ) ∈ [1−ε, 1+ε] — обновления безопасные, политика быстро уходит от случайных действий. Тот же клиппинг ограничивает рост: после ~500k шагов алгоритм выходит на плато.",
+    String.raw`PPO: быстрый старт за счёт клиппинга $\enfFun{r}_t(\enfPar{\theta}) \in [1-\enfPar{\varepsilon}, 1+\enfPar{\varepsilon}]$ — обновления безопасные, политика быстро уходит от случайных действий. Тот же клиппинг ограничивает рост: после ~500k шагов алгоритм выходит на плато.`,
   sac:
-    "SAC: медленное начало — энтропийный бонус α·H(π) намеренно держит политику стохастичной. Зато к ~700k шагов накопленный в Replay Buffer разнообразный опыт даёт более высокий потолок награды.",
+    String.raw`SAC: медленное начало — энтропийный бонус $\enfPar{\alpha}\,\enfOp{\mathcal{H}}(\enfFun{\pi})$ намеренно держит политику стохастичной. Зато к ~700k шагов накопленный в Replay Buffer разнообразный опыт даёт более высокий потолок награды.`,
   both:
     "Сравнение: для многомерных непрерывных действий (4+ суставов) SAC превосходит PPO на длинной дистанции. На короткой (до ~300k) PPO стабильнее и быстрее достигает приемлемой награды.",
 };
@@ -98,7 +99,7 @@ const PpoVsSacChart = () => {
       </div>
 
       <p className="text-sm text-muted-foreground italic text-center max-w-2xl mx-auto">
-        {insights[view]}
+        <RichText text={insights[view]} />
       </p>
     </div>
   );

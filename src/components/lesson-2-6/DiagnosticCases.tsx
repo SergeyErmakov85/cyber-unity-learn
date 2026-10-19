@@ -5,6 +5,7 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { Card, CardContent } from "@/components/ui/card";
+import RichText from "@/components/math-symbols/RichText";
 import {
   AlertOctagon,
   Activity,
@@ -56,7 +57,7 @@ const CASES: Case[] = [
     cause:
       "SB3 docs: «ev=0 ⇒ might as well have predicted zero». Критик не выучил value-функцию.",
     actions:
-      "Проверить масштаб награды (добавить VecNormalize); правильный γ (для длинных эпизодов 0.99 → 0.999); убедиться, что targets не NaN.",
+      "Проверить масштаб награды (добавить VecNormalize); правильный $\\enfPar{\\gamma}$ (для длинных эпизодов 0.99 → 0.999); убедиться, что targets не NaN.",
     chart: "ev",
   },
   {
@@ -320,7 +321,7 @@ const DiagnosticCases = () => {
               <div className="flex items-start gap-3 text-left">
                 <AlertOctagon className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
                 <div className="space-y-0.5">
-                  <div className="font-semibold text-foreground">{c.title}</div>
+                  <div className="font-semibold text-foreground"><RichText text={c.title} /></div>
                   <div className="text-xs text-muted-foreground">{c.marker}</div>
                 </div>
               </div>

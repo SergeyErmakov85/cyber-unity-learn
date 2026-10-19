@@ -1,6 +1,7 @@
 import { Gamepad2 } from "lucide-react";
 import Math from "@/components/Math";
 import { Section, InfoBox } from "./Section";
+import RichText from "@/components/math-symbols/RichText";
 
 const Chapter10 = () => (
   <Section icon={<Gamepad2 className="w-5 h-5 text-primary" />} title="Глава 10. Мост к практике: Unity ML-Agents" id="глава-10">
@@ -38,13 +39,13 @@ const Chapter10 = () => (
         </thead>
         <tbody>
           {[
-            { p: "gamma", d: "Дальновидность в расчёте G_t — фактор дисконтирования γ" },
-            { p: "learning_rate", d: "Коэффициент α в формулах градиентного шага" },
-            { p: "beta", d: "Регуляризация энтропии — стимулирует равномерность π(a|s), аналог ε-жадности для нейросетей" },
+            { p: "gamma", d: "Дальновидность в расчёте $\\enfOp{G}_t$ — фактор дисконтирования $\\enfPar{\\gamma}$" },
+            { p: "learning_rate", d: "Коэффициент $\\enfPar{\\alpha}$ в формулах градиентного шага" },
+            { p: "beta", d: "Регуляризация энтропии — стимулирует равномерность $\\enfFun{\\pi} (\\enfFun{a} \\mid \\enfVar{s})$, аналог $\\enfPar{\\varepsilon}$-жадности для нейросетей" },
           ].map((row, i) => (
             <tr key={i} className="border-b border-border/20">
-              <td className="py-2 px-3 font-mono text-primary">{row.p}</td>
-              <td className="py-2 px-3 text-muted-foreground">{row.d}</td>
+              <td className="py-2 px-3 font-mono text-primary"><RichText text={row.p} /></td>
+              <td className="py-2 px-3 text-muted-foreground"><RichText text={row.d} /></td>
             </tr>
           ))}
         </tbody>

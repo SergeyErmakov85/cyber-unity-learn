@@ -4,6 +4,7 @@ import { Link2, GraduationCap, Wrench, ExternalLink, BookMarked } from "lucide-r
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
+import RichText from "@/components/math-symbols/RichText";
 
 const HUBS: Array<{ path: string; anchor?: string; title: string; label: string }> = [
   { path: "/deep-rl", title: "Deep RL", label: "Deep RL — LSTM, внимание, MARL/CTDE (формальный разбор)" },
@@ -14,7 +15,7 @@ const HUBS: Array<{ path: string; anchor?: string; title: string; label: string 
 
 const LESSONS: Array<{ id: string; path: string; title: string; level: 1 | 2 | 3; note: string }> = [
   { id: "3.2", path: "/courses/3-2", title: "MA-POCA и Self-Play", level: 3, note: "self-attention переиспользуется как энкодер" },
-  { id: "3.1", path: "/courses/3-1", title: "SAC / PPO", level: 3, note: "actor–critic, π/V" },
+  { id: "3.1", path: "/courses/3-1", title: "SAC / PPO", level: 3, note: "actor–critic, $\\enfFun{\\pi} /\\enfOp{V}$" },
   { id: "3.4", path: "/courses/3-4", title: "Imitation Learning: BC + GAIL", level: 3, note: "кодирование демонстраций" },
   { id: "project-3", path: "/courses/project-3", title: "Гоночный агент на PPO", level: 3, note: "сквозной пример — все решения этого урока" },
 ];
@@ -94,7 +95,7 @@ const RelatedMaterials = () => (
                     </span>
                   )}
                 </CrossLinkToLesson>
-                <div className="text-xs text-muted-foreground mt-0.5 ml-4">{l.note}</div>
+                <div className="text-xs text-muted-foreground mt-0.5 ml-4"><RichText text={l.note} /></div>
               </li>
             ))}
           </ul>

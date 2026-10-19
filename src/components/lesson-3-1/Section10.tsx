@@ -1,4 +1,5 @@
 import { SECTION_TITLE_CLASS, ProseP, KeyPoints } from "./_shared";
+import RichText from "@/components/math-symbols/RichText";
 
 const ROWS: Array<{ c: string; ppo: string; sac: string }> = [
   {
@@ -24,7 +25,7 @@ const ROWS: Array<{ c: string; ppo: string; sac: string }> = [
   {
     c: "Исследование",
     ppo: "Через стохастичность политики + энтропийный штраф",
-    sac: "Богатое, встроенное в цель; автоподстройка α",
+    sac: "Богатое, встроенное в цель; автоподстройка $\\enfPar{\\alpha}$",
   },
   {
     c: "Стабильность между запусками",
@@ -34,7 +35,7 @@ const ROWS: Array<{ c: string; ppo: string; sac: string }> = [
   {
     c: "Чувствительность к гиперпараметрам",
     ppo: "Низкая — «прощающий» алгоритм",
-    sac: "Средняя; чувствителен к масштабу награды (решается автоподстройкой α)",
+    sac: "Средняя; чувствителен к масштабу награды (решается автоподстройкой $\\enfPar{\\alpha}$)",
   },
   {
     c: "Пространства действий",
@@ -92,8 +93,8 @@ const Section10 = () => (
                 }`}
               >
                 <td className="px-4 py-3 font-semibold text-foreground/90">{r.c}</td>
-                <td className="px-4 py-3 text-foreground/80">{r.ppo}</td>
-                <td className="px-4 py-3 text-foreground/80">{r.sac}</td>
+                <td className="px-4 py-3 text-foreground/80"><RichText text={r.ppo} /></td>
+                <td className="px-4 py-3 text-foreground/80"><RichText text={r.sac} /></td>
               </tr>
             ))}
           </tbody>

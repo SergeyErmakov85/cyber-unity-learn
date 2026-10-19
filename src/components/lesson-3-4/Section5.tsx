@@ -1,11 +1,12 @@
 import Math from "@/components/Math";
 import { SECTION_TITLE_CLASS, ProseP, KeyPoints } from "./_shared";
+import RichText from "@/components/math-symbols/RichText";
 
 const ROWS: Array<{ label: string; bc: string; dagger: string; gail: string; airl: string; ppo: string }> = [
   { label: "Доступ к эксперту во время обучения", bc: "Нет (offline)", dagger: "Да (интерактивно)", gail: "Нет", airl: "Нет", ppo: "—" },
   { label: "Нужна среда (взаимодействие)", bc: "Нет", dagger: "Да", gail: "Да", airl: "Да", ppo: "Да" },
   { label: "Нужна функция награды", bc: "Нет", dagger: "Нет", gail: "Нет", airl: "Нет", ppo: "Да" },
-  { label: "Устойчивость к covariate shift", bc: "Низкая O(T²ε)", dagger: "Высокая O(Tε)", gail: "Высокая", airl: "Высокая", ppo: "Н/Д" },
+  { label: "Устойчивость к covariate shift", bc: "Низкая $O(T^{2}\\enfPar{\\varepsilon})$", dagger: "Высокая $O(T\\enfPar{\\varepsilon})$", gail: "Высокая", airl: "Высокая", ppo: "Н/Д" },
   { label: "Требуемое число демо", bc: "Много", dagger: "Среднее + дозапросы", gail: "Мало", airl: "Мало", ppo: "0" },
   { label: "Шаги среды (стоимость)", bc: "Минимум", dagger: "Средне", gail: "Высоко (млн)", airl: "Высоко", ppo: "Высоко" },
   { label: "Восстанавливает функцию награды", bc: "Нет", dagger: "Нет", gail: "Нет", airl: "Да (disentangled)", ppo: "Н/Д" },
@@ -39,8 +40,8 @@ const Section5 = () => (
           {ROWS.map((r) => (
             <tr key={r.label} className="border-t border-cyan-500/10 align-top">
               <td className="p-3 text-foreground/85">{r.label}</td>
-              <td className="p-3 text-foreground/80">{r.bc}</td>
-              <td className="p-3 text-foreground/80">{r.dagger}</td>
+              <td className="p-3 text-foreground/80"><RichText text={r.bc} /></td>
+              <td className="p-3 text-foreground/80"><RichText text={r.dagger} /></td>
               <td className="p-3 text-foreground/80">{r.gail}</td>
               <td className="p-3 text-foreground/80">{r.airl}</td>
               <td className="p-3 text-foreground/80">{r.ppo}</td>

@@ -6,6 +6,7 @@ import Math from "@/components/Math";
 import Quiz from "@/components/Quiz";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
+import RichText from "@/components/math-symbols/RichText";
 
 const quizQuestions = [
   {
@@ -102,11 +103,11 @@ const CourseLesson2_1 = () => {
                   { c: "Что учит", dqn: "Q-функцию", pg: "Политику напрямую" },
                   { c: "Стабильность", dqn: "Стабильнее (off-policy)", pg: "Менее стабильно (on-policy)" },
                   { c: "Эффективность данных", dqn: "Высокая (replay buffer)", pg: "Низкая (нужны свежие данные)" },
-                  { c: "Стохастичность", dqn: "ε-greedy", pg: "Встроенная (из распределения)" },
+                  { c: "Стохастичность", dqn: "$\\enfPar{\\varepsilon}$-greedy", pg: "Встроенная (из распределения)" },
                 ].map((row, i) => (
                   <tr key={i} className="border-b border-border/20">
                     <td className="py-2 px-3 text-foreground">{row.c}</td>
-                    <td className="py-2 px-3 text-muted-foreground">{row.dqn}</td>
+                    <td className="py-2 px-3 text-muted-foreground"><RichText text={row.dqn} /></td>
                     <td className="py-2 px-3 text-muted-foreground">{row.pg}</td>
                   </tr>
                 ))}

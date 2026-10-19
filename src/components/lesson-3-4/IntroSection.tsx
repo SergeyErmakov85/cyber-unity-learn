@@ -3,6 +3,7 @@ import TldrBox from "@/components/ui/TldrBox";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import Math from "@/components/Math";
 import { Users, Copy, Swords, ShieldCheck, GitBranch } from "lucide-react";
+import RichText from "@/components/math-symbols/RichText";
 
 const KEY_FINDINGS = [
   {
@@ -15,14 +16,14 @@ const KEY_FINDINGS = [
   {
     title: "Квадратичный дефект BC",
     text:
-      "Теорема Ross & Bagnell (2010): J(π) ≤ J(π*) + T²·ε. Граница тугая. DAgger даёт линейную O(T·ε) ценой онлайн-дозапросов эксперта.",
+      "Теорема Ross & Bagnell (2010): $\\enfTgt{J}(\\enfFun{\\pi}) \\le \\enfTgt{J}(\\enfFun{\\pi}^{*}) + T^{2}\\cdot \\enfPar{\\varepsilon}$. Граница тугая. DAgger даёт линейную $O(T\\cdot \\enfPar{\\varepsilon})$ ценой онлайн-дозапросов эксперта.",
     icon: Swords,
     color: "purple",
   },
   {
     title: "GAIL = RL ∘ IRL в одном минимаксе",
     text:
-      "Регуляризатор ψGA из Ho & Ermon (2016) превращает occupancy matching в GAN: дискриминатор vs политика, эквивалентно JS-дивергенции.",
+      "Регуляризатор $\\enfFun{\\psi}_{\\text{GA}}$ из Ho & Ermon (2016) превращает occupancy matching в GAN: дискриминатор vs политика, эквивалентно JS-дивергенции.",
     icon: GitBranch,
     color: "pink",
   },
@@ -193,10 +194,10 @@ const IntroSection = () => (
         >
           <CardContent className="p-5 space-y-3">
             <div className="flex items-start justify-between gap-2">
-              <h4 className="font-bold text-foreground leading-snug">{title}</h4>
+              <h4 className="font-bold text-foreground leading-snug"><RichText text={title} /></h4>
               <Icon className="w-6 h-6 shrink-0 transition-transform group-hover:scale-110" />
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">{text}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed"><RichText text={text} /></p>
           </CardContent>
         </Card>
       ))}

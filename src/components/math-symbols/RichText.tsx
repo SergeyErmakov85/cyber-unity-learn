@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import Math from "@/components/Math";
 
 /**
@@ -7,7 +7,10 @@ import Math from "@/components/Math";
  */
 const TOKEN = /(\$[^$\n]+\$|`[^`\n]+`)/g;
 
-const RichText = ({ text, className }: { text: string; className?: string }) => {
+const RichText = ({ text, className }: { text: ReactNode; className?: string }) => {
+  // Не строка (готовый JSX, число) — рендерим как есть: так RichText можно
+  // ставить вместо `{item.text}` и там, где в данных встречается разметка.
+  if (typeof text !== "string") return <span className={className}>{text}</span>;
   const parts = text.split(TOKEN);
   return (
     <span className={className}>

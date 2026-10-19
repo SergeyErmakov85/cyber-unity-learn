@@ -161,7 +161,7 @@ const CourseLesson1_1 = () => {
                   <span className="text-xs font-mono text-primary/70">{item.year}</span>
                   <h3 className="font-bold text-sm text-foreground">{item.title}</h3>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
+                <p className="text-xs text-muted-foreground mt-1"><RichText text={item.desc} /></p>
               </div>
             </div>
           ))}
@@ -623,19 +623,19 @@ env.close()`}
             },
             {
               term: "Пространство действий",
-              desc: "Множество всех доступных действий A. Может быть дискретным (кнопки) или непрерывным (угол поворота).",
+              desc: "Множество всех доступных действий $\\mathcal{A}$. Может быть дискретным (кнопки) или непрерывным (угол поворота).",
             },
             {
               term: "Мат. ожидание награды",
-              desc: "𝔼[G_t] — среднее значение суммарной дисконтированной награды, которое агент стремится максимизировать.",
+              desc: "$\\mathbb{E}[\\enfOp{G}_t]$ — среднее значение суммарной дисконтированной награды, которое агент стремится максимизировать.",
             },
             {
               term: "MDP",
               desc: "Математическая модель: состояния, действия, переходы, награды, дисконт.",
             },
             {
-              term: "Policy (π)",
-              desc: "Стратегия агента: π(a|s) — вероятность выбрать действие a в состоянии s.",
+              term: "Policy $(\\enfFun{\\pi})$",
+              desc: "Стратегия агента: $\\enfFun{\\pi} (\\enfFun{a} \\mid \\enfVar{s})$ — вероятность выбрать действие $\\enfFun{a}$ в состоянии $\\enfVar{s}$.",
             },
             {
               term: "Value Function (V)",
@@ -667,8 +667,8 @@ env.close()`}
             >
               <Gift className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
               <div>
-                <span className="font-mono font-bold text-sm text-primary">{item.term}</span>
-                <p className="text-xs text-muted-foreground mt-0.5">{item.desc}</p>
+                <span className="font-mono font-bold text-sm text-primary"><RichText text={item.term} /></span>
+                <p className="text-xs text-muted-foreground mt-0.5"><RichText text={item.desc} /></p>
               </div>
             </div>
           ))}

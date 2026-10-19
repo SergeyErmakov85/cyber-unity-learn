@@ -12,6 +12,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, CheckCircle2, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import RichText from "@/components/math-symbols/RichText";
 
 type Category =
   | "all"
@@ -56,11 +57,11 @@ const METRICS: MetricRow[] = [
     name: "train/value_loss (critic)",
     shows: "MSE(V(s), target return)",
     healthy: "падает → стабилизируется",
-    problems: "растёт неограниченно → overestimation / неверный γ",
+    problems: "растёт неограниченно → overestimation / неверный $\\enfPar{\\gamma}$",
   },
   {
     category: "train",
-    name: "train/entropy_loss (≈ −H(π))",
+    name: "train/entropy_loss ($\\approx -\\enfOp{\\mathcal{H}}(\\enfFun{\\pi})$)",
     shows: "негативная энтропия",
     healthy: "плавное снижение к стабильному не-нулю",
     problems: "резкое падение к 0 → policy collapse, не хватает ent_coef",
@@ -119,7 +120,7 @@ const METRICS: MetricRow[] = [
   {
     category: "off-policy",
     name: "TD-error distribution",
-    shows: "гистограмма |r + γV(s′) − V(s)|",
+    shows: "гистограмма $|\\enfTgt{r} + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}') - \\enfOp{V}(\\enfVar{s})|$",
     healthy: "сжимается со временем",
     problems: "толстый хвост → нестабильная Bellman-регрессия",
   },
@@ -222,7 +223,7 @@ const MetricsTable = () => {
             {filtered.map((m) => (
               <TableRow key={m.name} className="border-border/40 align-top">
                 <TableCell className="font-mono text-xs text-foreground space-y-1.5">
-                  <div>{m.name}</div>
+                  <div><RichText text={m.name} /></div>
                   <Badge
                     variant="outline"
                     className={cn(
@@ -234,7 +235,7 @@ const MetricsTable = () => {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-sm text-muted-foreground">
-                  {m.shows}
+                  <RichText text={m.shows} />
                 </TableCell>
                 <TableCell className="text-sm">
                   <div className="flex gap-2">
@@ -245,7 +246,7 @@ const MetricsTable = () => {
                 <TableCell className="text-sm">
                   <div className="flex gap-2">
                     <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-                    <span className="text-foreground/90">{m.problems}</span>
+                    <span className="text-foreground/90"><RichText text={m.problems} /></span>
                   </div>
                 </TableCell>
               </TableRow>
@@ -263,7 +264,7 @@ const MetricsTable = () => {
           >
             <div className="flex items-start justify-between gap-2">
               <div className="font-mono text-xs text-foreground break-all">
-                {m.name}
+                <RichText text={m.name} />
               </div>
               <Badge
                 variant="outline"
@@ -279,7 +280,7 @@ const MetricsTable = () => {
               <span className="text-foreground/70 font-semibold">
                 Показывает:{" "}
               </span>
-              {m.shows}
+              <RichText text={m.shows} />
             </div>
             <div className="flex gap-2 text-xs">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
@@ -287,7 +288,7 @@ const MetricsTable = () => {
             </div>
             <div className="flex gap-2 text-xs">
               <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-              <span className="text-foreground/90">{m.problems}</span>
+              <span className="text-foreground/90"><RichText text={m.problems} /></span>
             </div>
           </div>
         ))}

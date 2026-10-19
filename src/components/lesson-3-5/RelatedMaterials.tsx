@@ -4,6 +4,7 @@ import { Link2, GraduationCap, Wrench, ExternalLink, BookMarked } from "lucide-r
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
+import RichText from "@/components/math-symbols/RichText";
 
 const HUBS: Array<{ path: string; anchor?: string; title: string; label: string }> = [
   {
@@ -52,7 +53,7 @@ const LESSONS: Array<{
     path: "/courses/3-1",
     title: "SAC / PPO",
     level: 3,
-    note: "политика π_θ, MDP, агент Проекта 3",
+    note: "политика $\\enfFun{\\pi}_{\\theta}$, MDP, агент Проекта 3",
   },
   {
     id: "2.6",
@@ -214,7 +215,7 @@ const RelatedMaterials = () => (
                     </span>
                   )}
                 </CrossLinkToLesson>
-                <div className="text-xs text-muted-foreground mt-0.5 ml-4">{l.note}</div>
+                <div className="text-xs text-muted-foreground mt-0.5 ml-4"><RichText text={l.note} /></div>
               </li>
             ))}
           </ul>

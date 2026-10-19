@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import Math from "@/components/Math";
+import RichText from "@/components/math-symbols/RichText";
 
 const quizQuestions = [
   {
@@ -238,9 +239,9 @@ python -c "import gymnasium; print(gymnasium.__version__)"
               <div className="space-y-2">
                 {[
                   { idx: 0, name: "Позиция тележки", range: "[-4.8, 4.8]", unit: "метры" },
-                  { idx: 1, name: "Скорость тележки", range: "(-∞, +∞)", unit: "м/с" },
+                  { idx: 1, name: "Скорость тележки", range: "$(-\\infty, +\\infty)$", unit: "м/с" },
                   { idx: 2, name: "Угол шеста", range: "[-0.418, 0.418]", unit: "радианы (~24°)" },
-                  { idx: 3, name: "Угловая скорость шеста", range: "(-∞, +∞)", unit: "рад/с" },
+                  { idx: 3, name: "Угловая скорость шеста", range: "$(-\\infty, +\\infty)$", unit: "рад/с" },
                 ].map((obs) => (
                   <div
                     key={obs.idx}
@@ -251,7 +252,7 @@ python -c "import gymnasium; print(gymnasium.__version__)"
                     </span>
                     <span className="text-foreground font-medium flex-1">{obs.name}</span>
                     <span className="font-mono text-xs text-muted-foreground">
-                      {obs.range}
+                      <RichText text={obs.range} />
                     </span>
                   </div>
                 ))}
@@ -691,7 +692,7 @@ plt.show()`}
                 {
                   ep: "0–100",
                   reward: "~20–50",
-                  note: "Исследование (высокий ε)",
+                  note: "Исследование (высокий $\\enfPar{\\varepsilon}$)",
                   color: "text-yellow-400",
                 },
                 {
@@ -717,7 +718,7 @@ plt.show()`}
                   <span className="font-mono text-xs text-primary w-20">{row.ep}</span>
                   <span className="text-foreground w-24">{row.reward}</span>
                   <span className={`${row.color} text-xs`}>●</span>
-                  <span className="text-muted-foreground">{row.note}</span>
+                  <span className="text-muted-foreground"><RichText text={row.note} /></span>
                 </div>
               ))}
             </div>

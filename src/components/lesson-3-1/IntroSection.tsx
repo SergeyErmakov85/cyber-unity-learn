@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import TldrBox from "@/components/ui/TldrBox";
 import Math from "@/components/Math";
 import { Flame, Database, Dices, Gauge } from "lucide-react";
+import RichText from "@/components/math-symbols/RichText";
 
 const KEY_FINDINGS = [
   {
@@ -26,9 +27,9 @@ const KEY_FINDINGS = [
     color: "pink",
   },
   {
-    title: "Температура α — сама",
+    title: "Температура $\\enfPar{\\alpha}$ — сама",
     text:
-      "Энтропийный коэффициент α автоподстраивается через двойственную задачу с целевой энтропией −dim(A). Меньше ручного тюнинга, чем у любого предыдущего метода.",
+      "Энтропийный коэффициент $\\enfPar{\\alpha}$ автоподстраивается через двойственную задачу с целевой энтропией $\\enfTgt{\\bar{\\mathcal{H}}} = -\\dim(\\mathcal{A})$. Меньше ручного тюнинга, чем у любого предыдущего метода.",
     icon: Gauge,
     color: "emerald",
   },
@@ -121,10 +122,10 @@ const IntroSection = () => (
         >
           <CardContent className="p-5 space-y-3">
             <div className="flex items-start justify-between gap-2">
-              <h4 className="font-bold text-foreground leading-snug">{title}</h4>
+              <h4 className="font-bold text-foreground leading-snug"><RichText text={title} /></h4>
               <Icon className="w-6 h-6 shrink-0 transition-transform group-hover:scale-110" />
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">{text}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed"><RichText text={text} /></p>
           </CardContent>
         </Card>
       ))}

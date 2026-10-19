@@ -1,17 +1,18 @@
 import Math from "@/components/Math";
 import { BookMarked } from "lucide-react";
 import { SECTION_TITLE_CLASS, H3_CLASS } from "./_shared";
+import RichText from "@/components/math-symbols/RichText";
 
 const SOURCES: Array<{ title: string; note: string }> = [
   {
     title:
       "Haarnoja, T., Zhou, A., Abbeel, P., Levine, S. (2018). Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor. ICML 2018. arXiv:1801.01290.",
-    note: "макс-энтропийная цель, soft policy iteration, soft Q/V, reparameterization, squashed Gaussian (Прил. C), два критика, τ-обновление.",
+    note: "макс-энтропийная цель, soft policy iteration, soft Q/V, reparameterization, squashed Gaussian (Прил. C), два критика, $\\enfPar{\\tau}$-обновление.",
   },
   {
     title:
       "Haarnoja, T., Zhou, A., Hartikainen, K., Tucker, G., Ha, S., Tan, J., Kumar, V., Zhu, H., Gupta, A., Abbeel, P., Levine, S. (2018). Soft Actor-Critic Algorithms and Applications. arXiv:1812.05905.",
-    note: "автоподстройка температуры α (constrained-формулировка, двойственная задача, J(α)), отказ от отдельной V-сети, Algorithm 1.",
+    note: "автоподстройка температуры $\\enfPar{\\alpha}$ (constrained-формулировка, двойственная задача, $\\enfTgt{J}(\\enfPar{\\alpha})$), отказ от отдельной V-сети, Algorithm 1.",
   },
   {
     title:
@@ -102,7 +103,7 @@ const Summary = () => (
       {SOURCES.map((s) => (
         <li key={s.title}>
           <strong className="text-foreground/90">{s.title}</strong>{" "}
-          <span className="text-muted-foreground">— {s.note}</span>
+          <span className="text-muted-foreground">— <RichText text={s.note} /></span>
         </li>
       ))}
     </ol>

@@ -4,6 +4,7 @@ import { Section, InfoBox } from "./Section";
 import { MDPTreeViz } from "./Module5Charts";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import mdpPreview from "@/assets/mdp-preview.png.asset.json";
+import RichText from "@/components/math-symbols/RichText";
 
 const Chapter3 = () => (
   <Section icon={<Box className="w-5 h-5 text-primary" />} title="Глава 3. Марковские процессы принятия решений (MDP)" id="глава-3">
@@ -49,11 +50,11 @@ const Chapter3 = () => (
             { e: "A", d: "Пространство действий — дискретные или непрерывные", u: "DiscreteActions / ContinuousActions в OnActionReceived" },
             { e: "P", d: "Вероятности переходов p(s'|s,a)", u: "Физический движок PhysX просчитывает переходы" },
             { e: "R", d: "Функция награды R(s, a, s')", u: "AddReward(1.0f) при успехе, AddReward(-1.0f) при ошибке" },
-            { e: "γ", d: "Фактор дисконтирования ∈ [0, 1)", u: "Параметр gamma в конфигурационном .yaml файле" },
+            { e: "$\\enfPar{\\gamma}$", d: "Фактор дисконтирования ∈ [0, 1)", u: "Параметр gamma в конфигурационном .yaml файле" },
           ].map((row, i) => (
             <tr key={i} className="border-b border-border/20">
-              <td className="py-2 px-3 text-primary font-mono font-bold">{row.e}</td>
-              <td className="py-2 px-3 text-foreground">{row.d}</td>
+              <td className="py-2 px-3 text-primary font-mono font-bold"><RichText text={row.e} /></td>
+              <td className="py-2 px-3 text-foreground"><RichText text={row.d} /></td>
               <td className="py-2 px-3 text-muted-foreground text-xs">{row.u}</td>
             </tr>
           ))}

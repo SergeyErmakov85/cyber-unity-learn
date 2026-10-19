@@ -29,6 +29,7 @@ import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import RichText from "@/components/math-symbols/RichText";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
@@ -899,7 +900,7 @@ const CourseProject2 = () => {
                     p: "lambd",
                     d: "0.95",
                     r: "0.9 – 0.99",
-                    role: "λ для GAE: компромисс bias / variance в оценке преимущества.",
+                    role: "$\\enfPar{\\lambda}$ для GAE: компромисс bias / variance в оценке преимущества.",
                   },
                   {
                     p: "epsilon",
@@ -911,7 +912,7 @@ const CourseProject2 = () => {
                     p: "beta",
                     d: "5.0e-3",
                     r: "1e-4 – 1e-2",
-                    role: "Вес энтропийного бонуса. Малое β → ранний коллапс энтропии и reward hacking.",
+                    role: "Вес энтропийного бонуса. Малое $\\enfPar{\\beta} \\to$ ранний коллапс энтропии и reward hacking.",
                   },
                   {
                     p: "learning_rate",
@@ -1014,7 +1015,7 @@ const CourseProject2 = () => {
                         borderBottom: `1px solid ${BORDER}`,
                       }}
                     >
-                      {row.role}
+                      <RichText text={row.role} />
                     </td>
                   </tr>
                 ))}
@@ -1196,7 +1197,7 @@ const CourseProject2 = () => {
                     h: "Кружение у цели",
                     s: "Reward растёт, поимок мало; в редакторе видно карусель вокруг target.",
                     c: "Награда вида r = −d (без PBRS) даёт плюсы за то, что Охотник просто рядом, не приближаясь по существу. Классический «велосипед» Ng/Harada/Russell 1999 (цит. Weng 2024).",
-                    m: "Переписать dense-часть в PBRS: F = γΦ(s′) − Φ(s). Сумма по циклу = 0 → за кружение плюсов нет.",
+                    m: "Переписать dense-часть в PBRS: $\\enfFun{F} = \\enfPar{\\gamma} \\enfFun{\\Phi} (\\enfVar{s}') - \\enfFun{\\Phi} (\\enfVar{s})$. Сумма по циклу = 0 → за кружение плюсов нет.",
                   },
                   {
                     h: "Зависание у цели без поимки",
@@ -1233,7 +1234,7 @@ const CourseProject2 = () => {
                         borderBottom: `1px solid ${BORDER}`,
                       }}
                     >
-                      {row.s}
+                      <RichText text={row.s} />
                     </td>
                     <td
                       className="px-3 py-2 align-top"
@@ -1255,7 +1256,7 @@ const CourseProject2 = () => {
                         borderBottom: `1px solid ${BORDER}`,
                       }}
                     >
-                      {row.m}
+                      <RichText text={row.m} />
                     </td>
                   </tr>
                 ))}
@@ -1596,7 +1597,7 @@ const CourseProject2 = () => {
                         borderBottom: `1px solid ${BORDER}`,
                       }}
                     >
-                      {row.s}
+                      <RichText text={row.s} />
                     </td>
                     <td
                       className="px-3 py-2 align-top"
@@ -1609,7 +1610,7 @@ const CourseProject2 = () => {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {row.m}
+                      <RichText text={row.m} />
                     </td>
                     <td
                       className="px-3 py-2 align-top"

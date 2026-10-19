@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { ArrowLeft, Download, Snowflake, BookOpen, Brain, Calculator, Settings, Dumbbell, BarChart3, Gamepad2, FlaskConical, FileText } from "lucide-react";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import RichText from "@/components/math-symbols/RichText";
 
 const TOC_ITEMS = [
   { id: "rl-basics", label: "Что такое RL?", emoji: "🌍", Icon: BookOpen },
@@ -391,17 +392,17 @@ const FrozenLakeProject = () => {
                     </thead>
                     <tbody>
                       {[
-                        { s: "Q(s, a)", n: "Q-значение", m: "Текущая оценка «выгодности» действия a в состоянии s", a: "Ваша текущая оценка ресторана" },
-                        { s: "α", n: "Скорость обучения", m: "Насколько сильно мы доверяем новой информации (0..1)", a: "Как быстро меняете мнение" },
-                        { s: "r", n: "Награда (reward)", m: "Что мы получили прямо сейчас", a: "Чаевые за хорошее обслуживание" },
-                        { s: "γ", n: "Дисконтирование", m: "Насколько важны будущие награды (0..1)", a: "Терпение: ждать ли большую награду?" },
-                        { s: "s'", n: "Новое состояние", m: "Куда мы попали после действия", a: "Следующая остановка" },
-                        { s: "max Q(s',a')", n: "Лучшее будущее Q", m: "Максимальная оценка в новом состоянии", a: "Лучшее, что можно сделать дальше" },
+                        { s: String.raw`$\enfOp{Q}(\enfVar{s}, \enfFun{a})$`, n: "Q-значение", m: String.raw`Текущая оценка «выгодности» действия $\enfFun{a}$ в состоянии $\enfVar{s}$`, a: "Ваша текущая оценка ресторана" },
+                        { s: String.raw`$\enfPar{\alpha}$`, n: "Скорость обучения", m: "Насколько сильно мы доверяем новой информации (0..1)", a: "Как быстро меняете мнение" },
+                        { s: String.raw`$\enfTgt{r}$`, n: "Награда (reward)", m: "Что мы получили прямо сейчас", a: "Чаевые за хорошее обслуживание" },
+                        { s: String.raw`$\enfPar{\gamma}$`, n: "Дисконтирование", m: "Насколько важны будущие награды (0..1)", a: "Терпение: ждать ли большую награду?" },
+                        { s: String.raw`$\enfVar{s}'$`, n: "Новое состояние", m: "Куда мы попали после действия", a: "Следующая остановка" },
+                        { s: String.raw`$\max_{a'} \enfOp{Q}(\enfVar{s}', a')$`, n: "Лучшее будущее Q", m: "Максимальная оценка в новом состоянии", a: "Лучшее, что можно сделать дальше" },
                       ].map((row, i) => (
                         <tr key={i} className="border-b border-border/20">
-                          <td className="py-2 px-3 font-mono text-primary">{row.s}</td>
+                          <td className="py-2 px-3 text-primary"><RichText text={row.s} /></td>
                           <td className="py-2 px-3 text-foreground font-semibold">{row.n}</td>
-                          <td className="py-2 px-3 text-muted-foreground">{row.m}</td>
+                          <td className="py-2 px-3 text-muted-foreground"><RichText text={row.m} /></td>
                           <td className="py-2 px-3 text-muted-foreground italic">{row.a}</td>
                         </tr>
                       ))}
@@ -528,17 +529,17 @@ ACTION_NAMES = ['Влево', 'Вниз', 'Вправо', 'Вверх']`}
                       {[
                         { p: "Кол-во эпизодов", d: "n_episodes", v: "2000", w: "Сколько раз агент пройдёт игру от начала до конца" },
                         { p: "Макс. шагов", d: "max_steps", v: "100", w: "Максимум шагов в одном эпизоде" },
-                        { p: "Скорость обучения", d: "α", v: "0.8", w: "Как быстро обновлять Q-значения" },
-                        { p: "Дисконтирование", d: "γ", v: "0.95", w: "Важность будущих наград" },
-                        { p: "Начальный ε", d: "ε_max", v: "1.0", w: "Старт: 100% случайных действий" },
-                        { p: "Финальный ε", d: "ε_min", v: "0.01", w: "Финиш: почти всегда лучшее действие" },
-                        { p: "Скорость затухания ε", d: "decay_rate", v: "0.001", w: "Как быстро снижается ε" },
+                        { p: "Скорость обучения", d: String.raw`$\enfPar{\alpha}$`, v: "0.8", w: "Как быстро обновлять Q-значения" },
+                        { p: "Дисконтирование", d: String.raw`$\enfPar{\gamma}$`, v: "0.95", w: "Важность будущих наград" },
+                        { p: String.raw`Начальный $\enfPar{\varepsilon}$`, d: String.raw`$\enfPar{\varepsilon}_{\max}$`, v: "1.0", w: "Старт: 100% случайных действий" },
+                        { p: String.raw`Финальный $\enfPar{\varepsilon}$`, d: String.raw`$\enfPar{\varepsilon}_{\min}$`, v: "0.01", w: "Финиш: почти всегда лучшее действие" },
+                        { p: String.raw`Скорость затухания $\enfPar{\varepsilon}$`, d: "decay_rate", v: "0.001", w: String.raw`Как быстро снижается $\enfPar{\varepsilon}$` },
                       ].map((row, i) => (
                         <tr key={i} className="border-b border-border/20">
-                          <td className="py-2 px-3 text-foreground">{row.p}</td>
-                          <td className="py-2 px-3 font-mono text-primary text-xs">{row.d}</td>
+                          <td className="py-2 px-3 text-foreground"><RichText text={row.p} /></td>
+                          <td className="py-2 px-3 font-mono text-primary text-xs"><RichText text={row.d} /></td>
                           <td className="py-2 px-3 font-mono text-secondary">{row.v}</td>
-                          <td className="py-2 px-3 text-muted-foreground">{row.w}</td>
+                          <td className="py-2 px-3 text-muted-foreground"><RichText text={row.w} /></td>
                         </tr>
                       ))}
                     </tbody>
@@ -824,12 +825,12 @@ print(f"Средн. шагов      : {avg_steps:.1f}")`}
                       {[
                         { w: "Включить скольжение", c: "is_slippery=True", e: "Задача станет намного сложнее! Понадобится больше эпизодов" },
                         { w: "Увеличить обучение", c: "n_episodes = 10000", e: "Агент будет учиться дольше, но точнее" },
-                        { w: "Уменьшить α", c: "alpha = 0.1", e: "Более плавное, но медленное обучение" },
-                        { w: "Уменьшить γ", c: "gamma = 0.5", e: "Агент будет «близорук» — не думает о будущем" },
-                        { w: "Быстрое затухание ε", c: "decay_rate = 0.01", e: "Быстрый переход от исследования к использованию" },
+                        { w: String.raw`Уменьшить $\enfPar{\alpha}$`, c: "alpha = 0.1", e: "Более плавное, но медленное обучение" },
+                        { w: String.raw`Уменьшить $\enfPar{\gamma}$`, c: "gamma = 0.5", e: "Агент будет «близорук» — не думает о будущем" },
+                        { w: String.raw`Быстрое затухание $\enfPar{\varepsilon}$`, c: "decay_rate = 0.01", e: "Быстрый переход от исследования к использованию" },
                       ].map((row, i) => (
                         <tr key={i} className="border-b border-border/20">
-                          <td className="py-2 px-3 text-foreground">{row.w}</td>
+                          <td className="py-2 px-3 text-foreground"><RichText text={row.w} /></td>
                           <td className="py-2 px-3 font-mono text-xs text-primary">{row.c}</td>
                           <td className="py-2 px-3 text-muted-foreground">{row.e}</td>
                         </tr>
@@ -903,13 +904,13 @@ env_slippery.close()`}
                     {[
                       { t: "Обучение с подкреплением", k: "Агент учится через взаимодействие со средой, получая награды" },
                       { t: "Q-таблица", k: "Таблица «выгодности» каждого действия в каждом состоянии" },
-                      { t: "Уравнение Беллмана", k: "Q(s,a) ← Q(s,a) + α[r + γ max Q(s',a') − Q(s,a)]" },
-                      { t: "ε-greedy стратегия", k: "Баланс между исследованием и использованием" },
+                      { t: "Уравнение Беллмана", k: String.raw`$\enfOp{Q}(\enfVar{s}, a) \leftarrow \enfOp{Q}(\enfVar{s}, a) + \enfPar{\alpha}\,[\enfTgt{r} + \enfPar{\gamma} \max_{a'} \enfOp{Q}(\enfVar{s}', a') - \enfOp{Q}(\enfVar{s}, a)]$` },
+                      { t: String.raw`$\enfPar{\varepsilon}$-greedy стратегия`, k: "Баланс между исследованием и использованием" },
                       { t: "Frozen Lake", k: "Классическая тестовая среда для алгоритмов RL" },
                     ].map((row, i) => (
                       <tr key={i} className="border-b border-border/20">
-                        <td className="py-2 px-3 text-foreground font-semibold">{row.t}</td>
-                        <td className="py-2 px-3 text-muted-foreground">{row.k}</td>
+                        <td className="py-2 px-3 text-foreground font-semibold"><RichText text={row.t} /></td>
+                        <td className="py-2 px-3 text-muted-foreground"><RichText text={row.k} /></td>
                       </tr>
                     ))}
                   </tbody>

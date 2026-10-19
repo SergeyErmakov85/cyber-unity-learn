@@ -4,6 +4,7 @@ import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import Math from "@/components/Math";
 import { Settings, Dices, Brain, Scissors, Gauge } from "lucide-react";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
+import RichText from "@/components/math-symbols/RichText";
 
 const chip = "px-1.5 py-0.5 rounded bg-muted/50 text-xs font-mono";
 
@@ -11,7 +12,7 @@ const KEY_FINDINGS = [
   {
     title: "HPO как чёрный ящик",
     text:
-      "f(λ) — итоговое качество агента: дорогая, шумная функция без градиента. Бюджет считаем не в секундах, а в числе trial-ов.",
+      "$\\enfTgt{f}(\\enfPar{\\lambda})$ — итоговое качество агента: дорогая, шумная функция без градиента. Бюджет считаем не в секундах, а в числе trial-ов.",
     icon: Settings,
     color: "cyan",
   },
@@ -25,7 +26,7 @@ const KEY_FINDINGS = [
   {
     title: "TPE = дефолт Optuna",
     text:
-      "Две плотности ℓ/g и правило «бери конфигурацию, вероятную среди хороших и редкую среди плохих». Линеен по числу наблюдений и параллелится.",
+      "Две плотности $\\enfFun{\\ell} /\\enfFun{g}$ и правило «бери конфигурацию, вероятную среди хороших и редкую среди плохих». Линеен по числу наблюдений и параллелится.",
     icon: Brain,
     color: "pink",
   },
@@ -214,10 +215,10 @@ const IntroSection = () => (
         >
           <CardContent className="p-5 space-y-3">
             <div className="flex items-start justify-between gap-2">
-              <h4 className="font-bold text-foreground leading-snug">{title}</h4>
+              <h4 className="font-bold text-foreground leading-snug"><RichText text={title} /></h4>
               <Icon className="w-6 h-6 shrink-0 transition-transform group-hover:scale-110" />
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">{text}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed"><RichText text={text} /></p>
           </CardContent>
         </Card>
       ))}
