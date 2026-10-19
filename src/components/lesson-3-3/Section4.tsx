@@ -49,7 +49,7 @@ const Section4 = () => (
       А разрыв обобщения — это разница между качеством на «виденных» и «отложенных» контекстах:
     </ProseP>
 
-    <Math>{String.raw`\mathrm{Gap}(\enfFun{\pi}) \;=\; \underbrace{\mathbb{E}_{c\sim p_{\text{train}}}[\enfTgt{J}_c(\enfFun{\pi})]}_{\text{обучение}} \;-\; \underbrace{\mathbb{E}_{c\sim p_{\text{test}}}[\enfTgt{J}_c(\enfFun{\pi})]}_{\text{отложенные контексты}}.`}</Math>
+    <Math>{String.raw`\operatorname{Gap}(\enfFun{\pi}) \;=\; \underbrace{\mathbb{E}_{c\sim p_{\text{train}}}[\enfTgt{J}_c(\enfFun{\pi})]}_{\text{обучение}} \;-\; \underbrace{\mathbb{E}_{c\sim p_{\text{test}}}[\enfTgt{J}_c(\enfFun{\pi})]}_{\text{отложенные контексты}}.`}</Math>
 
     <ProseP>
       <strong>Рандомизация среды</strong> = обучать на распределении{" "}

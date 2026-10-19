@@ -47,7 +47,13 @@ const Section9 = () => (
       максимизируя <strong>regret</strong> — разницу между отдачей «антагониста» и «протагониста»:
     </ProseP>
 
-    <Math>{String.raw`\text{Regret} \;=\; U^{\text{antagonist}}(\enfPar{\theta}) \;-\; U^{\text{protagonist}}(\enfPar{\theta}).`}</Math>
+    <Math>{String.raw`\operatorname{Regret} \;=\; \enfTgt{U}^{\text{antagonist}}(\enfPar{\theta}) \;-\; \enfTgt{U}^{\text{protagonist}}(\enfPar{\theta}).`}</Math>
+
+    <ProseP>
+      Здесь <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> — параметры уровня, которые
+      выбирает учитель, а <Math display={false}>{String.raw`\enfTgt{U}(\enfPar{\theta})`}</Math> — ожидаемая
+      отдача агента на этом уровне.
+    </ProseP>
 
     <ProseP>
       Создавая уровни, где антагонист справляется, а протагонист — пока нет, учитель порождает задачи
@@ -90,7 +96,7 @@ const Section9 = () => (
               расширяемые границы <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math>
             </td>
             <td className="py-3 px-4">
-              пороги <Math display={false}>{String.raw`t_L/t_H`}</Math> по успешности
+              пороги <Math display={false}>{String.raw`\enfPar{t}_L/\enfPar{t}_H`}</Math> по успешности
             </td>
             <td className="py-3 px-4">да</td>
             <td className="py-3 px-4">растущая сложность</td>

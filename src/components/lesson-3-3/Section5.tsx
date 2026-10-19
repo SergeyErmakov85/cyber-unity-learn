@@ -11,9 +11,9 @@ const ADR_PSEUDO = `# Псевдокод ADR (по мотивам OpenAI и др
         i ← случайно выбранный параметр
         b ← случайно выбранная граница (нижняя φ_i^L или верхняя φ_i^H)
         λ_i ← b                           # boundary sampling: фиксируем параметр на границе
-        сыграть эпизод(λ); добавить успешность в буфер D[i][b]
-        если размер(D[i][b]) ≥ m:
-            p̄ ← среднее(D[i][b]); очистить D[i][b]
+        сыграть эпизод(λ); добавить успешность в буфер B[i][b]
+        если размер(B[i][b]) ≥ m:
+            p̄ ← среднее(B[i][b]); очистить B[i][b]
             если p̄ ≥ t_H:  расширить границу b наружу на Δ   # усложняем
             если p̄ ≤ t_L:  сжать границу b внутрь на Δ        # упрощаем
     иначе:
@@ -55,7 +55,7 @@ const Section5 = () => (
       Расширение границ управляется приёмом <strong>boundary sampling</strong>: с некоторой
       вероятностью один параметр <Math display={false}>{String.raw`i`}</Math> фиксируется ровно на своей
       границе (нижней <strong>или</strong> верхней), остальные сэмплируются как обычно. Политика играет
-      эпизод, её успешность кладётся в буфер <Math display={false}>{String.raw`\mathcal{D}_i^b`}</Math> конкретной
+      эпизод, её успешность кладётся в буфер <Math display={false}>{String.raw`\mathcal{B}_i^b`}</Math> конкретной
       границы <Math display={false}>{String.raw`b`}</Math>. Когда буфер наполнился:
     </ProseP>
 
@@ -64,14 +64,14 @@ const Section5 = () => (
         <span className="text-cyan-400 mt-0.5 shrink-0">▸</span>
         <span>
           если средняя успешность на границе{" "}
-          <Math display={false}>{String.raw`\ge t_H`}</Math> (высокий порог) →{" "}
+          <Math display={false}>{String.raw`\ge \enfPar{t}_H`}</Math> (высокий порог) →{" "}
           <strong>расширить</strong> границу наружу (мир усложняется);
         </span>
       </li>
       <li className="flex gap-2.5">
         <span className="text-cyan-400 mt-0.5 shrink-0">▸</span>
         <span>
-          если <Math display={false}>{String.raw`\le t_L`}</Math> (низкий порог) → <strong>сжать</strong>{" "}
+          если <Math display={false}>{String.raw`\le \enfPar{t}_L`}</Math> (низкий порог) → <strong>сжать</strong>{" "}
           границу внутрь (мир упрощается).
         </span>
       </li>
@@ -110,7 +110,7 @@ const Section5 = () => (
         <span>
           <strong>Не нужно вручную крутить десятки диапазонов.</strong> Чем больше параметров
           рандомизации, тем безнадёжнее ручная настройка; ADR убирает её, оставляя человеку только
-          пороги <Math display={false}>{String.raw`t_L, t_H`}</Math>.
+          пороги <Math display={false}>{String.raw`\enfPar{t}_L, \enfPar{t}_H`}</Math>.
         </span>
       </li>
       <li className="flex gap-2.5">
@@ -136,7 +136,7 @@ const Section5 = () => (
       Горизонтальная ось параметра (например, сцепление{" "}
       <Math display={false}>{String.raw`\enfVar{\mu}`}</Math>) с текущим диапазоном{" "}
       <Math display={false}>{String.raw`[\enfPar{\phi}^L,\enfPar{\phi}^H]`}</Math>; слайдеры{" "}
-      <Math display={false}>{String.raw`t_L`}</Math>, <Math display={false}>{String.raw`t_H`}</Math> и
+      <Math display={false}>{String.raw`\enfPar{t}_L`}</Math>, <Math display={false}>{String.raw`\enfPar{t}_H`}</Math> и
       «текущая успешность на границе»; кнопка «оценить границу» сдвигает{" "}
       <Math display={false}>{String.raw`\enfPar{\phi}^L/\enfPar{\phi}^H`}</Math> наружу или внутрь по правилу ADR; рядом
       счётчик ADR-энтропии. Видно, как агрессивные пороги «разносят» диапазон, а строгие — держат узким.
@@ -154,7 +154,7 @@ const Section5 = () => (
           Распределение <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math> факторизовано (
           <Math display={false}>{String.raw`2d`}</Math> границ); расширение/сжатие — через{" "}
           <strong>boundary sampling</strong> и пороги{" "}
-          <Math display={false}>{String.raw`t_H/t_L`}</Math>.
+          <Math display={false}>{String.raw`\enfPar{t}_H/\enfPar{t}_L`}</Math>.
         </>,
         <>
           <strong>ADR-энтропия</strong> <Math display={false}>{String.raw`\enfOp{H}(\enfFun{P}_\phi)`}</Math> измеряет

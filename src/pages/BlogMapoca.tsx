@@ -119,7 +119,7 @@ public class SoccerManager : MonoBehaviour
 
     <section id="yaml">
       <h2 className="text-2xl font-bold text-foreground mb-3">YAML-конфигурация</h2>
-      <CyberCodeBlock language="python" filename="soccer_mapoca.yaml">
+      <CyberCodeBlock language="yaml" filename="soccer_mapoca.yaml">
 {`behaviors:
   SoccerPlayer:
     trainer_type: poca          # ← MA-POCA!

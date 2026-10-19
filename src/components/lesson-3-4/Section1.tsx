@@ -52,7 +52,9 @@ const Section1 = () => (
     <Callout title="Теорема 2.1 (Ross & Bagnell, AISTATS 2010)" color="amber">
       Пусть{" "}
       <Math display={false}>{String.raw`\mathbb{E}_{s\sim d_{\pi^*}}[\enfTgt{\ell}(\enfVar{s},\enfFun{\pi})]=\enfVar{\varepsilon}`}</Math>, а
-      стоимость <Math display={false}>{String.raw`\enfTgt{C}`}</Math> ограничена в <Math display={false}>{String.raw`[0, 1]`}</Math>. Тогда
+      стоимость <Math display={false}>{String.raw`\enfTgt{C}`}</Math> ограничена в <Math display={false}>{String.raw`[0, 1]`}</Math>, а{" "}
+      <Math display={false}>{String.raw`\enfTgt{J}(\enfFun{\pi})`}</Math> — суммарная стоимость эпизода из{" "}
+      <Math display={false}>{String.raw`T`}</Math> шагов (чем меньше, тем лучше). Тогда
       <Math display>{String.raw`\enfTgt{J}(\enfFun{\pi})\ \le\ \enfTgt{J}(\enfFun{\pi}^*) + T^2\enfVar{\varepsilon}.`}</Math>
       Граница <strong>тугая</strong>: существуют MDP, где она достигается. Практический смысл для
       гоночного агента: чистый BC на демо с одной трассы накапливает ошибку на длинных кругах и

@@ -228,7 +228,7 @@ const IntroSection = () => (
       <p className="text-muted-foreground leading-relaxed">
         Управление транспортным средством физически требует <strong className="text-foreground">плавных,
         мелкоразрешённых сигналов</strong>: угол поворота руля{" "}
-        <Math display={false}>{String.raw`\enfVar{\delta} \in [-\enfVar{\delta}_{\max}, +\enfVar{\delta}_{\max}]`}</Math>,
+        <Math display={false}>{String.raw`\enfVar{u}_{\text{steer}} \in [-1, 1]`}</Math>,
         нормированная сила тяги{" "}
         <Math display={false}>{String.raw`\enfVar{u}_{\text{accel}} \in [0,1]`}</Math>,
         сила торможения{" "}

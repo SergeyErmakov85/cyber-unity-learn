@@ -70,7 +70,7 @@ mlagents-learn config.yaml --run-id=fast_train \\
 # Вариант 3: комбинация (8 инстансов × 4 агента = 32 параллельных агента)
 # Разместите 4 копии среды в Unity-сцене + запустите 8 инстансов`}
       </CyberCodeBlock>
-      <CyberCodeBlock language="python" filename="optimized_config.yaml">
+      <CyberCodeBlock language="yaml" filename="optimized_config.yaml">
 {`behaviors:
   FastAgent:
     trainer_type: ppo

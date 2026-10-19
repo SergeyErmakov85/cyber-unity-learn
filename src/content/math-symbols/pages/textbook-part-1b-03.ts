@@ -1,0 +1,111 @@
+import type { PageSymbols } from "../types";
+
+const r = String.raw;
+
+/** Символы страницы: от формулы к коду. Черновик — scripts/symbol-table-draft.mjs. */
+const table: PageSymbols = {
+  id: "textbook-part-1b-03",
+  symbols: [
+  {
+    tex: r`\theta`,
+    role: "parameter",
+    name: r`Веса политики`,
+    meaning: r`Все обучаемые параметры нейросети политики $\enfFun{\pi}_\theta$ (или Q-сети $\enfOp{Q}_\theta$). $\enfPar{\theta}_{\text{old}}$ — их копия на момент сбора данных, $\enfPar{\theta}^-$ — веса целевой сети.`,
+    inFormula: r`То, что обучается: стоит в аргументе целевой функции $\enfTgt{J}(\enfPar{\theta})$ и меняется шагом $\enfPar{\theta} \leftarrow \enfPar{\theta} + \enfPar{\alpha}\enfOp{\nabla}_\theta \enfTgt{J}$.`,
+    code: r`theta`,
+    codeType: r`итератор torch.nn.Parameter`,
+    codeNote: r`В коде страницы: \`theta = np.array(theta0, dtype=float)\`.`,
+  },
+  {
+    tex: r`\alpha`,
+    role: "parameter",
+    name: r`Скорость обучения / температура`,
+    meaning: r`В правилах обновления — размер шага ($\enfPar{\alpha} \approx 10^{-4} \ldots 10^{-3}$ для сетей, $0{,}1$ для таблиц). В SAC — температура: вес энтропийного бонуса.`,
+    inFormula: r`Настраиваемый множитель: насколько далеко шагать в сторону ошибки или насколько ценить случайность.`,
+    code: r`alpha`,
+    codeType: r`float`,
+    codeNote: r`В коде страницы: \`def gradient_descent(grad, theta0, alpha=0.1, steps=100, tol=1e-8):\`.`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\mathbf{x}`,
+    role: "variable",
+    name: r`Вектор x`,
+    meaning: r`Вектор-аргумент: неизвестное в $\enfFun{A}\enfVar{\mathbf{x}} = \enfTgt{\mathbf{b}}$ или вход квадратичной формы.`,
+    code: r`x`,
+    codeType: r`np.ndarray (n,)`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`y`,
+    role: "target",
+    name: r`TD-цель / метка`,
+    meaning: r`Значение, к которому подтягивают предсказание: в DQN $\enfTgt{y} = \enfTgt{r} + \enfPar{\gamma}\max_{a'}\enfOp{Q}(\enfVar{s}', a'; \enfPar{\theta}^-)$, в обучении с учителем — истинная метка.`,
+    inFormula: r`Мишень в функции потерь $(\enfTgt{y} - \enfOp{Q}(\enfVar{s}, \enfFun{a}))^2$. Градиент через неё не течёт.`,
+    code: r`target`,
+    codeType: r`torch.Tensor (B,)`,
+    codeNote: r`Считается под \`torch.no_grad()\` по целевой сети: \`target = reward + gamma * target_net(next_obs).max(1).values * (1 - done)\`.`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\mathcal{L}`,
+    role: "target",
+    name: r`Функция потерь / семейство целей`,
+    meaning: r`Каллиграфическое $\enfTgt{\mathcal{L}}$ — функция потерь (например, $\enfTgt{\mathcal{L}}_{\text{BC}}$), а в учебных планах — семейство целей $\enfTgt{\mathcal{L}}_\lambda$ от простой к трудной.`,
+    inFormula: r`То, что минимизируют; индекс уточняет, какая именно потеря.`,
+    code: r`loss`,
+    codeType: r`torch.Tensor (скаляр)`,
+  },
+  {
+    tex: r`\nabla`,
+    role: "operator",
+    name: r`Градиент`,
+    meaning: r`Вектор частных производных: $\enfOp{\nabla}_\theta \enfTgt{J} = (\partial \enfTgt{J}/\partial \enfPar{\theta}_1, \ldots)$. Показывает направление самого быстрого роста функции.`,
+    inFormula: r`Оператор: применяется к функции и возвращает направление шага. Индекс говорит, по каким переменным дифференцируем.`,
+    code: r`grad`,
+    codeType: r`torch.Tensor той же формы, что параметры`,
+    codeNote: r`В коде страницы: \`def gradient_descent(grad, theta0, alpha=0.1, steps=100, tol=1e-8):\`.`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`B`,
+    role: "variable",
+    name: r`Событие B`,
+    meaning: r`Второе событие; в условной вероятности $\enfOp{P}(\enfVar{A} \mid \enfVar{B})$ — то, что уже известно.`,
+    code: r`event_b`,
+    codeType: r`np.ndarray[bool]`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`H`,
+    role: "operator",
+    name: r`Энтропия`,
+    meaning: r`То же, что $\enfOp{\mathcal{H}}$: средняя неопределённость распределения. $\enfOp{H}(\enfFun{\pi})$ — энтропия политики, $\enfOp{H}(\enfFun{P}_\phi)$ — ширина распределения рандомизации.`,
+    inFormula: r`Агрегат по распределению; в целевых функциях — бонус за разнообразие.`,
+    code: r`dist.entropy().mean()`,
+    codeType: r`torch.Tensor (скаляр)`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\sum`,
+    role: "neutral",
+    name: r`Сумма`,
+    meaning: r`Сложить все слагаемые для индекса от нижнего предела до верхнего.`,
+    code: r`.sum() / цикл`,
+    codeType: r`—`,
+    codeNote: r`\`x.sum()\` или \`for\` — в формуле нумерация с 1, в Python с 0.`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\max`,
+    role: "neutral",
+    name: r`Максимум`,
+    meaning: r`Наибольшее значение выражения; $\max_{a'}$ — по всем действиям $a'$ (связанная переменная не окрашивается).`,
+    code: r`Q[s].max() / q.max(dim=1).values`,
+    codeType: r`—`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\min`,
+    role: "neutral",
+    name: r`Минимум`,
+    meaning: r`Наименьшее значение; в PPO $\min$ выбирает более осторожную из двух оценок, в SAC — меньшую из двух Q-сетей.`,
+    code: r`torch.min(a, b)`,
+    codeType: r`—`,
+  },
+  ],
+};
+
+export default table;

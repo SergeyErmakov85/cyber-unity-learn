@@ -47,9 +47,9 @@ const Section6Algorithms = () => (
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Совокупная функция потерь актёра-критика PPO:</strong>
       </p>
-      <Math>{String.raw`\enfTgt{L}^{\text{PPO}}(\enfPar{\theta}) \;=\; \hat{\mathbb{E}}_t\!\left[\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) - \enfPar{c}_1 \big(\enfOp{V}_\theta(\enfVar{s}_t) - \enfOp{V}^{\text{targ}}_t\big)^2 + \enfPar{c}_2 \enfOp{H}[\pi_\theta(\cdot\mid \enfVar{s}_t)]\right],`}</Math>
+      <Math>{String.raw`\enfTgt{L}^{\text{PPO}}(\enfPar{\theta}) \;=\; \hat{\mathbb{E}}_t\!\left[\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) - \enfPar{c}_1 \big(\enfOp{V}_\theta(\enfVar{s}_t) - \enfOp{V}^{\text{targ}}_t\big)^2 + \enfPar{c}_2 \enfOp{\mathcal{H}}[\pi_\theta(\cdot\mid \enfVar{s}_t)]\right],`}</Math>
       <p className="text-sm text-muted-foreground">
-        где <Math display={false}>{String.raw`\enfOp{H}`}</Math> — энтропия (в ML-Agents — параметр{" "}
+        где <Math display={false}>{String.raw`\enfOp{\mathcal{H}}`}</Math> — энтропия (в ML-Agents — параметр{" "}
         <code className="bg-muted/50 px-1 text-xs">beta</code>),{" "}
         <Math display={false}>{String.raw`\enfPar{c}_1`}</Math> — вес value-loss.
       </p>
@@ -167,7 +167,7 @@ const Section6Algorithms = () => (
     {/* 6.4 PPO YAML */}
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-foreground">6.4. PPO YAML для овальной трассы (учебный профиль)</h3>
-      <CyberCodeBlock language="pseudo" filename="config/ppo_oval.yaml">
+      <CyberCodeBlock language="yaml" filename="config/ppo_oval.yaml">
 {`# config/ppo_oval.yaml
 # Конфигурация PPO для овальной гоночной трассы
 # Совместим с release_22 (com.unity.ml-agents 3.0.0)
@@ -218,7 +218,7 @@ behaviors:
     {/* 6.5 SAC YAML */}
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-foreground">6.5. SAC YAML для овальной трассы (учебный профиль)</h3>
-      <CyberCodeBlock language="pseudo" filename="config/sac_oval.yaml">
+      <CyberCodeBlock language="yaml" filename="config/sac_oval.yaml">
 {`# config/sac_oval.yaml
 # Конфигурация SAC для овальной трассы
 
@@ -267,7 +267,7 @@ behaviors:
         Альтернативные YAML-конфиги, оптимизированные под овал малой сложности с компактной сетью
         (<code className="bg-muted/50 px-1 text-xs">hidden_units: 128</code>):
       </p>
-      <CyberCodeBlock language="pseudo" filename="config/car_racer_ppo.yaml">
+      <CyberCodeBlock language="yaml" filename="config/car_racer_ppo.yaml">
 {`behaviors:
   RacingCarBehavior:
     trainer_type: ppo
@@ -294,7 +294,7 @@ behaviors:
     keep_checkpoints: 5                # Количество сохраняемых резервных моделей ONNX
     checkpoint_interval: 200000        # Шаг сохранения промежуточных контрольных точек`}
       </CyberCodeBlock>
-      <CyberCodeBlock language="pseudo" filename="config/car_racer_sac.yaml">
+      <CyberCodeBlock language="yaml" filename="config/car_racer_sac.yaml">
 {`behaviors:
   RacingCarBehavior:
     trainer_type: sac

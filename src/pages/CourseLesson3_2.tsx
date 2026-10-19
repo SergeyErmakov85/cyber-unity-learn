@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_3_2 from "@/content/math-symbols/pages/lesson-3-2";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -260,6 +262,7 @@ const SECTIONS: SectionNavItem[] = [
   { id: "раздел-2-counterfactual-baseline-и-командный-credit-assignment", label: "2 · Counterfactual baseline" },
   { id: "раздел-3-posthumous-credit-assignment", label: "3 · Posthumous credit" },
   { id: "раздел-4-архитектура-ma-poca", label: "4 · Архитектура MA-POCA" },
+  { id: "символы-и-код", label: "Символы → код" },
   { id: "раздел-5-ma-poca-в-unity-ml-agents", label: "5 · MA-POCA в Unity" },
   { id: "раздел-6-self-play", label: "6 · Self-Play" },
   { id: "раздел-7-система-рейтинга-elo", label: "7 · Рейтинг ELO" },
@@ -757,7 +760,7 @@ const CourseLesson3_2 = () => {
           <p className="text-foreground/90 leading-relaxed mt-3">
             Централизованная V-функция через RSA (уравнение (6)):
           </p>
-          <Math>{String.raw`\enfOp{V}_\phi\!\left(\text{RSA}\!\left(\{\enfFun{g}_i(\enfVar{o}^i_t)\}_{1 \le i \le k_t}\right)\right),`}</Math>
+          <Math>{String.raw`\enfOp{V}_\phi\!\left(\operatorname{RSA}\!\left(\{\enfFun{g}_i(\enfVar{o}^i_t)\}_{1 \le i \le k_t}\right)\right),`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
             где <Math display={false}>{String.raw`k_t`}</Math> — число <strong className="text-foreground">активных</strong> агентов в момент <Math display={false}>{String.raw`t`}</Math>.
           </p>
@@ -765,9 +768,9 @@ const CourseLesson3_2 = () => {
             <strong className="text-foreground">Как это решает posthumous credit assignment.</strong> TD(<Math display={false}>{String.raw`\enfPar{\lambda}`}</Math>)-таргет
             для V (уравнение (7)):
           </p>
-          <Math>{String.raw`\enfTgt{y}^{(\lambda)} = (1{-}\enfPar{\lambda})\sum_{n=1}^{\infty} \enfPar{\lambda}^{n-1} \enfOp{G}^{(n)}_t, \quad \enfOp{G}^{(n)}_t = \sum_{l=1}^{n} \enfPar{\gamma}^{l-1} \enfTgt{r}_{t+l} + \enfPar{\gamma}^n\, \enfOp{V}_\phi\!\left(\text{RSA}\!\left(\{g_j(\enfVar{o}^j_{t+n})\}_{1 \le j \le k_{t+n}}\right)\right).`}</Math>
+          <Math>{String.raw`\enfTgt{y}^{(\lambda)} = (1{-}\enfPar{\lambda})\sum_{n=1}^{\infty} \enfPar{\lambda}^{n-1} \enfOp{G}^{(n)}_t, \quad \enfOp{G}^{(n)}_t = \sum_{l=1}^{n} \enfPar{\gamma}^{l-1} \enfTgt{r}_{t+l} + \enfPar{\gamma}^n\, \enfOp{V}_\phi\!\left(\operatorname{RSA}\!\left(\{g_j(\enfVar{o}^j_{t+n})\}_{1 \le j \le k_{t+n}}\right)\right).`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
-            Bootstrap-член <Math display={false}>{String.raw`\enfPar{\gamma}^n \cdot \enfOp{V}_\phi(\text{RSA}(\ldots))`}</Math> на шаге{" "}
+            Bootstrap-член <Math display={false}>{String.raw`\enfPar{\gamma}^n \cdot \enfOp{V}_\phi(\operatorname{RSA}(\ldots))`}</Math> на шаге{" "}
             <Math display={false}>{String.raw`t{+}n`}</Math> вычисляется по <strong className="text-foreground">активным агентам в{" "}
             <Math display={false}>{String.raw`t{+}n`}</Math></strong> — которых может быть больше или меньше, чем в{" "}
             <Math display={false}>{String.raw`t`}</Math>. Именно через этот bootstrap ценность из будущего (когда команда
@@ -776,7 +779,7 @@ const CourseLesson3_2 = () => {
           </p>
           <InteractiveStub>
             Временная шкала эпизода. Агент A выбывает на шаге 5 из 10. Показать, как{" "}
-            <Math display={false}>{String.raw`\enfPar{\gamma}^5 \cdot \enfOp{V}(\text{RSA}(\ldots))`}</Math> на шаге 10 «доходит» до шага 5 через
+            <Math display={false}>{String.raw`\enfPar{\gamma}^5 \cdot \enfOp{V}(\operatorname{RSA}(\ldots))`}</Math> на шаге 10 «доходит» до шага 5 через
             bootstrap-цепочку.
           </InteractiveStub>
           <KeyPoints
@@ -809,13 +812,13 @@ const CourseLesson3_2 = () => {
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Централизованный critic (V-сеть)</strong>{" "}
-            <Math display={false}>{String.raw`\enfOp{V}_\phi(\text{RSA}(\{\enfFun{g}_i(\enfVar{o}^i)\}_{i \text{ active}}))`}</Math> —{" "}
+            <Math display={false}>{String.raw`\enfOp{V}_\phi(\operatorname{RSA}(\{\enfFun{g}_i(\enfVar{o}^i)\}_{i \text{ active}}))`}</Math> —{" "}
             <strong className="text-foreground">один на всю команду</strong>, видит наблюдения всех активных
             агентов через RSA-блок. Выдаёт скалярную оценку ценности совместного состояния.
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Baseline-сеть</strong>{" "}
-            <Math display={false}>{String.raw`\enfOp{Q}_\psi(\text{RSA}(\enfFun{g}_j(\enfVar{o}^j),\, \{\enfFun{f}_i(\enfVar{o}^i, \enfFun{a}^i)\}_{i \ne j}))`}</Math> — обусловлена парами
+            <Math display={false}>{String.raw`\enfOp{Q}_\psi(\operatorname{RSA}(\enfFun{g}_j(\enfVar{o}^j),\, \{\enfFun{f}_i(\enfVar{o}^i, \enfFun{a}^i)\}_{i \ne j}))`}</Math> — обусловлена парами
             наблюдение-действие всех агентов <strong className="text-foreground">кроме</strong> <Math display={false}>{String.raw`j`}</Math> и
             только наблюдением агента <Math display={false}>{String.raw`j`}</Math>. Нужна для вычисления counterfactual
             advantage. Обучается <strong className="text-foreground">отдельной сетью</strong> — потому что с одной
@@ -835,6 +838,14 @@ const CourseLesson3_2 = () => {
               "Обновления — через PPO-клиппинг; отдельных POCA-гиперпараметров нет.",
             ]}
           />
+        </motion.section>
+
+        {/* ── Символы урока: от формулы к коду ── */}
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
+          <h2 id="символы-и-код" className={SECTION_H2}>
+            Символы урока: от формулы к коду
+          </h2>
+          <SymbolTable {...SYMBOLS_LESSON_3_2} variant="section" title="Символы всех разделов и их место в коде" />
         </motion.section>
 
         {/* ── Раздел 5 ── */}
@@ -871,7 +882,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
           </CyberCodeBlock>
 
           <h3 className={H3_CLASS}>Полный YAML-конфиг (SoccerTwos, 2v2, poca + self_play)</h3>
-          <CyberCodeBlock language="python" filename="SoccerTwos.yaml">
+          <CyberCodeBlock language="yaml" filename="SoccerTwos.yaml">
 {`behaviors:
   SoccerTwos:
     trainer_type: poca
@@ -1085,7 +1096,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             (<code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">ppo</code>,{" "}
             <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">poca</code>). Ниже — полный разбор всех полей.
           </p>
-          <CyberCodeBlock language="python" filename="self_play.yaml">
+          <CyberCodeBlock language="yaml" filename="self_play.yaml">
 {`self_play:
   save_steps: 20000        # дефолт
   team_change: 100000      # дефолт = 5 × save_steps
@@ -1323,7 +1334,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span>Метрика: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">Self-Play/ELO</code> — должна расти.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span>Ожидаемый эффект: агент научится агрессивным обгонам и защите позиции — это не программируется явно, а возникает эмерджентно.</span></li>
           </ul>
-          <CyberCodeBlock language="python" filename="RacerCompetitive.yaml">
+          <CyberCodeBlock language="yaml" filename="RacerCompetitive.yaml">
 {`behaviors:
   RacerCompetitive:
     trainer_type: ppo

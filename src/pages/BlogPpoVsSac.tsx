@@ -65,7 +65,7 @@ const BlogPpoVsSac = () => (
         параллелизации: запустите 16 параллельных сред, и PPO будет получать данные в 16 раз быстрее.
         В Unity ML-Agents это делается одной строкой в YAML-конфиге.
       </p>
-      <CyberCodeBlock language="python" filename="parallel_comparison.yaml">
+      <CyberCodeBlock language="yaml" filename="parallel_comparison.yaml">
 {`# PPO: компенсирует sample inefficiency параллелизацией
 # Запуск с 16 параллельными средами:
 mlagents-learn config.yaml --run-id=ppo_16env --num-envs=16

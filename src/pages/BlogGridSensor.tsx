@@ -103,7 +103,7 @@ class GridSensorCNN(nn.Module):
         <code className="text-primary"> GridSize</code>, <code className="text-primary"> CellScale</code> и
         <code className="text-primary"> DetectableTags</code>.
       </p>
-      <CyberCodeBlock language="python" filename="gridsensor_config.yaml">
+      <CyberCodeBlock language="yaml" filename="gridsensor_config.yaml">
 {`# Конфигурация GridSensor в Unity ML-Agents
 behaviors:
   FoodCollector:

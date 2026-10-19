@@ -155,7 +155,7 @@ const IntroSection = () => (
           <strong>GAIL</strong> (Ho &amp; Ermon, 2016) выводится из max-entropy IRL через{" "}
           <em>occupancy measure</em> и сводит имитацию к GAN-минимаксу{" "}
           <Math display={false}>
-            {String.raw`\min_\pi\max_D \mathbb{E}_\pi[\log \enfFun{D}]+\mathbb{E}_{\pi_E}[\log(1-\enfFun{D})]-\enfPar{\lambda} \enfOp{H}(\enfFun{\pi})`}
+            {String.raw`\min_\pi\max_D \mathbb{E}_{\pi_E}[\log \enfFun{D}]+\mathbb{E}_{\pi}[\log(1-\enfFun{D})]-\enfPar{\lambda} \enfOp{H}(\enfFun{\pi})`}
           </Math>
           {" "}с наградой{" "}
           <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s},\enfFun{a})=-\log(1-\enfFun{D}(\enfVar{s},\enfFun{a}))`}</Math>; на порядок экономнее по

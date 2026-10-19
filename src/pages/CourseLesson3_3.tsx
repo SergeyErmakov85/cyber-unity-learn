@@ -1,3 +1,6 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_3_3 from "@/content/math-symbols/pages/lesson-3-3";
+import { SECTION_TITLE_CLASS as SYMBOLS_TITLE_CLASS } from "@/components/lesson-3-3/_shared";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -30,6 +33,16 @@ import Summary from "@/components/lesson-3-3/Summary";
 import RelatedMaterials from "@/components/lesson-3-3/RelatedMaterials";
 import LabPracticeSection from "@/components/LabPracticeSection";
 
+/** Символы урока: от формулы к коду (YAML, C# и псевдокод ADR/PLR). */
+const LessonSymbols = () => (
+  <>
+    <h2 id="simvoly-i-kod" className={`${SYMBOLS_TITLE_CLASS} scroll-mt-24`}>
+      Символы урока: от формулы к коду
+    </h2>
+    <SymbolTable {...SYMBOLS_LESSON_3_3} variant="section" title="Символы всех разделов и их место в YAML, C# и псевдокоде" />
+  </>
+);
+
 /** Полный список пунктов оглавления (для SectionNav). */
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
@@ -38,6 +51,7 @@ const SECTIONS: SectionNavItem[] = [
   { id: "razdel-2-uchebnyy-plan-formalno", label: "2 · План формально" },
   { id: "razdel-3-kto-vedet-za-ruku", label: "3 · Кто ведёт за руку" },
   { id: "razdel-4-randomizatsiya", label: "4 · Рандомизация" },
+  { id: "simvoly-i-kod", label: "Символы → код" },
   { id: "razdel-5-adr", label: "5 · ADR" },
   { id: "razdel-6-plr", label: "6 · PLR" },
   { id: "razdel-7-unity-ml-agents", label: "7 · Unity ML-Agents" },
@@ -55,6 +69,7 @@ const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
   { id: "razdel-2-uchebnyy-plan-formalno", Comp: Section2 },
   { id: "razdel-3-kto-vedet-za-ruku", Comp: Section3 },
   { id: "razdel-4-randomizatsiya", Comp: Section4 },
+  { id: "simvoly-i-kod", Comp: LessonSymbols },
   { id: "razdel-5-adr", Comp: Section5 },
   { id: "razdel-6-plr", Comp: Section6 },
   { id: "razdel-7-unity-ml-agents", Comp: Section7 },
@@ -118,7 +133,7 @@ const QUIZ_QUESTIONS = [
     ],
     correctIndex: 1,
     explanation:
-      "ADR = учебный план над рандомизацией: начинаем без случайности и расширяем границы факторизованного распределения $\\enfFun{P}_{\\phi}$ через boundary sampling, когда успешность на границе превышает порог $t_H$.",
+      "ADR = учебный план над рандомизацией: начинаем без случайности и расширяем границы факторизованного распределения $\\enfFun{P}_{\\phi}$ через boundary sampling, когда успешность на границе превышает порог $\\enfPar{t}_H$.",
   },
   {
     question: "Чем PLR принципиально отличается от ADR?",

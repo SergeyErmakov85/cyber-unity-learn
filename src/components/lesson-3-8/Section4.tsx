@@ -66,14 +66,14 @@ const Section4 = () => (
     <CyberCodeBlock language="pseudo" filename="run.sh">{CMD}</CyberCodeBlock>
 
     <h3 className={H3_CLASS}>Полный конфиг PPO (с дефолтами и диапазонами)</h3>
-    <CyberCodeBlock language="pseudo" filename="arena_ppo.yaml">{PPO}</CyberCodeBlock>
+    <CyberCodeBlock language="yaml" filename="arena_ppo.yaml">{PPO}</CyberCodeBlock>
 
     <h3 className={H3_CLASS}>Вариант SAC (off-policy, сэмпл-эффективнее)</h3>
     <ProseP>
       SAC заменяет PPO-секцию <code>hyperparameters</code> своими полями (replay buffer, мягкое обновление target-сетей через <code>tau</code>, авто-температура энтропии — всё это вы выводили в{" "}
       <CrossLinkToLesson lessonId="3.1" lessonPath="/courses/3-1" lessonTitle="Урок 3.1" lessonLevel={3}>уроке 3.1</CrossLinkToLesson>):
     </ProseP>
-    <CyberCodeBlock language="pseudo" filename="arena_sac.yaml">{SAC}</CyberCodeBlock>
+    <CyberCodeBlock language="yaml" filename="arena_sac.yaml">{SAC}</CyberCodeBlock>
 
     <Callout title="MA-POCA" color="cyan">
       Для командных игр (этап-пример «спорт») используйте <code>trainer_type: poca</code> — конфиг <strong>полностью совпадает с PPO</strong>, дополнительных POCA-полей нет. Почему именно POCA для команд —{" "}

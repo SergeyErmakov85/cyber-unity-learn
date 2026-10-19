@@ -711,7 +711,7 @@ public class RobotAgent : Agent
             </CrossLinkToHub>{" "}
             тренера (SAC)
           </h3>
-          <CyberCodeBlock language="python" filename="robot_config.yaml">
+          <CyberCodeBlock language="yaml" filename="robot_config.yaml">
 {`behaviors:
   RobotBehavior:
     # Выбор алгоритма. Альтернатива: ppo. См. раздел 3 для сравнения.

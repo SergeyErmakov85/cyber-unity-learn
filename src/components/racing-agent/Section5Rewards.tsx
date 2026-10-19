@@ -34,11 +34,11 @@ const Section5Rewards = () => (
       <p className="text-muted-foreground leading-relaxed">
         На каждом шаге <Math display={false}>{String.raw`t`}</Math> агент получает:
       </p>
-      <Math>{String.raw`\enfTgt{r}_t \;=\; \underbrace{\enfTgt{R}_{\text{cp}}\cdot \mathbb{1}[\text{cp}_t]}_{\text{чекпоинт}} \;+\; \underbrace{\enfTgt{R}_{\text{coll}}\cdot \mathbb{1}[\text{wall}_t]}_{\text{стена}} \;+\; \underbrace{\enfPar{\alpha} \frac{\enfVar{v}_t}{\enfVar{v}_{\max}}}_{\text{скорость}} \;+\; \underbrace{\enfPar{\beta}\, \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle}_{\text{ориентация}} \;-\; \underbrace{\enfPar{\eta}}_{\text{время}} \;-\; \underbrace{\enfPar{\rho}\,(|\Delta \enfVar{s}_t| + |\Delta \enfFun{a}_t|)}_{\text{плавность}},`}</Math>
+      <Math>{String.raw`\enfTgt{r}_t \;=\; \underbrace{\enfTgt{R}_{\text{cp}}\cdot \enfVar{\mathbb{1}}[\text{cp}_t]}_{\text{чекпоинт}} \;+\; \underbrace{\enfTgt{R}_{\text{coll}}\cdot \enfVar{\mathbb{1}}[\text{wall}_t]}_{\text{стена}} \;+\; \underbrace{\enfPar{k}_v \frac{\enfVar{v}_t}{\enfVar{v}_{\max}}}_{\text{скорость}} \;+\; \underbrace{\enfPar{k}_o\, \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle}_{\text{ориентация}} \;-\; \underbrace{\enfPar{\eta}}_{\text{время}} \;-\; \underbrace{\enfPar{\rho}\,(|\Delta \enfVar{u}_{\text{steer}}| + |\Delta \enfVar{u}_{\text{accel}}|)}_{\text{плавность}},`}</Math>
       <p className="text-sm text-muted-foreground">
         где <Math display={false}>{String.raw`\enfVar{\mathbf{f}}_t`}</Math> — forward автомобиля,{" "}
         <Math display={false}>{String.raw`\enfVar{\mathbf{d}}_t`}</Math> — направление на следующий чекпоинт,{" "}
-        <Math display={false}>{String.raw`\Delta \enfVar{s}_t, \Delta \enfFun{a}_t`}</Math> — приращения руля и газа.
+        <Math display={false}>{String.raw`\Delta \enfVar{u}_{\text{steer}}, \Delta \enfVar{u}_{\text{accel}}`}</Math> — приращения руля и газа за шаг (те же управляющие сигналы, что во введении).
       </p>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Компонент сонаправленности и скорости</strong>{" "}
@@ -77,8 +77,8 @@ const Section5Rewards = () => (
               [String.raw`\enfTgt{R}_{\text{final}}`,"+0.5",       "Savid et al. 2023: «the agent reaches the final checkpoint, a reward of 0.5 is given»"],
               [String.raw`\enfTgt{R}_{\text{coll}}`, "−1.0 + EndEpisode", "Karting Mod: «If AI hit obstacle/track AI position will be reset to the starting point and will be given penalty -1»"],
               [String.raw`\enfPar{\eta}\text{ (time)}`, "0.0005…0.001", "Savid et al. 2023: «To incentivize speed, agents are given a small −0.001 reward (punishment)»"],
-              [String.raw`\enfPar{\alpha}\text{ (speed)}`, "0.001", "Эмпирически, сообщество ML-Agents"],
-              [String.raw`\enfPar{\beta}\text{ (orient)}`, "0.0005","Эмпирически"],
+              [String.raw`\enfPar{k}_v\text{ (speed)}`, "0.001", "Эмпирически, сообщество ML-Agents"],
+              [String.raw`\enfPar{k}_o\text{ (orient)}`, "0.0005","Эмпирически"],
               [String.raw`\enfPar{\rho}\text{ (smoothness)}`,"0.0002","Низкое значение — иначе агент не исследует"],
             ].map(([coeff, val, note]) => (
               <tr key={coeff} className="border-b border-white/5 hover:bg-white/2 transition-colors">
@@ -118,12 +118,12 @@ private void ApplyShapedReward(float steering, float acceleration)
     //    Эмпирически 5e-4 ... 1e-3; больше — риск, что reward «прилипнет» к -1.
     AddReward(-0.0005f);
 
-    // 2) Премия за скорость: r_speed = α * v_long / v_max.
+    // 2) Премия за скорость: r_speed = k_v * v_long / v_max.
     //    v_long — продольная компонента; убираем поощрение за движение боком.
     float speedNorm = Mathf.Clamp01(_car.LocalVelocity.z / _car.MaxSpeed);
     AddReward(0.001f * speedNorm);
 
-    // 3) Премия за ориентацию: r_orient = β * dot(forward, dir_to_cp).
+    // 3) Премия за ориентацию: r_orient = k_o * dot(forward, dir_to_cp).
     //    Когда машина смотрит точно на следующий чекпоинт — dot = +1.
     //    Когда движется в обратном направлении — dot = -1 (получает штраф).
     Vector3 dirToCp = (_checkpoints.GetNextCheckpointPosition() - transform.position).normalized;

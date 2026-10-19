@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_PROJECT_2 from "@/content/math-symbols/pages/project-2";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -1684,6 +1686,8 @@ const CourseProject2 = () => {
       </section>
 
       {/* ── Секция: Рабочие артефакты (наполнено) ─────────────────────────── */}
+      <SymbolTable {...SYMBOLS_PROJECT_2} />
+
       <section
         id="working-artifacts"
         className="scroll-mt-28 p-6 md:p-8 rounded-xl backdrop-blur-sm space-y-6"
@@ -1710,7 +1714,7 @@ const CourseProject2 = () => {
             раздела «PPO и гиперпараметры»; здесь — рабочий вид, который можно
             скопировать в проект как есть.
           </p>
-          <CyberCodeBlock language="pseudo" filename="config/hunter.yaml">
+          <CyberCodeBlock language="yaml" filename="config/hunter.yaml">
 {`behaviors:
   Hunter:
     trainer_type: ppo

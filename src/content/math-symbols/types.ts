@@ -34,5 +34,7 @@ export interface PageSymbols {
   id: string;
   /** Подзаголовок таблицы: о каком коде речь. */
   caption?: string;
+  /** Язык колонки «В коде»: по умолчанию Python; для уроков без Python — например «YAML / C#». */
+  codeLang?: string;
   symbols: SymbolEntry[];
 }

@@ -66,7 +66,7 @@ const Section8BestPractices = () => (
         Запишите 5–10 демонстраций ручного управления через Heuristic + Demo Recorder, затем включите
         Behavioral Cloning:
       </p>
-      <CyberCodeBlock language="pseudo" filename="config/ppo_with_bc.yaml (фрагмент)">
+      <CyberCodeBlock language="yaml" filename="config/ppo_with_bc.yaml (фрагмент)">
 {`behavioral_cloning:
   demo_path: Demos/HumanLaps.demo
   strength: 0.1                       # Не > 0.5: иначе агент копирует ошибки человека

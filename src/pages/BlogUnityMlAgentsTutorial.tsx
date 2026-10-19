@@ -261,7 +261,7 @@ prevDistance = d;`}
         Файл YAML описывает алгоритм и гиперпараметры. Имя поведения в конфиге обязано
         совпадать с Behavior Name в Unity.
       </p>
-      <CyberCodeBlock language="pseudo" filename="config/rollerball.yaml">
+      <CyberCodeBlock language="yaml" filename="config/rollerball.yaml">
 {`behaviors:
   RollerBall:
     trainer_type: ppo

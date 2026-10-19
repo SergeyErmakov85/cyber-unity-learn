@@ -113,7 +113,7 @@ print("✅ Модель валидна")`}
         <code className="text-primary"> IWorker</code>,
         <code className="text-primary"> TensorFloat</code>.
       </p>
-      <CyberCodeBlock language="python" filename="SentisAgent.cs">
+      <CyberCodeBlock language="csharp" filename="SentisAgent.cs">
 {`using Unity.Sentis;
 using UnityEngine;
 

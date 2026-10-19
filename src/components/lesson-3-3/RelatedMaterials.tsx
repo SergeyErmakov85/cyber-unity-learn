@@ -121,7 +121,7 @@ const SOURCES: ReactNode[] = [
     </strong>{" "}
     <em>Solving Rubik's Cube with a Robot Hand.</em> arXiv:1910.07113. — <strong>ADR</strong>:
     факторизованное распределение, boundary sampling, пороги{" "}
-    <Math display={false}>{String.raw`t_L/t_H`}</Math>, ADR-энтропия; эмерджентное мета-обучение у
+    <Math display={false}>{String.raw`\enfPar{t}_L/\enfPar{t}_H`}</Math>, ADR-энтропия; эмерджентное мета-обучение у
     моделей с памятью.
   </>,
   <>

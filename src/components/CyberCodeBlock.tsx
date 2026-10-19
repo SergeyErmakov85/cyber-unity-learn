@@ -3,7 +3,7 @@ import { Copy, Check } from "lucide-react";
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
 
-type Language = "python" | "csharp" | "pseudo";
+type Language = "python" | "csharp" | "yaml" | "pseudo";
 
 interface CyberCodeBlockProps {
   children: string;
@@ -53,6 +53,16 @@ const highlightCSharp = (code: string): string => {
   ]);
 };
 
+const highlightYaml = (code: string): string => {
+  return tokenize(code, [
+    [/#.*/, 'cyber-comment'],
+    [/"(?:[^"\\]|\\.)*"|'[^']*'/, 'cyber-string'],
+    [/[\w.-]+(?=:(?:\s|$))/, 'cyber-keyword'],
+    [/\b(?:true|false|null)\b/, 'cyber-builtin'],
+    [/(?<![\w.])-?\d+\.?\d*(?:e[+-]?\d+)?\b/, 'cyber-number'],
+  ]);
+};
+
 const highlightPseudo = (code: string): string => {
   return tokenize(code, [
     [/#.*/, 'cyber-comment'],
@@ -66,6 +76,7 @@ const highlight = (code: string, language: Language): string => {
   switch (language) {
     case "python": return highlightPython(code);
     case "csharp": return highlightCSharp(code);
+    case "yaml": return highlightYaml(code);
     case "pseudo": return highlightPseudo(code);
     default: return code;
   }

@@ -1,11 +1,10 @@
-import Math from "@/components/Math";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import { SECTION_TITLE_CLASS, H3_CLASS, ProseP, KeyPoints, Callout } from "./_shared";
 
 const chip = "px-1 rounded bg-muted/50 text-xs font-mono";
 
-const CSHARP = `// Значение по умолчанию (0.0f) используется, если параметр не задан в YAML
+const CSHARP = `// Значение по умолчанию (здесь 1.0f) используется, если параметр не задан в YAML
 float friction = Academy.Instance.EnvironmentParameters
                         .GetWithDefault("surface_friction", 1.0f);`;
 
@@ -136,7 +135,7 @@ const Section7 = () => (
               <code className={chip}>uniform</code>
             </td>
             <td className="py-3 px-4">
-              Равномерно из <Math display={false}>{String.raw`[\min, \max]`}</Math> (включительно)
+              Равномерно на отрезке от <code className={chip}>min_value</code> до <code className={chip}>max_value</code> (включительно)
             </td>
             <td className="py-3 px-4">
               <code className={chip}>min_value</code>, <code className={chip}>max_value</code>
@@ -179,7 +178,7 @@ const Section7 = () => (
     </Callout>
 
     <ProseP>Полный фрагмент рандомизации для гонщика:</ProseP>
-    <CyberCodeBlock language="pseudo" filename="racer_randomize.yaml">
+    <CyberCodeBlock language="yaml" filename="racer_randomize.yaml">
       {YAML_RANDOMIZE}
     </CyberCodeBlock>
 
@@ -276,7 +275,7 @@ const Section7 = () => (
       это уже <strong>сэмплер</strong>, то есть урок задаёт не одно значение, а целый диапазон —
       мини-ADR прямо в ML-Agents):
     </ProseP>
-    <CyberCodeBlock language="pseudo" filename="racer_curriculum.yaml">
+    <CyberCodeBlock language="yaml" filename="racer_curriculum.yaml">
       {YAML_CURRICULUM}
     </CyberCodeBlock>
 
@@ -288,7 +287,7 @@ const Section7 = () => (
       </CrossLinkToHub>
       :
     </ProseP>
-    <CyberCodeBlock language="pseudo" filename="racer_selfplay_curriculum.yaml">
+    <CyberCodeBlock language="yaml" filename="racer_selfplay_curriculum.yaml">
       {YAML_ELO}
     </CyberCodeBlock>
 

@@ -1,3 +1,6 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_3_4 from "@/content/math-symbols/pages/lesson-3-4";
+import { SECTION_TITLE_CLASS as SYMBOLS_TITLE_CLASS } from "@/components/lesson-3-4/_shared";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -29,6 +32,16 @@ import RelatedMaterials from "@/components/lesson-3-4/RelatedMaterials";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
 
+/** Символы урока: от формулы к коду. */
+const LessonSymbols = () => (
+  <>
+    <h2 id="simvoly-i-kod" className={`${SYMBOLS_TITLE_CLASS} scroll-mt-24`}>
+      Символы урока: от формулы к коду
+    </h2>
+    <SymbolTable {...SYMBOLS_LESSON_3_4} variant="section" title="Символы всех разделов и их место в YAML и коде ML-Agents" />
+  </>
+);
+
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
   { id: "razdel-1-bc-teoriya", label: "1 · BC — теория" },
@@ -36,6 +49,7 @@ const SECTIONS: SectionNavItem[] = [
   { id: "razdel-3-gail", label: "3 · GAIL" },
   { id: "razdel-4-airl-varianty", label: "4 · AIRL и варианты" },
   { id: "razdel-5-sravnenie", label: "5 · Сравнение" },
+  { id: "simvoly-i-kod", label: "Символы → код" },
   { id: "razdel-6-unity-mlagents", label: "6 · Unity ML-Agents" },
   { id: "razdel-7-tensorboard", label: "7 · TensorBoard" },
   { id: "razdel-8-pipeline", label: "8 · Пайплайн" },
@@ -50,6 +64,7 @@ const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
   { id: "razdel-3-gail", Comp: Section3 },
   { id: "razdel-4-airl-varianty", Comp: Section4 },
   { id: "razdel-5-sravnenie", Comp: Section5 },
+  { id: "simvoly-i-kod", Comp: LessonSymbols },
   { id: "razdel-6-unity-mlagents", Comp: Section6 },
   { id: "razdel-7-tensorboard", Comp: Section7 },
   { id: "razdel-8-pipeline", Comp: Section8 },
@@ -92,14 +107,14 @@ const QUIZ_QUESTIONS = [
   {
     question: "Какая формула GAIL-награды политике каноническая?",
     options: [
-      "r = D(s,a)",
-      "r = -log(1 - D(s,a))",
-      "r = log D(s,a) + log(1 - D(s,a))",
+      "$\\enfTgt{r} = \\enfFun{D}(\\enfVar{s},\\enfFun{a})$",
+      "$\\enfTgt{r} = -\\log(1 - \\enfFun{D}(\\enfVar{s},\\enfFun{a}))$",
+      "$\\enfTgt{r} = \\log \\enfFun{D}(\\enfVar{s},\\enfFun{a}) + \\log(1 - \\enfFun{D}(\\enfVar{s},\\enfFun{a}))$",
       "$\\enfTgt{r} = \\lVert \\enfFun{\\mu}(\\enfVar{s}) - \\enfFun{a} \\rVert^{2}$",
     ],
     correctIndex: 1,
     explanation:
-      "Из $\\enfFun{\\psi}_{\\text{GA}}$-регуляризатора Ho & Ermon: политика максимизирует r(s,a) = -log(1 - D(s,a)). Чем больше дискриминатор «верит» в экспертность пары, тем выше награда.",
+      "Из $\\enfFun{\\psi}_{\\text{GA}}$-регуляризатора Ho & Ermon: политика максимизирует $\\enfTgt{r}(\\enfVar{s},\\enfFun{a}) = -\\log(1 - \\enfFun{D}(\\enfVar{s},\\enfFun{a}))$, где $\\enfFun{D}$ — вероятность того, что пара экспертная. Чем больше дискриминатор «верит» в экспертность пары, тем выше награда.",
   },
   {
     question: "Какое поле в YAML ML-Agents 4.0 устарело и сломает конфиг?",

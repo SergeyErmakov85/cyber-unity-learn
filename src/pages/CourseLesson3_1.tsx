@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_3_1 from "@/content/math-symbols/pages/lesson-3-1";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -46,6 +48,7 @@ const SECTIONS: SectionNavItem[] = [
   { id: "раздел-6-reparameterization-trick-для-стохастической-политики", label: "6 · Reparam-trick" },
   { id: "раздел-7-автоматическая-подстройка-температуры-alpha", label: "7 · Автоподстройка α" },
   { id: "раздел-8-replay-buffer-и-off-policy", label: "8 · Replay Buffer" },
+  { id: "символы-и-код", label: "Символы → код" },
   { id: "раздел-9-полный-алгоритм-sac", label: "9 · Алгоритм SAC" },
   { id: "раздел-10-сравнение-sac-vs-ppo", label: "10 · SAC vs PPO" },
   { id: "раздел-11-гиперпараметры-sac", label: "11 · Гиперпараметры" },
@@ -53,6 +56,11 @@ const SECTIONS: SectionNavItem[] = [
   { id: "раздел-13-связь-с-гоночным-агентом", label: "13 · От PPO к SAC" },
   { id: "итоги", label: "Итоги" },
 ];
+
+/** Символы урока: от формулы к коду (ENF, модуль «Код»). */
+const LessonSymbols = () => (
+  <SymbolTable {...SYMBOLS_LESSON_3_1} variant="section" title="Символы урока: от формулы к коду" />
+);
 
 const SECTION_COMPONENTS: Record<string, () => JSX.Element> = {
   intro: IntroSection,
@@ -65,6 +73,7 @@ const SECTION_COMPONENTS: Record<string, () => JSX.Element> = {
   "раздел-6-reparameterization-trick-для-стохастической-политики": Section6,
   "раздел-7-автоматическая-подстройка-температуры-alpha": Section7,
   "раздел-8-replay-buffer-и-off-policy": Section8,
+  "символы-и-код": LessonSymbols,
   "раздел-9-полный-алгоритм-sac": Section9,
   "раздел-10-сравнение-sac-vs-ppo": Section10,
   "раздел-11-гиперпараметры-sac": Section11,
@@ -92,7 +101,7 @@ const QUIZ_QUESTIONS = [
     ],
     correctIndex: 1,
     explanation:
-      "SAC оптимизирует maximum-entropy objective: $\\enfTgt{J}(\\enfFun{\\pi})=\\sum \\mathbb{E}[\\enfTgt{r} + \\enfPar{\\alpha} \\cdot \\enfOp{H}(\\enfFun{\\pi})]$. Агент стремится быть максимально случайным при высокой награде.",
+      "SAC оптимизирует maximum-entropy objective: $\\enfTgt{J}(\\enfFun{\\pi})=\\sum \\mathbb{E}[\\enfTgt{r} + \\enfPar{\\alpha} \\cdot \\enfOp{\\mathcal{H}}(\\enfFun{\\pi})]$. Агент стремится быть максимально случайным при высокой награде.",
   },
   {
     question: "Зачем в SAC используются два Q-критика (clipped double-Q)?",

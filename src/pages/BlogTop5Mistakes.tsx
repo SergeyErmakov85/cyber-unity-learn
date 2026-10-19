@@ -93,7 +93,7 @@ if (distToTarget < 1.5f) {
         все наблюдения к примерно одинаковому масштабу. Дополнительно нормализуйте вручную то, что
         знаете заранее: позиции делите на размер арены, углы на <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>.
       </p>
-      <CyberCodeBlock language="python" filename="normalize_config.yaml">
+      <CyberCodeBlock language="yaml" filename="normalize_config.yaml">
 {`behaviors:
   MyAgent:
     network_settings:

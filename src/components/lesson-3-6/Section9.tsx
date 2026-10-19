@@ -69,7 +69,7 @@ const Section9 = () => (
       <strong>Sweeps</strong>. Конфиг задаётся декларативно (словарь или YAML):
     </ProseP>
 
-    <CyberCodeBlock language="pseudo" filename="sweep.yaml">
+    <CyberCodeBlock language="yaml" filename="sweep.yaml">
       {SWEEP_YAML}
     </CyberCodeBlock>
 

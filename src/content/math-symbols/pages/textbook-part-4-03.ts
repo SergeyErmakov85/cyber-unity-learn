@@ -1,0 +1,111 @@
+import type { PageSymbols } from "../types";
+
+const r = String.raw;
+
+/** Символы страницы: от формулы к коду. Черновик — scripts/symbol-table-draft.mjs. */
+const table: PageSymbols = {
+  id: "textbook-part-4-03",
+  symbols: [
+  {
+    tex: r`\theta`,
+    role: "parameter",
+    name: r`Веса политики`,
+    meaning: r`Все обучаемые параметры нейросети политики $\enfFun{\pi}_\theta$ (или Q-сети $\enfOp{Q}_\theta$). $\enfPar{\theta}_{\text{old}}$ — их копия на момент сбора данных, $\enfPar{\theta}^-$ — веса целевой сети.`,
+    inFormula: r`То, что обучается: стоит в аргументе целевой функции $\enfTgt{J}(\enfPar{\theta})$ и меняется шагом $\enfPar{\theta} \leftarrow \enfPar{\theta} + \enfPar{\alpha}\enfOp{\nabla}_\theta \enfTgt{J}$.`,
+    code: r`theta`,
+    codeType: r`итератор torch.nn.Parameter`,
+    codeNote: r`В коде страницы: \`theta = np.array(theta0, dtype=float)\`.`,
+  },
+  {
+    tex: r`\alpha`,
+    role: "parameter",
+    name: r`Скорость обучения / температура`,
+    meaning: r`В правилах обновления — размер шага ($\enfPar{\alpha} \approx 10^{-4} \ldots 10^{-3}$ для сетей, $0{,}1$ для таблиц). В SAC — температура: вес энтропийного бонуса.`,
+    inFormula: r`Настраиваемый множитель: насколько далеко шагать в сторону ошибки или насколько ценить случайность.`,
+    code: r`alpha`,
+    codeType: r`float`,
+    codeNote: r`В коде страницы: \`def run(method, alpha, steps=200, theta0=(1.0, 1.0)):\`.`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\beta`,
+    role: "parameter",
+    name: r`Коэффициент β`,
+    meaning: r`Вес энтропийного бонуса в ML-Agents PPO (\`beta\`), коэффициенты моментов Adam $\enfPar{\beta}_1, \enfPar{\beta}_2$ или степень коррекции в приоритетном реплее — смысл задаёт формула.`,
+    inFormula: r`Настраиваемый коэффициент.`,
+    code: r`beta`,
+    codeType: r`float`,
+    codeNote: r`PPO в ML-Agents: \`hyperparameters.beta\`, обычно \`5e-3\`; Adam: \`betas=(0.9, 0.999)\`.`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\epsilon`,
+    role: "parameter",
+    name: r`Эпсилон (клиппинг / исследование)`,
+    meaning: r`То же, что $\enfPar{\varepsilon}$, другое начертание: ширина клиппинга PPO или вероятность случайного действия.`,
+    inFormula: r`Настраиваемая граница.`,
+    code: r`epsilon`,
+    codeType: r`float`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`g`,
+    role: "variable",
+    name: r`Объект формального контекста`,
+    meaning: r`Элемент множества объектов $G$ в анализе формальных понятий (FCA).`,
+    code: r`obj`,
+    codeType: r`str`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`m`,
+    role: "variable",
+    name: r`Память рекуррентной сети`,
+    meaning: r`$\enfVar{m}_t$ — скрытое состояние LSTM/GRU: сжатая история наблюдений до шага $t$.`,
+    inFormula: r`Объект, который сеть передаёт сама себе: $\enfVar{m}_t = \operatorname{LSTM}_\phi(\enfVar{o}_t, \enfVar{m}_{t-1})$.`,
+    code: r`memory / (h, c)`,
+    codeType: r`torch.Tensor (B, memory_size)`,
+    codeNote: r`В ML-Agents — \`network_settings.memory.memory_size\` (должен делиться на 2) и \`sequence_length\`.`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`v`,
+    role: "variable",
+    name: r`Скорость`,
+    meaning: r`Линейная скорость машины; $\enfVar{v}_{\max}$ — максимальная, $\enfVar{\tilde{v}} = \enfVar{v}/\enfVar{v}_{\max}$ — нормированная.`,
+    code: r`speed`,
+    codeType: r`float`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\mathcal{L}`,
+    role: "target",
+    name: r`Функция потерь / семейство целей`,
+    meaning: r`Каллиграфическое $\enfTgt{\mathcal{L}}$ — функция потерь (например, $\enfTgt{\mathcal{L}}_{\text{BC}}$), а в учебных планах — семейство целей $\enfTgt{\mathcal{L}}_\lambda$ от простой к трудной.`,
+    inFormula: r`То, что минимизируют; индекс уточняет, какая именно потеря.`,
+    code: r`loss`,
+    codeType: r`torch.Tensor (скаляр)`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\sum`,
+    role: "neutral",
+    name: r`Сумма`,
+    meaning: r`Сложить все слагаемые для индекса от нижнего предела до верхнего.`,
+    code: r`.sum() / цикл`,
+    codeType: r`—`,
+    codeNote: r`\`x.sum()\` или \`for\` — в формуле нумерация с 1, в Python с 0.`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\max`,
+    role: "neutral",
+    name: r`Максимум`,
+    meaning: r`Наибольшее значение выражения; $\max_{a'}$ — по всем действиям $a'$ (связанная переменная не окрашивается).`,
+    code: r`Q[s].max() / q.max(dim=1).values`,
+    codeType: r`—`,
+  },
+  { // TODO: сверить с кодом
+    tex: r`\min`,
+    role: "neutral",
+    name: r`Минимум`,
+    meaning: r`Наименьшее значение; в PPO $\min$ выбирает более осторожную из двух оценок, в SAC — меньшую из двух Q-сетей.`,
+    code: r`torch.min(a, b)`,
+    codeType: r`—`,
+  },
+  ],
+};
+
+export default table;

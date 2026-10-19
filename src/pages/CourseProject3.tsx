@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_PROJECT_3 from "@/content/math-symbols/pages/project-3";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -27,6 +29,7 @@ import MathTex from "@/components/Math";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro",           label: "Введение и теория" },
+  { id: "symbols",         label: "Символы → код" },
   { id: "setup",           label: "Настройка окружения" },
   { id: "sensors",         label: "Сенсоры" },
   { id: "agent",           label: "Логика агента (C#)" },
@@ -159,6 +162,8 @@ const CourseProject3 = () => {
             <h2 className={`${SECTION_TITLE_CLASS} text-2xl md:text-3xl`}>{s.label}</h2>
             {s.id === "intro" ? (
               <IntroSection />
+            ) : s.id === "symbols" ? (
+              <SymbolTable {...SYMBOLS_PROJECT_3} variant="section" title="Символы проекта: от формулы к коду" />
             ) : s.id === "setup" ? (
               <Section2Setup />
             ) : s.id === "sensors" ? (

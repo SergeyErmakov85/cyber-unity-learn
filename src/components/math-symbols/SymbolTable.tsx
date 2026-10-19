@@ -47,7 +47,7 @@ interface SymbolTableProps extends PageSymbols {
   variant?: "card" | "section";
 }
 
-const SymbolTable = ({ id, caption, symbols, title, className = "", variant = "card" }: SymbolTableProps) => {
+const SymbolTable = ({ id, caption, codeLang = "Python", symbols, title, className = "", variant = "card" }: SymbolTableProps) => {
   const [expanded, setExpanded] = useState(symbols.length <= COLLAPSED_ROWS + 2);
 
   useEffect(() => {
@@ -76,8 +76,8 @@ const SymbolTable = ({ id, caption, symbols, title, className = "", variant = "c
           </h3>
           <p className="text-sm leading-relaxed text-muted-foreground">
             {caption ??
-              "Каждый символ из формул этой страницы: что он означает, какую роль играет и как называется в Python-коде."}{" "}
-            Цвет символа — его роль, одинаковая во всех формулах страницы.
+              `Каждый символ из формул этой страницы: что он означает, какую роль играет и как называется в коде (${codeLang}).`}{" "}
+            Цвет символа — его роль в формуле.
           </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1">
             {usedRoles.map((role) => (
@@ -101,7 +101,7 @@ const SymbolTable = ({ id, caption, symbols, title, className = "", variant = "c
               <th className="w-[11%] px-5 py-3 font-medium">Символ</th>
               <th className="px-3 py-3 font-medium">Смысл</th>
               <th className="w-[12%] px-3 py-3 font-medium">Роль</th>
-              <th className="w-[34%] px-5 py-3 font-medium">В коде (Python)</th>
+              <th className="w-[34%] px-5 py-3 font-medium">В коде ({codeLang})</th>
             </tr>
           </thead>
           <tbody>

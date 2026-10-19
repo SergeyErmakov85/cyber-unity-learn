@@ -53,7 +53,7 @@ const Section12 = () => (
       действиями), а затем разбор полей.
     </ProseP>
 
-    <CyberCodeBlock language="pseudo" filename="racer_sac.yaml">
+    <CyberCodeBlock language="yaml" filename="racer_sac.yaml">
       {YAML}
     </CyberCodeBlock>
 

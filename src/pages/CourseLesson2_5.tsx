@@ -355,7 +355,7 @@ mlagents-learn config/trainer.yaml \\
 # --time-scale=20  — ускорение внутриигрового времени`}
             </CyberCodeBlock>
 
-            <CyberCodeBlock language="python" filename="trainer_config.yaml">
+            <CyberCodeBlock language="yaml" filename="trainer_config.yaml">
 {`behaviors:
   HunterAgent:
     trainer_type: ppo
@@ -611,7 +611,7 @@ mlagents-learn config/trainer.yaml \\
 }`}
             </CyberCodeBlock>
 
-            <CyberCodeBlock language="python" filename="trainer_config.yaml">
+            <CyberCodeBlock language="yaml" filename="trainer_config.yaml">
 {`environment_parameters:
   agent_mass:
     sampler_type: uniform
