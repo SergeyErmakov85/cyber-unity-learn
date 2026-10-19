@@ -20,7 +20,7 @@ const Section11 = () => (
         <strong>Масштаб награды / целевая энтропия.</strong> Исторически <em>главный</em>{" "}
         гиперпараметр SAC. С автоподстройкой <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> его
         роль берёт на себя целевая энтропия{" "}
-        <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}=-\dim(\mathcal{A})`}</Math>. Если агент
+        <Math display={false}>{String.raw`\enfTgt{\bar{\mathcal{H}}}=-\dim(\mathcal{A})`}</Math>. Если агент
         схлопывается в детерминизм слишком рано — поднимите стартовый энтропийный коэффициент (
         <code className={chip}>init_entcoef</code>); если бесцельно «дёргается» и не эксплуатирует
         награду — снизьте.
@@ -55,7 +55,7 @@ const Section11 = () => (
         <strong>Learning rate (<code className={chip}>learning_rate</code>).</strong> Около{" "}
         <Math display={false}>{String.raw`3\times10^{-4}`}</Math>. Для SAC держат{" "}
         <strong>постоянным</strong> (<code className={chip}>constant</code>), чтобы{" "}
-        <Math display={false}>{String.raw`Q`}</Math> доучилась до естественной сходимости.
+        <Math display={false}>{String.raw`\enfOp{Q}`}</Math> доучилась до естественной сходимости.
       </li>
       <li>
         <strong>Batch size (<code className={chip}>batch_size</code>).</strong> Для непрерывных

@@ -73,7 +73,7 @@ const DQNModule = () => {
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Функция потерь DQN</h3>
-                  <Math>{"L(\\enfPar{\\theta}) = \\mathbb{E}\\left[ \\left( \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a'; \\enfPar{\\theta}^-) - \\enfOp{Q}(\\enfVar{s}, a; \\enfPar{\\theta}) \\right)^2 \\right]"}</Math>
+                  <Math>{"\\enfTgt{L}(\\enfPar{\\theta}) = \\mathbb{E}\\left[ \\left( \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a'; \\enfPar{\\theta}^-) - \\enfOp{Q}(\\enfVar{s}, a; \\enfPar{\\theta}) \\right)^2 \\right]"}</Math>
                   <p className="text-sm text-muted-foreground mt-2">
                     θ⁻ — параметры target network, которая обновляется периодически для стабильности.
                   </p>
@@ -181,7 +181,7 @@ class DQNAgent:
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Решение Double DQN</h3>
-                  <Math>{"Y^{\\text{DDQN}} = \\enfTgt{r} + \\enfPar{\\gamma} \\enfOp{Q}\\left(\\enfVar{s}', \\arg\\max_{a'} \\enfOp{Q}(\\enfVar{s}', a'; \\enfPar{\\theta}); \\enfPar{\\theta}^-\\right)"}</Math>
+                  <Math>{"\\enfTgt{Y}^{\\text{DDQN}} = \\enfTgt{r} + \\enfPar{\\gamma} \\enfOp{Q}\\left(\\enfVar{s}', \\arg\\max_{a'} \\enfOp{Q}(\\enfVar{s}', a'; \\enfPar{\\theta}); \\enfPar{\\theta}^-\\right)"}</Math>
                   <p className="text-sm text-muted-foreground mt-2">
                     Online-сеть (θ) выбирает лучшее действие, а target-сеть (θ⁻) оценивает его Q-значение.
                   </p>
@@ -214,7 +214,7 @@ with torch.no_grad():
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Декомпозиция</h3>
-                  <Math>{"\\enfOp{Q}(\\enfVar{s}, a; \\enfPar{\\theta}, \\enfPar{\\alpha}, \\beta) = \\enfOp{V}(\\enfVar{s}; \\enfPar{\\theta}, \\beta) + \\left( A(\\enfVar{s}, a; \\enfPar{\\theta}, \\enfPar{\\alpha}) - \\frac{1}{|\\mathcal{A}|} \\sum_{a'} A(\\enfVar{s}, a'; \\enfPar{\\theta}, \\enfPar{\\alpha}) \\right)"}</Math>
+                  <Math>{"\\enfOp{Q}(\\enfVar{s}, \\enfFun{a}; \\enfPar{\\theta}, \\enfPar{\\alpha}, \\enfPar{\\beta}) = \\enfOp{V}(\\enfVar{s}; \\enfPar{\\theta}, \\enfPar{\\beta}) + \\left( \\enfOp{A}(\\enfVar{s}, \\enfFun{a}; \\enfPar{\\theta}, \\enfPar{\\alpha}) - \\frac{1}{|\\mathcal{A}|} \\sum_{a'} \\enfOp{A}(\\enfVar{s}, a'; \\enfPar{\\theta}, \\enfPar{\\alpha}) \\right)"}</Math>
                 </div>
 
                 {codeBlock(`class DuelingDQN(nn.Module):
@@ -263,13 +263,13 @@ with torch.no_grad():
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Приоритет</h3>
-                  <Math>{"p_i = |\\delta_i| + \\enfPar{\\varepsilon}"}</Math>
-                  <Math>{"P(i) = \\frac{p_i^\\alpha}{\\sum_k p_k^\\alpha}"}</Math>
+                  <Math>{"\\enfVar{p}_i = |\\enfVar{\\delta}_i| + \\enfPar{\\varepsilon}"}</Math>
+                  <Math>{"\\enfFun{P}(i) = \\frac{\\enfVar{p}_i^\\alpha}{\\sum_k \\enfVar{p}_k^\\alpha}"}</Math>
                 </div>
 
                 <div>
                   <h3 className="text-lg font-semibold mb-2">Importance Sampling</h3>
-                  <Math>{"w_i = \\left( \\frac{1}{N} \\cdot \\frac{1}{P(i)} \\right)^\\beta"}</Math>
+                  <Math>{"\\enfVar{w}_i = \\left( \\frac{1}{N} \\cdot \\frac{1}{\\enfFun{P}(i)} \\right)^\\beta"}</Math>
                   <p className="text-sm text-muted-foreground mt-1">
                     Веса importance sampling корректируют bias от неравномерной выборки. β увеличивается от 0.4 до 1.0 в процессе обучения.
                   </p>

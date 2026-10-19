@@ -10,8 +10,8 @@ const Summary = () => (
     <ul className="space-y-3 my-4 list-disc list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>
         <strong>Задача HPO:</strong>{" "}
-        <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}^{\star} = \arg\max_{\boldsymbol{\lambda}} \enfFun{f}(\boldsymbol{\enfPar{\lambda}})`}</Math>
-        , где <Math display={false}>{String.raw`f`}</Math> — дорогой, шумный чёрный ящик; бюджет
+        <Math display={false}>{String.raw`\enfTgt{\boldsymbol{\lambda}}^{\star} = \arg\max_{\boldsymbol{\lambda}} \enfTgt{f}(\enfPar{\boldsymbol{\lambda}})`}</Math>
+        , где <Math display={false}>{String.raw`\enfTgt{f}`}</Math> — дорогой, шумный чёрный ящик; бюджет
         считаем в числе испытаний.
       </li>
       <li>

@@ -7,6 +7,7 @@ import "katex/dist/katex.min.css";
 
 import { KATEX_OPTIONS } from "@/lib/katex-options";
 import { remarkEnfCallouts } from "@/lib/remark-enf-callouts";
+import { rehypeEnfSymbols } from "@/lib/rehype-enf-symbols";
 import { slugify } from "@/lib/slug";
 import { unityLabUrl } from "@/lib/textbook-links";
 import { UNITY_BRIDGE } from "@/content/textbook/index.generated";
@@ -106,7 +107,7 @@ const MarkdownLecture = ({ source, partDir, stripTitle = true }: MarkdownLecture
       <div className="prose prose-invert textbook-prose max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkMath, remarkEnfCallouts]}
-          rehypePlugins={[[rehypeKatex, KATEX_OPTIONS]]}
+          rehypePlugins={[rehypeEnfSymbols, [rehypeKatex, KATEX_OPTIONS]]}
           components={components}
         >
           {body}

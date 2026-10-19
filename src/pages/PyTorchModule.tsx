@@ -324,9 +324,9 @@ print("Q-таблица сохранена в файл taxi_q_table.npy")`}</Cyb
 
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">Формулы DQN</h3>
           <p>Целевое значение (target):</p>
-          <Math>{`y = \\enfTgt{r} + \\enfPar{\\gamma} \\cdot \\max_{a'} \\enfOp{Q}_{\\text{target}}(\\enfVar{s}', a') \\cdot (1 - \\text{done})`}</Math>
+          <Math>{`\\enfTgt{y} = \\enfTgt{r} + \\enfPar{\\gamma} \\cdot \\max_{a'} \\enfOp{Q}_{\\text{target}}(\\enfVar{s}', a') \\cdot (1 - \\text{done})`}</Math>
           <p>Функция потерь:</p>
-          <Math>{`L(\\enfPar{\\theta}) = \\text{MSE}\\bigl(\\enfOp{Q}_{\\theta}(\\enfVar{s},a),\\; y\\bigr)`}</Math>
+          <Math>{`\\enfTgt{L}(\\enfPar{\\theta}) = \\operatorname{MSE}\\bigl(\\enfOp{Q}_{\\theta}(\\enfVar{s},a),\\; \\enfTgt{y}\\bigr)`}</Math>
 
           <h3 className="text-xl font-semibold text-foreground mt-8 mb-3">1. Нейросеть и Replay Buffer</h3>
           <CyberCodeBlock language="python" filename="dqn_model.py">{`import torch

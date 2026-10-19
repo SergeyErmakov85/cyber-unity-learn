@@ -10,7 +10,7 @@ const Section5 = () => (
 
     <ProseP>
       Адаптивные методы строят <strong>суррогатную модель (surrogate)</strong> — дешёвое
-      приближение дорогой функции <Math display={false}>{String.raw`f`}</Math> — и используют её,
+      приближение дорогой функции <Math display={false}>{String.raw`\enfTgt{f}`}</Math> — и используют её,
       чтобы выбрать следующую точку умнее, чем наугад. Этот цикл называют <strong>SMBO</strong>{" "}
       (Sequential Model-Based Optimization):
     </ProseP>
@@ -18,28 +18,28 @@ const Section5 = () => (
     <ol className="space-y-2 my-4 list-decimal list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>
         Обучи суррогат на уже наблюдённых парах{" "}
-        <Math display={false}>{String.raw`(\boldsymbol{\enfPar{\lambda}}_i, \enfFun{f}(\boldsymbol{\enfPar{\lambda}}_i))`}</Math>
+        <Math display={false}>{String.raw`(\enfPar{\boldsymbol{\lambda}}_i, \enfTgt{f}(\enfPar{\boldsymbol{\lambda}}_i))`}</Math>
         .
       </li>
       <li>
         С помощью <strong>функции выгоды (acquisition function)</strong> выбери следующий{" "}
-        <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}`}</Math>.
+        <Math display={false}>{String.raw`\enfPar{\boldsymbol{\lambda}}`}</Math>.
       </li>
       <li>
         Вычисли настоящее (дорогое){" "}
-        <Math display={false}>{String.raw`\enfFun{f}(\boldsymbol{\enfPar{\lambda}})`}</Math>, добавь в историю.
+        <Math display={false}>{String.raw`\enfTgt{f}(\enfPar{\boldsymbol{\lambda}})`}</Math>, добавь в историю.
       </li>
       <li>Повтори.</li>
     </ol>
 
     <ProseP>
       Самая популярная функция выгоды — <strong>ожидаемое улучшение (Expected Improvement, EI)</strong>
-      . Пусть <Math display={false}>{String.raw`\enfFun{f}^{\star}`}</Math> — лучшее значение, достигнутое к
+      . Пусть <Math display={false}>{String.raw`\enfTgt{f}^{\star}`}</Math> — лучшее значение, достигнутое к
       данному моменту. EI оценивает, насколько кандидат{" "}
-      <Math display={false}>{String.raw`\boldsymbol{\enfPar{\lambda}}`}</Math> в среднем улучшит результат:
+      <Math display={false}>{String.raw`\enfPar{\boldsymbol{\lambda}}`}</Math> в среднем улучшит результат:
     </ProseP>
 
-    <Math>{String.raw`\mathrm{EI}(\boldsymbol{\enfPar{\lambda}}) = \mathbb{E}\!\left[\max\big(\enfFun{f}(\boldsymbol{\enfPar{\lambda}}) - \enfFun{f}^{\star},\, 0\big)\right].`}</Math>
+    <Math>{String.raw`\mathrm{EI}(\enfPar{\boldsymbol{\lambda}}) = \mathbb{E}\!\left[\max\big(\enfTgt{f}(\enfPar{\boldsymbol{\lambda}}) - \enfTgt{f}^{\star},\, 0\big)\right].`}</Math>
 
     <ProseP>
       EI элегантно балансирует <strong>эксплуатацию</strong> (точки рядом с уже найденным хорошим) и{" "}
@@ -66,12 +66,12 @@ const Section5 = () => (
     <KeyPoints
       items={[
         <>
-          SMBO: суррогат приближает <Math display={false}>{String.raw`f`}</Math>, функция выгоды
+          SMBO: суррогат приближает <Math display={false}>{String.raw`\enfTgt{f}`}</Math>, функция выгоды
           выбирает следующую точку, история пополняется.
         </>,
         <>
           <strong>EI</strong> — ожидаемое улучшение над лучшим текущим результатом{" "}
-          <Math display={false}>{String.raw`\enfFun{f}^{\star}`}</Math>; балансирует эксплуатацию и
+          <Math display={false}>{String.raw`\enfTgt{f}^{\star}`}</Math>; балансирует эксплуатацию и
           исследование.
         </>,
         <>

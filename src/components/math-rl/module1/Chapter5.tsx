@@ -13,7 +13,7 @@ const Chapter5 = () => (
 
     <h3 id="уравнение-ожиданий-беллмана" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Уравнение ожиданий Беллмана</h3>
     <p>Подставив рекурсию в определение <Math display={false}>{"\\enfOp{V}_\\pi(\\enfVar{s})"}</Math>, получаем:</p>
-    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\sum_{a} \\pi(a \\mid \\enfVar{s}) \\sum_{s', r} p(\\enfVar{s}', \\enfTgt{r} \\mid \\enfVar{s}, a) \\left[ \\enfTgt{r} + \\enfPar{\\gamma}\\, \\enfOp{V}_\\pi(\\enfVar{s}') \\right]"}</Math>
+    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\sum_{a} \\pi(a \\mid \\enfVar{s}) \\sum_{s', r} p(s', \\enfTgt{r} \\mid \\enfVar{s}, a) \\left[ \\enfTgt{r} + \\enfPar{\\gamma}\\, \\enfOp{V}_\\pi(s') \\right]"}</Math>
 
     <InfoBox variant="secondary">
       <p className="font-semibold text-foreground mb-2">Чтение формулы «справа налево»</p>
@@ -22,10 +22,10 @@ const Chapter5 = () => (
           <Math display={false}>{"[\\enfTgt{r} + \\enfPar{\\gamma} \\enfOp{V}_\\pi(\\enfVar{s}')]"}</Math> — польза одного перехода: немедленная награда + дисконтированная ценность нового состояния
         </li>
         <li>
-          Внутренняя сумма <Math display={false}>{"\\sum_{s',r}"}</Math> — усредняем по всем возможным переходам среды (динамика <Math display={false}>{"p(s',r|s,a)"}</Math>)
+          Внутренняя сумма <Math display={false}>{"\\sum_{s',r}"}</Math> — усредняем по всем возможным переходам среды (динамика <Math display={false}>{"\\enfFun{p}(\\enfVar{s}',\\enfTgt{r} \\mid \\enfVar{s},\\enfFun{a})"}</Math>)
         </li>
         <li>
-          Внешняя сумма <Math display={false}>{"\\sum_a"}</Math> — усредняем по всем действиям, взвешенным вероятностью политики <Math display={false}>{"\\pi(a \\mid \\enfVar{s})"}</Math>
+          Внешняя сумма <Math display={false}>{"\\sum_a"}</Math> — усредняем по всем действиям, взвешенным вероятностью политики <Math display={false}>{"\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s})"}</Math>
         </li>
       </ul>
       <p className="text-sm mt-2">
@@ -35,24 +35,24 @@ const Chapter5 = () => (
 
     <h3 id="уравнение-оптимальности-беллмана" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Уравнение оптимальности Беллмана</h3>
     <p>
-      Оптимальная политика <Math display={false}>{"\\pi^*"}</Math> порождает <Math display={false}>{"\\enfOp{V}^*(\\enfVar{s}) = \\max_\\pi \\enfOp{V}_\\pi(\\enfVar{s})"}</Math>. В оптимальном поведении усреднение по действиям заменяется оператором <Math display={false}>{"\\max"}</Math>:
+      Оптимальная политика <Math display={false}>{"\\enfFun{\\pi}^*"}</Math> порождает <Math display={false}>{"\\enfOp{V}^*(\\enfVar{s}) = \\max_\\pi \\enfOp{V}_\\pi(\\enfVar{s})"}</Math>. В оптимальном поведении усреднение по действиям заменяется оператором <Math display={false}>{"\\max"}</Math>:
     </p>
-    <Math>{"\\enfOp{V}^*(\\enfVar{s}) = \\max_a \\sum_{s', r} p(\\enfVar{s}', \\enfTgt{r} \\mid \\enfVar{s}, a)\\left[ \\enfTgt{r} + \\enfPar{\\gamma}\\, \\enfOp{V}^*(\\enfVar{s}') \\right]"}</Math>
+    <Math>{"\\enfOp{V}^*(\\enfVar{s}) = \\max_a \\sum_{s', r} p(s', \\enfTgt{r} \\mid \\enfVar{s}, a)\\left[ \\enfTgt{r} + \\enfPar{\\gamma}\\, \\enfOp{V}^*(s') \\right]"}</Math>
     <p className="mt-4">Аналогично для Q-функции:</p>
-    <Math>{"\\enfOp{Q}^*(\\enfVar{s}, a) = \\sum_{s', r} p(\\enfVar{s}', \\enfTgt{r} \\mid \\enfVar{s}, a)\\left[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}^*(\\enfVar{s}', a') \\right]"}</Math>
+    <Math>{"\\enfOp{Q}^*(\\enfVar{s}, a) = \\sum_{s', r} p(s', \\enfTgt{r} \\mid \\enfVar{s}, a)\\left[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}^*(s', a') \\right]"}</Math>
 
     <InfoBox variant="accent">
       <p className="font-semibold text-foreground mb-2">Почему Q* так важно?</p>
       <p className="text-sm">
-        Если агент знает точные <Math display={false}>{"\\enfOp{Q}^*(\\enfVar{s},a)"}</Math> для каждой пары (состояние, действие), ему <strong className="text-foreground">не нужна отдельная политика</strong>. Оптимальное поведение сводится к банальному поиску максимума: находясь в <Math display={false}>{"s"}</Math>, просто выбери <Math display={false}>{"a"}</Math> с наибольшим <Math display={false}>{"\\enfOp{Q}^*"}</Math>. Это краеугольный камень алгоритма <strong className="text-primary">Q-learning</strong>.
+        Если агент знает точные <Math display={false}>{"\\enfOp{Q}^*(\\enfVar{s},\\enfFun{a})"}</Math> для каждой пары (состояние, действие), ему <strong className="text-foreground">не нужна отдельная политика</strong>. Оптимальное поведение сводится к банальному поиску максимума: находясь в <Math display={false}>{"\\enfVar{s}"}</Math>, просто выбери <Math display={false}>{"\\enfFun{a}"}</Math> с наибольшим <Math display={false}>{"\\enfOp{Q}^*"}</Math>. Это краеугольный камень алгоритма <strong className="text-primary">Q-learning</strong>.
       </p>
     </InfoBox>
 
     <h4 className="text-lg font-semibold text-foreground mt-6 mb-2">Пример: MDP с двумя состояниями</h4>
     <p>
-      <Math display={false}>{"S_1 \\to S_2"}</Math> (награда +2), <Math display={false}>{"S_2 \\to S_1"}</Math> (награда 0), <Math display={false}>{"\\enfPar{\\gamma} = 0.9"}</Math>:
+      <Math display={false}>{"\\enfVar{S}_1 \\to \\enfVar{S}_2"}</Math> (награда +2), <Math display={false}>{"\\enfVar{S}_2 \\to \\enfVar{S}_1"}</Math> (награда 0), <Math display={false}>{"\\enfPar{\\gamma} = 0.9"}</Math>:
     </p>
-    <Math>{"\\begin{cases} v_1 = 2 + 0.9\\,v_2 \\\\ v_2 = 0.9\\,v_1 \\end{cases} \\;\\Rightarrow\\; v_1 \\approx 10.53,\\quad v_2 \\approx 9.47"}</Math>
+    <Math>{"\\begin{cases} \\enfOp{v}_1 = 2 + 0.9\\,\\enfOp{v}_2 \\\\ \\enfOp{v}_2 = 0.9\\,\\enfOp{v}_1 \\end{cases} \\;\\Rightarrow\\; \\enfOp{v}_1 \\approx 10.53,\\quad \\enfOp{v}_2 \\approx 9.47"}</Math>
     <CodeBlock>{`gamma = 0.9
 V = [0.0, 0.0]
 for i in range(1, 6):

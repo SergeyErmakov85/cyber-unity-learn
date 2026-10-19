@@ -787,8 +787,8 @@ namespace AutonomousRacing.Learning
         </li>
         <li>
           <strong className="text-foreground">Уменьшает риск ранней насыщенности нелинейностей</strong>{" "}
-          (<Math display={false}>{String.raw`\tanh(x) \to \pm 1`}</Math> при{" "}
-          <Math display={false}>{String.raw`|x| \gtrsim 3`}</Math>)
+          (<Math display={false}>{String.raw`\tanh(\enfVar{x}) \to \pm 1`}</Math> при{" "}
+          <Math display={false}>{String.raw`|\enfVar{x}| \gtrsim 3`}</Math>)
         </li>
         <li>
           <strong className="text-foreground">Стабилизирует value loss</strong>:{" "}

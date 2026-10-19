@@ -438,7 +438,7 @@ const FrozenLakeProject = () => {
                 <ul className="list-disc pl-6 space-y-1 text-muted-foreground text-sm">
                   <li>Агент в клетке <strong className="text-foreground">6</strong>, идёт <strong className="text-foreground">вправо</strong> и попадает в клетку <strong className="text-foreground">7</strong></li>
                   <li><InlineMath>{"\\enfOp{Q}(6, \\text{вправо}) = 0.3"}</InlineMath> (старая оценка)</li>
-                  <li>Награда <InlineMath>{"r = 0"}</InlineMath> (просто перешёл на лёд)</li>
+                  <li>Награда <InlineMath>{"\\enfTgt{r} = 0"}</InlineMath> (просто перешёл на лёд)</li>
                   <li><InlineMath>{"\\max \\enfOp{Q}(7, \\cdot) = 0.8"}</InlineMath> (лучшая оценка в клетке 7)</li>
                   <li><InlineMath>{"\\enfPar{\\alpha} = 0.1, \\enfPar{\\gamma} = 0.99"}</InlineMath></li>
                 </ul>
@@ -458,7 +458,7 @@ const FrozenLakeProject = () => {
                 <h3 className="text-lg font-bold text-foreground mb-3">🎲 Стратегия ε-greedy (эпсилон-жадная)</h3>
                 <p className="text-muted-foreground mb-3">Как агент выбирает действия во время обучения?</p>
                 <div className="overflow-x-auto py-2">
-                  <MathBlock>{`\\text{Действие} = \\begin{cases} \\text{случайное действие} & \\text{с вероятностью } \\enfPar{\\varepsilon} \\\\ \\arg\\max_a \\enfOp{Q}(\\enfVar{s}, a) & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\end{cases}`}</MathBlock>
+                  <MathBlock>{`\\text{Действие} = \\begin{cases} \\text{случайное действие} & \\text{с вероятностью } \\enfPar{\\varepsilon} \\\\ \\arg\\max_a \\enfOp{Q}(\\enfVar{s}, \\enfFun{a}) & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\end{cases}`}</MathBlock>
                 </div>
                 <p className="text-muted-foreground mt-3">Простыми словами:</p>
                 <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
@@ -667,7 +667,7 @@ for episode in range(n_episodes):
                 <h3 className="text-lg font-bold text-foreground mb-3">🔥 Тепловая карта Q-таблицы</h3>
                 <p className="text-muted-foreground">
                   Тепловая карта показывает <strong className="text-foreground">лучшее Q-значение</strong> в каждой клетке
-                  (т.е. <InlineMath>{"\\max_a \\enfOp{Q}(\\enfVar{s},a)"}</InlineMath>). Чем ярче клетка — тем ближе она к цели по мнению агента.
+                  (т.е. <InlineMath>{"\\max_a \\enfOp{Q}(\\enfVar{s},\\enfFun{a})"}</InlineMath>). Чем ярче клетка — тем ближе она к цели по мнению агента.
                 </p>
               </CardContent>
             </Card>

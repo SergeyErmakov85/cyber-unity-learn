@@ -301,7 +301,7 @@ const ObservationVectorViz = () => {
         }}
       >
         <MathTex display={false}>
-          {"\\hat{x} = \\operatorname{clip}\\!\\left(\\dfrac{x}{x_{\\max}},\\, -1,\\, 1\\right)"}
+          {"\\enfVar{\\hat{x}} = \\operatorname{clip}\\!\\left(\\dfrac{\\enfVar{x}}{\\enfVar{x}_{\\max}},\\, -1,\\, 1\\right)"}
         </MathTex>
       </div>
 

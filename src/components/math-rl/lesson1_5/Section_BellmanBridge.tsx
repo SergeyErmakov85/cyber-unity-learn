@@ -262,14 +262,14 @@ const Section_BellmanBridge = () => {
               label="Bellman expectation · § 5–6"
               labelColor={MAGENTA}
               note="средняя ценность при следовании политике π"
-              tex="V^{\pi}(s) \;=\; \sum_{a} \pi(a \mid s) \sum_{s'} P(s' \mid s, a)\,\bigl[\, R(s') + \gamma\, V^{\pi}(s') \,\bigr]"
+              tex="\\enfOp{V}^{\\pi}(\\enfVar{s}) \\;=\\; \\sum_{a} \\pi(a \\mid \\enfVar{s}) \\sum_{s'} P(s' \\mid \\enfVar{s}, a)\\,\\bigl[\\, \\enfTgt{R}(s') + \\enfPar{\\gamma}\\, \\enfOp{V}^{\\pi}(s') \\,\\bigr]"
             />
 
             <FormulaCard
               label="Bellman optimality · § 7"
               labelColor={CYAN}
               note="максимальная возможная ценность"
-              tex="V^{*}(s) \;=\; \max_{a} \sum_{s'} P(s' \mid s, a)\,\bigl[\, R(s') + \gamma\, V^{*}(s') \,\bigr]"
+              tex="\\enfOp{V}^{*}(\\enfVar{s}) \\;=\\; \\max_{a} \\sum_{s'} P(s' \\mid \\enfVar{s}, a)\\,\\bigl[\\, \\enfTgt{R}(s') + \\enfPar{\\gamma}\\, \\enfOp{V}^{*}(s') \\,\\bigr]"
             />
           </div>
 

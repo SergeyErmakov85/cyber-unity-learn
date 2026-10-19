@@ -309,12 +309,12 @@ const AdvantageGAEViz = () => {
           overflowX: "auto",
         }}
       >
-        <MathTex>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</MathTex>
+        <MathTex>{"\\enfVar{\\delta}_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</MathTex>
         <MathTex>
-          {"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma}\\enfPar{\\lambda})^{l}\\, \\delta_{t+l}"}
+          {"\\enfOp{\\hat{A}}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma}\\enfPar{\\lambda})^{l}\\, \\enfVar{\\delta}_{t+l}"}
         </MathTex>
         <MathTex display={false}>
-          {"A^{\\pi}(\\enfVar{s},a) = \\enfOp{Q}^{\\pi}(\\enfVar{s},a) - \\enfOp{V}^{\\pi}(\\enfVar{s})"}
+          {"\\enfOp{A}^{\\pi}(\\enfVar{s},\\enfFun{a}) = \\enfOp{Q}^{\\pi}(\\enfVar{s},\\enfFun{a}) - \\enfOp{V}^{\\pi}(\\enfVar{s})"}
         </MathTex>
       </div>
 

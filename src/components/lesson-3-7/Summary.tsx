@@ -10,8 +10,8 @@ const Summary = () => (
     <ul className="space-y-3 my-4 list-disc list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>
         Сеть агента = <strong>энкодер</strong> (наблюдение → эмбеддинг{" "}
-        <Math display={false}>{String.raw`z`}</Math>) + <strong>голова</strong> (
-        <Math display={false}>{String.raw`z`}</Math> → действие/оценка). Проектирование архитектуры —
+        <Math display={false}>{String.raw`\enfVar{z}`}</Math>) + <strong>голова</strong> (
+        <Math display={false}>{String.raw`\enfVar{z}`}</Math> → действие/оценка). Проектирование архитектуры —
         это в первую очередь <strong>выбор энкодера под тип наблюдения</strong>.
       </li>
       <li>
@@ -32,7 +32,7 @@ const Summary = () => (
       </li>
       <li>
         Return-to-go и <strong>Decision Transformer</strong> (
-        <Math display={false}>{String.raw`\tau = (\enfTgt{\hat{R}}_t, \enfVar{s}_t, a_t)`}</Math>) — взгляд на политику
+        <Math display={false}>{String.raw`\enfVar{\tau} = (\enfTgt{\hat{R}}_t, \enfVar{s}_t, \enfFun{a}_t)`}</Math>) — взгляд на политику
         как на языковую модель; направление развития области.
       </li>
     </ul>

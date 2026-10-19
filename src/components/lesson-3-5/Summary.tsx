@@ -35,7 +35,7 @@ const Summary = () => (
         <Math display={false}>{String.raw`\enfFun{f}_{\text{decision}}=\enfFun{f}_{\text{env}}/d`}</Math> и должен
         совпадать с обучением; <strong>детерминированный</strong> инференс убирает сэмплирование (
         <Math display={false}>{String.raw`\arg\max`}</Math> вместо{" "}
-        <Math display={false}>{String.raw`\sim\pi_\theta`}</Math>).
+        <Math display={false}>{String.raw`\sim\enfFun{\pi}_\theta`}</Math>).
       </li>
       <li>
         <strong>CPU обычно быстрее GPU</strong> для маленьких ML-Agents-сетей; бюджет кадра{" "}

@@ -13,6 +13,8 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 
 // Lazy-loaded pages for performance
+// Карточки символов формул: один слушатель на весь сайт, грузится отдельно.
+const SymbolPopoverHost = lazy(() => import("@/components/math-symbols/SymbolPopoverHost"));
 const CodeExamples = lazy(() => import("./pages/CodeExamples"));
 const MathRL = lazy(() => import("./pages/MathRL"));
 const PyTorchModule = lazy(() => import("./pages/PyTorchModule"));
@@ -108,6 +110,9 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
+      <Suspense fallback={null}>
+        <SymbolPopoverHost />
+      </Suspense>
       <Sonner />
       <AuthProvider>
       <BrowserRouter>

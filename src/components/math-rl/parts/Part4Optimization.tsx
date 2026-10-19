@@ -7,7 +7,7 @@ const Part4Optimization = () => (
     {/* Lecture 1 */}
     <Section icon={<BookOpen className="w-5 h-5 text-primary" />} title="Лекция 1. Основы RL и оптимизация политики">
       <p>
-        Обучение с подкреплением заключается в том, что <strong className="text-foreground">агент</strong> взаимодействует с <strong className="text-foreground">окружением</strong> в дискретные моменты времени. На каждом шаге агент наблюдает состояние <Math display={false}>{`S_t`}</Math>, выбирает действие <Math display={false}>{`A_t`}</Math> по своей политике и получает вознаграждение <Math display={false}>{`\\enfTgt{R}_{t+1}`}</Math> вместе с новым состоянием <Math display={false}>{`S_{t+1}`}</Math>.
+        Обучение с подкреплением заключается в том, что <strong className="text-foreground">агент</strong> взаимодействует с <strong className="text-foreground">окружением</strong> в дискретные моменты времени. На каждом шаге агент наблюдает состояние <Math display={false}>{`\\enfVar{S}_t`}</Math>, выбирает действие <Math display={false}>{`\\enfFun{A}_t`}</Math> по своей политике и получает вознаграждение <Math display={false}>{`\\enfTgt{R}_{t+1}`}</Math> вместе с новым состоянием <Math display={false}>{`\\enfVar{S}_{t+1}`}</Math>.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="целевая-функция-политики">Целевая функция политики</h3>
@@ -27,20 +27,20 @@ const Part4Optimization = () => (
     {/* Lecture 2 */}
     <Section icon={<Brain className="w-5 h-5 text-secondary" />} title="Лекция 2. Вывод градиента политики">
       <p>
-        Представим <Math display={false}>{`\\enfTgt{J}(\\enfPar{\\theta})`}</Math> как ожидание по траекториям <Math display={false}>{`\\enfVar{\\tau} = (\\enfVar{s}_0, a_0, \\enfVar{s}_1, a_1, \\dots, \\enfVar{s}_T)`}</Math>:
+        Представим <Math display={false}>{`\\enfTgt{J}(\\enfPar{\\theta})`}</Math> как ожидание по траекториям <Math display={false}>{`\\enfVar{\\tau} = (\\enfVar{s}_0, \\enfFun{a}_0, \\enfVar{s}_1, \\enfFun{a}_1, \\dots, \\enfVar{s}_T)`}</Math>:
       </p>
-      <Math>{`\\enfTgt{J}(\\enfPar{\\theta}) = \\int P(\\enfVar{\\tau} \\mid \\enfPar{\\theta})\\;\\enfTgt{R}(\\enfVar{\\tau})\\,\\mathrm{d}\\tau`}</Math>
+      <Math>{`\\enfTgt{J}(\\enfPar{\\theta}) = \\int \\enfFun{P}(\\enfVar{\\tau} \\mid \\enfPar{\\theta})\\;\\enfTgt{R}(\\enfVar{\\tau})\\,\\mathrm{d}\\enfVar{\\tau}`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="шаг-1-дифференцирование-под-знаком-интеграла">Шаг 1: Дифференцирование под знаком интеграла</h3>
-      <Math>{`\\enfOp{\\nabla}_{\\theta} \\enfTgt{J}(\\enfPar{\\theta}) = \\int \\enfOp{\\nabla}_{\\theta} P(\\enfVar{\\tau} \\mid \\enfPar{\\theta})\\;\\enfTgt{R}(\\enfVar{\\tau})\\,\\mathrm{d}\\tau`}</Math>
+      <Math>{`\\enfOp{\\nabla}_{\\theta} \\enfTgt{J}(\\enfPar{\\theta}) = \\int \\enfOp{\\nabla}_{\\theta} P(\\enfVar{\\tau} \\mid \\enfPar{\\theta})\\;\\enfTgt{R}(\\enfVar{\\tau})\\,\\mathrm{d}\\enfVar{\\tau}`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="шаг-2-трюк-с-логарифмом">Шаг 2: Трюк с логарифмом</h3>
-      <p>Используем <Math display={false}>{`\\enfOp{\\nabla}_{\\theta}P = P\\,\\enfOp{\\nabla}_{\\theta}\\log P`}</Math>:</p>
+      <p>Используем <Math display={false}>{`\\enfOp{\\nabla}_{\\theta}\\enfFun{P} = \\enfFun{P}\\,\\enfOp{\\nabla}_{\\theta}\\log \\enfFun{P}`}</Math>:</p>
       <Math>{`\\enfOp{\\nabla}_{\\theta} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau\\sim \\pi_\\theta}\\!\\big[\\enfOp{\\nabla}_{\\theta}\\log P(\\enfVar{\\tau} \\mid \\enfPar{\\theta})\\;\\enfTgt{R}(\\enfVar{\\tau})\\big]`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="шаг-3-упрощение">Шаг 3: Упрощение</h3>
       <p>Переходы среды не зависят от <Math display={false}>{`\\enfPar{\\theta}`}</Math>:</p>
-      <Math>{`\\enfOp{\\nabla}_{\\theta}\\log P(\\enfVar{\\tau} \\mid \\enfPar{\\theta}) = \\sum_{t=0}^T \\enfOp{\\nabla}_{\\theta}\\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t)`}</Math>
+      <Math>{`\\enfOp{\\nabla}_{\\theta}\\log \\enfFun{P}(\\enfVar{\\tau} \\mid \\enfPar{\\theta}) = \\sum_{t=0}^T \\enfOp{\\nabla}_{\\theta}\\log \\enfFun{\\pi}_\\theta(\\enfFun{a}_t \\mid \\enfVar{s}_t)`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="шаг-4-формула-reinforce">Шаг 4: Формула REINFORCE</h3>
       <Math>{`\\enfOp{\\nabla}_{\\theta} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau\\sim \\pi_\\theta}\\Big[\\sum_{t=0}^T \\enfOp{\\nabla}_{\\theta}\\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t)\\;\\enfTgt{R}(\\enfVar{\\tau})\\Big]`}</Math>
@@ -51,11 +51,11 @@ const Part4Optimization = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="шаг-6-базис-и-advantage">Шаг 6: Базис и Advantage</h3>
       <p>
-        Вычитание функции <Math display={false}>{`b(\\enfVar{s}_t)`}</Math> снижает дисперсию без смещения. Оптимальный базис — оценка <Math display={false}>{`\\enfOp{V}^\\pi(\\enfVar{s})`}</Math>, что даёт <strong className="text-foreground">advantage</strong>:
+        Вычитание функции <Math display={false}>{`\\enfFun{b}(\\enfVar{s}_t)`}</Math> снижает дисперсию без смещения. Оптимальный базис — оценка <Math display={false}>{`\\enfOp{V}^\\pi(\\enfVar{s})`}</Math>, что даёт <strong className="text-foreground">advantage</strong>:
       </p>
-      <Math>{`A(\\enfVar{s}_t, a_t) = \\enfOp{G}_t - \\enfOp{V}^\\pi(\\enfVar{s}_t)`}</Math>
+      <Math>{`\\enfOp{A}(\\enfVar{s}_t, \\enfFun{a}_t) = \\enfOp{G}_t - \\enfOp{V}^\\pi(\\enfVar{s}_t)`}</Math>
       <p>Итоговая формула градиента:</p>
-      <Math>{`\\enfOp{\\nabla}_{\\theta} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}\\Big[\\sum_{t} \\enfOp{\\nabla}_{\\theta}\\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t)\\;A(\\enfVar{s}_t, a_t)\\Big]`}</Math>
+      <Math>{`\\enfOp{\\nabla}_{\\theta} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}\\Big[\\sum_{t} \\enfOp{\\nabla}_{\\theta}\\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t)\\;\\enfOp{A}(\\enfVar{s}_t, a_t)\\Big]`}</Math>
 
       <InfoBox color="secondary" title="Практическое значение">
         <p className="text-sm">
@@ -70,14 +70,14 @@ const Part4Optimization = () => (
       <Math>{`\\enfPar{\\theta}_{\\text{new}} = \\enfPar{\\theta}_{\\text{old}} + \\enfPar{\\alpha}\\,\\enfOp{\\nabla}_{\\theta}\\enfTgt{J}(\\enfPar{\\theta}_{\\text{old}})`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="1-momentum">1. Momentum</h3>
-      <Math>{`v_t = \\enfPar{\\beta}_1\\,v_{t-1} + (1-\\enfPar{\\beta}_1)\\,\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}), \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,v_t`}</Math>
+      <Math>{`\\enfOp{v}_t = \\enfPar{\\beta}_1\\,\\enfOp{v}_{t-1} + (1-\\enfPar{\\beta}_1)\\,\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}), \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\enfOp{v}_t`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="2-rmsprop">2. RMSProp</h3>
-      <Math>{`\\enfVar{s}_t = \\enfPar{\\beta}_2\\,\\enfVar{s}_{t-1} + (1-\\enfPar{\\beta}_2)\\,(\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}))^2, \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\frac{\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1})}{\\sqrt{\\enfVar{s}_t} + \\varepsilon}`}</Math>
+      <Math>{`\\enfOp{s}_t = \\enfPar{\\beta}_2\\,\\enfOp{s}_{t-1} + (1-\\enfPar{\\beta}_2)\\,(\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}))^2, \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\frac{\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1})}{\\sqrt{\\enfOp{s}_t} + \\enfPar{\\varepsilon}}`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="3-adam-adaptive-moment-estimation">3. Adam (Adaptive Moment Estimation)</h3>
       <p>
-        Комбинирует моменты первого и второго порядка. Параметры по умолчанию: <Math display={false}>{`\\enfPar{\\beta}_1 = 0.9`}</Math>, <Math display={false}>{`\\enfPar{\\beta}_2 = 0.999`}</Math>, <Math display={false}>{`\\varepsilon = 10^{-8}`}</Math>.
+        Комбинирует моменты первого и второго порядка. Параметры по умолчанию: <Math display={false}>{`\\enfPar{\\beta}_1 = 0.9`}</Math>, <Math display={false}>{`\\enfPar{\\beta}_2 = 0.999`}</Math>, <Math display={false}>{`\\enfPar{\\varepsilon} = 10^{-8}`}</Math>.
       </p>
 
       <InfoBox color="accent" title="Unity ML-Agents">
@@ -95,11 +95,11 @@ const Part4Optimization = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="клиповый-суррогат-объектив">Клиповый суррогат-объектив</h3>
       <p>Определим отношение вероятностей:</p>
-      <Math>{`\\enfTgt{r}(\\enfPar{\\theta}) = \\frac{\\pi_{\\theta}(a \\mid \\enfVar{s})}{\\pi_{\\theta_{\\text{old}}}(a|\\enfVar{s})}`}</Math>
+      <Math>{`\\enfFun{r}(\\enfPar{\\theta}) = \\frac{\\enfFun{\\pi}_{\\theta}(\\enfFun{a} \\mid \\enfVar{s})}{\\enfFun{\\pi}_{\\theta_{\\text{old}}}(\\enfFun{a} \\mid \\enfVar{s})}`}</Math>
       <p>Целевая функция PPO-Clip:</p>
-      <Math>{`L(\\enfPar{\\theta}) = \\min\\!\\Big[\\enfTgt{r}(\\enfPar{\\theta})\\,A,\\;\\; \\text{clip}\\big(\\enfTgt{r}(\\enfPar{\\theta}),\\, 1-\\enfPar{\\epsilon},\\, 1+\\enfPar{\\epsilon}\\big)\\,A\\Big]`}</Math>
+      <Math>{`\\enfTgt{L}(\\enfPar{\\theta}) = \\min\\!\\Big[\\enfFun{r}(\\enfPar{\\theta})\\,\\enfOp{A},\\;\\; \\operatorname{clip}\\big(\\enfFun{r}(\\enfPar{\\theta}),\\, 1-\\enfPar{\\epsilon},\\, 1+\\enfPar{\\epsilon}\\big)\\,\\enfOp{A}\\Big]`}</Math>
       <p>
-        где <Math display={false}>{`A`}</Math> — Advantage, а <Math display={false}>{`\\enfPar{\\epsilon} \\approx 0.1 \\ldots 0.2`}</Math>.
+        где <Math display={false}>{`\\enfOp{A}`}</Math> — Advantage, а <Math display={false}>{`\\enfPar{\\epsilon} \\approx 0.1 \\ldots 0.2`}</Math>.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="гиперпараметры-ppo">Гиперпараметры PPO</h3>
@@ -117,7 +117,7 @@ const Part4Optimization = () => (
               <td className="p-3"><Math display={false}>{`0.99`}</Math></td>
             </tr>
             <tr className="border-b border-border/20">
-              <td className="p-3">GAE <Math display={false}>{`\\lambda`}</Math></td>
+              <td className="p-3">GAE <Math display={false}>{`\\enfPar{\\lambda}`}</Math></td>
               <td className="p-3"><Math display={false}>{`0.95 \\ldots 0.99`}</Math></td>
             </tr>
             <tr className="border-b border-border/20">

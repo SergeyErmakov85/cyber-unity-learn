@@ -10,34 +10,34 @@ const Section1 = () => (
     <ProseP>
       <strong>Формальная постановка.</strong> Дан набор экспертных демонстраций
     </ProseP>
-    <Math display>{String.raw`\enfFun{D}_E = \{(\enfVar{s}_i, a_i)\}_{i=1}^{N}, \qquad (\enfVar{s}_i,a_i)\ \text{из траекторий}\ \pi_E.`}</Math>
+    <Math display>{String.raw`D_E = \{(\enfVar{s}_i, \enfFun{a}_i)\}_{i=1}^{N}, \qquad (\enfVar{s}_i,\enfFun{a}_i)\ \text{из траекторий}\ \enfFun{\pi}_E.`}</Math>
     <ProseP>
-      BC ищет параметрическую политику <Math display={false}>{String.raw`\pi_\theta`}</Math>, которая
+      BC ищет параметрическую политику <Math display={false}>{String.raw`\enfFun{\pi}_\theta`}</Math>, которая
       воспроизводит отображение «состояние → действие», игнорируя то, что в развёртывании политика сама
       меняет распределение состояний. Это стандартная задача обучения с учителем:
     </ProseP>
-    <Math display>{String.raw`\hat{\pi}_{\text{sup}} = \arg\min_{\pi\in\Pi}\ \mathbb{E}_{s\sim d_{\pi^*}}\big[\ell(\enfVar{s},\pi)\big].`}</Math>
+    <Math display>{String.raw`\enfFun{\hat{\pi}}_{\text{sup}} = \arg\min_{\pi\in\Pi}\ \mathbb{E}_{s\sim d_{\pi^*}}\big[\enfTgt{\ell}(\enfVar{s},\enfFun{\pi})\big].`}</Math>
 
     <h3 className={H3_CLASS}>Целевые функции</h3>
     <ProseP>
       <strong>Дискретные действия</strong> — negative log-likelihood / кросс-энтропия:
     </ProseP>
-    <Math display>{String.raw`\mathcal{L}_{BC}(\enfPar{\theta}) = -\sum_{i=1}^{N}\log \pi_\theta(a_i\mid \enfVar{s}_i).`}</Math>
+    <Math display>{String.raw`\enfTgt{\mathcal{L}}_{\text{BC}}(\enfPar{\theta}) = -\sum_{i=1}^{N}\log \enfFun{\pi}_\theta(\enfFun{a}_i\mid \enfVar{s}_i).`}</Math>
     <ProseP>
       <strong>Непрерывные действия</strong> (как руль/газ гоночного агента) — либо MSE для
       детерминированной головы,
     </ProseP>
-    <Math display>{String.raw`\mathcal{L}_{BC}(\enfPar{\theta}) = \sum_{i=1}^{N}\big\lVert \mu_\theta(\enfVar{s}_i)-a_i\big\rVert_2^2,`}</Math>
+    <Math display>{String.raw`\enfTgt{\mathcal{L}}_{\text{BC}}(\enfPar{\theta}) = \sum_{i=1}^{N}\big\lVert \enfFun{\mu}_\theta(\enfVar{s}_i)-\enfFun{a}_i\big\rVert_2^2,`}</Math>
     <ProseP>
       либо NLL гауссовой политики{" "}
-      <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s})=\mathcal{N}(a;\mu_\theta(\enfVar{s}),\Sigma_\theta(\enfVar{s}))`}</Math>
+      <Math display={false}>{String.raw`\enfFun{\pi}_\theta(\enfFun{a}\mid \enfVar{s})=\mathcal{N}(\enfFun{a};\enfFun{\mu}_\theta(\enfVar{s}),\enfFun{\Sigma}_\theta(\enfVar{s}))`}</Math>
       :
     </ProseP>
-    <Math display>{String.raw`\mathcal{L}_{BC}(\enfPar{\theta}) = \sum_{i=1}^{N}\Big[\tfrac{1}{2}(a_i-\mu_\theta(\enfVar{s}_i))^\top\Sigma_\theta^{-1}(\enfVar{s}_i)(a_i-\mu_\theta(\enfVar{s}_i)) + \tfrac{1}{2}\log\det\Sigma_\theta(\enfVar{s}_i)\Big].`}</Math>
+    <Math display>{String.raw`\enfTgt{\mathcal{L}}_{\text{BC}}(\enfPar{\theta}) = \sum_{i=1}^{N}\Big[\tfrac{1}{2}(\enfFun{a}_i-\enfFun{\mu}_\theta(\enfVar{s}_i))^\top\enfFun{\Sigma}_\theta^{-1}(\enfVar{s}_i)(\enfFun{a}_i-\enfFun{\mu}_\theta(\enfVar{s}_i)) + \tfrac{1}{2}\log\det\enfFun{\Sigma}_\theta(\enfVar{s}_i)\Big].`}</Math>
 
     <Callout title="Связь с MLE" color="cyan">
       Обе формы — это максимизация{" "}
-      <Math display={false}>{String.raw`\sum_i \log\pi_\theta(a_i\mid \enfVar{s}_i)`}</Math>: минимизация
+      <Math display={false}>{String.raw`\sum_i \log\enfFun{\pi}_\theta(\enfFun{a}_i\mid \enfVar{s}_i)`}</Math>: минимизация
       кросс-энтропии = MLE для категориального распределения; минимизация MSE = MLE для гауссианы с
       фиксированной диагональной ковариацией.
     </Callout>
@@ -51,9 +51,9 @@ const Section1 = () => (
 
     <Callout title="Теорема 2.1 (Ross & Bagnell, AISTATS 2010)" color="amber">
       Пусть{" "}
-      <Math display={false}>{String.raw`\mathbb{E}_{s\sim d_{\pi^*}}[\ell(\enfVar{s},\pi)]=\enfPar{\epsilon}`}</Math>, а
+      <Math display={false}>{String.raw`\mathbb{E}_{s\sim d_{\pi^*}}[\enfTgt{\ell}(\enfVar{s},\enfFun{\pi})]=\enfVar{\epsilon}`}</Math>, а
       стоимость <Math display={false}>C</Math> ограничена в <Math display={false}>[0,1]</Math>. Тогда
-      <Math display>{String.raw`\enfTgt{J}(\pi)\ \le\ \enfTgt{J}(\pi^*) + T^2\enfPar{\epsilon}.`}</Math>
+      <Math display>{String.raw`\enfTgt{J}(\enfFun{\pi})\ \le\ \enfTgt{J}(\enfFun{\pi}^*) + T^2\enfVar{\epsilon}.`}</Math>
       Граница <strong>тугая</strong>: существуют MDP, где она достигается. Практический смысл для
       гоночного агента: чистый BC на демо с одной трассы накапливает ошибку на длинных кругах и
       срывается с трассы в незнакомых поворотах.
@@ -75,7 +75,7 @@ for i = 1..N:
 вернуть лучшую pi_i на валидации`}
     </pre>
     <ProseP>
-      Каждая <Math display={false}>{String.raw`\pi_t`}</Math> обучается на{" "}
+      Каждая <Math display={false}>{String.raw`\enfFun{\pi}_t`}</Math> обучается на{" "}
       <strong>реальном</strong> распределении состояний, которое она встретит при исполнении. Задача
       сводится к no-regret online learning и даёт границу ошибки, <strong>линейную</strong> по{" "}
       <Math display={false}>T</Math>. Цена — интерактивный дозапрос эксперта во время обучения.
@@ -110,7 +110,7 @@ for i = 1..N:
           BC — это MLE над парами эксперта; для непрерывного управления — MSE или NLL гауссианы.
         </>,
         <>
-          Теорема Ross &amp; Bagnell даёт <Math display={false}>{String.raw`O(T^2\enfPar{\epsilon})`}</Math>{" "}
+          Теорема Ross &amp; Bagnell даёт <Math display={false}>{String.raw`O(T^2\enfVar{\epsilon})`}</Math>{" "}
           границу — единственный честный диагноз «почему BC ломается на длинных эпизодах».
         </>,
         <>

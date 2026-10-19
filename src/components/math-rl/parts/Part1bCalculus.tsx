@@ -9,8 +9,8 @@ const Part1bCalculus = () => (
     <Section icon={<BookOpen className="w-5 h-5 text-primary" />} title="§ 1. Производные и дифференцирование">
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-4 mb-3" id="определение-производной">Определение производной</h3>
       <DefinitionBox>
-        <p><strong className="text-foreground">Производная</strong> <Math display={false}>{`f'(x)`}</Math> — это предел отношения приращения функции к приращению аргумента:</p>
-        <Math>{`\\enfFun{f}'(\\enfVar{x}) = \\lim_{h \\to 0} \\frac{\\enfFun{f}(\\enfVar{x}+h) - \\enfFun{f}(\\enfVar{x})}{h}`}</Math>
+        <p><strong className="text-foreground">Производная</strong> <Math display={false}>{`\\enfFun{f}'(\\enfVar{x})`}</Math> — это предел отношения приращения функции к приращению аргумента:</p>
+        <Math>{`\\enfFun{f}'(\\enfVar{x}) = \\lim_{h \\to 0} \\frac{\\enfFun{f}(\\enfVar{x}+\\enfVar{h}) - \\enfFun{f}(\\enfVar{x})}{\\enfVar{h}}`}</Math>
       </DefinitionBox>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="три-интуиции">Три интуиции</h3>
@@ -25,16 +25,16 @@ const Part1bCalculus = () => (
         <table className="w-full text-sm border border-border/30 rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-card/60">
-              <th className="text-left p-3 text-foreground font-semibold border-b border-border/30"><Math display={false}>{`f(x)`}</Math></th>
-              <th className="text-left p-3 text-foreground font-semibold border-b border-border/30"><Math display={false}>{`f'(x)`}</Math></th>
+              <th className="text-left p-3 text-foreground font-semibold border-b border-border/30"><Math display={false}>{`\\enfFun{f}(\\enfVar{x})`}</Math></th>
+              <th className="text-left p-3 text-foreground font-semibold border-b border-border/30"><Math display={false}>{`\\enfFun{f}'(\\enfVar{x})`}</Math></th>
               <th className="text-left p-3 text-muted-foreground font-semibold border-b border-border/30">Комментарий</th>
             </tr>
           </thead>
           <tbody className="text-muted-foreground">
-            <tr className="border-b border-border/20"><td className="p-3"><Math display={false}>{`c`}</Math></td><td className="p-3"><Math display={false}>{`0`}</Math></td><td className="p-3">Константа не изменяется</td></tr>
+            <tr className="border-b border-border/20"><td className="p-3"><Math display={false}>{`\\enfPar{c}`}</Math></td><td className="p-3"><Math display={false}>{`0`}</Math></td><td className="p-3">Константа не изменяется</td></tr>
             <tr className="border-b border-border/20"><td className="p-3"><Math display={false}>{`\\enfVar{x}^n`}</Math></td><td className="p-3"><Math display={false}>{`n \\cdot \\enfVar{x}^{n-1}`}</Math></td><td className="p-3">Степенная функция</td></tr>
             <tr className="border-b border-border/20"><td className="p-3"><Math display={false}>{`e^x`}</Math></td><td className="p-3"><Math display={false}>{`e^x`}</Math></td><td className="p-3">Уникальное свойство числа e</td></tr>
-            <tr className="border-b border-border/20"><td className="p-3"><Math display={false}>{`\\ln(\\enfVar{x})`}</Math></td><td className="p-3"><Math display={false}>{`1/x`}</Math></td><td className="p-3"><Math display={false}>{`x > 0`}</Math></td></tr>
+            <tr className="border-b border-border/20"><td className="p-3"><Math display={false}>{`\\ln(\\enfVar{x})`}</Math></td><td className="p-3"><Math display={false}>{`1/\\enfVar{x}`}</Math></td><td className="p-3"><Math display={false}>{`\\enfVar{x} > 0`}</Math></td></tr>
             <tr className="border-b border-border/20"><td className="p-3"><Math display={false}>{`\\sin(\\enfVar{x})`}</Math></td><td className="p-3"><Math display={false}>{`\\cos(\\enfVar{x})`}</Math></td><td className="p-3"></td></tr>
             <tr className="border-b border-border/20"><td className="p-3"><Math display={false}>{`\\cos(\\enfVar{x})`}</Math></td><td className="p-3"><Math display={false}>{`-\\sin(\\enfVar{x})`}</Math></td><td className="p-3"></td></tr>
             <tr><td className="p-3"><Math display={false}>{`\\enfFun{\\sigma}(\\enfVar{x}) = \\frac{1}{1+e^{-x}}`}</Math></td><td className="p-3 text-primary font-bold"><Math display={false}>{`\\enfFun{\\sigma}(\\enfVar{x})(1-\\enfFun{\\sigma}(\\enfVar{x}))`}</Math></td><td className="p-3 text-primary">Сигмоида в нейросетях RL</td></tr>
@@ -44,9 +44,9 @@ const Part1bCalculus = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="правила-дифференцирования">Правила дифференцирования</h3>
       <ul className="list-disc list-inside space-y-2">
-        <li><strong className="text-foreground">Линейность:</strong> <Math display={false}>{`(f + g)' = f' + g'`}</Math>, <Math display={false}>{`(c \\cdot \\enfFun{f})' = c \\cdot \\enfFun{f}'`}</Math></li>
-        <li><strong className="text-foreground">Произведение:</strong> <Math display={false}>{`(\\enfFun{f} \\cdot \\enfFun{g})' = \\enfFun{f}'\\enfFun{g} + fg'`}</Math></li>
-        <li><strong className="text-foreground">Частное:</strong> <Math display={false}>{`(\\enfFun{f}/\\enfFun{g})' = (\\enfFun{f}'\\enfFun{g} - fg') / \\enfFun{g}^2`}</Math></li>
+        <li><strong className="text-foreground">Линейность:</strong> <Math display={false}>{`(\\enfFun{f} + \\enfFun{g})' = \\enfFun{f}' + \\enfFun{g}'`}</Math>, <Math display={false}>{`(\\enfPar{c} \\cdot \\enfFun{f})' = \\enfPar{c} \\cdot \\enfFun{f}'`}</Math></li>
+        <li><strong className="text-foreground">Произведение:</strong> <Math display={false}>{`(\\enfFun{f} \\cdot \\enfFun{g})' = \\enfFun{f}'\\enfFun{g} + \\enfFun{f}\\enfFun{g}'`}</Math></li>
+        <li><strong className="text-foreground">Частное:</strong> <Math display={false}>{`(\\enfFun{f}/\\enfFun{g})' = (\\enfFun{f}'\\enfFun{g} - \\enfFun{f}\\enfFun{g}') / \\enfFun{g}^2`}</Math></li>
       </ul>
 
       <div className="my-6 p-5 rounded-lg border-2 border-primary/40 bg-primary/5">
@@ -62,7 +62,7 @@ const Part1bCalculus = () => (
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-10 mb-3" id="практические-задачи">✏️ Практические задачи</h3>
 
       <PracticeTask level="⭐" num="2.1" label="Базовая" color="primary">
-        <p><strong className="text-foreground">Найти</strong> <Math display={false}>{`f'(x)`}</Math> для <Math display={false}>{`\\enfFun{f}(\\enfVar{x}) = 3\\enfVar{x}^4 - 5\\enfVar{x}^2 + 2\\enfVar{x} - 7`}</Math></p>
+        <p><strong className="text-foreground">Найти</strong> <Math display={false}>{`\\enfFun{f}'(\\enfVar{x})`}</Math> для <Math display={false}>{`\\enfFun{f}(\\enfVar{x}) = 3\\enfVar{x}^4 - 5\\enfVar{x}^2 + 2\\enfVar{x} - 7`}</Math></p>
         <details className="text-sm mt-3">
           <summary className="text-primary cursor-pointer">💡 Подсказка</summary>
           <p className="mt-2 text-muted-foreground">Применяй <Math display={false}>{`(\\enfVar{x}^n)' = n \\cdot \\enfVar{x}^{n-1}`}</Math> к каждому слагаемому.</p>
@@ -77,15 +77,15 @@ const Part1bCalculus = () => (
       </PracticeTask>
 
       <PracticeTask level="⭐⭐" num="2.2" label="Chain Rule" color="secondary">
-        <p><strong className="text-foreground">Найти</strong> <Math display={false}>{`f'(x)`}</Math> для <Math display={false}>{`\\enfFun{f}(\\enfVar{x}) = e^{-x^2}`}</Math></p>
+        <p><strong className="text-foreground">Найти</strong> <Math display={false}>{`\\enfFun{f}'(\\enfVar{x})`}</Math> для <Math display={false}>{`\\enfFun{f}(\\enfVar{x}) = e^{-x^2}`}</Math></p>
         <details className="text-sm mt-3">
           <summary className="text-secondary cursor-pointer">💡 Подсказка</summary>
-          <p className="mt-2 text-muted-foreground">Внешняя функция <Math display={false}>{`e^u`}</Math>, внутренняя <Math display={false}>{`u = -\\enfVar{x}^2`}</Math>. Применяй Chain Rule.</p>
+          <p className="mt-2 text-muted-foreground">Внешняя функция <Math display={false}>{`e^u`}</Math>, внутренняя <Math display={false}>{`\\enfVar{u} = -\\enfVar{x}^2`}</Math>. Применяй Chain Rule.</p>
         </details>
         <details className="text-sm mt-2">
           <summary className="text-secondary cursor-pointer">📝 Решение</summary>
           <div className="mt-2 space-y-2">
-            <p className="text-muted-foreground"><Math display={false}>{`(e^u)' = e^u`}</Math>, <Math display={false}>{`u' = (-\\enfVar{x}^2)' = -2\\enfVar{x}`}</Math></p>
+            <p className="text-muted-foreground"><Math display={false}>{`(e^u)' = e^u`}</Math>, <Math display={false}>{`\\enfVar{u}' = (-\\enfVar{x}^2)' = -2\\enfVar{x}`}</Math></p>
             <p><span className="inline-block px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-sm font-bold">Ответ: <Math display={false}>{`\\enfFun{f}'(\\enfVar{x}) = -2\\enfVar{x} \\cdot e^{-x^2}`}</Math></span></p>
           </div>
         </details>
@@ -111,8 +111,8 @@ const Part1bCalculus = () => (
 
       <PracticeTask level="⭐⭐⭐ 🤖" num="2.4" label="Huber Loss в DQN" color="accent">
         <p><strong className="text-foreground">Условие.</strong> DQN использует функцию потерь Хаббера вместо MSE:</p>
-        <Math>{`\\enfTgt{L}(\\enfPar{\\delta}) = \\begin{cases} \\tfrac{1}{2}\\enfPar{\\delta}^2, & |\\enfPar{\\delta}| \\le 1 \\\\ |\\enfPar{\\delta}| - 0{,}5, & |\\enfPar{\\delta}| > 1 \\end{cases}`}</Math>
-        <p>Найти <Math display={false}>{`\\enfTgt{L}'(\\enfPar{\\delta})`}</Math> при <Math display={false}>{`\\enfPar{\\delta} = 0{,}5`}</Math> и при <Math display={false}>{`\\enfPar{\\delta} = 2`}</Math>.</p>
+        <Math>{`\\enfTgt{L}(\\enfVar{\\delta}) = \\begin{cases} \\tfrac{1}{2}\\enfVar{\\delta}^2, & |\\enfVar{\\delta}| \\le 1 \\\\ |\\enfVar{\\delta}| - 0{,}5, & |\\enfVar{\\delta}| > 1 \\end{cases}`}</Math>
+        <p>Найти <Math display={false}>{`\\enfTgt{L}'(\\enfVar{\\delta})`}</Math> при <Math display={false}>{`\\enfVar{\\delta} = 0{,}5`}</Math> и при <Math display={false}>{`\\enfVar{\\delta} = 2`}</Math>.</p>
         <details className="text-sm mt-3">
           <summary className="text-accent cursor-pointer">💡 Подсказка</summary>
           <p className="mt-2 text-muted-foreground">Определи, в какой части кусочной функции находится δ, затем дифференцируй.</p>
@@ -120,8 +120,8 @@ const Part1bCalculus = () => (
         <details className="text-sm mt-2">
           <summary className="text-accent cursor-pointer">📝 Решение</summary>
           <div className="mt-2 space-y-2">
-            <p className="text-muted-foreground"><Math display={false}>{`\\enfPar{\\delta} = 0{,}5`}</Math>: <Math display={false}>{`|0{,}5| \\le 1`}</Math>, значит <Math display={false}>{`\\enfTgt{L}'(0{,}5) = \\enfPar{\\delta} = 0{,}5`}</Math></p>
-            <p className="text-muted-foreground"><Math display={false}>{`\\enfPar{\\delta} = 2`}</Math>: <Math display={false}>{`|2| > 1`}</Math>, значит <Math display={false}>{`\\enfTgt{L}'(2) = \\operatorname{sign}(2) = 1`}</Math></p>
+            <p className="text-muted-foreground"><Math display={false}>{`\\enfVar{\\delta} = 0{,}5`}</Math>: <Math display={false}>{`|0{,}5| \\le 1`}</Math>, значит <Math display={false}>{`\\enfTgt{L}'(0{,}5) = \\enfVar{\\delta} = 0{,}5`}</Math></p>
+            <p className="text-muted-foreground"><Math display={false}>{`\\enfVar{\\delta} = 2`}</Math>: <Math display={false}>{`|2| > 1`}</Math>, значит <Math display={false}>{`\\enfTgt{L}'(2) = \\operatorname{sign}(2) = 1`}</Math></p>
             <p><span className="inline-block px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-sm font-bold">Ответ: L'(0,5) = 0,5 ; L'(2) = 1</span></p>
             <p className="text-muted-foreground text-xs mt-1">MSE даёт градиент δ = 2, Хаббер — только 1. Ограниченный градиент = стабильное обучение DQN.</p>
           </div>
@@ -129,7 +129,7 @@ const Part1bCalculus = () => (
       </PracticeTask>
 
       <RLBox title="🔗 Chain Rule = Backpropagation">
-        <p>При обучении нейросети политики <Math display={false}>{`\\pi_\\theta(a \\mid \\enfVar{s})`}</Math> обновляем каждый вес через цепочку:</p>
+        <p>При обучении нейросети политики <Math display={false}>{`\\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})`}</Math> обновляем каждый вес через цепочку:</p>
         <Math>{`\\frac{\\partial \\enfTgt{L}}{\\partial \\enfPar{w}_1} = \\frac{\\partial \\enfTgt{L}}{\\partial \\enfVar{y}_n} \\cdot \\frac{\\partial \\enfVar{y}_n}{\\partial \\enfVar{y}_{n-1}} \\cdot \\ldots \\cdot \\frac{\\partial \\enfVar{y}_1}{\\partial \\enfPar{w}_1}`}</Math>
         <p className="text-sm">Huber Loss вместо MSE ограничивает градиенты при больших TD-ошибках — это и есть gradient clipping «по-умному».</p>
       </RLBox>
@@ -177,29 +177,29 @@ print(f'dL/dw (числен.) = {dL_dw_numeric:.6f}')`}
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-4 mb-3" id="функции-многих-переменных">Функции многих переменных</h3>
       <p>В RL функции почти всегда зависят от многих переменных:</p>
       <ul className="list-disc list-inside space-y-1">
-        <li><Math display={false}>{`Q(s, a)`}</Math> — от состояния и действия</li>
-        <li><Math display={false}>{`\\enfOp{Q}_\\theta(\\enfVar{s}, a)`}</Math> — от тысяч весов <Math display={false}>{`\\enfPar{\\theta} = (\\enfPar{\\theta}_1, \\enfPar{\\theta}_2, \\ldots, \\enfPar{\\theta}_n)`}</Math> нейросети</li>
+        <li><Math display={false}>{`\\enfOp{Q}(\\enfVar{s}, \\enfFun{a})`}</Math> — от состояния и действия</li>
+        <li><Math display={false}>{`\\enfOp{Q}_\\theta(\\enfVar{s}, \\enfFun{a})`}</Math> — от тысяч весов <Math display={false}>{`\\enfPar{\\theta} = (\\enfPar{\\theta}_1, \\enfPar{\\theta}_2, \\ldots, \\enfPar{\\theta}_n)`}</Math> нейросети</li>
       </ul>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="частная-производная">Частная производная</h3>
       <DefinitionBox>
-        <p><strong className="text-foreground">Частная производная</strong> <Math display={false}>{`\\partial \\enfFun{f} / \\partial \\enfVar{x}_i`}</Math> — скорость изменения <Math display={false}>{`f`}</Math> по переменной <Math display={false}>{`\\enfVar{x}_i`}</Math> при фиксированных остальных.</p>
+        <p><strong className="text-foreground">Частная производная</strong> <Math display={false}>{`\\partial \\enfFun{f} / \\partial \\enfVar{x}_i`}</Math> — скорость изменения <Math display={false}>{`\\enfFun{f}`}</Math> по переменной <Math display={false}>{`\\enfVar{x}_i`}</Math> при фиксированных остальных.</p>
         <p className="text-sm mt-2"><strong className="text-primary">Правило:</strong> Фиксируй все переменные кроме <Math display={false}>{`\\enfVar{x}_i`}</Math> и дифференцируй как обычно.</p>
       </DefinitionBox>
 
       <div className="my-6 p-4 rounded-lg bg-card/60 border border-primary/20">
         <p className="font-semibold text-foreground mb-2">Пример:</p>
-        <p><Math display={false}>{`\\enfFun{f}(\\enfVar{x}, \\enfVar{y}) = \\enfVar{x}^2\\enfVar{y} + 3xy^2`}</Math></p>
+        <p><Math display={false}>{`\\enfFun{f}(\\enfVar{x}, \\enfVar{y}) = \\enfVar{x}^2\\enfVar{y} + 3\\enfVar{x}\\enfVar{y}^2`}</Math></p>
         <ul className="list-disc list-inside mt-2 space-y-1">
-          <li><Math display={false}>{`\\partial \\enfFun{f} / \\partial \\enfVar{x} = 2xy + 3\\enfVar{y}^2`}</Math> <span className="text-primary text-sm">(y фиксировано)</span></li>
-          <li><Math display={false}>{`\\partial \\enfFun{f} / \\partial \\enfVar{y} = \\enfVar{x}^2 + 6xy`}</Math> <span className="text-secondary text-sm">(x фиксировано)</span></li>
+          <li><Math display={false}>{`\\partial \\enfFun{f} / \\partial \\enfVar{x} = 2\\enfVar{x}\\enfVar{y} + 3\\enfVar{y}^2`}</Math> <span className="text-primary text-sm">(y фиксировано)</span></li>
+          <li><Math display={false}>{`\\partial \\enfFun{f} / \\partial \\enfVar{y} = \\enfVar{x}^2 + 6\\enfVar{x}\\enfVar{y}`}</Math> <span className="text-secondary text-sm">(x фиксировано)</span></li>
         </ul>
       </div>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="градиент">Градиент</h3>
       <DefinitionBox>
-        <p><strong className="text-foreground">Градиент</strong> <Math display={false}>{`\\nabla \\enfFun{f}(\\enfVar{x})`}</Math> — вектор всех частных производных:</p>
-        <Math>{`\\nabla \\enfFun{f} = \\left(\\frac{\\partial \\enfFun{f}}{\\partial \\enfVar{x}_1},\\ \\frac{\\partial \\enfFun{f}}{\\partial \\enfVar{x}_2},\\ \\ldots,\\ \\frac{\\partial \\enfFun{f}}{\\partial \\enfVar{x}_n}\\right)`}</Math>
+        <p><strong className="text-foreground">Градиент</strong> <Math display={false}>{`\\enfOp{\\nabla} \\enfFun{f}(\\enfVar{x})`}</Math> — вектор всех частных производных:</p>
+        <Math>{`\\enfOp{\\nabla} \\enfFun{f} = \\left(\\frac{\\partial \\enfFun{f}}{\\partial \\enfVar{x}_1},\\ \\frac{\\partial \\enfFun{f}}{\\partial \\enfVar{x}_2},\\ \\ldots,\\ \\frac{\\partial \\enfFun{f}}{\\partial \\enfVar{x}_n}\\right)`}</Math>
       </DefinitionBox>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 my-4">
@@ -210,7 +210,7 @@ print(f'dL/dw (числен.) = {dL_dw_numeric:.6f}')`}
       </div>
 
       <PracticeTask level="⭐⭐" num="3.1" label="Критические точки" color="primary">
-        <p><strong className="text-foreground">Для</strong> <Math display={false}>{`\\enfFun{f}(\\enfVar{x}, \\enfVar{y}) = \\enfVar{x}^3 - 3xy + \\enfVar{y}^3`}</Math> <strong className="text-foreground">найти</strong> <Math display={false}>{`\\nabla \\enfFun{f}`}</Math> и критические точки.</p>
+        <p><strong className="text-foreground">Для</strong> <Math display={false}>{`\\enfFun{f}(\\enfVar{x}, \\enfVar{y}) = \\enfVar{x}^3 - 3\\enfVar{x}\\enfVar{y} + \\enfVar{y}^3`}</Math> <strong className="text-foreground">найти</strong> <Math display={false}>{`\\enfOp{\\nabla} \\enfFun{f}`}</Math> и критические точки.</p>
         <details className="text-sm mt-3">
           <summary className="text-primary cursor-pointer">💡 Подсказка</summary>
           <p className="mt-2 text-muted-foreground">Приравняй обе частные производные к 0 и реши систему.</p>
@@ -227,16 +227,16 @@ print(f'dL/dw (числен.) = {dL_dw_numeric:.6f}')`}
       </PracticeTask>
 
       <PracticeTask level="⭐⭐ 🤖" num="3.2" label="Градиент потерь Q-сети" color="accent">
-        <p><strong className="text-foreground">Условие.</strong> Линейная аппроксимация Q-функции: <Math display={false}>{`\\enfOp{Q}(\\enfVar{s},a) = \\enfPar{w}_1 \\enfFun{\\varphi}_1 + \\enfPar{w}_2 \\enfFun{\\varphi}_2`}</Math></p>
-        <p>MSE-потеря: <Math display={false}>{`\\enfTgt{L}(\\enfPar{w}_1, \\enfPar{w}_2) = (\\enfVar{y} - \\enfPar{w}_1 \\enfVar{x}_1 - \\enfPar{w}_2 \\enfVar{x}_2)^2`}</Math></p>
-        <p>При <Math display={false}>{`\\enfVar{x}_1=2, \\enfVar{x}_2=3, \\enfVar{y}=10, \\enfPar{w}_1=1, \\enfPar{w}_2=2`}</Math>. Найти <Math display={false}>{`\\nabla \\enfTgt{L}`}</Math> и шаг обновления (<Math display={false}>{`\\enfPar{\\alpha} = 0.01`}</Math>).</p>
+        <p><strong className="text-foreground">Условие.</strong> Линейная аппроксимация Q-функции: <Math display={false}>{`\\enfOp{Q}(\\enfVar{s},\\enfFun{a}) = \\enfPar{w}_1 \\enfFun{\\varphi}_1 + \\enfPar{w}_2 \\enfFun{\\varphi}_2`}</Math></p>
+        <p>MSE-потеря: <Math display={false}>{`\\enfTgt{L}(\\enfPar{w}_1, \\enfPar{w}_2) = (\\enfTgt{y} - \\enfPar{w}_1 \\enfVar{x}_1 - \\enfPar{w}_2 \\enfVar{x}_2)^2`}</Math></p>
+        <p>При <Math display={false}>{`\\enfVar{x}_1=2, \\enfVar{x}_2=3, \\enfTgt{y}=10, \\enfPar{w}_1=1, \\enfPar{w}_2=2`}</Math>. Найти <Math display={false}>{`\\enfOp{\\nabla} \\enfTgt{L}`}</Math> и шаг обновления (<Math display={false}>{`\\enfPar{\\alpha} = 0.01`}</Math>).</p>
         <details className="text-sm mt-3">
           <summary className="text-accent cursor-pointer">📝 Решение</summary>
           <div className="mt-2 space-y-2">
             <p className="text-muted-foreground">Невязка: <Math display={false}>{`\\enfTgt{r} = 10 - 1 \\cdot 2 - 2 \\cdot 3 = 2`}</Math></p>
             <p className="text-muted-foreground"><Math display={false}>{`\\partial \\enfTgt{L} / \\partial \\enfPar{w}_1 = -2 \\cdot 2 \\cdot 2 = -8`}</Math></p>
             <p className="text-muted-foreground"><Math display={false}>{`\\partial \\enfTgt{L} / \\partial \\enfPar{w}_2 = -2 \\cdot 2 \\cdot 3 = -12`}</Math></p>
-            <p className="text-muted-foreground"><Math display={false}>{`\\nabla \\enfTgt{L} = (-8, -12)`}</Math></p>
+            <p className="text-muted-foreground"><Math display={false}>{`\\enfOp{\\nabla} \\enfTgt{L} = (-8, -12)`}</Math></p>
             <p><span className="inline-block px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-sm font-bold">Ответ: <Math display={false}>{`\\enfPar{w}_{\\text{new}} = [1.08,\\; 2.12]`}</Math></span></p>
             <p className="text-muted-foreground text-xs">Этот градиент используется при каждом TD-обновлении в линейном RL!</p>
           </div>
@@ -245,7 +245,7 @@ print(f'dL/dw (числен.) = {dL_dw_numeric:.6f}')`}
 
       <RLBox title="🔗 Градиент в Deep RL">
         <p>В DQN с нейросетью параметров <Math display={false}>{`\\enfPar{\\theta} = (\\enfPar{\\theta}_1, \\ldots, \\enfPar{\\theta}_n)`}</Math>:</p>
-        <Math>{`\\nabla_\\theta \\enfTgt{L} = \\left(\\frac{\\partial \\enfTgt{L}}{\\partial \\enfPar{\\theta}_1}, \\ldots, \\frac{\\partial \\enfTgt{L}}{\\partial \\enfPar{\\theta}_n}\\right)`}</Math>
+        <Math>{`\\enfOp{\\nabla}_\\theta \\enfTgt{L} = \\left(\\frac{\\partial \\enfTgt{L}}{\\partial \\enfPar{\\theta}_1}, \\ldots, \\frac{\\partial \\enfTgt{L}}{\\partial \\enfPar{\\theta}_n}\\right)`}</Math>
         <p className="text-sm">PyTorch считает его автоматически через autograd, но математически — это те же самые частные производные.</p>
       </RLBox>
 
@@ -287,11 +287,11 @@ except ImportError:
       </div>
 
       <DefinitionBox>
-        <Math>{`\\enfPar{\\theta}_{t+1} = \\enfPar{\\theta}_t - \\enfPar{\\alpha} \\cdot \\nabla \\enfTgt{L}(\\enfPar{\\theta}_t)`}</Math>
+        <Math>{`\\enfPar{\\theta}_{t+1} = \\enfPar{\\theta}_t - \\enfPar{\\alpha} \\cdot \\enfOp{\\nabla} \\enfTgt{L}(\\enfPar{\\theta}_t)`}</Math>
         <div className="flex flex-wrap gap-4 text-sm mt-3">
           <span><Math display={false}>{`\\enfPar{\\theta}`}</Math> — параметры (веса)</span>
           <span><Math display={false}>{`\\enfPar{\\alpha}`}</Math> — learning rate</span>
-          <span><Math display={false}>{`-\\nabla \\enfTgt{L}`}</Math> — антиградиент</span>
+          <span><Math display={false}>{`-\\enfOp{\\nabla} \\enfTgt{L}`}</Math> — антиградиент</span>
         </div>
       </DefinitionBox>
 
@@ -320,11 +320,11 @@ except ImportError:
         <summary className="p-4 font-semibold text-foreground cursor-pointer hover:text-primary">📖 Подробнее про Adam (Adaptive Moment Estimation)</summary>
         <div className="p-4 pt-0 space-y-3">
           <p>Adam хранит два «момента» градиента:</p>
-          <Math>{`m_t = \\enfPar{\\beta}_1 m_{t-1} + (1-\\enfPar{\\beta}_1)\\nabla \\enfTgt{L} \\qquad \\text{(скользящее среднее)}`}</Math>
-          <Math>{`v_t = \\enfPar{\\beta}_2 v_{t-1} + (1-\\enfPar{\\beta}_2)(\\nabla \\enfTgt{L})^2 \\qquad \\text{(скользящая дисперсия)}`}</Math>
+          <Math>{`\\enfOp{m}_t = \\enfPar{\\beta}_1 \\enfOp{m}_{t-1} + (1-\\enfPar{\\beta}_1)\\enfOp{\\nabla} \\enfTgt{L} \\qquad \\text{(скользящее среднее)}`}</Math>
+          <Math>{`\\enfOp{v}_t = \\enfPar{\\beta}_2 \\enfOp{v}_{t-1} + (1-\\enfPar{\\beta}_2)(\\enfOp{\\nabla} \\enfTgt{L})^2 \\qquad \\text{(скользящая дисперсия)}`}</Math>
           <p>С коррекцией смещения и обновлением:</p>
-          <Math>{`\\enfPar{\\theta}_{t+1} = \\enfPar{\\theta}_t - \\enfPar{\\alpha} \\cdot \\frac{\\hat{m}_t}{\\sqrt{\\hat{v}_t} + \\varepsilon}`}</Math>
-          <p className="text-sm"><strong className="text-primary">Типичные значения:</strong> <Math display={false}>{`\\enfPar{\\beta}_1 = 0.9`}</Math>, <Math display={false}>{`\\enfPar{\\beta}_2 = 0.999`}</Math>, <Math display={false}>{`\\varepsilon = 10^{-8}`}</Math></p>
+          <Math>{`\\enfPar{\\theta}_{t+1} = \\enfPar{\\theta}_t - \\enfPar{\\alpha} \\cdot \\frac{\\enfOp{\\hat{m}}_t}{\\sqrt{\\enfOp{\\hat{v}}_t} + \\enfPar{\\varepsilon}}`}</Math>
+          <p className="text-sm"><strong className="text-primary">Типичные значения:</strong> <Math display={false}>{`\\enfPar{\\beta}_1 = 0.9`}</Math>, <Math display={false}>{`\\enfPar{\\beta}_2 = 0.999`}</Math>, <Math display={false}>{`\\enfPar{\\varepsilon} = 10^{-8}`}</Math></p>
         </div>
       </details>
 
@@ -350,7 +350,7 @@ except ImportError:
 
       <PracticeTask level="⭐" num="4.1" label="Ручной градиентный спуск" color="primary">
         <p><strong className="text-foreground">Выполнить 3 шага GD</strong> (<Math display={false}>{`\\enfPar{\\alpha} = 0.1`}</Math>) для <Math display={false}>{`\\enfFun{f}(\\enfVar{x}) = \\enfVar{x}^2 - 4\\enfVar{x} + 5`}</Math>, начиная с <Math display={false}>{`\\enfVar{x}_0 = 0`}</Math>.</p>
-        <p className="text-sm text-muted-foreground"><Math display={false}>{`f'(x) = 2x - 4`}</Math></p>
+        <p className="text-sm text-muted-foreground"><Math display={false}>{`\\enfFun{f}'(\\enfVar{x}) = 2\\enfVar{x} - 4`}</Math></p>
         <details className="text-sm mt-3">
           <summary className="text-primary cursor-pointer">📝 Решение</summary>
           <div className="mt-2 overflow-x-auto">
@@ -364,20 +364,20 @@ except ImportError:
                 <tr><td className="p-2">2</td><td className="p-2">0.720</td><td className="p-2">−2.560</td><td className="p-2">0.976</td></tr>
               </tbody>
             </table>
-            <p className="mt-2">Минимум <Math display={false}>{`f'(x)=0`}</Math> → <Math display={false}>{`\\enfVar{x}^* = 2.0`}</Math>. Мы движемся верно!</p>
+            <p className="mt-2">Минимум <Math display={false}>{`\\enfFun{f}'(\\enfVar{x})=0`}</Math> → <Math display={false}>{`\\enfVar{x}^* = 2.0`}</Math>. Мы движемся верно!</p>
           </div>
         </details>
       </PracticeTask>
 
       <PracticeTask level="⭐⭐ 🤖" num="4.2" label="Обновление весов Q-сети" color="accent">
-        <p><strong className="text-foreground">Условие.</strong> Линейная Q-сеть: <Math display={false}>{`\\enfOp{Q}_\\theta(\\enfVar{s},a) = \\enfPar{\\theta}^\\top \\enfFun{\\varphi}`}</Math></p>
+        <p><strong className="text-foreground">Условие.</strong> Линейная Q-сеть: <Math display={false}>{`\\enfOp{Q}_\\theta(\\enfVar{s},\\enfFun{a}) = \\enfPar{\\theta}^\\top \\enfFun{\\varphi}`}</Math></p>
         <p><Math display={false}>{`\\enfFun{\\varphi} = [1, 0.5]`}</Math>, <Math display={false}>{`\\enfPar{\\theta} = [2, 3]`}</Math>, TD-цель = 5, <Math display={false}>{`\\enfPar{\\alpha} = 0.01`}</Math></p>
         <details className="text-sm mt-3">
           <summary className="text-accent cursor-pointer">📝 Решение</summary>
           <div className="mt-2 space-y-2">
             <p className="text-muted-foreground"><Math display={false}>{`\\enfOp{Q} = \\enfPar{\\theta}^\\top \\enfFun{\\varphi} = 2 \\cdot 1 + 3 \\cdot 0.5 = 3.5`}</Math></p>
-            <p className="text-muted-foreground"><Math display={false}>{`\\enfPar{\\delta} = 5 - 3.5 = 1.5`}</Math> (TD-ошибка)</p>
-            <p className="text-muted-foreground"><Math display={false}>{`\\partial \\enfTgt{L} / \\partial \\enfPar{\\theta} = -2\\enfPar{\\delta} \\cdot \\enfFun{\\varphi} = [-3, -1.5]`}</Math></p>
+            <p className="text-muted-foreground"><Math display={false}>{`\\enfVar{\\delta} = 5 - 3.5 = 1.5`}</Math> (TD-ошибка)</p>
+            <p className="text-muted-foreground"><Math display={false}>{`\\partial \\enfTgt{L} / \\partial \\enfPar{\\theta} = -2\\enfVar{\\delta} \\cdot \\enfFun{\\varphi} = [-3, -1.5]`}</Math></p>
             <p><span className="inline-block px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-sm font-bold">Ответ: <Math display={false}>{`\\enfPar{\\theta}_{\\text{new}} = [2.03,\\; 3.015]`}</Math></span></p>
             <p className="text-muted-foreground text-xs"><Math display={false}>{`\\enfOp{Q}_{\\text{new}} = 2.03 + 3.015 \\cdot 0.5 = 3.54 > 3.5`}</Math> ✓ — Q приблизилось к цели!</p>
           </div>
@@ -428,17 +428,17 @@ for alpha in [0.01, 0.1, 0.5, 1.05]:
     <Section icon={<BarChart3 className="w-5 h-5 text-primary" />} title="§ 4. Применение в RL: Policy Gradient">
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-4 mb-3" id="задача-оптимизации-политики">Задача оптимизации политики</h3>
       <p>В RL цель — максимизировать суммарное вознаграждение:</p>
-      <Math>{`\\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\pi_\\theta}\\!\\left[\\sum_{t=0}^{\\infty} \\gamma^t \\enfTgt{r}_t\\right]`}</Math>
+      <Math>{`\\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\pi_\\theta}\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{r}_t\\right]`}</Math>
       <p>Мы применяем <strong className="text-primary">градиентный подъём</strong> (знак «+», а не «−»!):</p>
-      <Math>{`\\enfPar{\\theta} \\leftarrow \\enfPar{\\theta} + \\enfPar{\\alpha} \\cdot \\nabla \\enfTgt{J}(\\enfPar{\\theta})`}</Math>
+      <Math>{`\\enfPar{\\theta} \\leftarrow \\enfPar{\\theta} + \\enfPar{\\alpha} \\cdot \\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta})`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="теорема-о-градиенте-политики">Теорема о градиенте политики</h3>
       <div className="my-4 p-5 rounded-lg border-2 border-secondary/40 bg-secondary/5">
-        <Math>{`\\nabla \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\pi_\\theta}\\!\\left[\\nabla \\log \\pi_\\theta(a \\mid \\enfVar{s}) \\cdot \\enfOp{Q}^{\\pi}(\\enfVar{s},a)\\right]`}</Math>
+        <Math>{`\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\pi_\\theta}\\!\\left[\\enfOp{\\nabla} \\log \\pi_\\theta(a \\mid \\enfVar{s}) \\cdot \\enfOp{Q}^{\\pi}(\\enfVar{s},a)\\right]`}</Math>
         <ul className="list-disc list-inside mt-4 space-y-1 text-sm">
-          <li><Math display={false}>{`\\pi_\\theta(a \\mid \\enfVar{s})`}</Math> — вероятность выбрать действие <Math display={false}>{`a`}</Math> в состоянии <Math display={false}>{`s`}</Math></li>
-          <li><Math display={false}>{`\\nabla \\log \\pi_\\theta(a \\mid \\enfVar{s})`}</Math> — «насколько θ влияет на вероятность этого действия»</li>
-          <li><Math display={false}>{`\\enfOp{Q}^\\pi(\\enfVar{s},a)`}</Math> — насколько хорошим оказалось действие <Math display={false}>{`a`}</Math></li>
+          <li><Math display={false}>{`\\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})`}</Math> — вероятность выбрать действие <Math display={false}>{`\\enfFun{a}`}</Math> в состоянии <Math display={false}>{`\\enfVar{s}`}</Math></li>
+          <li><Math display={false}>{`\\enfOp{\\nabla} \\log \\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})`}</Math> — «насколько θ влияет на вероятность этого действия»</li>
+          <li><Math display={false}>{`\\enfOp{Q}^\\pi(\\enfVar{s},\\enfFun{a})`}</Math> — насколько хорошим оказалось действие <Math display={false}>{`\\enfFun{a}`}</Math></li>
         </ul>
       </div>
 
@@ -450,7 +450,7 @@ for alpha in [0.01, 0.1, 0.5, 1.05]:
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
         <div className="p-4 rounded-lg bg-card/60 border border-primary/20">
           <p className="text-sm font-semibold text-primary mb-1">TD-обновление:</p>
-          <Math>{`\\enfOp{V}(\\enfVar{s}) \\leftarrow \\enfOp{V}(\\enfVar{s}) + \\enfPar{\\alpha} \\underbrace{[\\enfTgt{r} + \\gamma \\enfOp{V}(\\enfVar{s}') - \\enfOp{V}(\\enfVar{s})]}_{\\delta\\ =\\ \\text{TD-ошибка}}`}</Math>
+          <Math>{`\\enfOp{V}(\\enfVar{s}) \\leftarrow \\enfOp{V}(\\enfVar{s}) + \\enfPar{\\alpha} \\underbrace{[\\enfTgt{r} + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}') - \\enfOp{V}(\\enfVar{s})]}_{\\delta\\ =\\ \\text{TD-ошибка}}`}</Math>
         </div>
         <div className="p-4 rounded-lg bg-card/60 border border-secondary/20">
           <p className="text-sm font-semibold text-secondary mb-1">SGD-обновление:</p>
@@ -460,15 +460,15 @@ for alpha in [0.01, 0.1, 0.5, 1.05]:
       <p><strong className="text-foreground">TD-обновление ≡ шаг SGD по потере Беллмана.</strong> Математически — одно и то же!</p>
 
       <PracticeTask level="⭐⭐⭐ 🤖" num="5.1" label="Шаг REINFORCE" color="accent">
-        <p><strong className="text-foreground">Условие.</strong> Политика: <Math display={false}>{`\\pi_\\theta(a=1 \\mid \\enfVar{s}) = \\enfFun{\\sigma}(\\enfPar{\\theta} \\enfVar{s})`}</Math>. <Math display={false}>{`\\enfPar{\\theta} = 0.5`}</Math>, <Math display={false}>{`s = 1`}</Math>. Агент выбрал <Math display={false}>{`a=1`}</Math>, получил <Math display={false}>{`r = 2`}</Math>. Выполнить один шаг REINFORCE (<Math display={false}>{`\\enfPar{\\alpha} = 0.1`}</Math>).</p>
+        <p><strong className="text-foreground">Условие.</strong> Политика: <Math display={false}>{`\\enfFun{\\pi}_\\theta(\\enfFun{a}=1 \\mid \\enfVar{s}) = \\enfFun{\\sigma}(\\enfPar{\\theta} \\enfVar{s})`}</Math>. <Math display={false}>{`\\enfPar{\\theta} = 0.5`}</Math>, <Math display={false}>{`\\enfVar{s} = 1`}</Math>. Агент выбрал <Math display={false}>{`\\enfFun{a}=1`}</Math>, получил <Math display={false}>{`\\enfTgt{r} = 2`}</Math>. Выполнить один шаг REINFORCE (<Math display={false}>{`\\enfPar{\\alpha} = 0.1`}</Math>).</p>
         <details className="text-sm mt-3">
           <summary className="text-accent cursor-pointer">📝 Пошаговое решение</summary>
           <div className="mt-2 space-y-3">
             <p className="text-muted-foreground"><strong className="text-foreground">1.</strong> Вычислить π: <Math display={false}>{`\\enfFun{\\sigma}(0.5 \\cdot 1) = \\enfFun{\\sigma}(0.5) \\approx 0.6225`}</Math></p>
-            <p className="text-muted-foreground"><strong className="text-foreground">2.</strong> Вычислить <Math display={false}>{`\\nabla \\log \\pi`}</Math>: <Math display={false}>{`(1 - \\pi) \\cdot \\enfVar{s} = (1 - 0.6225) \\cdot 1 = 0.3775`}</Math></p>
-            <p className="text-muted-foreground"><strong className="text-foreground">3.</strong> Градиент: <Math display={false}>{`\\nabla \\enfTgt{J}(\\enfPar{\\theta}) = \\enfTgt{r} \\cdot \\nabla \\log \\pi = 2 \\cdot 0.3775 = 0.755`}</Math></p>
+            <p className="text-muted-foreground"><strong className="text-foreground">2.</strong> Вычислить <Math display={false}>{`\\enfOp{\\nabla} \\log \\enfFun{\\pi}`}</Math>: <Math display={false}>{`(1 - \\enfFun{\\pi}) \\cdot \\enfVar{s} = (1 - 0.6225) \\cdot 1 = 0.3775`}</Math></p>
+            <p className="text-muted-foreground"><strong className="text-foreground">3.</strong> Градиент: <Math display={false}>{`\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}) = \\enfTgt{r} \\cdot \\enfOp{\\nabla} \\log \\enfFun{\\pi} = 2 \\cdot 0.3775 = 0.755`}</Math></p>
             <p className="text-muted-foreground"><strong className="text-foreground">4.</strong> Обновление: <Math display={false}>{`\\enfPar{\\theta}_{\\text{new}} = 0.5 + 0.1 \\cdot 0.755 = 0.5755`}</Math></p>
-            <p><span className="inline-block px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-sm font-bold">Проверка: <Math display={false}>{`\\pi_{\\text{new}} = \\enfFun{\\sigma}(0.5755) \\approx 0.640 > 0.622`}</Math> ✓</span></p>
+            <p><span className="inline-block px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-sm font-bold">Проверка: <Math display={false}>{`\\enfFun{\\pi}_{\\text{new}} = \\enfFun{\\sigma}(0.5755) \\approx 0.640 > 0.622`}</Math> ✓</span></p>
             <p className="text-muted-foreground text-xs">Вероятность хорошего действия выросла — агент учится!</p>
           </div>
         </details>

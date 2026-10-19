@@ -27,22 +27,22 @@ const Chapter4 = () => (
 
     <h3 id="политика-policy" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Политика (Policy)</h3>
     <p>
-      Поведение агента формализуется <strong className="text-foreground">политикой</strong> <Math display={false}>{"\\pi"}</Math> — функцией, сопоставляющей состояниям вероятности выбора действий. Запись <Math display={false}>{"\\pi(a \\mid \\enfVar{s})"}</Math> означает: вероятность выбрать действие <Math display={false}>{"a"}</Math> в состоянии <Math display={false}>{"s"}</Math>.
+      Поведение агента формализуется <strong className="text-foreground">политикой</strong> <Math display={false}>{"\\enfFun{\\pi}"}</Math> — функцией, сопоставляющей состояниям вероятности выбора действий. Запись <Math display={false}>{"\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s})"}</Math> означает: вероятность выбрать действие <Math display={false}>{"\\enfFun{a}"}</Math> в состоянии <Math display={false}>{"\\enfVar{s}"}</Math>.
     </p>
 
     <h3 id="функции-ценности-value-functions" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Функции ценности (Value Functions)</h3>
     <p>
-      <strong className="text-foreground">Функция ценности состояния</strong> <Math display={false}>{"\\enfOp{V}_\\pi(\\enfVar{s})"}</Math> — «насколько выгодно находиться в состоянии <Math display={false}>{"s"}</Math>, следуя политике <Math display={false}>{"\\pi"}</Math>?»:
+      <strong className="text-foreground">Функция ценности состояния</strong> <Math display={false}>{"\\enfOp{V}_\\pi(\\enfVar{s})"}</Math> — «насколько выгодно находиться в состоянии <Math display={false}>{"\\enfVar{s}"}</Math>, следуя политике <Math display={false}>{"\\enfFun{\\pi}"}</Math>?»:
     </p>
-    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; S_0 = \\enfVar{s}\\right]"}</Math>
+    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}\\right]"}</Math>
 
     <p className="mt-4">
-      <strong className="text-foreground">Функция ценности действия</strong> <Math display={false}>{"\\enfOp{Q}_\\pi(\\enfVar{s}, a)"}</Math> — «насколько выгодно совершить действие <Math display={false}>{"a"}</Math> в состоянии <Math display={false}>{"s"}</Math>, а далее следовать <Math display={false}>{"\\pi"}</Math>?»:
+      <strong className="text-foreground">Функция ценности действия</strong> <Math display={false}>{"\\enfOp{Q}_\\pi(\\enfVar{s}, \\enfFun{a})"}</Math> — «насколько выгодно совершить действие <Math display={false}>{"\\enfFun{a}"}</Math> в состоянии <Math display={false}>{"\\enfVar{s}"}</Math>, а далее следовать <Math display={false}>{"\\enfFun{\\pi}"}</Math>?»:
     </p>
-    <Math>{"\\enfOp{Q}_\\pi(\\enfVar{s}, a) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; S_0 = \\enfVar{s},\\, A_0 = a\\right]"}</Math>
+    <Math>{"\\enfOp{Q}_\\pi(\\enfVar{s}, a) = \\mathbb{E}_\\pi\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_{t+1} \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s},\\, A_0 = a\\right]"}</Math>
 
     <p className="mt-4">Элегантная связь между ними:</p>
-    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\sum_{a \\in A} \\pi(a \\mid \\enfVar{s})\\, \\enfOp{Q}_\\pi(\\enfVar{s}, a)"}</Math>
+    <Math>{"\\enfOp{V}_\\pi(\\enfVar{s}) = \\sum_{a \\in A} \\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s})\\, \\enfOp{Q}_\\pi(\\enfVar{s}, \\enfFun{a})"}</Math>
   </Section>
 );
 

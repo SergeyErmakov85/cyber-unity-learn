@@ -30,9 +30,9 @@ const NOTATION: { tex: string; meaning: string; role: string }[] = [
   { tex: String.raw`\enfVar{x},\ \enfVar{X}`, meaning: "аргумент функции, случайная величина", role: "variable" },
   { tex: String.raw`\enfVar{s} \in \mathcal{S}`, meaning: "состояние среды", role: "variable" },
   { tex: String.raw`\enfFun{f}`, meaning: "функция, которую максимизируем", role: "function" },
-  { tex: String.raw`a \in \mathcal{A}`, meaning: "действие агента", role: "function" },
-  { tex: String.raw`\pi(a \mid \enfVar{s})`, meaning: "стратегия: вероятность выбрать действие в состоянии", role: "function" },
-  { tex: String.raw`\mathcal{P}(\enfVar{s}' \mid \enfVar{s}, a)`, meaning: "вероятность перехода среды", role: "function" },
+  { tex: String.raw`\enfFun{a} \in \mathcal{A}`, meaning: "действие агента", role: "function" },
+  { tex: String.raw`\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})`, meaning: "стратегия: вероятность выбрать действие в состоянии", role: "function" },
+  { tex: String.raw`\enfFun{\mathcal{P}}(\enfVar{s}' \mid \enfVar{s}, \enfFun{a})`, meaning: "вероятность перехода среды", role: "function" },
   { tex: String.raw`\enfPar{\gamma} \in [0, 1]`, meaning: "коэффициент дисконтирования", role: "parameter" },
   { tex: String.raw`\mathbb{E}`, meaning: "математическое ожидание", role: "operator" },
   { tex: String.raw`\enfOp{V}^{\pi}(\enfVar{s})`, meaning: "ценность состояния при стратегии", role: "operator" },
@@ -193,11 +193,11 @@ const Section_BellmanDerivation = () => {
           <P>Здесь важно строго различать два оператора:</P>
           <ol className="list-decimal list-inside space-y-1" style={{ color: TEXT }}>
             <li>
-              <IM>{String.raw`\max_{\enfVar{x}}\!\left(\enfFun{f}(\enfVar{x})\right)`}</IM>{" "}
+              <IM>{String.raw`\max_{x}\!\left(\enfFun{f}(\enfVar{x})\right)`}</IM>{" "}
               — это само <strong>максимальное значение</strong> функции.
             </li>
             <li>
-              <IM>{String.raw`\arg\max_{\enfVar{x}}\!\left(\enfFun{f}(\enfVar{x})\right)`}</IM>{" "}
+              <IM>{String.raw`\arg\max_{x}\!\left(\enfFun{f}(\enfVar{x})\right)`}</IM>{" "}
               — это <strong>аргумент</strong> (значение{" "}
               <IM>{String.raw`\enfVar{x}`}</IM>, при котором функция достигает
               максимума).
@@ -218,7 +218,7 @@ const Section_BellmanDerivation = () => {
           <P>Теперь вычислим значение функции в этой точке:</P>
           <F>{String.raw`\enfFun{f}(2) = -(2)^2 + 4(2) = -4 + 8 = 4`}</F>
           <P>Следовательно:</P>
-          <F>{String.raw`\max_{\enfVar{x}}\!\left(\enfFun{f}(\enfVar{x})\right) = 4 \qquad \arg\max_{\enfVar{x}}\!\left(\enfFun{f}(\enfVar{x})\right) = 2`}</F>
+          <F>{String.raw`\max_{x}\!\left(\enfFun{f}(\enfVar{x})\right) = 4 \qquad \arg\max_{x}\!\left(\enfFun{f}(\enfVar{x})\right) = 2`}</F>
           <P>
             В обучении с подкреплением мы постоянно ищем{" "}
             <IM>{String.raw`\arg\max_{a}(\square)`}</IM> — то есть
@@ -250,7 +250,7 @@ const Section_BellmanDerivation = () => {
             повторений эксперимента. Оно вычисляется как взвешенная сумма всех
             исходов, где весом выступает вероятность:
           </P>
-          <F>{String.raw`\mathbb{E}[\enfVar{X}] = \sum_{\enfVar{x}} \enfVar{x} \cdot \enfFun{P}(\enfVar{X} = \enfVar{x})`}</F>
+          <F>{String.raw`\mathbb{E}[\enfFun{X}] = \sum_{x} \enfVar{x} \cdot \enfOp{P}(\enfFun{X} = \enfVar{x})`}</F>
           <P>
             <strong>Пример.</strong> Бросок «нечестной» монеты: при выпадении орла
             (вероятность 0.8) вы получаете 10 монет, при выпадении решки
@@ -273,25 +273,25 @@ const Section_BellmanDerivation = () => {
             обучения с подкреплением можно свести к MDP. Он описывается кортежем из
             пяти элементов:
           </P>
-          <F>{String.raw`\left(\enfVar{\mathcal{S}},\ \enfFun{\mathcal{A}},\ \enfFun{\mathcal{P}},\ \enfTgt{\mathcal{R}},\ \enfPar{\gamma}\right)`}</F>
+          <F>{String.raw`\left(\mathcal{S},\ \mathcal{A},\ \enfFun{\mathcal{P}},\ \enfTgt{\mathcal{R}},\ \enfPar{\gamma}\right)`}</F>
           <ul className="list-disc list-inside space-y-2" style={{ color: TEXT }}>
             <li>
-              <IM>{String.raw`\enfVar{\mathcal{S}}`}</IM> — конечное
+              <IM>{String.raw`\mathcal{S}`}</IM> — конечное
               множество всех возможных состояний (states).
             </li>
             <li>
-              <IM>{String.raw`\enfFun{\mathcal{A}}`}</IM> — конечное
+              <IM>{String.raw`\mathcal{A}`}</IM> — конечное
               множество всех доступных действий (actions).
             </li>
             <li>
-              <IM>{String.raw`\mathcal{P}(\enfVar{s}' \mid \enfVar{s}, a)`}</IM>{" "}
+              <IM>{String.raw`\enfFun{\mathcal{P}}(\enfVar{s}' \mid \enfVar{s}, \enfFun{a})`}</IM>{" "}
               — функция вероятности перехода: вероятность того, что из состояния{" "}
               <IM>{String.raw`\enfVar{s}`}</IM> при действии{" "}
               <IM>{String.raw`\enfFun{a}`}</IM> среда перейдёт в новое
               состояние <IM>{String.raw`\enfVar{s}'`}</IM>.
             </li>
             <li>
-              <IM>{String.raw`\enfTgt{\mathcal{R}}(\enfVar{s}, a, \enfVar{s}')`}</IM>{" "}
+              <IM>{String.raw`\enfTgt{\mathcal{R}}(\enfVar{s}, \enfFun{a}, \enfVar{s}')`}</IM>{" "}
               — функция награды: ожидаемая мгновенная награда при переходе из{" "}
               <IM>{String.raw`\enfVar{s}`}</IM> в{" "}
               <IM>{String.raw`\enfVar{s}'`}</IM> посредством действия{" "}
@@ -306,7 +306,7 @@ const Section_BellmanDerivation = () => {
             <strong>Марковское свойство.</strong> Будущее зависит только от текущего
             состояния и действия, а не от всей предыдущей истории:
           </P>
-          <F>{String.raw`\enfFun{\mathcal{P}}\!\left(S_{t+1} \mid S_t, A_t, S_{t-1}, A_{t-1}, \ldots\right) = \enfFun{\mathcal{P}}\!\left(S_{t+1} \mid S_t, A_t\right)`}</F>
+          <F>{String.raw`\enfFun{\mathcal{P}}\!\left(\enfVar{S}_{t+1} \mid \enfVar{S}_t, \enfFun{A}_t, \enfVar{S}_{t-1}, \enfFun{A}_{t-1}, \ldots\right) = \enfFun{\mathcal{P}}\!\left(\enfVar{S}_{t+1} \mid \enfVar{S}_t, \enfFun{A}_t\right)`}</F>
           <P>
             Это свойство «отсутствия памяти» резко упрощает моделирование: агент
             принимает решение, опираясь лишь на то, где он находится прямо сейчас.
@@ -370,15 +370,15 @@ const Section_BellmanDerivation = () => {
             <IM>{String.raw`\enfFun{\pi}`}</IM> из состояния{" "}
             <IM>{String.raw`\enfVar{s}`}</IM>:
           </P>
-          <F>{String.raw`\enfOp{V}^{\pi}(\enfVar{s}) = \mathbb{E}_{\pi}\!\left[\enfOp{G}_t \mid S_t = \enfVar{s}\right]`}</F>
+          <F>{String.raw`\enfOp{V}^{\pi}(\enfVar{s}) = \mathbb{E}_{\pi}\!\left[\enfOp{G}_t \mid \enfVar{S}_t = \enfVar{s}\right]`}</F>
           <P>Подставим рекурсивную форму возврата:</P>
-          <F>{String.raw`\enfOp{V}^{\pi}(\enfVar{s}) = \mathbb{E}_{\pi}\!\left[\enfTgt{R}_{t+1} + \enfPar{\gamma}\,\enfOp{G}_{t+1} \mid S_t = \enfVar{s}\right]`}</F>
+          <F>{String.raw`\enfOp{V}^{\pi}(\enfVar{s}) = \mathbb{E}_{\pi}\!\left[\enfTgt{R}_{t+1} + \enfPar{\gamma}\,\enfOp{G}_{t+1} \mid \enfVar{S}_t = \enfVar{s}\right]`}</F>
           <P>
             Раскроем ожидание через сумму по действиям (стохастичность стратегии) и
             по переходам (стохастичность среды). Получаем{" "}
             <strong>уравнение Беллмана для ожиданий:</strong>
           </P>
-          <F>{String.raw`\enfOp{V}^{\pi}(\enfVar{s}) = \sum_{a} \pi(a \mid \enfVar{s}) \sum_{\enfVar{s}'} \mathcal{P}(\enfVar{s}' \mid \enfVar{s}, a)\left[\enfTgt{\mathcal{R}}(\enfVar{s}, a, \enfVar{s}') + \enfPar{\gamma}\,\enfOp{V}^{\pi}(\enfVar{s}')\right]`}</F>
+          <F>{String.raw`\enfOp{V}^{\pi}(\enfVar{s}) = \sum_{a} \pi(a \mid \enfVar{s}) \sum_{s'} \mathcal{P}(s' \mid \enfVar{s}, a)\left[\enfTgt{\mathcal{R}}(\enfVar{s}, a, s') + \enfPar{\gamma}\,\enfOp{V}^{\pi}(s')\right]`}</F>
           <P>
             Словами: ценность состояния равна средневзвешенной сумме немедленных
             наград и дисконтированной ценности всех возможных следующих состояний{" "}
@@ -389,14 +389,14 @@ const Section_BellmanDerivation = () => {
             символ. Почему здесь двойная сумма? Первая сумма{" "}
             <IM>{String.raw`\sum_{a}(\square)`}</IM> учитывает
             случайность стратегии (какое действие мы выберем), а вторая{" "}
-            <IM>{String.raw`\sum_{\enfVar{s}'}(\square)`}</IM> —
+            <IM>{String.raw`\sum_{s'}(\square)`}</IM> —
             стохастичность среды (куда нас приведёт это действие).
           </Callout>
           <P>
             Если вместо усреднения по стратегии всегда выбирать лучшее действие, мы
             получаем <strong>уравнение оптимальности Беллмана</strong>:
           </P>
-          <F>{String.raw`\enfOp{V}^{*}(\enfVar{s}) = \max_{a} \sum_{\enfVar{s}'} \mathcal{P}(\enfVar{s}' \mid \enfVar{s}, a)\left[\enfTgt{\mathcal{R}}(\enfVar{s}, a, \enfVar{s}') + \enfPar{\gamma}\,\enfOp{V}^{*}(\enfVar{s}')\right]`}</F>
+          <F>{String.raw`\enfOp{V}^{*}(\enfVar{s}) = \max_{a} \sum_{s'} \mathcal{P}(s' \mid \enfVar{s}, a)\left[\enfTgt{\mathcal{R}}(\enfVar{s}, a, s') + \enfPar{\gamma}\,\enfOp{V}^{*}(s')\right]`}</F>
         </Stage>
 
         {/* ─────── Policy Iteration ─────── */}
@@ -421,7 +421,7 @@ const Section_BellmanDerivation = () => {
               обновляем стратегию, выбирая в каждом состоянии «жадное» действие:
             </li>
           </ol>
-          <F>{String.raw`\pi_{\text{new}}(\enfVar{s}) = \arg\max_{a} \sum_{\enfVar{s}'} \mathcal{P}(\enfVar{s}' \mid \enfVar{s}, a)\left[\enfTgt{\mathcal{R}}(\enfVar{s}, a, \enfVar{s}') + \enfPar{\gamma}\,\enfOp{V}^{\pi}(\enfVar{s}')\right]`}</F>
+          <F>{String.raw`\pi_{\text{new}}(\enfVar{s}) = \arg\max_{a} \sum_{s'} \mathcal{P}(s' \mid \enfVar{s}, a)\left[\enfTgt{\mathcal{R}}(\enfVar{s}, a, s') + \enfPar{\gamma}\,\enfOp{V}^{\pi}(s')\right]`}</F>
           <Callout color={MAGENTA}>
             <strong>Этот процесс математически гарантированно сходится к оптимальной
             стратегии.</strong>

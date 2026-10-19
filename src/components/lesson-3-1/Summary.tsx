@@ -41,12 +41,12 @@ const Summary = () => (
       </li>
       <li>
         <strong className="text-primary">Max-ent objective:</strong>{" "}
-        <Math display={false}>{String.raw`\enfTgt{J}(\pi)=\sum_t\mathbb{E}[\,\enfTgt{r}+\enfPar{\alpha}\mathcal{\enfOp{H}}(\pi)\,]`}</Math>
+        <Math display={false}>{String.raw`\enfTgt{J}(\enfFun{\pi})=\sum_t\mathbb{E}[\,\enfTgt{r}+\enfPar{\alpha}\enfOp{\mathcal{H}}(\enfFun{\pi})\,]`}</Math>
         ; при <Math display={false}>{String.raw`\enfPar{\alpha}\to 0`}</Math> возвращается обычный RL.
       </li>
       <li>
         <strong className="text-primary">Soft величины:</strong>{" "}
-        <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})=\mathbb{E}_{a\sim\pi}[\enfOp{Q}-\enfPar{\alpha}\log\pi]`}</Math>;
+        <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})=\mathbb{E}_{a\sim\pi}[\enfOp{Q}-\enfPar{\alpha}\log\enfFun{\pi}]`}</Math>;
         soft-Беллман заменяет <Math display={false}>{String.raw`\max_{a'}`}</Math> на{" "}
         <Math display={false}>{String.raw`\mathbb{E}_{a'\sim\pi}`}</Math> + энтропия; «soft» =
         log-sum-exp вместо max.
@@ -61,7 +61,7 @@ const Summary = () => (
       </li>
       <li>
         <strong className="text-primary">Reparameterization trick:</strong>{" "}
-        <Math display={false}>{String.raw`a=\tanh(\mu_\phi(\enfVar{s})+\sigma_\phi(\enfVar{s})\odot\enfPar{\epsilon})`}</Math> →
+        <Math display={false}>{String.raw`\enfFun{a}=\tanh(\enfFun{\mu}_\phi(\enfVar{s})+\enfFun{\sigma}_\phi(\enfVar{s})\odot\enfVar{\epsilon})`}</Math> →
         градиент течёт через сэмпл; нужна поправка на{" "}
         <Math display={false}>{String.raw`\tanh`}</Math>.
       </li>
@@ -70,8 +70,8 @@ const Summary = () => (
           Автоподстройка <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>:
         </strong>{" "}
         двойственная переменная при ограничении на энтропию;{" "}
-        <Math display={false}>{String.raw`\enfTgt{J}(\enfPar{\alpha})=\mathbb{E}[-\enfPar{\alpha}\log\pi-\enfPar{\alpha}\bar{\mathcal{\enfOp{H}}}]`}</Math>
-        , порог <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}=-\dim(\mathcal{A})`}</Math>.
+        <Math display={false}>{String.raw`\enfTgt{J}(\enfPar{\alpha})=\mathbb{E}[-\enfPar{\alpha}\log\enfFun{\pi}-\enfPar{\alpha}\enfTgt{\bar{\mathcal{H}}}]`}</Math>
+        , порог <Math display={false}>{String.raw`\enfTgt{\bar{\mathcal{H}}}=-\dim(\mathcal{A})`}</Math>.
       </li>
       <li>
         <strong className="text-primary">Off-policy + replay buffer:</strong> переиспользование опыта

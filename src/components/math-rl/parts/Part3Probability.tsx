@@ -13,41 +13,41 @@ const Part3Probability = () => (
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="основные-понятия">Основные понятия</h3>
       <ul className="list-disc list-inside space-y-2">
         <li><strong className="text-foreground">Пространство элементарных исходов</strong> <Math display={false}>{`\\Omega`}</Math> — множество всех возможных результатов эксперимента</li>
-        <li><strong className="text-foreground">Событие</strong> <Math display={false}>{`A \\subseteq \\Omega`}</Math> — подмножество пространства исходов</li>
-        <li><strong className="text-foreground">Вероятность</strong> <Math display={false}>{`P(A) \\in [0, 1]`}</Math>, <Math display={false}>{`\\sum P(\\omega_i) = 1`}</Math></li>
+        <li><strong className="text-foreground">Событие</strong> <Math display={false}>{`\\enfVar{A} \\subseteq \\Omega`}</Math> — подмножество пространства исходов</li>
+        <li><strong className="text-foreground">Вероятность</strong> <Math display={false}>{`\\enfOp{P}(\\enfVar{A}) \\in [0, 1]`}</Math>, <Math display={false}>{`\\sum \\enfOp{P}(\\enfVar{\\omega}_i) = 1`}</Math></li>
       </ul>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="случайные-величины-и-распределения">Случайные величины и распределения</h3>
       <p>
-        <strong className="text-foreground">Случайная величина</strong> <Math display={false}>{`\\enfVar{X}: \\Omega \\to \\mathbb{\\enfTgt{R}}`}</Math> — функция, сопоставляющая каждому исходу числовое значение.
+        <strong className="text-foreground">Случайная величина</strong> <Math display={false}>{`\\enfFun{X}: \\Omega \\to \\mathbb{R}`}</Math> — функция, сопоставляющая каждому исходу числовое значение.
       </p>
       <ul className="list-disc list-inside mt-3 space-y-2">
-        <li><strong className="text-foreground">PMF</strong> (дискретная): <Math display={false}>{`P(X = x)`}</Math></li>
-        <li><strong className="text-foreground">PDF</strong> (непрерывная): <Math display={false}>{`f(x)`}</Math>, где <Math display={false}>{`\\int_{-\\infty}^{\\infty} \\enfFun{f}(\\enfVar{x})\\,\\mathrm{d}x = 1`}</Math></li>
-        <li><strong className="text-foreground">CDF:</strong> <Math display={false}>{`F(\\enfVar{x}) = P(\\enfVar{X} \\leq \\enfVar{x})`}</Math></li>
+        <li><strong className="text-foreground">PMF</strong> (дискретная): <Math display={false}>{`\\enfOp{P}(\\enfFun{X} = \\enfVar{x})`}</Math></li>
+        <li><strong className="text-foreground">PDF</strong> (непрерывная): <Math display={false}>{`\\enfFun{f}(\\enfVar{x})`}</Math>, где <Math display={false}>{`\\int_{-\\infty}^{\\infty} \\enfFun{f}(\\enfVar{x})\\,\\mathrm{d}\\enfVar{x} = 1`}</Math></li>
+        <li><strong className="text-foreground">CDF:</strong> <Math display={false}>{`\\enfFun{F}(\\enfVar{x}) = \\enfOp{P}(\\enfFun{X} \\leq \\enfVar{x})`}</Math></li>
       </ul>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="ожидаемое-значение-и-дисперсия">Ожидаемое значение и дисперсия</h3>
       <p>Дискретная случайная величина:</p>
-      <Math>{`\\mathbb{E}[\\enfVar{X}] = \\sum_x \\enfVar{x} \\cdot P(\\enfVar{X} = \\enfVar{x})`}</Math>
+      <Math>{`\\mathbb{E}[\\enfFun{X}] = \\sum_x \\enfVar{x} \\cdot \\enfOp{P}(\\enfFun{X} = \\enfVar{x})`}</Math>
       <p>Непрерывная случайная величина:</p>
-      <Math>{`\\mathbb{E}[\\enfVar{X}] = \\int_{-\\infty}^{\\infty} \\enfVar{x} \\cdot \\enfFun{f}(\\enfVar{x})\\,\\mathrm{d}x`}</Math>
+      <Math>{`\\mathbb{E}[\\enfFun{X}] = \\int_{-\\infty}^{\\infty} \\enfVar{x} \\cdot \\enfFun{f}(\\enfVar{x})\\,\\mathrm{d}\\enfVar{x}`}</Math>
       <p>Дисперсия:</p>
-      <Math>{`\\operatorname{Var}(\\enfVar{X}) = \\mathbb{E}\\bigl[(\\enfVar{X} - \\mathbb{E}[\\enfVar{X}])^2\\bigr] = \\mathbb{E}[\\enfVar{X}^2] - (\\mathbb{E}[\\enfVar{X}])^2`}</Math>
+      <Math>{`\\operatorname{Var}(\\enfFun{X}) = \\mathbb{E}\\bigl[(\\enfFun{X} - \\mathbb{E}[\\enfFun{X}])^2\\bigr] = \\mathbb{E}[\\enfFun{X}^2] - (\\mathbb{E}[\\enfFun{X}])^2`}</Math>
 
       <InfoBox color="primary" title="В RL">
         <p className="text-sm">Ожидаемое значение вознаграждения — ключевое понятие для оценки политик. Цель агента — максимизировать <Math display={false}>{`\\mathbb{E}\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_t\\right]`}</Math>.</p>
       </InfoBox>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="условная-вероятность-и-правило-байеса">Условная вероятность и правило Байеса</h3>
-      <Math>{`P(A \\mid B) = \\frac{P(A \\cap B)}{P(B)}, \\quad P(B) > 0`}</Math>
-      <p className="mt-3"><strong className="text-foreground">Независимость:</strong> <Math display={false}>{`P(A \\cap B) = P(A) \\cdot P(B)`}</Math></p>
+      <Math>{`\\enfOp{P}(\\enfVar{A} \\mid \\enfVar{B}) = \\frac{\\enfOp{P}(\\enfVar{A} \\cap \\enfVar{B})}{\\enfOp{P}(\\enfVar{B})}, \\quad \\enfOp{P}(\\enfVar{B}) > 0`}</Math>
+      <p className="mt-3"><strong className="text-foreground">Независимость:</strong> <Math display={false}>{`\\enfOp{P}(\\enfVar{A} \\cap \\enfVar{B}) = \\enfOp{P}(\\enfVar{A}) \\cdot \\enfOp{P}(\\enfVar{B})`}</Math></p>
       <p className="mt-3"><strong className="text-foreground">Правило Байеса:</strong></p>
-      <Math>{`P(H \\mid E) = \\frac{P(E \\mid H) \\cdot P(H)}{P(E)}`}</Math>
+      <Math>{`\\enfOp{P}(\\enfVar{H} \\mid \\enfVar{E}) = \\frac{\\enfOp{P}(\\enfVar{E} \\mid \\enfVar{H}) \\cdot \\enfOp{P}(\\enfVar{H})}{\\enfOp{P}(\\enfVar{E})}`}</Math>
 
       <InfoBox color="primary" title="Применение в RL">
         <ul className="list-disc list-inside space-y-1 text-sm">
-          <li>Переходы: <Math display={false}>{`P(s'|s, a)`}</Math> — стохастическая модель среды</li>
+          <li>Переходы: <Math display={false}>{`\\enfFun{P}(\\enfVar{s}' \\mid \\enfVar{s}, \\enfFun{a})`}</Math> — стохастическая модель среды</li>
           <li>Оценка политик через ожидаемое суммарное вознаграждение</li>
           <li>ε-жадная стратегия для баланса исследования и эксплуатации</li>
           <li>POMDP: байесовский вывод для неполностью наблюдаемых состояний</li>
@@ -59,15 +59,15 @@ const Part3Probability = () => (
     <Section icon={<BarChart3 className="w-5 h-5 text-secondary" />} title="2. Статистика">
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-6 mb-3" id="описательная-статистика">Описательная статистика</h3>
       <ul className="list-disc list-inside space-y-2">
-        <li><strong className="text-foreground">Среднее:</strong> <Math display={false}>{`\\bar{\\enfVar{x}} = \\frac{1}{n}\\sum_{i=1}^{n} \\enfVar{x}_i`}</Math></li>
-        <li><strong className="text-foreground">Дисперсия:</strong> <Math display={false}>{`\\operatorname{Var}(\\enfVar{X}) = \\mathbb{E}[(\\enfVar{X} - \\mathbb{E}[\\enfVar{X}])^2]`}</Math></li>
-        <li><strong className="text-foreground">Стандартное отклонение:</strong> <Math display={false}>{`\\enfPar{\\sigma} = \\sqrt{\\operatorname{Var}(\\enfVar{X})}`}</Math></li>
+        <li><strong className="text-foreground">Среднее:</strong> <Math display={false}>{`\\enfFun{\\bar{x}} = \\frac{1}{n}\\sum_{i=1}^{n} \\enfVar{x}_i`}</Math></li>
+        <li><strong className="text-foreground">Дисперсия:</strong> <Math display={false}>{`\\operatorname{Var}(\\enfFun{X}) = \\mathbb{E}[(\\enfFun{X} - \\mathbb{E}[\\enfFun{X}])^2]`}</Math></li>
+        <li><strong className="text-foreground">Стандартное отклонение:</strong> <Math display={false}>{`\\enfPar{\\sigma} = \\sqrt{\\operatorname{Var}(\\enfFun{X})}`}</Math></li>
         <li><strong className="text-foreground">Медиана, мода, квартили, IQR</strong></li>
       </ul>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="оценка-параметров">Оценка параметров</h3>
       <ul className="list-disc list-inside space-y-2">
-        <li><strong className="text-foreground">Точечная оценка</strong> — например, выборочное среднее <Math display={false}>{`\\hat{\\enfPar{\\mu}} = \\bar{\\enfVar{x}}`}</Math></li>
+        <li><strong className="text-foreground">Точечная оценка</strong> — например, выборочное среднее <Math display={false}>{`\\enfFun{\\hat{\\mu}} = \\enfFun{\\bar{x}}`}</Math></li>
         <li><strong className="text-foreground">Доверительные интервалы</strong> — диапазон, в котором с заданной вероятностью находится параметр</li>
       </ul>
 
@@ -92,16 +92,16 @@ const Part3Probability = () => (
     <Section icon={<GitBranch className="w-5 h-5 text-accent" />} title="3. Марковские процессы">
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-6 mb-3" id="цепи-маркова">Цепи Маркова</h3>
       <p><strong className="text-foreground">Свойство Маркова</strong> — будущее зависит только от текущего состояния:</p>
-      <Math>{`P(S_{t+1} = \\enfVar{s}' \\mid S_t = \\enfVar{s}_t, S_{t-1} = \\enfVar{s}_{t-1}, \\ldots, S_0 = \\enfVar{s}_0) = P(S_{t+1} = \\enfVar{s}' \\mid S_t = \\enfVar{s}_t)`}</Math>
+      <Math>{`\\enfFun{P}(\\enfVar{S}_{t+1} = \\enfVar{s}' \\mid \\enfVar{S}_t = \\enfVar{s}_t, \\enfVar{S}_{t-1} = \\enfVar{s}_{t-1}, \\ldots, \\enfVar{S}_0 = \\enfVar{s}_0) = \\enfFun{P}(\\enfVar{S}_{t+1} = \\enfVar{s}' \\mid \\enfVar{S}_t = \\enfVar{s}_t)`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="mdp-марковский-процесс-принятия-решений">MDP — Марковский процесс принятия решений</h3>
       <p>MDP определяется кортежем:</p>
-      <Math>{`(\\mathcal{S},\\; \\mathcal{A},\\; P,\\; \\enfTgt{R},\\; \\enfPar{\\gamma})`}</Math>
+      <Math>{`(\\mathcal{S},\\; \\mathcal{A},\\; \\enfFun{P},\\; \\enfTgt{R},\\; \\enfPar{\\gamma})`}</Math>
       <ul className="list-disc list-inside mt-3 space-y-2">
         <li><Math display={false}>{`\\mathcal{S}`}</Math> — множество состояний</li>
         <li><Math display={false}>{`\\mathcal{A}`}</Math> — множество действий</li>
-        <li><Math display={false}>{`P(s'|s, a)`}</Math> — переходные вероятности</li>
-        <li><Math display={false}>{`R(s, a, s')`}</Math> — функция вознаграждения</li>
+        <li><Math display={false}>{`\\enfFun{P}(\\enfVar{s}' \\mid \\enfVar{s}, \\enfFun{a})`}</Math> — переходные вероятности</li>
+        <li><Math display={false}>{`\\enfTgt{R}(\\enfVar{s}, \\enfFun{a}, \\enfVar{s}')`}</Math> — функция вознаграждения</li>
         <li><Math display={false}>{`\\enfPar{\\gamma} \\in [0, 1]`}</Math> — коэффициент дисконтирования</li>
       </ul>
 
@@ -116,26 +116,26 @@ const Part3Probability = () => (
     {/* Section 4: Value Functions & Bellman */}
     <Section icon={<Brain className="w-5 h-5 text-primary" />} title="4. Функции ценности и уравнения Беллмана">
       <p>
-        <strong className="text-foreground">Политика</strong> <Math display={false}>{`\\pi(a \\mid \\enfVar{s})`}</Math> — распределение вероятностей над действиями для состояния <Math display={false}>{`s`}</Math>.
+        <strong className="text-foreground">Политика</strong> <Math display={false}>{`\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s})`}</Math> — распределение вероятностей над действиями для состояния <Math display={false}>{`\\enfVar{s}`}</Math>.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="функция-ценности-состояния">Функция ценности состояния</h3>
-      <Math>{`\\enfOp{V}^\\pi(\\enfVar{s}) = \\mathbb{E}_\\pi\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_t \\;\\middle|\\; S_0 = \\enfVar{s}\\right]`}</Math>
+      <Math>{`\\enfOp{V}^\\pi(\\enfVar{s}) = \\mathbb{E}_\\pi\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_t \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}\\right]`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="функция-ценности-действия">Функция ценности действия</h3>
-      <Math>{`\\enfOp{Q}^\\pi(\\enfVar{s}, a) = \\mathbb{E}_\\pi\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_t \\;\\middle|\\; S_0 = \\enfVar{s}, A_0 = a\\right]`}</Math>
+      <Math>{`\\enfOp{Q}^\\pi(\\enfVar{s}, a) = \\mathbb{E}_\\pi\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_t \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}, A_0 = a\\right]`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="уравнения-беллмана">Уравнения Беллмана</h3>
-      <Math>{`\\enfOp{V}^\\pi(\\enfVar{s}) = \\sum_a \\pi(a \\mid \\enfVar{s}) \\sum_{s'} P(\\enfVar{s}' \\mid \\enfVar{s}, a) \\bigl[\\enfTgt{R}(\\enfVar{s}, a, \\enfVar{s}') + \\enfPar{\\gamma}\\, \\enfOp{V}^\\pi(\\enfVar{s}')\\bigr]`}</Math>
-      <Math>{`\\enfOp{Q}^\\pi(\\enfVar{s}, a) = \\sum_{s'} P(\\enfVar{s}' \\mid \\enfVar{s}, a) \\left[\\enfTgt{R}(\\enfVar{s}, a, \\enfVar{s}') + \\enfPar{\\gamma} \\sum_{a'} \\pi(a' \\mid \\enfVar{s}')\\, \\enfOp{Q}^\\pi(\\enfVar{s}', a')\\right]`}</Math>
+      <Math>{`\\enfOp{V}^\\pi(\\enfVar{s}) = \\sum_a \\pi(a \\mid \\enfVar{s}) \\sum_{s'} P(s' \\mid \\enfVar{s}, a) \\bigl[\\enfTgt{R}(\\enfVar{s}, a, s') + \\enfPar{\\gamma}\\, \\enfOp{V}^\\pi(s')\\bigr]`}</Math>
+      <Math>{`\\enfOp{Q}^\\pi(\\enfVar{s}, a) = \\sum_{s'} P(s' \\mid \\enfVar{s}, a) \\left[\\enfTgt{R}(\\enfVar{s}, a, s') + \\enfPar{\\gamma} \\sum_{a'} \\pi(a' \\mid s')\\, \\enfOp{Q}^\\pi(s', a')\\right]`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="уравнения-оптимальности-беллмана">Уравнения оптимальности Беллмана</h3>
-      <Math>{`\\enfOp{V}^*(\\enfVar{s}) = \\max_a \\sum_{s'} P(\\enfVar{s}' \\mid \\enfVar{s}, a) \\bigl[\\enfTgt{R}(\\enfVar{s}, a, \\enfVar{s}') + \\enfPar{\\gamma}\\, \\enfOp{V}^*(\\enfVar{s}')\\bigr]`}</Math>
-      <Math>{`\\enfOp{Q}^*(\\enfVar{s}, a) = \\sum_{s'} P(\\enfVar{s}' \\mid \\enfVar{s}, a) \\left[\\enfTgt{R}(\\enfVar{s}, a, \\enfVar{s}') + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}^*(\\enfVar{s}', a')\\right]`}</Math>
+      <Math>{`\\enfOp{V}^*(\\enfVar{s}) = \\max_a \\sum_{s'} P(s' \\mid \\enfVar{s}, a) \\bigl[\\enfTgt{R}(\\enfVar{s}, a, s') + \\enfPar{\\gamma}\\, \\enfOp{V}^*(s')\\bigr]`}</Math>
+      <Math>{`\\enfOp{Q}^*(\\enfVar{s}, a) = \\sum_{s'} P(s' \\mid \\enfVar{s}, a) \\left[\\enfTgt{R}(\\enfVar{s}, a, s') + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}^*(s', a')\\right]`}</Math>
 
       <InfoBox color="primary" title="Оптимальная политика">
         <p className="text-sm">
-          Оптимальная политика <Math display={false}>{`\\pi^*`}</Math> достигает <Math display={false}>{`\\enfOp{V}^*(\\enfVar{s}) = \\max_\\pi \\enfOp{V}^\\pi(\\enfVar{s})`}</Math> для всех <Math display={false}>{`\\enfVar{s} \\in \\mathcal{S}`}</Math>.
+          Оптимальная политика <Math display={false}>{`\\enfFun{\\pi}^*`}</Math> достигает <Math display={false}>{`\\enfOp{V}^*(\\enfVar{s}) = \\max_\\pi \\enfOp{V}^\\pi(\\enfVar{s})`}</Math> для всех <Math display={false}>{`\\enfVar{s} \\in \\mathcal{S}`}</Math>.
         </p>
       </InfoBox>
     </Section>
@@ -151,18 +151,18 @@ const Part3Probability = () => (
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="методы-основанные-на-политике">Методы, основанные на политике</h3>
       <p><strong className="text-foreground">REINFORCE</strong> — метод Монте-Карло для оценки градиента:</p>
       <Math>{`\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_\\pi\\left[\\sum_{t=0}^{T} \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t\\right]`}</Math>
-      <p className="mt-3"><strong className="text-foreground">Actor-Critic:</strong> критик оценивает <Math display={false}>{`V(s)`}</Math>, актёр обновляет <Math display={false}>{`\\pi_\\theta`}</Math> на основе оценки критика.</p>
+      <p className="mt-3"><strong className="text-foreground">Actor-Critic:</strong> критик оценивает <Math display={false}>{`\\enfOp{V}(\\enfVar{s})`}</Math>, актёр обновляет <Math display={false}>{`\\enfFun{\\pi}_\\theta`}</Math> на основе оценки критика.</p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="методы-основанные-на-модели">Методы, основанные на модели</h3>
       <p>
-        Сначала изучается модель среды (<Math display={false}>{`\\hat{P}`}</Math> и <Math display={false}>{`\\hat{\\enfTgt{R}}`}</Math>), затем используется для планирования или генерации синтетического опыта.
+        Сначала изучается модель среды (<Math display={false}>{`\\enfFun{\\hat{P}}`}</Math> и <Math display={false}>{`\\enfTgt{\\hat{R}}`}</Math>), затем используется для планирования или генерации синтетического опыта.
       </p>
 
       <InfoBox color="secondary" title="Связь с теорией">
         <ul className="list-disc list-inside space-y-1 text-sm">
           <li>Q-learning / SARSA: используют ожидаемое значение и свойство Маркова</li>
           <li>REINFORCE: метод Монте-Карло + градиент по параметрам политики</li>
-          <li>Model-based: статистическая оценка <Math display={false}>{`P`}</Math> и <Math display={false}>{`R`}</Math></li>
+          <li>Model-based: статистическая оценка <Math display={false}>{`\\enfFun{P}`}</Math> и <Math display={false}>{`\\enfTgt{R}`}</Math></li>
         </ul>
       </InfoBox>
     </Section>

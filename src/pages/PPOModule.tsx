@@ -73,7 +73,7 @@ const PPOModule = () => {
                 Градиент политики выражается как:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\enfOp{\\nabla} \\log \\pi_\\theta(a \\mid \\enfVar{s}) \\cdot A(\\enfVar{s},a)\\right]"}</Math>
+                <Math display>{"\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\enfOp{\\nabla} \\log \\pi_\\theta(a \\mid \\enfVar{s}) \\cdot \\enfOp{A}(\\enfVar{s},a)\\right]"}</Math>
               </div>
               <p className="text-muted-foreground leading-relaxed">
                 Основные проблемы:
@@ -102,17 +102,17 @@ const PPOModule = () => {
                 Ключевая идея PPO — использование «обрезанной» (clipped) целевой функции:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"L^{CLIP}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\min\\left(\\enfTgt{r}_t(\\enfPar{\\theta})\\hat{A}_t,\\; \\text{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}),\\; 1-\\enfPar{\\varepsilon},\\; 1+\\enfPar{\\varepsilon})\\hat{A}_t\\right)\\right]"}</Math>
+                <Math display>{"\\enfTgt{L}^{\\text{CLIP}}(\\enfPar{\\theta}) = \\mathbb{E}\\left[\\min\\left(\\enfFun{r}_t(\\enfPar{\\theta})\\enfOp{\\hat{A}}_t,\\; \\operatorname{clip}(\\enfFun{r}_t(\\enfPar{\\theta}),\\; 1-\\enfPar{\\varepsilon},\\; 1+\\enfPar{\\varepsilon})\\enfOp{\\hat{A}}_t\\right)\\right]"}</Math>
               </div>
               <p className="text-muted-foreground leading-relaxed">
-                где <Math>{"\\enfTgt{r}_t(\\enfPar{\\theta})"}</Math> — отношение вероятностей:
+                где <Math>{"\\enfFun{r}_t(\\enfPar{\\theta})"}</Math> — отношение вероятностей:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"\\enfTgt{r}_t(\\enfPar{\\theta}) = \\frac{\\pi_\\theta(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{old}}(a_t|\\enfVar{s}_t)}"}</Math>
+                <Math display>{"\\enfFun{r}_t(\\enfPar{\\theta}) = \\frac{\\enfFun{\\pi}_\\theta(\\enfFun{a}_t \\mid \\enfVar{s}_t)}{\\enfFun{\\pi}_{\\theta_{\\text{old}}}(\\enfFun{a}_t \\mid \\enfVar{s}_t)}"}</Math>
               </div>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li>Если <Math>{"\\enfTgt{r}_t > 1 + \\enfPar{\\varepsilon}"}</Math> — политика слишком изменилась (обрезаем)</li>
-                <li>Если <Math>{"\\enfTgt{r}_t < 1 - \\enfPar{\\varepsilon}"}</Math> — политика слишком изменилась (обрезаем)</li>
+                <li>Если <Math>{"\\enfFun{r}_t > 1 + \\enfPar{\\varepsilon}"}</Math> — политика слишком изменилась (обрезаем)</li>
+                <li>Если <Math>{"\\enfFun{r}_t < 1 - \\enfPar{\\varepsilon}"}</Math> — политика слишком изменилась (обрезаем)</li>
                 <li>Типичное значение <Math>{"\\enfPar{\\varepsilon} = 0.2"}</Math></li>
               </ul>
               <p className="text-muted-foreground leading-relaxed">
@@ -134,11 +134,11 @@ const PPOModule = () => {
                 GAE обеспечивает баланс между bias и variance при оценке advantage function:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"\\hat{A}_t = \\delta_t + (\\enfPar{\\gamma}\\enfPar{\\lambda})\\delta_{t+1} + (\\enfPar{\\gamma}\\enfPar{\\lambda})^2\\delta_{t+2} + \\ldots"}</Math>
+                <Math display>{"\\enfOp{\\hat{A}}_t = \\enfVar{\\delta}_t + (\\enfPar{\\gamma}\\enfPar{\\lambda})\\enfVar{\\delta}_{t+1} + (\\enfPar{\\gamma}\\enfPar{\\lambda})^2\\enfVar{\\delta}_{t+2} + \\ldots"}</Math>
               </div>
               <p className="text-muted-foreground leading-relaxed">где TD-ошибка:</p>
               <div className="overflow-x-auto">
-                <Math display>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
+                <Math display>{"\\enfVar{\\delta}_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
               </div>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li><Math>{"\\enfPar{\\lambda} = 0"}</Math> — чистый TD (низкая дисперсия, высокий bias)</li>
@@ -161,7 +161,7 @@ const PPOModule = () => {
                 PPO использует архитектуру Actor-Critic с двумя нейронными сетями:
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li><strong className="text-foreground">Actor (Политика)</strong> — выбирает действия: <Math>{"\\pi_\\theta(a \\mid \\enfVar{s})"}</Math></li>
+                <li><strong className="text-foreground">Actor (Политика)</strong> — выбирает действия: <Math>{"\\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})"}</Math></li>
                 <li><strong className="text-foreground">Critic (Оценщик)</strong> — оценивает состояние: <Math>{"\\enfOp{V}_\\phi(\\enfVar{s})"}</Math></li>
               </ul>
 

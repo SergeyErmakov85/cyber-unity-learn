@@ -26,8 +26,8 @@ export const ENF_MACROS: Record<string, string> = {
  * любого из них не даёт ошибки — формула просто становится одноцветной:
  *
  *  1. `macros` — иначе в тексте останется literal `\enfVar`;
- *  2. `trust` для `\htmlClass` — команда входит в htmlExtension и без
- *     доверия молча игнорируется;
+ *  2. `trust` для `\htmlClass` и `\htmlData` — команды входят в htmlExtension
+ *     и без доверия молча игнорируются;
  *  3. `strict: false` — иначе htmlExtension сыплет предупреждениями.
  *
  * Контрольная формула (обязана дать пять разных цветов):
@@ -37,5 +37,6 @@ export const KATEX_OPTIONS: KatexOptions = {
   throwOnError: false,
   strict: false,
   macros: { ...ENF_MACROS },
-  trust: (context) => context.command === "\\htmlClass",
+  // \htmlData несёт ключ символа для карточки по клику (src/lib/enf-symbols.ts).
+  trust: (context) => context.command === "\\htmlClass" || context.command === "\\htmlData",
 };

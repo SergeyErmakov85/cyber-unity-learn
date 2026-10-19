@@ -31,12 +31,12 @@ const Section5 = () => (
       агента: каждая видимая машина кодируется в «сущность»-эмбеддинг{" "}
       <Math display={false}>{String.raw`e_i`}</Math>, а слой внимания сжимает их множество{" "}
       <Math display={false}>{String.raw`\{e_1,\dots,e_K\}`}</Math> в один вектор{" "}
-      <Math display={false}>{String.raw`z`}</Math> независимо от{" "}
+      <Math display={false}>{String.raw`\enfVar{z}`}</Math> независимо от{" "}
       <Math display={false}>{String.raw`K`}</Math>:
     </ProseP>
 
     <Math>
-      {String.raw`\enfVar{z} = \mathrm{Attention}(\enfOp{Q}, K, \enfOp{V}) = \mathrm{softmax}\!\Big(\frac{QK^\top}{\sqrt{d_k}}\Big)\enfOp{V} .`}
+      {String.raw`\enfVar{z} = \mathrm{Attention}(\enfVar{Q}, \enfVar{K}, \enfVar{V}) = \mathrm{softmax}\!\Big(\frac{\enfVar{Q}\enfVar{K}^\top}{\sqrt{d_k}}\Big)\enfVar{V} .`}
     </Math>
 
     <ProseP>

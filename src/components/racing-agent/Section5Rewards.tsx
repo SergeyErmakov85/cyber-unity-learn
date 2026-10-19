@@ -33,22 +33,22 @@ const Section5Rewards = () => (
       <p className="text-muted-foreground leading-relaxed">
         На каждом шаге <Math display={false}>{String.raw`t`}</Math> агент получает:
       </p>
-      <Math>{String.raw`\enfTgt{r}_t \;=\; \underbrace{\enfTgt{R}_{\text{cp}}\cdot \mathbb{1}[\text{cp}_t]}_{\text{чекпоинт}} \;+\; \underbrace{\enfTgt{R}_{\text{coll}}\cdot \mathbb{1}[\text{wall}_t]}_{\text{стена}} \;+\; \underbrace{\enfPar{\alpha} \frac{\enfVar{v}_t}{\enfVar{v}_{\max}}}_{\text{скорость}} \;+\; \underbrace{\beta\, \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle}_{\text{ориентация}} \;-\; \underbrace{\eta}_{\text{время}} \;-\; \underbrace{\rho\,(|\Delta \enfVar{s}_t| + |\Delta a_t|)}_{\text{плавность}},`}</Math>
+      <Math>{String.raw`\enfTgt{r}_t \;=\; \underbrace{\enfTgt{R}_{\text{cp}}\cdot \mathbb{1}[\text{cp}_t]}_{\text{чекпоинт}} \;+\; \underbrace{\enfTgt{R}_{\text{coll}}\cdot \mathbb{1}[\text{wall}_t]}_{\text{стена}} \;+\; \underbrace{\enfPar{\alpha} \frac{\enfVar{v}_t}{\enfVar{v}_{\max}}}_{\text{скорость}} \;+\; \underbrace{\enfPar{\beta}\, \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle}_{\text{ориентация}} \;-\; \underbrace{\enfPar{\eta}}_{\text{время}} \;-\; \underbrace{\enfPar{\rho}\,(|\Delta \enfVar{s}_t| + |\Delta \enfFun{a}_t|)}_{\text{плавность}},`}</Math>
       <p className="text-sm text-muted-foreground">
-        где <Math display={false}>{String.raw`\mathbf{f}_t`}</Math> — forward автомобиля,{" "}
-        <Math display={false}>{String.raw`\mathbf{\enfVar{d}}_t`}</Math> — направление на следующий чекпоинт,{" "}
-        <Math display={false}>{String.raw`\Delta \enfVar{s}_t, \Delta a_t`}</Math> — приращения руля и газа.
+        где <Math display={false}>{String.raw`\enfVar{\mathbf{f}}_t`}</Math> — forward автомобиля,{" "}
+        <Math display={false}>{String.raw`\enfVar{\mathbf{d}}_t`}</Math> — направление на следующий чекпоинт,{" "}
+        <Math display={false}>{String.raw`\Delta \enfVar{s}_t, \Delta \enfFun{a}_t`}</Math> — приращения руля и газа.
       </p>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Компонент сонаправленности и скорости</strong>{" "}
         <Math display={false}>{String.raw`\enfTgt{r}_{\text{align}}`}</Math> поощряет движение болида в направлении
         следующего чекпоинта, масштабированное по текущей скорости:
       </p>
-      <Math>{String.raw`\enfTgt{r}_{\text{align}}(t) \;=\; \begin{cases} +\,k_+\, \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle \cdot \dfrac{\enfVar{v}_t}{\enfVar{v}_{\max}}, & \text{если } \langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle > 0,\\[1.4ex] -\,k_-\, \big|\langle \mathbf{f}_t, \mathbf{\enfVar{d}}_t \rangle\big|, & \text{иначе.} \end{cases}`}</Math>
+      <Math>{String.raw`\enfTgt{r}_{\text{align}}(t) \;=\; \begin{cases} +\,\enfPar{k}_+\, \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle \cdot \dfrac{\enfVar{v}_t}{\enfVar{v}_{\max}}, & \text{если } \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle > 0,\\[1.4ex] -\,\enfPar{k}_-\, \big|\langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle\big|, & \text{иначе.} \end{cases}`}</Math>
       <p className="text-sm text-muted-foreground">
-        где <Math display={false}>{String.raw`k_+ \approx 0.04`}</Math> — масштабирующий коэффициент
+        где <Math display={false}>{String.raw`\enfPar{k}_+ \approx 0.04`}</Math> — масштабирующий коэффициент
         пошаговой награды за скорость,{" "}
-        <Math display={false}>{String.raw`k_- \approx 0.02`}</Math> — коэффициент штрафа за разворот.
+        <Math display={false}>{String.raw`\enfPar{k}_- \approx 0.02`}</Math> — коэффициент штрафа за разворот.
         Данный дизайн гарантирует, что <strong className="text-foreground">любое микроперемещение рулевого
         колеса, смещающее вектор движения ближе к апексу виража, генерирует положительную разность
         потенциалов награды</strong>.

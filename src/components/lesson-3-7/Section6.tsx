@@ -21,9 +21,9 @@ const Section6 = () => (
     <ProseP>
       <strong>Общий backbone (shared).</strong> Один энкодер{" "}
       <Math display={false}>{String.raw`\enfFun{f}_\phi`}</Math> кодирует{" "}
-      <Math display={false}>{String.raw`o`}</Math> в <Math display={false}>{String.raw`z`}</Math>,
-      дальше две головы: <Math display={false}>{String.raw`\pi(a\mid \enfVar{z})`}</Math> и{" "}
-      <Math display={false}>{String.raw`V(z)`}</Math>. Экономит параметры и заставляет обе задачи
+      <Math display={false}>{String.raw`\enfVar{o}`}</Math> в <Math display={false}>{String.raw`\enfVar{z}`}</Math>,
+      дальше две головы: <Math display={false}>{String.raw`\enfFun{\pi}(\enfFun{a}\mid \enfVar{z})`}</Math> и{" "}
+      <Math display={false}>{String.raw`\enfOp{V}(\enfVar{z})`}</Math>. Экономит параметры и заставляет обе задачи
       учить общее представление — это особенно ценно для <strong>дорогих энкодеров</strong>, в
       первую очередь CNN над пикселями: два независимых CNN — это двойная стоимость и вдвое больше
       данных на обучение.

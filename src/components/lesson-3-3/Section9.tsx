@@ -76,7 +76,7 @@ const Section9 = () => (
           <tr className="border-b border-border/20 align-top">
             <td className="py-3 px-4">Domain Randomization</td>
             <td className="py-3 px-4">
-              фикс. распределение <Math display={false}>{String.raw`p(c)`}</Math>
+              фикс. распределение <Math display={false}>{String.raw`\enfFun{p}(\enfVar{c})`}</Math>
             </td>
             <td className="py-3 px-4">никак (не адаптируется)</td>
             <td className="py-3 px-4">да</td>
@@ -87,7 +87,7 @@ const Section9 = () => (
               <strong>ADR</strong>
             </td>
             <td className="py-3 px-4">
-              расширяемые границы <Math display={false}>{String.raw`P_\phi`}</Math>
+              расширяемые границы <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math>
             </td>
             <td className="py-3 px-4">
               пороги <Math display={false}>{String.raw`t_L/t_H`}</Math> по успешности

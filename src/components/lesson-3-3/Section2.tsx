@@ -10,7 +10,7 @@ const Section2 = () => (
 
     <ProseP>
       Опишем учебный план аккуратно. Пусть среда параметризована <strong>контекстом</strong>{" "}
-      <Math display={false}>{String.raw`c`}</Math> (у нас <Math display={false}>{String.raw`c`}</Math> —
+      <Math display={false}>{String.raw`\enfVar{c}`}</Math> (у нас <Math display={false}>{String.raw`\enfVar{c}`}</Math> —
       сложность трассы <Math display={false}>{String.raw`\enfPar{\lambda}`}</Math> и всё, что от неё зависит).
       Каждый урок задаёт значение контекста (или распределение значений). Тогда учебный план — это{" "}
       <strong>последовательность распределений задач</strong>
@@ -23,7 +23,7 @@ const Section2 = () => (
       распределению <Math display={false}>{String.raw`\mathcal{D}^\star`}</Math>, на котором мы и хотим
       хорошей политики. Внутри урока <Math display={false}>{String.raw`k`}</Math> агент обучается
       максимизировать ожидаемую отдачу при{" "}
-      <Math display={false}>{String.raw`c \sim \mathcal{D}_k`}</Math> (отдачу и дисконт{" "}
+      <Math display={false}>{String.raw`\enfVar{c} \sim \mathcal{D}_k`}</Math> (отдачу и дисконт{" "}
       <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> см. хаб{" "}
       <CrossLinkToHub
         hubPath="/math-rl/module-1"
@@ -39,15 +39,15 @@ const Section2 = () => (
       <strong>Когда переходить к следующему уроку?</strong> Нужен (1) измеримый сигнал прогресса и (2)
       порог. На практике мера прогресса — это сглаженная средняя награда или <strong>доля выполнения</strong>{" "}
       (progress), а переход происходит, когда сглаженный сигнал держится выше порога{" "}
-      <Math display={false}>{String.raw`\tau`}</Math> в течение минимального числа эпизодов:
+      <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> в течение минимального числа эпизодов:
     </ProseP>
 
-    <Math>{String.raw`\text{если}\quad \overline{m}_k \;\geq\; \tau_k \quad\text{на протяжении}\ \ge \enfTgt{L}_{\min}\ \text{эпизодов} \;\Rightarrow\; \text{перейти к уроку } k{+}1.`}</Math>
+    <Math>{String.raw`\text{если}\quad \enfOp{\overline{m}}_k \;\geq\; \enfPar{\tau}_k \quad\text{на протяжении}\ \ge \enfPar{L}_{\min}\ \text{эпизодов} \;\Rightarrow\; \text{перейти к уроку } k{+}1.`}</Math>
 
     <ProseP>
-      Здесь <Math display={false}>{String.raw`\overline{m}_k`}</Math> — сглаженная мера
-      (награда/прогресс), <Math display={false}>{String.raw`\tau_k`}</Math> — порог урока,{" "}
-      <Math display={false}>{String.raw`\enfTgt{L}_{\min}`}</Math> — минимальная длина урока. Сглаживание нужно,
+      Здесь <Math display={false}>{String.raw`\enfOp{\overline{m}}_k`}</Math> — сглаженная мера
+      (награда/прогресс), <Math display={false}>{String.raw`\enfPar{\tau}_k`}</Math> — порог урока,{" "}
+      <Math display={false}>{String.raw`\enfPar{L}_{\min}`}</Math> — минимальная длина урока. Сглаживание нужно,
       чтобы случайный удачный заезд не «протолкнул» агента дальше раньше времени. Это ровно те поля,
       которые мы увидим в YAML ML-Agents (раздел 7): <code className="px-1 rounded bg-muted/50 text-xs font-mono">measure</code>,{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">threshold</code>,{" "}

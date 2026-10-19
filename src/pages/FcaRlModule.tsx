@@ -110,8 +110,8 @@ const FcaRlModule = () => {
                     <strong className="text-foreground">Замыкание Галуа</strong> определяет пару операторов:
                   </p>
 
-                  <Math>{`A' = \\{m \\in M \\mid \\forall g \\in A:\\, (g, m) \\in I\\}`}</Math>
-                  <Math>{`B' = \\{g \\in G \\mid \\forall m \\in B:\\, (g, m) \\in I\\}`}</Math>
+                  <Math>{`A' = \\{\\enfVar{m} \\in M \\mid \\forall \\enfVar{g} \\in A:\\, (\\enfVar{g}, \\enfVar{m}) \\in I\\}`}</Math>
+                  <Math>{`B' = \\{\\enfVar{g} \\in G \\mid \\forall \\enfVar{m} \\in B:\\, (\\enfVar{g}, \\enfVar{m}) \\in I\\}`}</Math>
 
                   <p>
                     <strong className="text-foreground">Формальное понятие</strong> — пара (A, B), где A' = B и B' = A.

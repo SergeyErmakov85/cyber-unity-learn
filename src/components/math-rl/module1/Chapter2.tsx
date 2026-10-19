@@ -16,35 +16,35 @@ const Chapter2 = () => (
 
     <h3 id="ценность-действия-action-value" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Ценность действия (Action-Value)</h3>
     <p>
-      Истинная ценность действия <Math display={false}>{"a"}</Math> — это математическое ожидание награды при его выборе:
+      Истинная ценность действия <Math display={false}>{"\\enfFun{a}"}</Math> — это математическое ожидание награды при его выборе:
     </p>
-    <Math>{"q(a) = \\mathbb{E}[X_t \\mid A_t = a]"}</Math>
+    <Math>{"\\enfOp{q}(\\enfFun{a}) = \\mathbb{E}[\\enfTgt{X}_t \\mid \\enfFun{A}_t = \\enfFun{a}]"}</Math>
     <p>
-      Поскольку <Math display={false}>{"q(a)"}</Math> скрыто, агент строит эмпирическую оценку <Math display={false}>{"\\hat{\\enfOp{Q}}_t(a)"}</Math> — среднее арифметическое полученных наград:
+      Поскольку <Math display={false}>{"\\enfOp{q}(\\enfFun{a})"}</Math> скрыто, агент строит эмпирическую оценку <Math display={false}>{"\\enfOp{\\hat{Q}}_t(\\enfFun{a})"}</Math> — среднее арифметическое полученных наград:
     </p>
-    <Math>{"\\hat{\\enfOp{Q}}_t(a) = \\frac{\\sum_{i=1}^{t-1} X_i \\cdot \\mathbb{1}_{A_i=a}}{N_t(a)}"}</Math>
+    <Math>{"\\enfOp{\\hat{Q}}_t(\\enfFun{a}) = \\frac{\\sum_{i=1}^{t-1} \\enfTgt{X}_i \\cdot \\mathbb{1}_{A_i=a}}{N_t(\\enfFun{a})}"}</Math>
     <p>
-      Здесь <Math display={false}>{"\\mathbb{1}_{A_i=a}"}</Math> — индикаторная функция (равна 1, если на шаге <Math display={false}>{"i"}</Math> выбрано действие <Math display={false}>{"a"}</Math>), а <Math display={false}>{"N_t(a)"}</Math> — количество выборов действия <Math display={false}>{"a"}</Math> к моменту <Math display={false}>{"t"}</Math>.
+      Здесь <Math display={false}>{"\\mathbb{1}_{A_i=a}"}</Math> — индикаторная функция (равна 1, если на шаге <Math display={false}>{"i"}</Math> выбрано действие <Math display={false}>{"\\enfFun{a}"}</Math>), а <Math display={false}>{"N_t(\\enfFun{a})"}</Math> — количество выборов действия <Math display={false}>{"\\enfFun{a}"}</Math> к моменту <Math display={false}>{"t"}</Math>.
     </p>
 
     <h3 id="жадная-стратегия" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">ε-жадная стратегия</h3>
     <p>
-      С вероятностью <Math display={false}>{"1 - \\enfPar{\\epsilon}"}</Math> агент выбирает <Math display={false}>{"\\arg\\max_a \\hat{\\enfOp{Q}}_t(a)"}</Math> (жадно), а с вероятностью <Math display={false}>{"\\enfPar{\\epsilon}"}</Math> — случайное действие. Это гарантирует, что при бесконечном времени каждое действие будет испробовано бесконечно раз.
+      С вероятностью <Math display={false}>{"1 - \\enfPar{\\epsilon}"}</Math> агент выбирает <Math display={false}>{"\\arg\\max_a \\enfOp{\\hat{Q}}_t(\\enfFun{a})"}</Math> (жадно), а с вероятностью <Math display={false}>{"\\enfPar{\\epsilon}"}</Math> — случайное действие. Это гарантирует, что при бесконечном времени каждое действие будет испробовано бесконечно раз.
     </p>
 
     <h3 id="верхняя-доверительная-граница-ucb" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Верхняя доверительная граница (UCB)</h3>
     <p>
       Более математически элегантное решение — метод UCB, учитывающий не только оценку, но и <em>неуверенность</em> в ней:
     </p>
-    <Math>{"A_t = \\arg\\max_a \\left[ \\hat{\\enfOp{Q}}_t(a) + c \\sqrt{\\frac{\\ln t}{N_t(a)}} \\right]"}</Math>
+    <Math>{"\\enfFun{A}_t = \\arg\\max_a \\left[ \\enfOp{\\hat{Q}}_t(\\enfFun{a}) + \\enfPar{c} \\sqrt{\\frac{\\ln t}{N_t(\\enfFun{a})}} \\right]"}</Math>
 
     <InfoBox>
       <p className="font-semibold text-foreground mb-2">Разбор формулы UCB</p>
       <ul className="list-disc list-inside space-y-1 text-sm">
-        <li><Math display={false}>{"\\hat{\\enfOp{Q}}_t(a)"}</Math> — <strong className="text-foreground">использование</strong>: предпочтение действиям с высокой оценкой</li>
-        <li><Math display={false}>{"N_t(a)"}</Math> в знаменателе — чем чаще действие выбирается, тем меньше «бонус» исследования</li>
+        <li><Math display={false}>{"\\enfOp{\\hat{Q}}_t(\\enfFun{a})"}</Math> — <strong className="text-foreground">использование</strong>: предпочтение действиям с высокой оценкой</li>
+        <li><Math display={false}>{"N_t(\\enfFun{a})"}</Math> в знаменателе — чем чаще действие выбирается, тем меньше «бонус» исследования</li>
         <li><Math display={false}>{"\\ln t"}</Math> в числителе — если действие долго не выбирается, бонус медленно растёт</li>
-        <li><Math display={false}>{"c"}</Math> — балансировочный коэффициент «любопытства» агента</li>
+        <li><Math display={false}>{"\\enfPar{c}"}</Math> — балансировочный коэффициент «любопытства» агента</li>
       </ul>
     </InfoBox>
   </Section>

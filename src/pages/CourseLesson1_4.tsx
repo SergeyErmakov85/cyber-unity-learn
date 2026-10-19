@@ -223,7 +223,7 @@ const CourseLesson1_4 = () => {
                 <td className="p-3">
                   Числовой сигнал обратной связи после действия.
                   <div className="mt-1">
-                    <Math display={false}>{`\\enfTgt{R}: S \\times A \\to \\mathbb{\\enfTgt{R}}`}</Math>
+                    <Math display={false}>{`\\enfTgt{R}: S \\times A \\to \\mathbb{R}`}</Math>
                   </div>
                 </td>
                 <td className="p-3">+10 за батарею, -1 за стену, -100 за яму.</td>

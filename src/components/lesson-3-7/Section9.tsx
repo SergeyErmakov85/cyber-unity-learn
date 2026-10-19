@@ -21,7 +21,7 @@ const Section9 = () => (
     </ProseP>
 
     <Math>
-      {String.raw`\tau = \big(\enfTgt{\hat{R}}_1,\, \enfVar{s}_1,\, a_1,\; \enfTgt{\hat{R}}_2,\, \enfVar{s}_2,\, a_2,\; \dots\big),`}
+      {String.raw`\enfVar{\tau} = \big(\enfTgt{\hat{R}}_1,\, \enfVar{s}_1,\, \enfFun{a}_1,\; \enfTgt{\hat{R}}_2,\, \enfVar{s}_2,\, \enfFun{a}_2,\; \dots\big),`}
     </Math>
 
     <ProseP>
@@ -35,7 +35,7 @@ const Section9 = () => (
 
     <ProseP>
       Модель учится предсказывать следующее действие{" "}
-      <Math display={false}>{String.raw`a_t`}</Math> по предыдущим токенам (causal-маска внимания).
+      <Math display={false}>{String.raw`\enfFun{a}_t`}</Math> по предыдущим токенам (causal-маска внимания).
       На инференсе вы <strong>задаёте желаемый возврат</strong>{" "}
       <Math display={false}>{String.raw`\enfTgt{R}^{\text{target}}`}</Math> — и сеть авторегрессионно
       генерирует действия, ведущие к нему. Никаких уравнений Беллмана: только supervised-обучение

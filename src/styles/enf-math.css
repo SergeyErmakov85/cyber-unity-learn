@@ -70,6 +70,45 @@
   color: var(--enf-color-neutral);
 }
 
+/* ── Кликабельные символы (src/lib/enf-symbols.ts, SymbolPopoverHost) ──
+   Ролевой символ обёрнут в span[data-enfs]; цвет роли — у вложенного
+   .enclosing, поэтому подсветка берёт currentColor именно у него.
+   Символы без роли (индексы, \sum, \mathbb{E}) карточку тоже открывают:
+   их распознаёт DOM-разбор, курсор подсказывает, что по ним можно нажать. */
+.katex [data-enfs] {
+  cursor: pointer;
+}
+.katex [data-enfs] > .enclosing {
+  border-radius: 3px;
+  transition:
+    text-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+.katex [data-enfs]:hover > .enclosing {
+  text-shadow: 0 0 10px currentColor;
+  background-color: color-mix(in srgb, currentColor 14%, transparent);
+}
+.katex-html :is(.mathnormal, .mathbb, .mathcal, .mathbf, .boldsymbol, .accent, .mop) {
+  cursor: pointer;
+}
+.katex-html :is(.mathnormal, .mathbb, .mathcal, .mop):not([data-enfs] *):hover {
+  text-shadow: 0 0 8px hsl(var(--primary) / 0.55);
+}
+
+/* Нажатый символ в формуле и тот же символ в формуле внутри карточки. */
+.katex .enf-active,
+.katex .enf-hl {
+  border-radius: 4px;
+  background-color: hsl(var(--primary) / 0.1);
+  box-shadow:
+    0 0 0 1.5px hsl(var(--primary) / 0.7),
+    0 0 14px hsl(var(--primary) / 0.45);
+}
+[data-enf-popover] .katex-html *,
+[data-enf-popover] .katex [data-enfs] {
+  cursor: default;
+}
+
 /* Режим «без цвета»: печать и читатели, которым цвет мешает.
    Класс вешается на контейнер страницы лекции.
    Перечисляем классы явно: KaTeX добавляет свои («enclosing enf-variable»),
