@@ -24,7 +24,7 @@ const Section6Algorithms = () => (
       <p className="text-sm text-muted-foreground">
         где{" "}
         <Math display={false}>{String.raw`\enfFun{r}_t(\enfPar{\theta}) = \dfrac{\enfFun{\pi}_\theta(\enfFun{a}_t\mid \enfVar{s}_t)}{\enfFun{\pi}_{\theta_{\text{old}}}(\enfFun{a}_t\mid \enfVar{s}_t)}`}</Math>,{" "}
-        <Math display={false}>{String.raw`\enfPar{\epsilon} \approx 0.2`}</Math>.
+        <Math display={false}>{String.raw`\enfPar{\epsilon} \approx 0{,}2`}</Math>.
         Минимум выбирается между «нормальным» и «клиппированным» термами — PPO обновляется только при
         «безопасном» увеличении вероятности действия.
       </p>
@@ -41,7 +41,7 @@ const Section6Algorithms = () => (
         При <Math display={false}>{String.raw`\enfPar{\lambda}=0`}</Math> получаем TD(0) (низкая дисперсия, высокое
         смещение); при <Math display={false}>{String.raw`\enfPar{\lambda}=1`}</Math> — Monte-Carlo (несмещённая,
         но шумная). Типичное значение{" "}
-        <Math display={false}>{String.raw`\enfPar{\lambda} = 0.95`}</Math> балансирует bias–variance.
+        <Math display={false}>{String.raw`\enfPar{\lambda} = 0{,}95`}</Math> балансирует bias–variance.
       </p>
 
       <p className="text-muted-foreground leading-relaxed">
@@ -113,7 +113,7 @@ const Section6Algorithms = () => (
         <li>
           Целевые сети — soft-update:{" "}
           <Math display={false}>{String.raw`\enfPar{\bar{\phi}} \leftarrow \enfPar{\tau}\enfPar{\phi} + (1-\enfPar{\tau})\enfPar{\bar{\phi}}`}</Math>,{" "}
-          <Math display={false}>{String.raw`\enfPar{\tau} \approx 0.005`}</Math>
+          <Math display={false}>{String.raw`\enfPar{\tau} \approx 0{,}005`}</Math>
         </li>
       </ul>
       <p className="text-sm text-muted-foreground">

@@ -17,8 +17,8 @@ const Section2 = () => (
     <ProseP>
       <strong>Непрерывный (uniform).</strong> Параметр берётся из отрезка равномерно. Подходит для
       величин, изменяющихся в «линейном» масштабе: например,{" "}
-      <Code>lambd</Code> <Math display={false}>{String.raw`\in [0.9, 0.99]`}</Math> или{" "}
-      <Code>epsilon</Code> <Math display={false}>{String.raw`\in [0.1, 0.3]`}</Math>.
+      <Code>lambd</Code> <Math display={false}>{String.raw`\in [0{,}9;\ 0{,}99]`}</Math> или{" "}
+      <Code>epsilon</Code> <Math display={false}>{String.raw`\in [0{,}1;\ 0{,}3]`}</Math>.
     </ProseP>
 
     <ProseP>

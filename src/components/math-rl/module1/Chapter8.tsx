@@ -13,7 +13,7 @@ const Chapter8 = () => (
 
     <h3 id="нейросети-как-аппроксиматоры" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Нейросети как аппроксиматоры</h3>
     <p>
-      Вместо таблицы — нейронная сеть с весами <Math display={false}>{"\\enfPar{w}"}</Math>, принимающая на вход состояние <Math display={false}>{"\\enfVar{s}"}</Math> и предсказывающая <Math display={false}>{"\\enfOp{\\hat{Q}}(\\enfVar{s}, \\enfFun{a}, \\enfPar{w})"}</Math>. Ключевое свойство — <strong className="text-foreground">генерализация</strong>: увидев опасность при координатах <Math display={false}>{"(10.1, 5.0)"}</Math>, сеть автоматически распознает <Math display={false}>{"(10.2, 5.0)"}</Math> как опасные.
+      Вместо таблицы — нейронная сеть с весами <Math display={false}>{"\\enfPar{w}"}</Math>, принимающая на вход состояние <Math display={false}>{"\\enfVar{s}"}</Math> и предсказывающая <Math display={false}>{"\\enfOp{\\hat{Q}}(\\enfVar{s}, \\enfFun{a}, \\enfPar{w})"}</Math>. Ключевое свойство — <strong className="text-foreground">генерализация</strong>: увидев опасность при координатах <Math display={false}>{"(10{,}1;\\ 5{,}0)"}</Math>, сеть автоматически распознает <Math display={false}>{"(10{,}2;\\ 5{,}0)"}</Math> как опасные.
     </p>
 
     <h3 id="dqn-deep-q-network" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">DQN: Deep Q-Network</h3>

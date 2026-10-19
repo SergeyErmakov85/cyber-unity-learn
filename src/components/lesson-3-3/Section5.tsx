@@ -126,9 +126,9 @@ const Section5 = () => (
 
     <ProseP>
       Для гонщика ADR-расписание выглядит так: стартуем с сухого асфальта{" "}
-      <Math display={false}>{String.raw`\enfVar{\mu}=1.0`}</Math> (нулевая ширина); агент справился → границы
-      поехали к <Math display={false}>{String.raw`[0.85, 1.05]`}</Math>, затем{" "}
-      <Math display={false}>{String.raw`[0.6, 1.2]`}</Math>, затем добавились лужи и сумерки. Никаких
+      <Math display={false}>{String.raw`\enfVar{\mu}=1{,}0`}</Math> (нулевая ширина); агент справился → границы
+      поехали к <Math display={false}>{String.raw`[0{,}85;\ 1{,}05]`}</Math>, затем{" "}
+      <Math display={false}>{String.raw`[0{,}6;\ 1{,}2]`}</Math>, затем добавились лужи и сумерки. Никаких
       «уроков руками» — только пороги.
     </ProseP>
 

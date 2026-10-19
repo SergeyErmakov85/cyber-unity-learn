@@ -50,9 +50,9 @@ const Chapter5 = () => (
 
     <h4 className="text-lg font-semibold text-foreground mt-6 mb-2">Пример: MDP с двумя состояниями</h4>
     <p>
-      <Math display={false}>{"\\enfVar{S}_1 \\to \\enfVar{S}_2"}</Math> (награда +2), <Math display={false}>{"\\enfVar{S}_2 \\to \\enfVar{S}_1"}</Math> (награда 0), <Math display={false}>{"\\enfPar{\\gamma} = 0.9"}</Math>:
+      <Math display={false}>{"\\enfVar{S}_1 \\to \\enfVar{S}_2"}</Math> (награда +2), <Math display={false}>{"\\enfVar{S}_2 \\to \\enfVar{S}_1"}</Math> (награда 0), <Math display={false}>{"\\enfPar{\\gamma} = 0{,}9"}</Math>:
     </p>
-    <Math>{"\\begin{cases} \\enfOp{v}_1 = 2 + 0.9\\,\\enfOp{v}_2 \\\\ \\enfOp{v}_2 = 0.9\\,\\enfOp{v}_1 \\end{cases} \\;\\Rightarrow\\; \\enfOp{v}_1 \\approx 10.53,\\quad \\enfOp{v}_2 \\approx 9.47"}</Math>
+    <Math>{String.raw`\begin{cases} \enfOp{v}_1 = \enfTgt{2} + \enfPar{0{,}9}\,\enfOp{v}_2 \\ \enfOp{v}_2 = \enfTgt{0} + \enfPar{0{,}9}\,\enfOp{v}_1 \end{cases} \;\Rightarrow\; \enfOp{v}_1 \approx 10{,}53;\quad \enfOp{v}_2 \approx 9{,}47`}</Math>
     <CodeBlock>{`gamma = 0.9
 V = [0.0, 0.0]
 for i in range(1, 6):

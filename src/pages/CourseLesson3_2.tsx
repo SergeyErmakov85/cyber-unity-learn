@@ -1023,23 +1023,23 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
           </p>
           <Math>{String.raw`\enfOp{E}_A = \frac{1}{1 + 10^{(\enfOp{R}_B - \enfOp{R}_A)/400}}.`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
-            При равных рейтингах <Math display={false}>{String.raw`\enfOp{E}_A = 0.5`}</Math>. При разрыве 300 очков в пользу A:{" "}
-            <Math display={false}>{String.raw`\enfOp{E}_A \approx 0.85`}</Math>, <Math display={false}>{String.raw`\enfOp{E}_B \approx 0.15`}</Math>.
+            При равных рейтингах <Math display={false}>{String.raw`\enfOp{E}_A = 0{,}5`}</Math>. При разрыве 300 очков в пользу A:{" "}
+            <Math display={false}>{String.raw`\enfOp{E}_A \approx 0{,}85`}</Math>, <Math display={false}>{String.raw`\enfOp{E}_B \approx 0{,}15`}</Math>.
           </p>
 
           <h3 className={H3_CLASS}>Обновление рейтинга</h3>
           <p className="text-foreground/90 leading-relaxed">После матча:</p>
           <Math>{String.raw`\enfOp{R}'_A = \enfOp{R}_A + \enfPar{K} \cdot (\enfTgt{S}_A - \enfOp{E}_A),`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
-            где <Math display={false}>{String.raw`\enfTgt{S}_A \in \{1, 0.5, 0\}`}</Math> — фактический исход
+            где <Math display={false}>{String.raw`\enfTgt{S}_A \in \{1;\ 0{,}5;\ 0\}`}</Math> — фактический исход
             (победа/ничья/поражение), <Math display={false}>{String.raw`\enfPar{K} = 16`}</Math> — константа скорости обновления.
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
             <strong className="text-foreground">Пример Tennis</strong> (из документации Unity): оба стартуют с{" "}
-            <Math display={false}>{String.raw`\enfOp{R} = 1200`}</Math>, <Math display={false}>{String.raw`\enfOp{E}_A = \enfOp{E}_B = 0.5`}</Math>.
+            <Math display={false}>{String.raw`\enfOp{R} = 1200`}</Math>, <Math display={false}>{String.raw`\enfOp{E}_A = \enfOp{E}_B = 0{,}5`}</Math>.
           </p>
           <ul className="space-y-1.5 mt-2 text-sm text-muted-foreground">
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span>A побеждает: <Math display={false}>{String.raw`\enfOp{R}'_A = 1200 + 16 \cdot (1 - 0.5) = \mathbf{1208}`}</Math>, <Math display={false}>{String.raw`\enfOp{R}'_B = 1200 + 16 \cdot (0 - 0.5) = \mathbf{1192}`}</Math>.</span></li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span>A побеждает: <Math display={false}>{String.raw`\enfOp{R}'_A = \enfOp{1200} + \enfPar{16} \cdot (\enfTgt{1} - \enfOp{0{,}5}) = \mathbf{1208}`}</Math>, <Math display={false}>{String.raw`\enfOp{R}'_B = \enfOp{1200} + \enfPar{16} \cdot (\enfTgt{0} - \enfOp{0{,}5}) = \mathbf{1192}`}</Math>.</span></li>
           </ul>
 
           <h3 className={H3_CLASS}>Zero-sum условие</h3>
@@ -1065,7 +1065,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
           </ul>
           <KeyPoints
             items={[
-              <><Math display={false}>{String.raw`\enfOp{E}_A = 1/(1 + 10^{(R_B - R_A)/400})`}</Math> — ожидаемый результат по рейтингам.</>,
+              <><Math display={false}>{String.raw`\enfOp{E}_A = 1/(1 + 10^{(\enfOp{R}_B - \enfOp{R}_A)/400})`}</Math> — ожидаемый результат по рейтингам.</>,
               <><Math display={false}>{String.raw`\enfOp{R}'_A = \enfOp{R}_A + \enfPar{K} \cdot (\enfTgt{S}_A - \enfOp{E}_A)`}</Math>, <Math display={false}>{String.raw`\enfPar{K} = 16`}</Math> в ML-Agents.</>,
               <>Zero-sum требование: финальная награда строго <Math display={false}>{String.raw`+1 / 0 / -1`}</Math>.</>,
               <>В TensorBoard: только <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">Self-Play/ELO</code>; стабильный рост = прогресс.</>,
@@ -1255,7 +1255,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
           <ul className="space-y-1.5 mt-2 text-sm text-muted-foreground">
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">save_steps</code></strong>: начните с дефолта <Math display={false}>{String.raw`20\,000`}</Math>. Если ELO осциллирует — увеличьте.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change</code></strong>: держите <Math display={false}>{String.raw`\approx 4{-}5 \times`}</Math> <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">save_steps</code>. В SoccerTwos: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">save_steps=50000</code> → <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change=200000</code>.</span></li>
-            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">play_against_latest_model_ratio</code></strong>: начните с <Math display={false}>{String.raw`0.5`}</Math>. Нестабильный ELO → снизьте до <Math display={false}>{String.raw`0.3`}</Math>.</span></li>
+            <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground"><code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">play_against_latest_model_ratio</code></strong>: начните с <Math display={false}>{String.raw`0{,}5`}</Math>. Нестабильный ELO → снизьте до <Math display={false}>{String.raw`0{,}3`}</Math>.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Функция награды</strong>: оставьте максимально простой (+1 за победу, −1 за поражение). Dense-награды в середине эпизода допустимы, но финальная должна быть строго <Math display={false}>{String.raw`\pm 1`}</Math> или <Math display={false}>{String.raw`0`}</Math>.</span></li>
             <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span><span><strong className="text-foreground">Ранние шаги ELO</strong>: не паникуйте, если ELO &lt; 1200 первые <Math display={false}>{String.raw`1{-}2`}</Math>M шагов — агенты ещё «случайные».</span></li>
           </ul>

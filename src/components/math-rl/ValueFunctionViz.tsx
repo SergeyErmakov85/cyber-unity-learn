@@ -3,6 +3,7 @@ import katex from "katex";
 import "katex/dist/katex.min.css";
 import { Card, CardContent } from "@/components/ui/card";
 import { KATEX_OPTIONS } from "@/lib/katex-options";
+import { texNum } from "@/lib/tex-number";
 import { tagEnfSymbols } from "@/lib/enf-symbols";
 
 /* ═══════════════════════════════════════════════════
@@ -147,7 +148,7 @@ function MDPDiagram({ startState, steps, highlightStep, onSelect, gamma }: {
                 padding: isHL ? "3px 12px" : "0", borderRadius: 6,
                 background: isHL ? `${rc}15` : "transparent", transition: C.trans,
               }}>{r >= 0 ? "+" : ""}{r}</span>
-              {isHL && <Tex size={0.95}>{`\\enfPar{\\gamma}^{${i - af}} = \\enfPar{${Math.pow(gamma, i - af).toFixed(3)}}`}</Tex>}
+              {isHL && <Tex size={0.95}>{`\\enfPar{\\gamma}^{${i - af}} = \\enfPar{${texNum(Math.pow(gamma, i - af), 3)}}`}</Tex>}
             </div>
           );
         })}
@@ -183,7 +184,7 @@ function StepCard({ step, isHL, onEnter, onLeave }: {
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
         <span style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim }}>Дисконт</span>
-        <Tex size={1.15}>{`\\enfPar{\\gamma}^{${step.k}} = \\enfPar{${step.disc.toFixed(4)}}`}</Tex>
+        <Tex size={1.15}>{`\\enfPar{\\gamma}^{${step.k}} = \\enfPar{${texNum(step.disc, 4)}}`}</Tex>
       </div>
       <div style={{
         marginTop: 10, paddingTop: 10, borderTop: `1px solid ${C.border}`,
@@ -191,7 +192,7 @@ function StepCard({ step, isHL, onEnter, onLeave }: {
       }}>
         <span style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim }}>Вклад</span>
         <Tex size={1.3}>
-          {`${step.contrib >= 0 ? "+" : ""}${step.contrib.toFixed(3)}`}
+          {`${step.contrib >= 0 ? "+" : ""}${texNum(step.contrib, 3)}`}
         </Tex>
       </div>
     </div>
@@ -210,7 +211,7 @@ function GammaSliderCustom({ value, min, max, step, onChange, color = C.cyan, te
         {texLabel
           ? <Tex size={1.1}>{texLabel}</Tex>
           : null}
-        <Tex size={1.3}>{value.toFixed(2)}</Tex>
+        <Tex size={1.3}>{texNum(value, 2)}</Tex>
       </div>
       <div style={{ position: "relative", height: 6, borderRadius: 3, background: "rgba(255,255,255,0.04)" }}>
         <div style={{
@@ -250,7 +251,9 @@ const ValueFunctionViz = () => {
 
   const { steps, G } = useMemo(() => computeReturn(startState, gamma), [startState, gamma]);
   const allValues = useMemo(() => STATES.map((_, i) => i < REWARDS.length ? computeReturn(i, gamma).G : 0), [gamma]);
-  const horizon = gamma < 1 ? (1 / (1 - gamma)).toFixed(1) : "\\infty";
+  // Горизонт показывается дважды: числом в «таблетке» (точка, как в коде) и в формуле (запятая).
+  const horizon = gamma < 1 ? (1 / (1 - gamma)).toFixed(1) : "∞";
+  const horizonTex = gamma < 1 ? texNum(1 / (1 - gamma), 1) : "\\infty";
 
   let gammaHint = "";
   if (gamma < 0.3) gammaHint = "Агент «близорук»: ценит только ближайшую награду, остальные обнулены.";
@@ -262,14 +265,15 @@ const ValueFunctionViz = () => {
     `${i > 0 ? " + " : ""}\\enfPar{\\gamma}^{${s.k}} \\cdot (\\enfTgt{${s.reward >= 0 ? "+" : ""}${s.reward}})`
   ).join("");
   const numericParts = steps.map((s, i) =>
-    `${i > 0 ? " + " : ""}\\enfPar{${s.disc.toFixed(3)}} \\cdot (\\enfTgt{${s.reward >= 0 ? "+" : ""}${s.reward}})`
+    `${i > 0 ? " + " : ""}\\enfPar{${texNum(s.disc, 3)}} \\cdot (\\enfTgt{${s.reward >= 0 ? "+" : ""}${s.reward}})`
   ).join("");
-  // Вклады — это награды, то есть роль target (ENF-COLOR-010). Знак «+»/«−»
-  // печатается явно и служит вторым признаком, поэтому пара «зелёное/красное»
-  // как единственное отличие не нужна и запрещена (ENF-COLOR-041).
-  const contribParts = steps.map((s, i) =>
-    `${i > 0 ? " + " : ""}\\enfTgt{${s.contrib >= 0 ? "+" : ""}${s.contrib.toFixed(3)}}`
-  ).join("");
+  // Вклады γ^k·R — промежуточные результаты расчёта: по ENF-MATH-025 (п. 5)
+  // они нейтральны, тон наследуют только подставленные числа. Знак ставится
+  // как в обычной записи суммы: «… − 0,729», а не «… + −0,729».
+  const contribParts = steps.map((s, i) => {
+    if (i === 0) return texNum(s.contrib, 3);
+    return `${s.contrib < 0 ? " - " : " + "}${texNum(Math.abs(s.contrib), 3)}`;
+  }).join("");
 
   return (
     <Card className="my-6 border-primary/20 bg-card/60 backdrop-blur-sm overflow-hidden">
@@ -424,7 +428,7 @@ const ValueFunctionViz = () => {
                   <Tex display size={1.1}>{`= ${numericParts}`}</Tex>
                 </div>
                 <div>
-                  <Tex display size={1.2}>{`= ${contribParts} = \\enfOp{\\mathbf{${G.toFixed(3)}}}`}</Tex>
+                  <Tex display size={1.2}>{`= ${contribParts} = \\mathbf{${texNum(G, 3)}}`}</Tex>
                 </div>
               </div>
             </div>
@@ -447,7 +451,7 @@ const ValueFunctionViz = () => {
                     ИТОГО
                   </div>
                   <div style={{ marginBottom: 8 }}>
-                    <Tex display size={1.4}>{`\\enfOp{V}(${STATES[startState].tex}) = \\enfOp{${G.toFixed(3)}}`}</Tex>
+                    <Tex display size={1.4}>{`\\enfOp{V}(${STATES[startState].tex}) = ${texNum(G, 3)}`}</Tex>
                   </div>
                   <div style={{ fontFamily: C.mono, fontSize: 12, color: C.txtDim, lineHeight: 1.8 }}>
                     {steps.map((s, i) => (
@@ -471,8 +475,8 @@ const ValueFunctionViz = () => {
                 </div>
                 <p style={{ fontFamily: C.sans, fontSize: 14, color: C.txtDim, lineHeight: 1.8 }}>
                   <Tex size={1.0}>{String.raw`\enfOp{V}(\enfVar{s})`}</Tex> — это <span style={{ color: C.txt }}>«перспективность»</span> состояния.
-                  Если <Tex size={1.0}>{`\\enfOp{V}(\\enfVar{S}_0) = ${allValues[0].toFixed(1)}`}</Tex>, а{" "}
-                  <Tex size={1.0}>{`\\enfOp{V}(\\enfVar{S}_2) = ${allValues[2].toFixed(1)}`}</Tex> — агент знает,
+                  Если <Tex size={1.0}>{`\\enfOp{V}(\\enfVar{S}_0) = ${texNum(allValues[0], 1)}`}</Tex>, а{" "}
+                  <Tex size={1.0}>{`\\enfOp{V}(\\enfVar{S}_2) = ${texNum(allValues[2], 1)}`}</Tex> — агент знает,
                   что <Tex size={1.0}>{String.raw`\enfVar{S}_0`}</Tex> выгоднее, и стремится туда.
                 </p>
               </div>
@@ -483,7 +487,7 @@ const ValueFunctionViz = () => {
                 <p style={{ fontFamily: C.sans, fontSize: 14, color: C.txtDim, lineHeight: 1.8 }}>
                   Без дисконтирования (<Tex size={0.95}>{"\\enfPar{\\gamma} = 1"}</Tex>) бесконечная сумма расходится.{" "}
                   <Tex size={0.95}>{"\\enfPar{\\gamma} < 1"}</Tex> гарантирует <span style={{ color: C.cyan }}>сходимость</span> ряда.
-                  Эффективный горизонт: <Tex size={1.05}>{`\\frac{1}{1-\\enfPar{\\gamma}} = ${horizon}`}</Tex> шагов.
+                  Эффективный горизонт: <Tex size={1.05}>{`\\frac{1}{1-\\enfPar{\\gamma}} = ${horizonTex}`}</Tex> шагов.
                 </p>
               </div>
             </div>

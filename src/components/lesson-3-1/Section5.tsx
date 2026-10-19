@@ -74,7 +74,7 @@ const Section5 = () => (
       </li>
       <li>
         <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> маленькое (например{" "}
-        <Math display={false}>{String.raw`0.005`}</Math>) — цель движется очень медленно → стабильно,
+        <Math display={false}>{String.raw`0{,}005`}</Math>) — цель движется очень медленно → стабильно,
         но медленнее.
       </li>
       <li>
@@ -83,7 +83,7 @@ const Section5 = () => (
     </ul>
 
     <ProseP>
-      В экспериментах Haarnoja <Math display={false}>{String.raw`\enfPar{\tau} = 0.005`}</Math> работает
+      В экспериментах Haarnoja <Math display={false}>{String.raw`\enfPar{\tau} = 0{,}005`}</Math> работает
       практически на всех задачах; диапазон подходящих значений широкий. В Unity ML-Agents это поле
       так и называется — <code className="px-1 rounded bg-muted/50 text-xs font-mono">tau</code> — с
       дефолтом <code className="px-1 rounded bg-muted/50 text-xs font-mono">0.005</code>.
@@ -91,10 +91,10 @@ const Section5 = () => (
 
     <InteractiveStub title="Интерактив: влияние τ на стабильность">
       График обучения с тремя кривыми для{" "}
-      <Math display={false}>{String.raw`\enfPar{\tau}\in\{0.0001, 0.005, 0.05\}`}</Math>: при большом{" "}
+      <Math display={false}>{String.raw`\enfPar{\tau}\in\{0{,}0001;\ 0{,}005;\ 0{,}05\}`}</Math>: при большом{" "}
       <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> кривая дёргается/расходится (нестабильность),
       при крошечном — ползёт медленно, при{" "}
-      <Math display={false}>{String.raw`0.005`}</Math> — гладко и быстро. (Воспроизводит рис. 3c из
+      <Math display={false}>{String.raw`0{,}005`}</Math> — гладко и быстро. (Воспроизводит рис. 3c из
       статьи.)
     </InteractiveStub>
 
@@ -114,7 +114,7 @@ const Section5 = () => (
           .
         </>,
         <>
-          <Math display={false}>{String.raw`\enfPar{\tau}=0.005`}</Math> — надёжный дефолт.
+          <Math display={false}>{String.raw`\enfPar{\tau}=0{,}005`}</Math> — надёжный дефолт.
         </>,
       ]}
     />

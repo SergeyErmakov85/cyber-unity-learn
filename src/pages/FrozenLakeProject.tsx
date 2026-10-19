@@ -438,15 +438,15 @@ const FrozenLakeProject = () => {
                 <p className="text-muted-foreground mb-3">Допустим:</p>
                 <ul className="list-disc pl-6 space-y-1 text-muted-foreground text-sm">
                   <li>Агент в клетке <strong className="text-foreground">6</strong>, идёт <strong className="text-foreground">вправо</strong> и попадает в клетку <strong className="text-foreground">7</strong></li>
-                  <li><InlineMath>{"\\enfOp{Q}(6, \\text{вправо}) = 0.3"}</InlineMath> (старая оценка)</li>
+                  <li><InlineMath>{String.raw`\enfOp{Q}(\enfVar{6}, \text{вправо}) = 0{,}3`}</InlineMath> (старая оценка)</li>
                   <li>Награда <InlineMath>{"\\enfTgt{r} = 0"}</InlineMath> (просто перешёл на лёд)</li>
-                  <li><InlineMath>{"\\max \\enfOp{Q}(7, \\cdot) = 0.8"}</InlineMath> (лучшая оценка в клетке 7)</li>
-                  <li><InlineMath>{"\\enfPar{\\alpha} = 0.1, \\enfPar{\\gamma} = 0.99"}</InlineMath></li>
+                  <li><InlineMath>{String.raw`\max_{a'} \enfOp{Q}(\enfVar{7}, a') = 0{,}8`}</InlineMath> (лучшая оценка в клетке 7)</li>
+                  <li><InlineMath>{"\\enfPar{\\alpha} = 0{,}1;\\ \\enfPar{\\gamma} = 0{,}99"}</InlineMath></li>
                 </ul>
                 <p className="text-muted-foreground mt-3">Считаем:</p>
                 <div className="overflow-x-auto py-2 space-y-1">
-                  <MathBlock>{`\\enfOp{Q}(6, \\text{вправо}) \\leftarrow 0.3 + 0.1 \\cdot [0 + 0.99 \\cdot 0.8 - 0.3]`}</MathBlock>
-                  <MathBlock>{`= 0.3 + 0.1 \\cdot [0 + 0.792 - 0.3] = 0.3 + 0.1 \\cdot 0.492 = \\mathbf{0.3492}`}</MathBlock>
+                  <MathBlock>{String.raw`\enfOp{Q}(\enfVar{6}, \text{вправо}) \leftarrow \enfOp{0{,}3} + \enfPar{0{,}1} \cdot [\enfTgt{0} + \enfPar{0{,}99} \cdot \enfOp{0{,}8} - \enfOp{0{,}3}]`}</MathBlock>
+                  <MathBlock>{String.raw`= \enfOp{0{,}3} + \enfPar{0{,}1} \cdot [\enfTgt{0} + 0{,}792 - \enfOp{0{,}3}] = \enfOp{0{,}3} + \enfPar{0{,}1} \cdot 0{,}492 = \mathbf{0{,}3492}`}</MathBlock>
                 </div>
                 <p className="text-muted-foreground mt-3">
                   Оценка <strong className="text-foreground">немного выросла</strong>, потому что из клетки 7 есть хорошие перспективы!

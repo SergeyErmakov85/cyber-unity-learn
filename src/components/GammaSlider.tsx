@@ -65,7 +65,7 @@ const GammaSlider = () => {
 
       <div className="flex justify-between text-xs text-muted-foreground">
         <span><MathTex display={false}>{String.raw`\enfPar{\gamma} = 0`}</MathTex> (только текущая)</span>
-        <span><MathTex display={false}>{String.raw`\enfPar{\gamma} = 0.99`}</MathTex> (дальновидный)</span>
+        <span><MathTex display={false}>{String.raw`\enfPar{\gamma} = 0{,}99`}</MathTex> (дальновидный)</span>
       </div>
 
       <div className="h-48">
@@ -117,7 +117,7 @@ const GammaSlider = () => {
           </p>
         </div>
         <div className="p-2 rounded-lg bg-muted/20 border border-border/30">
-          <p className="text-muted-foreground"><MathTex display={false}>{String.raw`\enfPar{\gamma} \approx 0.5`}</MathTex></p>
+          <p className="text-muted-foreground"><MathTex display={false}>{String.raw`\enfPar{\gamma} \approx 0{,}5`}</MathTex></p>
           <p className="font-mono text-foreground font-medium">Баланс</p>
         </div>
         <div className="p-2 rounded-lg bg-muted/20 border border-border/30">

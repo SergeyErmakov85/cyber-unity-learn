@@ -75,7 +75,7 @@ const Part3Probability = () => (
       <ul className="list-disc list-inside space-y-2">
         <li><Math display={false}>{String.raw`\enfVar{H}_0`}</Math> — нулевая гипотеза (нет различия)</li>
         <li><Math display={false}>{String.raw`\enfVar{H}_1`}</Math> — альтернативная гипотеза</li>
-        <li><strong className="text-foreground">p-значение</strong> <Math display={false}>{`< 0.05`}</Math> → отклоняем <Math display={false}>{String.raw`\enfVar{H}_0`}</Math></li>
+        <li><strong className="text-foreground">p-значение</strong> <Math display={false}>{`< 0{,}05`}</Math> → отклоняем <Math display={false}>{String.raw`\enfVar{H}_0`}</Math></li>
       </ul>
 
       <InfoBox color="secondary" title="Применение в RL">
@@ -205,7 +205,7 @@ plt.show()`}</CodeBlock>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="пример-3-оценка-политики-в-mdp">Пример 3: Оценка политики в MDP</h3>
       <p className="text-sm mb-3">
-        Среда: 2 состояния (S0, S1), 2 действия (A0, A1), <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math>.
+        Среда: 2 состояния (S0, S1), 2 действия (A0, A1), <Math display={false}>{`\\enfPar{\\gamma} = 0{,}9`}</Math>.
       </p>
       <CodeBlock>{`import numpy as np
 

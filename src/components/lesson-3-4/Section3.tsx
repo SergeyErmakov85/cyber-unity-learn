@@ -117,8 +117,8 @@ end for`}
       Архитектура в оригинале: <Math display={false}>{String.raw`\enfFun{\pi}_\theta`}</Math> и{" "}
       <Math display={false}>{String.raw`\enfFun{D}_w`}</Math> — по 2 скрытых слоя (
       <Math display={false}>{String.raw`\tanh`}</Math>); для снижения дисперсии — value-сеть и GAE (
-      <Math display={false}>{String.raw`\enfPar{\gamma}=0.995`}</Math>,{" "}
-      <Math display={false}>{String.raw`\enfPar{\lambda}=0.97`}</Math>). TRPO-шаг нужен, чтобы политика не
+      <Math display={false}>{String.raw`\enfPar{\gamma}=0{,}995`}</Math>,{" "}
+      <Math display={false}>{String.raw`\enfPar{\lambda}=0{,}97`}</Math>). TRPO-шаг нужен, чтобы политика не
       «улетала» из-за шума градиента.
     </ProseP>
 

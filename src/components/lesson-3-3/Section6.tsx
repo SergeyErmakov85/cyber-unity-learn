@@ -59,8 +59,8 @@ const Section6 = () => (
       преобразуются ранговой приоритизацией с температурой (как в приоритизированном реплее).
       Канонические значения из репозитория авторов: стратегия{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">value_l1</code>, ранговое
-      преобразование, температура <Math display={false}>{String.raw`0.1`}</Math>,{" "}
-      <Math display={false}>{String.raw`\enfPar{\rho} = 0.1`}</Math>.
+      преобразование, температура <Math display={false}>{String.raw`0{,}1`}</Math>,{" "}
+      <Math display={false}>{String.raw`\enfPar{\rho} = 0{,}1`}</Math>.
     </ProseP>
 
     <CyberCodeBlock language="pseudo" filename="plr.pseudo">

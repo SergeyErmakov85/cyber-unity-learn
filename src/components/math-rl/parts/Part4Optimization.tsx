@@ -77,7 +77,7 @@ const Part4Optimization = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="3-adam-adaptive-moment-estimation">3. Adam (Adaptive Moment Estimation)</h3>
       <p>
-        Комбинирует моменты первого и второго порядка. Параметры по умолчанию: <Math display={false}>{`\\enfPar{\\beta}_1 = 0.9`}</Math>, <Math display={false}>{`\\enfPar{\\beta}_2 = 0.999`}</Math>, <Math display={false}>{`\\enfPar{\\varepsilon} = 10^{-8}`}</Math>.
+        Комбинирует моменты первого и второго порядка. Параметры по умолчанию: <Math display={false}>{`\\enfPar{\\beta}_1 = 0{,}9`}</Math>, <Math display={false}>{`\\enfPar{\\beta}_2 = 0{,}999`}</Math>, <Math display={false}>{`\\enfPar{\\varepsilon} = 10^{-8}`}</Math>.
       </p>
 
       <InfoBox color="accent" title="Unity ML-Agents">
@@ -99,7 +99,7 @@ const Part4Optimization = () => (
       <p>Целевая функция PPO-Clip:</p>
       <Math>{`\\enfTgt{L}(\\enfPar{\\theta}) = \\min\\!\\Big[\\enfFun{r}(\\enfPar{\\theta})\\,\\enfOp{A},\\;\\; \\operatorname{clip}\\big(\\enfFun{r}(\\enfPar{\\theta}),\\, 1-\\enfPar{\\epsilon},\\, 1+\\enfPar{\\epsilon}\\big)\\,\\enfOp{A}\\Big]`}</Math>
       <p>
-        где <Math display={false}>{`\\enfOp{A}`}</Math> — Advantage, а <Math display={false}>{`\\enfPar{\\epsilon} \\approx 0.1 \\ldots 0.2`}</Math>.
+        где <Math display={false}>{`\\enfOp{A}`}</Math> — Advantage, а <Math display={false}>{`\\enfPar{\\epsilon} \\approx 0{,}1 \\ldots 0{,}2`}</Math>.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="гиперпараметры-ppo">Гиперпараметры PPO</h3>
@@ -114,19 +114,19 @@ const Part4Optimization = () => (
           <tbody className="text-muted-foreground">
             <tr className="border-b border-border/20">
               <td className="p-3">Дисконт <Math display={false}>{`\\enfPar{\\gamma}`}</Math></td>
-              <td className="p-3"><Math display={false}>{`0.99`}</Math></td>
+              <td className="p-3"><Math display={false}>{`0{,}99`}</Math></td>
             </tr>
             <tr className="border-b border-border/20">
               <td className="p-3">GAE <Math display={false}>{`\\enfPar{\\lambda}`}</Math></td>
-              <td className="p-3"><Math display={false}>{`0.95 \\ldots 0.99`}</Math></td>
+              <td className="p-3"><Math display={false}>{`0{,}95 \\ldots 0{,}99`}</Math></td>
             </tr>
             <tr className="border-b border-border/20">
               <td className="p-3">Клиповый порог <Math display={false}>{`\\enfPar{\\epsilon}`}</Math></td>
-              <td className="p-3"><Math display={false}>{`0.1 \\ldots 0.2`}</Math></td>
+              <td className="p-3"><Math display={false}>{`0{,}1 \\ldots 0{,}2`}</Math></td>
             </tr>
             <tr className="border-b border-border/20">
               <td className="p-3">Энтропийный коэффициент <Math display={false}>{`\\enfPar{\\beta}`}</Math></td>
-              <td className="p-3"><Math display={false}>{`0.0005 \\ldots 0.01`}</Math></td>
+              <td className="p-3"><Math display={false}>{`0{,}0005 \\ldots 0{,}01`}</Math></td>
             </tr>
             <tr className="border-b border-border/20">
               <td className="p-3">Скорость обучения</td>

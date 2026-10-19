@@ -113,7 +113,7 @@ const PPOModule = () => {
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li>Если <Math>{"\\enfFun{r}_t > 1 + \\enfPar{\\varepsilon}"}</Math> — политика слишком изменилась (обрезаем)</li>
                 <li>Если <Math>{"\\enfFun{r}_t < 1 - \\enfPar{\\varepsilon}"}</Math> — политика слишком изменилась (обрезаем)</li>
-                <li>Типичное значение <Math>{"\\enfPar{\\varepsilon} = 0.2"}</Math></li>
+                <li>Типичное значение <Math>{"\\enfPar{\\varepsilon} = 0{,}2"}</Math></li>
               </ul>
               <p className="text-muted-foreground leading-relaxed">
                 Это гарантирует, что обновление политики не будет слишком большим на каждом шаге.
@@ -143,7 +143,7 @@ const PPOModule = () => {
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li><Math>{"\\enfPar{\\lambda} = 0"}</Math> — чистый TD (низкая дисперсия, высокий bias)</li>
                 <li><Math>{"\\enfPar{\\lambda} = 1"}</Math> — чистый MC (высокая дисперсия, низкий bias)</li>
-                <li><Math>{"\\enfPar{\\lambda} = 0.95"}</Math> — типичное значение (хороший баланс)</li>
+                <li><Math>{"\\enfPar{\\lambda} = 0{,}95"}</Math> — типичное значение (хороший баланс)</li>
               </ul>
             </CardContent>
           </Card>

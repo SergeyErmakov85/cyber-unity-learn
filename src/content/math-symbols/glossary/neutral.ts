@@ -130,4 +130,5 @@ export const NEUTRAL_SYMBOLS: SymbolEntry[] = [
   { tex: r`\operatorname{IRL}`, role: N, name: "Обратное RL", meaning: r`Процедура, которая по демонстрациям эксперта восстанавливает функцию стоимости.`, code: "—", codeType: "алгоритм" },
   { tex: r`\operatorname{RL}`, role: N, name: "Прямое RL", meaning: r`Процедура, которая по стоимости находит оптимальную политику.`, code: "trainer.train()", codeType: "алгоритм" },
   { tex: r`\operatorname{LSTM}`, role: N, name: "LSTM-ячейка", meaning: r`Рекуррентный блок с памятью: обновляет скрытое состояние по новому наблюдению.`, code: "nn.LSTM(input_size, hidden_size)", codeType: "nn.Module" },
+  { tex: r`\operatorname{proj}`, role: N, name: "Проекция", meaning: r`$\operatorname{proj}_{\mathcal{C}(A)}\,b$ — ближайшая к $b$ точка подпространства столбцов матрицы $A$.`, code: "A @ np.linalg.lstsq(A, b, rcond=None)[0]", codeType: "np.ndarray" },
 ];

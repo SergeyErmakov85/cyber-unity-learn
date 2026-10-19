@@ -985,7 +985,7 @@ adv = (adv - adv.mean()) / (adv.std() + 1e-8)`}</CyberCodeBlock>
                           <li>В буфер сохранялось <em>усечённое</em> a</li>
                           <li>На этапе оптимизации: <Math display={false}>{"\\log \\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})"}</Math> — <span className="text-destructive font-semibold">некорректно!</span></li>
                         </ol>
-                        <p className="mt-3"><strong className="text-foreground">Пример:</strong> <Math display={false}>{String.raw`\enfFun{\mu} =2.0, \enfFun{\sigma} =1.0`}</Math>, сэмплирован ã=2.5, clamped a=1.0. Градиент от <code className="text-primary text-xs">log_prob(1.0)</code> при <Math display={false}>{String.raw`\enfFun{\mu} =2.0`}</Math> укажет оптимизатору сдвинуть <Math display={false}>{String.raw`\enfFun{\mu}`}</Math> к 1.0 вместо 2.5. Возникает <strong className="text-destructive">Gradient Bias</strong>.</p>
+                        <p className="mt-3"><strong className="text-foreground">Пример:</strong> <Math display={false}>{String.raw`\enfFun{\mu} =2{,}0;\ \enfFun{\sigma} =1{,}0`}</Math>, сэмплирован ã=2.5, clamped a=1.0. Градиент от <code className="text-primary text-xs">log_prob(1.0)</code> при <Math display={false}>{String.raw`\enfFun{\mu} =2{,}0`}</Math> укажет оптимизатору сдвинуть <Math display={false}>{String.raw`\enfFun{\mu}`}</Math> к 1.0 вместо 2.5. Возникает <strong className="text-destructive">Gradient Bias</strong>.</p>
                         <CyberCodeBlock language="python" filename="fix4_raw_samples.py">{`# Правильно: сохраняем raw_action
 dist_cont = Normal(mu, sigma)
 raw_action = dist_cont.sample()       # Сырой сэмпл (напр. 2.5)

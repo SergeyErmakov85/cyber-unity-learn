@@ -17,7 +17,7 @@ const Chapter4 = () => (
       <p className="font-semibold text-foreground mb-2">Интуитивный смысл <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> — «горизонт планирования»</p>
       <ul className="list-disc list-inside space-y-1 text-sm">
         <li><Math display={false}>{"\\enfPar{\\gamma} = 0"}</Math> — агент абсолютно близорук, учитывает только немедленную награду</li>
-        <li><Math display={false}>{"\\enfPar{\\gamma} = 0.99"}</Math> — агент крайне дальновиден</li>
+        <li><Math display={false}>{"\\enfPar{\\gamma} = 0{,}99"}</Math> — агент крайне дальновиден</li>
         <li>Эффективный горизонт ≈ <Math display={false}>{"\\frac{1}{1-\\enfPar{\\gamma}}"}</Math> шагов</li>
       </ul>
       <p className="text-sm mt-2">

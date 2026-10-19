@@ -202,7 +202,7 @@ print("Обучение завершено.")`}</CyberCodeBlock>
 
           <InfoBox color="accent" title="Epsilon Decay">
             <p className="text-sm">
-              В отличие от фиксированного <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>, здесь используется экспоненциальное затухание: <Math display={false}>{`\\enfPar{\\varepsilon} \\leftarrow \\max(\\enfPar{\\varepsilon}_{\\min},\\; \\enfPar{\\varepsilon} \\cdot 0.999)`}</Math>. Это обеспечивает сначала активное исследование (exploration), а затем плавный переход к эксплуатации (exploitation).
+              В отличие от фиксированного <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>, здесь используется экспоненциальное затухание: <Math display={false}>{`\\enfPar{\\varepsilon} \\leftarrow \\max(\\enfPar{\\varepsilon}_{\\min},\\; \\enfPar{\\varepsilon} \\cdot 0{,}999)`}</Math>. Это обеспечивает сначала активное исследование (exploration), а затем плавный переход к эксплуатации (exploitation).
             </p>
           </InfoBox>
 

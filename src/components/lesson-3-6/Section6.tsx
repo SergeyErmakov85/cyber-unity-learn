@@ -21,7 +21,7 @@ const Section6 = () => (
       наблюдённых результатов: доля <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> лучших
       испытаний идёт в «хорошие», остальные — в «плохие» (в Optuna{" "}
       <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> невелика — порядка{" "}
-      <Math display={false}>{String.raw`0.1`}</Math>). Затем по двум подвыборкам строим две
+      <Math display={false}>{String.raw`0{,}1`}</Math>). Затем по двум подвыборкам строим две
       плотности методом ядерного сглаживания (Parzen / KDE):
     </ProseP>
 

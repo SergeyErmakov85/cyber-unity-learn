@@ -22,6 +22,7 @@
  *   ENF-MATH-025   сквозная раскраска: символ с ролью окрашен при каждом
  *                  появлении, если лимит тонов формулы это позволяет (предупреждение)
  *   ENF-MATH-050   условная черта \mid, а не |
+ *   ENF-DEC        десятичная запятая в формулах: 0{,}9 (модуль «Код», п. 3.5)
  *   ENF-HOUSE-001  индекс выносится за макрос роли, макрос в индексе запрещён
  *   ENF-HOUSE-002  \mathbb{E} не окрашивается (домовое соглашение пособия)
  *   KATEX          формула разбирается KaTeX с макросами ролей
@@ -104,6 +105,12 @@ function checkFormula(tex, at, dynamic) {
   // «\\enfOp» — перевод строки и слово «enfOp»: KaTeX не падает, а формула
   // разваливается. Так бывает, если TeX в атрибуте JSX экранировать как строку JS.
   if (/(?<!\\)\\\\[A-Za-z]/.test(tex)) err("KATEX", at, `двойной слеш перед командой (\\\\cmd) — ${snippet}`);
+  {
+    // Десятичная запятая: в формулах 0{,}9, точка — только в коде (модуль «Код», п. 3.5).
+    const bare = tex.replace(/\\(?:text|texttt|mathrm|operatorname|hspace|kern)\s*\{[^}]*\}/g, "").replace(/\$\{[^}]*\}/g, "");
+    if (/(?<![A-Za-z\d.])\d+\.\d+(?![\d.]|e[-+]?\d|\s*(?:em|ex|pt|mu|px)\b)/.test(bare))
+      err("ENF-DEC", at, `десятичная точка в формуле, нужна запятая 0{,}9 — ${snippet}`);
+  }
   if (/\\(textcolor|color|definecolor)\b/.test(tex)) err("ENF-COLOR-030", at, `цвет задан командой, а не ролью — ${snippet}`);
   if (/\\class\b/.test(tex)) err("ENF-COLOR-030", at, `\\class не работает в KaTeX, нужен макрос роли — ${snippet}`);
   if (/#[0-9a-fA-F]{3,8}\b/.test(tex)) err("ENF-COLOR-001", at, `HEX в формуле — ${snippet}`);
@@ -208,7 +215,9 @@ function check025(file, formulas) {
 
   for (const f of formulas) {
     if (f.dynamic || SHAPE_RE.test(f.tex)) continue;
-    const used = new Set(coloredAtoms(f.tex).map((x) => x.role));
+    // Тоны считаются по всем макросам, включая окрашенные числа ручного расчёта.
+    const MACRO_ROLE_NAME = { Var: "variable", Fun: "function", Par: "parameter", Op: "operator", Tgt: "target" };
+    const used = new Set([...f.tex.matchAll(/\\enf(Var|Fun|Par|Op|Tgt)\b/g)].map((x) => MACRO_ROLE_NAME[x[1]]));
     let neutral = neutralPart(f.tex);
     // Связанные переменные этой формулы вычёркиваются как отдельные символы:
     // `a` под \max_a — да, буква «a» внутри \max или \ldots — нет.

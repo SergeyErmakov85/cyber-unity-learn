@@ -144,14 +144,14 @@ const Part1Limits = () => (
         </p>
         <Math>{`\\enfOp{G}_0 = 1 + \\enfPar{\\gamma} + \\enfPar{\\gamma}^2 + \\cdots = \\frac{1}{1 - \\enfPar{\\gamma}}`}</Math>
         <ul className="list-disc list-inside text-sm mt-2 space-y-1">
-          <li><Math display={false}>{`\\enfPar{\\gamma} = 0.9 \\Rightarrow \\enfOp{G}_0 = 10`}</Math></li>
-          <li><Math display={false}>{`\\enfPar{\\gamma} = 0.99 \\Rightarrow \\enfOp{G}_0 = 100`}</Math></li>
-          <li><Math display={false}>{`\\enfPar{\\gamma} = 1.0 \\Rightarrow \\enfOp{G}_0 = \\infty`}</Math> (расходится!)</li>
+          <li><Math display={false}>{`\\enfPar{\\gamma} = 0{,}9 \\Rightarrow \\enfOp{G}_0 = 10`}</Math></li>
+          <li><Math display={false}>{`\\enfPar{\\gamma} = 0{,}99 \\Rightarrow \\enfOp{G}_0 = 100`}</Math></li>
+          <li><Math display={false}>{`\\enfPar{\\gamma} = 1{,}0 \\Rightarrow \\enfOp{G}_0 = \\infty`}</Math> (расходится!)</li>
         </ul>
       </InfoBox>
 
       <p>
-        Дисконтирование можно интерпретировать как <em>«коэффициент нетерпения»</em> агента или <em>вероятность выживания</em>: <Math display={false}>{`\\enfPar{\\gamma} = 0.95`}</Math> эквивалентно 95% шансу продолжить на каждый шаг, что даёт <strong className="text-foreground">эффективный горизонт</strong> <Math display={false}>{`\\frac{1}{1-\\enfPar{\\gamma}} = 20`}</Math> шагов.
+        Дисконтирование можно интерпретировать как <em>«коэффициент нетерпения»</em> агента или <em>вероятность выживания</em>: <Math display={false}>{`\\enfPar{\\gamma} = 0{,}95`}</Math> эквивалентно 95% шансу продолжить на каждый шаг, что даёт <strong className="text-foreground">эффективный горизонт</strong> <Math display={false}>{`\\frac{1}{1-\\enfPar{\\gamma}} = 20`}</Math> шагов.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="функция-ценности-состояния">Функция ценности состояния</h3>
@@ -275,37 +275,40 @@ const Part1Limits = () => (
         <div className="p-4 rounded-lg bg-card/60 border border-primary/30">
           <p className="text-sm font-semibold text-primary mb-2">Действие <Math display={false}>{`\\enfFun{a}_1`}</Math> (вправо)</p>
           <ul className="text-sm space-y-1 text-muted-foreground">
-            <li>с вероятностью 0.8 → клетка <Math display={false}>{`+5`}</Math></li>
-            <li>с вероятностью 0.2 → в стену (значение 0)</li>
+            <li>с вероятностью 0,8 → клетка <Math display={false}>{`+5`}</Math></li>
+            <li>с вероятностью 0,2 → в стену (значение 0)</li>
             <li>награда за шаг: <Math display={false}>{`-1`}</Math></li>
           </ul>
         </div>
         <div className="p-4 rounded-lg bg-card/60 border border-secondary/30">
           <p className="text-sm font-semibold text-secondary mb-2">Действие <Math display={false}>{`\\enfFun{a}_2`}</Math> (вниз)</p>
           <ul className="text-sm space-y-1 text-muted-foreground">
-            <li>с вероятностью 1.0 → к цели <Math display={false}>{`+10`}</Math></li>
+            <li>с вероятностью 1,0 → к цели <Math display={false}>{`+10`}</Math></li>
             <li>награда за шаг: <Math display={false}>{`-1`}</Math></li>
           </ul>
         </div>
       </div>
       <p>
-        Пусть ценность клетки <Math display={false}>{`+5`}</Math> равна <Math display={false}>{`5`}</Math>, ценность цели <Math display={false}>{`+10`}</Math> равна <Math display={false}>{`10`}</Math>, дисконт <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math>.
+        Пусть ценность клетки <Math display={false}>{`+5`}</Math> равна <Math display={false}>{`5`}</Math>, ценность цели <Math display={false}>{`+10`}</Math> равна <Math display={false}>{`10`}</Math>, дисконт <Math display={false}>{`\\enfPar{\\gamma} = 0{,}9`}</Math>.
       </p>
 
       <div className="grid md:grid-cols-2 gap-4 my-4">
         <div className="p-4 rounded-lg bg-card/80 border border-primary/30">
           <p className="text-sm font-semibold text-primary mb-2">Считаем для <Math display={false}>{`\\enfFun{a}_1`}</Math> (вправо):</p>
-          <Math>{`0.8\\cdot[-1 + 0.9\\cdot 5] + 0.2\\cdot[-1 + 0.9\\cdot 0]`}</Math>
-          <Math>{`= 0.8\\cdot 3.5 + 0.2\\cdot(-1) = 2.8 - 0.2 = 2.6`}</Math>
+          <Math>{String.raw`\begin{aligned}
+\enfOp{Q}(s, \enfFun{a}_1) &= \sum_{s'} \enfFun{P}(s' \mid s, \enfFun{a}_1)\,\bigl[\enfTgt{R} + \enfPar{\gamma}\,\enfOp{V}(s')\bigr] \\
+&= \enfFun{0{,}8}\cdot[\enfTgt{-1} + \enfPar{0{,}9}\cdot \enfOp{5}] + \enfFun{0{,}2}\cdot[\enfTgt{-1} + \enfPar{0{,}9}\cdot \enfOp{0}]
+\end{aligned}`}</Math>
+          <Math>{String.raw`= \enfFun{0{,}8}\cdot 3{,}5 + \enfFun{0{,}2}\cdot(-1) = 2{,}8 - 0{,}2 = 2{,}6`}</Math>
         </div>
         <div className="p-4 rounded-lg bg-card/80 border border-secondary/30">
           <p className="text-sm font-semibold text-secondary mb-2">Считаем для <Math display={false}>{`\\enfFun{a}_2`}</Math> (вниз):</p>
-          <Math>{`1.0\\cdot[-1 + 0.9\\cdot 10] = -1 + 9 = 8`}</Math>
+          <Math>{String.raw`\enfOp{Q}(s, \enfFun{a}_2) = \enfFun{1{,}0}\cdot[\enfTgt{-1} + \enfPar{0{,}9}\cdot \enfOp{10}] = -1 + 9 = 8`}</Math>
         </div>
       </div>
       <InfoBox variant="accent">
         <p className="text-sm">
-          ⭐ Берём максимум: <Math display={false}>{`\\enfOp{V}^*(\\enfVar{s}) = \\max(2.6,\\,8) = 8`}</Math> → <strong className="text-foreground">лучше идти вниз</strong> (действие <Math display={false}>{`\\enfFun{a}_2`}</Math>).
+          ⭐ Берём максимум: <Math display={false}>{`\\enfOp{V}^*(\\enfVar{s}) = \\max(2{,}6;\\,8) = 8`}</Math> → <strong className="text-foreground">лучше идти вниз</strong> (действие <Math display={false}>{`\\enfFun{a}_2`}</Math>).
         </p>
       </InfoBox>
 
@@ -405,11 +408,11 @@ const Part1Limits = () => (
         </div>
       </div>
       <p>
-        Рассмотрим простейшую MDP: из <Math display={false}>{`\\enfVar{S}_1`}</Math> агент переходит в <Math display={false}>{`\\enfVar{S}_2`}</Math> с наградой +2, из <Math display={false}>{`\\enfVar{S}_2`}</Math> — обратно в <Math display={false}>{`\\enfVar{S}_1`}</Math> с наградой 0. При <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math>:
+        Рассмотрим простейшую MDP: из <Math display={false}>{`\\enfVar{S}_1`}</Math> агент переходит в <Math display={false}>{`\\enfVar{S}_2`}</Math> с наградой +2, из <Math display={false}>{`\\enfVar{S}_2`}</Math> — обратно в <Math display={false}>{`\\enfVar{S}_1`}</Math> с наградой 0. При <Math display={false}>{`\\enfPar{\\gamma} = 0{,}9`}</Math>:
       </p>
-      <Math>{`\\begin{cases} \\enfOp{v}_1 = 2 + 0.9 \\cdot \\enfOp{v}_2 \\\\ \\enfOp{v}_2 = 0 + 0.9 \\cdot \\enfOp{v}_1 \\end{cases}`}</Math>
+      <Math>{String.raw`\begin{cases} \enfOp{v}_1 = \enfTgt{2} + \enfPar{0{,}9} \cdot \enfOp{v}_2 \\ \enfOp{v}_2 = \enfTgt{0} + \enfPar{0{,}9} \cdot \enfOp{v}_1 \end{cases}`}</Math>
       <p>
-        Подставляя: <Math display={false}>{`\\enfOp{v}_1 = 2 + 0.81 \\enfOp{v}_1`}</Math>, откуда <Math display={false}>{`\\enfOp{v}_1 \\approx 10.53`}</Math>, <Math display={false}>{`\\enfOp{v}_2 \\approx 9.47`}</Math>.
+        Подставляя: <Math display={false}>{String.raw`\enfOp{v}_1 = \enfTgt{2} + \enfPar{0{,}81}\,\enfOp{v}_1`}</Math>, откуда <Math display={false}>{`\\enfOp{v}_1 \\approx 10{,}53`}</Math>, <Math display={false}>{`\\enfOp{v}_2 \\approx 9{,}47`}</Math>.
       </p>
 
       <CyberCodeBlock language="python" filename="value_iteration_2states.py">
@@ -434,7 +437,7 @@ for i in range(1, 21):
       <InfoBox variant="primary">
         <p className="text-sm font-semibold text-primary mb-2">Свойство сходимости</p>
         <p className="text-sm">
-          Максимальная разница между текущими оценками и оптимальными уменьшается примерно в <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math> раза каждую итерацию — следствие контрактности оператора Беллмана. Через ~20 итераций значения практически совпадают с теоретическими.
+          Максимальная разница между текущими оценками и оптимальными уменьшается примерно в <Math display={false}>{`\\enfPar{\\gamma} = 0{,}9`}</Math> раза каждую итерацию — следствие контрактности оператора Беллмана. Через ~20 итераций значения практически совпадают с теоретическими.
         </p>
       </InfoBox>
     </Section>
@@ -469,7 +472,7 @@ for i in range(1, 21):
       <InfoBox variant="accent">
         <p className="text-sm font-semibold text-accent mb-2">Аналогия из финансов</p>
         <p className="text-sm">
-          Дисконтирование в RL аналогично <em>приведённой стоимости денег</em>: сегодня 1₽ ценится выше, чем обещание 1₽ через год. Если <Math display={false}>{`\\enfPar{\\gamma} = 0.95`}</Math> — это «5% годовых обесценивания», то бесконечный поток выплат по 1₽ стоит <Math display={false}>{`\\frac{1}{1-0.95} = 20`}</Math>₽ сейчас (perpetuity).
+          Дисконтирование в RL аналогично <em>приведённой стоимости денег</em>: сегодня 1₽ ценится выше, чем обещание 1₽ через год. Если <Math display={false}>{`\\enfPar{\\gamma} = 0{,}95`}</Math> — это «5% годовых обесценивания», то бесконечный поток выплат по 1₽ стоит <Math display={false}>{String.raw`\frac{1}{1-\enfPar{0{,}95}} = 20`}</Math>₽ сейчас (perpetuity).
         </p>
       </InfoBox>
     </Section>
@@ -491,12 +494,12 @@ for i in range(1, 21):
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="7-2-сумма-геометрического-ряда">7.2 Сумма геометрического ряда</h3>
       <p>
-        <strong className="text-foreground">Задача:</strong> Вычислить <Math display={false}>{`0.8 + 0.8^2 + 0.8^3 + \\cdots`}</Math>
+        <strong className="text-foreground">Задача:</strong> Вычислить <Math display={false}>{`0{,}8 + 0{,}8^2 + 0{,}8^3 + \\cdots`}</Math>
       </p>
       <p>
-        <strong className="text-foreground">Решение:</strong> Геометрический ряд с <Math display={false}>{`\\enfVar{a}_1 = 0.8`}</Math>, <Math display={false}>{`\\enfPar{r} = 0.8`}</Math>:
+        <strong className="text-foreground">Решение:</strong> Геометрический ряд с <Math display={false}>{`\\enfVar{a}_1 = 0{,}8`}</Math>, <Math display={false}>{`\\enfPar{r} = 0{,}8`}</Math>:
       </p>
-      <Math>{`\\enfOp{S} = \\frac{0.8}{1 - 0.8} = \\frac{0.8}{0.2} = 4`}</Math>
+      <Math>{String.raw`\enfOp{S} = \frac{\enfVar{a}_1}{1 - \enfPar{r}} = \frac{\enfVar{0{,}8}}{1 - \enfPar{0{,}8}} = \frac{0{,}8}{0{,}2} = 4`}</Math>
 
       <CyberCodeBlock language="python" filename="partial_sums.py">
 {`s = 0.0
@@ -528,7 +531,7 @@ print(f"Сумма 50 членов: {s:.8f}")
       <GeometricSeriesChart />
 
       <p>
-        При <Math display={false}>{`\\enfPar{\\gamma} = 0.5`}</Math> ряд сходится за ~6 членов. При <Math display={false}>{`\\enfPar{\\gamma} = 0.9`}</Math> — значительно медленнее, к N=30 приближаясь к ~9.58 (предел 10). Это аналог «длинного хвоста» учёта будущего в RL.
+        При <Math display={false}>{`\\enfPar{\\gamma} = 0{,}5`}</Math> ряд сходится за ~6 членов. При <Math display={false}>{`\\enfPar{\\gamma} = 0{,}9`}</Math> — значительно медленнее, к N=30 приближаясь к ~9.58 (предел 10). Это аналог «длинного хвоста» учёта будущего в RL.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="8-2-визуализация-итерации-ценности">8.2 Визуализация итерации ценности</h3>

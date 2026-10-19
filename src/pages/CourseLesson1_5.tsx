@@ -430,7 +430,7 @@ Q_θ(state) → [Q_left, Q_right]
           <CardContent className="p-4">
             <p className="text-sm text-muted-foreground leading-relaxed mb-3">
               <strong className="text-foreground">Epsilon decay:</strong> в начале обучения
-              <Math display={false}>{String.raw`\enfPar{\varepsilon} = 1.0`}</Math> (100% случайных действий — полное исследование). Постепенно <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>{" "}
+              <Math display={false}>{String.raw`\enfPar{\varepsilon} = 1{,}0`}</Math> (100% случайных действий — полное исследование). Постепенно <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>{" "}
               уменьшается до 0.01, и агент всё больше полагается на выученные Q-значения.
             </p>
             <div className="flex items-center gap-3 text-xs">
@@ -444,9 +444,9 @@ Q_θ(state) → [Q_left, Q_right]
                 />
               </div>
               <div className="flex gap-3 flex-shrink-0 text-muted-foreground">
-                <span><Math display={false}>{String.raw`\enfPar{\varepsilon} =1.0`}</Math></span>
+                <span><Math display={false}>{String.raw`\enfPar{\varepsilon} =1{,}0`}</Math></span>
                 <span>→</span>
-                <span><Math display={false}>{String.raw`\enfPar{\varepsilon} =0.01`}</Math></span>
+                <span><Math display={false}>{String.raw`\enfPar{\varepsilon} =0{,}01`}</Math></span>
               </div>
             </div>
             <div className="flex justify-between text-xs text-muted-foreground/60 mt-1">

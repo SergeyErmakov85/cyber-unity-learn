@@ -127,7 +127,7 @@ const SACModule = () => {
                 Мягкое обновление целевых сетей:
               </p>
               <div className="overflow-x-auto">
-                <Math display>{"\\enfPar{\\bar{\\phi}} \\leftarrow \\enfPar{\\tau} \\enfPar{\\phi} + (1 - \\enfPar{\\tau}) \\enfPar{\\bar{\\phi}}, \\quad \\enfPar{\\tau} = 0.005"}</Math>
+                <Math display>{"\\enfPar{\\bar{\\phi}} \\leftarrow \\enfPar{\\tau} \\enfPar{\\phi} + (1 - \\enfPar{\\tau}) \\enfPar{\\bar{\\phi}}, \\quad \\enfPar{\\tau} = 0{,}005"}</Math>
               </div>
             </CardContent>
           </Card>

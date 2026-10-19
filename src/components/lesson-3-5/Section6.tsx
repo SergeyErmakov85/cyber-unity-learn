@@ -42,10 +42,10 @@ const Section6 = () => (
       где <Math display={false}>{String.raw`t_{\text{inf}}`}</Math> — время одного прямого прохода,{" "}
       <Math display={false}>{String.raw`\enfFun{f}_{\text{target}}`}</Math> — целевой FPS,{" "}
       <Math display={false}>{String.raw`\enfPar{\beta}`}</Math> — доля кадра, которую вы готовы отдать под ИИ
-      (скажем, <Math display={false}>{String.raw`\enfPar{\beta} = 0.2`}</Math>). При 60 FPS весь кадр —{" "}
-      <Math display={false}>{String.raw`\approx 16.7`}</Math> мс; если{" "}
-      <Math display={false}>{String.raw`\enfPar{\beta}=0.2`}</Math>, на весь ИИ есть{" "}
-      <Math display={false}>{String.raw`\approx 3.3`}</Math> мс. Отсюда два рычага снижения нагрузки:
+      (скажем, <Math display={false}>{String.raw`\enfPar{\beta} = 0{,}2`}</Math>). При 60 FPS весь кадр —{" "}
+      <Math display={false}>{String.raw`\approx 16{,}7`}</Math> мс; если{" "}
+      <Math display={false}>{String.raw`\enfPar{\beta}=0{,}2`}</Math>, на весь ИИ есть{" "}
+      <Math display={false}>{String.raw`\approx 3{,}3`}</Math> мс. Отсюда два рычага снижения нагрузки:
     </ProseP>
 
     <ol className="space-y-2 my-4 list-decimal list-inside text-[15px] text-foreground/90 leading-relaxed">

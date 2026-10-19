@@ -211,7 +211,7 @@ const CourseLesson2_2 = () => {
           </p>
 
           <p className="text-muted-foreground leading-relaxed mb-3">
-            Clipped objective — берём минимум из обычного и обрезанного ratio (типичное <Math display={false}>{String.raw`\enfPar{\varepsilon} = 0.2`}</Math>):
+            Clipped objective — берём минимум из обычного и обрезанного ratio (типичное <Math display={false}>{String.raw`\enfPar{\varepsilon} = 0{,}2`}</Math>):
           </p>
           <Math>{"\\enfTgt{L}^{\\text{CLIP}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t \\left[ \\min\\left( \\enfFun{r}_t(\\enfPar{\\theta}) \\enfOp{\\hat{A}}_t, \\; \\operatorname{clip}(\\enfFun{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon}) \\enfOp{\\hat{A}}_t \\right) \\right]"}</Math>
 
@@ -271,7 +271,7 @@ actor_loss = -torch.min(surr1, surr2).mean()`}
             <Card className="bg-card/60 backdrop-blur-sm border-accent/30">
               <CardContent className="p-4">
                 <h4 className="font-bold text-accent mb-2"><Math display={false}>{String.raw`\enfPar{\lambda} \to 1`}</Math></h4>
-                <p className="text-sm text-muted-foreground">Близко к Monte Carlo. Низкий bias, но <strong>высокая дисперсия</strong>. На практике <Math display={false}>{String.raw`\enfPar{\lambda} = 0.95`}</Math>.</p>
+                <p className="text-sm text-muted-foreground">Близко к Monte Carlo. Низкий bias, но <strong>высокая дисперсия</strong>. На практике <Math display={false}>{String.raw`\enfPar{\lambda} = 0{,}95`}</Math>.</p>
               </CardContent>
             </Card>
           </div>
@@ -334,7 +334,7 @@ def compute_gae(rewards, values, next_value, dones, gamma=0.99, lam=0.95):
           </p>
           <Math>{"\\enfTgt{L}^{\\text{PPO}}(\\enfPar{\\theta}, \\enfPar{\\phi}) = \\hat{\\mathbb{E}}_t \\left[ \\enfTgt{L}^{\\text{CLIP}}_t(\\enfPar{\\theta}) - \\enfPar{c}_1 \\enfTgt{L}^{\\text{VF}}_t(\\enfPar{\\phi}) + \\enfPar{c}_2 \\enfOp{H}[\\pi_\\theta](\\enfVar{s}_t) \\right]"}</Math>
           <p className="text-sm text-muted-foreground mt-2 mb-6">
-            <Math display={false}>{String.raw`\enfPar{c}_{1} \approx 0.5`}</Math> — вес критика, <Math display={false}>{String.raw`\enfPar{c}_{2} \approx 0.01`}</Math> — вес <CrossLinkToHub hubPath="/math-rl/module-5" hubAnchor="глава-9" hubTitle="Энтропия">энтропии</CrossLinkToHub>, H — энтропия распределения политики.
+            <Math display={false}>{String.raw`\enfPar{c}_{1} \approx 0{,}5`}</Math> — вес критика, <Math display={false}>{String.raw`\enfPar{c}_{2} \approx 0{,}01`}</Math> — вес <CrossLinkToHub hubPath="/math-rl/module-5" hubAnchor="глава-9" hubTitle="Энтропия">энтропии</CrossLinkToHub>, H — энтропия распределения политики.
           </p>
 
           <h3 className="text-lg font-bold text-foreground mb-3">5.1. Сети Actor и Critic (непрерывные действия)</h3>

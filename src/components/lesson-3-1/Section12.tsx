@@ -152,8 +152,8 @@ const Section12 = () => (
               Коэффициент soft-update target-сетей:{" "}
               <Math display={false}>{String.raw`\enfPar{\bar{\theta}}\leftarrow\enfPar{\tau}\enfPar{\theta}+(1-\enfPar{\tau})\enfPar{\bar{\theta}}`}</Math>{" "}
               (см. <Anchor to="раздел-5-два-q-критика-clipped-double-q-и-target-сети">Раздел 5</Anchor>).
-              Обычно оставляют <Math display={false}>{String.raw`0.005`}</Math>; до{" "}
-              <Math display={false}>{String.raw`0.01`}</Math> ускоряет простые задачи ценой стабильности.
+              Обычно оставляют <Math display={false}>{String.raw`0{,}005`}</Math>; до{" "}
+              <Math display={false}>{String.raw`0{,}01`}</Math> ускоряет простые задачи ценой стабильности.
             </td>
           </tr>
           <tr className="border-b border-border/20 align-top">
@@ -190,9 +190,9 @@ const Section12 = () => (
               <Anchor to="раздел-7-автоматическая-подстройка-температуры-alpha">Раздела 7</Anchor>: дальше
               ML-Agents <strong>автоматически</strong> тянет её к целевой энтропии (по схеме из 1812.05905).
               Больше → больше исследования в начале; меньше → быстрее сходимость. Диапазон для непрерывных{" "}
-              <Math display={false}>{String.raw`0.5`}</Math>–<Math display={false}>{String.raw`1.0`}</Math>,
-              для дискретных <Math display={false}>{String.raw`0.05`}</Math>–
-              <Math display={false}>{String.raw`0.5`}</Math>.
+              <Math display={false}>{String.raw`0{,}5`}</Math>–<Math display={false}>{String.raw`1{,}0`}</Math>,
+              для дискретных <Math display={false}>{String.raw`0{,}05`}</Math>–
+              <Math display={false}>{String.raw`0{,}5`}</Math>.
             </td>
           </tr>
           <tr className="align-top">
@@ -249,7 +249,7 @@ const Section12 = () => (
           связь дисконтированной суммы наград с геометрическим рядом
         </CrossLinkToHub>{" "}
         — именно <Math display={false}>{String.raw`\enfPar{\gamma}<1`}</Math> гарантирует конечность суммы.
-        Диапазон <Math display={false}>{String.raw`0.8`}</Math>–<Math display={false}>{String.raw`0.995`}</Math>.
+        Диапазон <Math display={false}>{String.raw`0{,}8`}</Math>–<Math display={false}>{String.raw`0{,}995`}</Math>.
       </li>
       <li>
         <strong><code className={chip}>strength</code></strong>{" "}

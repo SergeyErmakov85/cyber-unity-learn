@@ -216,7 +216,7 @@ const Section_BellmanDerivation = () => {
           <P>Приравняем производную к нулю:</P>
           <F>{String.raw`-2\enfVar{x} + 4 = 0 \quad\Longrightarrow\quad \enfVar{x} = 2`}</F>
           <P>Теперь вычислим значение функции в этой точке:</P>
-          <F>{String.raw`\enfFun{f}(2) = -(2)^2 + 4(2) = -4 + 8 = 4`}</F>
+          <F>{String.raw`\enfFun{f}(\enfVar{2}) = -(\enfVar{2})^2 + 4 \cdot \enfVar{2} = -4 + 8 = 4`}</F>
           <P>Следовательно:</P>
           <F>{String.raw`\max_{x}\!\left(\enfFun{f}(\enfVar{x})\right) = 4 \qquad \arg\max_{x}\!\left(\enfFun{f}(\enfVar{x})\right) = 2`}</F>
           <P>
@@ -253,10 +253,10 @@ const Section_BellmanDerivation = () => {
           <F>{String.raw`\mathbb{E}[\enfFun{X}] = \sum_{x} \enfVar{x} \cdot \enfOp{P}(\enfFun{X} = \enfVar{x})`}</F>
           <P>
             <strong>Пример.</strong> Бросок «нечестной» монеты: при выпадении орла
-            (вероятность 0.8) вы получаете 10 монет, при выпадении решки
-            (вероятность 0.2) теряете 5 монет.
+            (вероятность 0,8) вы получаете 10 монет, при выпадении решки
+            (вероятность 0,2) теряете 5 монет.
           </P>
-          <F>{String.raw`\mathbb{E}[\enfVar{X}] = 10 \cdot 0.8 + (-5) \cdot 0.2 = 8 - 1 = 7`}</F>
+          <F>{String.raw`\mathbb{E}[\enfFun{X}] = \enfVar{10} \cdot \enfOp{0{,}8} + (\enfVar{-5}) \cdot \enfOp{0{,}2} = 8 - 1 = 7`}</F>
           <P>
             Ожидаемый выигрыш — 7 монет за бросок. Именно математическое ожидание
             станет нашим главным инструментом для оценки стратегий в условиях

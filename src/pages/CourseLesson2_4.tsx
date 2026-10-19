@@ -199,8 +199,8 @@ if (reachedGoal) AddReward(1.0f);`}
               <p className="text-sm text-muted-foreground mb-2">Дисконтированная награда для шага <Math display={false}>{`t = 0`}</Math> при горизонте <Math display={false}>{`T = 1000`}</Math>:</p>
               <Math>{String.raw`\enfOp{\nabla}_\theta \enfTgt{J}(\enfPar{\theta}) \;\propto\; \mathbb{E}\!\left[ \sum_{t=0}^{T} \enfPar{\gamma}^{t}\, \enfTgt{r}_t \, \enfOp{\nabla}_\theta \log \pi_\theta(a_t \mid \enfVar{s}_t) \right]`}</Math>
               <p className="text-xs text-muted-foreground mt-3">
-                При <Math display={false}>{`\\enfPar{\\gamma} = 0.99`}</Math> и <Math display={false}>{`t = 1000`}</Math>:{" "}
-                <Math display={false}>{`0.99^{1000} \\approx 4.3 \\times 10^{-5}`}</Math> — градиент практически исчезает.
+                При <Math display={false}>{`\\enfPar{\\gamma} = 0{,}99`}</Math> и <Math display={false}>{`t = 1000`}</Math>:{" "}
+                <Math display={false}>{String.raw`\enfPar{0{,}99}^{1000} \approx 4{,}3 \times 10^{-5}`}</Math> — градиент практически исчезает.
               </p>
             </CardContent>
           </Card>

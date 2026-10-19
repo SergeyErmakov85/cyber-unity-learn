@@ -46,9 +46,9 @@ const Section5Rewards = () => (
       </p>
       <Math>{String.raw`\enfTgt{r}_{\text{align}}(t) \;=\; \begin{cases} +\,\enfPar{k}_+\, \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle \cdot \dfrac{\enfVar{v}_t}{\enfVar{v}_{\max}}, & \text{если } \langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle > 0,\\[1.4ex] -\,\enfPar{k}_-\, \big|\langle \enfVar{\mathbf{f}}_t, \enfVar{\mathbf{d}}_t \rangle\big|, & \text{иначе.} \end{cases}`}</Math>
       <p className="text-sm text-muted-foreground">
-        где <Math display={false}>{String.raw`\enfPar{k}_+ \approx 0.04`}</Math> — масштабирующий коэффициент
+        где <Math display={false}>{String.raw`\enfPar{k}_+ \approx 0{,}04`}</Math> — масштабирующий коэффициент
         пошаговой награды за скорость,{" "}
-        <Math display={false}>{String.raw`\enfPar{k}_- \approx 0.02`}</Math> — коэффициент штрафа за разворот.
+        <Math display={false}>{String.raw`\enfPar{k}_- \approx 0{,}02`}</Math> — коэффициент штрафа за разворот.
         Данный дизайн гарантирует, что <strong className="text-foreground">любое микроперемещение рулевого
         колеса, смещающее вектор движения ближе к апексу виража, генерирует положительную разность
         потенциалов награды</strong>.

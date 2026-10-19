@@ -572,7 +572,7 @@ const CourseLesson1_7 = () => (
       <p className="text-muted-foreground leading-relaxed mb-3">
         Чтобы убрать постоянный штраф, используют decaying epsilon-greedy. В начале
         агент исследует активно, например с{" "}
-        <Math display={false}>{`\\enfPar{\\varepsilon}_0=1.0`}</Math>, а затем постепенно снижает
+        <Math display={false}>{`\\enfPar{\\varepsilon}_0=1{,}0`}</Math>, а затем постепенно снижает
         случайность:
       </p>
       <Math>{`\\enfPar{\\varepsilon}_t = \\enfPar{\\varepsilon}_0 \\cdot \\enfPar{\\alpha}^t,\\quad \\enfPar{\\alpha} < 1`}</Math>

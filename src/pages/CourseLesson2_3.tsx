@@ -416,7 +416,7 @@ class ContinuousActorCritic(nn.Module):
                 Операция <code className="px-1 rounded bg-muted">clip</code> обрезает{" "}
                 <Math display={false}>{`\\enfFun{r}_t(\\enfPar{\\theta})`}</Math> в коридоре{" "}
                 <Math display={false}>{`[1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon}]`}</Math> (обычно{" "}
-                <Math display={false}>{`\\enfPar{\\varepsilon} = 0.2`}</Math>).
+                <Math display={false}>{`\\enfPar{\\varepsilon} = 0{,}2`}</Math>).
               </p>
               <ul className="text-sm space-y-1.5 mt-3">
                 <li className="flex gap-2">
@@ -561,7 +561,7 @@ class ContinuousActorCritic(nn.Module):
                 работает в обе стороны: защищает от катастрофических обновлений и{" "}
                 <em>ограничивает</em> скорость роста. Когда политика уже неплоха, дальнейший прогресс
                 требует более «смелых» шагов, чем коридор{" "}
-                <Math display={false}>{`[0.8, 1.2]`}</Math> позволяет.
+                <Math display={false}>{`[0{,}8;\\ 1{,}2]`}</Math> позволяет.
               </p>
             </CardContent>
           </Card>

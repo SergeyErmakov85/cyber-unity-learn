@@ -254,7 +254,7 @@ export const DiscountImpactChart = () => {
         </LineChart>
       </ResponsiveContainer>
       <p className="text-xs text-muted-foreground">
-        При <Math display={false}>{String.raw`\enfPar{\gamma} \to 1`}</Math> горизонт планирования растёт экспоненциально. На практике <Math display={false}>{String.raw`\enfPar{\gamma} = 0.99`}</Math> даёт агенту «память» на ~100 шагов.
+        При <Math display={false}>{String.raw`\enfPar{\gamma} \to 1`}</Math> горизонт планирования растёт экспоненциально. На практике <Math display={false}>{String.raw`\enfPar{\gamma} = 0{,}99`}</Math> даёт агенту «память» на ~100 шагов.
       </p>
     </div>
   );
