@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_1_7 from "@/content/math-symbols/pages/lesson-1-7";
 import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
@@ -729,6 +731,8 @@ const CourseLesson1_7 = () => (
         </table>
       </div>
     </section>
+
+    <SymbolTable {...SYMBOLS_LESSON_1_7} />
 
     <section>
       <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">

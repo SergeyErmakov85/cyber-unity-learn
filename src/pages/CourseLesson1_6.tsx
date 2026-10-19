@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_1_6 from "@/content/math-symbols/pages/lesson-1-6";
 import LessonLayout from "@/components/LessonLayout";
 
 import CyberCodeBlock from "@/components/CyberCodeBlock";
@@ -309,6 +311,8 @@ const CourseLesson1_6 = () => {
       </section>
 
       {/* ── 4. Replay Buffer ── */}
+      <SymbolTable {...SYMBOLS_LESSON_1_6} />
+
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">
           <CrossLinkToHub hubPath="/algorithms/dqn" hubTitle="DQN — Replay Buffer">

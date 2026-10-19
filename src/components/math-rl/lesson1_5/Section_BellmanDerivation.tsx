@@ -250,13 +250,13 @@ const Section_BellmanDerivation = () => {
             повторений эксперимента. Оно вычисляется как взвешенная сумма всех
             исходов, где весом выступает вероятность:
           </P>
-          <F>{String.raw`\mathbb{E}[\enfFun{X}] = \sum_{x} \enfVar{x} \cdot \enfOp{P}(\enfFun{X} = \enfVar{x})`}</F>
+          <F>{String.raw`\mathbb{E}[\enfVar{X}] = \sum_{x} \enfVar{x} \cdot \enfFun{P}(\enfVar{X} = \enfVar{x})`}</F>
           <P>
             <strong>Пример.</strong> Бросок «нечестной» монеты: при выпадении орла
             (вероятность 0,8) вы получаете 10 монет, при выпадении решки
             (вероятность 0,2) теряете 5 монет.
           </P>
-          <F>{String.raw`\mathbb{E}[\enfFun{X}] = \enfVar{10} \cdot \enfOp{0{,}8} + (\enfVar{-5}) \cdot \enfOp{0{,}2} = 8 - 1 = 7`}</F>
+          <F>{String.raw`\mathbb{E}[\enfVar{X}] = \enfVar{10} \cdot \enfFun{0{,}8} + (\enfVar{-5}) \cdot \enfFun{0{,}2} = 8 - 1 = 7`}</F>
           <P>
             Ожидаемый выигрыш — 7 монет за бросок. Именно математическое ожидание
             станет нашим главным инструментом для оценки стратегий в условиях

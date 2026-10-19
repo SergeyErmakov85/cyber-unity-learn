@@ -29,7 +29,7 @@ const Chapter2 = () => (
 
     <h3 id="жадная-стратегия" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3"><Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>-жадная стратегия</h3>
     <p>
-      С вероятностью <Math display={false}>{"1 - \\enfPar{\\epsilon}"}</Math> агент выбирает <Math display={false}>{"\\arg\\max_a \\enfOp{\\hat{Q}}_t(\\enfFun{a})"}</Math> (жадно), а с вероятностью <Math display={false}>{"\\enfPar{\\epsilon}"}</Math> — случайное действие. Это гарантирует, что при бесконечном времени каждое действие будет испробовано бесконечно раз.
+      С вероятностью <Math display={false}>{"1 - \\enfPar{\\varepsilon}"}</Math> агент выбирает <Math display={false}>{"\\arg\\max_a \\enfOp{\\hat{Q}}_t(\\enfFun{a})"}</Math> (жадно), а с вероятностью <Math display={false}>{"\\enfPar{\\varepsilon}"}</Math> — случайное действие. Это гарантирует, что при бесконечном времени каждое действие будет испробовано бесконечно раз.
     </p>
 
     <h3 id="верхняя-доверительная-граница-ucb" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">Верхняя доверительная граница (UCB)</h3>

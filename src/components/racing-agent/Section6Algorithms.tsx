@@ -20,11 +20,11 @@ const Section6Algorithms = () => (
         <Math display={false}>{String.raw`\enfFun{\pi}_{\theta_{\text{old}}}`}</Math>. Это достигается через{" "}
         <strong className="text-foreground">clipped surrogate objective</strong>:
       </p>
-      <Math>{String.raw`\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) \;=\; \hat{\mathbb{E}}_t \!\left[\min\!\big(\enfFun{r}_t(\enfPar{\theta})\enfOp{\hat{A}}_t,\; \operatorname{clip}(\enfFun{r}_t(\enfPar{\theta}), 1-\enfPar{\epsilon}, 1+\enfPar{\epsilon})\,\enfOp{\hat{A}}_t\big)\right],`}</Math>
+      <Math>{String.raw`\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) \;=\; \hat{\mathbb{E}}_t \!\left[\min\!\big(\enfFun{r}_t(\enfPar{\theta})\enfOp{\hat{A}}_t,\; \operatorname{clip}(\enfFun{r}_t(\enfPar{\theta}), 1-\enfPar{\varepsilon}, 1+\enfPar{\varepsilon})\,\enfOp{\hat{A}}_t\big)\right],`}</Math>
       <p className="text-sm text-muted-foreground">
         где{" "}
         <Math display={false}>{String.raw`\enfFun{r}_t(\enfPar{\theta}) = \dfrac{\enfFun{\pi}_\theta(\enfFun{a}_t\mid \enfVar{s}_t)}{\enfFun{\pi}_{\theta_{\text{old}}}(\enfFun{a}_t\mid \enfVar{s}_t)}`}</Math>,{" "}
-        <Math display={false}>{String.raw`\enfPar{\epsilon} \approx 0{,}2`}</Math>.
+        <Math display={false}>{String.raw`\enfPar{\varepsilon} \approx 0{,}2`}</Math>.
         Минимум выбирается между «нормальным» и «клиппированным» термами — PPO обновляется только при
         «безопасном» увеличении вероятности действия.
       </p>

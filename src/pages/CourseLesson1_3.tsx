@@ -1,4 +1,6 @@
 import LessonLayout from "@/components/LessonLayout";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import LESSON_SYMBOLS from "@/content/math-symbols/pages/lesson-1-3";
 import Section_Intro from "@/components/math-rl/lesson1_5/Section_Intro";
 import Section_WorldAndState from "@/components/math-rl/lesson1_5/Section_WorldAndState";
 import Section_MarkovProperty from "@/components/math-rl/lesson1_5/Section_MarkovProperty";
@@ -29,6 +31,8 @@ const CourseLesson1_3 = () => {
       nextLesson={{ path: "/courses/1-4", title: "Q-Learning: табличный метод" }}
     >
       <Section_Intro />
+      {/* Символы урока: формула → код (ENF, модуль «Код») */}
+      <SymbolTable {...LESSON_SYMBOLS} />
       {/* промпт 3 — Intro */}
       <Section_WorldAndState />
       {/* промпт 4 — World & State (S, A, T, R, γ) */}

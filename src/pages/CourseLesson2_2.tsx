@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_2_2 from "@/content/math-symbols/pages/lesson-2-2";
 import LessonLayout from "@/components/LessonLayout";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
@@ -195,6 +197,8 @@ const CourseLesson2_2 = () => {
         </section>
 
         {/* === 3. Clipped objective === */}
+        <SymbolTable {...SYMBOLS_LESSON_2_2} />
+
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             <CrossLinkToHub hubPath="/algorithms/ppo" hubAnchor="clipped" hubTitle="PPO — Clipped Objective">

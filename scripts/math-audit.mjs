@@ -383,7 +383,9 @@ for (const [pageRel, page] of pages) {
       langs.add(b.lang);
     }
   }
-  const pythonCode = pageCode;
+  // Колонка таблицы — «В коде (Python)»: имена сверяются только с Python-кодом страницы.
+  let pythonCode = "";
+  for (const f of pageFiles) for (const b of codeBlocksOf(readFileSync(f, "utf8"))) if (b.lang === "python") pythonCode += "\n" + b.code;
   const local = indexEntries([...pageTables].flatMap((id) => tables.get(id).symbols));
   const needsTable = formulaCount > 0 && pageCode.length > 0;
   if (needsTable) pagesWithBoth++;
@@ -480,7 +482,7 @@ if (existsSync(TEXTBOOK)) {
       const lectureCode = code.map((b) => b.code).join("\n");
       for (const e of table.symbols) {
         const ident = /[A-Za-z_][A-Za-z0-9_]*/.exec(e.code ?? "")?.[0];
-        if (ident && !new RegExp(`\\b${ident}\\b`).test(lectureCode))
+        if (ident && code.some((b) => /^(python|py)$/.test(b.lang)) && !new RegExp(`\\b${ident}\\b`).test(lectureCode))
           warn("ENF-SYM-011", `pages/${tableId}.ts «${e.tex}»`, `«${ident}» не встречается в коде лекции`);
       }
     }

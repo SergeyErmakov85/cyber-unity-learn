@@ -1,0 +1,133 @@
+import type { PageSymbols } from "../types";
+
+const r = String.raw;
+
+/**
+ * Урок 1.1 «Что такое RL?» — символы MDP и их место в цикле агент–среда (CartPole, Gymnasium).
+ * Строки сверены с кодом страницы; полноту проверяет npm run math:audit.
+ */
+const table: PageSymbols = {
+  id: "lesson-1-1",
+  caption: r`Символы марковского процесса принятия решений и то, где они появляются в цикле агент–среда на Python.`,
+  symbols: [
+    {
+      tex: r`s`,
+      role: "variable",
+      name: r`Состояние`,
+      meaning: r`Описание текущей ситуации. В CartPole это четыре числа: положение и скорость тележки, угол и угловая скорость шеста.`,
+      inFormula: r`Аргумент почти всех функций RL: политика $\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})$, ценности $\enfOp{V}(\enfVar{s})$ и $\enfOp{Q}(\enfVar{s}, \enfFun{a})$. Формула описывает, что происходит с агентом в этом состоянии.`,
+      code: r`obs`,
+      codeType: r`np.ndarray (4,)`,
+      codeNote: r`Первое наблюдение — \`obs, _ = env.reset(seed=42)\`, следующие — из \`env.step(action)\`.`,
+    },
+    {
+      tex: r`a`,
+      role: "function",
+      name: r`Действие`,
+      meaning: r`Решение агента на шаге. В CartPole два действия: 0 — толкнуть тележку влево, 1 — вправо.`,
+      inFormula: r`Выход политики и аргумент $\enfOp{Q}(\enfVar{s}, \enfFun{a})$. Под $\max_{a'}$ или $\sum_a$ действие перебирается и остаётся без цвета.`,
+      code: r`action`,
+      codeType: r`int (0 или 1)`,
+      codeNote: r`\`action = env.action_space.sample()\` — пока случайное; обучение заменит этот вызов на политику.`,
+    },
+    {
+      tex: r`\pi`,
+      role: "function",
+      name: r`Политика`,
+      meaning: r`Правило выбора действия по состоянию: $\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})$ — вероятность действия $\enfFun{a}$ в состоянии $\enfVar{s}$. Цель обучения — найти политику с наибольшей отдачей.`,
+      inFormula: r`Отображение «состояние → распределение действий» (роль «функция»). Её обучаемые веса $\enfPar{\theta}$ окрашены отдельно, как параметры. В индексе ($\mathbb{E}_\pi$, $\enfOp{V}^\pi$) говорит, по какой политике считается среднее.`,
+      code: r`env.action_space.sample()`,
+      codeType: r`случайная политика`,
+      codeNote: r`В коде урока политика пока случайная. Обученная политика — функция \`policy(obs) -> action\` с той же ролью.`,
+    },
+    {
+      tex: r`T`,
+      role: "function",
+      name: r`Функция переходов`,
+      meaning: r`$\enfFun{T}(\enfVar{s}' \mid \enfVar{s}, \enfFun{a})$ — вероятность оказаться в $\enfVar{s}'$, если в $\enfVar{s}$ сделать $\enfFun{a}$. Это «физика» среды.`,
+      inFormula: r`Преобразование «состояние и действие → следующее состояние». По свойству Маркова зависит только от текущей пары $(\enfVar{s}, \enfFun{a})$, а не от всей истории.`,
+      code: r`env.step(action)`,
+      codeType: r`скрыта внутри среды`,
+      codeNote: r`Агент не знает $\enfFun{T}$ явно: переход выполняет среда, а агент видит только результат — новое \`obs\`.`,
+    },
+    {
+      tex: r`P`,
+      role: "operator",
+      name: r`Вероятность`,
+      meaning: r`$\enfOp{P}(\enfVar{s}_{t+1} \mid \ldots)$ — вероятность следующего состояния при условии того, что записано после черты. Свойство Маркова: условие на всю историю даёт то же, что условие на последний шаг.`,
+      inFormula: r`Сворачивает все возможные исходы в одно число от 0 до 1.`,
+      code: r`env.step(action)`,
+      codeType: r`распределение внутри среды`,
+      codeNote: r`Вероятности переходов спрятаны в среде; в коде видно только одно сыгранное следующее состояние \`obs\`.`,
+    },
+    {
+      tex: r`R`,
+      role: "target",
+      name: r`Функция награды`,
+      meaning: r`$\enfTgt{R}(\enfVar{s}, \enfFun{a})$ — сколько награды среда выдаёт за действие в состоянии. В CartPole +1 за каждый шаг, пока шест не упал.`,
+      inFormula: r`То, что агент максимизирует: слагаемые отдачи и уравнения Беллмана.`,
+      code: r`reward`,
+      codeType: r`float`,
+      codeNote: r`\`obs, reward, done, truncated, info = env.step(action)\`.`,
+    },
+    {
+      tex: r`\gamma`,
+      role: "parameter",
+      name: r`Коэффициент дисконтирования`,
+      meaning: r`Число $0 \le \enfPar{\gamma} < 1$: во сколько раз награда следующего шага весит меньше текущей. Эффективный горизонт — около $1/(1 - \enfPar{\gamma})$ шагов.`,
+      inFormula: r`Настраиваемый множитель перед будущим: $\enfTgt{r} + \enfPar{\gamma}\enfOp{V}(\enfVar{s}')$. Делает бесконечную сумму наград конечной.`,
+      code: r`gamma`,
+      codeType: r`float, обычно 0.99`,
+      codeNote: r`В коде этого урока $\enfPar{\gamma}$ ещё не встречается. Дальше в курсе — \`gamma = 0.99\` в Python и \`reward_signals.extrinsic.gamma\` в YAML ML-Agents.`,
+    },
+    {
+      tex: r`G`,
+      role: "operator",
+      name: r`Отдача (return)`,
+      meaning: r`Дисконтированная сумма будущих наград: $\enfOp{G}_t = \enfTgt{R}_{t+1} + \enfPar{\gamma}\enfTgt{R}_{t+2} + \ldots$ По домовому соглашению пособия отдача — оператор: она сворачивает всю будущую траекторию в одно число.`,
+      inFormula: r`Агрегат будущих наград; удовлетворяет рекурсии $\enfOp{G}_t = \enfTgt{R}_{t+1} + \enfPar{\gamma}\enfOp{G}_{t+1}$, на которой построены уравнения Беллмана.`,
+      code: r`G`,
+      codeType: r`float`,
+      codeNote: r`Считается с конца эпизода одним циклом: \`G = reward + gamma * G\` — так каждое слагаемое получает свою степень $\enfPar{\gamma}$.`,
+    },
+    {
+      tex: r`\mathcal{S}`,
+      role: "neutral",
+      name: r`Пространство состояний`,
+      meaning: r`Множество всех возможных состояний среды. Каллиграфическое начертание обозначает множество — поэтому без цвета.`,
+      code: r`env.observation_space`,
+      codeType: r`Box(4,)`,
+      codeNote: r`Для CartPole — четыре непрерывных координаты.`,
+    },
+    {
+      tex: r`\mathcal{A}`,
+      role: "neutral",
+      name: r`Пространство действий`,
+      meaning: r`Множество всех доступных действий: конечное (кнопки) или непрерывное ($\subseteq \mathbb{R}^d$).`,
+      code: r`env.action_space`,
+      codeType: r`Discrete(2)`,
+      codeNote: r`\`env.action_space.sample()\` — равновероятный выбор из двух действий.`,
+    },
+    {
+      tex: r`\sum`,
+      role: "neutral",
+      name: r`Сумма`,
+      meaning: r`Сложить все слагаемые для индекса от нижнего предела до верхнего.`,
+      code: r`.sum() / цикл`,
+      codeType: r`—`,
+      codeNote: r`Сумма наград эпизода — \`sum(rewards)\`; в формуле нумерация с 1, в Python с 0.`,
+    },
+    {
+      tex: r`\mathbb{E}`,
+      role: "neutral",
+      name: r`Математическое ожидание`,
+      meaning: r`Среднее по распределению: $\mathbb{E}_{\tau \sim \pi}[\ldots]$ — усреднить по всем траекториям политики. По домовому соглашению пособия знак ожидания не окрашивается.`,
+      inFormula: r`Индекс снизу говорит, по чему усредняем ($a \sim \pi$, $s \sim \mathcal{D}$).`,
+      code: r`.mean()`,
+      codeType: r`torch.Tensor (скаляр)`,
+      codeNote: r`Ожидание по эпизодам оценивают средним по сыгранным эпизодам: \`np.mean(episode_returns)\`.`,
+    },
+  ],
+};
+
+export default table;

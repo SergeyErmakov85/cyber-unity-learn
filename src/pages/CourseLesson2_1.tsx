@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_2_1 from "@/content/math-symbols/pages/lesson-2-1";
 import LessonLayout from "@/components/LessonLayout";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
@@ -155,6 +157,8 @@ const CourseLesson2_1 = () => {
         </section>
 
         {/* PyTorch implementation */}
+        <SymbolTable {...SYMBOLS_LESSON_2_1} />
+
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-4">REINFORCE на PyTorch (<CrossLinkToHub hubPath="/pytorch/cheatsheet" hubAnchor="autograd" hubTitle="PyTorch — Autograd">autograd</CrossLinkToHub>)</h2>
 

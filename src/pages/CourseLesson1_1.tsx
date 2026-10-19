@@ -31,6 +31,8 @@ import CrossLinkToHub from "@/components/CrossLinkToHub";
 import rlCycleImg from "@/assets/Reinforcement learning cycle infographic.png";
 import Math from "@/components/Math";
 import RichText from "@/components/math-symbols/RichText";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import LESSON_SYMBOLS from "@/content/math-symbols/pages/lesson-1-1";
 
 const rlCycleSteps = [
   { label: "Агент", sub: "принимает решение", icon: Brain, color: "text-primary" },
@@ -535,10 +537,7 @@ const CourseLesson1_1 = () => {
                 <strong className="text-foreground">Свойство Маркова</strong> гласит: будущее
                 зависит только от текущего состояния, а не от всей истории. Формально:
               </p>
-              <CyberCodeBlock language="pseudo" filename="markov_property.txt">
-                {`# Свойство Маркова: будущее зависит только от текущего состояния
-P(s_{t+1} | s_t, a_t) = P(s_{t+1} | s_1, a_1, ..., s_t, a_t)`}
-              </CyberCodeBlock>
+              <Math>{String.raw`\enfOp{P}(\enfVar{s}_{t+1} \mid \enfVar{s}_t, \enfFun{a}_t) = \enfOp{P}(\enfVar{s}_{t+1} \mid \enfVar{s}_1, \enfFun{a}_1, \ldots, \enfVar{s}_t, \enfFun{a}_t)`}</Math>
               <p className="text-sm text-muted-foreground leading-relaxed mt-3">
                 Это упрощение позволяет эффективно решать задачи RL — нам не нужно помнить всю
                 историю, достаточно текущего состояния. В реальных задачах это свойство не
@@ -578,6 +577,13 @@ P(s_{t+1} | s_t, a_t) = P(s_{t+1} | s_1, a_1, ..., s_t, a_t)`}
           <strong className="text-foreground">CartPole-v1</strong> из библиотеки Gymnasium.
           Здесь агент использует случайную политику — это базовая точка отсчёта, от которой
           мы будем двигаться к настоящему обучению в следующих уроках.
+        </p>
+
+        <SymbolTable {...LESSON_SYMBOLS} />
+        <p className="mb-4 text-sm text-muted-foreground leading-relaxed">
+          Одно соглашение на весь курс: в формулах десятичный разделитель — запятая (
+          <Math display={false}>{String.raw`\enfPar{\gamma} = 0{,}99`}</Math>), а в коде и его выводе — точка (
+          <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">gamma = 0.99</code>), как того требует Python.
         </p>
 
         <CyberCodeBlock language="python" filename="cartpole_random.py">

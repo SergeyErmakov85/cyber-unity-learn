@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_2_6 from "@/content/math-symbols/pages/lesson-2-6";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -291,7 +293,10 @@ const CourseLesson2_6 = () => {
             ) : s.id === "why-visualize" ? (
               <WhyVisualizeSection />
             ) : s.id === "metrics" ? (
-              <MetricsTable />
+              <>
+                <MetricsTable />
+                <SymbolTable {...SYMBOLS_LESSON_2_6} variant="section" className="mt-8" />
+              </>
             ) : s.id === "tensorboard" ? (
               <TensorBoardSection />
             ) : s.id === "wandb" ? (

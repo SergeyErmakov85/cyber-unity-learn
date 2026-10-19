@@ -31,7 +31,7 @@ const RoleMark = ({ role }: { role: EnfRoleOrNeutral }) => (
 );
 
 const CodeChip = ({ code }: { code: string }) => (
-  <code className="inline-block rounded-md border border-primary/25 bg-primary/10 px-1.5 py-0.5 font-mono text-[12px] text-primary">
+  <code className="inline-block break-all rounded-md border border-primary/25 bg-primary/10 px-1.5 py-0.5 font-mono text-[12px] text-primary">
     {code}
   </code>
 );
@@ -39,9 +39,15 @@ const CodeChip = ({ code }: { code: string }) => (
 interface SymbolTableProps extends PageSymbols {
   title?: string;
   className?: string;
+  /**
+   * "card" — самостоятельная стеклянная карточка (по умолчанию);
+   * "section" — таблица внутри раздела урока, у которого уже есть своя рамка:
+   * без внешней карточки и отступов, чтобы не было «карточки в карточке».
+   */
+  variant?: "card" | "section";
 }
 
-const SymbolTable = ({ id, caption, symbols, title, className = "" }: SymbolTableProps) => {
+const SymbolTable = ({ id, caption, symbols, title, className = "", variant = "card" }: SymbolTableProps) => {
   const [expanded, setExpanded] = useState(symbols.length <= COLLAPSED_ROWS + 2);
 
   useEffect(() => {
@@ -56,7 +62,9 @@ const SymbolTable = ({ id, caption, symbols, title, className = "" }: SymbolTabl
     <section
       id={`enf-symbols-${id}`}
       data-enf-scope={id}
-      className={`scroll-mt-24 my-8 overflow-hidden rounded-2xl border border-primary/20 bg-card/60 backdrop-blur-sm ${className}`}
+      className={`scroll-mt-24 overflow-hidden rounded-2xl border border-primary/20 ${
+        variant === "card" ? "my-8 bg-card/60 backdrop-blur-sm" : "bg-background/30"
+      } ${className}`}
     >
       <header className="flex flex-col gap-4 border-b border-primary/10 bg-gradient-to-r from-primary/10 via-secondary/5 to-transparent p-5 md:flex-row md:items-start md:p-6">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-primary/10 shadow-[0_0_24px_hsl(var(--primary)/0.35)]">
@@ -90,11 +98,10 @@ const SymbolTable = ({ id, caption, symbols, title, className = "" }: SymbolTabl
         <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="border-b border-primary/10 text-left font-heading text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-              <th className="w-[12%] px-5 py-3 font-medium">Символ</th>
+              <th className="w-[11%] px-5 py-3 font-medium">Символ</th>
               <th className="px-3 py-3 font-medium">Смысл</th>
-              <th className="w-[11%] px-3 py-3 font-medium">Роль</th>
-              <th className="w-[22%] px-3 py-3 font-medium">В коде (Python)</th>
-              <th className="w-[16%] px-5 py-3 font-medium">Тип и форма</th>
+              <th className="w-[12%] px-3 py-3 font-medium">Роль</th>
+              <th className="w-[34%] px-5 py-3 font-medium">В коде (Python)</th>
             </tr>
           </thead>
           <tbody>
@@ -115,16 +122,16 @@ const SymbolTable = ({ id, caption, symbols, title, className = "" }: SymbolTabl
                 <td className="px-3 py-3">
                   <RoleMark role={entry.role} />
                 </td>
-                <td className="px-3 py-3 leading-relaxed">
-                  {entry.code ? <CodeChip code={entry.code} /> : <span className="text-muted-foreground">—</span>}
+                <td className="px-5 py-3 leading-relaxed">
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                    {entry.code ? <CodeChip code={entry.code} /> : <span className="text-muted-foreground">—</span>}
+                    {entry.codeType && <span className="font-mono text-[11px] text-muted-foreground">{entry.codeType}</span>}
+                  </div>
                   {entry.codeNote && (
                     <div className="mt-1.5 text-xs text-muted-foreground">
                       <RichText text={entry.codeNote} />
                     </div>
                   )}
-                </td>
-                <td className="px-5 py-3 font-mono text-xs leading-relaxed text-muted-foreground">
-                  {entry.codeType ?? "—"}
                 </td>
               </tr>
             ))}

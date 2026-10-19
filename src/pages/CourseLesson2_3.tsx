@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_2_3 from "@/content/math-symbols/pages/lesson-2-3";
 import LessonLayout from "@/components/LessonLayout";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
@@ -64,7 +66,7 @@ const quizQuestions = [
     question: "Почему SAC называют «soft»?",
     options: [
       "Использует менее агрессивный оптимизатор",
-      "Целевая функция включает энтропийный бонус $\\enfPar{\\alpha} \\cdot \\enfOp{H}(\\enfFun{\\pi})$, который поощряет разнообразные, а не только лучшие действия",
+      "Целевая функция включает энтропийный бонус $\\enfPar{\\alpha} \\cdot \\enfOp{\\mathcal{H}}(\\enfFun{\\pi})$, который поощряет разнообразные, а не только лучшие действия",
       "Работает только с мягкими телами в физике",
       "Использует float16 вместо float32",
     ],
@@ -347,6 +349,8 @@ const CourseLesson2_3 = () => {
         </section>
 
         {/* ===================== СЕКЦИЯ 2.5: PyTorch Actor-Critic ===================== */}
+        <SymbolTable {...SYMBOLS_LESSON_2_3} />
+
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-4">
             Actor-Critic для непрерывных действий — код

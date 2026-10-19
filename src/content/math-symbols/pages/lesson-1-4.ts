@@ -1,0 +1,130 @@
+import type { PageSymbols } from "../types";
+
+const r = String.raw;
+
+/**
+ * Урок 1.4 «Q-Learning: табличный метод» — символы формулы Q-обучения и их имена в коде FrozenLake.
+ * Строки сверены с кодом страницы; полноту проверяет npm run math:audit.
+ */
+const table: PageSymbols = {
+  id: "lesson-1-4",
+  caption: r`Символы формулы Q-обучения и то, как они называются в коде FrozenLake на этой странице.`,
+  symbols: [
+    {
+      tex: r`s`,
+      role: "variable",
+      name: r`Состояние`,
+      meaning: r`Клетка, в которой стоит агент: во FrozenLake 4×4 это номер от 0 до 15. $\enfVar{s}'$ — клетка после шага.`,
+      inFormula: r`Аргумент почти всех функций RL: политика $\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})$, ценности $\enfOp{V}(\enfVar{s})$ и $\enfOp{Q}(\enfVar{s}, \enfFun{a})$. Формула описывает, что происходит с агентом в этом состоянии.`,
+      code: r`state`,
+      codeType: r`int (0…15)`,
+      codeNote: r`Приходит из среды: \`state, info = env.reset()\`, следующее — \`new_state\` из \`env.step(action)\`.`,
+    },
+    {
+      tex: r`a`,
+      role: "function",
+      name: r`Действие`,
+      meaning: r`Шаг агента: 0 — влево, 1 — вниз, 2 — вправо, 3 — вверх.`,
+      inFormula: r`Выход политики и аргумент $\enfOp{Q}(\enfVar{s}, \enfFun{a})$. Под $\max_{a'}$ или $\sum_a$ действие перебирается и остаётся без цвета.`,
+      code: r`action`,
+      codeType: r`int (0…3)`,
+      codeNote: r`Случайное при исследовании — \`env.action_space.sample()\`, лучшее по таблице — \`np.argmax(Q_table[state, :])\`.`,
+    },
+    {
+      tex: r`r`,
+      role: "target",
+      name: r`Награда`,
+      meaning: r`Награда за один шаг: во FrozenLake 1 за подарок, 0 за любой другой ход.`,
+      inFormula: r`Цель обучения: стоит в отдаче $\enfOp{G}_t$, в TD-цели $\enfTgt{r} + \enfPar{\gamma}\enfOp{V}(\enfVar{s}')$ и в целевой функции $\enfTgt{J}$.`,
+      code: r`reward`,
+      codeType: r`float (0.0 или 1.0)`,
+      codeNote: r`В коде страницы: \`new_state, reward, done, truncated, info = env.step(action)\`.`,
+    },
+    {
+      tex: r`R`,
+      role: "target",
+      name: r`Функция награды`,
+      meaning: r`$\enfTgt{R}: \mathcal{S} \times \mathcal{A} \to \mathbb{R}$ — правило, по которому среда назначает награду за действие в клетке. Агент саму функцию не видит, только её значения $\enfTgt{r}$.`,
+      code: r`reward`,
+      codeType: r`float`,
+      codeNote: r`Функцию задаёт среда, в коде доступны её значения: \`new_state, reward, done, truncated, info = env.step(action)\`.`,
+    },
+    {
+      tex: r`\pi`,
+      role: "function",
+      name: r`Политика`,
+      meaning: r`Правило выбора действия. В Q-обучении политика не хранится отдельно, она выводится из таблицы: с вероятностью $1 - \enfPar{\varepsilon}$ — жадно $\arg\max_a \enfOp{Q}(\enfVar{s}, a)$, иначе случайный шаг.`,
+      code: r`np.argmax(Q_table[state, :])`,
+      codeType: r`int`,
+      codeNote: r`Исследование и использование в коде: \`if exp_tradeoff < epsilon: action = env.action_space.sample()\`, иначе — \`np.argmax\` по строке таблицы.`,
+    },
+    {
+      tex: r`Q`,
+      role: "operator",
+      name: r`Q-таблица`,
+      meaning: r`$\enfOp{Q}(\enfVar{s}, \enfFun{a})$ — оценка суммарной дисконтированной награды, если в клетке $\enfVar{s}$ сделать шаг $\enfFun{a}$ и дальше действовать жадно. Хранится таблицей 16 × 4.`,
+      inFormula: r`Агрегат будущих наград для пары «состояние—действие». Жадная политика выбирает $\arg\max_a \enfOp{Q}(\enfVar{s}, a)$.`,
+      code: r`Q_table`,
+      codeType: r`np.ndarray (16, 4)`,
+      codeNote: r`\`Q_table = np.zeros((state_size, action_size))\`; ячейка $\enfOp{Q}(\enfVar{s}, \enfFun{a})$ — \`Q_table[state, action]\`.`,
+    },
+    {
+      tex: r`\alpha`,
+      role: "parameter",
+      name: r`Скорость обучения`,
+      meaning: r`Доля TD-ошибки, на которую сдвигается старая оценка: при $\enfPar{\alpha} = 1$ ячейка заменяется новой оценкой, при $\enfPar{\alpha} = 0$ агент не учится.`,
+      inFormula: r`Множитель перед скобкой $\left[\enfTgt{r} + \enfPar{\gamma}\max_{a'}\enfOp{Q}(\enfVar{s}', a') - \enfOp{Q}(\enfVar{s}, a)\right]$.`,
+      code: r`learning_rate`,
+      codeType: r`float = 0.8`,
+      codeNote: r`\`Q_table[state, action] = Q_table[state, action] + learning_rate * td_error\`.`,
+    },
+    {
+      tex: r`\gamma`,
+      role: "parameter",
+      name: r`Коэффициент дисконтирования`,
+      meaning: r`Число $0 \le \enfPar{\gamma} < 1$: во сколько раз награда следующего шага весит меньше текущей. Эффективный горизонт — около $1/(1 - \enfPar{\gamma})$ шагов.`,
+      inFormula: r`Настраиваемый множитель перед будущим: $\enfTgt{r} + \enfPar{\gamma}\enfOp{V}(\enfVar{s}')$. Делает бесконечную сумму наград конечной.`,
+      code: r`gamma`,
+      codeType: r`float = 0.95`,
+      codeNote: r`\`td_target = reward + gamma * np.max(Q_table[new_state, :])\`.`,
+    },
+    {
+      tex: r`\varepsilon`,
+      role: "parameter",
+      name: r`Доля случайных шагов (исследование)`,
+      meaning: r`С вероятностью $\enfPar{\varepsilon}$ агент делает случайный шаг, иначе — лучший по таблице. Начинает с 1 (только исследование) и экспоненциально убывает до 0,01.`,
+      code: r`epsilon`,
+      codeType: r`float, 1.0 → 0.01`,
+      codeNote: r`После каждого эпизода: \`epsilon = min_epsilon + (max_epsilon - min_epsilon) * np.exp(-decay_rate * episode)\`.`,
+    },
+    {
+      tex: r`\max`,
+      role: "neutral",
+      name: r`Максимум по действиям`,
+      meaning: r`$\max_{a'} \enfOp{Q}(\enfVar{s}', a')$ — лучшая оценка в следующей клетке. Переменная $a'$ перебирается и остаётся без цвета.`,
+      code: r`np.max(Q_table[new_state, :])`,
+      codeType: r`float`,
+      codeNote: r`Максимум по строке таблицы — по всем четырём действиям.`,
+    },
+    {
+      tex: r`\mathcal{S}`,
+      role: "neutral",
+      name: r`Пространство состояний`,
+      meaning: r`Множество всех возможных состояний среды. Каллиграфическое начертание обозначает множество — поэтому без цвета.`,
+      code: r`observation_space`,
+      codeType: r`Discrete(16)`,
+      codeNote: r`В коде страницы: \`state_size = env.observation_space.n\`.`,
+    },
+    {
+      tex: r`\mathcal{A}`,
+      role: "neutral",
+      name: r`Пространство действий`,
+      meaning: r`Множество всех доступных действий: конечное (кнопки) или непрерывное ($\subseteq \mathbb{R}^d$).`,
+      code: r`action_space`,
+      codeType: r`Discrete(4)`,
+      codeNote: r`В коде страницы: \`action_size = env.action_space.n\`.`,
+    },
+  ],
+};
+
+export default table;

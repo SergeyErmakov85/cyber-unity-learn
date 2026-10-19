@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_1_5 from "@/content/math-symbols/pages/lesson-1-5";
 import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
@@ -166,6 +168,8 @@ const CourseLesson1_5 = () => {
       </section>
 
       {/* ── Gymnasium install ── */}
+      <SymbolTable {...SYMBOLS_LESSON_1_5} />
+
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">Установка Gymnasium</h2>
         <p className="text-muted-foreground leading-relaxed mb-4">

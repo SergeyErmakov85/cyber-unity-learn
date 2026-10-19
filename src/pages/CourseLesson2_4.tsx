@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_2_4 from "@/content/math-symbols/pages/lesson-2-4";
 import LessonLayout from "@/components/LessonLayout";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import ProGate from "@/components/ProGate";
@@ -105,6 +107,8 @@ const CourseLesson2_4 = () => {
         {preview}
 
         {/* ───────── 1. Sparse vs Dense ───────── */}
+        <SymbolTable {...SYMBOLS_LESSON_2_4} />
+
         <section id="mod1" className="scroll-mt-28">
           <div className="flex items-center gap-3 mb-4">
             <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/15 text-primary font-bold border border-primary/30">1</span>

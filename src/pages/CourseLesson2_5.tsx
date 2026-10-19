@@ -1,3 +1,5 @@
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import SYMBOLS_LESSON_2_5 from "@/content/math-symbols/pages/lesson-2-5";
 import { useEffect, useState } from "react";
 import MathTex from "@/components/Math";
 import { motion } from "framer-motion";
@@ -239,11 +241,12 @@ const CourseLesson2_5 = () => {
             <p className="text-muted-foreground leading-relaxed mt-4">
               Усечённая (clipped) функция потерь PPO, особо чувствительная к качеству батча:
             </p>
-            <MathFormula display>{String.raw`\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) = \mathbb{E}_t \left[ \min\left( \enfFun{r}_t(\enfPar{\theta}) \, \enfOp{\hat{A}}_t, \; \operatorname{clip}(\enfFun{r}_t(\enfPar{\theta}), 1-\enfPar{\epsilon}, 1+\enfPar{\epsilon}) \, \enfOp{\hat{A}}_t \right) \right]`}</MathFormula>
+            <MathFormula display>{String.raw`\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) = \mathbb{E}_t \left[ \min\left( \enfFun{r}_t(\enfPar{\theta}) \, \enfOp{\hat{A}}_t, \; \operatorname{clip}(\enfFun{r}_t(\enfPar{\theta}), 1-\enfPar{\varepsilon}, 1+\enfPar{\varepsilon}) \, \enfOp{\hat{A}}_t \right) \right]`}</MathFormula>
             <p className="text-muted-foreground leading-relaxed text-sm">
               Параметр <MathTex display={false}>{String.raw`\enfPar{\varepsilon} = 0{,}2`}</MathTex> ограничивает размер шага. Параллельные среды дают
               устойчивую оценку GAE из разнообразных начальных состояний.
             </p>
+            <SymbolTable {...SYMBOLS_LESSON_2_5} variant="section" className="mt-6" />
           </Section>
 
           <Section id="levels" index={2} title="Два уровня распараллеливания">
@@ -424,7 +427,7 @@ mlagents-learn config/trainer.yaml \\
 
           <Section id="hyperparams" index={6} title="Масштабирование гиперпараметров">
             <h3 className="text-lg font-bold text-foreground mb-2">Правило buffer_size</h3>
-            <MathFormula display>{String.raw`\text{buffer\_size}_{\text{new}} = \text{buffer\_size}_{base} \times \text{num\_envs}`}</MathFormula>
+            <MathFormula display>{String.raw`\text{buffer\_size}_{\text{new}} = \text{buffer\_size}_{\text{base}} \times \text{num\_envs}`}</MathFormula>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Если базовый буфер для 1 среды = 10240, то для <code className="text-primary">--num-envs=4</code> →
               минимум 40960. Иначе буфер заполняется коррелированным куском данных, и преимущество декорреляции аннулируется.
@@ -449,7 +452,7 @@ mlagents-learn config/trainer.yaml \\
             </Card>
 
             <h3 className="text-lg font-bold text-foreground mt-6 mb-2">Компромисс time_horizon</h3>
-            <MathFormula display>{String.raw`\text{time\_horizon} \times N_{agents} \times N_{envs} \le \text{buffer\_size}`}</MathFormula>
+            <MathFormula display>{String.raw`\text{time\_horizon} \times N_{\text{agents}} \times N_{\text{envs}} \le \text{buffer\_size}`}</MathFormula>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Диапазон 32–2048. Иначе буфер переполнится до завершения локальных горизонтов — расчёт GAE сломается.
             </p>

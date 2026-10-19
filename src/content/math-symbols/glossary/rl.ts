@@ -581,11 +581,11 @@ export const RL_SYMBOLS: SymbolEntry[] = [
   {
     tex: r`\epsilon`,
     role: "parameter",
-    name: "Эпсилон (клиппинг / исследование)",
-    meaning: r`То же, что $\enfPar{\varepsilon}$, другое начертание: ширина клиппинга PPO или вероятность случайного действия.`,
-    inFormula: r`Настраиваемая граница.`,
-    code: "epsilon",
-    codeType: "float",
+    name: "Константа численной устойчивости",
+    meaning: r`Малое число в знаменателе адаптивных оптимизаторов (Adam, RMSProp): $\enfPar{\epsilon} = 10^{-8}$ не даёт делить на ноль, когда накопленный квадрат градиента почти нулевой. Ширина клиппинга PPO и доля исследования на сайте обозначаются $\enfPar{\varepsilon}$.`,
+    inFormula: r`Настраиваемая добавка к знаменателю: $\sqrt{\hat{v}} + \enfPar{\epsilon}$.`,
+    code: "eps",
+    codeType: "float = 1e-8",
   },
   {
     tex: r`\epsilon`,

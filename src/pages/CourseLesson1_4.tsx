@@ -4,6 +4,8 @@ import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { Card, CardContent } from "@/components/ui/card";
 import Math from "@/components/Math";
 import RichText from "@/components/math-symbols/RichText";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import LESSON_SYMBOLS from "@/content/math-symbols/pages/lesson-1-4";
 import { Lightbulb, BookOpen, CheckCircle2, AlertTriangle, Table2, ArrowRight } from "lucide-react";
 
 const PYTHON_IMPLEMENTATION = `import numpy as np
@@ -407,6 +409,8 @@ const CourseLesson1_4 = () => {
           стратегию.
         </p>
       </section>
+
+      <SymbolTable {...LESSON_SYMBOLS} />
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">

@@ -73,11 +73,11 @@ const Part4Optimization = () => (
       <Math>{`\\enfOp{v}_t = \\enfPar{\\beta}_1\\,\\enfOp{v}_{t-1} + (1-\\enfPar{\\beta}_1)\\,\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}), \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\enfOp{v}_t`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="2-rmsprop">2. RMSProp</h3>
-      <Math>{`\\enfOp{s}_t = \\enfPar{\\beta}_2\\,\\enfOp{s}_{t-1} + (1-\\enfPar{\\beta}_2)\\,(\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}))^2, \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\frac{\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1})}{\\sqrt{\\enfOp{s}_t} + \\enfPar{\\varepsilon}}`}</Math>
+      <Math>{`\\enfOp{s}_t = \\enfPar{\\beta}_2\\,\\enfOp{s}_{t-1} + (1-\\enfPar{\\beta}_2)\\,(\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}))^2, \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\frac{\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1})}{\\sqrt{\\enfOp{s}_t} + \\enfPar{\\epsilon}}`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="3-adam-adaptive-moment-estimation">3. Adam (Adaptive Moment Estimation)</h3>
       <p>
-        Комбинирует моменты первого и второго порядка. Параметры по умолчанию: <Math display={false}>{`\\enfPar{\\beta}_1 = 0{,}9`}</Math>, <Math display={false}>{`\\enfPar{\\beta}_2 = 0{,}999`}</Math>, <Math display={false}>{`\\enfPar{\\varepsilon} = 10^{-8}`}</Math>.
+        Комбинирует моменты первого и второго порядка. Параметры по умолчанию: <Math display={false}>{`\\enfPar{\\beta}_1 = 0{,}9`}</Math>, <Math display={false}>{`\\enfPar{\\beta}_2 = 0{,}999`}</Math>, <Math display={false}>{`\\enfPar{\\epsilon} = 10^{-8}`}</Math>.
       </p>
 
       <InfoBox color="accent" title="Unity ML-Agents">
@@ -97,9 +97,9 @@ const Part4Optimization = () => (
       <p>Определим отношение вероятностей:</p>
       <Math>{`\\enfFun{r}(\\enfPar{\\theta}) = \\frac{\\enfFun{\\pi}_{\\theta}(\\enfFun{a} \\mid \\enfVar{s})}{\\enfFun{\\pi}_{\\theta_{\\text{old}}}(\\enfFun{a} \\mid \\enfVar{s})}`}</Math>
       <p>Целевая функция PPO-Clip:</p>
-      <Math>{`\\enfTgt{L}(\\enfPar{\\theta}) = \\min\\!\\Big[\\enfFun{r}(\\enfPar{\\theta})\\,\\enfOp{A},\\;\\; \\operatorname{clip}\\big(\\enfFun{r}(\\enfPar{\\theta}),\\, 1-\\enfPar{\\epsilon},\\, 1+\\enfPar{\\epsilon}\\big)\\,\\enfOp{A}\\Big]`}</Math>
+      <Math>{`\\enfTgt{L}(\\enfPar{\\theta}) = \\min\\!\\Big[\\enfFun{r}(\\enfPar{\\theta})\\,\\enfOp{A},\\;\\; \\operatorname{clip}\\big(\\enfFun{r}(\\enfPar{\\theta}),\\, 1-\\enfPar{\\varepsilon},\\, 1+\\enfPar{\\varepsilon}\\big)\\,\\enfOp{A}\\Big]`}</Math>
       <p>
-        где <Math display={false}>{`\\enfOp{A}`}</Math> — Advantage, а <Math display={false}>{`\\enfPar{\\epsilon} \\approx 0{,}1 \\ldots 0{,}2`}</Math>.
+        где <Math display={false}>{`\\enfOp{A}`}</Math> — Advantage, а <Math display={false}>{`\\enfPar{\\varepsilon} \\approx 0{,}1 \\ldots 0{,}2`}</Math>.
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="гиперпараметры-ppo">Гиперпараметры PPO</h3>
@@ -121,7 +121,7 @@ const Part4Optimization = () => (
               <td className="p-3"><Math display={false}>{`0{,}95 \\ldots 0{,}99`}</Math></td>
             </tr>
             <tr className="border-b border-border/20">
-              <td className="p-3">Клиповый порог <Math display={false}>{`\\enfPar{\\epsilon}`}</Math></td>
+              <td className="p-3">Клиповый порог <Math display={false}>{`\\enfPar{\\varepsilon}`}</Math></td>
               <td className="p-3"><Math display={false}>{`0{,}1 \\ldots 0{,}2`}</Math></td>
             </tr>
             <tr className="border-b border-border/20">
