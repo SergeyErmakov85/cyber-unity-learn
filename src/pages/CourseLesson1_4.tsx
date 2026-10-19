@@ -2,94 +2,66 @@ import { Link } from "react-router-dom";
 import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { Card, CardContent } from "@/components/ui/card";
-import Math from "@/components/Math";
+import InteractiveMath from "@/components/lesson-1-4/InteractiveMath";
+import MathSymbolsReference from "@/components/lesson-1-4/MathSymbolsReference";
+import { symbolTex } from "@/components/lesson-1-4/symbol-data";
 import { Lightbulb, BookOpen, CheckCircle2, AlertTriangle, Table2, ArrowRight } from "lucide-react";
 
 const PYTHON_IMPLEMENTATION = `import numpy as np
 import gymnasium as gym
 import random
 
-# ==========================================
-# ШАГ 1: Настройка среды и фиксация случайности
-# ==========================================
-# Фиксация seed предотвращает проблему "невоспроизводимых результатов".
+# Фиксируем генераторы случайных чисел для воспроизводимости.
 seed = 42
 np.random.seed(seed)
 random.seed(seed)
 
-# Создание классической среды FrozenLake (Замерзшее озеро) на карте 4x4.
-# is_slippery=False означает, что мы отключаем случайное скольжение по льду,
-# чтобы агент двигался строго в выбранном направлении.
+# FrozenLake 4x4 с детерминированными переходами.
 env = gym.make("FrozenLake-v1", map_name="4x4", is_slippery=False)
 env.action_space.seed(seed)
 
-# Определение размерности пространства
 state_size = env.observation_space.n
 action_size = env.action_space.n
-
-# ==========================================
-# ШАГ 2: Инициализация Q-таблицы и гиперпараметров
-# ==========================================
-# Создаем таблицу размером 16x4, изначально заполненную нулями.
 Q_table = np.zeros((state_size, action_size))
 
-# Математические параметры алгоритма
 total_episodes = 2000
 learning_rate = 0.8
 gamma = 0.95
 
-# Параметры epsilon-жадной стратегии
 epsilon = 1.0
 max_epsilon = 1.0
 min_epsilon = 0.01
 decay_rate = 0.005
 
-# ==========================================
-# ШАГ 3: Тренировочный цикл (Обучение)
-# ==========================================
 print("Начало обучения агента...")
 
 for episode in range(total_episodes):
-    # Сброс среды для начала нового эпизода. Получаем стартовое состояние.
     state, info = env.reset(seed=seed if episode == 0 else None)
-    done = False
+    terminated = False
+    truncated = False
 
-    # Внутренний цикл: пока агент не упадет в прорубь или не найдет цель
-    while not done:
-        # 1. Выбор действия (epsilon-greedy policy)
+    while not (terminated or truncated):
         exp_tradeoff = random.uniform(0, 1)
-
         if exp_tradeoff < epsilon:
-            # Исследование: выбираем случайное действие
             action = env.action_space.sample()
         else:
-            # Использование: действие с максимальным Q-значением
             action = np.argmax(Q_table[state, :])
 
-        # 2. Выполнение действия в среде
-        # Среда возвращает: новое состояние, награду, флаг окончания,
-        # флаг прерывания и дополнительную информацию.
-        new_state, reward, done, truncated, info = env.step(action)
+        new_state, reward, terminated, truncated, info = env.step(action)
 
-        # 3. Обновление Q-таблицы (Уравнение Беллмана)
-        td_target = reward + gamma * np.max(Q_table[new_state, :])
+        # Терминальный исход отключает bootstrap; truncation его сохраняет.
+        bootstrap_value = 0.0 if terminated else np.max(Q_table[new_state, :])
+        td_target = reward + gamma * bootstrap_value
         td_error = td_target - Q_table[state, action]
-        Q_table[state, action] = Q_table[state, action] + learning_rate * td_error
+        Q_table[state, action] += learning_rate * td_error
 
-        # 4. Переход в новое состояние
         state = new_state
 
-        # Завершение цикла шагов, если игра окончена
-        if done or truncated:
-            break
-
-    # Обновление (уменьшение) значения epsilon после каждого эпизода
     epsilon = min_epsilon + (max_epsilon - min_epsilon) * np.exp(-decay_rate * episode)
 
 print("Обучение завершено!\\n")
-print("Финальная Q-таблица (Обученный мозг агента):")
+print("Финальная Q-таблица:")
 print(np.round(Q_table, 3))`;
-
 const SEED_SNIPPET = `import random
 import numpy as np
 
@@ -98,6 +70,29 @@ def seed_everything(seed=42):
     np.random.seed(seed)
     # В реальных проектах также фиксируют зерна в средах gym`;
 
+const qPair = (stateLatex: string, actionLatex: string) =>
+  symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") +
+  symbolTex("state", "Var", stateLatex) + symbolTex("comma", "Neu", ", ") +
+  symbolTex("action", "Var", actionLatex) + symbolTex("delimiters", "Neu", ")");
+const qCurrent = qPair("s_t", "a_t");
+const qNext = symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") +
+  symbolTex("nextState", "Var", "s_{t+1}") + symbolTex("comma", "Neu", ", ") +
+  symbolTex("nextAction", "Neu", "a'") + symbolTex("delimiters", "Neu", ")");
+const Q_TARGET_FORMULA =
+  symbolTex("target", "Tgt", "y_t") + " " + symbolTex("equals", "Neu", "=") + " " +
+  symbolTex("reward", "Tgt", "r_{t+1}") + " " + symbolTex("plus", "Neu", "+") + " " +
+  symbolTex("gamma", "Par", "\\gamma") + " " + symbolTex("times", "Neu", "\\times") + " " +
+  symbolTex("delimiters", "Neu", "(") + symbolTex("one", "Neu", "1") + " " +
+  symbolTex("minus", "Neu", "-") + " " + symbolTex("terminal", "Neu", "d_t") +
+  symbolTex("delimiters", "Neu", ")") + " " + symbolTex("times", "Neu", "\\times") + " " +
+  symbolTex("max", "Op", "\\max") + "_{" + symbolTex("nextAction", "Neu", "a'") + "} " + qNext;
+const TD_ERROR_FORMULA =
+  symbolTex("tdError", "Var", "\\delta_t") + " " + symbolTex("equals", "Neu", "=") + " " +
+  symbolTex("target", "Tgt", "y_t") + " " + symbolTex("minus", "Neu", "-") + " " + qCurrent;
+const Q_UPDATE_FORMULA =
+  qCurrent + " " + symbolTex("arrow", "Neu", "\\leftarrow") + " " + qCurrent + " " +
+  symbolTex("plus", "Neu", "+") + " " + symbolTex("alpha", "Par", "\\alpha") + " " +
+  symbolTex("times", "Neu", "\\times") + " " + symbolTex("tdError", "Var", "\\delta_t");
 const CourseLesson1_4 = () => {
   return (
     <LessonLayout
@@ -164,7 +159,7 @@ const CourseLesson1_4 = () => {
           <CardContent className="p-4 flex gap-3 items-start">
             <BookOpen className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Формальная теория MDP (множества S, A, переходы T, награда R, γ,
+              Формальная теория MDP (множества состояний и действий, переходы среды, функция награды,
               уравнение Беллмана и Value Iteration) подробно разобрана в{" "}
               <Link
                 to="/courses/1-3"
@@ -197,18 +192,18 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Состояние (State)</td>
                 <td className="p-3">
-                  <Math display={false}>s</Math>
+                  <InteractiveMath display={false}>{symbolTex("stateGeneric", "Var", "s")}</InteractiveMath>
                 </td>
                 <td className="p-3">
                   Полное описание текущего положения агента в среде. Множество всех
-                  состояний обозначается как <Math display={false}>S</Math>.
+                  состояний обозначается как <InteractiveMath display={false}>{symbolTex("setS", "Neu", "\mathcal{S}")}</InteractiveMath>.
                 </td>
-                <td className="p-3">Координаты робота: например, x=2, y=3.</td>
+                <td className="p-3">Например: робот находится во второй строке и третьем столбце.</td>
               </tr>
               <tr>
                 <td className="p-3 font-medium text-foreground">Действие (Action)</td>
                 <td className="p-3">
-                  <Math display={false}>a</Math>
+                  <InteractiveMath display={false}>{symbolTex("actionGeneric", "Var", "a")}</InteractiveMath>
                 </td>
                 <td className="p-3">
                   Конкретный шаг, принимаемый агентом в ответ на состояние.
@@ -218,20 +213,20 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Награда (Reward)</td>
                 <td className="p-3">
-                  <Math display={false}>r</Math>
+                  <InteractiveMath display={false}>{symbolTex("rewardGeneric", "Tgt", "r")}</InteractiveMath>
                 </td>
                 <td className="p-3">
                   Числовой сигнал обратной связи после действия.
                   <div className="mt-1">
-                    <Math display={false}>{`\\enfTgt{R}: S \\times A \\to \\mathbb{\\enfTgt{R}}`}</Math>
+                    <InteractiveMath display={false}>{symbolTex("rewardFunction", "Fun", "\mathcal{R}") + symbolTex("colon", "Neu", ": ") + symbolTex("setS", "Neu", "\mathcal{S}") + " " + symbolTex("product", "Neu", "\times") + " " + symbolTex("setA", "Neu", "\mathcal{A}") + " " + symbolTex("maps", "Neu", "\to") + " " + symbolTex("real", "Neu", "\mathbb{R}")}</InteractiveMath>
                   </div>
                 </td>
-                <td className="p-3">+10 за батарею, -1 за стену, -100 за яму.</td>
+                <td className="p-3">награда за батарею, штраф за стену и более крупный штраф за яму.</td>
               </tr>
               <tr>
                 <td className="p-3 font-medium text-foreground">Стратегия (Policy)</td>
                 <td className="p-3">
-                  <Math display={false}>\pi</Math>
+                  <InteractiveMath display={false}>{symbolTex("policy", "Fun", "\pi")}</InteractiveMath>
                 </td>
                 <td className="p-3">
                   Набор правил, определяющий поведение агента.
@@ -241,7 +236,7 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Q-значение (Q-value)</td>
                 <td className="p-3">
-                  <Math display={false}>Q(s, a)</Math>
+                  <InteractiveMath display={false}>{symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") + symbolTex("stateGeneric", "Var", "s") + symbolTex("comma", "Neu", ", ") + symbolTex("actionGeneric", "Var", "a") + symbolTex("delimiters", "Neu", ")")}</InteractiveMath>
                 </td>
                 <td className="p-3">
                   Оценка ожидаемой долгосрочной полезности выбора действия в состоянии.
@@ -252,7 +247,7 @@ const CourseLesson1_4 = () => {
           </table>
         </div>
         <p className="text-muted-foreground leading-relaxed mt-4">
-          Чтобы эти термины сложились в единую картину, рассмотрим лабиринт 3х3.
+          Чтобы эти термины сложились в единую картину, рассмотрим лабиринт размером три на три.
           Агент стартует в нижнем левом углу, а цель Q-обучения — выучить идеальную
           стратегию для всех клеток.
         </p>
@@ -263,7 +258,7 @@ const CourseLesson1_4 = () => {
         <p className="text-muted-foreground leading-relaxed mb-3">
           Табличный Q-learning строит и постоянно обновляет двумерную Q-таблицу:
           строки — состояния, столбцы — действия, а в ячейках хранится «качество»
-          пары <Math display={false}>Q(s, a)</Math>.
+          пары <InteractiveMath display={false}>{symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") + symbolTex("stateGeneric", "Var", "s") + symbolTex("comma", "Neu", ", ") + symbolTex("actionGeneric", "Var", "a") + symbolTex("delimiters", "Neu", ")")}</InteractiveMath>.
         </p>
         <p className="text-muted-foreground leading-relaxed mb-3">
           Процесс обучения строится циклом: определить состояние → выбрать действие →
@@ -292,94 +287,34 @@ const CourseLesson1_4 = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold text-foreground mb-4">Формула Q-обучения</h2>
-        <Math>{`\\enfOp{Q}(\\enfVar{s}, a) \\leftarrow \\enfOp{Q}(\\enfVar{s}, a) + \\enfPar{\\alpha} \\left[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a') - \\enfOp{Q}(\\enfVar{s}, a) \\right]`}</Math>
-        <p className="text-muted-foreground leading-relaxed mt-4 mb-3">
-          Каждый символ в уравнении управляет поведением агента.
+        <h2 className="text-2xl font-bold text-foreground mb-4">Формулы Q-обучения</h2>
+        <p className="text-muted-foreground leading-relaxed mb-2">
+          Сначала вычисляем TD-цель. Маска исключает будущую ценность только при настоящем терминальном исходе.
         </p>
-        <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30 mb-4">
-          <table className="w-full text-sm">
-            <thead className="bg-primary/10">
-              <tr className="text-left">
-                <th className="p-3 font-semibold text-foreground">Термин</th>
-                <th className="p-3 font-semibold text-foreground">Описание</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/30 text-muted-foreground">
-              <tr>
-                <td className="p-3">
-                  <Math display={false}>Q(s, a)</Math> (слева)
-                </td>
-                <td className="p-3">
-                  Новое знание: обновленное значение качества для текущего состояния и
-                  действия.
-                </td>
-              </tr>
-              <tr>
-                <td className="p-3">
-                  <Math display={false}>Q(s, a)</Math> (справа)
-                </td>
-                <td className="p-3">Старое знание до текущего шага.</td>
-              </tr>
-              <tr>
-                <td className="p-3">
-                  <Math display={false}>\alpha</Math> (Learning Rate)
-                </td>
-                <td className="p-3">
-                  Скорость обучения в диапазоне от 0 до 1.
-                </td>
-              </tr>
-              <tr>
-                <td className="p-3">
-                  <Math display={false}>r</Math>
-                </td>
-                <td className="p-3">Мгновенная награда за действие.</td>
-              </tr>
-              <tr>
-                <td className="p-3">
-                  <Math display={false}>\gamma</Math> (Discount Factor)
-                </td>
-                <td className="p-3">
-                  Важность будущих наград по сравнению с текущими.
-                </td>
-              </tr>
-              <tr>
-                <td className="p-3">
-                  <Math display={false}>{`\\max_{a'} \\enfOp{Q}(\\enfVar{s}', a')`}</Math>
-                </td>
-                <td className="p-3">
-                  Лучшая будущая оценка из следующего состояния.
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <InteractiveMath>{Q_TARGET_FORMULA}</InteractiveMath>
+        <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
+          Ошибка временного различия — это разница между целью и прежней оценкой:
+        </p>
+        <InteractiveMath>{TD_ERROR_FORMULA}</InteractiveMath>
+        <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
+          Затем обновляем оценку выбранной пары состояние–действие:
+        </p>
+        <InteractiveMath>{Q_UPDATE_FORMULA}</InteractiveMath>
+        <div className="rounded-lg border border-secondary/30 bg-secondary/5 p-4 mt-4 text-sm text-muted-foreground">
+          В FrozenLake при достижении цели награда равна <code className="text-primary">1</code>, а терминальная маска убирает bootstrap. При скорости обучения <code className="text-primary">0.8</code> оценка перехода перед целью становится <code className="text-primary">0.8</code>; ценность затем распространяется на предыдущий шаг с коэффициентом <code className="text-primary">0.95</code>.
         </div>
-        <h3 className="text-xl font-semibold text-foreground mb-2">
-          Почему формула работает (TD Error)
-        </h3>
-        <Math>{`\\left[ \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a') - \\enfOp{Q}(\\enfVar{s}, a) \\right]`}</Math>
-        <p className="text-muted-foreground leading-relaxed">
-          Это и есть ошибка временного различия (Temporal Difference Error). Она
-          показывает меру «удивления» агента и направление корректировки значения.
-        </p>
-        <h3 className="text-xl font-semibold text-foreground mt-4 mb-2">
-          Пошаговый числовой пример
-        </h3>
-        <Math>{`\\enfOp{Q}(0, 1) \\leftarrow 0 + 0.1 \\times [10 + 0.9 \\times 0 - 0]`}</Math>
-        <Math>{`\\enfOp{Q}(0, 1) \\leftarrow 1.0`}</Math>
       </section>
-
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">От математики к алгоритму</h2>
         <div className="space-y-2">
           {[
-            "Инициализируем Q-таблицу и гиперпараметры (α, γ, ε).",
-            "Сбрасываем среду в начальное состояние.",
-            "Выбираем действие по ε-жадной стратегии (exploration/exploitation).",
-            "Выполняем действие и получаем (s', r, done).",
-            "Обновляем Q(s,a) уравнением Беллмана.",
-            "Переходим в новое состояние и повторяем до конца эпизода.",
-            "Уменьшаем ε (epsilon decay) по мере обучения.",
+            "Создаём Q-таблицу и задаём скорость обучения, дисконтирование и вероятность исследования.",
+            "Сбрасываем среду и считываем начальное состояние.",
+            "Выбираем случайное или лучшее по таблице действие.",
+            "Выполняем действие и получаем новое состояние, награду и признаки завершения.",
+            "Вычисляем TD-цель, ошибку и обновляем оценку выбранной пары.",
+            "Повторяем шаги до терминального исхода или ограничения времени.",
+            "После эпизода уменьшаем вероятность исследования.",
           ].map((step, i) => (
             <div key={step} className="flex gap-3 p-3 rounded-lg bg-card/30 border border-border/30">
               <span className="text-primary font-bold text-sm">{i + 1}.</span>
@@ -388,7 +323,7 @@ const CourseLesson1_4 = () => {
           ))}
         </div>
         <p className="text-muted-foreground leading-relaxed mt-4">
-          Постепенное уменьшение <Math display={false}>\epsilon</Math> критически важно:
+          Постепенное уменьшение <InteractiveMath display={false}>{symbolTex("epsilon", "Par", "\varepsilon_k")}</InteractiveMath> критически важно:
           сначала агент исследует мир хаотично, затем все чаще использует выученную
           стратегию.
         </p>
@@ -414,7 +349,7 @@ const CourseLesson1_4 = () => {
           Пример среды: FrozenLake
         </h2>
         <p className="text-muted-foreground leading-relaxed mb-3">
-          FrozenLake — сетка 4x4 с безопасными клетками, прорубями и финишем.
+          FrozenLake — сетка четыре на четыре с безопасными клетками, прорубями и финишем.
           В этой среде агент учится находить путь к цели, избегая провалов.
         </p>
         <Link
@@ -438,8 +373,8 @@ const CourseLesson1_4 = () => {
           {[
             "S (Start) — стартовая позиция агента.",
             "F (Frozen) — безопасный лед.",
-            "H (Hole) — прорубь, эпизод завершается с наградой 0.",
-            "G (Goal) — цель, эпизод завершается с наградой +1.",
+            "H (Hole) — прорубь, эпизод завершается без награды.",
+            "G (Goal) — цель, эпизод завершается с единичной наградой.",
           ].map((item) => (
             <Card key={item} className="bg-card/40 border-border/30">
               <CardContent className="p-4">
@@ -490,8 +425,9 @@ const CourseLesson1_4 = () => {
         <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
           Перетекание ценности назад от цели:
         </p>
-        <Math>{`\\enfOp{Q}(14, 2) \\leftarrow 0 + 0.8 \\times [1 + 0.95 \\times 0 - 0] = 0.8`}</Math>
-        <Math>{`\\enfOp{Q}(13, 2) \\leftarrow 0 + 0.8 \\times [0 + 0.95 \\times 0.8 - 0] = 0.608`}</Math>
+        <div className="rounded-lg border border-border/30 bg-card/30 p-4 text-sm text-muted-foreground">
+          Для перехода в цель обучение даёт значение <code className="text-primary">0.8</code>; затем на предыдущем шаге с наградой 0 ценность распространяется назад и даёт <code className="text-primary">0.608</code>. Эти значения получены с параметрами из кода урока.
+        </div>
       </section>
 
       <section>
@@ -513,7 +449,7 @@ const CourseLesson1_4 = () => {
             </thead>
             <tbody className="divide-y divide-border/30 text-muted-foreground">
               <tr>
-                <td className="p-3 font-medium text-foreground">Матрица Q(S, A)</td>
+                <td className="p-3 font-medium text-foreground">Матрица <InteractiveMath display={false}>{symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") + symbolTex("setS", "Neu", "\mathcal{S}") + symbolTex("comma", "Neu", ", ") + symbolTex("setA", "Neu", "\mathcal{A}") + symbolTex("delimiters", "Neu", ")")}</InteractiveMath></td>
                 <td className="p-3">
                   Таблица знаний агента, инициализация нулями означает tabula rasa.
                 </td>
@@ -526,7 +462,7 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Epsilon-Greedy</td>
                 <td className="p-3">
-                  При числе меньше ε агент исследует, иначе эксплуатирует знания.
+                  Если случайное число ниже вероятности исследования, агент пробует случайное действие, иначе использует выученные оценки.
                 </td>
                 <td className="p-3">
                   <code className="text-primary text-xs">
@@ -541,7 +477,7 @@ const CourseLesson1_4 = () => {
                 </td>
                 <td className="p-3">
                   <code className="text-primary text-xs">
-                    new_state, reward, done, truncated, info = env.step(action)
+                    new_state, reward, terminated, truncated, info = env.step(action)
                   </code>
                 </td>
               </tr>
@@ -559,7 +495,8 @@ const CourseLesson1_4 = () => {
                 <td className="p-3">Центральное обновление текущего значения.</td>
                 <td className="p-3">
                   <code className="text-primary text-xs">
-                    td_target = reward + gamma * np.max(Q_table[new_state, :])
+                    bootstrap_value = 0.0 if terminated else np.max(Q_table[new_state, :])
+                    td_target = reward + gamma * bootstrap_value
                   </code>
                 </td>
               </tr>
@@ -576,6 +513,8 @@ const CourseLesson1_4 = () => {
           </table>
         </div>
       </section>
+
+      <MathSymbolsReference />
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
