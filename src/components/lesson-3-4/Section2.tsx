@@ -48,7 +48,7 @@ const Section2 = () => (
 
     <Callout title="Почему IRL дорог" color="amber">
       Главная вычислительная боль — <strong>partition function</strong>{" "}
-      <Math display={false}>Z</Math> и то, что для <strong>каждой</strong> кандидатной функции награды
+      <Math display={false}>{String.raw`\enfOp{Z}`}</Math> и то, что для <strong>каждой</strong> кандидатной функции награды
       нужно решать <strong>полную внутреннюю RL-задачу</strong> до сходимости. Именно это GAIL и
       обходит, чередуя один шаг дискриминатора и один шаг политики.
     </Callout>

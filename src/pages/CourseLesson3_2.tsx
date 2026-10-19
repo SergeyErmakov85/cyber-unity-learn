@@ -639,7 +639,7 @@ const CourseLesson3_2 = () => {
           <p className="text-foreground/90 leading-relaxed mt-1">
             где <Math display={false}>{String.raw`\enfFun{\mathbf{a}}^{-i}`}</Math> — действия всех агентов{" "}
             <strong className="text-foreground">кроме</strong> <Math display={false}>{String.raw`i`}</Math> (зафиксированы), а{" "}
-            <Math display={false}>{String.raw`a'`}</Math> — гипотетическое действие агента <Math display={false}>{String.raw`i`}</Math>,
+            <Math display={false}>{String.raw`\enfFun{a}'`}</Math> — гипотетическое действие агента <Math display={false}>{String.raw`i`}</Math>,
             усреднённое по его текущей политике.
           </p>
           <p className="text-foreground/90 leading-relaxed mt-3">
@@ -1018,10 +1018,10 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
 
           <h3 className={H3_CLASS}>Ожидаемый результат</h3>
           <p className="text-foreground/90 leading-relaxed">
-            Если агент A имеет рейтинг <Math display={false}>{String.raw`\enfTgt{R}_A`}</Math>, а агент B —{" "}
-            <Math display={false}>{String.raw`\enfTgt{R}_B`}</Math>, ожидаемый результат A:
+            Если агент A имеет рейтинг <Math display={false}>{String.raw`\enfOp{R}_A`}</Math>, а агент B —{" "}
+            <Math display={false}>{String.raw`\enfOp{R}_B`}</Math>, ожидаемый результат A:
           </p>
-          <Math>{String.raw`E_A = \frac{1}{1 + 10^{(R_B - R_A)/400}}.`}</Math>
+          <Math>{String.raw`\enfOp{E}_A = \frac{1}{1 + 10^{(\enfOp{R}_B - \enfOp{R}_A)/400}}.`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
             При равных рейтингах <Math display={false}>{String.raw`\enfOp{E}_A = 0.5`}</Math>. При разрыве 300 очков в пользу A:{" "}
             <Math display={false}>{String.raw`\enfOp{E}_A \approx 0.85`}</Math>, <Math display={false}>{String.raw`\enfOp{E}_B \approx 0.15`}</Math>.

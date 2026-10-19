@@ -92,7 +92,7 @@ const warn = (rule, at, msg) => warnings.push({ rule, text: `[${rule}] ${at}: ${
 
 const UNICODE_MATH = /[∑∏∫∂∇√∞≈≤≥≠∈∉⊂⊆∀∃αβγδεζηθικλμνξπρστυφχψωΓΔΘΛΞΠΣΦΨΩ→←↔⇒⇔·×÷±⋅]/u;
 const BARE_FUNC = /(^|[^\\A-Za-z])(sin|cos|tan|log|ln|exp|max|min|det|dim|sup|inf)\s*[({_]/;
-const TEXT_AS_OPERATOR = /\\text\{(Var|Cov|Corr|softmax|sign|diag|tr|rank|clip)\}/;
+const TEXT_AS_OPERATOR = /\\text\{(Var|Cov|Corr|softmax|sign|diag|tr|rank|clip|proj|span|argmax|argmin|logit)\}/;
 const PLAIN_DIFFERENTIAL = /(?<!\\mathrm\{)(?<![A-Za-z\\])d[xytsuvwa]\b(?!\w)/;
 const PLAIN_EXPECTATION = /(?<![\\A-Za-z{])E(?:\^?_\{[^}]*\}|_\\?[A-Za-z]+)?\s*(?:\\left)?\[/;
 const CONDITIONAL_PIPE =
@@ -101,6 +101,9 @@ const ROLE_RE = /\\(enfVar|enfFun|enfPar|enfOp|enfTgt)(?![A-Za-z])\s*\{/g;
 
 function checkFormula(tex, at, dynamic) {
   const snippet = tex.replace(/\s+/g, " ").slice(0, 80);
+  // «\\enfOp» — перевод строки и слово «enfOp»: KaTeX не падает, а формула
+  // разваливается. Так бывает, если TeX в атрибуте JSX экранировать как строку JS.
+  if (/(?<!\\)\\\\[A-Za-z]/.test(tex)) err("KATEX", at, `двойной слеш перед командой (\\\\cmd) — ${snippet}`);
   if (/\\(textcolor|color|definecolor)\b/.test(tex)) err("ENF-COLOR-030", at, `цвет задан командой, а не ролью — ${snippet}`);
   if (/\\class\b/.test(tex)) err("ENF-COLOR-030", at, `\\class не работает в KaTeX, нужен макрос роли — ${snippet}`);
   if (/#[0-9a-fA-F]{3,8}\b/.test(tex)) err("ENF-COLOR-001", at, `HEX в формуле — ${snippet}`);
@@ -114,6 +117,12 @@ function checkFormula(tex, at, dynamic) {
   if (/\\enf[A-Za-z]+\s*\{\s*\\mathbb\{E\}/.test(tex)) err("ENF-HOUSE-002", at, `\\mathbb{E} окрашена — по соглашению пособия она нейтральна — ${snippet}`);
 
   // Макрос роли внутри нижнего индекса и индекс внутри макроса.
+  // \underset{a}{\operatorname{argmax}} — тот же индекс, только записанный иначе.
+  for (const m of tex.matchAll(/\\(?:underset|overset|stackrel)\s*\{/g)) {
+    const close = groupEnd(tex, m.index + m[0].length - 1);
+    if (close > 0 && /\\enf(Var|Fun|Par|Op|Tgt)\b/.test(tex.slice(m.index, close)))
+      err("ENF-HOUSE-001", at, `макрос роли под \\underset: связанная переменная — индекс, пишите \\arg\\max_{a} — ${snippet}`);
+  }
   for (const m of tex.matchAll(/_\s*\{/g)) {
     const close = groupEnd(tex, m.index + m[0].length - 1);
     if (close > 0 && /\\enf(Var|Fun|Par|Op|Tgt)\b/.test(tex.slice(m.index, close)))
@@ -175,7 +184,11 @@ function neutralPart(src) {
   return out;
 }
 
-const BINDER_RE = /\\(?:max|min|argmax|argmin|sum|prod|sup|inf)\s*\}?\s*(?:\\limits)?\s*_\s*\{?\s*([A-Za-z]'+|\\[A-Za-z]+'+)/g;
+// Связанная переменная под \max_{a'}, \arg\max_a, \sum_{s'}: ENF-MATH-025 п. 4
+// разрешает ей оставаться нейтральной — со штрихом и без.
+const BINDER_RE = /(?:\\(?:max|min|argmax|argmin|sum|prod|sup|inf)\s*\}?\s*(?:\\limits)?|\\mathbb\{E\})\s*_\s*\{?\s*([A-Za-z]'*|\\[A-Za-z]+'*)(?![A-Za-z])/g;
+// Форма тензора «H × W × C»: буквы — размерности, им цвет не положен (п. 4).
+const SHAPE_RE = /^\s*[A-Za-z](?:_\{?[A-Za-z0-9]+\}?)?(?:\s*\\times\s*[A-Za-z0-9](?:_\{?[A-Za-z0-9]+\}?)?)+\s*$/;
 
 function check025(file, formulas) {
   const votes = new Map();
@@ -188,17 +201,27 @@ function check025(file, formulas) {
     }
   }
   const roles = new Map([...votes].map(([a, byRole]) => [a, [...byRole].sort((x, y) => y[1] - x[1])[0][0]]));
-  const bound = new Set();
-  for (const f of formulas) for (const m of f.tex.matchAll(BINDER_RE)) bound.add(m[1]);
+  // Буква в разных ролях на одной странице (a — член ряда и действие, P —
+  // вероятность и переходы): в формуле, где все четыре тона уже заняты,
+  // нейтральной у неё скорее всего осталась как раз пятая роль.
+  const ambiguous = new Set([...votes].filter(([, byRole]) => byRole.size > 1).map(([a]) => a));
 
   for (const f of formulas) {
-    if (f.dynamic) continue;
+    if (f.dynamic || SHAPE_RE.test(f.tex)) continue;
     const used = new Set(coloredAtoms(f.tex).map((x) => x.role));
     let neutral = neutralPart(f.tex);
-    for (const b of bound) neutral = neutral.split(b).join(" ");
+    // Связанные переменные этой формулы вычёркиваются как отдельные символы:
+    // `a` под \max_a — да, буква «a» внутри \max или \ldots — нет.
+    for (const m of f.tex.matchAll(BINDER_RE)) {
+      const b = m[1].replace(/[\\']/g, (c) => "\\" + c);
+      const prime = m[1].endsWith("'") ? "" : "(?!')";
+      neutral = neutral.replace(new RegExp(`(?<![\\\\A-Za-z])${b}${prime}(?![A-Za-z])`, "g"), " ");
+    }
     const missed = [];
     for (const [atom, role] of roles) {
-      if (used.size >= TONE_LIMIT && !used.has(role)) continue;
+      if (used.size >= TONE_LIMIT && (!used.has(role) || ambiguous.has(atom))) continue;
+      // 2\pi, \sqrt{2\pi} — число «пи», а не политика.
+      if (atom === "\\pi" && /\d\s*\\pi(?![A-Za-z])/.test(neutral)) continue;
       const escaped = atom.replace(/[\\{}]/g, (c) => "\\" + c);
       const re = atom.startsWith("\\")
         ? new RegExp(`${escaped}(?![A-Za-z])`)

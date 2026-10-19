@@ -73,7 +73,7 @@ const Section3 = () => (
       {String.raw`\boxed{\ \min_{\pi}\ \max_{D\in(0,1)^{\mathcal{S}\times\mathcal{A}}}\ \mathbb{E}_\pi[\log \enfFun{D}(\enfVar{s},\enfFun{a})]+\mathbb{E}_{\pi_E}[\log(1-\enfFun{D}(\enfVar{s},\enfFun{a}))]-\enfPar{\lambda} \enfOp{H}(\enfFun{\pi})\ }`}
     </Math>
     <ProseP>
-      Здесь <Math display={false}>D</Math> — <strong>дискриминатор</strong> (классификатор: пара от
+      Здесь <Math display={false}>{String.raw`\enfFun{D}`}</Math> — <strong>дискриминатор</strong> (классификатор: пара от
       политики vs пара от эксперта), <Math display={false}>{String.raw`\enfFun{\pi}`}</Math> —{" "}
       <strong>генератор</strong> (как в GAN). При оптимальном{" "}
       <Math display={false}>{String.raw`\enfFun{D}^*(\enfVar{s},\enfFun{a})=\enfFun{\rho}_{\pi_E}/(\enfFun{\rho}_{\pi_E}+\enfFun{\rho}_\pi)`}</Math> потеря с
@@ -149,7 +149,7 @@ end for`}
         <>
           Награда политике:{" "}
           <Math display={false}>{String.raw`\enfTgt{r}=-\log(1-\enfFun{D}(\enfVar{s},\enfFun{a}))`}</Math> — чем больше{" "}
-          <Math display={false}>D</Math> верит в экспертность, тем выше сигнал.
+          <Math display={false}>{String.raw`\enfFun{D}`}</Math> верит в экспертность, тем выше сигнал.
         </>,
         <>
           GAIL экономен по демо, но прожорлив по шагам среды — отсюда практика BC-warmup +

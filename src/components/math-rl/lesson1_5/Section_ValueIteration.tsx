@@ -713,7 +713,7 @@ const Section_ValueIteration = () => {
           <FormulaBlock
             big
             emphasized
-            tex="\\enfOp{V}_{k+1}(\\enfVar{s}) \\;\\leftarrow\\; \\max_{a} \\sum_{s'} P(s' \\mid \\enfVar{s}, a)\\,\\bigl[\\, \\enfTgt{R}(s') + \\enfPar{\\gamma}\\, \\enfOp{V}_{k}(s') \\,\\bigr]"
+            tex="\enfOp{V}_{k+1}(\enfVar{s}) \;\leftarrow\; \max_{a} \sum_{s'} P(s' \mid \enfVar{s}, a)\,\bigl[\, \enfTgt{R}(s') + \enfPar{\gamma}\, \enfOp{V}_{k}(s') \,\bigr]"
           />
         </div>
 
@@ -741,7 +741,7 @@ const Section_ValueIteration = () => {
               <MathFormula display={false}>{String.raw`\enfFun{a}`}</MathFormula>, то
               естественно брать то, после которого мы живём лучше всего:
             </p>
-            <FormulaBlock tex="\\enfOp{V}^{*}(\\enfVar{s}) \\;=\\; \\max_{a} \\enfOp{Q}^{*}(\\enfVar{s}, \\enfFun{a})" />
+            <FormulaBlock tex="\enfOp{V}^{*}(\enfVar{s}) \;=\; \max_{a} \enfOp{Q}^{*}(\enfVar{s}, \enfFun{a})" />
           </div>
 
           <div className="flex flex-col gap-2">
@@ -754,7 +754,7 @@ const Section_ValueIteration = () => {
               только под V теперь понимается{" "}
               <MathFormula display={false}>{String.raw`\enfOp{V}^{*}`}</MathFormula>:
             </p>
-            <FormulaBlock tex="\\enfOp{Q}^{*}(\\enfVar{s}, a) \\;=\\; \\sum_{s'} P(s' \\mid \\enfVar{s}, a)\\,\\bigl[\\, \\enfTgt{R}(s') + \\enfPar{\\gamma}\\, \\enfOp{V}^{*}(s') \\,\\bigr]" />
+            <FormulaBlock tex="\enfOp{Q}^{*}(\enfVar{s}, a) \;=\; \sum_{s'} P(s' \mid \enfVar{s}, a)\,\bigl[\, \enfTgt{R}(s') + \enfPar{\gamma}\, \enfOp{V}^{*}(s') \,\bigr]" />
           </div>
 
           <div className="flex flex-col gap-2">

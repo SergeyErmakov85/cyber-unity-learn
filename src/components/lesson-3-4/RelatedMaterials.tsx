@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link2, GraduationCap, Wrench, ExternalLink, BookMarked } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
+import Math from "@/components/Math";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const HUBS: Array<{ path: string; anchor?: string; title: string; label: string }> = [
@@ -98,7 +99,7 @@ const SOURCES: ReactNode[] = [
   <>
     <strong className="text-foreground/90">Ross, S., &amp; Bagnell, J. A. (2010).</strong>{" "}
     <em>Efficient Reductions for Imitation Learning.</em> AISTATS 2010. — Теорема 2.1, граница{" "}
-    <code className="px-1 rounded bg-muted/50 text-xs font-mono">J(π) ≤ J(π*) + T²ε</code>.
+    <Math display={false}>{String.raw`\enfTgt{J}(\enfFun{\pi}) \le \enfTgt{J}(\enfFun{\pi}^*) + T^2\enfVar{\varepsilon}`}</Math>.
   </>,
   <>
     <strong className="text-foreground/90">Ross, S., Gordon, G. J., &amp; Bagnell, J. A. (2011).</strong>{" "}

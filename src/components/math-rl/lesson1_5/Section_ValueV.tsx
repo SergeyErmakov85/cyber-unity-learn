@@ -487,7 +487,7 @@ const Section_ValueV = () => {
 
           <FormulaBlock
             accent={AMBER}
-            tex="\\enfOp{G}_t \\;=\\; \\enfTgt{R}_{t+1} + \\enfTgt{R}_{t+2} + \\enfTgt{R}_{t+3} + \\ldots"
+            tex="\enfOp{G}_t \;=\; \enfTgt{R}_{t+1} + \enfTgt{R}_{t+2} + \enfTgt{R}_{t+3} + \ldots"
           />
 
           <p style={{ color: "rgba(255,255,255,0.8)" }}>
@@ -550,7 +550,7 @@ const Section_ValueV = () => {
           <FormulaBlock
             big
             accent={MAGENTA}
-            tex="\\enfOp{G}_t \\;=\\; \\enfTgt{R}_{t+1} + \\enfPar{\\gamma}\\, \\enfTgt{R}_{t+2} + \\enfPar{\\gamma}^2\\, \\enfTgt{R}_{t+3} + \\ldots \\;=\\; \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^{k}\\, \\enfTgt{R}_{t+k+1}"
+            tex="\enfOp{G}_t \;=\; \enfTgt{R}_{t+1} + \enfPar{\gamma}\, \enfTgt{R}_{t+2} + \enfPar{\gamma}^2\, \enfTgt{R}_{t+3} + \ldots \;=\; \sum_{k=0}^{\infty} \enfPar{\gamma}^{k}\, \enfTgt{R}_{t+k+1}"
           />
 
           <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 13 }}>
@@ -578,7 +578,7 @@ const Section_ValueV = () => {
           <FormulaBlock
             big
             accent={CYAN}
-            tex="\\enfOp{V}^{\\pi}(\\enfVar{s}) \\;=\\; \\mathbb{E}_{\\pi}\\!\\left[\\, \\enfOp{G}_t \\,\\middle|\\, \\enfVar{S}_t = \\enfVar{s} \\,\\right]"
+            tex="\enfOp{V}^{\pi}(\enfVar{s}) \;=\; \mathbb{E}_{\pi}\!\left[\, \enfOp{G}_t \,\middle|\, \enfVar{S}_t = \enfVar{s} \,\right]"
           />
 
           <p style={{ color: "rgba(255,255,255,0.85)" }}>

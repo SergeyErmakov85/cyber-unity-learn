@@ -3,6 +3,7 @@ import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { Card, CardContent } from "@/components/ui/card";
 import Math from "@/components/Math";
+import RichText from "@/components/math-symbols/RichText";
 import { Lightbulb, BookOpen, CheckCircle2, AlertTriangle, Table2, ArrowRight } from "lucide-react";
 
 const PYTHON_IMPLEMENTATION = `import numpy as np
@@ -197,18 +198,18 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Состояние (State)</td>
                 <td className="p-3">
-                  <Math display={false}>s</Math>
+                  <Math display={false}>{String.raw`\enfVar{s}`}</Math>
                 </td>
                 <td className="p-3">
                   Полное описание текущего положения агента в среде. Множество всех
-                  состояний обозначается как <Math display={false}>S</Math>.
+                  состояний обозначается как <Math display={false}>{String.raw`\mathcal{S}`}</Math>.
                 </td>
                 <td className="p-3">Координаты робота: например, x=2, y=3.</td>
               </tr>
               <tr>
                 <td className="p-3 font-medium text-foreground">Действие (Action)</td>
                 <td className="p-3">
-                  <Math display={false}>a</Math>
+                  <Math display={false}>{String.raw`\enfFun{a}`}</Math>
                 </td>
                 <td className="p-3">
                   Конкретный шаг, принимаемый агентом в ответ на состояние.
@@ -218,12 +219,12 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Награда (Reward)</td>
                 <td className="p-3">
-                  <Math display={false}>r</Math>
+                  <Math display={false}>{String.raw`\enfTgt{r}`}</Math>
                 </td>
                 <td className="p-3">
                   Числовой сигнал обратной связи после действия.
                   <div className="mt-1">
-                    <Math display={false}>{`\\enfTgt{R}: S \\times A \\to \\mathbb{R}`}</Math>
+                    <Math display={false}>{String.raw`\enfTgt{R}: \mathcal{S} \times \mathcal{A} \to \mathbb{R}`}</Math>
                   </div>
                 </td>
                 <td className="p-3">+10 за батарею, -1 за стену, -100 за яму.</td>
@@ -231,7 +232,7 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Стратегия (Policy)</td>
                 <td className="p-3">
-                  <Math display={false}>\pi</Math>
+                  <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>
                 </td>
                 <td className="p-3">
                   Набор правил, определяющий поведение агента.
@@ -241,7 +242,7 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Q-значение (Q-value)</td>
                 <td className="p-3">
-                  <Math display={false}>Q(s, a)</Math>
+                  <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</Math>
                 </td>
                 <td className="p-3">
                   Оценка ожидаемой долгосрочной полезности выбора действия в состоянии.
@@ -263,7 +264,7 @@ const CourseLesson1_4 = () => {
         <p className="text-muted-foreground leading-relaxed mb-3">
           Табличный Q-learning строит и постоянно обновляет двумерную Q-таблицу:
           строки — состояния, столбцы — действия, а в ячейках хранится «качество»
-          пары <Math display={false}>Q(s, a)</Math>.
+          пары <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</Math>.
         </p>
         <p className="text-muted-foreground leading-relaxed mb-3">
           Процесс обучения строится циклом: определить состояние → выбрать действие →
@@ -308,7 +309,7 @@ const CourseLesson1_4 = () => {
             <tbody className="divide-y divide-border/30 text-muted-foreground">
               <tr>
                 <td className="p-3">
-                  <Math display={false}>Q(s, a)</Math> (слева)
+                  <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</Math> (слева)
                 </td>
                 <td className="p-3">
                   Новое знание: обновленное значение качества для текущего состояния и
@@ -317,13 +318,13 @@ const CourseLesson1_4 = () => {
               </tr>
               <tr>
                 <td className="p-3">
-                  <Math display={false}>Q(s, a)</Math> (справа)
+                  <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</Math> (справа)
                 </td>
                 <td className="p-3">Старое знание до текущего шага.</td>
               </tr>
               <tr>
                 <td className="p-3">
-                  <Math display={false}>\alpha</Math> (Learning Rate)
+                  <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> (Learning Rate)
                 </td>
                 <td className="p-3">
                   Скорость обучения в диапазоне от 0 до 1.
@@ -331,13 +332,13 @@ const CourseLesson1_4 = () => {
               </tr>
               <tr>
                 <td className="p-3">
-                  <Math display={false}>r</Math>
+                  <Math display={false}>{String.raw`\enfTgt{r}`}</Math>
                 </td>
                 <td className="p-3">Мгновенная награда за действие.</td>
               </tr>
               <tr>
                 <td className="p-3">
-                  <Math display={false}>\gamma</Math> (Discount Factor)
+                  <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> (Discount Factor)
                 </td>
                 <td className="p-3">
                   Важность будущих наград по сравнению с текущими.
@@ -354,6 +355,10 @@ const CourseLesson1_4 = () => {
             </tbody>
           </table>
         </div>
+        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+          Действие <Math display={false}>{String.raw`\enfFun{a}`}</Math> в формуле обновления оставлено без цвета: в одной формуле
+          не больше четырёх тонов, а действие здесь не настраивается и не оценивается — только задаёт ячейку таблицы.
+        </p>
         <h3 className="text-xl font-semibold text-foreground mb-2">
           Почему формула работает (TD Error)
         </h3>
@@ -365,30 +370,39 @@ const CourseLesson1_4 = () => {
         <h3 className="text-xl font-semibold text-foreground mt-4 mb-2">
           Пошаговый числовой пример
         </h3>
-        <Math>{`\\enfOp{Q}(0, 1) \\leftarrow 0 + 0.1 \\times [10 + 0.9 \\times 0 - 0]`}</Math>
-        <Math>{`\\enfOp{Q}(0, 1) \\leftarrow 1.0`}</Math>
+        <p className="text-muted-foreground leading-relaxed mb-2">
+          Агент в состоянии <Math display={false}>{String.raw`\enfVar{0}`}</Math> сделал действие 1 и получил{" "}
+          <Math display={false}>{String.raw`\enfTgt{r} = 10`}</Math>; таблица пока пустая,{" "}
+          <Math display={false}>{String.raw`\enfPar{\alpha} = 0{,}1`}</Math>,{" "}
+          <Math display={false}>{String.raw`\enfPar{\gamma} = 0{,}9`}</Math>. Первая строка повторяет формулу, во второй
+          каждое число окрашено как символ, вместо которого оно подставлено:
+        </p>
+        <Math>{String.raw`\begin{aligned}
+\enfOp{Q}(\enfVar{s}, a) &\leftarrow \enfOp{Q}(\enfVar{s}, a) + \enfPar{\alpha}\left[\enfTgt{r} + \enfPar{\gamma}\max_{a'}\enfOp{Q}(\enfVar{s}', a') - \enfOp{Q}(\enfVar{s}, a)\right] \\
+\enfOp{Q}(\enfVar{0}, 1) &\leftarrow \enfOp{0} + \enfPar{0{,}1} \times \left[\enfTgt{10} + \enfPar{0{,}9} \times \enfOp{0} - \enfOp{0}\right] = 1{,}0
+\end{aligned}`}</Math>
       </section>
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">От математики к алгоритму</h2>
         <div className="space-y-2">
           {[
-            "Инициализируем Q-таблицу и гиперпараметры (α, γ, ε).",
+            String.raw`Инициализируем Q-таблицу и гиперпараметры $\enfPar{\alpha}$, $\enfPar{\gamma}$, $\enfPar{\varepsilon}$.`,
             "Сбрасываем среду в начальное состояние.",
-            "Выбираем действие по ε-жадной стратегии (exploration/exploitation).",
-            "Выполняем действие и получаем (s', r, done).",
-            "Обновляем Q(s,a) уравнением Беллмана.",
+            String.raw`Выбираем действие по $\enfPar{\varepsilon}$-жадной стратегии (exploration/exploitation).`,
+            String.raw`Выполняем действие и получаем $(\enfVar{s}', \enfTgt{r})$ и флаг \`done\`.`,
+            String.raw`Обновляем $\enfOp{Q}(\enfVar{s}, \enfFun{a})$ уравнением Беллмана.`,
             "Переходим в новое состояние и повторяем до конца эпизода.",
-            "Уменьшаем ε (epsilon decay) по мере обучения.",
+            String.raw`Уменьшаем $\enfPar{\varepsilon}$ (epsilon decay) по мере обучения.`,
           ].map((step, i) => (
             <div key={step} className="flex gap-3 p-3 rounded-lg bg-card/30 border border-border/30">
               <span className="text-primary font-bold text-sm">{i + 1}.</span>
-              <p className="text-sm text-muted-foreground">{step}</p>
+              <p className="text-sm text-muted-foreground"><RichText text={step} /></p>
             </div>
           ))}
         </div>
         <p className="text-muted-foreground leading-relaxed mt-4">
-          Постепенное уменьшение <Math display={false}>\epsilon</Math> критически важно:
+          Постепенное уменьшение <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> критически важно:
           сначала агент исследует мир хаотично, затем все чаще использует выученную
           стратегию.
         </p>
@@ -490,8 +504,18 @@ const CourseLesson1_4 = () => {
         <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
           Перетекание ценности назад от цели:
         </p>
-        <Math>{`\\enfOp{Q}(14, 2) \\leftarrow 0 + 0.8 \\times [1 + 0.95 \\times 0 - 0] = 0.8`}</Math>
-        <Math>{`\\enfOp{Q}(13, 2) \\leftarrow 0 + 0.8 \\times [0 + 0.95 \\times 0.8 - 0] = 0.608`}</Math>
+        <Math>{String.raw`\begin{aligned}
+\enfOp{Q}(\enfVar{s}, a) &\leftarrow \enfOp{Q}(\enfVar{s}, a) + \enfPar{\alpha}\left[\enfTgt{r} + \enfPar{\gamma}\max_{a'}\enfOp{Q}(\enfVar{s}', a') - \enfOp{Q}(\enfVar{s}, a)\right] \\
+\enfOp{Q}(\enfVar{14}, 2) &\leftarrow \enfOp{0} + \enfPar{0{,}8} \times \left[\enfTgt{1} + \enfPar{0{,}95} \times \enfOp{0} - \enfOp{0}\right] = 0{,}8 \\
+\enfOp{Q}(\enfVar{13}, 2) &\leftarrow \enfOp{0} + \enfPar{0{,}8} \times \left[\enfTgt{0} + \enfPar{0{,}95} \times \enfOp{0{,}8} - \enfOp{0}\right] = 0{,}608
+\end{aligned}`}</Math>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Здесь <Math display={false}>{String.raw`\enfPar{\alpha} = 0{,}8`}</Math> и{" "}
+          <Math display={false}>{String.raw`\enfPar{\gamma} = 0{,}95`}</Math> — те же значения, что{" "}
+          <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">learning_rate = 0.8</code> и{" "}
+          <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">gamma = 0.95</code> в коде ниже. В формулах
+          десятичный разделитель — запятая, в Python — точка.
+        </p>
       </section>
 
       <section>

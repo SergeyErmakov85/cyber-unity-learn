@@ -30,7 +30,7 @@ const Section4 = () => (
         <span className="text-cyan-400 mt-0.5 shrink-0">▸</span>
         <span>
           <strong>f-GAIL</strong> (Zhang и др., 2020) — автоматически подбирает{" "}
-          <Math display={false}>f</Math>-дивергенцию вместо фиксированной JS.
+          <Math display={false}>{String.raw`\enfFun{f}`}</Math>-дивергенцию вместо фиксированной JS.
         </span>
       </li>
       <li className="flex gap-2.5">

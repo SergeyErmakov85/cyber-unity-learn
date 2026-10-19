@@ -147,8 +147,8 @@ const IntroSection = () => (
           <strong>Behavioral Cloning</strong> — обычное supervised-обучение на парах{" "}
           <Math display={false}>{String.raw`(\enfVar{s},\enfFun{a})`}</Math> эксперта; страдает от{" "}
           <strong>covariate shift</strong>: по теореме 2.1 Ross &amp; Bagnell (2010) ошибка растёт как{" "}
-          <Math display={false}>{String.raw`O(T^2\enfVar{\epsilon})`}</Math> против{" "}
-          <Math display={false}>{String.raw`O(T\enfVar{\epsilon})`}</Math> у методов со средой. Поэтому BC в
+          <Math display={false}>{String.raw`O(T^2\enfVar{\varepsilon})`}</Math> против{" "}
+          <Math display={false}>{String.raw`O(T\enfVar{\varepsilon})`}</Math> у методов со средой. Поэтому BC в
           ML-Agents — это <strong>warmup</strong>, а не самостоятельный метод.
         </>,
         <>

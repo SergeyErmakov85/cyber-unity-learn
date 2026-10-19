@@ -470,10 +470,10 @@ const CourseLesson1_7 = () => (
             </h3>
             <Math>{`\\enfOp{q}(\\enfFun{a}) = \\mathbb{E}[\\enfTgt{R}_t \\mid \\enfFun{A}_t = \\enfFun{a}]`}</Math>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Если бы агент заранее знал точные значения <Math display={false}>q(a)</Math>{" "}
+              Если бы агент заранее знал точные значения <Math display={false}>{String.raw`\enfOp{q}(\enfFun{a})`}</Math>{" "}
               для всех действий, задача была бы тривиальной: всегда выбирать действие
               с максимальным математическим ожиданием. Но эти значения скрыты, поэтому
-              агент строит оценки <Math display={false}>Q_t(a)</Math> по наблюдениям.
+              агент строит оценки <Math display={false}>{String.raw`\enfOp{Q}_t(\enfFun{a})`}</Math> по наблюдениям.
             </p>
           </CardContent>
         </Card>
@@ -482,7 +482,7 @@ const CourseLesson1_7 = () => (
             <h3 className="font-semibold text-foreground mb-2">
               Сожаление (Regret)
             </h3>
-            <Math>{`\\enfOp{q}^* = \\max_a \\enfOp{q}(\\enfFun{a})`}</Math>
+            <Math>{`\\enfOp{q}^* = \\max_a \\enfOp{q}(a)`}</Math>
             <Math>{`\\enfTgt{\\Delta}_t = \\enfOp{q}^* - \\enfOp{q}(\\enfFun{A}_t)`}</Math>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Regret измеряет упущенную выгоду: сколько агент потерял из-за выбора
@@ -504,14 +504,14 @@ const CourseLesson1_7 = () => (
         Полный отказ от исследования приводит к наивной жадной стратегии. На каждом
         шаге агент выбирает действие с максимальной текущей оценкой:
       </p>
-      <Math>{`\\enfFun{A}_t = \\underset{\\enfFun{a}}{\\operatorname{argmax}}\\ \\enfOp{Q}_t(\\enfFun{a})`}</Math>
+      <Math>{`\\enfFun{A}_t = \\arg\\max_{a} \\enfOp{Q}_t(a)`}</Math>
       <p className="text-muted-foreground leading-relaxed mt-4 mb-3">
         Проблема в абсолютной зависимости от ранней случайности. Допустим, у первого
-        автомата истинная ценность <Math display={false}>q(1)=2</Math>, но в первый
-        раз агенту повезло и выпала награда <Math display={false}>R_1=5</Math>.
+        автомата истинная ценность <Math display={false}>{String.raw`\enfOp{q}(\enfFun{1}) = 2`}</Math>, но в первый
+        раз агенту повезло и выпала награда <Math display={false}>{String.raw`\enfTgt{R}_1 = 5`}</Math>.
         Оценка первого автомата становится высокой, а остальные остаются нулевыми.
         Жадный алгоритм продолжит выбирать первый автомат, хотя второй может иметь
-        истинную ценность <Math display={false}>q(2)=10</Math>.
+        истинную ценность <Math display={false}>{String.raw`\enfOp{q}(\enfFun{2}) = 10`}</Math>.
       </p>
       <p className="text-muted-foreground leading-relaxed">
         Возможна и обратная ошибка: лучший автомат случайно дает плохую первую
@@ -534,7 +534,7 @@ const CourseLesson1_7 = () => (
       </p>
       <Math>{`\\enfFun{A}_t =
 \\begin{cases}
-\\underset{\\enfFun{a}}{\\operatorname{argmax}}\\ \\enfOp{Q}_t(\\enfFun{a}), & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\\\
+\\arg\\max_{a} \\enfOp{Q}_t(a), & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\\\
 \\text{случайное действие из } \\mathcal{A}, & \\text{с вероятностью } \\enfPar{\\varepsilon}
 \\end{cases}`}</Math>
 
@@ -547,8 +547,8 @@ const CourseLesson1_7 = () => (
             <p className="text-sm text-muted-foreground leading-relaxed">
               Если <Math display={false}>{`\\enfPar{\\varepsilon} > 0`}</Math>, то при
               достаточно долгом обучении каждое действие будет проверяться снова и
-              снова. Оценки <Math display={false}>Q_t(a)</Math> сходятся к истинным{" "}
-              <Math display={false}>q(a)</Math> по закону больших чисел.
+              снова. Оценки <Math display={false}>{String.raw`\enfOp{Q}_t(\enfFun{a})`}</Math> сходятся к истинным{" "}
+              <Math display={false}>{String.raw`\enfOp{q}(\enfFun{a})`}</Math> по закону больших чисел.
             </p>
           </CardContent>
         </Card>
@@ -594,8 +594,8 @@ const CourseLesson1_7 = () => (
         неопределенности": если действие мало проверялось, оно может оказаться лучше,
         чем кажется сейчас.
       </p>
-      <Math>{`\\enfFun{A}_t = \\underset{\\enfFun{a}}{\\operatorname{argmax}}\\left[
-\\enfOp{Q}_t(\\enfFun{a}) + \\enfPar{c} \\sqrt{\\frac{\\ln t}{N_t(\\enfFun{a})}}
+      <Math>{`\\enfFun{A}_t = \\arg\\max_{a}\\left[
+\\enfOp{Q}_t(a) + \\enfPar{c} \\sqrt{\\frac{\\ln t}{N_t(a)}}
 \\right]`}</Math>
 
       <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30 mt-4">
@@ -609,7 +609,7 @@ const CourseLesson1_7 = () => (
           <tbody className="divide-y divide-border/30 text-muted-foreground">
             <tr>
               <td className="p-3 font-medium text-foreground">
-                <Math display={false}>Q_t(a)</Math>
+                <Math display={false}>{String.raw`\enfOp{Q}_t(\enfFun{a})`}</Math>
               </td>
               <td className="p-3">
                 Термин использования: насколько хорошо действие проявило себя в
@@ -627,7 +627,7 @@ const CourseLesson1_7 = () => (
             </tr>
             <tr>
               <td className="p-3 font-medium text-foreground">
-                <Math display={false}>c</Math>
+                <Math display={false}>{String.raw`\enfPar{c}`}</Math>
               </td>
               <td className="p-3">
                 Коэффициент агрессивности исследования. Большее значение заставляет
@@ -640,8 +640,8 @@ const CourseLesson1_7 = () => (
 
       <p className="text-muted-foreground leading-relaxed mt-4">
         UCB обязательно требует инициализации: если действие ни разу не выбиралось,
-        <Math display={false}>N_t(a)=0</Math>, и формула делит на ноль. Поэтому в
-        первые <Math display={false}>K</Math> шагов обычно принудительно выбирают
+        <Math display={false}>{String.raw`N_t(\enfFun{a}) = 0`}</Math>, и формула делит на ноль. Поэтому в
+        первые <Math display={false}>{String.raw`K`}</Math> шагов обычно принудительно выбирают
         каждый рукав по одному разу.
       </p>
     </section>
@@ -754,7 +754,7 @@ const CourseLesson1_7 = () => (
       <p className="text-muted-foreground leading-relaxed mb-4">
         В эксперименте есть пять рекламных баннеров со скрытыми CTR: 10%, 50%, 80%,
         20% и 40%. Оптимальное действие - третий баннер с вероятностью успеха 80%.
-        Симуляция идет <Math display={false}>T=2000</Math> шагов и отслеживает две
+        Симуляция идет <Math display={false}>{String.raw`T = 2000`}</Math> шагов и отслеживает две
         метрики: кумулятивную награду и процент оптимальных выборов.
       </p>
       <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30">
@@ -809,7 +809,7 @@ const CourseLesson1_7 = () => (
               <code className="text-primary text-xs">
                 self.values[action] = value + (1.0 / n) * (reward - value)
               </code>
-              . Она требует <Math display={false}>O(1)</Math> памяти и времени.
+              . Она требует <Math display={false}>{String.raw`O(1)`}</Math> памяти и времени.
             </p>
           </CardContent>
         </Card>
@@ -821,7 +821,7 @@ const CourseLesson1_7 = () => (
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Главная программная особенность - защита от{" "}
-              <Math display={false}>N(a)=0</Math>. Метод <code className="text-primary text-xs">select_action</code>{" "}
+              <Math display={false}>{String.raw`N(\enfFun{a}) = 0`}</Math>. Метод <code className="text-primary text-xs">select_action</code>{" "}
               сначала проверяет все счетчики и возвращает первый еще не опробованный
               рукав. Только после этого вычисляется бонус{" "}
               <Math display={false}>{`\\sqrt{\\ln t / N(\\enfFun{a})}`}</Math>.

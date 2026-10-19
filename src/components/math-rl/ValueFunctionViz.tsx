@@ -24,8 +24,11 @@ const C = {
 };
 
 /* ─── Tex component ─── */
-function Tex({ children, display = false, size = 1.15, color }: {
-  children: string; display?: boolean; size?: number; color?: string;
+// Цвет формулы задают только роли ENF (\enfVar и др.). Своего цвета у обёртки
+// нет: нейтральные части — цвета текста, иначе скобки и индексы окрашивались
+// бы декоративно, а это запрещает ENF-COLOR-040.
+function Tex({ children, display = false, size = 1.15 }: {
+  children: string; display?: boolean; size?: number;
 }) {
   // KaTeX идёт из бандла (пакет `katex`), а не с CDN: одна версия на весь сайт
   // и никакой зависимости от внешнего хоста в рантайме.
@@ -42,7 +45,7 @@ function Tex({ children, display = false, size = 1.15, color }: {
     display: display ? "block" : "inline",
     textAlign: display ? "center" : undefined,
   };
-  if (color) style.color = color;
+  style.color = "hsl(var(--foreground))";
 
   if (!html) return <span style={{ fontFamily: C.mono, ...style }}>{children}</span>;
   return <span style={style} data-enf-tex={children} dangerouslySetInnerHTML={{ __html: html }} />;
@@ -120,7 +123,7 @@ function MDPDiagram({ startState, steps, highlightStep, onSelect, gamma }: {
                   position: "absolute", inset: -7, borderRadius: "50%",
                   border: `2px dashed ${s.color}50`, animation: "vfvSpin 8s linear infinite"
                 }} />}
-                <Tex size={1.1} color={isAct ? C.txt : C.txtMuted}>{s.tex}</Tex>
+                <Tex size={1.1}>{s.tex}</Tex>
               </div>
               <span style={{ fontFamily: C.sans, fontSize: 12, color: isAct ? C.txtDim : C.txtMuted }}>{s.label}</span>
             </div>
@@ -144,7 +147,7 @@ function MDPDiagram({ startState, steps, highlightStep, onSelect, gamma }: {
                 padding: isHL ? "3px 12px" : "0", borderRadius: 6,
                 background: isHL ? `${rc}15` : "transparent", transition: C.trans,
               }}>{r >= 0 ? "+" : ""}{r}</span>
-              {isHL && <Tex size={0.95} color={C.amber}>{`\\enfPar{\\gamma}^{${i - af}} = \\enfPar{${Math.pow(gamma, i - af).toFixed(3)}}`}</Tex>}
+              {isHL && <Tex size={0.95}>{`\\enfPar{\\gamma}^{${i - af}} = \\enfPar{${Math.pow(gamma, i - af).toFixed(3)}}`}</Tex>}
             </div>
           );
         })}
@@ -176,18 +179,18 @@ function StepCard({ step, isHL, onEnter, onLeave }: {
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
         <span style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim }}>Награда</span>
-        <Tex size={1.15} color={rc}>{`\\enfTgt{R} = \\enfTgt{${step.reward >= 0 ? "+" : ""}${step.reward}}`}</Tex>
+        <Tex size={1.15}>{`\\enfTgt{R} = \\enfTgt{${step.reward >= 0 ? "+" : ""}${step.reward}}`}</Tex>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
         <span style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim }}>Дисконт</span>
-        <Tex size={1.15} color={C.amber}>{`\\enfPar{\\gamma}^{${step.k}} = \\enfPar{${step.disc.toFixed(4)}}`}</Tex>
+        <Tex size={1.15}>{`\\enfPar{\\gamma}^{${step.k}} = \\enfPar{${step.disc.toFixed(4)}}`}</Tex>
       </div>
       <div style={{
         marginTop: 10, paddingTop: 10, borderTop: `1px solid ${C.border}`,
         display: "flex", justifyContent: "space-between", alignItems: "center"
       }}>
         <span style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim }}>Вклад</span>
-        <Tex size={1.3} color={step.contrib >= 0 ? C.green : C.red}>
+        <Tex size={1.3}>
           {`${step.contrib >= 0 ? "+" : ""}${step.contrib.toFixed(3)}`}
         </Tex>
       </div>
@@ -205,9 +208,9 @@ function GammaSliderCustom({ value, min, max, step, onChange, color = C.cyan, te
     <div style={{ marginBottom: 22 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
         {texLabel
-          ? <Tex size={1.1} color={C.txtDim}>{texLabel}</Tex>
+          ? <Tex size={1.1}>{texLabel}</Tex>
           : null}
-        <Tex size={1.3} color={color}>{value.toFixed(2)}</Tex>
+        <Tex size={1.3}>{value.toFixed(2)}</Tex>
       </div>
       <div style={{ position: "relative", height: 6, borderRadius: 3, background: "rgba(255,255,255,0.04)" }}>
         <div style={{
@@ -233,7 +236,7 @@ function Pill({ texLabel, value, color = C.cyan }: { texLabel: string; value: st
       background: `${color}08`, border: `1px solid ${color}25`
     }}>
       <span style={{ width: 6, height: 6, borderRadius: "50%", background: color, boxShadow: `0 0 6px ${color}` }} />
-      <Tex size={0.95} color={C.txtDim}>{texLabel}</Tex>
+      <Tex size={0.95}>{texLabel}</Tex>
       <span style={{ fontFamily: C.mono, fontSize: 15, color, fontWeight: 600 }}>{value}</span>
     </div>
   );
@@ -276,14 +279,17 @@ const ValueFunctionViz = () => {
           padding: "18px 24px", display: "flex", alignItems: "center", justifyContent: "space-between",
           borderBottom: `1px solid ${C.border}`, flexWrap: "wrap", gap: 12
         }}>
-          <div style={{ fontFamily: C.display, fontSize: 15, fontWeight: 700, letterSpacing: "0.15em",
-            background: `linear-gradient(90deg,${C.cyan},${C.magenta})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            Функция ценности V(s)
+          <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+            <div style={{ fontFamily: C.display, fontSize: 15, fontWeight: 700, letterSpacing: "0.15em",
+              background: `linear-gradient(90deg,${C.cyan},${C.magenta})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Функция ценности
+            </div>
+            <Tex size={1.05}>{String.raw`\enfOp{V}(\enfVar{s})`}</Tex>
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
             <Pill texLabel={`\\enfOp{V}(${STATES[startState].tex})`} value={G.toFixed(3)} color={C.cyan} />
-            <Pill texLabel="\\gamma" value={gamma.toFixed(2)} color={C.amber} />
-            <Pill texLabel="\\text{Горизонт}" value={horizon} color={C.green} />
+            <Pill texLabel="\enfPar{\gamma}" value={gamma.toFixed(2)} color={C.amber} />
+            <Pill texLabel="\text{Горизонт}" value={horizon} color={C.green} />
           </div>
         </div>
 
@@ -307,7 +313,7 @@ const ValueFunctionViz = () => {
                     background: startState === i ? `${s.color}12` : "rgba(255,255,255,0.02)",
                     border: `1px solid ${startState === i ? s.color + "40" : C.border}`,
                     borderRadius: 22, padding: "8px 16px", cursor: "pointer", transition: C.trans,
-                  }}><Tex size={1.05} color={startState === i ? s.color : C.txtDim}>{s.tex}</Tex></button>
+                  }}><Tex size={1.05}>{s.tex}</Tex></button>
                 ))}
               </div>
               <p style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim, marginTop: 10, lineHeight: 1.6 }}>
@@ -319,7 +325,7 @@ const ValueFunctionViz = () => {
               <div style={{ fontFamily: C.display, fontSize: 12, letterSpacing: "0.18em", color: C.txtMuted, textTransform: "uppercase", marginBottom: 14 }}>
                 Дисконт-фактор
               </div>
-              <GammaSliderCustom texLabel="\\gamma \\text{ (gamma)}" value={gamma} min={0.0} max={0.99} step={0.01} onChange={setGamma} color={C.amber} />
+              <GammaSliderCustom texLabel="\enfPar{\gamma} \text{ (gamma)}" value={gamma} min={0.0} max={0.99} step={0.01} onChange={setGamma} color={C.amber} />
               <div style={{
                 fontFamily: C.sans, fontSize: 13, color: C.txtDim, lineHeight: 1.6,
                 padding: "10px 12px", borderRadius: C.radiusSm, background: "rgba(255,255,255,0.02)", border: `1px solid ${C.border}`
@@ -331,7 +337,7 @@ const ValueFunctionViz = () => {
             {/* All V(s) */}
             <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
               <div style={{ fontFamily: C.display, fontSize: 12, letterSpacing: "0.18em", color: C.txtMuted, textTransform: "uppercase", marginBottom: 10 }}>
-                <Tex size={0.9} color={C.txtMuted}>{"\\enfOp{V}(\\enfVar{s})"}</Tex> всех состояний
+                <Tex size={0.9}>{"\\enfOp{V}(\\enfVar{s})"}</Tex> всех состояний
               </div>
               {STATES.map((s, i) => {
                 const val = allValues[i], maxV = Math.max(...allValues.map(Math.abs), 0.1);
@@ -341,7 +347,7 @@ const ValueFunctionViz = () => {
                     onClick={() => i < REWARDS.length && setStartState(i)}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
                       <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <Tex size={1.0} color={i === startState ? s.color : C.txtDim}>{`\\enfOp{V}(${s.tex})`}</Tex>
+                        <Tex size={1.0}>{`\\enfOp{V}(${s.tex})`}</Tex>
                         <span style={{ fontFamily: C.sans, fontSize: 11, color: C.txtMuted }}>{s.label}</span>
                       </span>
                       <span style={{ fontFamily: C.mono, fontSize: 14, color: s.color, fontWeight: 600 }}>{val.toFixed(2)}</span>
@@ -364,7 +370,7 @@ const ValueFunctionViz = () => {
               </div>
               <div style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim, lineHeight: 1.6, marginBottom: 10 }}>
                 {"При заданной политике "}
-                <Tex size={1.05} color={C.txt}>{"\\enfFun{\\pi}"}</Tex>
+                <Tex size={1.05}>{"\\enfFun{\\pi}"}</Tex>
                 {" определим функцию ценности как математическое ожидание дисконтированного возврата:"}
               </div>
               <div style={{
@@ -372,7 +378,7 @@ const ValueFunctionViz = () => {
                 background: "rgba(0,255,214,0.04)", border: "1px solid rgba(0,255,214,0.1)",
                 textAlign: "center", overflowX: "auto"
               }}>
-                <Tex display size={1.2} color={C.cyan}>
+                <Tex display size={1.2}>
                   {"\\enfOp{V}^{\\pi}(\\enfVar{s}) = \\mathbb{E}_{\\pi}\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^{\\,t}\\, \\enfTgt{R}_{t+1} \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}\\right]"}
                 </Tex>
               </div>
@@ -399,12 +405,12 @@ const ValueFunctionViz = () => {
               background: "rgba(0,255,214,0.03)", border: `1px solid ${C.cyan}15`
             }}>
               <div style={{ fontFamily: C.display, fontSize: 12, letterSpacing: "0.18em", color: C.cyan, textTransform: "uppercase", marginBottom: 10 }}>
-                Как вычисляется <Tex size={1.0} color={C.cyan}>{`\\enfOp{V}(${STATES[startState].tex})`}</Tex> ?
+                Как вычисляется <Tex size={1.0}>{`\\enfOp{V}(${STATES[startState].tex})`}</Tex> ?
               </div>
               <p style={{ fontFamily: C.sans, fontSize: 15, color: C.txt, lineHeight: 1.9, marginBottom: 8 }}>
                 Агент в <span style={{ color: STATES[startState].color, fontWeight: 600 }}>{STATES[startState].label}</span>.
                 Впереди <span style={{ fontWeight: 600 }}>{steps.length}</span> шагов до цели.
-                Каждая будущая награда <Tex size={1.0} color={C.green}>R_k</Tex> умножается на <Tex size={1.1} color={C.amber}>{`\\enfPar{\\gamma}^k`}</Tex> — чем дальше награда, тем меньше её вклад.
+                Каждая будущая награда <Tex size={1.0}>{String.raw`\enfTgt{R}_k`}</Tex> умножается на <Tex size={1.1}>{`\\enfPar{\\gamma}^k`}</Tex> — чем дальше награда, тем меньше её вклад.
               </p>
               {/* Live formula decomposition */}
               <div style={{
@@ -412,10 +418,10 @@ const ValueFunctionViz = () => {
                 border: `1px solid ${C.border}`, marginTop: 8, overflowX: "auto"
               }}>
                 <div style={{ marginBottom: 8 }}>
-                  <Tex display size={1.15} color={C.txt}>{`\\enfOp{V}(${STATES[startState].tex}) = ${formulaParts}`}</Tex>
+                  <Tex display size={1.15}>{`\\enfOp{V}(${STATES[startState].tex}) = ${formulaParts}`}</Tex>
                 </div>
                 <div style={{ marginBottom: 8 }}>
-                  <Tex display size={1.1} color={C.txtDim}>{`= ${numericParts}`}</Tex>
+                  <Tex display size={1.1}>{`= ${numericParts}`}</Tex>
                 </div>
                 <div>
                   <Tex display size={1.2}>{`= ${contribParts} = \\enfOp{\\mathbf{${G.toFixed(3)}}}`}</Tex>
@@ -441,7 +447,7 @@ const ValueFunctionViz = () => {
                     ИТОГО
                   </div>
                   <div style={{ marginBottom: 8 }}>
-                    <Tex display size={1.4} color={C.cyan}>{`\\enfOp{V}(${STATES[startState].tex}) = \\enfOp{${G.toFixed(3)}}`}</Tex>
+                    <Tex display size={1.4}>{`\\enfOp{V}(${STATES[startState].tex}) = \\enfOp{${G.toFixed(3)}}`}</Tex>
                   </div>
                   <div style={{ fontFamily: C.mono, fontSize: 12, color: C.txtDim, lineHeight: 1.8 }}>
                     {steps.map((s, i) => (
@@ -461,23 +467,23 @@ const ValueFunctionViz = () => {
             <div style={{ display: "flex", gap: 14 }} className="flex-col md:flex-row">
               <div style={{ flex: 1, padding: "16px 20px", borderRadius: C.radiusSm, background: C.card, border: `1px solid ${C.border}` }}>
                 <div style={{ fontFamily: C.display, fontSize: 12, letterSpacing: "0.18em", color: C.txtMuted, textTransform: "uppercase", marginBottom: 10 }}>
-                  Зачем нужна <Tex size={0.9} color={C.txtMuted}>V(s)</Tex> ?
+                  Зачем нужна <Tex size={0.9}>{String.raw`\enfOp{V}(\enfVar{s})`}</Tex> ?
                 </div>
                 <p style={{ fontFamily: C.sans, fontSize: 14, color: C.txtDim, lineHeight: 1.8 }}>
-                  <Tex size={1.0} color={C.txt}>V(s)</Tex> — это <span style={{ color: C.txt }}>«перспективность»</span> состояния.
-                  Если <Tex size={1.0} color={STATES[0].color}>{`\\enfOp{V}(\\enfVar{S}_0) = ${allValues[0].toFixed(1)}`}</Tex>, а{" "}
-                  <Tex size={1.0} color={STATES[2].color}>{`\\enfOp{V}(\\enfVar{S}_2) = ${allValues[2].toFixed(1)}`}</Tex> — агент знает,
-                  что <Tex size={1.0} color={STATES[0].color}>S_0</Tex> выгоднее, и стремится туда.
+                  <Tex size={1.0}>{String.raw`\enfOp{V}(\enfVar{s})`}</Tex> — это <span style={{ color: C.txt }}>«перспективность»</span> состояния.
+                  Если <Tex size={1.0}>{`\\enfOp{V}(\\enfVar{S}_0) = ${allValues[0].toFixed(1)}`}</Tex>, а{" "}
+                  <Tex size={1.0}>{`\\enfOp{V}(\\enfVar{S}_2) = ${allValues[2].toFixed(1)}`}</Tex> — агент знает,
+                  что <Tex size={1.0}>{String.raw`\enfVar{S}_0`}</Tex> выгоднее, и стремится туда.
                 </p>
               </div>
               <div style={{ flex: 1, padding: "16px 20px", borderRadius: C.radiusSm, background: C.card, border: `1px solid ${C.border}` }}>
                 <div style={{ fontFamily: C.display, fontSize: 12, letterSpacing: "0.18em", color: C.txtMuted, textTransform: "uppercase", marginBottom: 10 }}>
-                  Почему <Tex size={0.9} color={C.txtMuted}>{"\\enfPar{\\gamma} < 1"}</Tex> ?
+                  Почему <Tex size={0.9}>{"\\enfPar{\\gamma} < 1"}</Tex> ?
                 </div>
                 <p style={{ fontFamily: C.sans, fontSize: 14, color: C.txtDim, lineHeight: 1.8 }}>
                   Без дисконтирования (<Tex size={0.95}>{"\\enfPar{\\gamma} = 1"}</Tex>) бесконечная сумма расходится.{" "}
                   <Tex size={0.95}>{"\\enfPar{\\gamma} < 1"}</Tex> гарантирует <span style={{ color: C.cyan }}>сходимость</span> ряда.
-                  Эффективный горизонт: <Tex size={1.05} color={C.amber}>{`\\frac{1}{1-\\enfPar{\\gamma}} = ${horizon}`}</Tex> шагов.
+                  Эффективный горизонт: <Tex size={1.05}>{`\\frac{1}{1-\\enfPar{\\gamma}} = ${horizon}`}</Tex> шагов.
                 </p>
               </div>
             </div>

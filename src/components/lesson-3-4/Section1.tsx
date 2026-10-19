@@ -51,9 +51,9 @@ const Section1 = () => (
 
     <Callout title="Теорема 2.1 (Ross & Bagnell, AISTATS 2010)" color="amber">
       Пусть{" "}
-      <Math display={false}>{String.raw`\mathbb{E}_{s\sim d_{\pi^*}}[\enfTgt{\ell}(\enfVar{s},\enfFun{\pi})]=\enfVar{\epsilon}`}</Math>, а
-      стоимость <Math display={false}>C</Math> ограничена в <Math display={false}>[0,1]</Math>. Тогда
-      <Math display>{String.raw`\enfTgt{J}(\enfFun{\pi})\ \le\ \enfTgt{J}(\enfFun{\pi}^*) + T^2\enfVar{\epsilon}.`}</Math>
+      <Math display={false}>{String.raw`\mathbb{E}_{s\sim d_{\pi^*}}[\enfTgt{\ell}(\enfVar{s},\enfFun{\pi})]=\enfVar{\varepsilon}`}</Math>, а
+      стоимость <Math display={false}>{String.raw`\enfTgt{C}`}</Math> ограничена в <Math display={false}>{String.raw`[0, 1]`}</Math>. Тогда
+      <Math display>{String.raw`\enfTgt{J}(\enfFun{\pi})\ \le\ \enfTgt{J}(\enfFun{\pi}^*) + T^2\enfVar{\varepsilon}.`}</Math>
       Граница <strong>тугая</strong>: существуют MDP, где она достигается. Практический смысл для
       гоночного агента: чистый BC на демо с одной трассы накапливает ошибку на длинных кругах и
       срывается с трассы в незнакомых поворотах.
@@ -78,7 +78,7 @@ for i = 1..N:
       Каждая <Math display={false}>{String.raw`\enfFun{\pi}_t`}</Math> обучается на{" "}
       <strong>реальном</strong> распределении состояний, которое она встретит при исполнении. Задача
       сводится к no-regret online learning и даёт границу ошибки, <strong>линейную</strong> по{" "}
-      <Math display={false}>T</Math>. Цена — интерактивный дозапрос эксперта во время обучения.
+      <Math display={false}>{String.raw`T`}</Math>. Цена — интерактивный дозапрос эксперта во время обучения.
     </ProseP>
 
     <h3 className={H3_CLASS}>Когда BC работает, а когда — нет</h3>
@@ -110,7 +110,7 @@ for i = 1..N:
           BC — это MLE над парами эксперта; для непрерывного управления — MSE или NLL гауссианы.
         </>,
         <>
-          Теорема Ross &amp; Bagnell даёт <Math display={false}>{String.raw`O(T^2\enfVar{\epsilon})`}</Math>{" "}
+          Теорема Ross &amp; Bagnell даёт <Math display={false}>{String.raw`O(T^2\enfVar{\varepsilon})`}</Math>{" "}
           границу — единственный честный диагноз «почему BC ломается на длинных эпизодах».
         </>,
         <>

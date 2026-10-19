@@ -25,9 +25,9 @@ const Part2LinearAlgebra = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="1-6-базис-и-размерность">1.6. Базис и размерность</h3>
       <p>
-        <strong className="text-foreground">Базис</strong> — набор линейно независимых векторов <Math display={false}>{"\\{\\vec{e}_1, \\ldots, \\vec{e}_n\\}"}</Math>, через которые единственным образом выражается любой вектор пространства:
+        <strong className="text-foreground">Базис</strong> — набор линейно независимых векторов <Math display={false}>{"\\{\\enfVar{\\vec{e}}_1, \\ldots, \\enfVar{\\vec{e}}_n\\}"}</Math>, через которые единственным образом выражается любой вектор пространства:
       </p>
-      <Math>{"\\enfVar{\\vec{v}} = \\enfVar{x}_1\\vec{e}_1 + \\enfVar{x}_2\\vec{e}_2 + \\cdots + \\enfVar{x}_n\\vec{e}_n"}</Math>
+      <Math>{"\\enfVar{\\vec{v}} = \\enfVar{x}_1\\enfVar{\\vec{e}}_1 + \\enfVar{x}_2\\enfVar{\\vec{e}}_2 + \\cdots + \\enfVar{x}_n\\enfVar{\\vec{e}}_n"}</Math>
       <p>
         PCA ищет новый базис, сохраняя максимум информации меньшим числом координат — борьба с «проклятием размерности» в RL.
       </p>
@@ -37,22 +37,22 @@ const Part2LinearAlgebra = () => (
     <Section icon={<Layers className="w-5 h-5 text-secondary" />} title="2. Матрицы">
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-6 mb-3" id="2-1-определение-и-типы-матриц">2.1. Определение и типы матриц</h3>
       <p>Матрица <Math display={false}>{"\\enfFun{A}"}</Math> размера <Math display={false}>{"n \\times m"}</Math>:</p>
-      <Math>{"\\enfFun{A} = \\begin{pmatrix} a_{11} & a_{12} & \\cdots & a_{1m} \\\\ a_{21} & a_{22} & \\cdots & a_{2m} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ a_{n1} & a_{n2} & \\cdots & a_{nm} \\end{pmatrix}"}</Math>
+      <Math>{"\\enfFun{A} = \\begin{pmatrix} \\enfFun{a}_{11} & \\enfFun{a}_{12} & \\cdots & \\enfFun{a}_{1m} \\\\ \\enfFun{a}_{21} & \\enfFun{a}_{22} & \\cdots & \\enfFun{a}_{2m} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ \\enfFun{a}_{n1} & \\enfFun{a}_{n2} & \\cdots & \\enfFun{a}_{nm} \\end{pmatrix}"}</Math>
       <ul className="list-disc list-inside mt-2 space-y-1">
-        <li><strong className="text-foreground">Единичная:</strong> <Math display={false}>{"I_n"}</Math>, <strong className="text-foreground">диагональная:</strong> <Math display={false}>{"\\enfFun{D} = \\operatorname{diag}(d_1, \\ldots, d_n)"}</Math></li>
+        <li><strong className="text-foreground">Единичная:</strong> <Math display={false}>{"\\enfFun{I}_n"}</Math>, <strong className="text-foreground">диагональная:</strong> <Math display={false}>{"\\enfFun{D} = \\operatorname{diag}(d_1, \\ldots, d_n)"}</Math></li>
         <li><strong className="text-foreground">Симметрическая:</strong> <Math display={false}>{"\\enfFun{A} = \\enfFun{A}^\\top"}</Math>, <strong className="text-foreground">кососимметрическая:</strong> <Math display={false}>{"\\enfFun{A} = -\\enfFun{A}^\\top"}</Math></li>
       </ul>
       <InfoBox color="primary" title="Применение в RL">
         <ul className="list-disc list-inside space-y-1 text-sm">
           <li>Матрицы переходных вероятностей <Math display={false}>{"\\enfFun{P}^a_{ss'} = \\enfFun{P}(\\enfVar{s}_{t+1} = \\enfVar{s}' \\mid \\enfVar{s}_t = \\enfVar{s}, \\enfFun{a}_t = \\enfFun{a})"}</Math></li>
           <li>Весовые матрицы нейронных сетей в Deep RL</li>
-          <li>Уравнения Беллмана: <Math display={false}>{"\\enfOp{\\mathbf{V}} = (I - \\enfPar{\\gamma} \\enfFun{P}^\\pi)^{-1} \\enfTgt{\\mathbf{R}}^\\pi"}</Math></li>
+          <li>Уравнения Беллмана: <Math display={false}>{"\\enfOp{\\mathbf{V}} = (\\enfFun{I} - \\enfPar{\\gamma} \\enfFun{P}^\\pi)^{-1} \\enfTgt{\\mathbf{R}}^\\pi"}</Math></li>
         </ul>
       </InfoBox>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="2-2-операции-над-матрицами">2.2. Операции над матрицами</h3>
       <p><strong className="text-foreground">Произведение матриц</strong> <Math display={false}>{"\\enfFun{A}_{n \\times s} \\cdot \\enfFun{B}_{s \\times m} = \\enfFun{C}_{n \\times m}"}</Math>:</p>
-      <Math>{"\\enfPar{c}_{ij} = \\sum_{k=1}^{s} a_{ik}\\, b_{kj}"}</Math>
+      <Math>{"\\enfFun{c}_{ij} = \\sum_{k=1}^{s} \\enfFun{a}_{ik}\\, \\enfFun{b}_{kj}"}</Math>
       <p className="text-sm">⚠️ В общем случае <Math display={false}>{"\\enfFun{A}\\enfFun{B} \\neq \\enfFun{B}\\enfFun{A}"}</Math> (некоммутативность).</p>
       <p className="mt-2"><strong className="text-foreground">Транспонирование:</strong> <Math display={false}>{"(\\enfFun{A}\\enfFun{B})^\\top = \\enfFun{B}^\\top \\enfFun{A}^\\top"}</Math></p>
 
@@ -67,9 +67,9 @@ const Part2LinearAlgebra = () => (
       </InfoBox>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="2-5-обратная-матрица">2.5. Обратная матрица</h3>
-      <Math>{"\\enfFun{A}\\enfFun{A}^{-1} = \\enfFun{A}^{-1}\\enfFun{A} = I_n, \\quad \\text{существует} \\;\\Leftrightarrow\\; \\enfOp{\\det}(\\enfFun{A}) \\neq 0"}</Math>
+      <Math>{"\\enfFun{A}\\enfFun{A}^{-1} = \\enfFun{A}^{-1}\\enfFun{A} = \\enfFun{I}_n, \\quad \\text{существует} \\;\\Leftrightarrow\\; \\enfOp{\\det}(\\enfFun{A}) \\neq 0"}</Math>
       <p className="mt-2">Решение уравнений Беллмана:</p>
-      <Math>{"\\enfOp{\\mathbf{V}}^\\pi = (I - \\enfPar{\\gamma} \\enfFun{P}^\\pi)^{-1}\\, \\enfTgt{\\mathbf{R}}^\\pi"}</Math>
+      <Math>{"\\enfOp{\\mathbf{V}}^\\pi = (\\enfFun{I} - \\enfPar{\\gamma} \\enfFun{P}^\\pi)^{-1}\\, \\enfTgt{\\mathbf{R}}^\\pi"}</Math>
     </Section>
 
     {/* Section 3: Dot Product */}
@@ -77,7 +77,7 @@ const Part2LinearAlgebra = () => (
       <p><strong className="text-foreground">Геометрическое определение:</strong></p>
       <Math>{"\\enfVar{\\vec{a}} \\cdot \\enfVar{\\vec{b}} = \\|\\enfVar{\\vec{a}}\\| \\cdot \\|\\enfVar{\\vec{b}}\\| \\cdot \\cos\\enfVar{\\theta}"}</Math>
       <p><strong className="text-foreground">Алгебраическое (в координатах):</strong></p>
-      <Math>{"\\enfVar{\\vec{a}} \\cdot \\enfVar{\\vec{b}} = \\sum_{i=1}^{n} a_i\\, b_i = a_1 b_1 + a_2 b_2 + \\cdots + a_n b_n"}</Math>
+      <Math>{"\\enfVar{\\vec{a}} \\cdot \\enfVar{\\vec{b}} = \\sum_{i=1}^{n} \\enfVar{a}_i\\, \\enfVar{b}_i = \\enfVar{a}_1 \\enfVar{b}_1 + \\enfVar{a}_2 \\enfVar{b}_2 + \\cdots + \\enfVar{a}_n \\enfVar{b}_n"}</Math>
       <div className="mt-4 space-y-2">
         <p>• <Math display={false}>{"\\enfVar{\\theta} < 90^\\circ"}</Math> → произведение &gt; 0 (сонаправлены)</p>
         <p>• <Math display={false}>{"\\enfVar{\\theta} = 90^\\circ"}</Math> → произведение = 0 (<strong className="text-primary">ортогональность</strong>)</p>
@@ -98,7 +98,7 @@ const Part2LinearAlgebra = () => (
       <p className="mt-3">
         <Math display={false}>{"\\enfPar{\\lambda}"}</Math> — собственное значение, <Math display={false}>{"\\enfVar{\\vec{v}}"}</Math> — собственный вектор. Находим из характеристического уравнения:
       </p>
-      <Math>{"\\enfOp{\\det}(\\enfFun{A} - \\enfPar{\\lambda} I) = 0"}</Math>
+      <Math>{"\\enfOp{\\det}(\\enfFun{A} - \\enfPar{\\lambda} \\enfFun{I}) = 0"}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="спектральное-разложение">Спектральное разложение</h3>
       <p>Если <Math display={false}>{"\\enfFun{A}"}</Math> диагонализуема:</p>
@@ -149,7 +149,7 @@ const Part2LinearAlgebra = () => (
       </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="6-2-ортогональная-проекция">6.2. Ортогональная проекция</h3>
-      <Math>{"\\text{proj}_{\\mathcal{C}(A)}\\, \\enfTgt{\\mathbf{b}} = \\enfFun{A}(\\enfFun{A}^\\top \\enfFun{A})^{-1}\\enfFun{A}^\\top \\enfTgt{\\mathbf{b}}"}</Math>
+      <Math>{"\\operatorname{proj}_{\\mathcal{C}(A)}\\, \\enfTgt{\\mathbf{b}} = \\enfFun{A}(\\enfFun{A}^\\top \\enfFun{A})^{-1}\\enfFun{A}^\\top \\enfTgt{\\mathbf{b}}"}</Math>
       <p className="mt-2 text-sm">Основа метода наименьших квадратов и аппроксимации <Math display={false}>{"\\enfOp{V}(\\enfVar{s}) \\approx \\enfFun{\\Phi}\\enfPar{\\mathbf{w}}"}</Math>.</p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="6-3-изменение-базиса">6.3. Изменение базиса</h3>
@@ -166,7 +166,7 @@ const Part2LinearAlgebra = () => (
       </p>
       <InfoBox color="accent" title="В RL">
         <ul className="list-disc list-inside space-y-1 text-sm">
-          <li>Решение <Math display={false}>{"(I - \\enfPar{\\gamma} \\enfFun{P}^\\pi)\\enfOp{V} = \\enfTgt{R}^\\pi"}</Math> через LU</li>
+          <li>Решение <Math display={false}>{"(\\enfFun{I} - \\enfPar{\\gamma} \\enfFun{P}^\\pi)\\enfOp{V} = \\enfTgt{R}^\\pi"}</Math> через LU</li>
           <li>LSTD использует QR или SVD</li>
           <li>Натуральный градиент: обращение <Math display={false}>{"\\enfOp{F}^{-1}"}</Math> (матрица Фишера)</li>
         </ul>

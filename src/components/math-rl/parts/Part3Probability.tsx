@@ -73,9 +73,9 @@ const Part3Probability = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="проверка-гипотез">Проверка гипотез</h3>
       <ul className="list-disc list-inside space-y-2">
-        <li><Math display={false}>{`H_0`}</Math> — нулевая гипотеза (нет различия)</li>
-        <li><Math display={false}>{`H_1`}</Math> — альтернативная гипотеза</li>
-        <li><strong className="text-foreground">p-значение</strong> <Math display={false}>{`< 0.05`}</Math> → отклоняем <Math display={false}>{`H_0`}</Math></li>
+        <li><Math display={false}>{String.raw`\enfVar{H}_0`}</Math> — нулевая гипотеза (нет различия)</li>
+        <li><Math display={false}>{String.raw`\enfVar{H}_1`}</Math> — альтернативная гипотеза</li>
+        <li><strong className="text-foreground">p-значение</strong> <Math display={false}>{`< 0.05`}</Math> → отклоняем <Math display={false}>{String.raw`\enfVar{H}_0`}</Math></li>
       </ul>
 
       <InfoBox color="secondary" title="Применение в RL">
@@ -123,9 +123,19 @@ const Part3Probability = () => (
       <Math>{`\\enfOp{V}^\\pi(\\enfVar{s}) = \\mathbb{E}_\\pi\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_t \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}\\right]`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="функция-ценности-действия">Функция ценности действия</h3>
-      <Math>{`\\enfOp{Q}^\\pi(\\enfVar{s}, a) = \\mathbb{E}_\\pi\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^t \\enfTgt{R}_t \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}, A_0 = a\\right]`}</Math>
+      <Math>{`\\enfOp{Q}^\\pi(\\enfVar{s}, \\enfFun{a}) = \\mathbb{E}_\\pi\\left[\\sum_{t=0}^{\\infty} \\gamma^t \\enfTgt{R}_t \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}, \\enfFun{A}_0 = \\enfFun{a}\\right]`}</Math>
+      <p className="text-sm text-muted-foreground">
+        Отличие от <Math display={false}>{String.raw`\enfOp{V}^\pi`}</Math> — зафиксированное первое действие{" "}
+        <Math display={false}>{String.raw`\enfFun{a}`}</Math>, поэтому здесь окрашено оно, а дисконт{" "}
+        <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> в ней оставлен без цвета: в одной формуле не больше четырёх тонов.
+      </p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="уравнения-беллмана">Уравнения Беллмана</h3>
+      <p className="text-sm text-muted-foreground">
+        В уравнениях Беллмана окрашены ценность, состояние, награда и дисконт. Политика, переходы и действие
+        оставлены без цвета: в одной формуле не больше четырёх тонов, а речь здесь о том, как ценность
+        складывается из награды и дисконтированной ценности следующего состояния.
+      </p>
       <Math>{`\\enfOp{V}^\\pi(\\enfVar{s}) = \\sum_a \\pi(a \\mid \\enfVar{s}) \\sum_{s'} P(s' \\mid \\enfVar{s}, a) \\bigl[\\enfTgt{R}(\\enfVar{s}, a, s') + \\enfPar{\\gamma}\\, \\enfOp{V}^\\pi(s')\\bigr]`}</Math>
       <Math>{`\\enfOp{Q}^\\pi(\\enfVar{s}, a) = \\sum_{s'} P(s' \\mid \\enfVar{s}, a) \\left[\\enfTgt{R}(\\enfVar{s}, a, s') + \\enfPar{\\gamma} \\sum_{a'} \\pi(a' \\mid s')\\, \\enfOp{Q}^\\pi(s', a')\\right]`}</Math>
 

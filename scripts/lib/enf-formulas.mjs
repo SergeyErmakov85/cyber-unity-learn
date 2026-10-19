@@ -55,6 +55,16 @@ export function formulasOf(src) {
     push(tex, m.index, "jsx");
   }
 
+  // Формула текстом JSX без фигурных скобок: <Math display={false}>Q(s, a)</Math>.
+  // В JSX-тексте обратный слеш не экранируется, поэтому TeX берётся как есть.
+  const BARE_RE = /<([A-Z][A-Za-z0-9_]*)\b(?:[^>{]|\{[^}]*\})*>([^{}<]+)<\/\1>/g;
+  for (const m of src.matchAll(BARE_RE)) {
+    if (!MATH_TAGS.has(m[1])) continue;
+    const tex = m[2].trim();
+    if (!tex || !/\\[a-zA-Z]+|[\^_]|[A-Za-z]/.test(tex)) continue;
+    push(tex, m.index, "jsx");
+  }
+
   const DATA_RE =
     /\b(tex|formula|latex|texLabel|symbol)\s*:\s*(String\.raw)?(`(?:[^`\\]|\\[\s\S])*`|"((?:[^"\\]|\\.)*)")/g;
   for (const m of src.matchAll(DATA_RE)) {
@@ -63,6 +73,21 @@ export function formulasOf(src) {
     const tex = unescape(lit.slice(1, -1), kind);
     if (!/\\[a-zA-Z]+|[\^_]/.test(tex)) continue;
     push(tex, m.index, "data");
+  }
+
+  // Атрибут JSX: <FormulaBlock tex="\enfOp{Q}…" />. В строке атрибута JSX
+  // экранирования нет: TeX пишется с одинарным слешем, как в String.raw.
+  const ATTR_RE = /\b(tex|texLabel|formula|latex|symbol)=(?:"([^"]*)"|\{(String\.raw)?(`(?:[^`\\]|\\[\s\S])*`|"((?:[^"\\]|\\.)*)")\})/g;
+  for (const m of src.matchAll(ATTR_RE)) {
+    let tex;
+    if (m[2] !== undefined) tex = m[2];
+    else {
+      const lit = m[4];
+      const kind = m[3] ? "raw" : lit[0] === "`" ? "tpl" : "dq";
+      tex = unescape(lit.slice(1, -1), kind);
+    }
+    if (!/\\[a-zA-Z]+|[\^_]/.test(tex)) continue;
+    push(tex, m.index, "attr");
   }
 
   // `$…$` в строках для RichText. Ищем по строковым литералам целиком,
