@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import RichText from "@/components/math-symbols/RichText";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 
 const Section7TensorBoard = () => (
@@ -40,14 +41,14 @@ const Section7TensorBoard = () => (
               ["Policy/Entropy (PPO/SAC)",       "Случайность политики",                          "«Should slowly decrease during a successful training process»"],
               ["Policy/Learning Rate",           "Текущий learning rate",                         "Падает (если linear schedule)"],
               ["Policy/Extrinsic Reward",        "Награда от среды",                              "Растёт (то же, что Cumulative)"],
-              ["Policy/Value Estimate",          "Средняя V(s)",                                  "«Should increase during a successful training session»"],
-              ["Policy/Entropy Coefficient",     "α — текущая температура (SAC)",                 "Адаптируется автоматически"],
+              ["Policy/Value Estimate",          String.raw`Средняя $\enfOp{V}(\enfVar{s})$`,                                  "«Should increase during a successful training session»"],
+              ["Policy/Entropy Coefficient",     String.raw`$\enfPar{\alpha}$ — текущая температура (SAC)`,                 "Адаптируется автоматически"],
               ["Losses/Policy Loss",             "Магнитуда policy loss",                          "«Magnitude should decrease during a successful training session»"],
-              ["Losses/Value Loss",              "MSE предсказания V",                            "«Should increase while learning, then decrease once reward stabilizes»"],
+              ["Losses/Value Loss",              String.raw`MSE предсказания $\enfOp{V}$`,                            "«Should increase while learning, then decrease once reward stabilizes»"],
             ].map(([metric, what, behavior]) => (
               <tr key={metric} className="border-b border-white/5 hover:bg-white/2 transition-colors">
                 <td className="py-2 px-3 font-mono text-purple-300 text-xs font-medium whitespace-nowrap">{metric}</td>
-                <td className="py-2 px-3">{what}</td>
+                <td className="py-2 px-3"><RichText text={what} /></td>
                 <td className="py-2 px-3 text-muted-foreground/70 italic">{behavior}</td>
               </tr>
             ))}

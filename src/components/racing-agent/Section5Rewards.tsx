@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import Math from "@/components/Math";
+import RichText from "@/components/math-symbols/RichText";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 
 const Section5Rewards = () => (
@@ -72,13 +73,13 @@ const Section5Rewards = () => (
           </thead>
           <tbody className="text-muted-foreground">
             {[
-              [String.raw`R_{\text{cp}}`,   "+1.0",       "Karting Mod: «If AI success reaching checkpoint will be given reward +1»"],
-              [String.raw`R_{\text{final}}`,"+0.5",       "Savid et al. 2023: «the agent reaches the final checkpoint, a reward of 0.5 is given»"],
-              [String.raw`R_{\text{coll}}`, "−1.0 + EndEpisode", "Karting Mod: «If AI hit obstacle/track AI position will be reset to the starting point and will be given penalty -1»"],
-              [String.raw`\eta\text{ (time)}`, "0.0005…0.001", "Savid et al. 2023: «To incentivize speed, agents are given a small −0.001 reward (punishment)»"],
-              [String.raw`\alpha\text{ (speed)}`, "0.001", "Эмпирически, сообщество ML-Agents"],
-              [String.raw`\beta\text{ (orient)}`, "0.0005","Эмпирически"],
-              [String.raw`\rho\text{ (smoothness)}`,"0.0002","Низкое значение — иначе агент не исследует"],
+              [String.raw`\enfTgt{R}_{\text{cp}}`,   "+1.0",       "Karting Mod: «If AI success reaching checkpoint will be given reward +1»"],
+              [String.raw`\enfTgt{R}_{\text{final}}`,"+0.5",       "Savid et al. 2023: «the agent reaches the final checkpoint, a reward of 0.5 is given»"],
+              [String.raw`\enfTgt{R}_{\text{coll}}`, "−1.0 + EndEpisode", "Karting Mod: «If AI hit obstacle/track AI position will be reset to the starting point and will be given penalty -1»"],
+              [String.raw`\enfPar{\eta}\text{ (time)}`, "0.0005…0.001", "Savid et al. 2023: «To incentivize speed, agents are given a small −0.001 reward (punishment)»"],
+              [String.raw`\enfPar{\alpha}\text{ (speed)}`, "0.001", "Эмпирически, сообщество ML-Agents"],
+              [String.raw`\enfPar{\beta}\text{ (orient)}`, "0.0005","Эмпирически"],
+              [String.raw`\enfPar{\rho}\text{ (smoothness)}`,"0.0002","Низкое значение — иначе агент не исследует"],
             ].map(([coeff, val, note]) => (
               <tr key={coeff} className="border-b border-white/5 hover:bg-white/2 transition-colors">
                 <td className="py-2 px-3 font-mono text-xs text-purple-300">
@@ -161,17 +162,17 @@ private void ApplyShapedReward(float steering, float acceleration)
           {
             n: "3",
             title: "Намеренное столкновение для рестарта",
-            solution: `R_coll = −1.0, что перекрывает любую промежуточную выгоду.`,
+            solution: String.raw`$\enfTgt{R}_{\text{coll}} = -1{,}0$ — штраф перекрывает любую промежуточную выгоду.`,
           },
           {
             n: "4",
             title: "Подавление исследования из-за smoothness penalty",
-            solution: "ρ ≤ 0.0005; на ранней стадии обучения отключайте этот компонент полностью. «In a different setup where the agent did not receive penalties for steering and reversing, the results were improved».",
+            solution: String.raw`$\enfPar{\rho} \le 0{,}0005$; на ранней стадии обучения отключайте этот компонент полностью. «In a different setup where the agent did not receive penalties for steering and reversing, the results were improved».`,
           },
           {
             n: "5",
             title: "«Прилипание» к −1.0",
-            solution: "Если Mean Reward стабильно равен −1.000, time penalty доминирует (1000 шагов × −0.001 = −1.000). Уменьшайте η до −0.0001.",
+            solution: String.raw`Если Mean Reward стабильно равен −1.000, time penalty доминирует: $1000 \cdot (\enfPar{-0{,}001}) = -1$ за эпизод. Уменьшайте $\enfPar{\eta}$ до $0{,}0001$.`,
           },
         ].map(({ n, title, solution }) => (
           <div key={n} className="flex gap-4 p-4 rounded-xl bg-card/40 border border-white/5">
@@ -180,7 +181,7 @@ private void ApplyShapedReward(float steering, float acceleration)
             </div>
             <div className="space-y-1">
               <p className="font-semibold text-sm text-foreground">{title}</p>
-              <p className="text-xs text-muted-foreground leading-relaxed">{solution}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed"><RichText text={solution} /></p>
             </div>
           </div>
         ))}

@@ -1,4 +1,5 @@
 import { BookOpen, TrendingUp, Layers, BarChart3, Code2, GraduationCap, ArrowLeft } from "lucide-react";
+import RichText from "@/components/math-symbols/RichText";
 import { Link } from "react-router-dom";
 import Math from "@/components/Math";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
@@ -669,12 +670,12 @@ print(f"\\nTD-ошибка через 300 шагов: {td_err[-1]:.8f} → 0")`}
         <GlossaryItem
           term="Последовательность"
           formula={`\\enfVar{x}_1, \\enfVar{x}_2, \\ldots, \\enfVar{x}_n, \\ldots`}
-          definition="Набор пронумерованных элементов. Пример: вознаграждения R₁, R₂, …, Rₜ, …"
+          definition={String.raw`Набор пронумерованных элементов. Пример: вознаграждения $\enfTgt{R}_1, \enfTgt{R}_2, \ldots, \enfTgt{R}_t, \ldots$`}
         />
         <GlossaryItem
           term="Предел последовательности"
           formula={`\\lim_{n \\to \\infty} \\enfVar{x}_n = \\enfTgt{a} \\iff \\forall \\enfPar{\\varepsilon} > 0\\; \\exists N:\\; \\forall n > N,\\; |\\enfVar{x}_n - \\enfTgt{a}| < \\enfPar{\\varepsilon}`}
-          definition="Число a, к которому приближаются члены последовательности."
+          definition={String.raw`Число $\enfTgt{a}$, к которому приближаются члены последовательности.`}
         />
         <GlossaryItem
           term="Сходимость ряда"
@@ -684,12 +685,12 @@ print(f"\\nTD-ошибка через 300 шагов: {td_err[-1]:.8f} → 0")`}
         <GlossaryItem
           term="Дисконтирование"
           formula={`\\enfOp{G}_t = \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^k \\enfTgt{R}_{t+k+1}, \\quad \\enfPar{\\gamma} \\in [0, 1)`}
-          definition="Умножение вознаграждения на γᵗ за задержку на t шагов."
+          definition={String.raw`Умножение вознаграждения на $\enfPar{\gamma}^t$ за задержку на $t$ шагов.`}
         />
         <GlossaryItem
           term="Контрактное отображение"
           formula={`\\enfFun{d}(\\enfFun{F}(\\enfVar{x}), \\enfFun{F}(\\enfVar{y})) \\leq \\enfPar{\\kappa}\\, \\enfFun{d}(\\enfVar{x}, \\enfVar{y}), \\quad \\enfPar{\\kappa} < 1`}
-          definition="Отображение с единственной неподвижной точкой. Оператор Беллмана — γ-сжатие в max-норме."
+          definition={String.raw`Отображение с единственной неподвижной точкой. Оператор Беллмана — $\enfPar{\gamma}$-сжатие в max-норме.`}
         />
       </div>
     </Section>
@@ -736,7 +737,7 @@ const GlossaryItem = ({ term, formula, definition }: { term: string; formula: st
     <div className="overflow-x-auto">
       <Math className="my-1 py-2">{formula}</Math>
     </div>
-    <dd className="text-muted-foreground text-sm">{definition}</dd>
+    <dd className="text-muted-foreground text-sm"><RichText text={definition} /></dd>
   </div>
 );
 

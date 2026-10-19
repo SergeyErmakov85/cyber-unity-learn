@@ -161,7 +161,7 @@ const CourseLesson2_2 = () => {
             <Card className="bg-card/60 backdrop-blur-sm border-secondary/30">
               <CardContent className="p-5">
                 <div className="text-xs font-bold text-secondary uppercase tracking-wide mb-2">Critic <Math display={false}>{String.raw`\enfOp{V}_{\phi}(\enfVar{s})`}</Math></div>
-                <div className="text-sm text-muted-foreground">Linear → Tanh → Linear → Tanh → V(s) (1 dim)</div>
+                <div className="text-sm text-muted-foreground">Linear → Tanh → Linear → Tanh → <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</Math> (1 dim)</div>
               </CardContent>
             </Card>
           </div>

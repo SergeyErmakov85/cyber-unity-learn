@@ -687,13 +687,13 @@ env.close()`}
               {[
                 "Reinforcement Learning — парадигма МО, где агент учится через взаимодействие со средой и получение наград",
                 "Цикл RL: агент наблюдает состояние → выбирает действие → получает награду → переходит в новое состояние",
-                "MDP (S, A, T, R, γ) — формальная модель, описывающая задачу RL",
-                "Параметр γ (gamma) определяет, насколько агент учитывает будущие награды",
+                String.raw`MDP $(\mathcal{S}, \mathcal{A}, \enfFun{T}, \enfTgt{R}, \enfPar{\gamma})$ — формальная модель, описывающая задачу RL`,
+                String.raw`Параметр $\enfPar{\gamma}$ (gamma) определяет, насколько агент учитывает будущие награды`,
                 "Exploration vs Exploitation — ключевая дилемма: исследовать новое или использовать известное",
               ].map((point, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <span className="text-primary font-bold text-sm mt-0.5">{i + 1}.</span>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{point}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed"><RichText text={point} /></p>
                 </div>
               ))}
             </div>

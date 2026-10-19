@@ -41,7 +41,7 @@ const quizQuestions = [
     correctIndex: 1,
   },
   {
-    question: "Зачем в Actor-Critic вычитают V(s) из Q(s,a) для получения преимущества A(s,a)?",
+    question: String.raw`Зачем в Actor-Critic вычитают $\enfOp{V}(\enfVar{s})$ из $\enfOp{Q}(\enfVar{s}, \enfFun{a})$ для получения преимущества $\enfOp{A}(\enfVar{s}, \enfFun{a})$?`,
     options: [
       "Чтобы ускорить вычисление градиента в 2 раза",
       "Чтобы убрать «общий уровень» состояния и резко снизить дисперсию градиента политики",

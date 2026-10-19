@@ -412,7 +412,7 @@ const DemoProject = () => {
                     </div>
                     <div className="px-4 py-2 rounded-lg bg-primary/10 border border-primary/30 text-center">
                       <span className="font-mono text-xs text-primary">Value Head</span>
-                      <span className="text-xs text-muted-foreground block">Baseline V(s)</span>
+                      <span className="text-xs text-muted-foreground block">Baseline <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</Math></span>
                     </div>
                   </div>
                 </div>
@@ -783,7 +783,7 @@ const DemoProject = () => {
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Марковские процессы принятия решений (MDP)</h4>
-                        <p>Обучение с подкреплением формализуется через MDP, определяемый кортежем <code className="text-primary text-xs">(S, A, P, R, γ)</code>, где S — множество состояний, A — пространство действий, P — динамика переходных вероятностей среды, R — функция награды, а <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> — фактор дисконтирования.</p>
+                        <p>Обучение с подкреплением формализуется через MDP, определяемый кортежем <Math display={false}>{String.raw`(\mathcal{S}, \mathcal{A}, \enfFun{P}, \enfTgt{R}, \enfPar{\gamma})`}</Math>, где <Math display={false}>{String.raw`\mathcal{S}`}</Math> — множество состояний, <Math display={false}>{String.raw`\mathcal{A}`}</Math> — пространство действий, <Math display={false}>{String.raw`\enfFun{P}`}</Math> — динамика переходных вероятностей среды, <Math display={false}>{String.raw`\enfTgt{R}`}</Math> — функция награды, а <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> — фактор дисконтирования.</p>
                       </div>
 
                       <div>
@@ -1103,7 +1103,7 @@ log_prob_cont = dist_cont.log_prob(raw_action)  # ✓ Корректно`}</Cybe
                           <CardTitle className="text-sm text-accent">📉 Value Loss</CardTitle>
                         </CardHeader>
                         <CardContent className="text-xs text-muted-foreground">
-                          Высокий пик на первых итерациях (V(s) случайная), затем экспоненциальное падение — критик научился предсказывать <Math display={false}>{String.raw`\enfOp{G}_t`}</Math>.
+                          Высокий пик на первых итерациях (<Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</Math> случайная), затем экспоненциальное падение — критик научился предсказывать <Math display={false}>{String.raw`\enfOp{G}_t`}</Math>.
                         </CardContent>
                       </Card>
                       <Card className="bg-background/50 border-border/50">

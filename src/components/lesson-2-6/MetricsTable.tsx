@@ -55,7 +55,7 @@ const METRICS: MetricRow[] = [
   {
     category: "critic",
     name: "train/value_loss (critic)",
-    shows: "MSE(V(s), target return)",
+    shows: String.raw`MSE между $\enfOp{V}(\enfVar{s})$ и целевой отдачей`,
     healthy: "падает → стабилизируется",
     problems: "растёт неограниченно → overestimation / неверный $\\enfPar{\\gamma}$",
   },
@@ -105,7 +105,7 @@ const METRICS: MetricRow[] = [
   {
     category: "off-policy",
     name: "Q-values histogram (DQN/SAC)",
-    shows: "распределение Q(s,a)",
+    shows: String.raw`распределение $\enfOp{Q}(\enfVar{s}, \enfFun{a})$`,
     healthy: "растёт ограниченно",
     problems:
       "unbounded growth → overestimation bias → Double DQN / Clipped Double Q",

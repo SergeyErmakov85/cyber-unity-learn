@@ -35,6 +35,8 @@ print(next_states((1, 1), RIGHT))
 
 interface TupleSlot {
   letter: string;
+  /** Символ кортежа MDP в KaTeX: цвет — роль ENF, а не цвет карточки. */
+  tex: string;
   name: string;
   desc: string;
   section: string;
@@ -45,6 +47,7 @@ interface TupleSlot {
 const MDP_SLOTS: TupleSlot[] = [
   {
     letter: "S",
+    tex: String.raw`\mathcal{S}`,
     name: "States",
     desc: "множество всех клеток комнаты",
     section: "§ 2.1",
@@ -52,6 +55,7 @@ const MDP_SLOTS: TupleSlot[] = [
   },
   {
     letter: "A",
+    tex: String.raw`\mathcal{A}`,
     name: "Actions",
     desc: "четыре шага бота",
     section: "§ 2.2",
@@ -59,6 +63,7 @@ const MDP_SLOTS: TupleSlot[] = [
   },
   {
     letter: "P",
+    tex: String.raw`\enfFun{P}`,
     name: "Transitions",
     desc: "построили только что",
     section: "§ 3",
@@ -66,6 +71,7 @@ const MDP_SLOTS: TupleSlot[] = [
   },
   {
     letter: "R",
+    tex: String.raw`\enfTgt{R}`,
     name: "Rewards",
     desc: "батарея, лужа и штраф за шаг",
     section: "§ 2.3",
@@ -73,6 +79,7 @@ const MDP_SLOTS: TupleSlot[] = [
   },
   {
     letter: "γ",
+    tex: String.raw`\enfPar{\gamma}`,
     name: "Discount",
     desc: "скоро объясним",
     section: "к § 5",
@@ -109,10 +116,9 @@ const TupleBox = () => (
             fontSize: 28,
             lineHeight: 1,
             color: slot.color,
-            textShadow: `0 0 10px ${slot.color}66`,
           }}
         >
-          {slot.letter}
+          <Math display={false}>{slot.tex}</Math>
         </div>
         <div
           className="mt-2"

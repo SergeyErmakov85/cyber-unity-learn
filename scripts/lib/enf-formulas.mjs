@@ -37,9 +37,11 @@ const unescape = (body, kind) =>
 export function formulasOf(src) {
   const out = [];
   const seen = new Set();
-  const push = (tex, index, kind) => {
+  const spans = [];
+  const push = (tex, index, kind, end = index + 1) => {
     if (seen.has(index)) return;
     seen.add(index);
+    spans.push([index, end]);
     out.push({ tex, line: lineOf(src, index), kind, dynamic: tex.includes("${") });
   };
 
@@ -52,7 +54,7 @@ export function formulasOf(src) {
     const kind = raw ? "raw" : tpl !== undefined ? "tpl" : "dq";
     const tex = unescape(body, kind);
     if (!/\\[a-zA-Z]+|[\^_]|[A-Za-z]/.test(tex)) continue;
-    push(tex, m.index, "jsx");
+    push(tex, m.index, "jsx", m.index + m[0].length);
   }
 
   // Формула текстом JSX без фигурных скобок: <Math display={false}>Q(s, a)</Math>.
@@ -72,7 +74,7 @@ export function formulasOf(src) {
     const kind = m[2] ? "raw" : lit[0] === "`" ? "tpl" : "dq";
     const tex = unescape(lit.slice(1, -1), kind);
     if (!/\\[a-zA-Z]+|[\^_]/.test(tex)) continue;
-    push(tex, m.index, "data");
+    push(tex, m.index, "data", m.index + m[0].length);
   }
 
   // Атрибут JSX: <FormulaBlock tex="\enfOp{Q}…" />. В строке атрибута JSX
@@ -87,7 +89,18 @@ export function formulasOf(src) {
       tex = unescape(lit.slice(1, -1), kind);
     }
     if (!/\\[a-zA-Z]+|[\^_]/.test(tex)) continue;
-    push(tex, m.index, "attr");
+    push(tex, m.index, "attr", m.index + m[0].length);
+  }
+
+  // Любой String.raw`…` с TeX: так формулы лежат в кортежах таблиц
+  // ([String.raw`R_{\text{cp}}`, "+1.0", …]) и потом попадают в <Math>{coeff}</Math>.
+  // Строки с `$…$` — текст для RichText, их формулы разбираются ниже.
+  for (const m of src.matchAll(/String\.raw`((?:[^`\\]|\\[\s\S])*)`/g)) {
+    const tex = m[1];
+    if (spans.some(([a, b]) => m.index >= a && m.index < b)) continue;
+    if (tex.includes("$") || detectCode(tex)) continue;
+    if (!/\\[a-zA-Z]+|[\^_]\{?/.test(tex)) continue;
+    push(tex, m.index, "data");
   }
 
   // `$…$` в строках для RichText. Ищем по строковым литералам целиком,

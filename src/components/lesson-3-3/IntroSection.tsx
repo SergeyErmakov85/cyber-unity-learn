@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import Math from "@/components/Math";
 import TldrBox from "@/components/ui/TldrBox";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import { GraduationCap, TrendingUp, Shuffle, Sliders, Swords } from "lucide-react";
@@ -130,7 +131,7 @@ const IntroSection = () => (
         <li className="flex gap-2.5">
           <span className="text-purple-400 mt-0.5 shrink-0">▸</span>
           <span>
-            <strong>Дисконтирование</strong> <code className={chip}>γ</code> — хаб{" "}
+            <strong>Дисконтирование</strong> <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> — хаб{" "}
             <CrossLinkToHub hubPath="/math-rl/module-1" hubTitle="Математика → Дисконтирование">
               Дисконтирование ↗
             </CrossLinkToHub>

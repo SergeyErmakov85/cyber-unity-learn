@@ -60,7 +60,7 @@ const A3CModule = () => {
                   <h3 className="text-lg font-semibold mb-2">Advantage Function</h3>
                   <Math>{"\\enfOp{A}(\\enfVar{s}_t, a_t) = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Advantage показывает насколько действие лучше «среднего» — critic V(s) оценивает baseline.
+                    Advantage показывает насколько действие лучше «среднего» — critic <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</Math> оценивает baseline.
                   </p>
                 </div>
 

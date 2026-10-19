@@ -1554,7 +1554,7 @@ const CourseProject2 = () => {
                     s: "Reward плоский около нуля",
                     m: "Cumulative Reward",
                     c: "Сигнал слишком слабый или негативный baseline; Охотник не находит цель случайно.",
-                    a: "Поднять terminal bonus до +1.0, проверить, что PBRS-Φ направлена к цели, уменьшить размер арены на 30%.",
+                    a: String.raw`Поднять terminal bonus до +1.0, проверить, что потенциал PBRS $\enfFun{\Phi}$ направлен к цели, уменьшить размер арены на 30%.`,
                   },
                   {
                     s: "Reward растёт, Episode Length не падает",
@@ -1632,7 +1632,7 @@ const CourseProject2 = () => {
                         borderBottom: `1px solid ${BORDER}`,
                       }}
                     >
-                      {row.a}
+                      <RichText text={row.a} />
                     </td>
                   </tr>
                 ))}

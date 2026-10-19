@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import RichText from "@/components/math-symbols/RichText";
 import { Button } from "@/components/ui/button";
 import {
   Dices,
@@ -62,7 +63,7 @@ const HIDDEN_ISSUES = [
   },
   {
     label: "value function divergence",
-    text: "Q-значения уходят в +∞ (overestimation в DQN)",
+    text: String.raw`Q-значения уходят в $+\infty$ (overestimation в DQN)`,
   },
   { label: "reward hacking", text: "агент находит лазейку в shaping reward" },
   { label: "KL blow-up в PPO", text: "approx_kl ≫ target_kl" },
@@ -131,7 +132,7 @@ const WhyVisualizeSection = () => {
                 <Icon className="w-5 h-5" />
               </div>
               <h4 className="font-bold text-foreground leading-snug">{title}</h4>
-              <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed"><RichText text={text} /></p>
             </CardContent>
           </Card>
         ))}
@@ -152,7 +153,7 @@ const WhyVisualizeSection = () => {
                 <span className="text-amber-400 mt-1 shrink-0">●</span>
                 <span className="text-foreground/90">
                   <strong className="text-amber-200">{label}</strong>
-                  <span className="text-muted-foreground"> — {text};</span>
+                  <span className="text-muted-foreground"> — <RichText text={text} />;</span>
                 </span>
               </li>
             ))}

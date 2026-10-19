@@ -75,7 +75,7 @@ const quizQuestions = [
     ],
     correctIndex: 2,
     explanation:
-      "DQN минимизирует разницу между предсказанным Q(s,a) и target-значением. MSE Loss подходит, но Huber Loss (SmoothL1) более устойчив к выбросам — он квадратичен для малых ошибок и линеен для больших.",
+      String.raw`DQN минимизирует разницу между предсказанным $\enfOp{Q}(\enfVar{s}, \enfFun{a})$ и target-значением. MSE Loss подходит, но Huber Loss (SmoothL1) более устойчив к выбросам — он квадратичен для малых ошибок и линеен для больших.`,
   },
   {
     question: "Как часто обновляется Target Network в классическом DQN?",
@@ -555,7 +555,7 @@ print(f"\\nФинальный средний reward (последние 100): "
             </AccordionTrigger>
             <AccordionContent className="px-4">
               <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                В уроке 1.6 мы использовали одну сеть и для предсказания Q(s,a), и для
+                В уроке 1.6 мы использовали одну сеть и для предсказания <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</Math>, и для
                 вычисления target. Проблема: на каждом шаге target сдвигается вместе с
                 обучением — сеть «гоняется за собственным хвостом».
               </p>

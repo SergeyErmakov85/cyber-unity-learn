@@ -1,3 +1,4 @@
+import RichText from "@/components/math-symbols/RichText";
 /**
  * AdvantageGAEViz — V(s) → A(s,a) → GAE с интерактивным λ.
  * Используется в src/pages/CourseProject2.tsx, секция #ppo-hyperparams,
@@ -92,9 +93,9 @@ const AdvantageGAEViz = () => {
 
   const biasVarLabel =
     lambda < 0.15
-      ? "λ → 0 · низкая дисперсия / высокий bias"
+      ? String.raw`$\enfPar{\lambda} \to 0$ · низкая дисперсия / высокий bias`
       : lambda > 0.85
-        ? "λ → 1 · низкий bias / высокая дисперсия"
+        ? String.raw`$\enfPar{\lambda} \to 1$ · низкий bias / высокая дисперсия`
         : "сбалансированный режим";
 
   return (
@@ -149,7 +150,7 @@ const AdvantageGAEViz = () => {
             letterSpacing: "0.02em",
           }}
         >
-          {biasVarLabel}
+          <RichText text={biasVarLabel} />
         </div>
       </div>
 

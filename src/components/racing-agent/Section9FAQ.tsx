@@ -1,4 +1,5 @@
 import { useState, ReactNode } from "react";
+import Math from "@/components/Math";
 import { ChevronDown } from "lucide-react";
 
 interface FAQItem {
@@ -61,7 +62,7 @@ const FAQ_ITEMS: FAQItem[] = [
         Увеличьте <code className="bg-muted/50 px-1 text-xs">Decision Period</code> в{" "}
         <code className="bg-muted/50 px-1 text-xs">DecisionRequester</code> до 5; либо включите
         smoothness penalty, но не превышайте{" "}
-        <code className="bg-muted/50 px-1 text-xs">ρ = 0.0005</code>.
+        <Math display={false}>{String.raw`\enfPar{\rho} = 0{,}0005`}</Math>.
       </>
     ),
   },

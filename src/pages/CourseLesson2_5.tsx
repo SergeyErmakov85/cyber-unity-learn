@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import MathTex from "@/components/Math";
 import { motion } from "framer-motion";
 import {
   AlertTriangle, Cpu, Layers, Lightbulb, Network, Shuffle, Zap,
@@ -240,7 +241,7 @@ const CourseLesson2_5 = () => {
             </p>
             <MathFormula display>{String.raw`\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) = \mathbb{E}_t \left[ \min\left( \enfFun{r}_t(\enfPar{\theta}) \, \enfOp{\hat{A}}_t, \; \operatorname{clip}(\enfFun{r}_t(\enfPar{\theta}), 1-\enfPar{\epsilon}, 1+\enfPar{\epsilon}) \, \enfOp{\hat{A}}_t \right) \right]`}</MathFormula>
             <p className="text-muted-foreground leading-relaxed text-sm">
-              Параметр <code className="text-accent">ε = 0.2</code> ограничивает размер шага. Параллельные среды дают
+              Параметр <MathTex display={false}>{String.raw`\enfPar{\varepsilon} = 0{,}2`}</MathTex> ограничивает размер шага. Параллельные среды дают
               устойчивую оценку GAE из разнообразных начальных состояний.
             </p>
           </Section>

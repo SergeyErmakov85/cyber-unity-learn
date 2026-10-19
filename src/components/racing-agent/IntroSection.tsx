@@ -2,6 +2,7 @@ import { Gauge, Activity, Layers, Trophy } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import TldrBox from "@/components/ui/TldrBox";
 import Math from "@/components/Math";
+import RichText from "@/components/math-symbols/RichText";
 import HubLink from "@/components/math-rl/HubLink";
 
 const KEY_FINDINGS = [
@@ -139,14 +140,14 @@ const IntroSection = () => (
               ["Наблюдение",      "Observation, oₜ",           "То, что фактически «видит» агент (часть состояния)"],
               ["Действие",        "Action, aₜ",                "Решение агента (поворот руля, газ, тормоз)"],
               ["Награда",         "Reward, rₜ",                "Скалярный сигнал качества действия"],
-              ["Политика",        "Policy, π(a|s)",            "Функция/распределение действий по состояниям"],
+              ["Политика",        String.raw`Policy, $\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})$`,            "Функция/распределение действий по состояниям"],
               ["Функция ценности","Value function, Vᵠ(s)",     "Ожидаемая будущая суммарная награда из s"],
               ["Функция Q",       "Action-value, Qᵠ(s,a)",    "Ожидаемая награда после действия a в s"],
               ["Эпизод",          "Episode",                   "Последовательность шагов до терминального состояния"],
             ].map(([ru, en, desc]) => (
               <tr key={ru} className="border-b border-white/5 hover:bg-white/2 transition-colors">
                 <td className="py-2 px-3 font-medium text-foreground/80">{ru}</td>
-                <td className="py-2 px-3 font-mono text-xs text-purple-300">{en}</td>
+                <td className="py-2 px-3 font-mono text-xs text-purple-300"><RichText text={en} /></td>
                 <td className="py-2 px-3">{desc}</td>
               </tr>
             ))}

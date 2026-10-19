@@ -253,7 +253,7 @@ const Section_BellmanBridge = () => {
             <FormulaCard
               label="Bellman expectation · § 5–6"
               labelColor={MAGENTA}
-              note="средняя ценность при следовании политике π"
+              note={<>средняя ценность при следовании политике <Math display={false}>{String.raw`\enfFun{\pi}`}</Math></>}
               tex="\enfOp{V}^{\pi}(\enfVar{s}) \;=\; \sum_{a} \pi(a \mid \enfVar{s}) \sum_{s'} P(s' \mid \enfVar{s}, a)\,\bigl[\, \enfTgt{R}(s') + \enfPar{\gamma}\, \enfOp{V}^{\pi}(s') \,\bigr]"
             />
 

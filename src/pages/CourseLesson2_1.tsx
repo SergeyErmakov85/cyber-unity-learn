@@ -13,7 +13,7 @@ const quizQuestions = [
     question: "Почему value-based методы (DQN) плохо работают с непрерывными действиями?",
     options: [
       "Они слишком медленные",
-      "Невозможно перебрать бесконечное множество действий для выбора argmax Q(s,a)",
+      String.raw`Невозможно перебрать бесконечное множество действий для выбора $\arg\max_a \enfOp{Q}(\enfVar{s}, a)$`,
       "Они не используют нейронные сети",
       "Value-based методы работают только с изображениями",
     ],
@@ -30,7 +30,7 @@ const quizQuestions = [
     correctIndex: 1,
   },
   {
-    question: "Зачем используется baseline V(s) в Policy Gradient?",
+    question: String.raw`Зачем используется baseline $\enfOp{V}(\enfVar{s})$ в Policy Gradient?`,
     options: [
       "Для увеличения reward",
       "Для снижения дисперсии оценки градиента без изменения bias",
@@ -58,11 +58,11 @@ const CourseLesson2_1 = () => {
         <h2 className="text-2xl font-bold text-foreground mb-4">Проблема value-based методов</h2>
         <p className="text-muted-foreground leading-relaxed">
           В предыдущем уровне мы реализовали DQN — мощный алгоритм, который учится оценивать
-          Q(s, a) для каждого дискретного действия. Но что, если действия <strong className="text-foreground">непрерывные</strong>?
+          <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</Math> для каждого дискретного действия. Но что, если действия <strong className="text-foreground">непрерывные</strong>?
           Например, угол поворота руля (от -1 до +1) или сила нажатия на газ (от 0 до 1)?
         </p>
         <p className="text-muted-foreground leading-relaxed mt-3">
-          В DQN мы выбираем действие как argmax Q(s, a) — перебирая все возможные действия.
+          В DQN мы выбираем действие как <Math display={false}>{String.raw`\arg\max_a \enfOp{Q}(\enfVar{s}, a)`}</Math> — перебирая все возможные действия.
           Но в непрерывном пространстве действий их бесконечно много! Нужен другой подход —
           <strong className="text-primary"> напрямую оптимизировать политику</strong>.
         </p>

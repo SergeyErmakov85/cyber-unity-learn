@@ -291,7 +291,7 @@ const AdvantageLab = () => {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold text-primary mb-2">Цель</h3>
-        <p className="text-muted-foreground">Понять, как baseline V(s) снижает дисперсию градиента и стабилизирует обучение.</p>
+        <p className="text-muted-foreground">Понять, как baseline <MathTex display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</MathTex> снижает дисперсию градиента и стабилизирует обучение.</p>
       </div>
 
       <CyberCodeBlock language="python" filename="advantage.py">{`def compute_advantage(rewards, values, gamma=0.99):
@@ -303,11 +303,11 @@ const AdvantageLab = () => {
     return advantages`}</CyberCodeBlock>
 
       <Card className="border-primary/30">
-        <CardHeader><CardTitle className="text-sm">A(s,a) = Q(s,a) − V(s)</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-sm"><MathTex display={false}>{String.raw`\enfOp{A}(\enfVar{s}, \enfFun{a}) = \enfOp{Q}(\enfVar{s}, \enfFun{a}) - \enfOp{V}(\enfVar{s})`}</MathTex></CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div>
             <div className="flex justify-between text-sm mb-2">
-              <span>V(s) baseline</span><span className="text-primary font-mono">{baseline.toFixed(1)}</span>
+              <span><MathTex display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</MathTex> baseline</span><span className="text-primary font-mono">{baseline.toFixed(1)}</span>
             </div>
             <Slider value={[baseline]} onValueChange={([v]) => setBaseline(v)} min={-5} max={5} step={0.1} />
           </div>
@@ -337,7 +337,7 @@ const AdvantageLab = () => {
       <Card className="border-accent/30">
         <CardHeader><CardTitle className="text-sm">🧠 Вопросы</CardTitle></CardHeader>
         <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>1. Что происходит с advantage, когда V(s) равно среднему Q?</p>
+          <p>1. Что происходит с advantage, когда <MathTex display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</MathTex> равно среднему <MathTex display={false}>{String.raw`\enfOp{Q}`}</MathTex>?</p>
           <p>2. Почему нормализация advantage важна для стабильности?</p>
         </CardContent>
       </Card>

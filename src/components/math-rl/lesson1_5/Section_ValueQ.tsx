@@ -491,7 +491,8 @@ const Section_ValueQ = () => {
         className="text-2xl font-bold tracking-wide"
         style={{ fontFamily: HEADING_FONT, color: MAGENTA }}
       >
-        § 6. А если уточнить — Q(s, a)
+        § 6. А если уточнить —{" "}
+        <MathFormula display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</MathFormula>
       </h2>
       <p
         className="text-sm italic mt-1"

@@ -1,4 +1,5 @@
 import { BookOpen } from "lucide-react";
+import RichText from "@/components/math-symbols/RichText";
 import { Section } from "./Section";
 
 const Introduction = () => (
@@ -17,14 +18,14 @@ const Introduction = () => (
         "Возврат, политики и функции ценности",
         "Уравнения Беллмана (ожиданий и оптимальности)",
         "Монте-Карло, TD-обучение, SARSA, Q-learning",
-        "Следы пригодности TD(λ)",
+        String.raw`Следы пригодности TD($\enfPar{\lambda}$)`,
         "Deep RL: DQN и аппроксимация функций",
         "Policy Gradients, REINFORCE, Actor-Critic",
         "Практика: Unity ML-Agents",
       ].map((item, i) => (
         <div key={i} className="flex items-start gap-2 text-sm">
           <span className="text-primary font-mono font-bold min-w-[1.5rem]">{i + 1}.</span>
-          <span>{item}</span>
+          <span><RichText text={item} /></span>
         </div>
       ))}
     </div>
