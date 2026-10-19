@@ -75,7 +75,7 @@ const DQNModule = () => {
                   <h3 className="text-lg font-semibold mb-2">Функция потерь DQN</h3>
                   <Math>{"\\enfTgt{L}(\\enfPar{\\theta}) = \\mathbb{E}\\left[ \\left( \\enfTgt{r} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}(\\enfVar{s}', a'; \\enfPar{\\theta}^-) - \\enfOp{Q}(\\enfVar{s}, a; \\enfPar{\\theta}) \\right)^2 \\right]"}</Math>
                   <p className="text-sm text-muted-foreground mt-2">
-                    θ⁻ — параметры target network, которая обновляется периодически для стабильности.
+                    <Math display={false}>{String.raw`\enfPar{\theta}^{-}`}</Math> — параметры target network, которая обновляется периодически для стабильности.
                   </p>
                 </div>
 
@@ -183,7 +183,7 @@ class DQNAgent:
                   <h3 className="text-lg font-semibold mb-2">Решение Double DQN</h3>
                   <Math>{"\\enfTgt{Y}^{\\text{DDQN}} = \\enfTgt{r} + \\enfPar{\\gamma} \\enfOp{Q}\\left(\\enfVar{s}', \\arg\\max_{a'} \\enfOp{Q}(\\enfVar{s}', a'; \\enfPar{\\theta}); \\enfPar{\\theta}^-\\right)"}</Math>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Online-сеть (θ) выбирает лучшее действие, а target-сеть (θ⁻) оценивает его Q-значение.
+                    Online-сеть <Math display={false}>{String.raw`(\enfPar{\theta})`}</Math> выбирает лучшее действие, а target-сеть <Math display={false}>{String.raw`(\enfPar{\theta}^{-})`}</Math> оценивает его Q-значение.
                   </p>
                 </div>
 
@@ -271,7 +271,7 @@ with torch.no_grad():
                   <h3 className="text-lg font-semibold mb-2">Importance Sampling</h3>
                   <Math>{"\\enfVar{w}_i = \\left( \\frac{1}{N} \\cdot \\frac{1}{\\enfFun{P}(i)} \\right)^\\beta"}</Math>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Веса importance sampling корректируют bias от неравномерной выборки. β увеличивается от 0.4 до 1.0 в процессе обучения.
+                    Веса importance sampling корректируют bias от неравномерной выборки. <Math display={false}>{String.raw`\enfPar{\beta}`}</Math> увеличивается от 0.4 до 1.0 в процессе обучения.
                   </p>
                 </div>
               </CardContent>

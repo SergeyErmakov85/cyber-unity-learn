@@ -103,7 +103,7 @@ const FcaRlModule = () => {
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li><strong className="text-foreground">G</strong> — множество объектов (эксперименты, конфигурации, состояния)</li>
                     <li><strong className="text-foreground">M</strong> — множество признаков (свойства, атрибуты)</li>
-                    <li><strong className="text-foreground">I ⊆ G × M</strong> — отношение инциденции: «объект g обладает признаком m»</li>
+                    <li><strong className="text-foreground"><Math display={false}>{String.raw`I \subseteq G \times M`}</Math></strong> — отношение инциденции: «объект g обладает признаком m»</li>
                   </ul>
 
                   <p>

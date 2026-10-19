@@ -4,6 +4,7 @@ import { Link2, GraduationCap, Wrench, ExternalLink, BookMarked } from "lucide-r
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import { MONETIZATION_ENABLED } from "@/config/monetization";
+import Math from "@/components/Math";
 
 const HUBS: Array<{ path: string; anchor?: string; title: string; label: string }> = [
   {
@@ -93,7 +94,7 @@ const EXTERNAL: Array<{ label: string; url: string }> = [
 
 const SOURCES: ReactNode[] = [
   <><strong>Akiba, Sano, Yanase, Ohta, Koyama (2019).</strong> <em>Optuna: A Next-generation Hyperparameter Optimization Framework.</em> KDD 2019. arXiv:1907.10902. — Взято: define-by-run API, архитектура study/trial, Algorithm 1 (прунинг на основе Successive Halving / ASHA), результаты по прунингу.</>,
-  <><strong>Bergstra, Bardenet, Bengio, Kégl (2011).</strong> <em>Algorithms for Hyper-Parameter Optimization.</em> NeurIPS 2011. — Взято: вывод TPE, плотности ℓ(λ)/g(λ), формула EI ∝ (γ + g/ℓ(1−γ))⁻¹, дефолт γ.</>,
+  <><strong>Bergstra, Bardenet, Bengio, Kégl (2011).</strong> <em>Algorithms for Hyper-Parameter Optimization.</em> NeurIPS 2011. — Взято: вывод TPE, плотности <Math display={false}>{String.raw`\enfFun{\ell} (\enfPar{\lambda})/\enfFun{g}(\enfPar{\lambda})`}</Math>, формула EI <Math display={false}>{String.raw`\propto (\enfPar{\gamma} + \enfFun{g}/\enfFun{\ell} (1-\enfPar{\gamma}))^{-1}`}</Math>, дефолт <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math>.</>,
   <><strong>Bergstra, Bengio (2012).</strong> <em>Random Search for Hyper-Parameter Optimization.</em> JMLR 13. — Взято: низкая эффективная размерность, превосходство random над grid, тезис о baseline.</>,
   <><strong>Li, Jamieson, DeSalvo, Rostamizadeh, Talwalkar (2018).</strong> <em>Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization.</em> JMLR 18(185). — Взято: брекеты SHA, компромисс n vs B/n, формула числа брекетов.</>,
   <><strong>Li et al. (2018/2020).</strong> <em>A System for Massively Parallel Hyperparameter Tuning (ASHA).</em> arXiv:1810.05934. — Взято: асинхронный SHA, линейное масштабирование по воркерам.</>,

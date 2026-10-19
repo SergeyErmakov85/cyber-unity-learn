@@ -78,7 +78,7 @@ const SACModule = () => {
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li><strong className="text-foreground">Высокая энтропия</strong> — политика более случайная (исследование)</li>
                 <li><strong className="text-foreground">Низкая энтропия</strong> — политика более детерминированная (использование)</li>
-                <li><strong className="text-foreground">α</strong> автоматически настраивается во время обучения</li>
+                <li><strong className="text-foreground"><Math display={false}>{String.raw`\enfPar{\alpha}`}</Math></strong> автоматически настраивается во время обучения</li>
               </ul>
             </CardContent>
           </Card>

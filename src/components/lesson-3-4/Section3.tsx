@@ -57,7 +57,7 @@ const Section3 = () => (
       служит <Math display={false}>{String.raw`\enfFun{\psi}^*`}</Math>.
     </Callout>
 
-    <h3 className={H3_CLASS}>Выбор ψGA и связь с GAN</h3>
+    <h3 className={H3_CLASS}>Выбор <Math display={false}>{String.raw`\enfFun{\psi}`}</Math>GA и связь с GAN</h3>
     <ProseP>
       Ho &amp; Ermon вводят регуляризатор (Eq. 13):
     </ProseP>

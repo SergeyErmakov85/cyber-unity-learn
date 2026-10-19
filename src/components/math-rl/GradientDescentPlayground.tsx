@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import MathTex from "@/components/Math";
 
 const f = (x: number) => x * x - 4 * x + 5;
 const grad = (x: number) => 2 * x - 4;
@@ -141,11 +142,11 @@ const GradientDescentPlayground = () => {
         {/* Controls */}
         <div className="space-y-4">
           <div>
-            <label className="text-xs font-semibold text-muted-foreground uppercase">Learning Rate α: {alpha.toFixed(2)}</label>
+            <label className="text-xs font-semibold text-muted-foreground uppercase">Learning Rate <MathTex display={false}>{String.raw`\enfPar{\alpha}`}</MathTex>: {alpha.toFixed(2)}</label>
             <Slider min={1} max={150} step={1} value={[alpha * 100]} onValueChange={([v]) => setAlpha(v / 100)} className="mt-1" />
           </div>
           <div>
-            <label className="text-xs font-semibold text-muted-foreground uppercase">Нач. точка x₀: {x0.toFixed(1)}</label>
+            <label className="text-xs font-semibold text-muted-foreground uppercase">Нач. точка <MathTex display={false}>{String.raw`\enfVar{x}_{0}`}</MathTex>: {x0.toFixed(1)}</label>
             <Slider min={-20} max={60} step={1} value={[x0 * 10]} onValueChange={([v]) => { setX0(v / 10); }} className="mt-1" />
           </div>
 
@@ -168,7 +169,7 @@ const GradientDescentPlayground = () => {
             <p className="text-sm text-destructive">⚠️ Слишком большой learning rate — возможна расходимость!</p>
           )}
           {diverged && (
-            <p className="text-sm text-destructive">❌ Расходимость! Уменьши α и нажми Сброс.</p>
+            <p className="text-sm text-destructive">❌ Расходимость! Уменьши <MathTex display={false}>{String.raw`\enfPar{\alpha}`}</MathTex> и нажми Сброс.</p>
           )}
           {converged && !diverged && (
             <p className="text-sm text-primary">✅ Сошёлся к минимуму x* = 2! 🎉</p>

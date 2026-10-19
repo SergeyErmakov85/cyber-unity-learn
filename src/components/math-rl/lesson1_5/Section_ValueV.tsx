@@ -350,7 +350,7 @@ const VHeatmap = () => {
               fontSize: 12,
             }}
           >
-            <span style={{ color: "rgba(255,255,255,0.75)" }}>γ — коэффициент дисконта</span>
+            <span style={{ color: "rgba(255,255,255,0.75)" }}><MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula> — коэффициент дисконта</span>
             <span style={{ color: CYAN, fontSize: 14 }}>{gamma.toFixed(2)}</span>
           </div>
           <Slider
@@ -477,14 +477,12 @@ const Section_ValueV = () => {
       <div className="mt-6 flex flex-col gap-7">
         {/* ─────── Step 1: сумма наград ─────── */}
         <div className="flex flex-col gap-3">
-          <StepBadge n={1} color={AMBER}>Шаг 1 · Возврат G_t — что я реально получил</StepBadge>
+          <StepBadge n={1} color={AMBER}>Шаг 1 · Возврат <MathFormula display={false}>{String.raw`\enfOp{G}_t`}</MathFormula> — что я реально получил</StepBadge>
           <p style={{ color: "rgba(255,255,255,0.9)" }}>
             Агент прожил эпизод и собрал цепочку наград{" "}
-            <span style={{ fontFamily: MONO_FONT, color: AMBER }}>
-              R<sub>t+1</sub>, R<sub>t+2</sub>, R<sub>t+3</sub>, …
-            </span>{" "}
+            <MathFormula display={false}>{String.raw`\enfTgt{R}_{t+1}, \enfTgt{R}_{t+2}, \enfTgt{R}_{t+3}, \ldots`}</MathFormula>{" "}
             Самая прямолинейная метрика успеха — просто сложить всё, что он
-            получил с момента <span style={{ fontFamily: MONO_FONT }}>t</span> до конца:
+            получил с момента <MathFormula display={false}>{String.raw`t`}</MathFormula> до конца:
           </p>
 
           <FormulaBlock
@@ -509,7 +507,7 @@ const Section_ValueV = () => {
         {/* ─────── Step 2: дисконтирование ─────── */}
         <div className="flex flex-col gap-3">
           <StepBadge n={2} color={MAGENTA}>
-            Шаг 2 · Дисконтирование γ — «ценим ближнее больше»
+            Шаг 2 · Дисконтирование <MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula> — «ценим ближнее больше»
           </StepBadge>
 
           <p style={{ color: "rgba(255,255,255,0.9)" }}>
@@ -531,7 +529,7 @@ const Section_ValueV = () => {
             <span style={{ color: MAGENTA, fontFamily: MONO_FONT, fontSize: 13 }}>1.</span>
             <span>
               Берём фиксированное{" "}
-              <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>γ ∈ [0, 1)</span> — одно
+              <MathFormula display={false}>{String.raw`\enfPar{\gamma} \in [0, 1)`}</MathFormula> — одно
               число на всю жизнь агента.
             </span>
 
@@ -539,7 +537,7 @@ const Section_ValueV = () => {
             <span>
               Каждый следующий шаг во времени умножает будущую награду ещё на
               один{" "}
-              <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>γ</span>.
+              <MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula>.
             </span>
 
             <span style={{ color: MAGENTA, fontFamily: MONO_FONT, fontSize: 13 }}>3.</span>
@@ -557,7 +555,7 @@ const Section_ValueV = () => {
 
           <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 13 }}>
             При{" "}
-            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>γ &lt; 1</span> и ограниченных
+            <MathFormula display={false}>{String.raw`\enfPar{\gamma} < 1`}</MathFormula> и ограниченных
             наградах эта сумма всегда конечна — сходимость следует из того же
             геометрического ряда, на который мы только что сослались в хабе.
           </p>
@@ -571,7 +569,7 @@ const Section_ValueV = () => {
 
           <p style={{ color: "rgba(255,255,255,0.9)" }}>
             Величина{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>G_t</span>{" "}
+            <MathFormula display={false}>{String.raw`\enfOp{G}_t`}</MathFormula>{" "}
             случайна: среда стохастична (10% slip из § 3), политика тоже бывает
             стохастичной. Говорить про «значение состояния» осмысленно только
             как про среднее по всем возможным исходам:
@@ -586,9 +584,9 @@ const Section_ValueV = () => {
           <p style={{ color: "rgba(255,255,255,0.85)" }}>
             Читается ровно одной строкой: «сколько бот в среднем заработает,
             стартуя из{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>s</span> и
+            <MathFormula display={false}>{String.raw`\enfVar{s}`}</MathFormula> и
             действуя по{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>π</span>».
+            <MathFormula display={false}>{String.raw`\enfFun{\pi}`}</MathFormula>».
             Никакой развёрнутой теории математического ожидания здесь не нужно —
             она уже лежит отдельным параграфом в хабе математики RL.
           </p>
@@ -601,9 +599,9 @@ const Section_ValueV = () => {
           </StepBadge>
           <p style={{ color: "rgba(255,255,255,0.85)" }}>
             Следующий естественный ход — разложить это{" "}
-            <span style={{ fontFamily: MONO_FONT, color: AMBER }}>𝔼</span>{" "}
+            <MathFormula display={false}>{String.raw`\mathbb{E}`}</MathFormula>{" "}
             на сумму по одношаговым переходам и получить рекурсивную связь{" "}
-            <span style={{ fontFamily: MONO_FONT }}>V<sup>π</sup>(s) ↔ V<sup>π</sup>(s')</span>.
+            <MathFormula display={false}>{String.raw`\enfOp{V}^{\pi}(\enfVar{s}) \leftrightarrow \enfOp{V}^{\pi}(\enfVar{s}')`}</MathFormula>.
             Это уравнение Беллмана; полноценно выведем его в следующем параграфе,
             а для дотошных — готовый разбор:
           </p>
@@ -613,7 +611,7 @@ const Section_ValueV = () => {
               anchor="уравнение-ожиданий-беллмана"
               variant="pill"
             >
-              Полный вывод рекурсивной формулы V^π(s)
+              Полный вывод рекурсивной формулы V^<MathFormula display={false}>{String.raw`\enfFun{\pi} (\enfVar{s})`}</MathFormula>
             </HubLink>
           </div>
         </div>
@@ -633,10 +631,10 @@ const Section_ValueV = () => {
           <p style={{ color: "rgba(255,255,255,0.85)" }}>
             Пока мы не знаем никакой умной рекурсии — самый прямой способ
             оценить{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V<sup>π</sup></span>{" "}
+            <MathFormula display={false}>{String.raw`\enfOp{V}^{\pi}`}</MathFormula>{" "}
             такой: прогнать много эпизодов и для каждого посещённого состояния
             записать получившийся{" "}
-            <span style={{ fontFamily: MONO_FONT }}>G_t</span>, а потом усреднить.
+            <MathFormula display={false}>{String.raw`\enfOp{G}_t`}</MathFormula>, а потом усреднить.
             Два честных куска кода:
           </p>
 
@@ -652,11 +650,9 @@ const Section_ValueV = () => {
             Дальше — сам estimator. Ключевой трюк: идём по траектории{" "}
             <span style={{ fontFamily: MONO_FONT, color: CYAN }}>reversed</span>,
             накапливая{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>
-              G = r + γ·G
-            </span>
+            <MathFormula display={false}>{String.raw`\enfOp{G} = \enfTgt{r} + \enfPar{\gamma}\cdot\enfOp{G}`}</MathFormula>
             . За один проход получаем{" "}
-            <span style={{ fontFamily: MONO_FONT }}>G_t</span> для всех шагов эпизода.
+            <MathFormula display={false}>{String.raw`\enfOp{G}_t`}</MathFormula> для всех шагов эпизода.
           </p>
 
           <CyberCodeBlock language="python">{MC_CODE}</CyberCodeBlock>
@@ -676,14 +672,14 @@ const Section_ValueV = () => {
           </h3>
           <p style={{ color: "rgba(255,255,255,0.85)" }}>
             Ниже — та же самая оценка, только посчитанная аналитически (iterative
-            policy evaluation до сходимости, равномерная политика π(a|s)=1/4).
+            policy evaluation до сходимости, равномерная политика <MathFormula display={false}>{String.raw`\enfFun{\pi} (\enfFun{a} \mid \enfVar{s})=1/4`}</MathFormula>).
             Двигая ползунок{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>γ</span>, видно
-            главное: чем больше γ, тем сильнее «подсвечиваются» клетки, откуда
+            <MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula>, видно
+            главное: чем больше <MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula>, тем сильнее «подсвечиваются» клетки, откуда
             до батареи{" "}
             <span aria-hidden>🔋</span> можно дойти — лужа{" "}
             <span aria-hidden>💧</span> даёт отрицательный вклад почти при любом
-            γ.
+            {" "}<MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula>.
           </p>
 
           <VHeatmap />
@@ -697,8 +693,8 @@ const Section_ValueV = () => {
             }}
           >
             Значения — ожидаемый дисконтированный возврат{" "}
-            <span style={{ fontFamily: MONO_FONT }}>V<sup>π</sup>(s)</span> при
-            равномерной π. Терминальные клетки (лужа и батарея) по соглашению
+            <MathFormula display={false}>{String.raw`\enfOp{V}^{\pi}(\enfVar{s})`}</MathFormula> при
+            равномерной <MathFormula display={false}>{String.raw`\enfFun{\pi}`}</MathFormula>. Терминальные клетки (лужа и батарея) по соглашению
             имеют V=0 — из них уже ничего не происходит.
           </p>
 

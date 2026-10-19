@@ -6,6 +6,7 @@ import { BookOpen, Brain, Zap, Target, Code2, TrendingUp, Layers, ArrowLeft } fr
 import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import Math from "@/components/Math";
 
 const DeepRLModule = () => {
   const navigate = useNavigate();
@@ -298,7 +299,7 @@ const DeepRLModule = () => {
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li><strong className="text-foreground">Клипированная целевая функция:</strong> Ограничивает
-                  отношение новой и старой политик в диапазоне [1−ε, 1+ε], предотвращая
+                  отношение новой и старой политик в диапазоне <Math display={false}>{String.raw`[1-\enfPar{\varepsilon}, 1+\enfPar{\varepsilon}]`}</Math>, предотвращая
                   катастрофически большие обновления.</li>
                 <li><strong className="text-foreground">Advantage Estimation (GAE):</strong> Использует
                   обобщённую оценку преимущества для снижения дисперсии градиентов при сохранении
@@ -337,7 +338,7 @@ const DeepRLModule = () => {
                 <li><strong className="text-foreground">Двойные Q-сети:</strong> Две независимые Q-функции
                   для борьбы с переоценкой Q-значений. Используется минимум из двух оценок.</li>
                 <li><strong className="text-foreground">Автоматическая настройка температуры:</strong> Коэффициент
-                  α (баланс между наградой и энтропией) подбирается автоматически в процессе обучения.</li>
+                  {" "}<Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> (баланс между наградой и энтропией) подбирается автоматически в процессе обучения.</li>
               </ul>
               <CyberCodeBlock language="pseudo">{`# Целевая функция SAC:
 # J(π) = E[Σ γ^t (r_t + α · H(π(·|s_t)))]

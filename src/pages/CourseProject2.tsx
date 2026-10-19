@@ -485,7 +485,7 @@ const CourseProject2 = () => {
             Все векторные фичи нормализуем в{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>[-1, 1]</span>:
             позиции делим на полудиагональ арены, скорости — на максимальный
-            модуль, углы — на π. Это не косметика — без нормализации PPO с{" "}
+            модуль, углы — на <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>. Это не косметика — без нормализации PPO с{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>normalize: true</span>{" "}
             всё равно работает, но статистики «разъезжаются» дольше, и кривая
             энтропии в TensorBoard выглядит рваной.
@@ -587,11 +587,11 @@ const CourseProject2 = () => {
           <ul className="space-y-2 list-disc pl-5" style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             <li>
               <span style={{ fontFamily: MONO, color: CYAN }}>a[0] = thrust</span>{" "}
-              ∈ <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span> —
+              {" "}<Math display={false}>{String.raw`\in`}</Math> <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span> —
               продольная тяга (вперёд/назад).
             </li>
             <li>
-              <span style={{ fontFamily: MONO, color: CYAN }}>a[1] = yaw</span> ∈{" "}
+              <span style={{ fontFamily: MONO, color: CYAN }}>a[1] = yaw</span> <Math display={false}>{String.raw`\in`}</Math>{" "}
               <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span> —
               угловая скорость поворота.
             </li>
@@ -763,7 +763,7 @@ const CourseProject2 = () => {
             <Math display={false}>{"\\enfOp{A}"}</Math> можно
             считать одним шагом (шумно) или всем эпизодом (запоздало). GAE даёт
             непрерывную ручку{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>λ ∈ [0, 1]</span>{" "}
+            <span style={{ fontFamily: MONO, color: TEXT }}><Math display={false}>{String.raw`\enfPar{\lambda} \in [0, 1]`}</Math></span>{" "}
             между этими крайностями — компромисс bias / variance, который для
             Охотника решает, сходится ли обучение за 1М шагов или за 5М.
           </p>
@@ -773,7 +773,7 @@ const CourseProject2 = () => {
             Сама же сумма дисконтированных наград{" "}
             <Math display={false}>{"\\enfOp{G}_t = \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^{k}\\, \\enfTgt{r}_{t+k}"}</Math>{" "}
             конечна именно потому, что{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>γ &lt; 1</span> — это
+            <span style={{ fontFamily: MONO, color: TEXT }}><Math display={false}>{String.raw`\enfPar{\gamma} < 1`}</Math></span> — это
             та самая геометрическая прогрессия, без которой бесконечные эпизоды
             ломали бы целевую функцию.
           </p>
@@ -811,7 +811,7 @@ const CourseProject2 = () => {
               .
             </li>
             <li>
-              Cl­ipped surrogate L<sup>CLIP</sup> и роль ε:{" "}
+              Cl­ipped surrogate L<sup>CLIP</sup> и роль <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>:{" "}
               <HubLink
                 to="/hub/math-rl"
                 

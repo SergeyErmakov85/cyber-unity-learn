@@ -6,6 +6,7 @@ import {
 } from "recharts";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MathTex from "@/components/Math";
 
 /* ─── 1. MDP Tree Visualization ─── */
 export const MDPTreeViz = () => {
@@ -33,10 +34,10 @@ export const MDPTreeViz = () => {
     <div className="my-8 p-5 rounded-xl border border-border/50 bg-card/30">
       <h4 className="text-lg font-semibold text-foreground mb-1">🌳 Визуализация MDP: сходимость Value Iteration</h4>
       <p className="text-sm text-muted-foreground mb-4">
-        Два состояния: S₁→S₂ (награда +2), S₂→S₁ (награда 0). Наблюдайте, как значения сходятся к аналитическому решению.
+        Два состояния: <MathTex display={false}>{String.raw`\enfVar{S}_{1}\to \enfVar{S}_{2}`}</MathTex> (награда +2), <MathTex display={false}>{String.raw`\enfVar{S}_{2}\to \enfVar{S}_{1}`}</MathTex> (награда 0). Наблюдайте, как значения сходятся к аналитическому решению.
       </p>
       <div className="flex items-center gap-4 mb-4">
-        <span className="text-sm text-muted-foreground whitespace-nowrap">γ = {gamma.toFixed(2)}</span>
+        <span className="text-sm text-muted-foreground whitespace-nowrap"><MathTex display={false}>{String.raw`\enfPar{\gamma} =`}</MathTex> {gamma.toFixed(2)}</span>
         <Slider
           min={0} max={99} step={1}
           value={[gamma * 100]}
@@ -100,15 +101,15 @@ export const TDErrorViz = () => {
     <div className="my-8 p-5 rounded-xl border border-border/50 bg-card/30">
       <h4 className="text-lg font-semibold text-foreground mb-1">⚡ Визуализация TD-ошибки</h4>
       <p className="text-sm text-muted-foreground mb-4">
-        Агент проходит через 5 состояний. δ = R + γV(S') − V(S) уменьшается по мере обучения.
+        Агент проходит через 5 состояний. <MathTex display={false}>{String.raw`\enfVar{\delta} = \enfTgt{R} + \enfPar{\gamma} \enfOp{V}(\enfVar{S}') - \enfOp{V}(\enfVar{S})`}</MathTex> уменьшается по мере обучения.
       </p>
       <div className="flex flex-wrap gap-6 mb-4">
         <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground whitespace-nowrap">α = {alpha.toFixed(2)}</span>
+          <span className="text-sm text-muted-foreground whitespace-nowrap"><MathTex display={false}>{String.raw`\enfPar{\alpha} =`}</MathTex> {alpha.toFixed(2)}</span>
           <Slider min={1} max={50} step={1} value={[alpha * 100]} onValueChange={([v]) => setAlpha(v / 100)} className="w-36" />
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground whitespace-nowrap">γ = {gamma.toFixed(2)}</span>
+          <span className="text-sm text-muted-foreground whitespace-nowrap"><MathTex display={false}>{String.raw`\enfPar{\gamma} =`}</MathTex> {gamma.toFixed(2)}</span>
           <Slider min={0} max={99} step={1} value={[gamma * 100]} onValueChange={([v]) => setGamma(v / 100)} className="w-36" />
         </div>
       </div>
@@ -202,7 +203,7 @@ export const SarsaVsQLearningViz = () => {
         Стохастический мини-мир с «обрывом». SARSA (on-policy) учится безопасному пути, Q-learning (off-policy) — оптимальному, но рискованному.
       </p>
       <div className="flex items-center gap-4 mb-4">
-        <span className="text-sm text-muted-foreground whitespace-nowrap">ε = {epsilon.toFixed(2)}</span>
+        <span className="text-sm text-muted-foreground whitespace-nowrap"><MathTex display={false}>{String.raw`\enfPar{\varepsilon} =`}</MathTex> {epsilon.toFixed(2)}</span>
         <Slider min={0} max={50} step={1} value={[epsilon * 100]} onValueChange={([v]) => setEpsilon(v / 100)} className="max-w-xs" />
       </div>
       <div className="h-72">

@@ -4,6 +4,7 @@ import {
   ReferenceLine, ResponsiveContainer,
 } from "recharts";
 import { Slider } from "@/components/ui/slider";
+import Math from "@/components/Math";
 
 /* ─── 1. Geometric Series Convergence ─── */
 
@@ -35,7 +36,7 @@ export const GeometricSeriesChart = () => {
       <h4 className="text-sm font-semibold text-foreground">
         Сходимость геометрического ряда{" "}
         <span className="font-mono text-primary">
-          S_N = Σγᵗ
+          S_<Math display={false}>{String.raw`N = \sum \enfPar{\gamma}^{t}`}</Math>
         </span>
       </h4>
 
@@ -43,9 +44,9 @@ export const GeometricSeriesChart = () => {
         {gammas.map((g, i) => (
           <div key={i} className="space-y-1">
             <label className="text-xs text-muted-foreground">
-              γ{i + 1} = <span className="font-mono text-foreground">{g.toFixed(2)}</span>
+              <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math>{i + 1} = <span className="font-mono text-foreground">{g.toFixed(2)}</span>
               <span className="ml-2 text-xs opacity-60">
-                (S∞ = {(1 / (1 - g)).toFixed(1)})
+                (<Math display={false}>{String.raw`\enfOp{S}_{\infty} =`}</Math> {(1 / (1 - g)).toFixed(1)})
               </span>
             </label>
             <Slider
@@ -115,7 +116,7 @@ export const GeometricSeriesChart = () => {
       </ResponsiveContainer>
 
       <p className="text-xs text-muted-foreground">
-        Перемещайте слайдеры, чтобы наблюдать, как скорость сходимости зависит от γ. Пунктирные линии — теоретические пределы S∞ = 1/(1−γ).
+        Перемещайте слайдеры, чтобы наблюдать, как скорость сходимости зависит от <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math>. Пунктирные линии — теоретические пределы <Math display={false}>{String.raw`\enfOp{S}_{\infty} = 1/(1-\enfPar{\gamma})`}</Math>.
       </p>
     </div>
   );
@@ -158,9 +159,9 @@ export const ValueIterationChart = () => {
 
       <div className="space-y-1">
         <label className="text-xs text-muted-foreground">
-          γ = <span className="font-mono text-foreground">{gamma.toFixed(2)}</span>
+          <Math display={false}>{String.raw`\enfPar{\gamma} =`}</Math> <span className="font-mono text-foreground">{gamma.toFixed(2)}</span>
           <span className="ml-2 text-xs opacity-60">
-            V*(S₁) ≈ {v1Star}, V*(S₂) ≈ {v2Star}
+            <Math display={false}>{String.raw`\enfOp{V}^{*}(\enfVar{S}_{1}) \approx`}</Math> {v1Star}, <Math display={false}>{String.raw`\enfOp{V}^{*}(\enfVar{S}_{2}) \approx`}</Math> {v2Star}
           </span>
         </label>
         <Slider
@@ -203,7 +204,7 @@ export const ValueIterationChart = () => {
       </ResponsiveContainer>
 
       <p className="text-xs text-muted-foreground">
-        Перемещайте слайдер γ и наблюдайте за скоростью сходимости. При γ ближе к 1 — больше осцилляций и медленнее сходимость. Пунктирные линии — аналитическое решение.
+        Перемещайте слайдер <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> и наблюдайте за скоростью сходимости. При <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> ближе к 1 — больше осцилляций и медленнее сходимость. Пунктирные линии — аналитическое решение.
       </p>
     </div>
   );
@@ -224,7 +225,7 @@ export const DiscountImpactChart = () => {
   return (
     <div className="my-6 p-4 rounded-lg bg-card/60 border border-border/30 space-y-4">
       <h4 className="text-sm font-semibold text-foreground">
-        Влияние γ на эффективный горизонт (1/(1−γ))
+        Влияние <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> на эффективный горизонт <Math display={false}>{String.raw`(1/(1-\enfPar{\gamma}))`}</Math>
       </h4>
       <ResponsiveContainer width="100%" height={250}>
         <LineChart data={data} margin={{ top: 5, right: 20, bottom: 5, left: 10 }}>
@@ -253,7 +254,7 @@ export const DiscountImpactChart = () => {
         </LineChart>
       </ResponsiveContainer>
       <p className="text-xs text-muted-foreground">
-        При γ → 1 горизонт планирования растёт экспоненциально. На практике γ = 0.99 даёт агенту «память» на ~100 шагов.
+        При <Math display={false}>{String.raw`\enfPar{\gamma} \to 1`}</Math> горизонт планирования растёт экспоненциально. На практике <Math display={false}>{String.raw`\enfPar{\gamma} = 0.99`}</Math> даёт агенту «память» на ~100 шагов.
       </p>
     </div>
   );

@@ -7,6 +7,7 @@ import { Tooltip as UITooltip, TooltipContent, TooltipTrigger } from "@/componen
 import { Play, Pause, RotateCcw, Rocket, HelpCircle, GraduationCap } from "lucide-react";
 import Navbar from "@/components/landing/Navbar";
 import SEOHead from "@/components/SEOHead";
+import MathTex from "@/components/Math";
 
 // --- Simulation types ---
 interface Vec { x: number; y: number }
@@ -296,7 +297,7 @@ const DemoPage = () => {
               <div className="flex gap-4 ml-auto text-sm">
                 <span className="text-muted-foreground">Эпизод: <span className="text-foreground font-semibold">{episode}</span></span>
                 <span className="text-muted-foreground">Reward: <span className={`font-semibold ${currentReward >= 0 ? "text-green-400" : "text-destructive"}`}>{currentReward}</span></span>
-                <span className="text-muted-foreground">ε: <span className="text-primary font-mono">{epsilonRef.current.toFixed(2)}</span></span>
+                <span className="text-muted-foreground"><MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>: <span className="text-primary font-mono">{epsilonRef.current.toFixed(2)}</span></span>
               </div>
             </div>
           </div>

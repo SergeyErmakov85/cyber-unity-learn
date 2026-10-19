@@ -29,6 +29,8 @@ import {
 } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
 import rlCycleImg from "@/assets/Reinforcement learning cycle infographic.png";
+import Math from "@/components/Math";
+import RichText from "@/components/math-symbols/RichText";
 
 const rlCycleSteps = [
   { label: "Агент", sub: "принимает решение", icon: Brain, color: "text-primary" },
@@ -60,10 +62,10 @@ const quizQuestions = [
     ],
     correctIndex: 1,
     explanation:
-      "Markov Decision Process (Марковский процесс принятия решений) — математическая модель, формализующая задачу RL. Она описывается кортежем (S, A, T, R, γ) и основана на свойстве Маркова: будущее зависит только от текущего состояния.",
+      "Markov Decision Process (Марковский процесс принятия решений) — математическая модель, формализующая задачу RL. Она описывается кортежем $(\\mathcal{S}, \\mathcal{A}, \\enfFun{T}, \\enfTgt{R}, \\enfPar{\\gamma})$ и основана на свойстве Маркова: будущее зависит только от текущего состояния.",
   },
   {
-    question: "Что определяет параметр γ (gamma) в RL?",
+    question: "Что определяет параметр $\\enfPar{\\gamma}$ (gamma) в RL?",
     options: [
       "Скорость обучения",
       "Размер батча",
@@ -72,19 +74,19 @@ const quizQuestions = [
     ],
     correctIndex: 2,
     explanation:
-      "Gamma (γ) определяет, насколько агент «дальновиден». При γ=0 агент заботится только о мгновенной награде, при γ→1 — учитывает далёкое будущее. Формула: G_t = R_{t+1} + γ·R_{t+2} + γ²·R_{t+3} + …",
+      "Gamma $(\\enfPar{\\gamma})$ определяет, насколько агент «дальновиден». При $\\enfPar{\\gamma} =0$ агент заботится только о мгновенной награде, при $\\enfPar{\\gamma} \\to 1$ — учитывает далёкое будущее. Формула: $\\enfOp{G}_t = \\enfTgt{R}_{t+1} + \\enfPar{\\gamma} \\cdot \\enfTgt{R}_{t+2} + \\enfPar{\\gamma}^{2}\\cdot \\enfTgt{R}_{t+3} + \\ldots$",
   },
   {
     question: "Какой компонент MDP описывает вероятность перехода между состояниями?",
     options: [
-      "Policy (π)",
+      "Policy $(\\enfFun{\\pi})$",
       "Reward function (R)",
       "Transition function (T)",
       "Value function (V)",
     ],
     correctIndex: 2,
     explanation:
-      "Transition function T(s'|s,a) определяет вероятность перехода в состояние s' при действии a в состоянии s. Именно она задаёт динамику среды. Policy (π) — стратегия агента, а не часть MDP.",
+      "Transition function $\\enfFun{T}(\\enfVar{s}' \\mid \\enfVar{s}, \\enfFun{a})$ определяет вероятность перехода в состояние $\\enfVar{s}'$ при действии $\\enfFun{a}$ в состоянии $\\enfVar{s}$. Именно она задаёт динамику среды. Policy $(\\enfFun{\\pi})$ — стратегия агента, а не часть MDP.",
   },
 ];
 
@@ -265,7 +267,7 @@ const CourseLesson1_1 = () => {
                     {item.title}
                   </h3>
                 </div>
-                <p className="text-xs text-muted-foreground">{item.desc}</p>
+                <p className="text-xs text-muted-foreground"><RichText text={item.desc} /></p>
                 <p className="text-xs text-muted-foreground/70 italic">
                   Пример: {item.example}
                 </p>
@@ -462,27 +464,27 @@ const CourseLesson1_1 = () => {
         <div className="space-y-3">
           {[
             {
-              symbol: "S",
+              symbol: String.raw`\mathcal{S}`,
               name: "Состояния (States)",
               desc: "Множество всех возможных состояний среды. Например, позиция фигуры на доске.",
             },
             {
-              symbol: "A",
+              symbol: String.raw`\mathcal{A}`,
               name: "Действия (Actions)",
               desc: "Множество доступных действий агента. Например, движение вверх, вниз, влево, вправо.",
             },
             {
-              symbol: "R",
+              symbol: String.raw`\enfTgt{R}`,
               name: "Награды (Rewards)",
-              desc: "Сигнал обратной связи: R(s, a, s') — числовая оценка перехода.",
+              desc: String.raw`Сигнал обратной связи: $\enfTgt{R}(\enfVar{s}, \enfFun{a}, \enfVar{s}')$ — числовая оценка перехода.`,
             },
             {
-              symbol: "T",
+              symbol: String.raw`\enfFun{T}`,
               name: "Переходы (Transitions)",
-              desc: "T(s'|s,a) — вероятность перехода в состояние s' при действии a в состоянии s.",
+              desc: String.raw`$\enfFun{T}(\enfVar{s}' \mid \enfVar{s}, \enfFun{a})$ — вероятность перехода в состояние $\enfVar{s}'$ при действии $\enfFun{a}$ в состоянии $\enfVar{s}$.`,
             },
             {
-              symbol: "γ",
+              symbol: String.raw`\enfPar{\gamma}`,
               name: (
                 <CrossLinkToHub
                   hubPath="/math-rl/module-1"
@@ -492,7 +494,7 @@ const CourseLesson1_1 = () => {
                   Дисконт (Discount)
                 </CrossLinkToHub>
               ),
-              desc: "γ ∈ [0, 1] — насколько агент ценит будущие награды по сравнению с текущими.",
+              desc: String.raw`$\enfPar{\gamma} \in [0, 1]$ — насколько агент ценит будущие награды по сравнению с текущими.`,
             },
           ].map((item, i) => (
             <div
@@ -500,23 +502,22 @@ const CourseLesson1_1 = () => {
               className="flex gap-4 items-start p-3 rounded-lg bg-card/40 border border-border/30"
             >
               <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
-                <span className="font-mono font-bold text-primary text-sm">{item.symbol}</span>
+                <span className="text-base"><Math display={false}>{item.symbol}</Math></span>
               </div>
               <div>
                 <p className="font-semibold text-sm text-foreground">{item.name}</p>
-                <p className="text-xs text-muted-foreground">{item.desc}</p>
+                <p className="text-xs text-muted-foreground"><RichText text={item.desc} /></p>
               </div>
             </div>
           ))}
         </div>
 
-        <CyberCodeBlock language="pseudo" filename="mdp_formalism.txt">
-          {`MDP = (S, A, T, R, γ)
-
-# Цель агента: максимизировать суммарную дисконтированную награду
-G_t = R_{t+1} + γ·R_{t+2} + γ²·R_{t+3} + ...
-    = ∑ γ^k · R_{t+k+1}  where k = 0, 1, 2, ...`}
-        </CyberCodeBlock>
+        <Math>{String.raw`\text{MDP} = (\mathcal{S},\ \mathcal{A},\ \enfFun{T},\ \enfTgt{R},\ \enfPar{\gamma})`}</Math>
+        <p className="text-sm text-muted-foreground">
+          Цель агента — максимизировать суммарную дисконтированную награду, отдачу{" "}
+          <Math display={false}>{String.raw`\enfOp{G}_t`}</Math>:
+        </p>
+        <Math>{String.raw`\enfOp{G}_t = \enfTgt{R}_{t+1} + \enfPar{\gamma}\,\enfTgt{R}_{t+2} + \enfPar{\gamma}^{2}\,\enfTgt{R}_{t+3} + \ldots = \sum_{k=0}^{\infty} \enfPar{\gamma}^{k}\,\enfTgt{R}_{t+k+1}`}</Math>
 
         <Accordion type="single" collapsible className="mt-4">
           <AccordionItem
@@ -647,7 +648,7 @@ env.close()`}
                   >
                     V(s)
                   </CrossLinkToHub>{" "}
-                  — ожидаемая суммарная награда из состояния s при следовании политике π.
+                  — ожидаемая суммарная награда из состояния s при следовании политике <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>.
                 </>
               ),
             },

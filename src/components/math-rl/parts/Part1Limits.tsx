@@ -459,7 +459,7 @@ for i in range(1, 21):
             <tr className="border-b border-border/20"><td className="p-3">0.5</td><td className="p-3">2 шага</td><td className="p-3">Краткосрочная выгода</td></tr>
             <tr className="border-b border-border/20"><td className="p-3">0.9</td><td className="p-3">10 шагов</td><td className="p-3">Умеренное планирование</td></tr>
             <tr className="border-b border-border/20"><td className="p-3">0.99</td><td className="p-3">100 шагов</td><td className="p-3">Дальновидный агент</td></tr>
-            <tr><td className="p-3">1.0</td><td className="p-3">∞</td><td className="p-3">Расходимость (бесконечный горизонт)</td></tr>
+            <tr><td className="p-3">1.0</td><td className="p-3"><Math display={false}>{String.raw`\infty`}</Math></td><td className="p-3">Расходимость (бесконечный горизонт)</td></tr>
           </tbody>
         </table>
       </div>

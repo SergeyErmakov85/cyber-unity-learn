@@ -163,6 +163,10 @@ export function groupEnd(src: string, open: number): number {
   return -1;
 }
 
+/** «0{,}9», «-2», «\\mathbf{8.29}», «${…}» после подстановки — число, а не символ. */
+const isNumeric = (atom: string) =>
+  /^[\s+\-−]*(?:\\mathbf\{)?[\s+\-−]*[0-9][0-9.,{}\s]*\}?$/.test(atom.trim());
+
 const ROLE_MACRO_AT = /^\\(enfVar|enfFun|enfPar|enfOp|enfTgt)(?![A-Za-z])\s*\{/;
 
 /**
@@ -185,6 +189,13 @@ export function tagEnfSymbols(tex: string): string {
         if (close < 0) return tex;
         const inner = tex.slice(open + 1, close);
         const role = MACRO_TO_ROLE[m[1]];
+        // Число в ручном расчёте наследует тон символа (ENF-MATH-025, п. 5),
+        // но символом не является: карточки у него нет.
+        if (isNumeric(inner)) {
+          out += `\\${m[1]}{${inner}}`;
+          i = close + 1;
+          continue;
+        }
         const key = ROLE_LETTER[role] + toHex(normalizeAtom(inner));
         out += `\\htmlData{enfs=${key}}{\\${m[1]}{${tagEnfSymbols(inner)}}}`;
         i = close + 1;

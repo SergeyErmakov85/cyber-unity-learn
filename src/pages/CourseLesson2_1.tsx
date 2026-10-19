@@ -119,13 +119,13 @@ const CourseLesson2_1 = () => {
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-4"><CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="шаг-4-формула-reinforce" hubTitle="Математика RL — Формула REINFORCE">REINFORCE</CrossLinkToHub>: вывод градиента</h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Цель — максимизировать ожидаемую суммарную награду J(θ):
+            Цель — максимизировать ожидаемую суммарную награду <Math display={false}>{String.raw`\enfTgt{J}(\enfPar{\theta})`}</Math>:
           </p>
 
           <Math>{"\\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfPar{\\gamma}^t \\enfTgt{r}_t \\right]"}</Math>
 
           <p className="text-muted-foreground leading-relaxed my-4">
-            Применяя log-trick, получаем <strong className="text-foreground">теорему градиента политики</strong> — <CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="целевая-функция-политики" hubTitle="Математика RL — Целевая функция политики">∇<sub>θ</sub>J(θ)</CrossLinkToHub>:
+            Применяя log-trick, получаем <strong className="text-foreground">теорему градиента политики</strong> — <CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="целевая-функция-политики" hubTitle="Математика RL — Целевая функция политики"><Math display={false}>{String.raw`\enfOp{\nabla}_{\theta} \enfTgt{J}(\enfPar{\theta})`}</Math></CrossLinkToHub>:
           </p>
 
           <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t \\right]"}</Math>

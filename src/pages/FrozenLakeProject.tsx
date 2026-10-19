@@ -455,7 +455,7 @@ const FrozenLakeProject = () => {
 
             <Card className="bg-card/40 border-primary/20">
               <CardContent className="p-5">
-                <h3 className="text-lg font-bold text-foreground mb-3">🎲 Стратегия ε-greedy (эпсилон-жадная)</h3>
+                <h3 className="text-lg font-bold text-foreground mb-3">🎲 Стратегия <InlineMath>{String.raw`\enfPar{\varepsilon}`}</InlineMath>-greedy (эпсилон-жадная)</h3>
                 <p className="text-muted-foreground mb-3">Как агент выбирает действия во время обучения?</p>
                 <div className="overflow-x-auto py-2">
                   <MathBlock>{`\\text{Действие} = \\begin{cases} \\text{случайное действие} & \\text{с вероятностью } \\enfPar{\\varepsilon} \\\\ \\arg\\max_a \\enfOp{Q}(\\enfVar{s}, \\enfFun{a}) & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\end{cases}`}</MathBlock>
@@ -593,7 +593,7 @@ print(f"   Все значения = 0.00 (агент ещё ничего не �
                 <h3 className="text-lg font-bold text-foreground mb-3">🔄 Что происходит на каждом эпизоде:</h3>
                 <ol className="list-decimal pl-6 space-y-1">
                   <li>Агент стартует в клетке <strong className="text-foreground">S</strong> (позиция 0)</li>
-                  <li>Выбирает действие по стратегии <strong className="text-foreground">ε-greedy</strong></li>
+                  <li>Выбирает действие по стратегии <strong className="text-foreground"><InlineMath>{String.raw`\enfPar{\varepsilon}`}</InlineMath>-greedy</strong></li>
                   <li>Выполняет действие → получает <strong className="text-foreground">новое состояние</strong> и <strong className="text-foreground">награду</strong></li>
                   <li><strong className="text-foreground">Обновляет Q-таблицу</strong> по уравнению Беллмана</li>
                   <li>Повторяет, пока не дойдёт до цели (G) или не провалится (H)</li>

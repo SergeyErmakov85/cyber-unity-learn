@@ -10,6 +10,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
+import MathTex from "@/components/Math";
 
 const TEXT = "#F4F7FC";
 const DIM = "#B0B8CE";
@@ -411,7 +412,7 @@ const RaySensorViz = () => {
               lineHeight: 1.5,
             }}
           >
-            dist ∈ [0,1] — доля длины луча до удара; 1.00 = «ничего».
+            dist <MathTex display={false}>{String.raw`\in [0,1]`}</MathTex> — доля длины луча до удара; 1.00 = «ничего».
           </div>
         </div>
       </div>

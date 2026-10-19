@@ -312,7 +312,7 @@ const Section_MarkovProperty = () => {
           <span style={{ color: MAGENTA }}>A</span>,{" "}
           <span style={{ color: CYAN }}>P</span>,{" "}
           <span style={{ color: AMBER }}>R</span>,{" "}
-          <span style={{ color: MAGENTA }}>γ</span>
+          <span style={{ color: MAGENTA }}><Math display={false}>{String.raw`\enfPar{\gamma}`}</Math></span>
           <span style={{ color: "rgba(255,255,255,0.92)" }}>)</span>
         </h3>
         <div style={BODY_STYLE} className="text-foreground/85">

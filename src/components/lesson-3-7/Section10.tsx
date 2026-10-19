@@ -1,5 +1,6 @@
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import { SECTION_TITLE_CLASS, ProseP, KeyPoints, Anchor } from "./_shared";
+import Math from "@/components/Math";
 
 const Section10 = () => (
   <>
@@ -9,7 +10,7 @@ const Section10 = () => (
 
     <ul className="space-y-3 my-4 list-disc list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>
-        <strong>Назад.</strong> Actor–critic и схема <em>π/V</em> —{" "}
+        <strong>Назад.</strong> Actor–critic и схема <em><Math display={false}>{String.raw`\enfFun{\pi} /\enfOp{V}`}</Math></em> —{" "}
         <CrossLinkToLesson lessonId="3.1" lessonPath="/courses/3-1" lessonTitle="Урок 3.1" lessonLevel={3}>
           урок 3.1
         </CrossLinkToLesson>

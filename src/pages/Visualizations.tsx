@@ -33,7 +33,7 @@ const PolicyGradientViz = () => {
 
       <div>
         <div className="flex justify-between text-sm mb-2">
-          <span>τ (температура)</span>
+          <span><Math display={false}>{String.raw`\enfPar{\tau}`}</Math> (температура)</span>
           <span className="text-primary font-mono">{temperature.toFixed(2)}</span>
         </div>
         <Slider value={[temperature]} onValueChange={([v]) => setTemperature(v)} min={0.1} max={5} step={0.05} />
@@ -107,14 +107,14 @@ const PPOClippingViz = () => {
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <div className="flex justify-between text-sm mb-2">
-            <span>ε (clip range)</span>
+            <span><Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> (clip range)</span>
             <span className="text-primary font-mono">{epsilon.toFixed(2)}</span>
           </div>
           <Slider value={[epsilon]} onValueChange={([v]) => setEpsilon(v)} min={0.05} max={0.5} step={0.01} />
         </div>
         <div>
           <div className="flex justify-between text-sm mb-2">
-            <span>Â (advantage)</span>
+            <span><Math display={false}>{String.raw`\enfOp{\hat{A}}`}</Math> (advantage)</span>
             <span className="text-primary font-mono">{advantage.toFixed(1)}</span>
           </div>
           <Slider value={[advantage]} onValueChange={([v]) => setAdvantage(v)} min={-2} max={2} step={0.1} />
@@ -138,9 +138,9 @@ const PPOClippingViz = () => {
             <path d={pathFromPoints("final")} fill="none" stroke="hsl(180 100% 50%)" strokeWidth="1" />
           </svg>
           <div className="flex items-center justify-center gap-6 mt-2 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1"><span className="w-4 h-0.5 bg-primary/40 inline-block" /> r·Â (без clip)</span>
+            <span className="flex items-center gap-1"><span className="w-4 h-0.5 bg-primary/40 inline-block" /> <Math display={false}>{String.raw`\enfFun{r}\cdot \enfOp{\hat{A}}`}</Math> (без clip)</span>
             <span className="flex items-center gap-1"><span className="w-4 h-0.5 bg-primary inline-block" /> L^CLIP (итог)</span>
-            <span className="flex items-center gap-1"><span className="w-4 h-px border-t border-dashed border-accent inline-block" /> 1±ε</span>
+            <span className="flex items-center gap-1"><span className="w-4 h-px border-t border-dashed border-accent inline-block" /> <Math display={false}>{String.raw`1\pm \enfPar{\varepsilon}`}</Math></span>
           </div>
         </CardContent>
       </Card>

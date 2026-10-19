@@ -367,7 +367,7 @@ def ppo_update(model, optimizer, obs, actions, old_log_probs,
                     <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">clip_eps</code></td><td className="p-3">0.1 — 0.3</td><td className="p-3">Клипинг соотношения вероятностей</td></tr>
                     <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">epochs</code></td><td className="p-3">3 — 10</td><td className="p-3">Эпох обновления на один батч</td></tr>
                     <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">gamma</code></td><td className="p-3">0.99</td><td className="p-3">Дисконтирование</td></tr>
-                    <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">lambda (GAE)</code></td><td className="p-3">0.95</td><td className="p-3">Λ в GAE</td></tr>
+                    <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">lambda (GAE)</code></td><td className="p-3">0.95</td><td className="p-3"><Math display={false}>{String.raw`\enfPar{\lambda}`}</Math> в GAE</td></tr>
                     <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">batch_size</code></td><td className="p-3">64 — 512</td><td className="p-3">Размер мини-батча</td></tr>
                     <tr><td className="p-3"><code className="text-primary text-xs">entropy_coeff</code></td><td className="p-3">0.005 — 0.05</td><td className="p-3">Коэффициент бонуса энтропии</td></tr>
                   </tbody>

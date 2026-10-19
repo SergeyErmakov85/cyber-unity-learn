@@ -164,7 +164,7 @@ const CourseLesson1_4 = () => {
           <CardContent className="p-4 flex gap-3 items-start">
             <BookOpen className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Формальная теория MDP (множества S, A, переходы T, награда R, γ,
+              Формальная теория MDP (множества S, A, переходы T, награда <Math display={false}>{String.raw`\enfTgt{R}, \enfPar{\gamma}`}</Math>,
               уравнение Беллмана и Value Iteration) подробно разобрана в{" "}
               <Link
                 to="/courses/1-3"
@@ -526,7 +526,7 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Epsilon-Greedy</td>
                 <td className="p-3">
-                  При числе меньше ε агент исследует, иначе эксплуатирует знания.
+                  При числе меньше <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> агент исследует, иначе эксплуатирует знания.
                 </td>
                 <td className="p-3">
                   <code className="text-primary text-xs">

@@ -144,7 +144,7 @@ function MDPDiagram({ startState, steps, highlightStep, onSelect, gamma }: {
                 padding: isHL ? "3px 12px" : "0", borderRadius: 6,
                 background: isHL ? `${rc}15` : "transparent", transition: C.trans,
               }}>{r >= 0 ? "+" : ""}{r}</span>
-              {isHL && <Tex size={0.95} color={C.amber}>{`\\gamma^{${i - af}} = ${Math.pow(gamma, i - af).toFixed(3)}`}</Tex>}
+              {isHL && <Tex size={0.95} color={C.amber}>{`\\enfPar{\\gamma}^{${i - af}} = \\enfPar{${Math.pow(gamma, i - af).toFixed(3)}}`}</Tex>}
             </div>
           );
         })}
@@ -176,11 +176,11 @@ function StepCard({ step, isHL, onEnter, onLeave }: {
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
         <span style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim }}>Награда</span>
-        <Tex size={1.15} color={rc}>{`R = ${step.reward >= 0 ? "+" : ""}${step.reward}`}</Tex>
+        <Tex size={1.15} color={rc}>{`\\enfTgt{R} = \\enfTgt{${step.reward >= 0 ? "+" : ""}${step.reward}}`}</Tex>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
         <span style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim }}>Дисконт</span>
-        <Tex size={1.15} color={C.amber}>{`\\gamma^{${step.k}} = ${step.disc.toFixed(4)}`}</Tex>
+        <Tex size={1.15} color={C.amber}>{`\\enfPar{\\gamma}^{${step.k}} = \\enfPar{${step.disc.toFixed(4)}}`}</Tex>
       </div>
       <div style={{
         marginTop: 10, paddingTop: 10, borderTop: `1px solid ${C.border}`,
@@ -256,10 +256,10 @@ const ValueFunctionViz = () => {
   else gammaHint = "Почти без дисконта: все награды одинаково ценны. Длинный горизонт.";
 
   const formulaParts = steps.map((s, i) =>
-    `${i > 0 ? " + " : ""}\\gamma^{${s.k}} \\cdot (${s.reward >= 0 ? "+" : ""}${s.reward})`
+    `${i > 0 ? " + " : ""}\\enfPar{\\gamma}^{${s.k}} \\cdot (\\enfTgt{${s.reward >= 0 ? "+" : ""}${s.reward}})`
   ).join("");
   const numericParts = steps.map((s, i) =>
-    `${i > 0 ? " + " : ""}${s.disc.toFixed(3)} \\cdot (${s.reward >= 0 ? "+" : ""}${s.reward})`
+    `${i > 0 ? " + " : ""}\\enfPar{${s.disc.toFixed(3)}} \\cdot (\\enfTgt{${s.reward >= 0 ? "+" : ""}${s.reward}})`
   ).join("");
   // Вклады — это награды, то есть роль target (ENF-COLOR-010). Знак «+»/«−»
   // печатается явно и служит вторым признаком, поэтому пара «зелёное/красное»
@@ -281,7 +281,7 @@ const ValueFunctionViz = () => {
             Функция ценности V(s)
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-            <Pill texLabel={`V(${STATES[startState].tex})`} value={G.toFixed(3)} color={C.cyan} />
+            <Pill texLabel={`\\enfOp{V}(${STATES[startState].tex})`} value={G.toFixed(3)} color={C.cyan} />
             <Pill texLabel="\\gamma" value={gamma.toFixed(2)} color={C.amber} />
             <Pill texLabel="\\text{Горизонт}" value={horizon} color={C.green} />
           </div>
@@ -341,7 +341,7 @@ const ValueFunctionViz = () => {
                     onClick={() => i < REWARDS.length && setStartState(i)}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
                       <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <Tex size={1.0} color={i === startState ? s.color : C.txtDim}>{`V(${s.tex})`}</Tex>
+                        <Tex size={1.0} color={i === startState ? s.color : C.txtDim}>{`\\enfOp{V}(${s.tex})`}</Tex>
                         <span style={{ fontFamily: C.sans, fontSize: 11, color: C.txtMuted }}>{s.label}</span>
                       </span>
                       <span style={{ fontFamily: C.mono, fontSize: 14, color: s.color, fontWeight: 600 }}>{val.toFixed(2)}</span>
@@ -399,7 +399,7 @@ const ValueFunctionViz = () => {
               background: "rgba(0,255,214,0.03)", border: `1px solid ${C.cyan}15`
             }}>
               <div style={{ fontFamily: C.display, fontSize: 12, letterSpacing: "0.18em", color: C.cyan, textTransform: "uppercase", marginBottom: 10 }}>
-                Как вычисляется <Tex size={1.0} color={C.cyan}>{`V(${STATES[startState].tex})`}</Tex> ?
+                Как вычисляется <Tex size={1.0} color={C.cyan}>{`\\enfOp{V}(${STATES[startState].tex})`}</Tex> ?
               </div>
               <p style={{ fontFamily: C.sans, fontSize: 15, color: C.txt, lineHeight: 1.9, marginBottom: 8 }}>
                 Агент в <span style={{ color: STATES[startState].color, fontWeight: 600 }}>{STATES[startState].label}</span>.
@@ -412,7 +412,7 @@ const ValueFunctionViz = () => {
                 border: `1px solid ${C.border}`, marginTop: 8, overflowX: "auto"
               }}>
                 <div style={{ marginBottom: 8 }}>
-                  <Tex display size={1.15} color={C.txt}>{`V(${STATES[startState].tex}) = ${formulaParts}`}</Tex>
+                  <Tex display size={1.15} color={C.txt}>{`\\enfOp{V}(${STATES[startState].tex}) = ${formulaParts}`}</Tex>
                 </div>
                 <div style={{ marginBottom: 8 }}>
                   <Tex display size={1.1} color={C.txtDim}>{`= ${numericParts}`}</Tex>
@@ -441,7 +441,7 @@ const ValueFunctionViz = () => {
                     ИТОГО
                   </div>
                   <div style={{ marginBottom: 8 }}>
-                    <Tex display size={1.4} color={C.cyan}>{`V(${STATES[startState].tex}) = ${G.toFixed(3)}`}</Tex>
+                    <Tex display size={1.4} color={C.cyan}>{`\\enfOp{V}(${STATES[startState].tex}) = \\enfOp{${G.toFixed(3)}}`}</Tex>
                   </div>
                   <div style={{ fontFamily: C.mono, fontSize: 12, color: C.txtDim, lineHeight: 1.8 }}>
                     {steps.map((s, i) => (
@@ -465,8 +465,8 @@ const ValueFunctionViz = () => {
                 </div>
                 <p style={{ fontFamily: C.sans, fontSize: 14, color: C.txtDim, lineHeight: 1.8 }}>
                   <Tex size={1.0} color={C.txt}>V(s)</Tex> — это <span style={{ color: C.txt }}>«перспективность»</span> состояния.
-                  Если <Tex size={1.0} color={STATES[0].color}>{`V(S_0) = ${allValues[0].toFixed(1)}`}</Tex>, а{" "}
-                  <Tex size={1.0} color={STATES[2].color}>{`V(S_2) = ${allValues[2].toFixed(1)}`}</Tex> — агент знает,
+                  Если <Tex size={1.0} color={STATES[0].color}>{`\\enfOp{V}(\\enfVar{S}_0) = ${allValues[0].toFixed(1)}`}</Tex>, а{" "}
+                  <Tex size={1.0} color={STATES[2].color}>{`\\enfOp{V}(\\enfVar{S}_2) = ${allValues[2].toFixed(1)}`}</Tex> — агент знает,
                   что <Tex size={1.0} color={STATES[0].color}>S_0</Tex> выгоднее, и стремится туда.
                 </p>
               </div>
@@ -477,7 +477,7 @@ const ValueFunctionViz = () => {
                 <p style={{ fontFamily: C.sans, fontSize: 14, color: C.txtDim, lineHeight: 1.8 }}>
                   Без дисконтирования (<Tex size={0.95}>{"\\enfPar{\\gamma} = 1"}</Tex>) бесконечная сумма расходится.{" "}
                   <Tex size={0.95}>{"\\enfPar{\\gamma} < 1"}</Tex> гарантирует <span style={{ color: C.cyan }}>сходимость</span> ряда.
-                  Эффективный горизонт: <Tex size={1.05} color={C.amber}>{`\\frac{1}{1-\\gamma} = ${horizon}`}</Tex> шагов.
+                  Эффективный горизонт: <Tex size={1.05} color={C.amber}>{`\\frac{1}{1-\\enfPar{\\gamma}} = ${horizon}`}</Tex> шагов.
                 </p>
               </div>
             </div>

@@ -68,7 +68,7 @@ const A3CModule = () => {
                   <h3 className="text-lg font-semibold mb-2">Полная функция потерь</h3>
                   <Math>{"\\enfTgt{L} = \\enfTgt{L}_{\\text{policy}} + \\enfPar{c}_1 \\enfTgt{L}_{\\text{value}} - \\enfPar{c}_2 \\enfOp{H}(\\enfFun{\\pi})"}</Math>
                   <p className="text-sm text-muted-foreground mt-1">
-                    H(π) — энтропийная регуляризация для поощрения исследования.
+                    <Math display={false}>{String.raw`\enfOp{H}(\enfFun{\pi})`}</Math> — энтропийная регуляризация для поощрения исследования.
                   </p>
                 </div>
               </CardContent>

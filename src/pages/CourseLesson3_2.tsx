@@ -237,7 +237,7 @@ const quizQuestions = [
     ],
     correctIndex: 1,
     explanation:
-      "Â_i = Q^π(s, a) − b_i, где baseline маргинализирует только действие агента i при фиксированных действиях остальных. Это «честное» сравнение индивидуального вклада.",
+      "$\\enfOp{\\hat{A}}_i = \\enfOp{Q}^\\pi (\\enfVar{s}, \\enfFun{a}) - \\enfFun{b}_i$, где baseline маргинализирует только действие агента i при фиксированных действиях остальных. Это «честное» сравнение индивидуального вклада.",
   },
   {
     question: "Какая метрика осмысленна для отслеживания прогресса в adversarial self-play?",
@@ -436,7 +436,7 @@ const CourseLesson3_2 = () => {
             {/* «Как читать кросс-ссылки» note */}
             <div className="rounded-xl border border-purple-500/20 bg-purple-500/5 backdrop-blur-sm p-5 text-sm text-foreground/80 leading-relaxed">
               <strong className="text-purple-300">Как читать кросс-ссылки в этом уроке.</strong> Урок
-              — нарративная точка входа. Формальные выводы и доказательства (self-attention, TD(λ),
+              — нарративная точка входа. Формальные выводы и доказательства (self-attention, TD<Math display={false}>{String.raw`(\enfPar{\lambda})`}</Math>,
               теорема сходимости PPO) вынесены в хабы и обозначены значком{" "}
               <span className="text-cyan-300">↗</span>. Секции урока несут стабильные{" "}
               <code className={chip}>id</code>-якоря (см. навигацию выше), чтобы хабы могли ссылаться

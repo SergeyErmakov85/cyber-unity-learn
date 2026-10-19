@@ -1,4 +1,5 @@
 import { SECTION_TITLE_CLASS, ProseP, KeyPoints, InteractiveStub, Code } from "./_shared";
+import Math from "@/components/Math";
 
 const Section12 = () => (
   <>
@@ -20,8 +21,8 @@ const Section12 = () => (
         <Code>ℓ</Code> и <Code>g</Code>. Слишком мало — TPE рано «зациклится» на скудной выборке.
       </li>
       <li>
-        <Code>gamma</Code> (TPE). Доля «хороших». Меньше <Code>γ</Code> — агрессивнее эксплуатация,
-        но рискуете по немногим примерам построить плохую <Code>ℓ</Code>.
+        <Code>gamma</Code> (TPE). Доля «хороших». Меньше <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> — агрессивнее эксплуатация,
+        но рискуете по немногим примерам построить плохую <Math display={false}>{String.raw`\enfFun{\ell}`}</Math>.
       </li>
       <li>
         <Code>n_warmup_steps</Code> (прунер). Сколько шагов не трогать испытание. В RL ставьте с

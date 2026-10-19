@@ -1,4 +1,5 @@
 import CrossLinkToHub from "@/components/CrossLinkToHub";
+import Math from "@/components/Math";
 import {
   SECTION_TITLE_CLASS,
   ProseP,
@@ -26,7 +27,7 @@ const Section8 = () => (
     <ol className="space-y-3 my-4 list-decimal list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>
         <strong>Рассинхрон пространства наблюдений.</strong> Сеть обучалась на векторе наблюдений
-        длины <em>n</em>, а агент в сцене собирает <em>n′ ≠ n</em> (добавили/убрали сенсор, поменяли
+        длины <em>n</em>, а агент в сцене собирает <em><Math display={false}>{String.raw`n' \neq n`}</Math></em> (добавили/убрали сенсор, поменяли
         число лучей у RayPerceptionSensor, изменили Stacked Vectors). Загрузчик сверяет размерности;
         при несовпадении модель либо не примет, либо «поедет» по мусору.{" "}
         <strong>Space Size и набор сенсоров в деплое обязаны совпадать с обучением.</strong>

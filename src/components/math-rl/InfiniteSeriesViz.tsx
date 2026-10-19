@@ -3,6 +3,7 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import MathTex from "@/components/Math";
 
 /* ═══════════════════════════════════════════════════
    Бесконечные ряды и сходимость — встраиваемый компонент
@@ -366,8 +367,8 @@ function SumTable({ info, count }: { info: SeriesInfo; count: number }) {
       <thead>
         <tr className="border-b border-border/30">
           <th className="text-left py-1 text-muted-foreground">n</th>
-          <th className="text-right py-1 text-muted-foreground">aₙ</th>
-          <th className="text-right py-1 text-muted-foreground">Sₙ</th>
+          <th className="text-right py-1 text-muted-foreground"><MathTex display={false}>{String.raw`\enfVar{a}_{n}`}</MathTex></th>
+          <th className="text-right py-1 text-muted-foreground"><MathTex display={false}>{String.raw`\enfOp{S}_{n}`}</MathTex></th>
         </tr>
       </thead>
       <tbody>
@@ -411,7 +412,7 @@ const InfiniteSeriesViz = () => {
           </h4>
           <div className="flex gap-2 flex-wrap">
             <Badge variant="outline" className="border-secondary/30 text-secondary font-mono text-xs">
-              Sₙ = {lastSum.toFixed(4)}
+              <MathTex display={false}>{String.raw`\enfOp{S}_{n} =`}</MathTex> {lastSum.toFixed(4)}
             </Badge>
             <Badge variant="outline" className={`font-mono text-xs ${
               info.converges
@@ -480,7 +481,7 @@ const InfiniteSeriesViz = () => {
         <div className="flex flex-wrap gap-6">
           <label className="flex items-center gap-2 cursor-pointer">
             <Switch checked={showTerms} onCheckedChange={setShowTerms} />
-            <span className="text-xs font-mono text-muted-foreground uppercase">Члены ряда aₙ</span>
+            <span className="text-xs font-mono text-muted-foreground uppercase">Члены ряда <MathTex display={false}>{String.raw`\enfVar{a}_{n}`}</MathTex></span>
           </label>
           <label className="flex items-center gap-2 cursor-pointer">
             <Switch checked={showLimit} onCheckedChange={setShowLimit} />
@@ -500,9 +501,9 @@ const InfiniteSeriesViz = () => {
                 Связь с RL
               </p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Дисконтированная сумма наград — геометрический ряд: G₀ = Σ γᵏ · rₖ.
-                Дисконт-фактор γ играет роль знаменателя r. При γ = 1 сумма расходится,
-                поэтому γ {"<"} 1 — обязательное условие в MDP.
+                Дисконтированная сумма наград — геометрический ряд: <MathTex display={false}>{String.raw`\enfOp{G}_{0} = \sum \enfPar{\gamma}^{k} \cdot \enfTgt{r}_{k}`}</MathTex>.
+                Дисконт-фактор <MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> играет роль знаменателя r. При <MathTex display={false}>{String.raw`\enfPar{\gamma} = 1`}</MathTex> сумма расходится,
+                поэтому <MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> {"<"} 1 — обязательное условие в MDP.
               </p>
             </div>
           </div>

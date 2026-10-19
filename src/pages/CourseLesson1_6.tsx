@@ -26,6 +26,7 @@ import {
   Scissors,
 } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
+import Math from "@/components/Math";
 
 const quizQuestions = [
   {
@@ -55,14 +56,14 @@ const quizQuestions = [
   {
     question: "Как работает epsilon-greedy с decay?",
     options: [
-      "ε всегда равен 0.5",
-      "ε начинается высоким и постепенно уменьшается",
-      "ε увеличивается со временем",
-      "ε случайно меняется каждый эпизод",
+      "$\\enfPar{\\varepsilon}$ всегда равен 0.5",
+      "$\\enfPar{\\varepsilon}$ начинается высоким и постепенно уменьшается",
+      "$\\enfPar{\\varepsilon}$ увеличивается со временем",
+      "$\\enfPar{\\varepsilon}$ случайно меняется каждый эпизод",
     ],
     correctIndex: 1,
     explanation:
-      "ε начинается с 1.0 (100% случайных действий) и экспоненциально уменьшается до ~0.01. Это обеспечивает исследование в начале и эксплуатацию знаний в конце обучения.",
+      "$\\enfPar{\\varepsilon}$ начинается с 1.0 (100% случайных действий) и экспоненциально уменьшается до ~0.01. Это обеспечивает исследование в начале и эксплуатацию знаний в конце обучения.",
   },
   {
     question: "Какая функция потерь обычно используется в DQN?",
@@ -242,7 +243,7 @@ const CourseLesson1_6 = () => {
               <p className="font-bold text-sm text-primary">Policy Network</p>
               <p className="text-xs text-muted-foreground">Обучается каждый шаг</p>
               <p className="text-xs text-muted-foreground/60 font-mono mt-1">
-                Q_θ(s) → [Q₀, Q₁]
+                <Math display={false}>{String.raw`\enfOp{Q}_{\theta}(\enfVar{s}) \to [\enfOp{Q}_{0}, \enfOp{Q}_{1}]`}</Math>
               </p>
             </div>
             <div className="text-muted-foreground/40 text-lg hidden md:block">⇄</div>
@@ -252,7 +253,7 @@ const CourseLesson1_6 = () => {
               <p className="font-bold text-sm text-secondary">Target Network</p>
               <p className="text-xs text-muted-foreground">Копия, обновляется каждые N эп.</p>
               <p className="text-xs text-muted-foreground/60 font-mono mt-1">
-                Q_θ⁻(s') → max Q
+                <Math display={false}>{String.raw`\enfOp{Q}_{\theta}^{-}(\enfVar{s}') \to \max \enfOp{Q}`}</Math>
               </p>
             </div>
           </div>
@@ -405,7 +406,7 @@ optimizer.step()`}
           <CrossLinkToHub hubPath="/courses/1-3" hubTitle="Урок 1.3 — Q-Learning: табличный метод">
             уроке 1.3
           </CrossLinkToHub>
-          . Здесь она работает так же — ε экспоненциально затухает от 1.0 до 0.01.
+          . Здесь она работает так же — <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> экспоненциально затухает от 1.0 до 0.01.
         </p>
 
         <CyberCodeBlock language="python" filename="dqn_agent.py">
@@ -598,7 +599,7 @@ print(f"\\nФинальный средний reward (последние 100): "
             <AccordionTrigger className="px-4 text-sm text-muted-foreground hover:text-foreground hover:no-underline">
               <span className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-primary" />
-                Разбор: формула target = r + γ·max Q(s',a')
+                Разбор: формула target = <Math display={false}>{String.raw`\enfTgt{r} + \enfPar{\gamma} \cdot \max \enfOp{Q}(\enfVar{s}',a')`}</Math>
               </span>
             </AccordionTrigger>
             <AccordionContent className="px-4">

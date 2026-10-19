@@ -27,6 +27,7 @@ import {
   Download,
 } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
+import Math from "@/components/Math";
 
 const quizQuestions = [
   {
@@ -405,7 +406,7 @@ Q_θ(state) → [Q_left, Q_right]
           <Card className="bg-card/50 border-primary/20">
             <CardContent className="p-4">
               <p className="font-bold text-sm text-primary mb-1">
-                С вероятностью ε → случайное действие
+                С вероятностью <Math display={false}>{String.raw`\enfPar{\varepsilon} \to`}</Math> случайное действие
               </p>
               <p className="text-xs text-muted-foreground">
                 Exploration: агент исследует среду, пробуя новые действия
@@ -415,7 +416,7 @@ Q_θ(state) → [Q_left, Q_right]
           <Card className="bg-card/50 border-green-500/20">
             <CardContent className="p-4">
               <p className="font-bold text-sm text-green-400 mb-1">
-                С вероятностью (1-ε) → лучшее действие
+                С вероятностью <Math display={false}>{String.raw`(1-\enfPar{\varepsilon}) \to`}</Math> лучшее действие
               </p>
               <p className="text-xs text-muted-foreground">
                 Exploitation: агент выбирает действие с максимальным Q-значением
@@ -428,7 +429,7 @@ Q_θ(state) → [Q_left, Q_right]
           <CardContent className="p-4">
             <p className="text-sm text-muted-foreground leading-relaxed mb-3">
               <strong className="text-foreground">Epsilon decay:</strong> в начале обучения
-              ε = 1.0 (100% случайных действий — полное исследование). Постепенно ε
+              <Math display={false}>{String.raw`\enfPar{\varepsilon} = 1.0`}</Math> (100% случайных действий — полное исследование). Постепенно <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>{" "}
               уменьшается до 0.01, и агент всё больше полагается на выученные Q-значения.
             </p>
             <div className="flex items-center gap-3 text-xs">
@@ -442,9 +443,9 @@ Q_θ(state) → [Q_left, Q_right]
                 />
               </div>
               <div className="flex gap-3 flex-shrink-0 text-muted-foreground">
-                <span>ε=1.0</span>
+                <span><Math display={false}>{String.raw`\enfPar{\varepsilon} =1.0`}</Math></span>
                 <span>→</span>
-                <span>ε=0.01</span>
+                <span><Math display={false}>{String.raw`\enfPar{\varepsilon} =0.01`}</Math></span>
               </div>
             </div>
             <div className="flex justify-between text-xs text-muted-foreground/60 mt-1">

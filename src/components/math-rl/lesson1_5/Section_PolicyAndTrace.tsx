@@ -313,7 +313,7 @@ const Section_PolicyAndTrace = () => {
           <Math display={false}>{"\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s}) \\in [0, 1], \\; \\sum_a \\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s}) = 1"}</Math>
           . Удобный способ получить такое распределение из любых «оценок
           привлекательности» действий — softmax с температурой{" "}
-          <span style={{ fontFamily: MONO_FONT, color: CYAN }}>τ</span>: низкая
+          <Math display={false}>{String.raw`\enfVar{\tau}`}</Math>: низкая
           температура превращает softmax почти в argmax, высокая — почти в
           равномерное распределение.
         </p>
@@ -333,7 +333,7 @@ const Section_PolicyAndTrace = () => {
           Чтобы увидеть, что даёт политика v1, запустим один эпизод: до
           пятидесяти шагов или до ближайшего терминального состояния — батареи
           или лужи. На каждом шаге сохраняем тройку{" "}
-          <span style={{ fontFamily: MONO_FONT, color: "rgba(255,255,255,0.8)" }}>(s, a, r)</span>,
+          <Math display={false}>{String.raw`(\enfVar{s}, \enfFun{a}, \enfTgt{r})`}</Math>,
           пока эпизод не закончится. Ниже — одна из таких траекторий,
           нарисованная поверх нашей сетки. Цвет cyan — путь бота, кружки —
           посещённые клетки.
@@ -406,7 +406,7 @@ const Section_PolicyAndTrace = () => {
             anchor="жадная-стратегия"
             variant="inline"
           >
-            ε-жадный компромисс между эксплуатацией и исследованием
+            <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>-жадный компромисс между эксплуатацией и исследованием
           </HubLink>
           . Не повторяем её в уроке — идите за подробностями в хаб.
         </p>

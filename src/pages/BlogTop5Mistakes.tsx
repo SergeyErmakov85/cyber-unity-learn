@@ -2,6 +2,7 @@ import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import Math from "@/components/Math";
 
 const post = blogPosts.find((p) => p.slug === "top-5-mistakes")!;
 
@@ -90,7 +91,7 @@ if (distToTarget < 1.5f) {
         <strong className="text-foreground">Решение:</strong> включите нормализацию в YAML-конфиге
         ML-Agents. Это встроенный running mean/variance нормализатор, который автоматически приводит
         все наблюдения к примерно одинаковому масштабу. Дополнительно нормализуйте вручную то, что
-        знаете заранее: позиции делите на размер арены, углы на π.
+        знаете заранее: позиции делите на размер арены, углы на <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>.
       </p>
       <CyberCodeBlock language="python" filename="normalize_config.yaml">
 {`behaviors:

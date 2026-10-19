@@ -14,7 +14,7 @@ const Chapter4 = () => (
     <Math>{"\\enfOp{G}_t = \\enfTgt{R}_{t+1} + \\enfPar{\\gamma} \\enfTgt{R}_{t+2} + \\enfPar{\\gamma}^2 \\enfTgt{R}_{t+3} + \\dots = \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^k \\enfTgt{R}_{t+k+1}"}</Math>
 
     <InfoBox>
-      <p className="font-semibold text-foreground mb-2">Интуитивный смысл γ — «горизонт планирования»</p>
+      <p className="font-semibold text-foreground mb-2">Интуитивный смысл <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> — «горизонт планирования»</p>
       <ul className="list-disc list-inside space-y-1 text-sm">
         <li><Math display={false}>{"\\enfPar{\\gamma} = 0"}</Math> — агент абсолютно близорук, учитывает только немедленную награду</li>
         <li><Math display={false}>{"\\enfPar{\\gamma} = 0.99"}</Math> — агент крайне дальновиден</li>

@@ -115,7 +115,7 @@ const Part1bCalculus = () => (
         <p>Найти <Math display={false}>{`\\enfTgt{L}'(\\enfVar{\\delta})`}</Math> при <Math display={false}>{`\\enfVar{\\delta} = 0{,}5`}</Math> и при <Math display={false}>{`\\enfVar{\\delta} = 2`}</Math>.</p>
         <details className="text-sm mt-3">
           <summary className="text-accent cursor-pointer">💡 Подсказка</summary>
-          <p className="mt-2 text-muted-foreground">Определи, в какой части кусочной функции находится δ, затем дифференцируй.</p>
+          <p className="mt-2 text-muted-foreground">Определи, в какой части кусочной функции находится <Math display={false}>{String.raw`\enfVar{\delta}`}</Math>, затем дифференцируй.</p>
         </details>
         <details className="text-sm mt-2">
           <summary className="text-accent cursor-pointer">📝 Решение</summary>
@@ -123,7 +123,7 @@ const Part1bCalculus = () => (
             <p className="text-muted-foreground"><Math display={false}>{`\\enfVar{\\delta} = 0{,}5`}</Math>: <Math display={false}>{`|0{,}5| \\le 1`}</Math>, значит <Math display={false}>{`\\enfTgt{L}'(0{,}5) = \\enfVar{\\delta} = 0{,}5`}</Math></p>
             <p className="text-muted-foreground"><Math display={false}>{`\\enfVar{\\delta} = 2`}</Math>: <Math display={false}>{`|2| > 1`}</Math>, значит <Math display={false}>{`\\enfTgt{L}'(2) = \\operatorname{sign}(2) = 1`}</Math></p>
             <p><span className="inline-block px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-sm font-bold">Ответ: L'(0,5) = 0,5 ; L'(2) = 1</span></p>
-            <p className="text-muted-foreground text-xs mt-1">MSE даёт градиент δ = 2, Хаббер — только 1. Ограниченный градиент = стабильное обучение DQN.</p>
+            <p className="text-muted-foreground text-xs mt-1">MSE даёт градиент <Math display={false}>{String.raw`\enfVar{\delta} = 2`}</Math>, Хаббер — только 1. Ограниченный градиент = стабильное обучение DQN.</p>
           </div>
         </details>
       </PracticeTask>
@@ -283,7 +283,7 @@ except ImportError:
     {/* ═══ СЕКЦИЯ 3: Градиентный спуск ═══ */}
     <Section icon={<Layers className="w-5 h-5 text-accent" />} title="§ 3. Градиентный спуск и оптимизация">
       <div className="my-4 p-4 rounded-lg bg-card/60 border border-accent/20">
-        <p className="text-lg italic text-foreground">🏔️ Вы стоите на горном склоне в тумане. Хотите добраться до долины (минимум), не видя всего рельефа. Нащупываете уклон под ногами (градиент) и делаете шаг в самую крутую сторону вниз (антиградиент), размером α.</p>
+        <p className="text-lg italic text-foreground">🏔️ Вы стоите на горном склоне в тумане. Хотите добраться до долины (минимум), не видя всего рельефа. Нащупываете уклон под ногами (градиент) и делаете шаг в самую крутую сторону вниз (антиградиент), размером <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>.</p>
       </div>
 
       <DefinitionBox>
@@ -339,8 +339,8 @@ except ImportError:
             </tr>
           </thead>
           <tbody className="text-muted-foreground">
-            <tr className="border-b border-border/20"><td className="p-3">Слишком большой α</td><td className="p-3">Потеря растёт / расходимость</td><td className="p-3">Уменьшить α</td></tr>
-            <tr className="border-b border-border/20"><td className="p-3">Слишком малый α</td><td className="p-3">Обучение не сходится</td><td className="p-3">Увеличить α</td></tr>
+            <tr className="border-b border-border/20"><td className="p-3">Слишком большой <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math></td><td className="p-3">Потеря растёт / расходимость</td><td className="p-3">Уменьшить <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math></td></tr>
+            <tr className="border-b border-border/20"><td className="p-3">Слишком малый <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math></td><td className="p-3">Обучение не сходится</td><td className="p-3">Увеличить <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math></td></tr>
             <tr className="border-b border-border/20"><td className="p-3">Локальный минимум</td><td className="p-3">Застрял на плохом решении</td><td className="p-3">SGD + шум, рестарт</td></tr>
             <tr className="border-b border-border/20"><td className="p-3">Взрывной градиент</td><td className="p-3">NaN в весах</td><td className="p-3">Gradient clipping</td></tr>
             <tr><td className="p-3">Затухающий градиент</td><td className="p-3">Нет обучения в глубоких сетях</td><td className="p-3">Residual connections, нормировка</td></tr>
@@ -437,7 +437,7 @@ for alpha in [0.01, 0.1, 0.5, 1.05]:
         <Math>{`\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\pi_\\theta}\\!\\left[\\enfOp{\\nabla} \\log \\pi_\\theta(a \\mid \\enfVar{s}) \\cdot \\enfOp{Q}^{\\pi}(\\enfVar{s},a)\\right]`}</Math>
         <ul className="list-disc list-inside mt-4 space-y-1 text-sm">
           <li><Math display={false}>{`\\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})`}</Math> — вероятность выбрать действие <Math display={false}>{`\\enfFun{a}`}</Math> в состоянии <Math display={false}>{`\\enfVar{s}`}</Math></li>
-          <li><Math display={false}>{`\\enfOp{\\nabla} \\log \\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})`}</Math> — «насколько θ влияет на вероятность этого действия»</li>
+          <li><Math display={false}>{`\\enfOp{\\nabla} \\log \\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})`}</Math> — «насколько <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> влияет на вероятность этого действия»</li>
           <li><Math display={false}>{`\\enfOp{Q}^\\pi(\\enfVar{s},\\enfFun{a})`}</Math> — насколько хорошим оказалось действие <Math display={false}>{`\\enfFun{a}`}</Math></li>
         </ul>
       </div>
@@ -464,7 +464,7 @@ for alpha in [0.01, 0.1, 0.5, 1.05]:
         <details className="text-sm mt-3">
           <summary className="text-accent cursor-pointer">📝 Пошаговое решение</summary>
           <div className="mt-2 space-y-3">
-            <p className="text-muted-foreground"><strong className="text-foreground">1.</strong> Вычислить π: <Math display={false}>{`\\enfFun{\\sigma}(0.5 \\cdot 1) = \\enfFun{\\sigma}(0.5) \\approx 0.6225`}</Math></p>
+            <p className="text-muted-foreground"><strong className="text-foreground">1.</strong> Вычислить <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>: <Math display={false}>{`\\enfFun{\\sigma}(0.5 \\cdot 1) = \\enfFun{\\sigma}(0.5) \\approx 0.6225`}</Math></p>
             <p className="text-muted-foreground"><strong className="text-foreground">2.</strong> Вычислить <Math display={false}>{`\\enfOp{\\nabla} \\log \\enfFun{\\pi}`}</Math>: <Math display={false}>{`(1 - \\enfFun{\\pi}) \\cdot \\enfVar{s} = (1 - 0.6225) \\cdot 1 = 0.3775`}</Math></p>
             <p className="text-muted-foreground"><strong className="text-foreground">3.</strong> Градиент: <Math display={false}>{`\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}) = \\enfTgt{r} \\cdot \\enfOp{\\nabla} \\log \\enfFun{\\pi} = 2 \\cdot 0.3775 = 0.755`}</Math></p>
             <p className="text-muted-foreground"><strong className="text-foreground">4.</strong> Обновление: <Math display={false}>{`\\enfPar{\\theta}_{\\text{new}} = 0.5 + 0.1 \\cdot 0.755 = 0.5755`}</Math></p>
@@ -535,19 +535,19 @@ print(f'V истинное:  {np.round(V_true, 4)}')`}
             <p><strong className="text-foreground">Пределы</strong> → сходимость алгоритмов (Q-learning сходится при <Math display={false}>{`\\sum \\enfPar{\\alpha}_t = \\infty`}</Math>, <Math display={false}>{`\\sum \\enfPar{\\alpha}_t^2 < \\infty`}</Math>)</p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="text-lg">∂</span>
+            <span className="text-lg"><Math display={false}>{String.raw`\partial`}</Math></span>
             <p><strong className="text-foreground">Производные</strong> → backpropagation через нейросети политики и ценности</p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="text-lg">∇</span>
-            <p><strong className="text-foreground">Градиент</strong> → направление улучшения весов θ в пространстве параметров</p>
+            <span className="text-lg"><Math display={false}>{String.raw`\enfOp{\nabla}`}</Math></span>
+            <p><strong className="text-foreground">Градиент</strong> → направление улучшения весов <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> в пространстве параметров</p>
           </div>
           <div className="flex items-start gap-3">
             <span className="text-lg">⬇</span>
-            <p><strong className="text-foreground">Градиентный спуск</strong> → обновление θ в DQN, PPO, SAC, TD3 на каждом батче</p>
+            <p><strong className="text-foreground">Градиентный спуск</strong> → обновление <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> в DQN, PPO, SAC, TD3 на каждом батче</p>
           </div>
           <div className="flex items-start gap-3">
-            <span className="text-lg">π</span>
+            <span className="text-lg"><Math display={false}>{String.raw`\enfFun{\pi}`}</Math></span>
             <p><strong className="text-foreground">Policy Gradient</strong> → REINFORCE, A2C, PPO, SAC — все современные алгоритмы</p>
           </div>
         </div>

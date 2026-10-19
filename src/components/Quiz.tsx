@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, ArrowRight, Sparkles, ChevronDown } from "lucide-react";
 import { completeQuiz } from "@/lib/gamification";
+import RichText from "@/components/math-symbols/RichText";
 
 interface QuizQuestion {
   question: string;
@@ -71,7 +72,7 @@ const Quiz = ({ title = "Проверь себя", questions, lessonPath, nextLe
           <CardContent className="space-y-6">
             {questions.map((q, qIdx) => (
               <div key={qIdx} className="space-y-2">
-                <p className="font-medium text-sm text-foreground">{qIdx + 1}. {q.question}</p>
+                <p className="font-medium text-sm text-foreground">{qIdx + 1}. <RichText text={q.question} /></p>
                 <div className="grid gap-2">
                   {q.options.map((opt, optIdx) => {
                     const selected = answers[qIdx] === optIdx;
@@ -92,7 +93,7 @@ const Quiz = ({ title = "Проверь себя", questions, lessonPath, nextLe
                           {submitted && selected && isCorrect && <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />}
                           {submitted && selected && !isCorrect && <XCircle className="w-4 h-4 text-destructive shrink-0" />}
                           {submitted && !selected && isCorrect && <CheckCircle className="w-4 h-4 text-green-500/50 shrink-0" />}
-                          <span className="text-muted-foreground">{opt}</span>
+                          <span className="text-muted-foreground"><RichText text={opt} /></span>
                         </div>
                       </button>
                     );
@@ -100,7 +101,7 @@ const Quiz = ({ title = "Проверь себя", questions, lessonPath, nextLe
                 </div>
                 {submitted && q.explanation && (
                   <div className="mt-2 p-3 rounded-lg bg-muted/30 border border-border/50 text-xs text-muted-foreground">
-                    <span className="font-semibold text-foreground">Пояснение:</span> {q.explanation}
+                    <span className="font-semibold text-foreground">Пояснение:</span> <RichText text={q.explanation} />
                   </div>
                 )}
               </div>
