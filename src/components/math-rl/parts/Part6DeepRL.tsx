@@ -121,7 +121,7 @@ const Part6DeepRL = () => (
 
       <Section icon={<BarChart3 className="w-5 h-5 text-accent" />} title="2.2 Теория вероятностей и статистика">
         <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-6 mb-3" id="нормальное-распределение">Нормальное распределение</h3>
-        <Math>{`\\enfFun{f}(\\enfVar{x}) = \\frac{1}{\\enfPar{\\sigma}\\sqrt{2\\enfFun{\\pi}}} \\exp\\left(-\\frac{(\\enfVar{x} - \\enfPar{\\mu})^2}{2\\enfPar{\\sigma}^2}\\right)`}</Math>
+        <Math>{`\\enfFun{f}(\\enfVar{x}) = \\frac{1}{\\enfPar{\\sigma}\\sqrt{2\\pi}} \\exp\\left(-\\frac{(\\enfVar{x} - \\enfPar{\\mu})^2}{2\\enfPar{\\sigma}^2}\\right)`}</Math>
 
         <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="оценка-максимального-правдоподобия-mle">Оценка максимального правдоподобия (MLE)</h3>
         <Math>{`\\enfPar{\\hat{\\theta}}_{\\text{MLE}} = \\arg\\max_\\theta \\sum_{i=1}^n \\log \\enfFun{f}(\\enfVar{X}_i|\\enfPar{\\theta})`}</Math>
@@ -132,15 +132,18 @@ const Part6DeepRL = () => (
 
       <Section icon={<GitBranch className="w-5 h-5 text-primary" />} title="2.3 Дифференциальные уравнения">
         <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-6 mb-3" id="оду-с-разделяющимися-переменными">ОДУ с разделяющимися переменными</h3>
-        <p>Уравнение <Math display={false}>{`\\enfTgt{y}' = ky`}</Math>:</p>
-        <Math>{`\\frac{\\mathrm{d}\\enfTgt{y}}{\\enfTgt{y}} = k\\,\\mathrm{d}\\enfVar{x} \\quad \\Rightarrow \\quad \\enfTgt{y} = \\enfPar{C}_1 e^{kx}`}</Math>
+        <p>Уравнение <Math display={false}>{`\\enfFun{y}' = \\enfPar{k}\\,\\enfFun{y}`}</Math>:</p>
+        <Math>{`\\frac{\\mathrm{d}\\enfFun{y}}{\\enfFun{y}} = \\enfPar{k}\\,\\mathrm{d}\\enfVar{x} \\quad \\Rightarrow \\quad \\enfFun{y} = \\enfPar{C}_1 e^{\\enfPar{k}\\enfVar{x}}`}</Math>
 
         <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="оду-второго-порядка">ОДУ второго порядка</h3>
-        <p>Характеристическое уравнение <Math display={false}>{`\\enfFun{a}\\enfTgt{r}^2 + \\enfPar{b}\\enfTgt{r} + \\enfPar{c} = 0`}</Math>:</p>
+        <p>
+          Для уравнения <Math display={false}>{`\\enfPar{a}\\,\\enfFun{y}'' + \\enfPar{b}\\,\\enfFun{y}' + \\enfPar{c}\\,\\enfFun{y} = 0`}</Math>{" "}
+          характеристическое уравнение <Math display={false}>{`\\enfPar{a}\\enfVar{r}^2 + \\enfPar{b}\\enfVar{r} + \\enfPar{c} = 0`}</Math>:
+        </p>
         <ul className="list-disc list-inside space-y-2 mt-3">
-          <li>Различные действительные корни: <Math display={false}>{`\\enfTgt{y} = \\enfPar{C}_1 e^{r_1 x} + \\enfPar{C}_2 e^{r_2 x}`}</Math></li>
-          <li>Кратный корень: <Math display={false}>{`\\enfTgt{y} = (\\enfPar{C}_1 + \\enfPar{C}_2 \\enfVar{x})e^{rx}`}</Math></li>
-          <li>Комплексные корни: <Math display={false}>{`\\enfTgt{y} = e^{\\alpha x}(\\enfPar{C}_1 \\cos\\enfPar{\\beta} \\enfVar{x} + \\enfPar{C}_2 \\sin\\enfPar{\\beta} \\enfVar{x})`}</Math></li>
+          <li>Различные действительные корни: <Math display={false}>{`\\enfFun{y} = \\enfPar{C}_1 e^{\\enfVar{r}_1 \\enfVar{x}} + \\enfPar{C}_2 e^{\\enfVar{r}_2 \\enfVar{x}}`}</Math></li>
+          <li>Кратный корень: <Math display={false}>{`\\enfFun{y} = (\\enfPar{C}_1 + \\enfPar{C}_2 \\enfVar{x})e^{\\enfVar{r}\\enfVar{x}}`}</Math></li>
+          <li>Комплексные корни <Math display={false}>{`\\enfVar{r} = \\enfPar{\\alpha} \\pm i\\enfPar{\\beta}`}</Math>: <Math display={false}>{`\\enfFun{y} = e^{\\enfPar{\\alpha}\\enfVar{x}}(\\enfPar{C}_1 \\cos\\enfPar{\\beta} \\enfVar{x} + \\enfPar{C}_2 \\sin\\enfPar{\\beta} \\enfVar{x})`}</Math></li>
         </ul>
       </Section>
     </div>

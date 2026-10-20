@@ -1,3 +1,4 @@
+import Math from "@/components/Math";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { SECTION_TITLE_CLASS, ProseP, KeyPoints, Code } from "./_shared";
 
@@ -65,7 +66,7 @@ const Section8 = () => (
       </li>
       <li>
         <strong>trial</strong> — одно испытание (одна конфигурация{" "}
-        <Code>λ</Code>).
+        <Math display={false}>{String.raw`\enfPar{\boldsymbol{\lambda}}`}</Math>).
       </li>
       <li>
         <strong>objective</strong> — ваша функция, которая по <Code>trial</Code> строит
@@ -99,7 +100,7 @@ const Section8 = () => (
       </li>
       <li>
         <Code>n_startup_trials</Code> у TPE — сколько первых испытаний берутся случайно, чтобы
-        засеять плотности <Code>ℓ</Code> и <Code>g</Code> (по умолчанию <Code>10</Code>).
+        засеять плотности <Math display={false}>{String.raw`\enfFun{\ell}`}</Math> и <Math display={false}>{String.raw`\enfFun{g}`}</Math> (по умолчанию <Code>10</Code>).
       </li>
     </ul>
 

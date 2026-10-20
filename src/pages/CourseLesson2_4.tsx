@@ -13,6 +13,8 @@ import {
   RewardHackingChart,
   StepsProbabilitySlider,
 } from "@/components/math-rl/RewardShapingCharts";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_2_4_SYMBOLS } from "@/content/symbols/pages/level2";
 
 const quizQuestions = [
   {
@@ -103,6 +105,8 @@ const CourseLesson2_4 = () => {
     >
       <ProGate preview={preview}>
         {preview}
+
+        <SymbolTable symbols={LESSON_2_4_SYMBOLS} />
 
         {/* ───────── 1. Sparse vs Dense ───────── */}
         <section id="mod1" className="scroll-mt-28">
@@ -213,9 +217,9 @@ if (reachedGoal) AddReward(1.0f);`}
 total_reward = 0.0
 for t in range(max_steps):
     action = agent.act(state)
-    state, reward, done, info = env.step(action)
+    state, reward, terminated, truncated, info = env.step(action)
     total_reward += (gamma ** t) * reward
-    if done:
+    if terminated or truncated:
         break`}
           </CyberCodeBlock>
 

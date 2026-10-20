@@ -38,7 +38,7 @@ const Section10 = () => (
         </thead>
         <tbody className="divide-y divide-cyan-500/10 text-foreground/85">
           <tr><td className="p-3">Среда и наблюдения</td><td className="p-3">агент получает осмысленные наблюдения</td><td className="p-3">нормированные, агент-центричные, дублированная арена</td></tr>
-          <tr><td className="p-3">Награда</td><td className="p-3">reward растёт, агент решает задачу</td><td className="p-3">защита от reward hacking, потенциальное шейпинг</td></tr>
+          <tr><td className="p-3">Награда</td><td className="p-3">reward растёт, агент решает задачу</td><td className="p-3">защита от reward hacking, потенциальный шейпинг</td></tr>
           <tr><td className="p-3">Обучение</td><td className="p-3">конвергенция на TensorBoard</td><td className="p-3">стабильная кривая, осмысленная энтропия</td></tr>
           <tr><td className="p-3">Деплой</td><td className="p-3">NPC работает в билде (Inference Only)</td><td className="p-3">квантизация / оптимизация под платформу</td></tr>
           <tr><td className="p-3">Геймплей</td><td className="p-3">игрок взаимодействует с NPC</td><td className="p-3">проработанные UI/камера/билд</td></tr>

@@ -34,9 +34,12 @@ import Summary from "@/components/lesson-3-1/Summary";
 import RelatedMaterials from "@/components/lesson-3-1/RelatedMaterials";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_3_1_SYMBOLS } from "@/content/symbols/pages/level3";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
+  { id: "symbols", label: "Σ · Символы и код" },
   { id: "раздел-0-от-гоночного-агента-к-sac", label: "0 · Зачем SAC" },
   { id: "раздел-1-принцип-максимальной-энтропии-зачем-агенту-быть-случайным", label: "1 · Макс. энтропия" },
   { id: "раздел-2-maximum-entropy-rl-objective", label: "2 · Max-Ent цель" },
@@ -54,8 +57,14 @@ const SECTIONS: SectionNavItem[] = [
   { id: "итоги", label: "Итоги" },
 ];
 
+/** Таблица символов урока: те же записи питают пояснения по клику на символ формулы. */
+const SymbolsSection = () => (
+  <SymbolTable symbols={LESSON_3_1_SYMBOLS} variant="section" id="symbols-table" codeLabel="В конфиге и псевдокоде" />
+);
+
 const SECTION_COMPONENTS: Record<string, () => JSX.Element> = {
   intro: IntroSection,
+  symbols: SymbolsSection,
   "раздел-0-от-гоночного-агента-к-sac": Section0,
   "раздел-1-принцип-максимальной-энтропии-зачем-агенту-быть-случайным": Section1,
   "раздел-2-maximum-entropy-rl-objective": Section2,

@@ -10,6 +10,8 @@ import SEOHead from "@/components/SEOHead";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { FCA_HUB_SYMBOLS } from "@/content/symbols/pages/hubs";
 
 const FcaRlModule = () => {
   const navigate = useNavigate();
@@ -66,6 +68,7 @@ const FcaRlModule = () => {
                     <li><a href="#fca-basics" className="text-yellow-400 hover:underline">Основы FCA</a></li>
                     <li><a href="#lattices" className="text-yellow-400 hover:underline">Решётки понятий</a></li>
                     <li><a href="#fca-hyperparams" className="text-yellow-400 hover:underline">FCA для гиперпараметров</a></li>
+                    <li><a href="#symbols" className="text-yellow-400 hover:underline">Символы: от формулы к коду</a></li>
                     <li><a href="#fca-architecture" className="text-yellow-400 hover:underline">FCA для архитектуры</a></li>
                     <li><a href="#fca-practice" className="text-yellow-400 hover:underline">Практика: FCA + PPO</a></li>
                   </ol>
@@ -264,6 +267,8 @@ for concept in lattice:
             </section>
 
             {/* Section 4: FCA для проектирования архитектуры */}
+            <SymbolTable symbols={FCA_HUB_SYMBOLS} codeLabel="В коде Python (concepts)" />
+
             <section id="fca-architecture" className="scroll-mt-32 space-y-6">
               <div className="flex items-center gap-3">
                 <Brain className="h-7 w-7 text-yellow-400" />

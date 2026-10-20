@@ -28,9 +28,12 @@ import Summary from "@/components/lesson-3-4/Summary";
 import RelatedMaterials from "@/components/lesson-3-4/RelatedMaterials";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_3_4_SYMBOLS } from "@/content/symbols/pages/level3";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
+  { id: "symbols-table", label: "Σ · Символы и код" },
   { id: "razdel-1-bc-teoriya", label: "1 · BC — теория" },
   { id: "razdel-2-irl", label: "2 · IRL" },
   { id: "razdel-3-gail", label: "3 · GAIL" },
@@ -43,8 +46,14 @@ const SECTIONS: SectionNavItem[] = [
   { id: "istochniki", label: "Источники" },
 ];
 
+/** Таблица символов урока: те же записи питают пояснения по клику на символ формулы. */
+const SymbolsSection = () => (
+  <SymbolTable symbols={LESSON_3_4_SYMBOLS} variant="section" id="symbols-table" codeLabel="В конфиге ML-Agents" />
+);
+
 const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
   { id: "intro", Comp: IntroSection },
+  { id: "symbols-table", Comp: SymbolsSection },
   { id: "razdel-1-bc-teoriya", Comp: Section1 },
   { id: "razdel-2-irl", Comp: Section2 },
   { id: "razdel-3-gail", Comp: Section3 },

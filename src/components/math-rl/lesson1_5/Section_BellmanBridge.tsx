@@ -199,32 +199,24 @@ const Section_BellmanBridge = () => {
           >
             <SummaryRow section="§ 2–3" color={AMBER}>
               Ввели MDP: формализовали RoomBot как кортеж{" "}
-              <span style={{ fontFamily: MONO_FONT, color: AMBER }}>
-                (S, A, P, R, γ)
-              </span>{" "}
+              <Math display={false}>{String.raw`(\enfVar{\mathcal{S}},\ \enfFun{\mathcal{A}},\ \enfFun{\mathcal{P}},\ \enfTgt{\mathcal{R}},\ \enfPar{\gamma})`}</Math>{" "}
               и проверили марковское свойство.
             </SummaryRow>
             <SummaryRow section="§ 5–6" color={MAGENTA}>
               Построили{" "}
-              <span style={{ fontFamily: MONO_FONT, color: CYAN }}>
-                V<sup>π</sup>(s)
-              </span>{" "}
+              <Math display={false}>{String.raw`\enfOp{V}^{\pi}(\enfVar{s})`}</Math>{" "}
               и{" "}
-              <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>
-                Q<sup>π</sup>(s, a)
-              </span>{" "}
+              <Math display={false}>{String.raw`\enfOp{Q}^{\pi}(\enfVar{s}, \enfFun{a})`}</Math>{" "}
               — среднюю «ценность» состояния и действия.
             </SummaryRow>
             <SummaryRow section="§ 6" color={MAGENTA}>
-              Нашли связь V ↔ Q:{" "}
-              <span style={{ fontFamily: MONO_FONT, color: CYAN }}>
-                V<sup>π</sup>(s) = Σ<sub>a</sub> π(a|s) · Q<sup>π</sup>(s, a)
-              </span>
+              Нашли связь <Math display={false}>{String.raw`\enfOp{V} \leftrightarrow \enfOp{Q}`}</Math>:{" "}
+              <Math display={false}>{String.raw`\enfOp{V}^{\pi}(\enfVar{s}) = \sum_{a} \enfFun{\pi}(a \mid \enfVar{s})\, \enfOp{Q}^{\pi}(\enfVar{s}, a)`}</Math>
               .
             </SummaryRow>
             <SummaryRow section="§ 7" color={CYAN}>
               Построили итерационный алгоритм, сходящийся к{" "}
-              <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V*</span>{" "}
+              <Math display={false}>{String.raw`\enfOp{V}^{*}`}</Math>{" "}
               — и увидели её глазами, сначала на NumPy, потом на PyTorch.
             </SummaryRow>
           </div>
@@ -346,16 +338,16 @@ const Section_BellmanBridge = () => {
           </h3>
           <p style={{ color: "rgba(255,255,255,0.88)" }}>
             Value Iteration опирался на честный доступ к{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>P(s′|s,a)</span>{" "}
+            <Math display={false}>{String.raw`\enfFun{P}(\enfVar{s}' \mid \enfVar{s}, \enfFun{a})`}</Math>{" "}
             и{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>R(s′)</span> —
+            <Math display={false}>{String.raw`\enfTgt{R}(\enfVar{s}')`}</Math> —
             как будто модель мира у нас в кармане. В реальности это почти
             никогда не так: бот знает только то, что видит своими датчиками.
             В уроке 1.6 мы увидим, что будет, если{" "}
-            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>P</span> и{" "}
-            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>R</span>{" "}
+            <Math display={false}>{String.raw`\enfFun{P}`}</Math> и{" "}
+            <Math display={false}>{String.raw`\enfTgt{R}`}</Math>{" "}
             неизвестны, — и нам придётся <em>учить</em>{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>Q</span>,
+            <Math display={false}>{String.raw`\enfOp{Q}`}</Math>,
             а не вычислять её.
           </p>
 

@@ -70,10 +70,10 @@ const Part4Optimization = () => (
       <Math>{`\\enfPar{\\theta}_{\\text{new}} = \\enfPar{\\theta}_{\\text{old}} + \\enfPar{\\alpha}\\,\\enfOp{\\nabla}_{\\theta}\\enfTgt{J}(\\enfPar{\\theta}_{\\text{old}})`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="1-momentum">1. Momentum</h3>
-      <Math>{`\\enfVar{v}_t = \\enfPar{\\beta}_1\\,\\enfVar{v}_{t-1} + (1-\\enfPar{\\beta}_1)\\,\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}), \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\enfVar{v}_t`}</Math>
+      <Math>{`\\enfVar{m}_t = \\enfPar{\\beta}_1\\,\\enfVar{m}_{t-1} + (1-\\enfPar{\\beta}_1)\\,\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}), \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\enfVar{m}_t`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="2-rmsprop">2. RMSProp</h3>
-      <Math>{`\\enfVar{s}_t = \\enfPar{\\beta}_2\\,\\enfVar{s}_{t-1} + (1-\\enfPar{\\beta}_2)\\,(\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}))^2, \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\frac{\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1})}{\\sqrt{\\enfVar{s}_t} + \\enfPar{\\varepsilon}}`}</Math>
+      <Math>{`\\enfVar{v}_t = \\enfPar{\\beta}_2\\,\\enfVar{v}_{t-1} + (1-\\enfPar{\\beta}_2)\\,(\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1}))^2, \\quad \\enfPar{\\theta}_t = \\enfPar{\\theta}_{t-1} + \\enfPar{\\alpha}\\,\\frac{\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta}_{t-1})}{\\sqrt{\\enfVar{v}_t} + \\enfPar{\\varepsilon}}`}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="3-adam-adaptive-moment-estimation">3. Adam (Adaptive Moment Estimation)</h3>
       <p>

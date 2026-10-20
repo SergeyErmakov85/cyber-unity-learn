@@ -33,7 +33,7 @@ const Summary = () => (
       <li>
         <strong className="text-primary">ADR</strong> = учебный план над рандомизацией: факторизованное{" "}
         <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math>, <strong>boundary sampling</strong>, пороги{" "}
-        <Math display={false}>{String.raw`t_L/t_H`}</Math>, <strong>ADR-энтропия</strong> как «номер
+        <Math display={false}>{String.raw`\enfPar{t}_L/\enfPar{t}_H`}</Math>, <strong>ADR-энтропия</strong> как «номер
         урока».
       </li>
       <li>

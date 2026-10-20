@@ -185,7 +185,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
-  max-height: min(70vh, 32rem);
+  max-height: min(70vh, 32rem, var(--enf-pop-max, 32rem));
   overflow-y: auto;
   padding: 1rem 1.05rem 1.05rem;
   overscroll-behavior: contain;

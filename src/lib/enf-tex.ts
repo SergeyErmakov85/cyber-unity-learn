@@ -63,6 +63,38 @@ export const stripRoleMacros = (tex: string): string => {
 };
 
 /**
+ * Украшения сразу после макроса роли: индексы, степени и штрихи стоят вне
+ * макроса (`\enfFun{A}_t`, `\enfVar{s}'`), потому что по ENF не окрашиваются.
+ * Для пояснения они важны: `A_t` — действие в момент t, а не матрица A.
+ */
+export const readTail = (src: string, pos: number): string => {
+  let i = pos;
+  let out = "";
+  for (let guard = 0; guard < 6; guard++) {
+    while (src[i] === " ") i++;
+    const c = src[i];
+    if (c === "'") {
+      out += "'";
+      i++;
+      continue;
+    }
+    if (c === "_" || c === "^") {
+      let j = i + 1;
+      while (src[j] === " ") j++;
+      let end: number;
+      if (src[j] === "{") end = groupEnd(src, j) + 1;
+      else if (src[j] === "\\") end = j + (/^\\([a-zA-Z]+|.)/.exec(src.slice(j))?.[0].length ?? 1);
+      else end = j + 1;
+      out += c + src.slice(j, end);
+      i = end;
+      continue;
+    }
+    break;
+  }
+  return stripRoleMacros(out);
+};
+
+/**
  * Каноническая форма записи для поиска в словаре: без лишних пробелов,
  * индексы и акценты в фигурных скобках, `\prime` как штрих.
  * `\hat A_t`, `\hat{A}_{t}` и `\hat{A}_t` дают один ключ.
@@ -71,7 +103,7 @@ export const normalizeTex = (tex: string): string => {
   let s = stripRoleMacros(tex).replace(/\\(?:,|;|:|!|quad|qquad)/g, " ").replace(/\s+/g, " ").trim();
   s = s.replace(/\\(left|right|big|Big|bigg|Bigg)(?![a-zA-Z])/g, "");
   // Пробел значим только между командой и буквой: `\hat A`.
-  s = s.replace(/(\\[a-zA-Z]+) (?=[a-zA-Z])/g, "$1\u0000").replace(/ /g, "").replace(/\u0000/g, " ");
+  s = s.replace(/(\\[a-zA-Z]+) (?=[a-zA-Z])/g, "$1\uE000").replace(/ /g, "").replace(/\uE000/g, " ");
   s = s.replace(/\^\{?\\prime\}?/g, "'");
   s = s.replace(/\\(hat|widehat|bar|overline|tilde|widetilde|vec|dot|ddot|mathbf|mathcal|mathbb|boldsymbol|bm|mathrm|mathit)\s*(\\[a-zA-Z]+|[A-Za-z0-9])/g, "\\$1{$2}");
   s = s.replace(/([_^])(\\[a-zA-Z]+|[^{\\\s])/g, "$1{$2}");

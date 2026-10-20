@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { ArrowLeft, Download, Snowflake, BookOpen, Brain, Calculator, Settings, Dumbbell, BarChart3, Gamepad2, FlaskConical, FileText } from "lucide-react";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { FROZEN_LAKE_SYMBOLS } from "@/content/symbols/pages/projects";
 
 const TOC_ITEMS = [
   { id: "rl-basics", label: "Что такое RL?", emoji: "🌍", Icon: BookOpen },
@@ -436,26 +438,26 @@ const FrozenLakeProject = () => {
                 <h3 className="text-lg font-bold text-foreground mb-3">🎯 Числовой пример</h3>
                 <p className="text-muted-foreground mb-3">Допустим:</p>
                 <ul className="list-disc pl-6 space-y-1 text-muted-foreground text-sm">
-                  <li>Агент в клетке <strong className="text-foreground">6</strong>, идёт <strong className="text-foreground">вправо</strong> и попадает в клетку <strong className="text-foreground">7</strong></li>
-                  <li><InlineMath>{"\\enfOp{Q}(6, \\text{вправо}) = 0{,}3"}</InlineMath> (старая оценка)</li>
+                  <li>Агент в клетке <strong className="text-foreground">10</strong>, идёт <strong className="text-foreground">вниз</strong> и попадает в клетку <strong className="text-foreground">14</strong> (клетка 7 справа от 6 — прорубь, там эпизод кончается)</li>
+                  <li><InlineMath>{"\\enfOp{Q}(10, \\text{вниз}) = 0{,}3"}</InlineMath> (старая оценка)</li>
                   <li>Награда <InlineMath>{"\\enfTgt{r} = 0"}</InlineMath> (просто перешёл на лёд)</li>
-                  <li><InlineMath>{"\\max \\enfOp{Q}(7, \\cdot) = 0{,}8"}</InlineMath> (лучшая оценка в клетке 7)</li>
+                  <li><InlineMath>{"\\max \\enfOp{Q}(14, \\cdot) = 0{,}8"}</InlineMath> (лучшая оценка в клетке 14, соседней с целью)</li>
                   <li><InlineMath>{"\\enfPar{\\alpha} = 0{,}1, \\enfPar{\\gamma} = 0{,}99"}</InlineMath></li>
                 </ul>
                 <p className="text-muted-foreground mt-3">Считаем:</p>
                 <div className="overflow-x-auto py-2 space-y-1">
-                  <MathBlock>{`\\enfOp{Q}(6, \\text{вправо}) \\leftarrow 0{,}3 + 0{,}1 \\cdot [0 + 0{,}99 \\cdot 0{,}8 - 0{,}3]`}</MathBlock>
+                  <MathBlock>{`\\enfOp{Q}(10, \\text{вниз}) \\leftarrow 0{,}3 + 0{,}1 \\cdot [0 + 0{,}99 \\cdot 0{,}8 - 0{,}3]`}</MathBlock>
                   <MathBlock>{`= 0{,}3 + 0{,}1 \\cdot [0 + 0{,}792 - 0{,}3] = 0{,}3 + 0{,}1 \\cdot 0{,}492 = \\mathbf{0{,}3492}`}</MathBlock>
                 </div>
                 <p className="text-muted-foreground mt-3">
-                  Оценка <strong className="text-foreground">немного выросла</strong>, потому что из клетки 7 есть хорошие перспективы!
+                  Оценка <strong className="text-foreground">немного выросла</strong>, потому что из клетки 14 до цели один шаг!
                 </p>
               </CardContent>
             </Card>
 
             <Card className="bg-card/40 border-primary/20">
               <CardContent className="p-5">
-                <h3 className="text-lg font-bold text-foreground mb-3">🎲 Стратегия ε-greedy (эпсилон-жадная)</h3>
+                <h3 className="text-lg font-bold text-foreground mb-3">🎲 Стратегия <InlineMath>{"\\enfPar{\\varepsilon}"}</InlineMath>-greedy (эпсилон-жадная)</h3>
                 <p className="text-muted-foreground mb-3">Как агент выбирает действия во время обучения?</p>
                 <div className="overflow-x-auto py-2">
                   <MathBlock>{`\\text{Действие} = \\begin{cases} \\text{случайное действие} & \\text{с вероятностью } \\enfPar{\\varepsilon} \\\\ \\arg\\max_a \\enfOp{Q}(\\enfVar{s}, a) & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\end{cases}`}</MathBlock>
@@ -474,6 +476,8 @@ const FrozenLakeProject = () => {
         </section>
 
         {/* Section 4: Setup */}
+        <SymbolTable symbols={FROZEN_LAKE_SYMBOLS} codeLabel="В коде Python" className="mb-12" />
+
         <section className="mb-12 scroll-mt-28" id="setup">
           <SectionHeader icon={<Settings className="w-6 h-6 text-primary" />} title="4. ⚙️ Настройка окружения" id="setup-header" />
 
@@ -593,7 +597,7 @@ print(f"   Все значения = 0.00 (агент ещё ничего не �
                 <h3 className="text-lg font-bold text-foreground mb-3">🔄 Что происходит на каждом эпизоде:</h3>
                 <ol className="list-decimal pl-6 space-y-1">
                   <li>Агент стартует в клетке <strong className="text-foreground">S</strong> (позиция 0)</li>
-                  <li>Выбирает действие по стратегии <strong className="text-foreground">ε-greedy</strong></li>
+                  <li>Выбирает действие по стратегии <strong className="text-foreground"><InlineMath>{"\\enfPar{\\varepsilon}"}</InlineMath>-greedy</strong></li>
                   <li>Выполняет действие → получает <strong className="text-foreground">новое состояние</strong> и <strong className="text-foreground">награду</strong></li>
                   <li><strong className="text-foreground">Обновляет Q-таблицу</strong> по уравнению Беллмана</li>
                   <li>Повторяет, пока не дойдёт до цели (G) или не провалится (H)</li>

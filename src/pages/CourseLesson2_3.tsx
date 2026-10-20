@@ -18,6 +18,8 @@ import {
   XCircle,
   ArrowRight,
 } from "lucide-react";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_2_3_SYMBOLS } from "@/content/symbols/pages/level2";
 
 const quizQuestions = [
   {
@@ -182,7 +184,7 @@ const CourseLesson2_3 = () => {
             </CrossLinkToHub>{" "}
             учат функцию ценности <Math display={false}>{`\\enfOp{Q}(\\enfVar{s}, \\enfFun{a})`}</Math> и выбирают действие так:
           </p>
-          <Math>{`a^{*} = \\arg\\max_{a \\in \\mathcal{A}} \\enfOp{Q}(\\enfVar{s}, a)`}</Math>
+          <Math>{`\\enfFun{a}^{*} = \\arg\\max_{a \\in \\mathcal{A}} \\enfOp{Q}(\\enfVar{s}, a)`}</Math>
           <p className="text-muted-foreground mb-4">
             В дискретном случае это просто <code className="px-1 rounded bg-muted text-xs">argmax</code>{" "}
             по конечному набору. Если же <Math display={false}>{`\\mathcal{A}`}</Math> непрерывно — взять
@@ -345,6 +347,8 @@ const CourseLesson2_3 = () => {
             контролирует исследование: большое — пробует разное, маленькое — действует уверенно.
           </p>
         </section>
+
+        <SymbolTable symbols={LESSON_2_3_SYMBOLS} />
 
         {/* ===================== СЕКЦИЯ 2.5: PyTorch Actor-Critic ===================== */}
         <section>

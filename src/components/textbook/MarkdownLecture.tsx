@@ -1,4 +1,4 @@
-import { isValidElement, type ReactElement, type ReactNode } from "react";
+import { isValidElement, useMemo, useRef, type ReactElement, type ReactNode } from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -8,6 +8,8 @@ import "katex/dist/katex.min.css";
 import { KATEX_OPTIONS } from "@/lib/katex-options";
 import { remarkEnfCallouts } from "@/lib/remark-enf-callouts";
 import { slugify } from "@/lib/slug";
+import { parseNotationTables } from "@/lib/notation-tables";
+import { useRegisterSymbols } from "@/components/math-symbols/registry";
 import { unityLabUrl } from "@/lib/textbook-links";
 import { UNITY_BRIDGE } from "@/content/textbook/index.generated";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
@@ -101,9 +103,15 @@ interface MarkdownLectureProps {
 const MarkdownLecture = ({ source, partDir, stripTitle = true }: MarkdownLectureProps) => {
   const body = stripTitle ? source.replace(/^\s*#\s+.+\r?\n/, "") : source;
 
+  // Пояснения по клику на символ берут смысл из таблиц «Обозначения» и
+  // «От формулы к коду» самой лекции.
+  const symbols = useMemo(() => parseNotationTables(source), [source]);
+  const rootRef = useRef<HTMLDivElement>(null);
+  useRegisterSymbols(symbols, rootRef);
+
   return (
     <TextbookContext.Provider value={{ partDir }}>
-      <div className="prose prose-invert textbook-prose max-w-none">
+      <div ref={rootRef} data-symbol-scope="" className="prose prose-invert textbook-prose max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkMath, remarkEnfCallouts]}
           rehypePlugins={[[rehypeKatex, KATEX_OPTIONS]]}

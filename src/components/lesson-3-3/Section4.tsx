@@ -43,7 +43,7 @@ const Section4 = () => (
       Правильная цель — ожидаемая отдача <strong>по распределению контекстов</strong>:
     </ProseP>
 
-    <Math>{String.raw`\boxed{\;\max_{\pi}\; \mathbb{E}_{c \sim p(c)}\big[\, \enfTgt{J}_c(\pi) \,\big],\qquad \enfTgt{J}_c(\pi)=\mathbb{E}_{\pi}\!\Big[\textstyle\sum_{t\ge 0}\enfPar{\gamma}^t \enfTgt{r}_t \,\big|\, \enfPar{c}\Big].\;}`}</Math>
+    <Math>{String.raw`\boxed{\;\max_{\pi}\; \mathbb{E}_{c \sim p(c)}\big[\, \enfTgt{J}_c(\pi) \,\big],\qquad \enfTgt{J}_c(\enfFun{\pi})=\mathbb{E}_{\pi}\!\Big[\textstyle\sum_{t\ge 0}\enfPar{\gamma}^t \enfTgt{r}_t \,\big|\, \enfPar{c}\Big].\;}`}</Math>
 
     <ProseP>
       А разрыв обобщения — это разница между качеством на «виденных» и «отложенных» контекстах:

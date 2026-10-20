@@ -38,7 +38,7 @@ const Section2 = () => (
           <strong>Ziebart, Maas, Bagnell, Dey (AAAI 2008) — Maximum Entropy IRL</strong> разрешает
           неоднозначность принципом максимальной энтропии. Распределение по траекториям:
           <Math display>
-            {String.raw`\enfFun{p}(\tau)\ =\ \frac{1}{\enfOp{Z}}\exp(\enfTgt{R}_\theta(\tau)),\qquad \enfTgt{R}_\theta(\tau)=\sum_t \enfTgt{R}_\theta(\enfVar{s}_t,\enfFun{a}_t),\qquad \enfOp{Z}=\sum_\tau \exp(\enfTgt{R}_\theta(\tau)).`}
+            {String.raw`\enfFun{p}(\enfVar{\tau})\ =\ \frac{1}{\enfOp{Z}}\exp(\enfTgt{R}_\theta(\enfVar{\tau})),\qquad \enfTgt{R}_\theta(\enfVar{\tau})=\sum_t \enfTgt{R}_\theta(\enfVar{s}_t,\enfFun{a}_t),\qquad \enfOp{Z}=\sum_\tau \exp(\enfTgt{R}_\theta(\tau)).`}
           </Math>
           Параметры <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> находят максимизацией
           log-likelihood демонстраций (эквивалентно минимизации KL до max-entropy распределения).

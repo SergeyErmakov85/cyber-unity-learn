@@ -31,7 +31,7 @@ const Section3 = () => (
       <li><strong>Dense reward</strong> (маленькое поощрение за каждый шаг к цели) обучается быстро, но рискует породить нежелательное поведение.</li>
     </ul>
     <ProseP>
-      Компромисс — <strong>reward shaping</strong>: добавляем плотный направляющий член, не меняющий оптимальную политику. Безопасная форма — <strong>потенциальное шейпинг</strong> (potential-based), где добавка строится из разности потенциалов состояний:
+      Компромисс — <strong>reward shaping</strong>: добавляем плотный направляющий член, не меняющий оптимальную политику. Безопасная форма — <strong>потенциальный шейпинг</strong> (potential-based), где добавка строится из разности потенциалов состояний:
     </ProseP>
 
     <Math>{String.raw`\enfTgt{r}'_t = \enfTgt{r}_t + \big(\enfPar{\gamma}\,\enfFun{\Phi}(\enfVar{s}_{t+1}) - \enfFun{\Phi}(\enfVar{s}_t)\big).`}</Math>
@@ -48,7 +48,7 @@ const Section3 = () => (
     <CyberCodeBlock language="pseudo" filename="reward_pseudo.txt">{CODE}</CyberCodeBlock>
 
     <ProseP>
-      Все интенсивные сигналы (любопытство, имитация) в ML-Agents задаются через секцию <code>reward_signals</code> (см. этап 3). Базовый — <code>extrinsic</code> (награда из среды) с параметрами <code>strength</code> и <code>gamma</code>.
+      Все внутренние (intrinsic) сигналы (любопытство, имитация) в ML-Agents задаются через секцию <code>reward_signals</code> (см. этап 3). Базовый — <code>extrinsic</code> (награда из среды) с параметрами <code>strength</code> и <code>gamma</code>.
     </ProseP>
 
     <Callout title="Связь" color="purple">
@@ -59,7 +59,7 @@ const Section3 = () => (
     <KeyPoints
       items={[
         <>Агент максимизирует <strong>написанную</strong> награду — формулируйте её как ваше истинное намерение.</>,
-        <><strong>Sparse</strong> честна, но медленна; <strong>dense</strong> быстра, но опасна; компромисс — <strong>потенциальное шейпинг</strong>, не меняющее оптимум.</>,
+        <><strong>Sparse</strong> честна, но медленна; <strong>dense</strong> быстра, но опасна; компромисс — <strong>потенциальный шейпинг</strong>, не меняющее оптимум.</>,
         <>Защищайтесь от <strong>reward hacking</strong>: крупный терминальный бонус + маленький dense-член + штраф за время.</>,
         <>Интенсивные сигналы подключаются через <code>reward_signals</code>; базовый — <code>extrinsic</code>.</>,
       ]}

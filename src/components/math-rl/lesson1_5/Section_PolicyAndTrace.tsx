@@ -313,7 +313,7 @@ const Section_PolicyAndTrace = () => {
           <Math display={false}>{"\\enfFun{\\pi}(a \\mid \\enfVar{s}) \\in [0, 1], \\; \\sum_a \\enfFun{\\pi}(a \\mid \\enfVar{s}) = 1"}</Math>
           . Удобный способ получить такое распределение из любых «оценок
           привлекательности» действий — softmax с температурой{" "}
-          <span style={{ fontFamily: MONO_FONT, color: CYAN }}>τ</span>: низкая
+          <Math display={false}>{String.raw`\enfPar{\tau}`}</Math>: низкая
           температура превращает softmax почти в argmax, высокая — почти в
           равномерное распределение.
         </p>
@@ -406,7 +406,7 @@ const Section_PolicyAndTrace = () => {
             anchor="жадная-стратегия"
             variant="inline"
           >
-            ε-жадный компромисс между эксплуатацией и исследованием
+            <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>-жадный компромисс между эксплуатацией и исследованием
           </HubLink>
           . Не повторяем её в уроке — идите за подробностями в хаб.
         </p>

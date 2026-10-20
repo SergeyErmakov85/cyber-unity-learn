@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import MathTex from "@/components/Math";
 
 /* ═══════════════════════════════════════════════════
    Предел последовательности — ε-N визуализация
@@ -298,8 +299,8 @@ function FormalDefinition({ seq, epsilon, nEps }: { seq: Sequence; epsilon: numb
   return (
     <div className="text-sm font-mono text-muted-foreground leading-loose">
       <div>
-        ∀ <span className="text-primary font-bold">ε = {epsilon.toFixed(3)}</span>{" > 0  "}
-        ∃ <span className="text-accent font-bold">N(ε) = {nEps}</span> :
+        ∀ <span className="text-primary font-bold"><MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex> = {epsilon.toFixed(3)}</span>{" > 0  "}
+        ∃ <span className="text-accent font-bold"><MathTex display={false}>{String.raw`N(\enfPar{\varepsilon})`}</MathTex> = {nEps}</span> :
       </div>
       <div className="pl-4">
         ∀ n ≥ <span className="text-accent">{nEps}</span>,{" "}
@@ -360,7 +361,7 @@ const LimitOfSequenceViz = () => {
         {/* Header: title + status pills */}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h4 className="text-sm font-bold text-foreground tracking-wide uppercase">
-            Визуализация ε-N определения
+            Визуализация <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>-N определения
           </h4>
           <div className="flex gap-2">
             {seq.converges && (
@@ -370,7 +371,7 @@ const LimitOfSequenceViz = () => {
             )}
             {seq.converges && nEps !== null && (
               <Badge variant="outline" className="border-accent/30 text-accent font-mono text-xs">
-                N(ε) = {nEps}
+                <MathTex display={false}>{String.raw`N(\enfPar{\varepsilon})`}</MathTex> = {nEps}
               </Badge>
             )}
             {!seq.converges && (
@@ -409,7 +410,7 @@ const LimitOfSequenceViz = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <div className="flex justify-between text-xs mb-2">
-              <span className="text-muted-foreground font-mono">ε (эпсилон)</span>
+              <span className="text-muted-foreground font-mono"><MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex> (эпсилон)</span>
               <span className="text-primary font-mono font-bold">{epsilon.toFixed(3)}</span>
             </div>
             <Slider
@@ -445,7 +446,7 @@ const LimitOfSequenceViz = () => {
             <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
               {seq.converges
                 ? <>Сходимость — фундамент RL. Оператор Беллмана порождает V₀, V₁, V₂, … → V*, аналогично {seq.latex} → {seq.limitLabel}.</>
-                : <>При γ = 1 сумма наград расходится — функция ценности не определена.</>
+                : <>При <MathTex display={false}>{String.raw`\enfPar{\gamma} = 1`}</MathTex> сумма наград расходится — функция ценности не определена.</>
               }
             </p>
           </div>

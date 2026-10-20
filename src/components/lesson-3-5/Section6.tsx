@@ -36,11 +36,11 @@ const Section6 = () => (
       должно съедать кадровый бюджет:
     </ProseP>
 
-    <Math display>{String.raw`N \cdot t_{\text{inf}} \;\lesssim\; \frac{1}{\enfFun{f}_{\text{target}}} \cdot \enfPar{\beta}`}</Math>
+    <Math display>{String.raw`N \cdot \enfVar{t}_{\text{inf}} \;\lesssim\; \frac{1}{\enfPar{f}_{\text{target}}} \cdot \enfPar{\beta}`}</Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`t_{\text{inf}}`}</Math> — время одного прямого прохода,{" "}
-      <Math display={false}>{String.raw`\enfFun{f}_{\text{target}}`}</Math> — целевой FPS,{" "}
+      где <Math display={false}>{String.raw`\enfVar{t}_{\text{inf}}`}</Math> — время одного прямого прохода,{" "}
+      <Math display={false}>{String.raw`\enfPar{f}_{\text{target}}`}</Math> — целевой FPS,{" "}
       <Math display={false}>{String.raw`\enfPar{\beta}`}</Math> — доля кадра, которую вы готовы отдать под ИИ
       (скажем, <Math display={false}>{String.raw`\enfPar{\beta} = 0{,}2`}</Math>). При 60 FPS весь кадр —{" "}
       <Math display={false}>{String.raw`\approx 16{,}7`}</Math> мс; если{" "}
@@ -51,7 +51,7 @@ const Section6 = () => (
     <ol className="space-y-2 my-4 list-decimal list-inside text-[15px] text-foreground/90 leading-relaxed">
       <li>
         <strong>Увеличить Decision Period</strong>{" "}
-        <Math display={false}>{String.raw`d`}</Math> (Раздел 5) — реже думать. Самый дешёвый
+        <Math display={false}>{String.raw`\enfPar{d}`}</Math> (Раздел 5) — реже думать. Самый дешёвый
         выигрыш.
       </li>
       <li>
@@ -76,9 +76,9 @@ const Section6 = () => (
 
     <InteractiveStub title="Виджет «бюджет инференса»">
       Слайдеры <Math display={false}>{String.raw`N`}</Math> (число агентов),{" "}
-      <Math display={false}>{String.raw`\enfFun{f}_{\text{target}}`}</Math>,{" "}
-      <Math display={false}>{String.raw`d`}</Math> (Decision Period), переключатель CPU/GPU с
-      разными <Math display={false}>{String.raw`t_{\text{inf}}`}</Math>. Вывод — закрашенная полоса
+      <Math display={false}>{String.raw`\enfPar{f}_{\text{target}}`}</Math>,{" "}
+      <Math display={false}>{String.raw`\enfPar{d}`}</Math> (Decision Period), переключатель CPU/GPU с
+      разными <Math display={false}>{String.raw`\enfVar{t}_{\text{inf}}`}</Math>. Вывод — закрашенная полоса
       «занятая доля кадра» (зелёная/жёлтая/красная).
     </InteractiveStub>
 
@@ -89,7 +89,7 @@ const Section6 = () => (
           ResNet-зрение / много визуальных агентов.
         </>,
         <>
-          Бюджет кадра: <Math display={false}>{String.raw`N \cdot t_{\text{inf}}`}</Math> должно
+          Бюджет кадра: <Math display={false}>{String.raw`N \cdot \enfVar{t}_{\text{inf}}`}</Math> должно
           умещаться в отведённую долю кадра.
         </>,
         <>Снижают нагрузку: больший Decision Period и разнесение решений по кадрам.</>,

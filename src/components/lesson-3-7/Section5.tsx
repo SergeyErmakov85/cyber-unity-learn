@@ -29,17 +29,21 @@ const Section5 = () => (
       </CrossLinkToLesson>
       ). Здесь — ровно тот же механизм, но в роли <strong>энкодера наблюдений</strong> одного
       агента: каждая видимая машина кодируется в «сущность»-эмбеддинг{" "}
-      <Math display={false}>{String.raw`e_i`}</Math>, а слой внимания сжимает их множество{" "}
-      <Math display={false}>{String.raw`\{e_1,\dots,e_K\}`}</Math> в один вектор{" "}
+      <Math display={false}>{String.raw`\enfVar{e}_i`}</Math>, а слой внимания сжимает их множество{" "}
+      <Math display={false}>{String.raw`\{\enfVar{e}_1,\dots,\enfVar{e}_N\}`}</Math> в один вектор{" "}
       <Math display={false}>{String.raw`\enfVar{z}`}</Math> независимо от{" "}
-      <Math display={false}>{String.raw`K`}</Math>:
+      <Math display={false}>{String.raw`N`}</Math>:
     </ProseP>
 
     <Math>
-      {String.raw`\enfVar{z} = \mathrm{Attention}(\enfOp{Q}, K, \enfOp{V}) = \mathrm{softmax}\!\Big(\frac{QK^\top}{\sqrt{d_k}}\Big)\enfOp{V} .`}
+      {String.raw`\enfVar{z} = \mathrm{Attention}(\enfVar{Q}, \enfVar{K}, \enfVar{V}) = \mathrm{softmax}\!\Big(\frac{\enfVar{Q}\enfVar{K}^\top}{\sqrt{d_k}}\Big)\enfVar{V} .`}
     </Math>
 
     <ProseP>
+      Здесь <Math display={false}>{String.raw`\enfVar{Q}`}</Math>, <Math display={false}>{String.raw`\enfVar{K}`}</Math>{" "}
+      и <Math display={false}>{String.raw`\enfVar{V}`}</Math> — матрицы запросов, ключей и значений: линейные проекции
+      эмбеддингов сущностей (не путать с функциями ценности <Math display={false}>{String.raw`\enfOp{Q}`}</Math> и{" "}
+      <Math display={false}>{String.raw`\enfOp{V}`}</Math>), а <Math display={false}>{String.raw`d_k`}</Math> — размерность ключа.
       Ключевое свойство, которое нам и нужно: результат <strong>инвариантен к числу и порядку</strong>{" "}
       входных сущностей. Агент сам учится «смотреть» на ближайшего соперника впереди и игнорировать
       отставших. Полный вывод scaled dot-product attention и его сложности — в хабе ↗{" "}
@@ -51,9 +55,9 @@ const Section5 = () => (
 
     <InteractiveStub title="Интерактив: внимание над множеством сущностей">
       Сцена сверху: агент и переменное число машин-сущностей (слайдер{" "}
-      <Math display={false}>{String.raw`K`}</Math> от 1 до 10). При наведении на агента — подсветка
+      <Math display={false}>{String.raw`N`}</Math> от 1 до 10). При наведении на агента — подсветка
       весов внимания на каждую машину (толщина/яркость линии). Демонстрирует инвариантность к{" "}
-      <Math display={false}>{String.raw`K`}</Math> и к перестановке. JSX/React, статичные элементы —
+      <Math display={false}>{String.raw`N`}</Math> и к перестановке. JSX/React, статичные элементы —
       inline SVG, флаги анимации — в <code>useRef</code>.
     </InteractiveStub>
 

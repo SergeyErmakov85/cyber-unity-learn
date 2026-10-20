@@ -12,7 +12,7 @@ const Part2LinearAlgebra = () => (
       </p>
       <Math>{"\\enfVar{\\vec{w}} = \\enfPar{c}_1\\enfVar{\\vec{v}}_1 + \\enfPar{c}_2\\enfVar{\\vec{v}}_2 + \\cdots + \\enfPar{c}_m\\enfVar{\\vec{v}}_m = \\sum_{i=1}^{m} \\enfPar{c}_i\\enfVar{\\vec{v}}_i"}</Math>
       <p>В RL функция ценности часто аппроксимируется как линейная комбинация базисных функций:</p>
-      <Math>{"\\enfOp{V}(\\enfVar{s}) \\approx \\sum_{i=1}^{k} \\enfVar{w}_i\\,\\enfFun{\\varphi}_i(\\enfVar{s}) = \\enfVar{\\mathbf{w}}^\\top \\enfFun{\\boldsymbol{\\varphi}}(\\enfVar{s})"}</Math>
+      <Math>{"\\enfOp{V}(\\enfVar{s}) \\approx \\sum_{i=1}^{k} \\enfPar{w}_i\\,\\enfFun{\\varphi}_i(\\enfVar{s}) = \\enfPar{\\mathbf{w}}^\\top \\enfFun{\\boldsymbol{\\varphi}}(\\enfVar{s})"}</Math>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="1-5-линейная-зависимость-и-независимость">1.5. Линейная зависимость и независимость</h3>
       <p>
@@ -39,7 +39,7 @@ const Part2LinearAlgebra = () => (
       <p>Матрица <Math display={false}>{"\\enfFun{A}"}</Math> размера <Math display={false}>{"n \\times m"}</Math>:</p>
       <Math>{"\\enfFun{A} = \\begin{pmatrix} \\enfVar{a}_{11} & \\enfVar{a}_{12} & \\cdots & \\enfVar{a}_{1m} \\\\ \\enfVar{a}_{21} & \\enfVar{a}_{22} & \\cdots & \\enfVar{a}_{2m} \\\\ \\vdots & \\vdots & \\ddots & \\vdots \\\\ \\enfVar{a}_{n1} & \\enfVar{a}_{n2} & \\cdots & \\enfVar{a}_{nm} \\end{pmatrix}"}</Math>
       <ul className="list-disc list-inside mt-2 space-y-1">
-        <li><strong className="text-foreground">Единичная:</strong> <Math display={false}>{"\\enfFun{I}_n"}</Math>, <strong className="text-foreground">диагональная:</strong> <Math display={false}>{"\\enfFun{D} = \\operatorname{diag}(d_1, \\ldots, d_n)"}</Math></li>
+        <li><strong className="text-foreground">Единичная:</strong> <Math display={false}>{"\\enfFun{I}_n"}</Math>, <strong className="text-foreground">диагональная:</strong> <Math display={false}>{"\\enfFun{D} = \\operatorname{diag}(\\enfVar{d}_1, \\ldots, \\enfVar{d}_n)"}</Math></li>
         <li><strong className="text-foreground">Симметрическая:</strong> <Math display={false}>{"\\enfFun{A} = \\enfFun{A}^\\top"}</Math>, <strong className="text-foreground">кососимметрическая:</strong> <Math display={false}>{"\\enfFun{A} = -\\enfFun{A}^\\top"}</Math></li>
       </ul>
       <InfoBox color="primary" title="Применение в RL">
@@ -85,7 +85,7 @@ const Part2LinearAlgebra = () => (
       </div>
       <InfoBox color="accent" title="В RL">
         <ul className="list-disc list-inside space-y-1 text-sm">
-          <li><Math display={false}>{"\\enfOp{V}(\\enfVar{s}) \\approx \\enfVar{\\mathbf{w}}^\\top \\enfFun{\\boldsymbol{\\varphi}}(\\enfVar{s})"}</Math> — скалярное произведение весов и признаков</li>
+          <li><Math display={false}>{"\\enfOp{V}(\\enfVar{s}) \\approx \\enfPar{\\mathbf{w}}^\\top \\enfFun{\\boldsymbol{\\varphi}}(\\enfVar{s})"}</Math> — скалярное произведение весов и признаков</li>
           <li>Косинусное сходство: <Math display={false}>{"\\cos\\enfPar{\\theta} = \\frac{\\enfVar{\\vec{a}}\\cdot\\enfVar{\\vec{b}}}{\\|\\enfVar{\\vec{a}}\\|\\,\\|\\enfVar{\\vec{b}}\\|}"}</Math></li>
           <li>Градиентный спуск: <Math display={false}>{"\\enfOp{\\nabla} \\enfTgt{J}(\\enfPar{\\theta})"}</Math></li>
         </ul>
@@ -118,7 +118,7 @@ const Part2LinearAlgebra = () => (
       <Math>{"\\enfFun{A} = \\enfFun{U} \\enfFun{\\Sigma} \\enfFun{V}^\\top"}</Math>
       <ul className="list-disc list-inside mt-3 space-y-2">
         <li><Math display={false}>{"\\enfFun{U}"}</Math> (<Math display={false}>{"m \\times m"}</Math>) — ортогональная, столбцы = левые сингулярные векторы</li>
-        <li><Math display={false}>{"\\enfPar{\\Sigma}"}</Math> (<Math display={false}>{"m \\times n"}</Math>) — диагональная, <Math display={false}>{"\\enfPar{\\sigma}_1 \\geq \\enfPar{\\sigma}_2 \\geq \\cdots \\geq \\enfPar{\\sigma}_r > 0"}</Math></li>
+        <li><Math display={false}>{"\\enfFun{\\Sigma}"}</Math> (<Math display={false}>{"m \\times n"}</Math>) — диагональная, <Math display={false}>{"\\enfPar{\\sigma}_1 \\geq \\enfPar{\\sigma}_2 \\geq \\cdots \\geq \\enfPar{\\sigma}_r > 0"}</Math></li>
         <li><Math display={false}>{"\\enfFun{V}"}</Math> (<Math display={false}>{"n \\times n"}</Math>) — ортогональная, столбцы = правые сингулярные векторы</li>
       </ul>
 
@@ -150,7 +150,7 @@ const Part2LinearAlgebra = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="6-2-ортогональная-проекция">6.2. Ортогональная проекция</h3>
       <Math>{"\\text{proj}_{\\mathcal{C}(A)}\\, \\enfVar{\\mathbf{b}} = \\enfFun{A}(\\enfFun{A}^\\top \\enfFun{A})^{-1}\\enfFun{A}^\\top \\enfVar{\\mathbf{b}}"}</Math>
-      <p className="mt-2 text-sm">Основа метода наименьших квадратов и аппроксимации <Math display={false}>{"\\enfOp{V}(\\enfVar{s}) \\approx \\enfFun{\\Phi}\\enfVar{\\mathbf{w}}"}</Math>.</p>
+      <p className="mt-2 text-sm">Основа метода наименьших квадратов и аппроксимации <Math display={false}>{"\\enfOp{V}(\\enfVar{s}) \\approx \\enfFun{\\Phi}\\enfPar{\\mathbf{w}}"}</Math>.</p>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="6-3-изменение-базиса">6.3. Изменение базиса</h3>
       <Math>{"[\\enfVar{\\vec{v}}]_B = \\enfFun{P}_{B\\to B'}\\,[\\enfVar{\\vec{v}}]_{B'}, \\quad \\enfFun{M}_{B'} = \\enfFun{P}^{-1} \\enfFun{M}_B\\, \\enfFun{P}"}</Math>

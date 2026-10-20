@@ -48,10 +48,12 @@ const Section6 = () => (
       основе протухших оценок, PLR смешивает распределение <strong>по баллу</strong>{" "}
       <Math display={false}>{String.raw`\enfFun{P}_S`}</Math> с распределением <strong>по свежести</strong>{" "}
       (staleness) <Math display={false}>{String.raw`\enfFun{P}_C`}</Math>, которое поднимает приоритет уровней,
-      давно не пересчитывавшихся:
+      давно не пересчитывавшихся (<Math display={false}>{String.raw`C`}</Math> — номера эпизодов, когда каждый
+      уровень сэмплировался в последний раз, <Math display={false}>{String.raw`c`}</Math> — номер текущего
+      эпизода):
     </ProseP>
 
-    <Math>{String.raw`\boxed{\,\enfFun{P}_{\text{replay}}(l) \;=\; (1-\enfPar{\rho})\,\enfFun{P}_S(l \mid \Lambda_{\text{seen}}, \enfOp{S}) \;+\; \enfPar{\rho}\,\enfFun{P}_C(l \mid \Lambda_{\text{seen}}, C, \enfPar{c})\,}`}</Math>
+    <Math>{String.raw`\boxed{\,\enfFun{P}_{\text{replay}}(l) \;=\; (1-\enfPar{\rho})\,\enfFun{P}_S(l \mid \Lambda_{\text{seen}}, \enfOp{S}) \;+\; \enfPar{\rho}\,\enfFun{P}_C(l \mid \Lambda_{\text{seen}}, C, c)\,}`}</Math>
 
     <ProseP>
       где <Math display={false}>{String.raw`\enfPar{\rho}`}</Math> — коэффициент свежести (

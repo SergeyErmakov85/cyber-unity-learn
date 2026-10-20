@@ -15,10 +15,10 @@ const Section3 = () => (
     <h3 className={H3_CLASS}>Max-entropy IRL как примитив</h3>
     <ProseP>
       Ho &amp; Ermon работают с max-causal-entropy IRL, регуляризованным выпуклым{" "}
-      <Math display={false}>{String.raw`\enfPar{\psi}`}</Math>:
+      <Math display={false}>{String.raw`\enfFun{\psi}`}</Math>:
     </ProseP>
     <Math display>
-      {String.raw`\operatorname{IRL}_\psi(\pi_E)=\arg\max_{c\in\mathbb{R}^{\mathcal{S}\times\mathcal{A}}}\ -\enfPar{\psi}(\enfTgt{c})+\Big(\min_{\pi\in\Pi}-\enfOp{H}(\pi)+\mathbb{E}_\pi[\enfTgt{c}(\enfVar{s},a)]\Big)-\mathbb{E}_{\pi_E}[\enfTgt{c}(\enfVar{s},a)],`}
+      {String.raw`\operatorname{IRL}_\psi(\pi_E)=\arg\max_{c\in\mathbb{R}^{\mathcal{S}\times\mathcal{A}}}\ -\enfFun{\psi}(\enfTgt{c})+\Big(\min_{\pi\in\Pi}-\enfOp{H}(\pi)+\mathbb{E}_\pi[\enfTgt{c}(\enfVar{s},\enfFun{a})]\Big)-\mathbb{E}_{\pi_E}[\enfTgt{c}(\enfVar{s},\enfFun{a})],`}
     </Math>
     <ProseP>
       где <Math display={false}>{String.raw`\enfOp{H}(\enfFun{\pi})=\mathbb{E}_\pi[-\log\enfFun{\pi}(\enfFun{a}\mid \enfVar{s})]`}</Math> —{" "}
@@ -33,7 +33,7 @@ const Section3 = () => (
     </Math>
     <ProseP>
       что позволяет писать{" "}
-      <Math display={false}>{String.raw`\mathbb{E}_\pi[\enfTgt{c}(\enfVar{s},a)]=\sum_{s,a}\enfFun{\rho}_\pi(\enfVar{s},a)\,\enfTgt{c}(\enfVar{s},a)`}</Math>
+      <Math display={false}>{String.raw`\mathbb{E}_\pi[\enfTgt{c}(\enfVar{s},\enfFun{a})]=\sum_{s,a}\enfFun{\rho}_\pi(\enfVar{s},\enfFun{a})\,\enfTgt{c}(\enfVar{s},\enfFun{a})`}</Math>
       .
     </ProseP>
 
@@ -49,24 +49,24 @@ const Section3 = () => (
 
     <Callout title="Proposition 3.1 (Ho & Ermon, Eq. 4)" color="purple">
       <Math display>
-        {String.raw`\operatorname{RL}\circ\operatorname{IRL}_\psi(\pi_E)=\arg\min_{\pi\in\Pi}\ -\enfOp{H}(\pi)+\enfPar{\psi}^*\big(\enfFun{\rho}_\pi-\enfFun{\rho}_{\pi_E}\big),`}
+        {String.raw`\operatorname{RL}\circ\operatorname{IRL}_\psi(\pi_E)=\arg\min_{\pi\in\Pi}\ -\enfOp{H}(\pi)+\enfFun{\psi}^*\big(\enfFun{\rho}_\pi-\enfFun{\rho}_{\pi_E}\big),`}
       </Math>
-      где <Math display={false}>{String.raw`\enfPar{\psi}^*`}</Math> — convex conjugate к{" "}
-      <Math display={false}>{String.raw`\enfPar{\psi}`}</Math>. Смысл: RL после IRL{" "}
+      где <Math display={false}>{String.raw`\enfFun{\psi}^*`}</Math> — convex conjugate к{" "}
+      <Math display={false}>{String.raw`\enfFun{\psi}`}</Math>. Смысл: RL после IRL{" "}
       <strong>неявно ищет политику, чья occupancy measure близка к экспертной</strong>; мерой близости
-      служит <Math display={false}>{String.raw`\enfPar{\psi}^*`}</Math>.
+      служит <Math display={false}>{String.raw`\enfFun{\psi}^*`}</Math>.
     </Callout>
 
-    <h3 className={H3_CLASS}>Выбор ψGA и связь с GAN</h3>
+    <h3 className={H3_CLASS}>Выбор <Math display={false}>{String.raw`\enfFun{\psi}_{\text{GA}}`}</Math> и связь с GAN</h3>
     <ProseP>
       Ho &amp; Ermon вводят регуляризатор (Eq. 13):
     </ProseP>
     <Math display>
-      {String.raw`\enfPar{\psi}_{\text{GA}}(\enfTgt{c})=\begin{cases}\mathbb{E}_{\pi_E}[\enfFun{g}(\enfTgt{c}(\enfVar{s},\enfFun{a}))] & \enfTgt{c}<0\\+\infty & \text{иначе}\end{cases},\qquad \enfFun{g}(\enfVar{x})=\begin{cases}-\enfVar{x}-\log(1-e^{x}) & \enfVar{x}<0\\+\infty & \text{иначе.}\end{cases}`}
+      {String.raw`\enfFun{\psi}_{\text{GA}}(\enfTgt{c})=\begin{cases}\mathbb{E}_{\pi_E}[\enfFun{g}(\enfTgt{c}(\enfVar{s},\enfFun{a}))] & \enfTgt{c}<0\\+\infty & \text{иначе}\end{cases},\qquad \enfFun{g}(\enfVar{x})=\begin{cases}-\enfVar{x}-\log(1-e^{x}) & \enfVar{x}<0\\+\infty & \text{иначе.}\end{cases}`}
     </Math>
     <ProseP>Его сопряжённая (Eq. 14) есть в точности задача бинарной классификации:</ProseP>
     <Math display>
-      {String.raw`\enfPar{\psi}_{\text{GA}}^*(\enfFun{\rho}_\pi-\enfFun{\rho}_{\pi_E})=\sup_{D\in(0,1)^{\mathcal{S}\times\mathcal{A}}}\ \mathbb{E}_\pi[\log \enfFun{D}(\enfVar{s},\enfFun{a})]+\mathbb{E}_{\pi_E}[\log(1-\enfFun{D}(\enfVar{s},\enfFun{a}))].`}
+      {String.raw`\enfFun{\psi}_{\text{GA}}^*(\enfFun{\rho}_\pi-\enfFun{\rho}_{\pi_E})=\sup_{D\in(0,1)^{\mathcal{S}\times\mathcal{A}}}\ \mathbb{E}_\pi[\log \enfFun{D}(\enfVar{s},\enfFun{a})]+\mathbb{E}_{\pi_E}[\log(1-\enfFun{D}(\enfVar{s},\enfFun{a}))].`}
     </Math>
     <ProseP>Подставляя в Proposition 3.1, получаем минимакс GAIL:</ProseP>
     <Math display>
@@ -79,13 +79,13 @@ const Section3 = () => (
       <Math display={false}>{String.raw`\enfFun{D}^*(\enfVar{s},\enfFun{a})=\enfFun{\rho}_{\pi_E}/(\enfFun{\rho}_{\pi_E}+\enfFun{\rho}_\pi)`}</Math> потеря с
       точностью до константы и масштаба равна{" "}
       <strong>JS-дивергенции</strong>{" "}
-      <Math display={false}>{String.raw`\enfFun{D}_{\text{JS}}(\enfFun{\bar\rho}_\pi,\enfFun{\bar\rho}_{\pi_E})`}</Math> между
+      <Math display={false}>{String.raw`\enfOp{D}_{\text{JS}}(\enfFun{\bar\rho}_\pi,\enfFun{\bar\rho}_{\pi_E})`}</Math> между
       нормированными occupancy measures — ровно как в стандартном GAN.
     </ProseP>
 
     <h3 className={H3_CLASS}>Награда для политики</h3>
     <ProseP>
-      Из <Math display={false}>{String.raw`\enfPar{\psi}_{\text{GA}}`}</Math> следует, что шаг RL минимизирует
+      Из <Math display={false}>{String.raw`\enfFun{\psi}_{\text{GA}}`}</Math> следует, что шаг RL минимизирует
       стоимость <Math display={false}>{String.raw`\enfTgt{c}(\enfVar{s},\enfFun{a})=\log \enfFun{D}(\enfVar{s},\enfFun{a})`}</Math>; эквивалентно политику
       обучают <strong>максимизировать</strong>
     </ProseP>

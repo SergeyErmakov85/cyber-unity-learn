@@ -227,11 +227,11 @@ const IntroSection = () => (
       <p className="text-muted-foreground leading-relaxed">
         Управление транспортным средством физически требует <strong className="text-foreground">плавных,
         мелкоразрешённых сигналов</strong>: угол поворота руля{" "}
-        <Math display={false}>{String.raw`\enfVar{\delta} \in [-\enfVar{\delta}_{\max}, +\enfVar{\delta}_{\max}]`}</Math>,
+        <Math display={false}>{String.raw`\enfFun{\delta} \in [-\enfPar{\delta}_{\max}, +\enfPar{\delta}_{\max}]`}</Math>,
         нормированная сила тяги{" "}
-        <Math display={false}>{String.raw`\enfVar{u}_{\text{accel}} \in [0,1]`}</Math>,
+        <Math display={false}>{String.raw`\enfFun{u}_{\text{accel}} \in [0,1]`}</Math>,
         сила торможения{" "}
-        <Math display={false}>{String.raw`\enfVar{u}_{\text{brake}} \in [0,1]`}</Math>.
+        <Math display={false}>{String.raw`\enfFun{u}_{\text{brake}} \in [0,1]`}</Math>.
         Дискретизация (например, «руль = {"{"}−1, 0, +1{"}"}) приводит к рывкам, потере
         устойчивости и неоптимальным траекториям на поворотах. Непрерывное управление позволяет
         агенту изучать тонкие манёвры — «лёгкое подруливание» и «постепенное оттормаживание

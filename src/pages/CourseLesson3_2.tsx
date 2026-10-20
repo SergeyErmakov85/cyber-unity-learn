@@ -36,6 +36,8 @@ import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import { getLessonById } from "@/data/lessons";
 import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_3_2_SYMBOLS } from "@/content/symbols/pages/level3";
 
 /* ── Визуальные хелперы (эталон урока 3.1 / 2.6) ───────────────── */
 
@@ -253,8 +255,14 @@ const quizQuestions = [
   },
 ];
 
+/** Таблица символов урока: те же записи питают пояснения по клику на символ формулы. */
+const SymbolsSection = () => (
+  <SymbolTable symbols={LESSON_3_2_SYMBOLS} variant="section" id="symbols-table" codeLabel="В конфиге и коде" />
+);
+
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
+  { id: "symbols-table", label: "Σ · Символы и код" },
   { id: "раздел-0-от-одного-гоночного-агента-к-команде", label: "0 · Зачем MARL" },
   { id: "раздел-1-постановка-задачи-decentralized-pomdp-и-ctde", label: "1 · dec-POMDP и CTDE" },
   { id: "раздел-2-counterfactual-baseline-и-командный-credit-assignment", label: "2 · Counterfactual baseline" },
@@ -436,7 +444,7 @@ const CourseLesson3_2 = () => {
             {/* «Как читать кросс-ссылки» note */}
             <div className="rounded-xl border border-purple-500/20 bg-purple-500/5 backdrop-blur-sm p-5 text-sm text-foreground/80 leading-relaxed">
               <strong className="text-purple-300">Как читать кросс-ссылки в этом уроке.</strong> Урок
-              — нарративная точка входа. Формальные выводы и доказательства (self-attention, TD(λ),
+              — нарративная точка входа. Формальные выводы и доказательства (self-attention, <Math display={false}>{String.raw`\text{TD}(\enfPar{\lambda})`}</Math>,
               теорема сходимости PPO) вынесены в хабы и обозначены значком{" "}
               <span className="text-cyan-300">↗</span>. Секции урока несут стабильные{" "}
               <code className={chip}>id</code>-якоря (см. навигацию выше), чтобы хабы могли ссылаться
@@ -461,6 +469,11 @@ const CourseLesson3_2 = () => {
               ))}
             </div>
           </div>
+        </motion.section>
+
+        {/* ── Символы и код ── */}
+        <motion.section className={SECTION_CLASS} variants={SECTION_VARIANTS} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
+          <SymbolsSection />
         </motion.section>
 
         {/* ── Раздел 0 ── */}
@@ -1021,7 +1034,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             Если агент A имеет рейтинг <Math display={false}>{String.raw`\enfTgt{R}_A`}</Math>, а агент B —{" "}
             <Math display={false}>{String.raw`\enfTgt{R}_B`}</Math>, ожидаемый результат A:
           </p>
-          <Math>{String.raw`\enfOp{E}_A = \frac{1}{1 + 10^{(R_B - R_A)/400}}.`}</Math>
+          <Math>{String.raw`\enfOp{E}_A = \frac{1}{1 + 10^{(\enfTgt{R}_B - \enfTgt{R}_A)/400}}.`}</Math>
           <p className="text-foreground/90 leading-relaxed mt-1">
             При равных рейтингах <Math display={false}>{String.raw`\enfOp{E}_A = 0{,}5`}</Math>. При разрыве 300 очков в пользу A:{" "}
             <Math display={false}>{String.raw`\enfOp{E}_A \approx 0{,}85`}</Math>, <Math display={false}>{String.raw`\enfOp{E}_B \approx 0{,}15`}</Math>.
@@ -1065,7 +1078,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
           </ul>
           <KeyPoints
             items={[
-              <><Math display={false}>{String.raw`\enfOp{E}_A = 1/(1 + 10^{(R_B - R_A)/400})`}</Math> — ожидаемый результат по рейтингам.</>,
+              <><Math display={false}>{String.raw`\enfOp{E}_A = 1/(1 + 10^{(\enfTgt{R}_B - \enfTgt{R}_A)/400})`}</Math> — ожидаемый результат по рейтингам.</>,
               <><Math display={false}>{String.raw`\enfTgt{R}'_A = \enfTgt{R}_A + \enfPar{K} \cdot (\enfTgt{S}_A - \enfOp{E}_A)`}</Math>, <Math display={false}>{String.raw`\enfPar{K} = 16`}</Math> в ML-Agents.</>,
               <>Zero-sum требование: финальная награда строго <Math display={false}>{String.raw`+1 / 0 / -1`}</Math>.</>,
               <>В TensorBoard: только <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">Self-Play/ELO</code>; стабильный рост = прогресс.</>,
@@ -1118,7 +1131,7 @@ m_AgentGroup.GroupEpisodeInterrupted();  // по тайм-ауту
             <em>(дефолт: <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">10000</code>)</em> — число{" "}
             <strong className="text-foreground">ghost-шагов</strong> (шагов агента-«призрака», следующего
             фиксированной политике, не обучающегося) между сменой оппонента из пула. Формула для{" "}
-            <Math display={false}>{String.raw`\enfVar{x}`}</Math> свопов за <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change</code>:
+            <Math display={false}>{String.raw`\enfPar{x}`}</Math> свопов за <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">team_change</code>:
             при равных командах <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">swap_steps = team_change / x</code>.
             Для асимметричного 2v1 (Strikers Vs Goalie): команда из 1 агента →{" "}
             <code className="px-1.5 py-0.5 rounded bg-muted/50 text-xs">swap_steps = (1/2) × (team_change / x)</code>;

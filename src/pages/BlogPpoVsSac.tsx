@@ -2,6 +2,7 @@ import BlogLayout from "@/components/BlogLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { blogPosts } from "@/pages/Blog";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import Math from "@/components/Math";
 
 const post = blogPosts.find((p) => p.slug === "ppo-vs-sac")!;
 
@@ -43,7 +44,7 @@ const BlogPpoVsSac = () => (
       </p>
       <p className="text-muted-foreground leading-relaxed mt-3">
         <strong className="text-secondary">SAC</strong> менее стабилен «из коробки», но при правильной настройке
-        может достигать лучших результатов. Автоматическая настройка температуры α помогает балансировать
+        может достигать лучших результатов. Автоматическая настройка температуры <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> помогает балансировать
         между исследованием и эксплуатацией, но twin Q-networks и reparameterization trick добавляют
         дополнительные точки отказа. Если обучение SAC идёт хорошо — результаты часто превосходят PPO,
         но если что-то пошло не так, диагностика сложнее.
@@ -101,7 +102,7 @@ mlagents-learn config.yaml --run-id=sac_4env --num-envs=4`}
       </p>
       <p className="text-muted-foreground leading-relaxed mt-3">
         SAC требует больше компонентов: actor network, twin Q-networks, target networks,
-        replay buffer, автонастройка температуры α. Полная реализация — ~250-300 строк.
+        replay buffer, автонастройка температуры <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math>. Полная реализация — ~250-300 строк.
         Гиперпараметры SAC менее интуитивны, и ошибки в настройке чаще приводят к полному
         провалу обучения. Однако при правильной настройке SAC может быть более «set-and-forget»
         благодаря автонастройке ключевых параметров.

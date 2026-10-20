@@ -42,12 +42,12 @@ const Section2 = () => (
       <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> в течение минимального числа эпизодов:
     </ProseP>
 
-    <Math>{String.raw`\text{если}\quad \enfVar{\overline{m}}_k \;\geq\; \enfPar{\tau}_k \quad\text{на протяжении}\ \ge \enfTgt{L}_{\min}\ \text{эпизодов} \;\Rightarrow\; \text{перейти к уроку } k{+}1.`}</Math>
+    <Math>{String.raw`\text{если}\quad \enfVar{\overline{m}}_k \;\geq\; \enfPar{\tau}_k \quad\text{на протяжении}\ \ge \enfPar{L}_{\min}\ \text{эпизодов} \;\Rightarrow\; \text{перейти к уроку } k{+}1.`}</Math>
 
     <ProseP>
       Здесь <Math display={false}>{String.raw`\enfVar{\overline{m}}_k`}</Math> — сглаженная мера
       (награда/прогресс), <Math display={false}>{String.raw`\enfPar{\tau}_k`}</Math> — порог урока,{" "}
-      <Math display={false}>{String.raw`\enfTgt{L}_{\min}`}</Math> — минимальная длина урока. Сглаживание нужно,
+      <Math display={false}>{String.raw`\enfPar{L}_{\min}`}</Math> — минимальная длина урока. Сглаживание нужно,
       чтобы случайный удачный заезд не «протолкнул» агента дальше раньше времени. Это ровно те поля,
       которые мы увидим в YAML ML-Agents (раздел 7): <code className="px-1 rounded bg-muted/50 text-xs font-mono">measure</code>,{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">threshold</code>,{" "}

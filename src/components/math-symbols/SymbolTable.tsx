@@ -16,7 +16,19 @@ interface SymbolTableProps {
   /** Заголовок колонки кода: «В коде Python», «В конфиге ML-Agents». */
   codeLabel?: string;
   className?: string;
+  /**
+   * `card` — самостоятельная карточка между разделами страницы;
+   * `section` — содержимое раздела урока, который уже сам карточка
+   * (уроки уровня 3 с константой SECTIONS): без рамки, заголовок — h2.
+   */
+  variant?: "card" | "section";
 }
+
+const HEADING_CLASS = {
+  card: "font-heading text-lg font-bold tracking-wide text-foreground md:text-xl",
+  section:
+    "bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-2xl font-bold text-transparent md:text-3xl",
+} as const;
 
 const codes = (c?: string | string[]) => (c === undefined ? [] : Array.isArray(c) ? c : [c]);
 
@@ -29,10 +41,15 @@ const RoleChip = ({ role }: { role: SymbolEntry["role"] }) => (
 
 const CodeCell = ({ entry }: { entry: SymbolEntry }) => (
   <div className="space-y-1.5">
+    {entry.codeTypical && codes(entry.code).length > 0 && (
+      <p className="text-[0.7rem] leading-snug text-muted-foreground">
+        на странице не встречается; обычно пишут:
+      </p>
+    )}
     {codes(entry.code).length > 0 ? (
       <div className="flex flex-wrap gap-1.5">
         {codes(entry.code).map((c) => (
-          <code key={c} className="enf-pop__code">
+          <code key={c} className={`enf-pop__code${entry.codeTypical ? " opacity-70" : ""}`}>
             {c}
           </code>
         ))}
@@ -63,18 +80,25 @@ const SymbolTable = ({
   description,
   codeLabel = "В коде",
   className = "",
+  variant = "card",
 }: SymbolTableProps) => {
   const ref = useRef<HTMLElement>(null);
   useRegisterSymbols(symbols, ref, id);
 
   const roles = useMemo(() => ROLE_ORDER.filter((r) => symbols.some((s) => s.role === r)), [symbols]);
+  // Самостоятельная карточка — подзаголовок h3; раздел урока — заголовок раздела h2.
+  const Heading = variant === "card" ? "h3" : "h2";
 
   return (
     <section
       ref={ref}
       id={id}
       aria-labelledby={`${id}-title`}
-      className={`enf-symbol-table scroll-mt-24 my-8 rounded-2xl border border-primary/20 bg-card/60 p-5 backdrop-blur-sm md:p-6 ${className}`}
+      className={
+        variant === "card"
+          ? `enf-symbol-table scroll-mt-24 my-8 rounded-2xl border border-primary/20 bg-card/60 p-5 backdrop-blur-sm md:p-6 ${className}`
+          : `enf-symbol-table scroll-mt-24 ${className}`
+      }
     >
       <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="flex items-start gap-3">
@@ -82,12 +106,9 @@ const SymbolTable = ({
             <Sigma className="h-5 w-5 text-primary" aria-hidden />
           </div>
           <div>
-            <h3
-              id={`${id}-title`}
-              className="font-heading text-lg font-bold tracking-wide text-foreground md:text-xl"
-            >
+            <Heading id={`${id}-title`} className={HEADING_CLASS[variant]}>
               {title}
-            </h3>
+            </Heading>
             <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
               {description ??
                 "Каждый символ из формул этой страницы: что он означает, какую роль играет и как называется в коде. Цвет символа — его роль, одинаковая во всех формулах страницы."}

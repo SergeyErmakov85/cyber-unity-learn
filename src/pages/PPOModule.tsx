@@ -8,6 +8,8 @@ import CyberCodeBlock from "@/components/CyberCodeBlock";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { PPO_HUB_SYMBOLS } from "@/content/symbols/pages/hubs";
 
 const PPOModule = () => {
   const navigate = useNavigate();
@@ -44,6 +46,7 @@ const PPOModule = () => {
               <li><a href="#clipped" className="text-secondary hover:underline">Clipped Objective</a></li>
               <li><a href="#gae" className="text-secondary hover:underline">Generalized Advantage Estimation (GAE)</a></li>
               <li><a href="#architecture" className="text-secondary hover:underline">Архитектура Actor-Critic</a></li>
+              <li><a href="#symbols" className="text-secondary hover:underline">Символы: от формулы к коду</a></li>
               <li><a href="#implementation" className="text-secondary hover:underline">Реализация на PyTorch</a></li>
               <li><a href="#full-implementation" className="text-secondary hover:underline">Полная реализация PPO</a></li>
               <li><a href="#unity" className="text-secondary hover:underline">Конфигурация для Unity ML-Agents</a></li>
@@ -184,6 +187,8 @@ const PPOModule = () => {
         </section>
 
         {/* 5. Реализация */}
+        <SymbolTable symbols={PPO_HUB_SYMBOLS} codeLabel="В коде PyTorch" />
+
         <section id="implementation" className="space-y-6">
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Code className="w-6 h-6 text-secondary" /> 5. Реализация на PyTorch
@@ -367,7 +372,7 @@ def ppo_update(model, optimizer, obs, actions, old_log_probs,
                     <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">clip_eps</code></td><td className="p-3">0.1 — 0.3</td><td className="p-3">Клипинг соотношения вероятностей</td></tr>
                     <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">epochs</code></td><td className="p-3">3 — 10</td><td className="p-3">Эпох обновления на один батч</td></tr>
                     <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">gamma</code></td><td className="p-3">0.99</td><td className="p-3">Дисконтирование</td></tr>
-                    <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">lambda (GAE)</code></td><td className="p-3">0.95</td><td className="p-3">Λ в GAE</td></tr>
+                    <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">lambda (GAE)</code></td><td className="p-3">0.95</td><td className="p-3"><Math display={false}>{String.raw`\enfPar{\lambda}`}</Math> в GAE</td></tr>
                     <tr className="border-b border-border/30"><td className="p-3"><code className="text-primary text-xs">batch_size</code></td><td className="p-3">64 — 512</td><td className="p-3">Размер мини-батча</td></tr>
                     <tr><td className="p-3"><code className="text-primary text-xs">entropy_coeff</code></td><td className="p-3">0.005 — 0.05</td><td className="p-3">Коэффициент бонуса энтропии</td></tr>
                   </tbody>

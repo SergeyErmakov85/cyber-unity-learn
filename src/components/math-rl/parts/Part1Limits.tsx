@@ -99,13 +99,13 @@ const Part1Limits = () => (
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="геометрический-ряд">Геометрический ряд</h3>
       <p>
-        Классический пример: <Math display={false}>{`1 + \\enfTgt{r} + \\enfTgt{r}^2 + \\enfTgt{r}^3 + \\cdots`}</Math>. Частичная сумма:
+        Классический пример: <Math display={false}>{`1 + \\enfPar{r} + \\enfPar{r}^2 + \\enfPar{r}^3 + \\cdots`}</Math>. Частичная сумма:
       </p>
       <Math>{`\\enfOp{S}_N = \\frac{1 - \\enfPar{r}^N}{1 - \\enfPar{r}} \\quad (\\enfPar{r} \\neq 1)`}</Math>
       <p>
         Если <Math display={false}>{`|\\enfPar{r}| < 1`}</Math>, то <Math display={false}>{`\\enfPar{r}^N \\to 0`}</Math> и ряд сходится:
       </p>
-      <Math>{`\\sum_{n=0}^{\\infty} \\enfTgt{r}^n = \\frac{1}{1 - \\enfTgt{r}} \\quad \\text{при } |\\enfTgt{r}| < 1`}</Math>
+      <Math>{`\\sum_{n=0}^{\\infty} \\enfPar{r}^n = \\frac{1}{1 - \\enfPar{r}} \\quad \\text{при } |\\enfPar{r}| < 1`}</Math>
 
       <InfoBox variant="secondary">
         <p className="text-sm font-semibold text-secondary mb-2">Важно для RL:</p>
@@ -428,7 +428,8 @@ for i in range(1, 21):
 # Итерация  2: V1=2.000, V2=1.800
 # Итерация  5: V1=4.932, V2=3.258
 # ...
-# Итерация 20: V1≈10.53, V2≈9.47`}
+# Итерация 20: V1=9.247, V2=8.322
+# Предел (неподвижная точка): V1 → 10.526, V2 → 9.474`}
       </CyberCodeBlock>
 
       <InfoBox variant="primary">
@@ -459,7 +460,7 @@ for i in range(1, 21):
             <tr className="border-b border-border/20"><td className="p-3">0.5</td><td className="p-3">2 шага</td><td className="p-3">Краткосрочная выгода</td></tr>
             <tr className="border-b border-border/20"><td className="p-3">0.9</td><td className="p-3">10 шагов</td><td className="p-3">Умеренное планирование</td></tr>
             <tr className="border-b border-border/20"><td className="p-3">0.99</td><td className="p-3">100 шагов</td><td className="p-3">Дальновидный агент</td></tr>
-            <tr><td className="p-3">1.0</td><td className="p-3">∞</td><td className="p-3">Расходимость (бесконечный горизонт)</td></tr>
+            <tr><td className="p-3">1.0</td><td className="p-3"><Math display={false}>{String.raw`\infty`}</Math></td><td className="p-3">Расходимость (бесконечный горизонт)</td></tr>
           </tbody>
         </table>
       </div>
@@ -503,7 +504,7 @@ for i in range(1, 21):
 for n in range(1, 51):
     s += 0.8**n
 print(f"Сумма 50 членов: {s:.8f}")
-# Вывод: 3.99999998 (≈ 4)`}
+# Вывод: 3.99994291 (≈ 4; остаток 4·0.8**50 ≈ 0.00006)`}
       </CyberCodeBlock>
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="7-3-дисконтированные-награды-в-rl">7.3 Дисконтированные награды в RL</h3>
@@ -514,7 +515,7 @@ print(f"Сумма 50 членов: {s:.8f}")
 
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="7-4-конвергенция-q-обучения">7.4 Конвергенция Q-обучения</h3>
       <p>
-        Обновление Q-learning <Math display={false}>{`\\enfOp{Q}_{k+1}(\\enfVar{s},a) = (1-\\enfPar{\\alpha})\\enfOp{Q}_k(\\enfVar{s},a) + \\enfPar{\\alpha}[\\enfTgt{R} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}_k(\\enfVar{s}',a')]`}</Math> — стохастический аппроксимационный процесс, сходящийся к <Math display={false}>{`\\enfOp{Q}^*(\\enfVar{s},\\enfFun{a})`}</Math> при убывающем <Math display={false}>{`\\enfPar{\\alpha}`}</Math>. В основе — тот же контракционный оператор.
+        Обновление Q-learning <Math display={false}>{`\\enfOp{Q}_{k+1}(\\enfVar{s},a) = (1-\\enfPar{\\alpha})\\enfOp{Q}_k(\\enfVar{s},a) + \\enfPar{\\alpha}[\\enfTgt{R} + \\enfPar{\\gamma} \\max_{a'} \\enfOp{Q}_k(\\enfVar{s}',a')]`}</Math> — стохастический аппроксимационный процесс, сходящийся к <Math display={false}>{`\\enfOp{Q}^*(\\enfVar{s},a)`}</Math> при убывающем <Math display={false}>{`\\enfPar{\\alpha}`}</Math>. В основе — тот же контракционный оператор.
       </p>
     </Section>
 

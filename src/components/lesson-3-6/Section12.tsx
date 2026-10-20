@@ -1,3 +1,4 @@
+import Math from "@/components/Math";
 import { SECTION_TITLE_CLASS, ProseP, KeyPoints, InteractiveStub, Code } from "./_shared";
 
 const Section12 = () => (
@@ -17,11 +18,13 @@ const Section12 = () => (
       </li>
       <li>
         <Code>n_startup_trials</Code> (TPE). Первые случайные испытания, засевающие{" "}
-        <Code>ℓ</Code> и <Code>g</Code>. Слишком мало — TPE рано «зациклится» на скудной выборке.
+        <Math display={false}>{String.raw`\enfFun{\ell}`}</Math> и <Math display={false}>{String.raw`\enfFun{g}`}</Math>. Слишком мало — TPE рано «зациклится» на скудной выборке.
       </li>
       <li>
-        <Code>gamma</Code> (TPE). Доля «хороших». Меньше <Code>γ</Code> — агрессивнее эксплуатация,
-        но рискуете по немногим примерам построить плохую <Code>ℓ</Code>.
+        <Code>gamma</Code> (TPE). Доля «хороших» <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math>: в Optuna это функция от числа испытаний,
+        возвращающая размер «хорошей» группы (по умолчанию 10 %, но не больше 25). Меньше{" "}
+        <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> — агрессивнее эксплуатация, но рискуете по немногим примерам построить плохую{" "}
+        <Math display={false}>{String.raw`\enfFun{\ell}`}</Math>.
       </li>
       <li>
         <Code>n_warmup_steps</Code> (прунер). Сколько шагов не трогать испытание. В RL ставьте с

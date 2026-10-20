@@ -13,6 +13,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { PYTORCH_HUB_SYMBOLS } from "@/content/symbols/pages/hubs";
 
 const PyTorchModule = () => {
   const navigate = useNavigate();
@@ -202,7 +204,7 @@ print("Обучение завершено.")`}</CyberCodeBlock>
 
           <InfoBox color="accent" title="Epsilon Decay">
             <p className="text-sm">
-              В отличие от фиксированного ε, здесь используется экспоненциальное затухание: <Math display={false}>{`\\enfPar{\\varepsilon} \\leftarrow \\max(\\enfPar{\\varepsilon}_{\\min},\\; \\enfPar{\\varepsilon} \\cdot 0{,}999)`}</Math>. Это обеспечивает сначала активное исследование (exploration), а затем плавный переход к эксплуатации (exploitation).
+              В отличие от фиксированного <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>, здесь используется экспоненциальное затухание: <Math display={false}>{`\\enfPar{\\varepsilon} \\leftarrow \\max(\\enfPar{\\varepsilon}_{\\min},\\; \\enfPar{\\varepsilon} \\cdot 0{,}999)`}</Math>. Это обеспечивает сначала активное исследование (exploration), а затем плавный переход к эксплуатации (exploitation).
             </p>
           </InfoBox>
 
@@ -518,6 +520,8 @@ print("Оценка DQN завершена.")`}</CyberCodeBlock>
         </Section>
 
         {/* Section: Key Concepts */}
+        <SymbolTable symbols={PYTORCH_HUB_SYMBOLS} codeLabel="В коде Python" />
+
         <Section icon={<Lightbulb className="w-5 h-5 text-primary" />} title="Ключевые концепции">
           <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Q-таблица vs Нейросеть</h3>
           <div className="my-4 overflow-x-auto">

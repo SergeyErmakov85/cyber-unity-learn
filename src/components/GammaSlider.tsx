@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import MathTex from "@/components/Math";
 
 const BASE_REWARD = 10;
 const STEPS = 10;
@@ -39,13 +40,13 @@ const GammaSlider = () => {
             Визуализация дисконтирования
           </h4>
           <p className="text-xs text-muted-foreground">
-            Перемещайте слайдер, чтобы увидеть, как γ влияет на ценность будущих
+            Перемещайте слайдер, чтобы увидеть, как <MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> влияет на ценность будущих
             наград
           </p>
         </div>
         <div className="text-right">
           <span className="font-mono text-2xl font-bold text-primary">
-            γ = {gamma.toFixed(2)}
+            <MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> = {gamma.toFixed(2)}
           </span>
           <p className="text-xs text-muted-foreground">
             G = {totalReturn.toFixed(1)}
@@ -63,8 +64,8 @@ const GammaSlider = () => {
       />
 
       <div className="flex justify-between text-xs text-muted-foreground">
-        <span>γ = 0 (только текущая)</span>
-        <span>γ = 0.99 (дальновидный)</span>
+        <span><MathTex display={false}>{String.raw`\enfPar{\gamma} = 0`}</MathTex> (только текущая)</span>
+        <span><MathTex display={false}>{String.raw`\enfPar{\gamma} = 0{,}99`}</MathTex> (дальновидный)</span>
       </div>
 
       <div className="h-48">
@@ -110,17 +111,17 @@ const GammaSlider = () => {
 
       <div className="grid grid-cols-3 gap-3 text-center text-xs">
         <div className="p-2 rounded-lg bg-muted/20 border border-border/30">
-          <p className="text-muted-foreground">γ = 0</p>
+          <p className="text-muted-foreground"><MathTex display={false}>{String.raw`\enfPar{\gamma} = 0`}</MathTex></p>
           <p className="font-mono text-foreground font-medium">
             Жадный агент
           </p>
         </div>
         <div className="p-2 rounded-lg bg-muted/20 border border-border/30">
-          <p className="text-muted-foreground">γ ≈ 0.5</p>
+          <p className="text-muted-foreground"><MathTex display={false}>{String.raw`\enfPar{\gamma} \approx 0{,}5`}</MathTex></p>
           <p className="font-mono text-foreground font-medium">Баланс</p>
         </div>
         <div className="p-2 rounded-lg bg-muted/20 border border-border/30">
-          <p className="text-muted-foreground">γ → 1</p>
+          <p className="text-muted-foreground"><MathTex display={false}>{String.raw`\enfPar{\gamma} \to 1`}</MathTex></p>
           <p className="font-mono text-foreground font-medium">
             Дальновидный
           </p>

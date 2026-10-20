@@ -6,6 +6,8 @@ import { ArrowLeft, GitBranch, ArrowRight } from "lucide-react";
 import Math from "@/components/Math";
 import Quiz from "@/components/Quiz";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import { SymbolGlossary } from "@/components/math-symbols/SymbolTable";
+import { A3C_HUB_SYMBOLS } from "@/content/symbols/pages/hubs";
 
 const codeBlock = (code: string) => (
   <pre className="bg-card/80 border border-primary/20 rounded-lg p-4 overflow-x-auto text-xs md:text-sm font-mono leading-relaxed">
@@ -18,6 +20,7 @@ const A3CModule = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SymbolGlossary symbols={A3C_HUB_SYMBOLS} />
       <div className="border-b border-border/50 bg-card/30 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <Button variant="ghost" onClick={() => navigate("/algorithms")} className="text-muted-foreground hover:text-foreground mb-4">
@@ -68,7 +71,7 @@ const A3CModule = () => {
                   <h3 className="text-lg font-semibold mb-2">Полная функция потерь</h3>
                   <Math>{"\\enfTgt{L} = \\enfTgt{L}_{\\text{policy}} + \\enfPar{c}_1 \\enfTgt{L}_{\\text{value}} - \\enfPar{c}_2 \\enfOp{H}(\\enfFun{\\pi})"}</Math>
                   <p className="text-sm text-muted-foreground mt-1">
-                    H(π) — энтропийная регуляризация для поощрения исследования.
+                    <Math display={false}>{String.raw`\enfOp{H}(\enfFun{\pi})`}</Math> — энтропийная регуляризация для поощрения исследования.
                   </p>
                 </div>
               </CardContent>
@@ -158,7 +161,7 @@ class ActorCritic(nn.Module):
 def worker(global_model, optimizer, env_name, worker_id,
            gamma=0.99, max_steps=1000, n_steps=20):
     """A3C Worker Process"""
-    import gym
+    import gymnasium as gym
     env = gym.make(env_name)
     local_model = ActorCritic(
         env.observation_space.shape[0],
@@ -169,7 +172,7 @@ def worker(global_model, optimizer, env_name, worker_id,
         # Sync with global model
         local_model.load_state_dict(global_model.state_dict())
         
-        state = env.reset()
+        state, _ = env.reset()
         log_probs, values, rewards, entropies = [], [], [], []
         
         for step in range(n_steps):
@@ -183,14 +186,15 @@ def worker(global_model, optimizer, env_name, worker_id,
             values.append(value)
             entropies.append(dist.entropy())
             
-            state, reward, done, _ = env.step(action.item())
+            state, reward, terminated, truncated, _ = env.step(action.item())
             rewards.append(reward)
             
-            if done:
+            if terminated or truncated:
                 break
         
         # Compute returns
-        R = 0 if done else local_model(
+        # Бутстрап только если эпизод не закончился терминальным состоянием
+        R = 0 if terminated else local_model(
             torch.FloatTensor(state)
         )[1].item()
         

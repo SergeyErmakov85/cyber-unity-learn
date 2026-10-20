@@ -2,6 +2,8 @@ import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 import Quiz from "@/components/Quiz";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_1_7_SYMBOLS } from "@/content/symbols/pages/level1";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   AlertTriangle,
@@ -745,6 +747,8 @@ const CourseLesson1_7 = () => (
         {BANDIT_SIMULATION_CODE}
       </CyberCodeBlock>
     </section>
+
+    <SymbolTable symbols={LESSON_1_7_SYMBOLS} codeLabel="В коде Python" />
 
     <section>
       <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">

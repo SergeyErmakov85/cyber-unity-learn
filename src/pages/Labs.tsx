@@ -8,6 +8,7 @@ import { ArrowLeft, FlaskConical, ArrowUp, ArrowDown } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import MathTex from "@/components/Math";
 // Lab 1: Discounting interactive
 const DiscountLab = () => {
   const [gamma, setGamma] = useState(0.99);
@@ -32,7 +33,7 @@ const DiscountLab = () => {
       <div>
         <h3 className="text-lg font-semibold text-primary mb-2">Цель</h3>
         <p className="text-muted-foreground">
-          Понять влияние γ (gamma) на обучение агента. Исследуйте как коэффициент дисконтирования меняет «горизонт планирования».
+          Понять влияние <MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> (gamma) на обучение агента. Исследуйте как коэффициент дисконтирования меняет «горизонт планирования».
         </p>
       </div>
 
@@ -55,7 +56,7 @@ for gamma in [0.5, 0.9, 0.99, 0.999]:
         <CardContent className="space-y-4">
           <div>
             <div className="flex justify-between text-sm mb-2">
-              <span>γ (gamma)</span><span className="text-primary font-mono">{gamma.toFixed(3)}</span>
+              <span><MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> (gamma)</span><span className="text-primary font-mono">{gamma.toFixed(3)}</span>
             </div>
             <Slider value={[gamma]} onValueChange={([v]) => setGamma(v)} min={0} max={1} step={0.001} />
           </div>
@@ -68,7 +69,7 @@ for gamma in [0.5, 0.9, 0.99, 0.999]:
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             {allReturns.map(r => (
               <div key={r.gamma} className={`p-3 rounded-lg border text-center ${r.gamma === gamma ? "border-primary bg-primary/10" : "border-border/50 bg-card/50"}`}>
-                <div className="text-xs text-muted-foreground">γ = {r.gamma}</div>
+                <div className="text-xs text-muted-foreground"><MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> = {r.gamma}</div>
                 <div className="font-mono font-bold">{r.G0.toFixed(2)}</div>
               </div>
             ))}
@@ -79,9 +80,9 @@ for gamma in [0.5, 0.9, 0.99, 0.999]:
       <Card className="border-accent/30">
         <CardHeader><CardTitle className="text-sm">🧠 Вопросы для размышления</CardTitle></CardHeader>
         <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>1. Как γ влияет на «горизонт планирования» агента?</p>
-          <p>2. Почему γ=1 может быть проблематичным?</p>
-          <p>3. Какой γ выбрали бы для задачи с долгосрочным планированием?</p>
+          <p>1. Как <MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> влияет на «горизонт планирования» агента?</p>
+          <p>2. Почему <MathTex display={false}>{String.raw`\enfPar{\gamma} = 1`}</MathTex> может быть проблематичным?</p>
+          <p>3. Какой <MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> выбрали бы для задачи с долгосрочным планированием?</p>
         </CardContent>
       </Card>
     </div>
@@ -94,7 +95,7 @@ const ExplorationLab = () => (
     <div>
       <h3 className="text-lg font-semibold text-primary mb-2">Цель</h3>
       <p className="text-muted-foreground">
-        Изучить баланс между exploration и exploitation. Сравнить стратегии ε-greedy, decaying ε и UCB.
+        Изучить баланс между exploration и exploitation. Сравнить стратегии <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>-greedy, decaying <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex> и UCB.
       </p>
     </div>
 
@@ -120,9 +121,9 @@ def ucb_action(q_values, counts, t, c=2.0):
     <div>
       <h3 className="text-lg font-semibold text-primary mb-2">Задания</h3>
       <ul className="space-y-1 text-muted-foreground list-disc list-inside text-sm">
-        <li>Реализуйте ε-жадную политику</li>
+        <li>Реализуйте <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>-жадную политику</li>
         <li>Реализуйте softmax (Boltzmann) exploration</li>
-        <li>Сравните стратегии: ε-greedy, decaying ε, UCB</li>
+        <li>Сравните стратегии: <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>-greedy, decaying <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>, UCB</li>
         <li>Визуализируйте результаты на задаче Multi-Armed Bandit</li>
       </ul>
     </div>
@@ -214,7 +215,7 @@ const EpsilonLab = () => {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold text-primary mb-2">Цель</h3>
-        <p className="text-muted-foreground">Изучить ε-greedy стратегию и влияние decay на баланс exploration/exploitation.</p>
+        <p className="text-muted-foreground">Изучить <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>-greedy стратегию и влияние decay на баланс exploration/exploitation.</p>
       </div>
 
       <CyberCodeBlock language="python" filename="epsilon_greedy.py">{`def epsilon_greedy(Q, state, epsilon):
@@ -230,7 +231,7 @@ epsilon = max(epsilon_min, epsilon * decay_rate)`}</CyberCodeBlock>
         <CardContent className="space-y-4">
           <div>
             <div className="flex justify-between text-sm mb-2">
-              <span>ε (epsilon)</span><span className="text-primary font-mono">{epsilon.toFixed(2)}</span>
+              <span><MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex> (epsilon)</span><span className="text-primary font-mono">{epsilon.toFixed(2)}</span>
             </div>
             <Slider value={[epsilon]} onValueChange={([v]) => setEpsilon(v)} min={0} max={1} step={0.01} />
           </div>
@@ -246,7 +247,7 @@ epsilon = max(epsilon_min, epsilon * decay_rate)`}</CyberCodeBlock>
               <thead className="sticky top-0 bg-card">
                 <tr className="border-b border-primary/20">
                   <th className="text-left p-2 text-muted-foreground">Шаг</th>
-                  <th className="text-left p-2 text-muted-foreground">ε</th>
+                  <th className="text-left p-2 text-muted-foreground"><MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex></th>
                   <th className="text-left p-2 text-muted-foreground">Действие</th>
                 </tr>
               </thead>
@@ -290,7 +291,7 @@ const AdvantageLab = () => {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold text-primary mb-2">Цель</h3>
-        <p className="text-muted-foreground">Понять, как baseline V(s) снижает дисперсию градиента и стабилизирует обучение.</p>
+        <p className="text-muted-foreground">Понять, как baseline <MathTex display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</MathTex> снижает дисперсию градиента и стабилизирует обучение.</p>
       </div>
 
       <CyberCodeBlock language="python" filename="advantage.py">{`def compute_advantage(rewards, values, gamma=0.99):
@@ -302,11 +303,11 @@ const AdvantageLab = () => {
     return advantages`}</CyberCodeBlock>
 
       <Card className="border-primary/30">
-        <CardHeader><CardTitle className="text-sm">A(s,a) = Q(s,a) − V(s)</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-sm"><MathTex display={false}>{String.raw`\enfOp{A}(\enfVar{s},\enfFun{a}) = \enfOp{Q}(\enfVar{s},\enfFun{a}) - \enfOp{V}(\enfVar{s})`}</MathTex></CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div>
             <div className="flex justify-between text-sm mb-2">
-              <span>V(s) baseline</span><span className="text-primary font-mono">{baseline.toFixed(1)}</span>
+              <span><MathTex display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</MathTex> baseline</span><span className="text-primary font-mono">{baseline.toFixed(1)}</span>
             </div>
             <Slider value={[baseline]} onValueChange={([v]) => setBaseline(v)} min={-5} max={5} step={0.1} />
           </div>
@@ -336,7 +337,7 @@ const AdvantageLab = () => {
       <Card className="border-accent/30">
         <CardHeader><CardTitle className="text-sm">🧠 Вопросы</CardTitle></CardHeader>
         <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>1. Что происходит с advantage, когда V(s) равно среднему Q?</p>
+          <p>1. Что происходит с advantage, когда <MathTex display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</MathTex> равно среднему Q?</p>
           <p>2. Почему нормализация advantage важна для стабильности?</p>
         </CardContent>
       </Card>
@@ -354,7 +355,7 @@ const PolicyGradientLab = () => {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold text-primary mb-2">Цель</h3>
-        <p className="text-muted-foreground">Визуализировать, как log_prob × advantage определяет направление обновления параметров θ.</p>
+        <p className="text-muted-foreground">Визуализировать, как log_prob × advantage определяет направление обновления параметров <MathTex display={false}>{String.raw`\enfPar{\theta}`}</MathTex>.</p>
       </div>
 
       <CyberCodeBlock language="python" filename="reinforce_step.py">{`# Шаг REINFORCE
@@ -371,7 +372,7 @@ torch.nn.utils.clip_grad_norm_(policy.parameters(), 0.5)
 optimizer.step()`}</CyberCodeBlock>
 
       <Card className="border-primary/30">
-        <CardHeader><CardTitle className="text-sm">Направление обновления θ</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-sm">Направление обновления <MathTex display={false}>{String.raw`\enfPar{\theta}`}</MathTex></CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div>
             <div className="flex justify-between text-sm mb-2">
@@ -382,7 +383,7 @@ optimizer.step()`}</CyberCodeBlock>
 
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="p-3 rounded-lg border border-border/50 bg-card/50">
-              <div className="text-xs text-muted-foreground">log π(a|s)</div>
+              <div className="text-xs text-muted-foreground"><MathTex display={false}>{String.raw`\log \enfFun{\pi}(\enfFun{a} \mid \enfVar{s})`}</MathTex></div>
               <div className="font-mono font-bold text-primary">{logProb.toFixed(2)}</div>
             </div>
             <div className="p-3 rounded-lg border border-border/50 bg-card/50">
@@ -439,7 +440,7 @@ const Labs = () => {
               <TabsTrigger value="discount" className="whitespace-nowrap text-xs md:text-sm">Lab 1: Дисконт</TabsTrigger>
               <TabsTrigger value="explore" className="whitespace-nowrap text-xs md:text-sm">Lab 2: Exploration</TabsTrigger>
               <TabsTrigger value="replay" className="whitespace-nowrap text-xs md:text-sm">Lab 3: Replay</TabsTrigger>
-              <TabsTrigger value="epsilon" className="whitespace-nowrap text-xs md:text-sm">Lab 4: ε-Greedy</TabsTrigger>
+              <TabsTrigger value="epsilon" className="whitespace-nowrap text-xs md:text-sm">Lab 4: <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>-Greedy</TabsTrigger>
               <TabsTrigger value="advantage" className="whitespace-nowrap text-xs md:text-sm">Lab 5: Advantage</TabsTrigger>
               <TabsTrigger value="pg" className="whitespace-nowrap text-xs md:text-sm">Lab 6: Policy Grad</TabsTrigger>
             </TabsList>

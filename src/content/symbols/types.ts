@@ -22,6 +22,11 @@ export interface SymbolEntry {
   code?: string | string[];
   /** Тип, форма массива, где задаётся, ловушки перевода. */
   codeNote?: string;
+  /**
+   * Код взят из общего словаря, а не со страницы: так символ обычно пишут
+   * в PyTorch/ML-Agents, но в листингах этой страницы его нет.
+   */
+  codeTypical?: boolean;
   /** Другие записи того же символа на странице: `\epsilon` для `\varepsilon`. */
   aliases?: string[];
 }

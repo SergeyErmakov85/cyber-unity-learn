@@ -29,6 +29,8 @@ import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { PROJECT_2_SYMBOLS } from "@/content/symbols/pages/projects";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
@@ -166,6 +168,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
 const NAV_ITEMS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
   { id: "roadmap", label: "Маршрут" },
+  { id: "symbols", label: "Символы" },
   { id: "env-observations", label: "Среда" },
   { id: "continuous-control", label: "Управление" },
   { id: "ppo-hyperparams", label: "PPO" },
@@ -342,6 +345,8 @@ const CourseProject2 = () => {
         </ol>
       </section>
 
+      <SymbolTable symbols={PROJECT_2_SYMBOLS} codeLabel="В коде C# и YAML" />
+
       {/* ── Секция: Среда и наблюдения (наполнено) ────────────────────────── */}
       <section
         id="env-observations"
@@ -485,7 +490,7 @@ const CourseProject2 = () => {
             Все векторные фичи нормализуем в{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>[-1, 1]</span>:
             позиции делим на полудиагональ арены, скорости — на максимальный
-            модуль, углы — на π. Это не косметика — без нормализации PPO с{" "}
+            модуль, углы — на <Math display={false}>{String.raw`\pi`}</Math> (здесь это число 3,14…). Это не косметика — без нормализации PPO с{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>normalize: true</span>{" "}
             всё равно работает, но статистики «разъезжаются» дольше, и кривая
             энтропии в TensorBoard выглядит рваной.
@@ -763,7 +768,7 @@ const CourseProject2 = () => {
             <Math display={false}>{"\\enfOp{A}"}</Math> можно
             считать одним шагом (шумно) или всем эпизодом (запоздало). GAE даёт
             непрерывную ручку{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>λ ∈ [0, 1]</span>{" "}
+            <Math display={false}>{String.raw`\enfPar{\lambda} \in [0, 1]`}</Math>{" "}
             между этими крайностями — компромисс bias / variance, который для
             Охотника решает, сходится ли обучение за 1М шагов или за 5М.
           </p>
@@ -773,7 +778,7 @@ const CourseProject2 = () => {
             Сама же сумма дисконтированных наград{" "}
             <Math display={false}>{"\\enfOp{G}_t = \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^{k}\\, \\enfTgt{r}_{t+k}"}</Math>{" "}
             конечна именно потому, что{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>γ &lt; 1</span> — это
+            <Math display={false}>{String.raw`\enfPar{\gamma} < 1`}</Math> — это
             та самая геометрическая прогрессия, без которой бесконечные эпизоды
             ломали бы целевую функцию.
           </p>
@@ -811,7 +816,7 @@ const CourseProject2 = () => {
               .
             </li>
             <li>
-              Cl­ipped surrogate L<sup>CLIP</sup> и роль ε:{" "}
+              Clipped surrogate <Math display={false}>{String.raw`\enfTgt{L}^{\mathrm{CLIP}}`}</Math> и роль <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>:{" "}
               <HubLink
                 to="/hub/math-rl"
                 
@@ -1067,7 +1072,7 @@ const CourseProject2 = () => {
               <span style={{ color: TEXT }}>Potential-based shaping (PBRS)</span>{" "}
               на расстоянии до цели:
               <div className="mt-2 space-y-1">
-                <Math>{"\\enfFun{\\Phi}(\\enfVar{s}) = -\\dfrac{d(\\enfVar{s})}{d_{\\max}}"}</Math>
+                <Math>{"\\enfFun{\\Phi}(\\enfVar{s}) = -\\dfrac{\\enfFun{d}(\\enfVar{s})}{\\enfPar{d}_{\\max}}"}</Math>
                 <Math>{"\\enfFun{F}(\\enfVar{s}, \\enfVar{s}') = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</Math>
               </div>
               <p className="mt-2" style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>

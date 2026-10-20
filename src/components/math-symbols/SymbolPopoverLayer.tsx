@@ -20,7 +20,10 @@ import { resolveClick, type ResolvedSymbol } from "./lookup";
  * глифу (src/content/symbols/glyphs.ts).
  */
 
-const INTERACTIVE = 'a, button, summary, label, input, select, textarea, [role="button"], [role="tab"], [role="link"], [role="option"], [role="checkbox"], [role="radio"]';
+// Формула внутри ссылки или кнопки ведёт себя как ссылка: клик переходит, а не
+// открывает пояснение. `.cursor-pointer` — кликабельные span-ссылки (CrossLinkToHub).
+const INTERACTIVE =
+  'a, button, summary, label, input, select, textarea, .cursor-pointer, [role="button"], [role="tab"], [role="link"], [role="option"], [role="checkbox"], [role="radio"]';
 
 /** Что делает роль в формуле, если словарь не сказал точнее. */
 const ROLE_IN_FORMULA: Record<EnfTone, string> = {
@@ -85,6 +88,8 @@ interface Position {
   left: number;
   top: number;
   placement: "top" | "bottom";
+  /** Сколько места есть по выбранную сторону символа. */
+  maxHeight: number;
   arrowX: number;
 }
 
@@ -106,7 +111,7 @@ const Section = ({ icon: Icon, title, children }: { icon: typeof Info; title: st
 
 const SymbolCard = ({ r, onClose }: { r: ResolvedSymbol; onClose: () => void }) => {
   const role = r.declaredRole ?? r.tone;
-  const shownTex = r.tone === "neutral" ? r.tex : wrapRole(r.tone, r.tex);
+  const shownTex = r.tone === "neutral" ? r.tex : wrapRole(r.tone, r.inner ?? r.tex) + (r.tail ?? "");
   const reading = greekReading(r.tex);
   const meta = ROLE_META[r.tone];
   const declared = r.declaredRole ? ROLE_META[r.declaredRole] : undefined;
@@ -131,10 +136,12 @@ const SymbolCard = ({ r, onClose }: { r: ResolvedSymbol; onClose: () => void }) 
         </button>
       </div>
 
-      <div className="enf-pop__role">
-        <span className="enf-pop__dot" aria-hidden />
-        <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em]">{meta.label}</span>
-        <span className="text-[0.72rem] text-muted-foreground">— {meta.hint}</span>
+      <div className="space-y-1">
+        <div className="enf-pop__role">
+          <span className="enf-pop__dot" aria-hidden />
+          <span className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.14em]">{meta.label}</span>
+        </div>
+        <p className="text-[0.72rem] leading-snug text-muted-foreground">{capitalize(meta.hint)}</p>
       </div>
 
       {r.tone === "neutral" && (r.neutralReason || declared) && (
@@ -174,7 +181,12 @@ const SymbolCard = ({ r, onClose }: { r: ResolvedSymbol; onClose: () => void }) 
       )}
 
       {(r.code?.length || r.conventionalCode || r.codeNote) && (
-        <Section icon={Code2} title="В коде">
+        <Section icon={Code2} title={r.codeTypical ? "Обычно в коде" : "В коде"}>
+          {r.codeTypical && r.code?.length ? (
+            <p className="mb-1.5 text-[0.74rem] text-muted-foreground">
+              В листингах этой страницы символа нет — так его обычно записывают:
+            </p>
+          ) : null}
           {r.code?.length ? (
             <div className="flex flex-wrap gap-1.5">
               {r.code.map((c) => (
@@ -276,13 +288,19 @@ const SymbolPopoverLayer = () => {
     const h = pop.offsetHeight;
     const gap = 12;
     const margin = 8;
-    const fitsAbove = r.top - h - gap >= margin;
-    const fitsBelow = r.bottom + gap + h <= window.innerHeight - margin;
-    const placement: Position["placement"] = fitsAbove || !fitsBelow ? "top" : "bottom";
-    const top = placement === "top" ? r.top - h - gap : r.bottom + gap;
+    const spaceAbove = r.top - gap - margin;
+    const spaceBelow = window.innerHeight - r.bottom - gap - margin;
+    // Над символом, если помещается; иначе под ним; если не помещается нигде
+    // (телефон, длинное пояснение) — туда, где места больше, с прокруткой внутри.
+    const placement: Position["placement"] =
+      h <= spaceAbove ? "top" : h <= spaceBelow ? "bottom" : spaceAbove >= spaceBelow ? "top" : "bottom";
+    const room = placement === "top" ? spaceAbove : spaceBelow;
+    const maxHeight = room > 160 ? room : 160;
+    const shown = h < maxHeight ? h : maxHeight;
+    const top = placement === "top" ? r.top - shown - gap : r.bottom + gap;
     const cx = r.left + r.width / 2;
     const left = clamp(cx - w / 2, margin, window.innerWidth - w - margin);
-    setPos({ left, top, placement, arrowX: clamp(cx - left, 18, w - 18) });
+    setPos({ left, top, placement, maxHeight, arrowX: clamp(cx - left, 18, w - 18) });
   }, [open]);
 
   useLayoutEffect(() => {
@@ -319,11 +337,13 @@ const SymbolPopoverLayer = () => {
       aria-label={`Пояснение к символу: ${open.resolved.name}`}
       className={`enf-pop enf-pop--${tone}`}
       data-placement={pos?.placement ?? "top"}
+      data-source={open.resolved.source}
       style={{
         left: pos?.left ?? -9999,
         top: pos?.top ?? -9999,
         visibility: pos ? "visible" : "hidden",
         ["--enf-arrow-x" as string]: `${pos?.arrowX ?? 0}px`,
+        ["--enf-pop-max" as string]: pos ? `${pos.maxHeight}px` : undefined,
       }}
       initial={{ opacity: 0, y: pos?.placement === "bottom" ? -6 : 6, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}

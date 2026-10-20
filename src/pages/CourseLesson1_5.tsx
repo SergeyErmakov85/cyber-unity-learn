@@ -27,6 +27,9 @@ import {
   Download,
 } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
+import Math from "@/components/Math";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_1_5_SYMBOLS } from "@/content/symbols/pages/level1";
 
 const quizQuestions = [
   {
@@ -405,7 +408,7 @@ Q_θ(state) → [Q_left, Q_right]
           <Card className="bg-card/50 border-primary/20">
             <CardContent className="p-4">
               <p className="font-bold text-sm text-primary mb-1">
-                С вероятностью ε → случайное действие
+                С вероятностью <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> → случайное действие
               </p>
               <p className="text-xs text-muted-foreground">
                 Exploration: агент исследует среду, пробуя новые действия
@@ -415,7 +418,7 @@ Q_θ(state) → [Q_left, Q_right]
           <Card className="bg-card/50 border-green-500/20">
             <CardContent className="p-4">
               <p className="font-bold text-sm text-green-400 mb-1">
-                С вероятностью (1-ε) → лучшее действие
+                С вероятностью <Math display={false}>{String.raw`1 - \enfPar{\varepsilon}`}</Math> → лучшее действие
               </p>
               <p className="text-xs text-muted-foreground">
                 Exploitation: агент выбирает действие с максимальным Q-значением
@@ -428,8 +431,8 @@ Q_θ(state) → [Q_left, Q_right]
           <CardContent className="p-4">
             <p className="text-sm text-muted-foreground leading-relaxed mb-3">
               <strong className="text-foreground">Epsilon decay:</strong> в начале обучения
-              ε = 1.0 (100% случайных действий — полное исследование). Постепенно ε
-              уменьшается до 0.01, и агент всё больше полагается на выученные Q-значения.
+              <Math display={false}>{String.raw`\enfPar{\varepsilon} = 1{,}0`}</Math> (100% случайных действий — полное исследование). Постепенно{" "}
+              <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> уменьшается до 0,01, и агент всё больше полагается на выученные Q-значения.
             </p>
             <div className="flex items-center gap-3 text-xs">
               <div className="flex-1 h-2 rounded-full bg-muted/30 overflow-hidden">
@@ -442,9 +445,9 @@ Q_θ(state) → [Q_left, Q_right]
                 />
               </div>
               <div className="flex gap-3 flex-shrink-0 text-muted-foreground">
-                <span>ε=1.0</span>
+                <span><Math display={false}>{String.raw`\enfPar{\varepsilon} = 1{,}0`}</Math></span>
                 <span>→</span>
-                <span>ε=0.01</span>
+                <span><Math display={false}>{String.raw`\enfPar{\varepsilon} = 0{,}01`}</Math></span>
               </div>
             </div>
             <div className="flex justify-between text-xs text-muted-foreground/60 mt-1">
@@ -453,6 +456,13 @@ Q_θ(state) → [Q_left, Q_right]
             </div>
           </CardContent>
         </Card>
+        <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
+          В коде ниже после каждого эпизода вероятность исследования умножается на коэффициент
+          затухания <code className="text-primary text-xs">EPSILON_DECAY = 0.995</code>, но не падает ниже{" "}
+          <Math display={false}>{String.raw`\enfPar{\varepsilon}_{\min} = 0{,}01`}</Math>, а в остальное время агент
+          берёт действие с наибольшим Q-значением:
+        </p>
+        <Math>{String.raw`\enfPar{\varepsilon} \leftarrow \max\big(\enfPar{\varepsilon}_{\min},\ 0{,}995 \cdot \enfPar{\varepsilon}\big), \qquad \enfFun{a} = \arg\max_{a'} \enfOp{Q}(\enfVar{s}, a')`}</Math>
       </section>
 
       {/* ── Neural network agent ── */}
@@ -656,6 +666,8 @@ for episode in range(EPISODES):
           </AccordionItem>
         </Accordion>
       </section>
+
+      <SymbolTable symbols={LESSON_1_5_SYMBOLS} codeLabel="В коде Python" />
 
       {/* ── Results ── */}
       <section>

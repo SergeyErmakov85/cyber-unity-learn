@@ -31,9 +31,12 @@ import Summary from "@/components/lesson-3-7/Summary";
 import RelatedMaterials from "@/components/lesson-3-7/RelatedMaterials";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_3_7_SYMBOLS } from "@/content/symbols/pages/level3";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
+  { id: "symbols-table", label: "Σ · Символы и код" },
   { id: "razdel-0-most", label: "0 · От алгоритма к архитектуре" },
   { id: "razdel-1-encoder-head", label: "1 · Энкодер и голова" },
   { id: "razdel-2-mlp", label: "2 · MLP для векторов" },
@@ -49,8 +52,14 @@ const SECTIONS: SectionNavItem[] = [
   { id: "источники", label: "Источники" },
 ];
 
+/** Таблица символов урока: те же записи питают пояснения по клику на символ формулы. */
+const SymbolsSection = () => (
+  <SymbolTable symbols={LESSON_3_7_SYMBOLS} variant="section" id="symbols-table" codeLabel="В конфиге ML-Agents" />
+);
+
 const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
   { id: "intro", Comp: IntroSection },
+  { id: "symbols-table", Comp: SymbolsSection },
   { id: "razdel-0-most", Comp: Section0 },
   { id: "razdel-1-encoder-head", Comp: Section1 },
   { id: "razdel-2-mlp", Comp: Section2 },

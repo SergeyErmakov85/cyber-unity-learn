@@ -1,7 +1,7 @@
 import katex from "katex";
 import { KATEX_OPTIONS } from "@/lib/katex-options";
 import { roleFromClassList, type EnfTone } from "@/lib/enf-roles";
-import { conventionalCodeName, findEnfCalls, normalizeTex, splitDecorations, type Mark } from "@/lib/enf-tex";
+import { conventionalCodeName, findEnfCalls, normalizeTex, readTail, splitDecorations, type Mark } from "@/lib/enf-tex";
 import { GLOBAL_SYMBOLS } from "@/content/symbols/global";
 import { GLYPHS } from "@/content/symbols/glyphs";
 import type { GlyphEntry, SymbolEntry } from "@/content/symbols/types";
@@ -13,13 +13,18 @@ export interface ResolvedSymbol {
   tone: EnfTone;
   /** Роль из словаря, если символ в формуле нейтрален, а словарь знает его роль. */
   declaredRole?: EnfTone;
-  /** TeX для крупного показа. */
+  /** Запись символа целиком (с индексами) — для поиска и крупного показа. */
   tex: string;
+  /** Содержимое макроса роли и то, что стоит за ним (индексы, штрих). */
+  inner?: string;
+  tail?: string;
   name: string;
   meaning?: string;
   inFormula?: string;
   code?: string[];
   codeNote?: string;
+  /** Код — типичная запись из общего словаря, а не из листингов страницы. */
+  codeTypical?: boolean;
   /** Имя по соглашению ENF, если в словаре кода нет. */
   conventionalCode?: string;
   /** Украшения записи, которые надо объяснить отдельно (крышка, штрих, индекс). */
@@ -52,7 +57,7 @@ export const glyphOf = (tex: string): string => {
   return text;
 };
 
-export const cleanGlyph = (s: string) => s.replace(/[​‌‍⁡ \s]/g, "");
+export const cleanGlyph = (s: string) => s.replace(/(?:\u200b|\u200c|\u200d|\u2061|\u00a0|\s)/g, "");
 
 /** Текст элемента без индексов и степеней. */
 const ownText = (el: Element): string => {
@@ -75,10 +80,16 @@ const GREEK_BY_GLYPH: Record<string, string> = {
 
 // ── Поиск в словарях ────────────────────────────────────────────────────
 
-const keysOf = (e: SymbolEntry) => [e.tex, ...(e.aliases ?? [])].map(normalizeTex);
+/** Ключи записи: сама запись и она же без индекса — `V_k` в таблице лекции подходит и для `V_0`. */
+const keysOf = (e: SymbolEntry) =>
+  [e.tex, ...(e.aliases ?? [])].flatMap((t) => [normalizeTex(t), normalizeTex(stripTail(t))]);
 
-const pick = (list: SymbolEntry[], key: string, role?: EnfTone): SymbolEntry | undefined =>
-  (role && list.find((e) => e.role === role && keysOf(e).includes(key))) || list.find((e) => keysOf(e).includes(key));
+/** `strict` — только запись той же роли: та же буква в другой роли — другая сущность. */
+const pick = (list: SymbolEntry[], key: string, role: EnfTone | undefined, strict: boolean): SymbolEntry | undefined =>
+  role
+    ? list.find((e) => e.role === role && keysOf(e).includes(key)) ??
+      (strict ? undefined : list.find((e) => keysOf(e).includes(key)))
+    : list.find((e) => keysOf(e).includes(key));
 
 interface Found {
   entry: SymbolEntry;
@@ -86,27 +97,68 @@ interface Found {
   tableId?: string;
 }
 
-const findByKey = (key: string, role: EnfTone | undefined, target: Element, withGlobal: boolean): Found | undefined => {
-  for (const reg of registrationsFor(target)) {
-    const entry = pick(reg.entries, key, role);
-    if (entry) return { entry, source: "page", tableId: reg.tableId };
+type Scope = "page" | "global";
+
+const findByKey = (key: string, role: EnfTone | undefined, target: Element, scope: Scope, strict: boolean): Found | undefined => {
+  if (scope === "page") {
+    for (const reg of registrationsFor(target)) {
+      const entry = pick(reg.entries, key, role, strict);
+      if (entry) return { entry, source: "page", tableId: reg.tableId };
+    }
+    return undefined;
   }
-  if (!withGlobal) return undefined;
-  const entry = pick(GLOBAL_SYMBOLS, key, role);
+  const entry = pick(GLOBAL_SYMBOLS, key, role, strict);
   return entry ? { entry, source: "global" } : undefined;
 };
 
-/** Ищет запись по TeX; если точной нет — по основе без украшений. */
+/** TeX без хвоста индексов, степеней и штрихов: `\\hat{A}_i^{(n)}` → `\\hat{A}`. */
+const stripTail = (tex: string): string => {
+  let depth = 0;
+  for (let i = 0; i < tex.length; i++) {
+    const c = tex[i];
+    if (c === "\\") {
+      i++;
+      continue;
+    }
+    if (c === "{") depth++;
+    else if (c === "}") depth--;
+    else if (depth === 0 && i > 0 && (c === "_" || c === "^" || c === "'")) return tex.slice(0, i).trim();
+  }
+  return tex;
+};
+
+const TAIL_MARKS = new Set<Mark["kind"]>(["sub", "sup", "prime", "star"]);
+
+/**
+ * Ищет запись по TeX. Порядок: точная запись → без индексов и степеней →
+ * основа без украшений. Сначала во всех словарях страницы, потом в общем:
+ * запись страницы о $\\hat{A}$ точнее общей записи об $A$.
+ */
 const findSymbol = (tex: string, role: EnfTone | undefined, target: Element, withGlobal = true) => {
   const key = normalizeTex(tex);
-  const exact = findByKey(key, role, target, withGlobal);
-  if (exact) return { found: exact, marks: [] as Mark[] };
   const { base, marks } = splitDecorations(tex);
+  const head = stripTail(tex);
   const plain = base.replace(/^\\(mathbf|boldsymbol|bm)\{(.+)\}$/, "$2");
-  for (const candidate of [base, plain]) {
-    if (candidate === key) continue;
-    const found = findByKey(normalizeTex(candidate), role, target, withGlobal);
-    if (found) return { found, marks };
+  const candidates: { key: string; marks: Mark[] }[] = [];
+  const add = (t: string, m: Mark[]) => {
+    const k = normalizeTex(t);
+    if (k && !candidates.some((c) => c.key === k)) candidates.push({ key: k, marks: m });
+  };
+  add(key, []);
+  add(head, marks.filter((m) => TAIL_MARKS.has(m.kind)));
+  add(base, marks);
+  add(plain, marks);
+  // Страница той же роли → общий словарь той же роли → любая роль.
+  const passes: [Scope, boolean][] = withGlobal
+    ? // Общая запись другой роли — уже другая сущность (A-преимущество не равно
+      // A-пределу), поэтому без совпадения роли общий словарь не используется.
+      [["page", true], ["global", true], ["page", false]]
+    : [["page", true], ["page", false]];
+  for (const [scope, strict] of passes) {
+    for (const c of candidates) {
+      const found = findByKey(c.key, role, target, scope, strict);
+      if (found) return { found, marks: c.marks };
+    }
   }
   return { found: undefined as Found | undefined, marks };
 };
@@ -145,12 +197,15 @@ const resolveRoleSymbol = (sym: Element, html: Element): ResolvedSymbol => {
   const glyph = cleanGlyph(sym.textContent ?? "");
   const source = sym.closest(".katex")?.querySelector('annotation[encoding="application/x-tex"]')?.textContent ?? "";
   const calls = findEnfCalls(source).filter((c) => c.role === tone);
-  let tex = calls.find((c) => glyphOf(c.inner) === glyph)?.inner;
-  if (!tex) {
-    // Глиф не совпал (редкая конструкция KaTeX): берём любой вызов той же роли с похожим глифом.
-    tex = calls.find((c) => glyph.startsWith(glyphOf(c.inner)) || glyphOf(c.inner).startsWith(glyph))?.inner;
+  let call = calls.find((c) => glyphOf(c.inner) === glyph);
+  if (!call) {
+    // Глиф не совпал (редкая конструкция KaTeX): берём вызов той же роли с похожим глифом.
+    call = calls.find((c) => glyph.startsWith(glyphOf(c.inner)) || glyphOf(c.inner).startsWith(glyph));
   }
-  if (!tex) tex = glyph;
+  const inner = call?.inner ?? glyph;
+  // Индекс и штрих стоят за макросом: \enfFun{A}_t — это A_t.
+  const tail = call ? readTail(source, call.end) : "";
+  const tex = inner + tail;
 
   const { found, marks } = findSymbol(tex, tone, sym);
   if (found) {
@@ -159,20 +214,39 @@ const resolveRoleSymbol = (sym: Element, html: Element): ResolvedSymbol => {
       tone,
       declaredRole: e.role !== tone ? e.role : undefined,
       tex,
+      inner,
+      tail,
       name: e.name,
       meaning: e.meaning,
       inFormula: e.inFormula,
       code: asList(e.code),
       codeNote: e.codeNote,
+      codeTypical: e.codeTypical || found.source === "global",
       conventionalCode: e.code ? undefined : conventionalCodeName(tex) ?? undefined,
       marks,
       source: found.source,
       tableId: found.tableId,
     };
   }
+  // Число в макросе роли (ENF-MATH-025: число наследует тон величины).
+  if (/^[\s+\-−]*[\d.,{}]+$/.test((inner ?? "").replace(/\\(mathbf|boldsymbol)\{([^}]*)\}/, "$2"))) {
+    return {
+      tone,
+      tex,
+      inner,
+      tail,
+      name: "числовое значение",
+      meaning:
+        "Конкретное значение величины, посчитанное для примера. Цвет числа повторяет роль величины, которую оно подставляет: так видно, какая часть формулы откуда взялась.",
+      marks: [],
+      source: "generic",
+    };
+  }
   return {
     tone,
     tex,
+    inner,
+    tail,
     name: "обозначение формулы",
     marks,
     conventionalCode: conventionalCodeName(tex) ?? undefined,
@@ -224,6 +298,7 @@ const resolveNeutral = (target: Element, html: Element): { el: Element; resolved
           inFormula: e.inFormula,
           code: asList(e.code),
           codeNote: e.codeNote,
+          codeTypical: e.codeTypical || found.source === "global",
           marks: [],
           neutralReason: neutralReasonFor(el, html, true),
           source: found.source,

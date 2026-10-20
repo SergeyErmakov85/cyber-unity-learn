@@ -50,7 +50,9 @@ const Section9 = () => (
     <Math>{String.raw`\text{Regret} \;=\; \enfOp{U}^{\text{antagonist}}(\enfPar{\theta}) \;-\; \enfOp{U}^{\text{protagonist}}(\enfPar{\theta}).`}</Math>
 
     <ProseP>
-      Создавая уровни, где антагонист справляется, а протагонист — пока нет, учитель порождает задачи
+      Здесь <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> — параметры уровня, которые
+      порождает учитель, а <Math display={false}>{String.raw`\enfOp{U}(\enfPar{\theta})`}</Math> — ожидаемая отдача
+      агента на этом уровне. Создавая уровни, где антагонист справляется, а протагонист — пока нет, учитель порождает задачи
       ровно на <strong>границе компетентности</strong> ученика и при этом заведомо решаемые. Возникает
       эмерджентный учебный план нарастающей сложности — без единого «урока», написанного руками.
       Соседние подходы: <strong>POET</strong> (Wang и др., 2019) — со-эволюция популяции «среда+агент»;{" "}
@@ -90,7 +92,7 @@ const Section9 = () => (
               расширяемые границы <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math>
             </td>
             <td className="py-3 px-4">
-              пороги <Math display={false}>{String.raw`t_L/t_H`}</Math> по успешности
+              пороги <Math display={false}>{String.raw`\enfPar{t}_L/\enfPar{t}_H`}</Math> по успешности
             </td>
             <td className="py-3 px-4">да</td>
             <td className="py-3 px-4">растущая сложность</td>

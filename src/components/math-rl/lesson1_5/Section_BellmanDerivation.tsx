@@ -34,7 +34,7 @@ const NOTATION: { tex: string; meaning: string; role: string }[] = [
   { tex: String.raw`\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})`, meaning: "стратегия: вероятность выбрать действие в состоянии", role: "function" },
   { tex: String.raw`\enfFun{\mathcal{P}}(\enfVar{s}' \mid \enfVar{s}, \enfFun{a})`, meaning: "вероятность перехода среды", role: "function" },
   { tex: String.raw`\enfPar{\gamma} \in [0, 1]`, meaning: "коэффициент дисконтирования", role: "parameter" },
-  { tex: String.raw`\mathbb{E}`, meaning: "математическое ожидание", role: "operator" },
+  { tex: String.raw`\mathbb{E}`, meaning: "математическое ожидание (знак без цвета)", role: "neutral" },
   { tex: String.raw`\enfOp{V}^{\pi}(\enfVar{s})`, meaning: "ценность состояния при стратегии", role: "operator" },
   { tex: String.raw`\enfTgt{R},\ \enfTgt{\mathcal{R}}`, meaning: "немедленная награда", role: "target" },
   { tex: String.raw`\enfOp{G}_t`, meaning: "возврат — суммарная дисконтированная награда", role: "operator" },
@@ -212,7 +212,7 @@ const Section_BellmanDerivation = () => {
             Функция достигает экстремума там, где её производная (скорость
             изменения) равна нулю:
           </P>
-          <F>{String.raw`\frac{d}{d\enfVar{x}}\,\enfFun{f}(\enfVar{x}) = -2\enfVar{x} + 4`}</F>
+          <F>{String.raw`\frac{\mathrm{d}}{\mathrm{d}\enfVar{x}}\,\enfFun{f}(\enfVar{x}) = -2\enfVar{x} + 4`}</F>
           <P>Приравняем производную к нулю:</P>
           <F>{String.raw`-2\enfVar{x} + 4 = 0 \quad\Longrightarrow\quad \enfVar{x} = 2`}</F>
           <P>Теперь вычислим значение функции в этой точке:</P>
@@ -346,7 +346,7 @@ const Section_BellmanDerivation = () => {
             <IM>{String.raw`\enfPar{\gamma} < 1`}</IM> сумма
             дисконтированных наград ограничена сверху и конечна:
           </P>
-          <F>{String.raw`\sum_{t=0}^{\infty} \enfPar{\gamma}^{\,t}\, \enfTgt{R} \;\le\; \enfTgt{R}_{\max} \sum_{t=0}^{\infty} \enfPar{\gamma}^{\,t} = \frac{\enfTgt{R}_{\max}}{1 - \enfPar{\gamma}}`}</F>
+          <F>{String.raw`\sum_{t=0}^{\infty} \enfPar{\gamma}^{\,t}\, \enfTgt{R}_{t+1} \;\le\; \enfTgt{R}_{\max} \sum_{t=0}^{\infty} \enfPar{\gamma}^{\,t} = \frac{\enfTgt{R}_{\max}}{1 - \enfPar{\gamma}}`}</F>
         </Stage>
 
         {/* ─────── Этап 5 ─────── */}

@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import { Card, CardContent } from "@/components/ui/card";
-import InteractiveMath from "@/components/lesson-1-4/InteractiveMath";
-import MathSymbolsReference from "@/components/lesson-1-4/MathSymbolsReference";
-import { symbolTex } from "@/components/lesson-1-4/symbol-data";
+import Math from "@/components/Math";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_1_4_SYMBOLS } from "@/content/symbols/pages/level1";
 import { Lightbulb, BookOpen, CheckCircle2, AlertTriangle, Table2, ArrowRight } from "lucide-react";
 
 const PYTHON_IMPLEMENTATION = `import numpy as np
@@ -70,29 +70,12 @@ def seed_everything(seed=42):
     np.random.seed(seed)
     # В реальных проектах также фиксируют зерна в средах gym`;
 
-const qPair = (stateLatex: string, actionLatex: string) =>
-  symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") +
-  symbolTex("state", "Var", stateLatex) + symbolTex("comma", "Neu", ", ") +
-  symbolTex("action", "Var", actionLatex) + symbolTex("delimiters", "Neu", ")");
-const qCurrent = qPair("s_t", "a_t");
-const qNext = symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") +
-  symbolTex("nextState", "Var", "s_{t+1}") + symbolTex("comma", "Neu", ", ") +
-  symbolTex("nextAction", "Neu", "a'") + symbolTex("delimiters", "Neu", ")");
-const Q_TARGET_FORMULA =
-  symbolTex("target", "Tgt", "y_t") + " " + symbolTex("equals", "Neu", "=") + " " +
-  symbolTex("reward", "Tgt", "r_{t+1}") + " " + symbolTex("plus", "Neu", "+") + " " +
-  symbolTex("gamma", "Par", "\\gamma") + " " + symbolTex("times", "Neu", "\\times") + " " +
-  symbolTex("delimiters", "Neu", "(") + symbolTex("one", "Neu", "1") + " " +
-  symbolTex("minus", "Neu", "-") + " " + symbolTex("terminal", "Neu", "d_t") +
-  symbolTex("delimiters", "Neu", ")") + " " + symbolTex("times", "Neu", "\\times") + " " +
-  symbolTex("max", "Op", "\\max") + "_{" + symbolTex("nextAction", "Neu", "a'") + "} " + qNext;
-const TD_ERROR_FORMULA =
-  symbolTex("tdError", "Var", "\\delta_t") + " " + symbolTex("equals", "Neu", "=") + " " +
-  symbolTex("target", "Tgt", "y_t") + " " + symbolTex("minus", "Neu", "-") + " " + qCurrent;
-const Q_UPDATE_FORMULA =
-  qCurrent + " " + symbolTex("arrow", "Neu", "\\leftarrow") + " " + qCurrent + " " +
-  symbolTex("plus", "Neu", "+") + " " + symbolTex("alpha", "Par", "\\alpha") + " " +
-  symbolTex("times", "Neu", "\\times") + " " + symbolTex("tdError", "Var", "\\delta_t");
+// Формулы урока в нотации ENF: роль — макросом, индексы и знаки — без цвета.
+const Q_TARGET_FORMULA = String.raw`\enfTgt{y}_t = \enfTgt{r}_{t+1} + \enfPar{\gamma}\,(1 - \enfVar{d}_t)\,\max_{a'} \enfOp{Q}(\enfVar{s}_{t+1}, a')`;
+const TD_ERROR_FORMULA = String.raw`\enfVar{\delta}_t = \enfTgt{y}_t - \enfOp{Q}(\enfVar{s}_t, \enfFun{a}_t)`;
+const Q_UPDATE_FORMULA = String.raw`\enfOp{Q}(\enfVar{s}_t, \enfFun{a}_t) \leftarrow \enfOp{Q}(\enfVar{s}_t, \enfFun{a}_t) + \enfPar{\alpha}\,\enfVar{\delta}_t`;
+const EPSILON_DECAY_FORMULA = String.raw`\enfPar{\varepsilon}_k = \enfPar{\varepsilon}_{\min} + (\enfPar{\varepsilon}_{\max} - \enfPar{\varepsilon}_{\min})\, \exp(-\enfPar{\lambda} k)`;
+
 const CourseLesson1_4 = () => {
   return (
     <LessonLayout
@@ -192,18 +175,18 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Состояние (State)</td>
                 <td className="p-3">
-                  <InteractiveMath display={false}>{symbolTex("stateGeneric", "Var", "s")}</InteractiveMath>
+                  <Math display={false}>{String.raw`\enfVar{s}`}</Math>
                 </td>
                 <td className="p-3">
                   Полное описание текущего положения агента в среде. Множество всех
-                  состояний обозначается как <InteractiveMath display={false}>{symbolTex("setS", "Neu", "\mathcal{S}")}</InteractiveMath>.
+                  состояний обозначается как <Math display={false}>{String.raw`\mathcal{S}`}</Math>.
                 </td>
                 <td className="p-3">Например: робот находится во второй строке и третьем столбце.</td>
               </tr>
               <tr>
                 <td className="p-3 font-medium text-foreground">Действие (Action)</td>
                 <td className="p-3">
-                  <InteractiveMath display={false}>{symbolTex("actionGeneric", "Var", "a")}</InteractiveMath>
+                  <Math display={false}>{String.raw`\enfFun{a}`}</Math>
                 </td>
                 <td className="p-3">
                   Конкретный шаг, принимаемый агентом в ответ на состояние.
@@ -213,12 +196,12 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Награда (Reward)</td>
                 <td className="p-3">
-                  <InteractiveMath display={false}>{symbolTex("rewardGeneric", "Tgt", "r")}</InteractiveMath>
+                  <Math display={false}>{String.raw`\enfTgt{r}`}</Math>
                 </td>
                 <td className="p-3">
                   Числовой сигнал обратной связи после действия.
                   <div className="mt-1">
-                    <InteractiveMath display={false}>{symbolTex("rewardFunction", "Fun", "\mathcal{R}") + symbolTex("colon", "Neu", ": ") + symbolTex("setS", "Neu", "\mathcal{S}") + " " + symbolTex("product", "Neu", "\times") + " " + symbolTex("setA", "Neu", "\mathcal{A}") + " " + symbolTex("maps", "Neu", "\to") + " " + symbolTex("real", "Neu", "\mathbb{R}")}</InteractiveMath>
+                    <Math display={false}>{String.raw`\enfTgt{\mathcal{R}} : \mathcal{S} \times \mathcal{A} \to \mathbb{R}`}</Math>
                   </div>
                 </td>
                 <td className="p-3">награда за батарею, штраф за стену и более крупный штраф за яму.</td>
@@ -226,7 +209,7 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Стратегия (Policy)</td>
                 <td className="p-3">
-                  <InteractiveMath display={false}>{symbolTex("policy", "Fun", "\pi")}</InteractiveMath>
+                  <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>
                 </td>
                 <td className="p-3">
                   Набор правил, определяющий поведение агента.
@@ -236,7 +219,7 @@ const CourseLesson1_4 = () => {
               <tr>
                 <td className="p-3 font-medium text-foreground">Q-значение (Q-value)</td>
                 <td className="p-3">
-                  <InteractiveMath display={false}>{symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") + symbolTex("stateGeneric", "Var", "s") + symbolTex("comma", "Neu", ", ") + symbolTex("actionGeneric", "Var", "a") + symbolTex("delimiters", "Neu", ")")}</InteractiveMath>
+                  <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</Math>
                 </td>
                 <td className="p-3">
                   Оценка ожидаемой долгосрочной полезности выбора действия в состоянии.
@@ -258,7 +241,7 @@ const CourseLesson1_4 = () => {
         <p className="text-muted-foreground leading-relaxed mb-3">
           Табличный Q-learning строит и постоянно обновляет двумерную Q-таблицу:
           строки — состояния, столбцы — действия, а в ячейках хранится «качество»
-          пары <InteractiveMath display={false}>{symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") + symbolTex("stateGeneric", "Var", "s") + symbolTex("comma", "Neu", ", ") + symbolTex("actionGeneric", "Var", "a") + symbolTex("delimiters", "Neu", ")")}</InteractiveMath>.
+          пары <Math display={false}>{String.raw`\enfOp{Q}(\enfVar{s}, \enfFun{a})`}</Math>.
         </p>
         <p className="text-muted-foreground leading-relaxed mb-3">
           Процесс обучения строится циклом: определить состояние → выбрать действие →
@@ -289,17 +272,20 @@ const CourseLesson1_4 = () => {
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4">Формулы Q-обучения</h2>
         <p className="text-muted-foreground leading-relaxed mb-2">
-          Сначала вычисляем TD-цель. Маска исключает будущую ценность только при настоящем терминальном исходе.
+          Сначала вычисляем TD-цель. Флаг <Math display={false}>{String.raw`\enfVar{d}_t`}</Math> равен 1 только при
+          настоящем терминальном исходе (<code className="text-primary text-xs">terminated</code>), поэтому маска{" "}
+          <Math display={false}>{String.raw`(1 - \enfVar{d}_t)`}</Math> убирает будущую ценность лишь тогда; при обрыве
+          по времени (<code className="text-primary text-xs">truncated</code>) bootstrap сохраняется.
         </p>
-        <InteractiveMath>{Q_TARGET_FORMULA}</InteractiveMath>
+        <Math>{Q_TARGET_FORMULA}</Math>
         <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
           Ошибка временного различия — это разница между целью и прежней оценкой:
         </p>
-        <InteractiveMath>{TD_ERROR_FORMULA}</InteractiveMath>
+        <Math>{TD_ERROR_FORMULA}</Math>
         <p className="text-muted-foreground leading-relaxed mt-4 mb-2">
           Затем обновляем оценку выбранной пары состояние–действие:
         </p>
-        <InteractiveMath>{Q_UPDATE_FORMULA}</InteractiveMath>
+        <Math>{Q_UPDATE_FORMULA}</Math>
         <div className="rounded-lg border border-secondary/30 bg-secondary/5 p-4 mt-4 text-sm text-muted-foreground">
           В FrozenLake при достижении цели награда равна <code className="text-primary">1</code>, а терминальная маска убирает bootstrap. При скорости обучения <code className="text-primary">0.8</code> оценка перехода перед целью становится <code className="text-primary">0.8</code>; ценность затем распространяется на предыдущий шаг с коэффициентом <code className="text-primary">0.95</code>.
         </div>
@@ -323,10 +309,12 @@ const CourseLesson1_4 = () => {
           ))}
         </div>
         <p className="text-muted-foreground leading-relaxed mt-4">
-          Постепенное уменьшение <InteractiveMath display={false}>{symbolTex("epsilon", "Par", "\varepsilon_k")}</InteractiveMath> критически важно:
+          Постепенное уменьшение вероятности исследования <Math display={false}>{String.raw`\enfPar{\varepsilon}_k`}</Math> критически важно:
           сначала агент исследует мир хаотично, затем все чаще использует выученную
-          стратегию.
+          стратегию. После эпизода <Math display={false}>{String.raw`k`}</Math> вероятность затухает экспоненциально от{" "}
+          <Math display={false}>{String.raw`\enfPar{\varepsilon}_{\max}`}</Math> к <Math display={false}>{String.raw`\enfPar{\varepsilon}_{\min}`}</Math> со скоростью <Math display={false}>{String.raw`\enfPar{\lambda}`}</Math>:
         </p>
+        <Math>{EPSILON_DECAY_FORMULA}</Math>
       </section>
 
       <section>
@@ -449,7 +437,7 @@ const CourseLesson1_4 = () => {
             </thead>
             <tbody className="divide-y divide-border/30 text-muted-foreground">
               <tr>
-                <td className="p-3 font-medium text-foreground">Матрица <InteractiveMath display={false}>{symbolTex("q", "Op", "Q") + symbolTex("delimiters", "Neu", "(") + symbolTex("setS", "Neu", "\mathcal{S}") + symbolTex("comma", "Neu", ", ") + symbolTex("setA", "Neu", "\mathcal{A}") + symbolTex("delimiters", "Neu", ")")}</InteractiveMath></td>
+                <td className="p-3 font-medium text-foreground">Матрица <Math display={false}>{String.raw`\enfOp{Q} \in \mathbb{R}^{|\mathcal{S}| \times |\mathcal{A}|}`}</Math></td>
                 <td className="p-3">
                   Таблица знаний агента, инициализация нулями означает tabula rasa.
                 </td>
@@ -514,7 +502,7 @@ const CourseLesson1_4 = () => {
         </div>
       </section>
 
-      <MathSymbolsReference />
+      <SymbolTable symbols={LESSON_1_4_SYMBOLS} codeLabel="В коде Python" />
 
       <section>
         <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">

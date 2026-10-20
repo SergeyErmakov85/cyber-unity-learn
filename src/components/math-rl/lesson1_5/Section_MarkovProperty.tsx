@@ -308,12 +308,7 @@ const Section_MarkovProperty = () => {
           className="text-lg md:text-xl font-semibold mb-3"
           style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.92)" }}
         >
-          3.5 Пятёрка MDP = <span style={{ color: CYAN }}>(S</span>,{" "}
-          <span style={{ color: MAGENTA }}>A</span>,{" "}
-          <span style={{ color: CYAN }}>P</span>,{" "}
-          <span style={{ color: AMBER }}>R</span>,{" "}
-          <span style={{ color: MAGENTA }}>γ</span>
-          <span style={{ color: "rgba(255,255,255,0.92)" }}>)</span>
+          3.5 Пятёрка MDP = <Math display={false}>{String.raw`(\enfVar{\mathcal{S}},\ \enfFun{\mathcal{A}},\ \enfFun{\mathcal{P}},\ \enfTgt{\mathcal{R}},\ \enfPar{\gamma})`}</Math>
         </h3>
         <div style={BODY_STYLE} className="text-foreground/85">
           <p>

@@ -34,9 +34,12 @@ import Summary from "@/components/lesson-3-6/Summary";
 import RelatedMaterials from "@/components/lesson-3-6/RelatedMaterials";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_3_6_SYMBOLS } from "@/content/symbols/pages/level3";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
+  { id: "symbols-table", label: "Σ · Символы и код" },
   { id: "раздел-0-мост", label: "0 · Мост" },
   { id: "раздел-1-задача-hpo", label: "1 · Задача HPO" },
   { id: "раздел-2-пространство-поиска", label: "2 · Пространство поиска" },
@@ -55,8 +58,14 @@ const SECTIONS: SectionNavItem[] = [
   { id: "источники", label: "Источники" },
 ];
 
+/** Таблица символов урока: те же записи питают пояснения по клику на символ формулы. */
+const SymbolsSection = () => (
+  <SymbolTable symbols={LESSON_3_6_SYMBOLS} variant="section" id="symbols-table" codeLabel="В коде Optuna" />
+);
+
 const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
   { id: "intro", Comp: IntroSection },
+  { id: "symbols-table", Comp: SymbolsSection },
   { id: "раздел-0-мост", Comp: Section0 },
   { id: "раздел-1-задача-hpo", Comp: Section1 },
   { id: "раздел-2-пространство-поиска", Comp: Section2 },

@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft } from "lucide-react";
 import Math from "@/components/Math";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import { SymbolGlossary } from "@/components/math-symbols/SymbolTable";
+import { VISUALIZATIONS_SYMBOLS } from "@/content/symbols/pages/hubs";
 
 const RAW_LOGITS = [2.0, 1.0, 0.5, 0.3];
 const ACTIONS = ["Вверх", "Вниз", "Влево", "Вправо"];
@@ -29,11 +31,11 @@ const PolicyGradientViz = () => {
         Визуализация softmax-распределения вероятностей действий. Температура контролирует «уверенность» политики.
       </p>
 
-      <Math>{"\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s}) = \\frac{e^{Q(s,a) / \\tau}}{\\sum_{a'} e^{Q(s,a') / \\tau}}"}</Math>
+      <Math>{"\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s}) = \\frac{e^{\\enfOp{Q}(\\enfVar{s},\\enfFun{a}) / \\enfPar{\\tau}}}{\\sum_{a'} e^{\\enfOp{Q}(\\enfVar{s},a') / \\enfPar{\\tau}}}"}</Math>
 
       <div>
         <div className="flex justify-between text-sm mb-2">
-          <span>τ (температура)</span>
+          <span><Math display={false}>{String.raw`\enfPar{\tau}`}</Math> (температура)</span>
           <span className="text-primary font-mono">{temperature.toFixed(2)}</span>
         </div>
         <Slider value={[temperature]} onValueChange={([v]) => setTemperature(v)} min={0.1} max={5} step={0.05} />
@@ -107,14 +109,14 @@ const PPOClippingViz = () => {
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <div className="flex justify-between text-sm mb-2">
-            <span>ε (clip range)</span>
+            <span><Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> (clip range)</span>
             <span className="text-primary font-mono">{epsilon.toFixed(2)}</span>
           </div>
           <Slider value={[epsilon]} onValueChange={([v]) => setEpsilon(v)} min={0.05} max={0.5} step={0.01} />
         </div>
         <div>
           <div className="flex justify-between text-sm mb-2">
-            <span>Â (advantage)</span>
+            <span><Math display={false}>{String.raw`\enfOp{\hat{A}}`}</Math> (advantage)</span>
             <span className="text-primary font-mono">{advantage.toFixed(1)}</span>
           </div>
           <Slider value={[advantage]} onValueChange={([v]) => setAdvantage(v)} min={-2} max={2} step={0.1} />
@@ -138,9 +140,9 @@ const PPOClippingViz = () => {
             <path d={pathFromPoints("final")} fill="none" stroke="hsl(180 100% 50%)" strokeWidth="1" />
           </svg>
           <div className="flex items-center justify-center gap-6 mt-2 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1"><span className="w-4 h-0.5 bg-primary/40 inline-block" /> r·Â (без clip)</span>
-            <span className="flex items-center gap-1"><span className="w-4 h-0.5 bg-primary inline-block" /> L^CLIP (итог)</span>
-            <span className="flex items-center gap-1"><span className="w-4 h-px border-t border-dashed border-accent inline-block" /> 1±ε</span>
+            <span className="flex items-center gap-1"><span className="w-4 h-0.5 bg-primary/40 inline-block" /> <Math display={false}>{String.raw`\enfVar{r}\cdot\enfOp{\hat{A}}`}</Math> (без clip)</span>
+            <span className="flex items-center gap-1"><span className="w-4 h-0.5 bg-primary inline-block" /> <Math display={false}>{String.raw`\enfTgt{L}^{\text{CLIP}}`}</Math> (итог)</span>
+            <span className="flex items-center gap-1"><span className="w-4 h-px border-t border-dashed border-accent inline-block" /> <Math display={false}>{String.raw`1\pm\enfPar{\varepsilon}`}</Math></span>
           </div>
         </CardContent>
       </Card>
@@ -153,6 +155,7 @@ const Visualizations = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SymbolGlossary symbols={VISUALIZATIONS_SYMBOLS} />
       <div className="container mx-auto px-4 py-8 max-w-5xl">
         <Button variant="ghost" onClick={() => navigate("/")} className="mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" /> На главную

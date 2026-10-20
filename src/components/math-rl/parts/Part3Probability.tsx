@@ -49,7 +49,7 @@ const Part3Probability = () => (
         <ul className="list-disc list-inside space-y-1 text-sm">
           <li>Переходы: <Math display={false}>{`\\enfFun{P}(\\enfVar{s}'\\mid \\enfVar{s}, \\enfFun{a})`}</Math> — стохастическая модель среды</li>
           <li>Оценка политик через ожидаемое суммарное вознаграждение</li>
-          <li>ε-жадная стратегия для баланса исследования и эксплуатации</li>
+          <li><Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>-жадная стратегия для баланса исследования и эксплуатации</li>
           <li>POMDP: байесовский вывод для неполностью наблюдаемых состояний</li>
         </ul>
       </InfoBox>
@@ -228,7 +228,7 @@ print(f"V(S0) = {V[0]:.2f}, V(S1) = {V[1]:.2f}")`}</CodeBlock>
       <h3 className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3" id="упражнения-для-самопроверки">Упражнения для самопроверки</h3>
       <ol className="list-decimal list-inside space-y-2 text-sm">
         <li>Измените Пример 1 для двух игральных костей — постройте гистограмму сумм.</li>
-        <li>В Примере 2 добавьте медиану и IQR. Сравните со средним и σ.</li>
+        <li>В Примере 2 добавьте медиану и IQR. Сравните со средним и <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math>.</li>
         <li>В Примере 3 смените политику (S0→A1, S1→A0) и пересчитайте V.</li>
       </ol>
     </Section>

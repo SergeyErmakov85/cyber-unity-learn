@@ -208,7 +208,7 @@ const GaussianPolicyClampViz = () => {
       <div className="flex flex-wrap items-center gap-4 mb-3">
         <label className="flex items-center gap-2" style={{ minWidth: 200 }}>
           <span style={{ fontFamily: MONO, fontSize: 12, color: DIM }}>
-            μ
+            <MathTex display={false}>{String.raw`\enfFun{\mu}`}</MathTex>
           </span>
           <input
             type="range"
@@ -234,7 +234,7 @@ const GaussianPolicyClampViz = () => {
 
         <label className="flex items-center gap-2" style={{ minWidth: 200 }}>
           <span style={{ fontFamily: MONO, fontSize: 12, color: DIM }}>
-            σ
+            <MathTex display={false}>{String.raw`\enfFun{\sigma}`}</MathTex>
           </span>
           <input
             type="range"

@@ -27,7 +27,7 @@ const Chapter2 = () => (
       Здесь <Math display={false}>{"\\mathbb{1}_{A_i=a}"}</Math> — индикаторная функция (равна 1, если на шаге <Math display={false}>{"i"}</Math> выбрано действие <Math display={false}>{"\\enfFun{a}"}</Math>), а <Math display={false}>{"N_t(\\enfFun{a})"}</Math> — количество выборов действия <Math display={false}>{"\\enfFun{a}"}</Math> к моменту <Math display={false}>{"t"}</Math>.
     </p>
 
-    <h3 id="жадная-стратегия" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3">ε-жадная стратегия</h3>
+    <h3 id="жадная-стратегия" className="scroll-mt-28 text-xl font-semibold text-foreground mt-8 mb-3"><Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>-жадная стратегия</h3>
     <p>
       С вероятностью <Math display={false}>{"1 - \\enfPar{\\epsilon}"}</Math> агент выбирает <Math display={false}>{"\\arg\\max_a \\enfOp{\\hat{Q}}_t(a)"}</Math> (жадно), а с вероятностью <Math display={false}>{"\\enfPar{\\epsilon}"}</Math> — случайное действие. Это гарантирует, что при бесконечном времени каждое действие будет испробовано бесконечно раз.
     </p>

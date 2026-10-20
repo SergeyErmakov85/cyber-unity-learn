@@ -7,12 +7,15 @@ import Quiz from "@/components/Quiz";
 import HubLessonBadges from "@/components/HubLessonBadges";
 import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import { SymbolGlossary } from "@/components/math-symbols/SymbolTable";
+import { SAC_HUB_SYMBOLS } from "@/content/symbols/pages/hubs";
 
 const SACModule = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
+      <SymbolGlossary symbols={SAC_HUB_SYMBOLS} />
       <div className="border-b border-border/50 bg-card/30 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <Button variant="ghost" onClick={() => navigate("/algorithms")} className="text-muted-foreground hover:text-foreground mb-4">
@@ -78,7 +81,7 @@ const SACModule = () => {
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li><strong className="text-foreground">Высокая энтропия</strong> — политика более случайная (исследование)</li>
                 <li><strong className="text-foreground">Низкая энтропия</strong> — политика более детерминированная (использование)</li>
-                <li><strong className="text-foreground">α</strong> автоматически настраивается во время обучения</li>
+                <li><Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> автоматически настраивается во время обучения</li>
               </ul>
             </CardContent>
           </Card>
@@ -101,7 +104,7 @@ const SACModule = () => {
               </div>
               <h3 className="text-lg font-semibold text-foreground mt-4">Обновление политики</h3>
               <div className="overflow-x-auto">
-                <Math display>{"\\pi^* = \\arg\\min_{\\pi} \\enfOp{D}_{\\text{KL}}\\left(\\pi(\\cdot \\mid \\enfVar{s}_t)\\;\\|\\;\\frac{\\exp(\\enfOp{Q}(\\enfVar{s}_t, \\cdot))}{\\enfOp{Z}(\\enfVar{s}_t)}\\right)"}</Math>
+                <Math display>{"\\enfFun{\\pi}^* = \\arg\\min_{\\pi} \\enfOp{D}_{\\text{KL}}\\left(\\pi(\\cdot \\mid \\enfVar{s}_t)\\;\\|\\;\\frac{\\exp(\\enfOp{Q}(\\enfVar{s}_t, \\cdot))}{\\enfOp{Z}(\\enfVar{s}_t)}\\right)"}</Math>
               </div>
             </CardContent>
           </Card>

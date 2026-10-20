@@ -65,20 +65,20 @@ const Section5 = () => (
     <ProseP>
       Агент не обязан звать нейросеть каждый кадр физики — это дорого и часто бессмысленно.
       Компонент <strong>Decision Requester</strong> задаёт <strong>Decision Period</strong>{" "}
-      <Math display={false}>{String.raw`d`}</Math> — раз в сколько шагов Академии запрашивается
+      <Math display={false}>{String.raw`\enfPar{d}`}</Math> — раз в сколько шагов Академии запрашивается
       новое решение. Между решениями (если включено{" "}
       <strong>Take Actions Between Decisions</strong>) повторяется последнее действие.
     </ProseP>
 
     <ProseP>Эффективная частота решений связана с частотой среды просто:</ProseP>
-    <Math display>{String.raw`\boxed{\,\enfFun{f}_{\text{decision}} = \dfrac{\enfFun{f}_{\text{env}}}{d}\,}`}</Math>
+    <Math display>{String.raw`\boxed{\,\enfPar{f}_{\text{decision}} = \dfrac{\enfPar{f}_{\text{env}}}{\enfPar{d}}\,}`}</Math>
 
     <ProseP>
       Гоночному агенту, как правило, не нужно перекладывать руль 50 раз в секунду:{" "}
-      <Math display={false}>{String.raw`d = 5`}</Math> при 50 Гц физики даёт 10 решений в секунду —
+      <Math display={false}>{String.raw`\enfPar{d} = 5`}</Math> при 50 Гц физики даёт 10 решений в секунду —
       плавно и в разы дешевле по инференсу. Но осторожно: слишком большой{" "}
-      <Math display={false}>{String.raw`d`}</Math> — и агент «проспит» поворот. Важно:{" "}
-      <Math display={false}>{String.raw`d`}</Math> при <strong>обучении</strong> и при{" "}
+      <Math display={false}>{String.raw`\enfPar{d}`}</Math> — и агент «проспит» поворот. Важно:{" "}
+      <Math display={false}>{String.raw`\enfPar{d}`}</Math> при <strong>обучении</strong> и при{" "}
       <strong>деплое</strong> должен совпадать, иначе политика работает в непривычном для себя
       темпе.
     </ProseP>
@@ -121,8 +121,8 @@ const Section5 = () => (
         </>,
         <>
           <strong>Decision Period</strong>{" "}
-          <Math display={false}>{String.raw`d`}</Math> задаёт частоту решений{" "}
-          <Math display={false}>{String.raw`\enfFun{f}_{\text{decision}} = \enfFun{f}_{\text{env}}/d`}</Math>; он
+          <Math display={false}>{String.raw`\enfPar{d}`}</Math> задаёт частоту решений{" "}
+          <Math display={false}>{String.raw`\enfPar{f}_{\text{decision}} = \enfPar{f}_{\text{env}}/\enfPar{d}`}</Math>; он
           должен совпадать с обучением.
         </>,
         <>

@@ -15,6 +15,8 @@ import TldrBox from "@/components/ui/TldrBox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_2_5_SYMBOLS } from "@/content/symbols/pages/level2";
 
 const SECTION_CLASS =
   "scroll-mt-24 py-12 px-6 md:px-10 bg-card/60 backdrop-blur-sm rounded-2xl border border-cyan-500/10";
@@ -326,6 +328,8 @@ const CourseLesson2_5 = () => {
               </CardContent>
             </Card>
           </Section>
+
+          <SymbolTable symbols={LESSON_2_5_SYMBOLS} />
 
           <Section id="config" index={4} title="Настройка параллельных сред в Unity ML-Agents">
             <p className="text-muted-foreground leading-relaxed mb-4">

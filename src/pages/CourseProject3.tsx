@@ -8,6 +8,7 @@ import SectionNav, { SectionNavItem } from "@/components/SectionNav";
 import NextPrevLesson from "@/components/NextPrevLesson";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import SEOHead from "@/components/SEOHead";
+import MathTex from "@/components/Math";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
@@ -23,9 +24,12 @@ import Section9FAQ from "@/components/racing-agent/Section9FAQ";
 import Section10Conclusion from "@/components/racing-agent/Section10Conclusion";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { PROJECT_3_SYMBOLS } from "@/content/symbols/pages/projects";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro",           label: "Введение и теория" },
+  { id: "symbols",         label: "Символы и код" },
   { id: "setup",           label: "Настройка окружения" },
   { id: "sensors",         label: "Сенсоры" },
   { id: "agent",           label: "Логика агента (C#)" },
@@ -89,9 +93,9 @@ const Section6Preview = () => (
       гиперпараметров (Savid et al. 2023).
     </p>
     <div className="text-sm text-muted-foreground space-y-1 opacity-40 blur-[3px] select-none pointer-events-none" aria-hidden>
-      <p>L^CLIP(θ) = E[min(r_t(θ)A_t, clip(r_t(θ), 1−ε, 1+ε)A_t)]</p>
+      <p><MathTex display={false}>{String.raw`\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) = \mathbb{E}[\min(\enfVar{r}_t(\enfPar{\theta})\enfOp{\hat{A}}_t,\ \operatorname{clip}(\enfVar{r}_t(\enfPar{\theta}), 1-\enfPar{\varepsilon}, 1+\enfPar{\varepsilon})\enfOp{\hat{A}}_t)]`}</MathTex></p>
       <p>batch_size: 128 | learning_rate: 3e-4 | gamma: 0.99 | beta: 0.01</p>
-      <p>SAC: J(π) = E[r + α·H(π)] | replay buffer 200 000 | tau: 0.005</p>
+      <p>SAC: <MathTex display={false}>{String.raw`\enfTgt{J}(\enfFun{\pi}) = \mathbb{E}[\enfTgt{r} + \enfPar{\alpha}\,\enfOp{\mathcal{H}}(\enfFun{\pi})]`}</MathTex> | replay buffer 200 000 | tau: 0.005</p>
     </div>
   </div>
 );
@@ -156,7 +160,9 @@ const CourseProject3 = () => {
             transition={{ duration: 0.6, ease: "easeOut", delay: Math.min(i * 0.05, 0.25) }}
           >
             <h2 className={`${SECTION_TITLE_CLASS} text-2xl md:text-3xl`}>{s.label}</h2>
-            {s.id === "intro" ? (
+            {s.id === "symbols" ? (
+              <SymbolTable symbols={PROJECT_3_SYMBOLS} variant="section" id="symbols-table" title="Формула ↔ код" codeLabel="В коде C# и YAML" />
+            ) : s.id === "intro" ? (
               <IntroSection />
             ) : s.id === "setup" ? (
               <Section2Setup />

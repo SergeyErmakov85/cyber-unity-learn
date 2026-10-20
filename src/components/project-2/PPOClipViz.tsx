@@ -106,7 +106,7 @@ const PPOClipViz = () => {
               cursor: "pointer",
             }}
           >
-            Â &gt; 0
+            <MathTex display={false}>{String.raw`\enfOp{\hat{A}} > 0`}</MathTex>
           </button>
           <button
             onClick={() => setAdvPositive(false)}
@@ -121,12 +121,12 @@ const PPOClipViz = () => {
               cursor: "pointer",
             }}
           >
-            Â &lt; 0
+            <MathTex display={false}>{String.raw`\enfOp{\hat{A}} < 0`}</MathTex>
           </button>
         </div>
         <label className="flex items-center gap-2 flex-1 w-full">
           <span style={{ fontFamily: MONO, fontSize: 12, color: DIM, whiteSpace: "nowrap" }}>
-            ε = {eps.toFixed(2)}
+            <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex> = {eps.toFixed(2)}
           </span>
           <input
             type="range"
@@ -221,15 +221,15 @@ const PPOClipViz = () => {
         <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 px-1" style={{ fontFamily: MONO, fontSize: 11 }}>
           <span style={{ color: DIM }}>
             <span style={{ display: "inline-block", width: 18, height: 0, borderTop: `2px dashed ${DIM}`, verticalAlign: "middle", marginRight: 4 }} />
-            r·Â
+            <MathTex display={false}>{String.raw`\enfVar{r}\cdot\enfOp{\hat{A}}`}</MathTex>
           </span>
           <span style={{ color: MAGENTA }}>
             <span style={{ display: "inline-block", width: 18, height: 2, background: MAGENTA, verticalAlign: "middle", marginRight: 4 }} />
-            clip(r,1−ε,1+ε)·Â
+            <MathTex display={false}>{String.raw`\operatorname{clip}(\enfVar{r}, 1-\enfPar{\varepsilon}, 1+\enfPar{\varepsilon})\cdot\enfOp{\hat{A}}`}</MathTex>
           </span>
           <span style={{ color: CYAN }}>
             <span style={{ display: "inline-block", width: 18, height: 3, background: CYAN, verticalAlign: "middle", marginRight: 4 }} />
-            L^CLIP
+            <MathTex display={false}>{String.raw`\enfTgt{L}^{\text{CLIP}}`}</MathTex>
           </span>
         </div>
       </div>
@@ -241,8 +241,8 @@ const PPOClipViz = () => {
       </div>
 
       <p style={{ color: DIM, fontSize: 13, marginTop: 12, lineHeight: 1.6 }}>
-        ε в <span style={{ fontFamily: MONO, color: TEXT }}>hunter.yaml</span> — это и есть полуширина
-        коридора <span style={{ fontFamily: MONO, color: TEXT }}>[1−ε, 1+ε]</span>.
+        <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex> в <span style={{ fontFamily: MONO, color: TEXT }}>hunter.yaml</span> — это и есть полуширина
+        коридора <span style={{ fontFamily: MONO, color: TEXT }}><MathTex display={false}>{String.raw`[1-\enfPar{\varepsilon},\ 1+\enfPar{\varepsilon}]`}</MathTex></span>.
       </p>
     </div>
   );

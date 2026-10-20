@@ -7,6 +7,7 @@ import SEOHead from "@/components/SEOHead";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useMemo } from "react";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import MathTex from "@/components/Math";
 
 const TaxiProject = () => {
   const navigate = useNavigate();
@@ -98,7 +99,7 @@ print(f"Пространство действий: {env.action_space.n}")       
           <Card className="bg-card/60 backdrop-blur-sm border-primary/20">
             <CardContent className="p-6 space-y-4">
               <p className="text-muted-foreground leading-relaxed">
-                Табличный Q-Learning с ε-greedy exploration. Таблица 500×6 обновляется по формуле Беллмана.
+                Табличный Q-Learning с <MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex>-greedy exploration. Таблица 500×6 обновляется по формуле Беллмана.
               </p>
               <CyberCodeBlock language="python" filename="q_learning_taxi.py">
 {`import numpy as np
