@@ -41,7 +41,7 @@ const Section5 = () => (
 
     <ProseP>
       <strong>Механика.</strong> ADR хранит <strong>факторизованное</strong> распределение{" "}
-      <Math display={false}>{String.raw`P_\phi`}</Math> над параметрами среды: по каждой из{" "}
+      <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math> над параметрами среды: по каждой из{" "}
       <Math display={false}>{String.raw`d`}</Math> размерностей — равномерное распределение между
       обучаемыми границами{" "}
       <Math display={false}>{String.raw`[\enfPar{\phi}_i^L, \enfPar{\phi}_i^H]`}</Math>. Итого{" "}
@@ -49,14 +49,14 @@ const Section5 = () => (
       каждый параметр):
     </ProseP>
 
-    <Math>{String.raw`P_\phi(\enfPar{\lambda}) \;=\; \prod_{i=1}^{d} \mathcal{U}\big(\enfPar{\phi}_i^L,\, \enfPar{\phi}_i^H\big).`}</Math>
+    <Math>{String.raw`\enfFun{P}_\phi(\enfPar{\lambda}) \;=\; \prod_{i=1}^{d} \mathcal{U}\big(\enfPar{\phi}_i^L,\, \enfPar{\phi}_i^H\big).`}</Math>
 
     <ProseP>
       Расширение границ управляется приёмом <strong>boundary sampling</strong>: с некоторой
       вероятностью один параметр <Math display={false}>{String.raw`i`}</Math> фиксируется ровно на своей
       границе (нижней <strong>или</strong> верхней), остальные сэмплируются как обычно. Политика играет
-      эпизод, её успешность кладётся в буфер <Math display={false}>{String.raw`D_i^b`}</Math> конкретной
-      границы <Math display={false}>{String.raw`b`}</Math>. Когда буфер наполнился:
+      эпизод, её успешность кладётся в буфер <Math display={false}>{String.raw`\enfVar{D}_i^b`}</Math> конкретной
+      границы <Math display={false}>{String.raw`\enfPar{b}`}</Math>. Когда буфер наполнился:
     </ProseP>
 
     <ul className="space-y-2 my-4 text-[15px] text-foreground/90 leading-relaxed">
@@ -64,14 +64,14 @@ const Section5 = () => (
         <span className="text-cyan-400 mt-0.5 shrink-0">▸</span>
         <span>
           если средняя успешность на границе{" "}
-          <Math display={false}>{String.raw`\ge t_H`}</Math> (высокий порог) →{" "}
+          <Math display={false}>{String.raw`\ge \enfPar{t}_H`}</Math> (высокий порог) →{" "}
           <strong>расширить</strong> границу наружу (мир усложняется);
         </span>
       </li>
       <li className="flex gap-2.5">
         <span className="text-cyan-400 mt-0.5 shrink-0">▸</span>
         <span>
-          если <Math display={false}>{String.raw`\le t_L`}</Math> (низкий порог) → <strong>сжать</strong>{" "}
+          если <Math display={false}>{String.raw`\le \enfPar{t}_L`}</Math> (низкий порог) → <strong>сжать</strong>{" "}
           границу внутрь (мир упрощается).
         </span>
       </li>
@@ -82,7 +82,7 @@ const Section5 = () => (
       шире, разнообразнее распределение):
     </ProseP>
 
-    <Math>{String.raw`H(P_\phi) \;=\; -\,\frac{1}{d}\int P_\phi(\enfPar{\lambda})\,\log P_\phi(\enfPar{\lambda})\,d\enfPar{\lambda}.`}</Math>
+    <Math>{String.raw`\enfOp{H}(\enfFun{P}_\phi) \;=\; -\,\frac{1}{d}\int \enfFun{P}_\phi(\enfPar{\lambda})\,\log \enfFun{P}_\phi(\enfPar{\lambda})\,\mathrm{d}\enfPar{\lambda}.`}</Math>
 
     <ProseP>
       Для факторизованных равномерных распределений она растёт с шириной диапазонов{" "}
@@ -110,7 +110,7 @@ const Section5 = () => (
         <span>
           <strong>Не нужно вручную крутить десятки диапазонов.</strong> Чем больше параметров
           рандомизации, тем безнадёжнее ручная настройка; ADR убирает её, оставляя человеку только
-          пороги <Math display={false}>{String.raw`t_L, t_H`}</Math>.
+          пороги <Math display={false}>{String.raw`\enfPar{t}_L, \enfPar{t}_H`}</Math>.
         </span>
       </li>
       <li className="flex gap-2.5">
@@ -126,17 +126,17 @@ const Section5 = () => (
 
     <ProseP>
       Для гонщика ADR-расписание выглядит так: стартуем с сухого асфальта{" "}
-      <Math display={false}>{String.raw`\mu=1.0`}</Math> (нулевая ширина); агент справился → границы
-      поехали к <Math display={false}>{String.raw`[0.85, 1.05]`}</Math>, затем{" "}
-      <Math display={false}>{String.raw`[0.6, 1.2]`}</Math>, затем добавились лужи и сумерки. Никаких
+      <Math display={false}>{String.raw`\enfPar{\mu}=1{,}0`}</Math> (нулевая ширина); агент справился → границы
+      поехали к <Math display={false}>{String.raw`[0{,}85, 1{,}05]`}</Math>, затем{" "}
+      <Math display={false}>{String.raw`[0{,}6, 1{,}2]`}</Math>, затем добавились лужи и сумерки. Никаких
       «уроков руками» — только пороги.
     </ProseP>
 
     <InteractiveStub title="Интерактив (рекомендация): «Расширение границ ADR»">
       Горизонтальная ось параметра (например, сцепление{" "}
-      <Math display={false}>{String.raw`\mu`}</Math>) с текущим диапазоном{" "}
+      <Math display={false}>{String.raw`\enfPar{\mu}`}</Math>) с текущим диапазоном{" "}
       <Math display={false}>{String.raw`[\enfPar{\phi}^L,\enfPar{\phi}^H]`}</Math>; слайдеры{" "}
-      <Math display={false}>{String.raw`t_L`}</Math>, <Math display={false}>{String.raw`t_H`}</Math> и
+      <Math display={false}>{String.raw`\enfPar{t}_L`}</Math>, <Math display={false}>{String.raw`\enfPar{t}_H`}</Math> и
       «текущая успешность на границе»; кнопка «оценить границу» сдвигает{" "}
       <Math display={false}>{String.raw`\enfPar{\phi}^L/\enfPar{\phi}^H`}</Math> наружу или внутрь по правилу ADR; рядом
       счётчик ADR-энтропии. Видно, как агрессивные пороги «разносят» диапазон, а строгие — держат узким.
@@ -151,13 +151,13 @@ const Section5 = () => (
           достижении порога.
         </>,
         <>
-          Распределение <Math display={false}>{String.raw`P_\phi`}</Math> факторизовано (
+          Распределение <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math> факторизовано (
           <Math display={false}>{String.raw`2d`}</Math> границ); расширение/сжатие — через{" "}
           <strong>boundary sampling</strong> и пороги{" "}
-          <Math display={false}>{String.raw`t_H/t_L`}</Math>.
+          <Math display={false}>{String.raw`\enfPar{t}_H/\enfPar{t}_L`}</Math>.
         </>,
         <>
-          <strong>ADR-энтропия</strong> <Math display={false}>{String.raw`H(P_\phi)`}</Math> измеряет
+          <strong>ADR-энтропия</strong> <Math display={false}>{String.raw`\enfOp{H}(\enfFun{P}_\phi)`}</Math> измеряет
           ширину распределения — фактически «номер урока» для рандомизации.
         </>,
         <>

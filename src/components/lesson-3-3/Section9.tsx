@@ -47,10 +47,12 @@ const Section9 = () => (
       максимизируя <strong>regret</strong> — разницу между отдачей «антагониста» и «протагониста»:
     </ProseP>
 
-    <Math>{String.raw`\text{Regret} \;=\; U^{\text{antagonist}}(\enfPar{\theta}) \;-\; U^{\text{protagonist}}(\enfPar{\theta}).`}</Math>
+    <Math>{String.raw`\text{Regret} \;=\; \enfOp{U}^{\text{antagonist}}(\enfPar{\theta}) \;-\; \enfOp{U}^{\text{protagonist}}(\enfPar{\theta}).`}</Math>
 
     <ProseP>
-      Создавая уровни, где антагонист справляется, а протагонист — пока нет, учитель порождает задачи
+      Здесь <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> — параметры уровня, которые
+      порождает учитель, а <Math display={false}>{String.raw`\enfOp{U}(\enfPar{\theta})`}</Math> — ожидаемая отдача
+      агента на этом уровне. Создавая уровни, где антагонист справляется, а протагонист — пока нет, учитель порождает задачи
       ровно на <strong>границе компетентности</strong> ученика и при этом заведомо решаемые. Возникает
       эмерджентный учебный план нарастающей сложности — без единого «урока», написанного руками.
       Соседние подходы: <strong>POET</strong> (Wang и др., 2019) — со-эволюция популяции «среда+агент»;{" "}
@@ -76,7 +78,7 @@ const Section9 = () => (
           <tr className="border-b border-border/20 align-top">
             <td className="py-3 px-4">Domain Randomization</td>
             <td className="py-3 px-4">
-              фикс. распределение <Math display={false}>{String.raw`p(c)`}</Math>
+              фикс. распределение <Math display={false}>{String.raw`\enfFun{p}(\enfPar{c})`}</Math>
             </td>
             <td className="py-3 px-4">никак (не адаптируется)</td>
             <td className="py-3 px-4">да</td>
@@ -87,10 +89,10 @@ const Section9 = () => (
               <strong>ADR</strong>
             </td>
             <td className="py-3 px-4">
-              расширяемые границы <Math display={false}>{String.raw`P_\phi`}</Math>
+              расширяемые границы <Math display={false}>{String.raw`\enfFun{P}_\phi`}</Math>
             </td>
             <td className="py-3 px-4">
-              пороги <Math display={false}>{String.raw`t_L/t_H`}</Math> по успешности
+              пороги <Math display={false}>{String.raw`\enfPar{t}_L/\enfPar{t}_H`}</Math> по успешности
             </td>
             <td className="py-3 px-4">да</td>
             <td className="py-3 px-4">растущая сложность</td>

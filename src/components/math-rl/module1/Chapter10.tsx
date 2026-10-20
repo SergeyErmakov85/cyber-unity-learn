@@ -13,12 +13,12 @@ const Chapter10 = () => (
     <InfoBox>
       <div className="space-y-4 text-sm">
         <div>
-          <strong className="text-primary">1. Формирование вектора состояний <Math display={false}>{"S_t \\in \\mathbb{\\enfTgt{R}}^n"}</Math></strong>
+          <strong className="text-primary">1. Формирование вектора состояний <Math display={false}>{"\\enfVar{S}_t \\in \\mathbb{R}^n"}</Math></strong>
           <p>Метод <code className="text-primary">CollectObservations(VectorSensor sensor)</code>: вызовы <code>sensor.AddObservation(transform.localPosition)</code>, <code>sensor.AddObservation(rigidbody.velocity)</code>. Все числа конкатенируются в плоский тензор и отправляются на вход нейросети Актора. Помните о Марковском свойстве!</p>
         </div>
         <div>
-          <strong className="text-primary">2. Применение действий <Math display={false}>{"A_t"}</Math> и переход <Math display={false}>{"p(s',r|s,a)"}</Math></strong>
-          <p>Метод <code className="text-primary">OnActionReceived(ActionBuffers actions)</code>: извлечение из <code>ContinuousActions</code>, применение через <code>AddForce/AddTorque</code>. Физический движок PhysX генерирует <Math display={false}>{"S_{t+1}"}</Math> — вероятности переходов эмулируются движком.</p>
+          <strong className="text-primary">2. Применение действий <Math display={false}>{"\\enfFun{A}_t"}</Math> и переход <Math display={false}>{"\\enfFun{p}(\\enfVar{s}',\\enfTgt{r}\\mid \\enfVar{s},\\enfFun{a})"}</Math></strong>
+          <p>Метод <code className="text-primary">OnActionReceived(ActionBuffers actions)</code>: извлечение из <code>ContinuousActions</code>, применение через <code>AddForce/AddTorque</code>. Физический движок PhysX генерирует <Math display={false}>{"\\enfVar{S}_{t+1}"}</Math> — вероятности переходов эмулируются движком.</p>
         </div>
         <div>
           <strong className="text-primary">3. Сигнал подкрепления <Math display={false}>{"\\enfTgt{R}_t"}</Math></strong>

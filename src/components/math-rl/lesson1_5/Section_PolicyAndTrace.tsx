@@ -269,7 +269,7 @@ const Section_PolicyAndTrace = () => {
         <p>
           Самая примитивная политика — не смотреть на состояние вовсе и
           бросать «кубик» на четыре варианта. По-математически это{" "}
-          <Math display={false}>{"\\pi(a \\mid \\enfVar{s}) = \\tfrac{1}{4}"}</Math>{" "}
+          <Math display={false}>{"\\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s}) = \\tfrac{1}{4}"}</Math>{" "}
           для любого состояния и любого из четырёх действий. Такой бот ничему
           не учится, зато с него удобно начать — это наш нулевой уровень, от
           которого будут отталкиваться все следующие.
@@ -288,7 +288,7 @@ const Section_PolicyAndTrace = () => {
       <div style={BODY_STYLE} className="space-y-3 text-foreground/90">
         <p>
           Следующий шаг — для каждого состояния выбрать ровно одно действие. В
-          идеале это <Math display={false}>{"\\pi(\\enfVar{s}) = \\arg\\max_{a} \\enfOp{Q}(\\enfVar{s}, a)"}</Math>,
+          идеале это <Math display={false}>{"\\enfFun{\\pi}(\\enfVar{s}) = \\arg\\max_{a} \\enfOp{Q}(\\enfVar{s}, a)"}</Math>,
           где Q — будущая функция ценности. Мы её ещё не построили, поэтому
           пока зашьём политику руками: словарь «клетка → действие». К концу
           урока мы увидим, что именно такая табличка и получается из Value
@@ -310,10 +310,10 @@ const Section_PolicyAndTrace = () => {
           Самый общий вариант — политика как распределение вероятностей по
           действиям. Для каждого состояния она отвечает не «делаю вот это»,
           а «вот шансы на каждое из действий»: {" "}
-          <Math display={false}>{"\\pi(a \\mid \\enfVar{s}) \\in [0, 1], \\; \\sum_a \\pi(a \\mid \\enfVar{s}) = 1"}</Math>
+          <Math display={false}>{"\\enfFun{\\pi}(a \\mid \\enfVar{s}) \\in [0, 1], \\; \\sum_a \\enfFun{\\pi}(a \\mid \\enfVar{s}) = 1"}</Math>
           . Удобный способ получить такое распределение из любых «оценок
           привлекательности» действий — softmax с температурой{" "}
-          <span style={{ fontFamily: MONO_FONT, color: CYAN }}>τ</span>: низкая
+          <Math display={false}>{String.raw`\enfPar{\tau}`}</Math>: низкая
           температура превращает softmax почти в argmax, высокая — почти в
           равномерное распределение.
         </p>
@@ -406,7 +406,7 @@ const Section_PolicyAndTrace = () => {
             anchor="жадная-стратегия"
             variant="inline"
           >
-            ε-жадный компромисс между эксплуатацией и исследованием
+            <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>-жадный компромисс между эксплуатацией и исследованием
           </HubLink>
           . Не повторяем её в уроке — идите за подробностями в хаб.
         </p>

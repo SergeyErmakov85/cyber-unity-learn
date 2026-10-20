@@ -116,14 +116,14 @@ const AdvantageGAEViz = () => {
           marginBottom: 12,
         }}
       >
-        Преимущество A и компромисс bias / variance (λ)
+        Преимущество A и компромисс bias / variance (<MathTex display={false}>{String.raw`\enfPar{\lambda}`}</MathTex>)
       </h3>
 
       {/* Контролы */}
       <div className="flex flex-wrap items-center gap-4 mb-3">
         <label className="flex items-center gap-2" style={{ minWidth: 240 }}>
           <span style={{ fontFamily: MONO, fontSize: 12, color: DIM }}>
-            λ (GAE)
+            <MathTex display={false}>{String.raw`\enfPar{\lambda}`}</MathTex> (GAE)
           </span>
           <input
             type="range"
@@ -296,7 +296,7 @@ const AdvantageGAEViz = () => {
           marginTop: 4,
         }}
       >
-        кликните по точке t, чтобы выбрать шаг. γ = {GAMMA}, ширина CYAN-заливки = (γλ)<sup>l</sup>.
+        кликните по точке t, чтобы выбрать шаг. <MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> = {GAMMA}, ширина CYAN-заливки = <MathTex display={false}>{String.raw`(\enfPar{\gamma}\enfPar{\lambda})`}</MathTex><sup>l</sup>.
       </div>
 
       {/* Формулы */}
@@ -309,12 +309,12 @@ const AdvantageGAEViz = () => {
           overflowX: "auto",
         }}
       >
-        <MathTex>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</MathTex>
+        <MathTex>{"\\enfVar{\\delta}_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</MathTex>
         <MathTex>
-          {"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma}\\enfPar{\\lambda})^{l}\\, \\delta_{t+l}"}
+          {"\\enfOp{\\hat{A}}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma}\\enfPar{\\lambda})^{l}\\, \\enfVar{\\delta}_{t+l}"}
         </MathTex>
         <MathTex display={false}>
-          {"A^{\\pi}(\\enfVar{s},a) = \\enfOp{Q}^{\\pi}(\\enfVar{s},a) - \\enfOp{V}^{\\pi}(\\enfVar{s})"}
+          {"\\enfOp{A}^{\\pi}(\\enfVar{s},\\enfFun{a}) = \\enfOp{Q}^{\\pi}(\\enfVar{s},\\enfFun{a}) - \\enfOp{V}^{\\pi}(\\enfVar{s})"}
         </MathTex>
       </div>
 
@@ -326,7 +326,7 @@ const AdvantageGAEViz = () => {
           marginTop: 10,
         }}
       >
-        Для Охотника λ решает, сходится ли обучение за 1М шагов или за 5М.
+        Для Охотника <MathTex display={false}>{String.raw`\enfPar{\lambda}`}</MathTex> решает, сходится ли обучение за 1М шагов или за 5М.
       </p>
     </div>
   );

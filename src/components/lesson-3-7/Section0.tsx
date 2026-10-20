@@ -27,7 +27,7 @@ const Section0 = () => (
         урок 3.4
       </CrossLinkToLesson>
       ). Во всех этих уроках <strong>сама нейросеть</strong> была чёрным ящиком: «политика{" "}
-      <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s})`}</Math>» — и всё.
+      <Math display={false}>{String.raw`\enfFun{\pi}_\theta(\enfFun{a}\mid \enfVar{s})`}</Math>» — и всё.
     </ProseP>
 
     <ProseP>

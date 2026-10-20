@@ -15,6 +15,8 @@ import TldrBox from "@/components/ui/TldrBox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { markLessonComplete, isLessonComplete } from "@/lib/gamification";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_2_5_SYMBOLS } from "@/content/symbols/pages/level2";
 
 const SECTION_CLASS =
   "scroll-mt-24 py-12 px-6 md:px-10 bg-card/60 backdrop-blur-sm rounded-2xl border border-cyan-500/10";
@@ -217,12 +219,12 @@ const CourseLesson2_5 = () => {
             <p className="text-muted-foreground leading-relaxed mb-3">
               Цель алгоритмов на базе градиента политики — максимизация ожидания дисконтированной награды:
             </p>
-            <MathFormula display>{String.raw`\enfTgt{J}(\enfPar{\theta}) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \enfPar{\gamma}^t \, \enfTgt{r}(\enfVar{s}_t, a_t) \right]`}</MathFormula>
+            <MathFormula display>{String.raw`\enfTgt{J}(\enfPar{\theta}) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \enfPar{\gamma}^t \, \enfTgt{r}(\enfVar{s}_t, \enfFun{a}_t) \right]`}</MathFormula>
 
             <p className="text-muted-foreground leading-relaxed mt-3">
               Эмпирический градиент по N траекториям с функцией преимущества <em>A(s,a)</em>:
             </p>
-            <MathFormula display>{String.raw`\enfOp{\nabla}_\theta \enfTgt{J}(\enfPar{\theta}) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=0}^{T} \enfOp{\nabla}_\theta \log \pi_\theta(a_t^i \mid \enfVar{s}_t^i) \, A(\enfVar{s}_t^i, a_t^i)`}</MathFormula>
+            <MathFormula display>{String.raw`\enfOp{\nabla}_\theta \enfTgt{J}(\enfPar{\theta}) \approx \frac{1}{N} \sum_{i=1}^{N} \sum_{t=0}^{T} \enfOp{\nabla}_\theta \log \pi_\theta(a_t^i \mid \enfVar{s}_t^i) \, \enfOp{A}(\enfVar{s}_t^i, a_t^i)`}</MathFormula>
 
             <Card className="bg-card/60 backdrop-blur-sm border-secondary/30 mt-4">
               <CardContent className="p-6">
@@ -238,7 +240,7 @@ const CourseLesson2_5 = () => {
             <p className="text-muted-foreground leading-relaxed mt-4">
               Усечённая (clipped) функция потерь PPO, особо чувствительная к качеству батча:
             </p>
-            <MathFormula display>{String.raw`L^{CLIP}(\enfPar{\theta}) = \mathbb{E}_t \left[ \min\left( \enfTgt{r}_t(\enfPar{\theta}) \, \hat{A}_t, \; \text{clip}(\enfTgt{r}_t(\enfPar{\theta}), 1-\enfPar{\epsilon}, 1+\enfPar{\epsilon}) \, \hat{A}_t \right) \right]`}</MathFormula>
+            <MathFormula display>{String.raw`\enfTgt{L}^{\text{CLIP}}(\enfPar{\theta}) = \mathbb{E}_t \left[ \min\left( \enfVar{r}_t(\enfPar{\theta}) \, \enfOp{\hat{A}}_t, \; \text{clip}(\enfVar{r}_t(\enfPar{\theta}), 1-\enfPar{\epsilon}, 1+\enfPar{\epsilon}) \, \enfOp{\hat{A}}_t \right) \right]`}</MathFormula>
             <p className="text-muted-foreground leading-relaxed text-sm">
               Параметр <code className="text-accent">ε = 0.2</code> ограничивает размер шага. Параллельные среды дают
               устойчивую оценку GAE из разнообразных начальных состояний.
@@ -326,6 +328,8 @@ const CourseLesson2_5 = () => {
               </CardContent>
             </Card>
           </Section>
+
+          <SymbolTable symbols={LESSON_2_5_SYMBOLS} />
 
           <Section id="config" index={4} title="Настройка параллельных сред в Unity ML-Agents">
             <p className="text-muted-foreground leading-relaxed mb-4">
@@ -423,7 +427,7 @@ mlagents-learn config/trainer.yaml \\
 
           <Section id="hyperparams" index={6} title="Масштабирование гиперпараметров">
             <h3 className="text-lg font-bold text-foreground mb-2">Правило buffer_size</h3>
-            <MathFormula display>{String.raw`\text{buffer\_size}_{new} = \text{buffer\_size}_{base} \times \text{num\_envs}`}</MathFormula>
+            <MathFormula display>{String.raw`\text{buffer\_size}_{\text{new}} = \text{buffer\_size}_{\text{base}} \times \text{num\_envs}`}</MathFormula>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Если базовый буфер для 1 среды = 10240, то для <code className="text-primary">--num-envs=4</code> →
               минимум 40960. Иначе буфер заполняется коррелированным куском данных, и преимущество декорреляции аннулируется.
@@ -448,7 +452,7 @@ mlagents-learn config/trainer.yaml \\
             </Card>
 
             <h3 className="text-lg font-bold text-foreground mt-6 mb-2">Компромисс time_horizon</h3>
-            <MathFormula display>{String.raw`\text{time\_horizon} \times N_{agents} \times N_{envs} \le \text{buffer\_size}`}</MathFormula>
+            <MathFormula display>{String.raw`\text{time\_horizon} \times N_{\text{agents}} \times N_{\text{envs}} \le \text{buffer\_size}`}</MathFormula>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Диапазон 32–2048. Иначе буфер переполнится до завершения локальных горизонтов — расчёт GAE сломается.
             </p>

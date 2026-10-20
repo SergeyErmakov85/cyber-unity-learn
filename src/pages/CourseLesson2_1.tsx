@@ -6,6 +6,8 @@ import Math from "@/components/Math";
 import Quiz from "@/components/Quiz";
 import { Card, CardContent } from "@/components/ui/card";
 import { Lightbulb } from "lucide-react";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_2_1_SYMBOLS } from "@/content/symbols/pages/level2";
 
 const quizQuestions = [
   {
@@ -119,13 +121,13 @@ const CourseLesson2_1 = () => {
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-4"><CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="шаг-4-формула-reinforce" hubTitle="Математика RL — Формула REINFORCE">REINFORCE</CrossLinkToHub>: вывод градиента</h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Цель — максимизировать ожидаемую суммарную награду J(θ):
+            Цель — максимизировать ожидаемую суммарную награду <Math display={false}>{String.raw`\enfTgt{J}(\enfPar{\theta})`}</Math>:
           </p>
 
           <Math>{"\\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfPar{\\gamma}^t \\enfTgt{r}_t \\right]"}</Math>
 
           <p className="text-muted-foreground leading-relaxed my-4">
-            Применяя log-trick, получаем <strong className="text-foreground">теорему градиента политики</strong> — <CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="целевая-функция-политики" hubTitle="Математика RL — Целевая функция политики">∇<sub>θ</sub>J(θ)</CrossLinkToHub>:
+            Применяя log-trick, получаем <strong className="text-foreground">теорему градиента политики</strong> — <CrossLinkToHub hubPath="/math-rl/module-4" hubAnchor="целевая-функция-политики" hubTitle="Математика RL — Целевая функция политики"><Math display={false}>{String.raw`\enfOp{\nabla}_\theta \enfTgt{J}(\enfPar{\theta})`}</Math></CrossLinkToHub>:
           </p>
 
           <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t \\right]"}</Math>
@@ -145,13 +147,15 @@ const CourseLesson2_1 = () => {
               <div className="text-sm text-muted-foreground">
                 Оценка градиента через REINFORCE имеет <strong className="text-foreground">высокую дисперсию</strong>.
                 Вычитание baseline b(s) не меняет математическое ожидание, но значительно снижает дисперсию.
-                Лучший выбор: <Math display={false}>{"b(\\enfVar{s}) = \\enfOp{V}^\\pi(\\enfVar{s})"}</Math>.
+                Лучший выбор: <Math display={false}>{"\\enfOp{b}(\\enfVar{s}) = \\enfOp{V}^\\pi(\\enfVar{s})"}</Math>.
               </div>
             </CardContent>
           </Card>
 
           <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfPar{\\theta}) = \\mathbb{E} \\left[ \\sum_t \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\underbrace{(\\enfOp{G}_t - \\enfOp{V}(\\enfVar{s}_t))}_{\\text{Advantage } A(s_t, a_t)} \\right]"}</Math>
         </section>
+
+        <SymbolTable symbols={LESSON_2_1_SYMBOLS} />
 
         {/* PyTorch implementation */}
         <section>

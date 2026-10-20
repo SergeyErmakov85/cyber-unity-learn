@@ -1,4 +1,5 @@
 import CyberCodeBlock from "@/components/CyberCodeBlock";
+import Math from "@/components/Math";
 
 const HEADING_FONT =
   "'Orbitron', 'Inter', ui-sans-serif, system-ui, sans-serif";
@@ -306,10 +307,10 @@ const Section_WorldAndState = () => {
       <div style={BODY_STYLE} className="space-y-3 text-foreground/90">
         <p>
           Когда бот оживает и начинает действовать, получается цепочка:
-          стартовое состояние <span style={{ fontFamily: MONO_FONT, color: CYAN }}>S₀</span>,
-          выбранное действие <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>A₀</span>,
-          полученная награда <span style={{ fontFamily: MONO_FONT, color: AMBER }}>R₁</span>,
-          новое состояние <span style={{ fontFamily: MONO_FONT, color: CYAN }}>S₁</span>,
+          стартовое состояние <Math display={false}>{String.raw`\enfVar{S}_0`}</Math>,
+          выбранное действие <Math display={false}>{String.raw`\enfFun{A}_0`}</Math>,
+          полученная награда <Math display={false}>{String.raw`\enfTgt{R}_1`}</Math>,
+          новое состояние <Math display={false}>{String.raw`\enfVar{S}_1`}</Math>,
           следующее действие, следующая награда, и так далее, пока эпизод не
           закончится. Именно эту последовательность мы позже будем записывать
           в буфер опыта и по ней же будем учиться.

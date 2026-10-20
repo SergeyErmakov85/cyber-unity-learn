@@ -10,8 +10,8 @@ const Section2 = () => (
     <ProseP>
       <strong>Постановка.</strong> Вместо прямого копирования действий IRL{" "}
       <strong>восстанавливает функцию награды</strong>{" "}
-      <Math display={false}>{String.raw`r(s,a)`}</Math> (или стоимости{" "}
-      <Math display={false}>{String.raw`c(s,a)`}</Math>), под которой эксперт выглядит оптимальным, а
+      <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s},\enfFun{a})`}</Math> (или стоимости{" "}
+      <Math display={false}>{String.raw`\enfTgt{c}(\enfVar{s},\enfFun{a})`}</Math>), под которой эксперт выглядит оптимальным, а
       затем извлекает политику обычным RL. Преимущество: награда «оценивает» целые траектории, поэтому
       compounding error одношаговых решений не возникает.
     </ProseP>
@@ -38,7 +38,7 @@ const Section2 = () => (
           <strong>Ziebart, Maas, Bagnell, Dey (AAAI 2008) — Maximum Entropy IRL</strong> разрешает
           неоднозначность принципом максимальной энтропии. Распределение по траекториям:
           <Math display>
-            {String.raw`p(\tau)\ =\ \frac{1}{Z}\exp(\enfTgt{R}_\theta(\tau)),\qquad \enfTgt{R}_\theta(\tau)=\sum_t \enfTgt{R}_\theta(\enfVar{s}_t,a_t),\qquad Z=\sum_\tau \exp(\enfTgt{R}_\theta(\tau)).`}
+            {String.raw`\enfFun{p}(\enfVar{\tau})\ =\ \frac{1}{\enfOp{Z}}\exp(\enfTgt{R}_\theta(\enfVar{\tau})),\qquad \enfTgt{R}_\theta(\enfVar{\tau})=\sum_t \enfTgt{R}_\theta(\enfVar{s}_t,\enfFun{a}_t),\qquad \enfOp{Z}=\sum_\tau \exp(\enfTgt{R}_\theta(\tau)).`}
           </Math>
           Параметры <Math display={false}>{String.raw`\enfPar{\theta}`}</Math> находят максимизацией
           log-likelihood демонстраций (эквивалентно минимизации KL до max-entropy распределения).
@@ -60,7 +60,7 @@ const Section2 = () => (
         </>,
         <>
           Max-entropy IRL (Ziebart, 2008) — мост от классического IRL к GAIL: вероятность траектории{" "}
-          <Math display={false}>{String.raw`\propto \exp(\enfTgt{R}(\tau))`}</Math>.
+          <Math display={false}>{String.raw`\propto \exp(\enfTgt{R}(\enfVar{\tau}))`}</Math>.
         </>,
         <>
           Узкое место — partition function и вложенный RL-цикл; ровно его GAIL заменяет GAN-чередованием.

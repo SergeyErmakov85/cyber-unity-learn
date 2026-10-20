@@ -30,9 +30,12 @@ import Section10 from "@/components/lesson-3-8/Section10";
 import Summary from "@/components/lesson-3-8/Summary";
 import RelatedMaterials from "@/components/lesson-3-8/RelatedMaterials";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_3_8_SYMBOLS } from "@/content/symbols/pages/level3";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
+  { id: "symbols-table", label: "Σ · Символы и код" },
   { id: "razdel-0", label: "0 · Мост: от алгоритмов к игре" },
   { id: "anatomiya-proekta", label: "1 · Анатомия проекта: 6 этапов" },
   { id: "etap-1-sreda", label: "2 · Этап 1 — Среда" },
@@ -49,8 +52,14 @@ const SECTIONS: SectionNavItem[] = [
   { id: "istochniki", label: "Источники" },
 ];
 
+/** Таблица символов урока: те же записи питают пояснения по клику на символ формулы. */
+const SymbolsSection = () => (
+  <SymbolTable symbols={LESSON_3_8_SYMBOLS} variant="section" id="symbols-table" codeLabel="В конфиге ML-Agents" />
+);
+
 const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
   { id: "intro", Comp: IntroSection },
+  { id: "symbols-table", Comp: SymbolsSection },
   { id: "razdel-0", Comp: Section0 },
   { id: "anatomiya-proekta", Comp: Section1 },
   { id: "etap-1-sreda", Comp: Section2 },

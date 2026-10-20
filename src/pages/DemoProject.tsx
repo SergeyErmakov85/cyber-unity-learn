@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Math from "@/components/Math";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { DEMO_PROJECT_SYMBOLS } from "@/content/symbols/pages/projects";
 
 /* ───────── Section Navigation ───────── */
 const sections = [
@@ -404,7 +406,7 @@ const DemoProject = () => {
                   <div className="flex flex-col gap-2">
                     <div className="px-4 py-2 rounded-lg bg-secondary/10 border border-secondary/30 text-center">
                       <span className="font-mono text-xs text-secondary">Continuous Head</span>
-                      <span className="text-xs text-muted-foreground block">Normal(μ, σ)</span>
+                      <span className="text-xs text-muted-foreground block">Normal(<Math display={false}>{String.raw`\enfPar{\mu}`}</Math>, <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math>)</span>
                     </div>
                     <div className="px-4 py-2 rounded-lg bg-accent/10 border border-accent/30 text-center">
                       <span className="font-mono text-xs text-accent">Discrete Heads</span>
@@ -412,7 +414,7 @@ const DemoProject = () => {
                     </div>
                     <div className="px-4 py-2 rounded-lg bg-primary/10 border border-primary/30 text-center">
                       <span className="font-mono text-xs text-primary">Value Head</span>
-                      <span className="text-xs text-muted-foreground block">Baseline V(s)</span>
+                      <span className="text-xs text-muted-foreground block">Baseline <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</Math></span>
                     </div>
                   </div>
                 </div>
@@ -705,6 +707,8 @@ const DemoProject = () => {
                 </p>
               </div>
 
+              <SymbolTable symbols={DEMO_PROJECT_SYMBOLS} codeLabel="В коде Python" />
+
               <Accordion type="multiple" className="space-y-4">
 
                 {/* ─── Аннотация ─── */}
@@ -783,36 +787,36 @@ const DemoProject = () => {
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Марковские процессы принятия решений (MDP)</h4>
-                        <p>Обучение с подкреплением формализуется через MDP, определяемый кортежем <code className="text-primary text-xs">(S, A, P, R, γ)</code>, где S — множество состояний, A — пространство действий, P — динамика переходных вероятностей среды, R — функция награды, а γ — фактор дисконтирования.</p>
+                        <p>Обучение с подкреплением формализуется через MDP, определяемый кортежем <Math display={false}>{"(\\mathcal{S}, \\mathcal{A}, \\enfFun{P}, \\enfTgt{R}, \\enfPar{\\gamma})"}</Math>, где <Math display={false}>{"\\mathcal{S}"}</Math> — множество состояний, <Math display={false}>{"\\mathcal{A}"}</Math> — пространство действий, <Math display={false}>{"\\enfFun{P}"}</Math> — динамика переходных вероятностей среды, <Math display={false}>{"\\enfTgt{R}"}</Math> — функция награды, а <Math display={false}>{"\\enfPar{\\gamma}"}</Math> — фактор дисконтирования.</p>
                       </div>
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Теорема о градиенте политики и REINFORCE</h4>
-                        <p>Целевая функция: <Math display={false}>{"\\enfTgt{J}(\\pi_\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta}[\\enfTgt{R}(\\tau)]"}</Math>. Градиент:</p>
-                        <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\pi_\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfOp{\\nabla}_\\theta \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t \\right]"}</Math>
+                        <p>Целевая функция: <Math display={false}>{"\\enfTgt{J}(\\enfFun{\\pi}_\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta}[\\enfTgt{R}(\\enfVar{\\tau})]"}</Math>. Градиент:</p>
+                        <Math>{"\\enfOp{\\nabla}_\\theta \\enfTgt{J}(\\enfFun{\\pi}_\\theta) = \\mathbb{E}_{\\tau \\sim \\pi_\\theta} \\left[ \\sum_{t=0}^{T} \\enfOp{\\nabla}_\\theta \\log \\enfFun{\\pi}_\\theta(\\enfFun{a}_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t \\right]"}</Math>
                         <p>где <Math display={false}>{"\\enfOp{G}_t = \\sum_{k=t}^{T} \\enfPar{\\gamma}^{k-t} \\enfTgt{r}_k"}</Math> — кумулятивная дисконтированная награда (reward-to-go).</p>
-                        <p className="mt-2">В PyTorch максимизация J(π) заменяется минимизацией policy loss:</p>
-                        <Math>{"L_{policy} = -\\frac{1}{N} \\sum \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t"}</Math>
+                        <p className="mt-2">В PyTorch максимизация <Math display={false}>{"\\enfTgt{J}(\\enfFun{\\pi}_\\theta)"}</Math> заменяется минимизацией policy loss:</p>
+                        <Math>{"\\enfTgt{L}_{\\text{policy}} = -\\frac{1}{N} \\sum \\log \\enfFun{\\pi}_\\theta(\\enfFun{a}_t \\mid \\enfVar{s}_t) \\cdot \\enfOp{G}_t"}</Math>
                       </div>
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Actor-Critic Lite и Advantage</h4>
-                        <p>Классический REINFORCE страдает от колоссальной дисперсии оценок градиента. Решение — <strong className="text-foreground">базовая линия (baseline)</strong> V_w(s):</p>
-                        <Math>{"A(\\enfVar{s}_t, a_t) = \\enfOp{G}_t - \\enfOp{V}_w(\\enfVar{s}_t)"}</Math>
-                        <p>Если A &gt; 0 — действие лучше среднего, вероятность увеличивается. Если A &lt; 0 — уменьшается.</p>
+                        <p>Классический REINFORCE страдает от колоссальной дисперсии оценок градиента. Решение — <strong className="text-foreground">базовая линия (baseline)</strong> <Math display={false}>{"\\enfOp{V}_w(\\enfVar{s})"}</Math> — ценность состояния, которую предсказывает критик с весами <Math display={false}>{"\\enfPar{w}"}</Math>:</p>
+                        <Math>{"\\enfOp{A}(\\enfVar{s}_t, \\enfFun{a}_t) = \\enfOp{G}_t - \\enfOp{V}_w(\\enfVar{s}_t)"}</Math>
+                        <p>Если <Math display={false}>{"\\enfOp{A} > 0"}</Math> — действие лучше среднего, вероятность увеличивается. Если <Math display={false}>{"\\enfOp{A} < 0"}</Math> — уменьшается.</p>
                       </div>
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Регуляризация энтропии</h4>
-                        <Math>{"L_{total} = L_{policy} + \\enfPar{\\alpha} L_{value} - \\beta H(\\pi)"}</Math>
-                        <p>где β = <code className="text-primary text-xs">ENTROPY_COEFF = 0.02</code>. Вычитание энтропии из loss эквивалентно её максимизации — предотвращает преждевременную сходимость.</p>
+                        <Math>{"\\enfTgt{L}_{\\text{total}} = \\enfTgt{L}_{\\text{policy}} + \\enfPar{\\alpha} \\enfTgt{L}_{\\text{value}} - \\enfPar{\\beta} \\enfOp{H}(\\enfFun{\\pi})"}</Math>
+                        <p>где <Math display={false}>{"\\enfPar{\\alpha}"}</Math> = <code className="text-primary text-xs">VALUE_COEFF = 0.5</code> — вес ошибки критика, <Math display={false}>{"\\enfPar{\\beta}"}</Math> = <code className="text-primary text-xs">ENTROPY_COEFF = 0.02</code> — вес энтропии. Вычитание энтропии из loss эквивалентно её максимизации — предотвращает преждевременную сходимость.</p>
                       </div>
 
                       <div>
                         <h4 className="text-foreground font-semibold mb-2">Гибридное пространство действий</h4>
-                        <Math>{"\\pi_\\theta(a \\mid \\enfVar{s}) = \\pi_{cont}(a_{cont} \\mid \\enfVar{s}) \\cdot \\pi_{disc}(a_{disc} \\mid \\enfVar{s})"}</Math>
+                        <Math>{"\\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s}) = \\enfFun{\\pi}_{\\text{cont}}(\\enfFun{a}_{\\text{cont}} \\mid \\enfVar{s}) \\cdot \\enfFun{\\pi}_{\\text{disc}}(\\enfFun{a}_{\\text{disc}} \\mid \\enfVar{s})"}</Math>
                         <p>Логарифм произведения = сумма логарифмов:</p>
-                        <Math>{"\\log \\pi_\\theta(a \\mid \\enfVar{s}) = \\sum_{i=1}^{3} \\log \\mathcal{N}(a_{cont,i}|\\mu_i, \\sigma_i) + \\log \\text{Cat}(a_{disc}|p)"}</Math>
+                        <Math>{"\\log \\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s}) = \\sum_{i=1}^{3} \\log \\mathcal{N}(\\enfFun{a}_{\\text{cont},i} \\mid \\enfPar{\\mu}_i, \\enfPar{\\sigma}_i) + \\log \\text{Cat}(\\enfFun{a}_{\\text{disc}} \\mid \\enfFun{p})"}</Math>
                       </div>
                     </div>
                   </AccordionContent>
@@ -850,12 +854,12 @@ const DemoProject = () => {
                             <tr className="border-b border-border/30">
                               <td className="py-2 px-3"><strong className="text-primary">Энкодер</strong></td>
                               <td className="py-2 px-3 font-mono">Conv2d → ReLU → Flatten()</td>
-                              <td className="py-2 px-3">Извлечение пространственных признаков → латентный вектор h_t</td>
+                              <td className="py-2 px-3">Извлечение пространственных признаков → латентный вектор <Math display={false}>{String.raw`\enfVar{h}_t`}</Math></td>
                             </tr>
                             <tr className="border-b border-border/30">
                               <td className="py-2 px-3"><strong className="text-secondary">Critic Head</strong></td>
                               <td className="py-2 px-3 font-mono">Linear → ReLU → Linear(1)</td>
-                              <td className="py-2 px-3">Аппроксимация V_w(s) — скалярная оценка ценности</td>
+                              <td className="py-2 px-3">Аппроксимация <Math display={false}>{String.raw`\enfOp{V}_w(\enfVar{s})`}</Math> — скалярная оценка ценности</td>
                             </tr>
                             <tr className="border-b border-border/30">
                               <td className="py-2 px-3"><strong className="text-accent">Discrete Actor</strong></td>
@@ -864,8 +868,8 @@ const DemoProject = () => {
                             </tr>
                             <tr>
                               <td className="py-2 px-3"><strong className="text-primary">Continuous Actor</strong></td>
-                              <td className="py-2 px-3 font-mono">Linear(3) → Normal(μ, σ)</td>
-                              <td className="py-2 px-3">Вектор μ (ускорение, поворот), σ — nn.Parameter</td>
+                              <td className="py-2 px-3 font-mono">Linear(3) → Normal(<Math display={false}>{String.raw`\enfPar{\mu}`}</Math>, <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math>)</td>
+                              <td className="py-2 px-3">Вектор <Math display={false}>{String.raw`\enfPar{\mu}`}</Math> (ускорение, поворот), <Math display={false}>{String.raw`\enfPar{\sigma}`}</Math> — nn.Parameter</td>
                             </tr>
                           </tbody>
                         </table>
@@ -965,9 +969,9 @@ adv = (adv - adv.mean()) / (adv.std() + 1e-8)`}</CyberCodeBlock>
                           <span className="text-secondary">§4.4</span> Изоляция графов вычислений — .detach() (Fix 3)
                         </h4>
                         <p className="mb-3">В Actor-Critic полная функция потерь:</p>
-                        <Math>{"L_{total} = L_{policy} + c_1 L_{value} - c_2 L_{entropy}"}</Math>
+                        <Math>{"\\enfTgt{L}_{\\text{total}} = \\enfTgt{L}_{\\text{policy}} + \\enfPar{c}_1 \\enfTgt{L}_{\\text{value}} - \\enfPar{c}_2 \\enfTgt{L}_{\\text{entropy}}"}</Math>
                         <p className="mt-3">
-                          <strong className="text-foreground">Проблема autograd:</strong> Без <code className="text-primary text-xs">.detach()</code> на G_t механизм autograd пропустит градиенты сквозь целевое значение обратно в сеть. Результат: <code className="text-destructive text-xs">RuntimeError: Trying to backward through the graph a second time</code> или некорректные градиенты, уничтожающие critic.
+                          <strong className="text-foreground">Проблема autograd:</strong> Без <code className="text-primary text-xs">.detach()</code> на <Math display={false}>{String.raw`\enfOp{G}_t`}</Math> механизм autograd пропустит градиенты сквозь целевое значение обратно в сеть. Результат: <code className="text-destructive text-xs">RuntimeError: Trying to backward through the graph a second time</code> или некорректные градиенты, уничтожающие critic.
                         </p>
                         <p className="mt-2"><code className="text-primary text-xs">.detach()</code> отсекает тензор от графа вычислений, превращая его в константу для текущего шага оптимизации.</p>
                       </div>
@@ -980,12 +984,12 @@ adv = (adv - adv.mean()) / (adv.std() + 1e-8)`}</CyberCodeBlock>
                         <p className="mb-3">Самое неочевидное, но фундаментально важное исправление v3.</p>
                         <p><strong className="text-foreground">Ошибка до v3:</strong></p>
                         <ol className="list-decimal list-inside space-y-1 ml-2 my-2">
-                          <li>Агент сэмплирует: <Math display={false}>{"\\tilde{a} \\sim \\mathcal{N}(\\mu, \\sigma^2)"}</Math></li>
-                          <li>Усечение: <Math display={false}>{"a = \\text{clamp}(\\tilde{a}, -1, 1)"}</Math></li>
-                          <li>В буфер сохранялось <em>усечённое</em> a</li>
-                          <li>На этапе оптимизации: <Math display={false}>{"\\log \\pi_\\theta(a \\mid \\enfVar{s})"}</Math> — <span className="text-destructive font-semibold">некорректно!</span></li>
+                          <li>Агент сэмплирует: <Math display={false}>{"\\enfFun{\\tilde{a}} \\sim \\mathcal{N}(\\enfPar{\\mu}, \\enfPar{\\sigma}^2)"}</Math></li>
+                          <li>Усечение: <Math display={false}>{"\\enfFun{a} = \\text{clamp}(\\enfFun{\\tilde{a}}, -1, 1)"}</Math></li>
+                          <li>В буфер сохранялось <em>усечённое</em> <Math display={false}>{"\\enfFun{a}"}</Math></li>
+                          <li>На этапе оптимизации: <Math display={false}>{"\\log \\enfFun{\\pi}_\\theta(\\enfFun{a} \\mid \\enfVar{s})"}</Math> — <span className="text-destructive font-semibold">некорректно!</span></li>
                         </ol>
-                        <p className="mt-3"><strong className="text-foreground">Пример:</strong> μ=2.0, σ=1.0, сэмплирован ã=2.5, clamped a=1.0. Градиент от <code className="text-primary text-xs">log_prob(1.0)</code> при μ=2.0 укажет оптимизатору сдвинуть μ к 1.0 вместо 2.5. Возникает <strong className="text-destructive">Gradient Bias</strong>.</p>
+                        <p className="mt-3"><strong className="text-foreground">Пример:</strong> <Math display={false}>{"\\enfPar{\\mu} = 2{,}0,\\ \\enfPar{\\sigma} = 1{,}0"}</Math>, сэмплирован <Math display={false}>{"\\enfFun{\\tilde{a}} = 2{,}5"}</Math>, после усечения <Math display={false}>{"\\enfFun{a} = 1{,}0"}</Math>. Градиент от <code className="text-primary text-xs">log_prob(1.0)</code> при <Math display={false}>{"\\enfPar{\\mu} = 2{,}0"}</Math> укажет оптимизатору сдвинуть <Math display={false}>{"\\enfPar{\\mu}"}</Math> к 1,0 вместо 2,5. Возникает <strong className="text-destructive">Gradient Bias</strong>.</p>
                         <CyberCodeBlock language="python" filename="fix4_raw_samples.py">{`# Правильно: сохраняем raw_action
 dist_cont = Normal(mu, sigma)
 raw_action = dist_cont.sample()       # Сырой сэмпл (напр. 2.5)
@@ -1056,12 +1060,12 @@ log_prob_cont = dist_cont.log_prob(raw_action)  # ✓ Корректно`}</Cybe
                             <td className="py-2 px-3 font-semibold text-foreground">ENTROPY_COEFF</td>
                             <td className="py-2 px-3 font-mono text-primary">0.02</td>
                             <td className="py-2 px-3">Увеличен с 0.01</td>
-                            <td className="py-2 px-3 font-mono">Штраф в L_total</td>
+                            <td className="py-2 px-3 font-mono">Штраф в <Math display={false}>{String.raw`\enfTgt{L}_{\text{total}}`}</Math></td>
                           </tr>
                           <tr>
                             <td className="py-2 px-3 font-semibold text-foreground">Raw Samples</td>
                             <td className="py-2 px-3 font-mono text-primary">Да (pre-clamp)</td>
-                            <td className="py-2 px-3">Корректность ∇log π</td>
+                            <td className="py-2 px-3">Корректность <Math display={false}>{"\\enfOp{\\nabla}\\log\\enfFun{\\pi}"}</Math></td>
                             <td className="py-2 px-3 font-mono">До torch.clamp()</td>
                           </tr>
                         </tbody>
@@ -1103,7 +1107,7 @@ log_prob_cont = dist_cont.log_prob(raw_action)  # ✓ Корректно`}</Cybe
                           <CardTitle className="text-sm text-accent">📉 Value Loss</CardTitle>
                         </CardHeader>
                         <CardContent className="text-xs text-muted-foreground">
-                          Высокий пик на первых итерациях (V(s) случайная), затем экспоненциальное падение — критик научился предсказывать G_t.
+                          Высокий пик на первых итерациях (<Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</Math> случайная), затем экспоненциальное падение — критик научился предсказывать <Math display={false}>{String.raw`\enfOp{G}_t`}</Math>.
                         </CardContent>
                       </Card>
                       <Card className="bg-background/50 border-border/50">

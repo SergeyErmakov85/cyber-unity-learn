@@ -31,15 +31,15 @@ const Summary = () => (
       </li>
       <li>
         <strong>Behavior Type = Inference Only</strong> для прода; <strong>Decision Period</strong>{" "}
-        <Math display={false}>{String.raw`d`}</Math> задаёт частоту решений{" "}
-        <Math display={false}>{String.raw`\enfFun{f}_{\text{decision}}=\enfFun{f}_{\text{env}}/d`}</Math> и должен
+        <Math display={false}>{String.raw`\enfPar{d}`}</Math> задаёт частоту решений{" "}
+        <Math display={false}>{String.raw`\enfPar{f}_{\text{decision}}=\enfPar{f}_{\text{env}}/\enfPar{d}`}</Math> и должен
         совпадать с обучением; <strong>детерминированный</strong> инференс убирает сэмплирование (
         <Math display={false}>{String.raw`\arg\max`}</Math> вместо{" "}
-        <Math display={false}>{String.raw`\sim\pi_\theta`}</Math>).
+        <Math display={false}>{String.raw`\sim\enfFun{\pi}_\theta`}</Math>).
       </li>
       <li>
         <strong>CPU обычно быстрее GPU</strong> для маленьких ML-Agents-сетей; бюджет кадра{" "}
-        <Math display={false}>{String.raw`N\cdot t_{\text{inf}}`}</Math> держим под контролем через
+        <Math display={false}>{String.raw`N\cdot \enfVar{t}_{\text{inf}}`}</Math> держим под контролем через
         Decision Period; релиз — на <strong>IL2CPP</strong>.
       </li>
       <li>

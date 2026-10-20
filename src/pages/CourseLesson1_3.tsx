@@ -1,4 +1,6 @@
 import LessonLayout from "@/components/LessonLayout";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_1_3_SYMBOLS } from "@/content/symbols/pages/level1";
 import Section_Intro from "@/components/math-rl/lesson1_5/Section_Intro";
 import Section_WorldAndState from "@/components/math-rl/lesson1_5/Section_WorldAndState";
 import Section_MarkovProperty from "@/components/math-rl/lesson1_5/Section_MarkovProperty";
@@ -29,6 +31,11 @@ const CourseLesson1_3 = () => {
       nextLesson={{ path: "/courses/1-4", title: "Q-Learning: табличный метод" }}
     >
       <Section_Intro />
+      <SymbolTable
+        symbols={LESSON_1_3_SYMBOLS}
+        codeLabel="В коде Python"
+        description="Все обозначения урока: что значит символ, какую роль играет в формулах MDP и как называется в коде RoomBot. Цвет символа — его роль, одинаковая во всех формулах урока."
+      />
       {/* промпт 3 — Intro */}
       <Section_WorldAndState />
       {/* промпт 4 — World & State (S, A, T, R, γ) */}

@@ -23,7 +23,7 @@ const Section3 = () => (
       <CrossLinkToHub hubPath="/math-rl/module-1" hubTitle="Math RL — Модуль 1">хаб math-rl, модуль 1</CrossLinkToHub>):
     </ProseP>
 
-    <Math>{String.raw`\enfTgt{J}(\pi) = \mathbb{E}_{\pi}\!\left[\sum_{t=0}^{\infty} \enfPar{\gamma}^t\, \enfTgt{r}_t\right].`}</Math>
+    <Math>{String.raw`\enfTgt{J}(\enfFun{\pi}) = \mathbb{E}_{\pi}\!\left[\sum_{t=0}^{\infty} \enfPar{\gamma}^t\, \enfTgt{r}_t\right].`}</Math>
 
     <h3 className={H3_CLASS}>Dense vs sparse</h3>
     <ul className="space-y-2 my-4 list-disc list-inside text-[15px] text-foreground/90 leading-relaxed">
@@ -31,13 +31,13 @@ const Section3 = () => (
       <li><strong>Dense reward</strong> (маленькое поощрение за каждый шаг к цели) обучается быстро, но рискует породить нежелательное поведение.</li>
     </ul>
     <ProseP>
-      Компромисс — <strong>reward shaping</strong>: добавляем плотный направляющий член, не меняющий оптимальную политику. Безопасная форма — <strong>потенциальное шейпинг</strong> (potential-based), где добавка строится из разности потенциалов состояний:
+      Компромисс — <strong>reward shaping</strong>: добавляем плотный направляющий член, не меняющий оптимальную политику. Безопасная форма — <strong>потенциальный шейпинг</strong> (potential-based), где добавка строится из разности потенциалов состояний:
     </ProseP>
 
-    <Math>{String.raw`\enfTgt{r}'_t = \enfTgt{r}_t + \big(\enfPar{\gamma}\,\Phi(\enfVar{s}_{t+1}) - \Phi(\enfVar{s}_t)\big).`}</Math>
+    <Math>{String.raw`\enfTgt{r}'_t = \enfTgt{r}_t + \big(\enfPar{\gamma}\,\enfFun{\Phi}(\enfVar{s}_{t+1}) - \enfFun{\Phi}(\enfVar{s}_t)\big).`}</Math>
 
     <ProseP>
-      Здесь <Math display={false}>{String.raw`\Phi(\enfVar{s})`}</Math> — например, «близость к цели». Такой член гарантированно <strong>не сдвигает</strong> оптимум, в отличие от произвольной добавки.
+      Здесь <Math display={false}>{String.raw`\enfFun{\Phi}(\enfVar{s})`}</Math> — например, «близость к цели». Такой член гарантированно <strong>не сдвигает</strong> оптимум, в отличие от произвольной добавки.
     </ProseP>
 
     <h3 className={H3_CLASS}>Анти-паттерн: reward hacking</h3>
@@ -48,7 +48,7 @@ const Section3 = () => (
     <CyberCodeBlock language="pseudo" filename="reward_pseudo.txt">{CODE}</CyberCodeBlock>
 
     <ProseP>
-      Все интенсивные сигналы (любопытство, имитация) в ML-Agents задаются через секцию <code>reward_signals</code> (см. этап 3). Базовый — <code>extrinsic</code> (награда из среды) с параметрами <code>strength</code> и <code>gamma</code>.
+      Все внутренние (intrinsic) сигналы (любопытство, имитация) в ML-Agents задаются через секцию <code>reward_signals</code> (см. этап 3). Базовый — <code>extrinsic</code> (награда из среды) с параметрами <code>strength</code> и <code>gamma</code>.
     </ProseP>
 
     <Callout title="Связь" color="purple">
@@ -59,7 +59,7 @@ const Section3 = () => (
     <KeyPoints
       items={[
         <>Агент максимизирует <strong>написанную</strong> награду — формулируйте её как ваше истинное намерение.</>,
-        <><strong>Sparse</strong> честна, но медленна; <strong>dense</strong> быстра, но опасна; компромисс — <strong>потенциальное шейпинг</strong>, не меняющее оптимум.</>,
+        <><strong>Sparse</strong> честна, но медленна; <strong>dense</strong> быстра, но опасна; компромисс — <strong>потенциальный шейпинг</strong>, не меняющее оптимум.</>,
         <>Защищайтесь от <strong>reward hacking</strong>: крупный терминальный бонус + маленький dense-член + штраф за время.</>,
         <>Интенсивные сигналы подключаются через <code>reward_signals</code>; базовый — <code>extrinsic</code>.</>,
       ]}

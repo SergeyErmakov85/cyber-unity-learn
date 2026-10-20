@@ -21,9 +21,9 @@ const Section8 = () => (
 
     <ProseP>
       SAC — off-policy, потому что и критики, и политика обучаются на <strong>переходах</strong>{" "}
-      <Math display={false}>{String.raw`(\enfVar{s}_t, a_t, \enfTgt{r}_t, \enfVar{s}_{t+1})`}</Math>, а не на целых траекториях,
+      <Math display={false}>{String.raw`(\enfVar{s}_t, \enfFun{a}_t, \enfTgt{r}_t, \enfVar{s}_{t+1})`}</Math>, а не на целых траекториях,
       привязанных к конкретной политике. Цель для{" "}
-      <Math display={false}>{String.raw`Q`}</Math> строится из перехода и текущей политики — старость
+      <Math display={false}>{String.raw`\enfOp{Q}`}</Math> строится из перехода и текущей политики — старость
       данных не мешает. Более общий разбор on/off-policy — в{" "}
       <CrossLinkToHub
         hubPath="/deep-rl"
@@ -42,7 +42,7 @@ const Section8 = () => (
       <Math display={false}>{String.raw`\mathcal{D}`}</Math>:
     </ProseP>
 
-    <Math>{String.raw`\mathcal{D} \leftarrow \mathcal{D} \cup \{(\enfVar{s}_t, a_t, \enfTgt{r}_t, \enfVar{s}_{t+1})\}.`}</Math>
+    <Math>{String.raw`\mathcal{D} \leftarrow \mathcal{D} \cup \{(\enfVar{s}_t, \enfFun{a}_t, \enfTgt{r}_t, \enfVar{s}_{t+1})\}.`}</Math>
 
     <ProseP>
       На каждом шаге обучения из <Math display={false}>{String.raw`\mathcal{D}`}</Math> берётся{" "}

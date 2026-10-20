@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { Button } from "@/components/ui/button";
+import MathTex from "@/components/Math";
 
 const CLIP_EPS = 0.2;
 
@@ -81,11 +82,11 @@ const PPOClipChart = () => {
       <p className="text-sm mt-4 text-muted-foreground text-center">
         {adv > 0 ? (
           <>
-            Когда <strong className="text-foreground">A &gt; 0</strong>, рост вероятности обрезается на уровне <strong className="text-primary">1+ε = 1.2</strong>. Сеть больше не получает стимула «жадничать».
+            Когда <strong className="text-foreground">A &gt; 0</strong>, рост вероятности обрезается на уровне <strong className="text-primary"><MathTex display={false}>{String.raw`1+\enfPar{\varepsilon} = 1{,}2`}</MathTex></strong>. Сеть больше не получает стимула «жадничать».
           </>
         ) : (
           <>
-            Когда <strong className="text-foreground">A &lt; 0</strong>, падение вероятности обрезается на уровне <strong className="text-primary">1−ε = 0.8</strong> — нет смысла «добивать» уже непопулярное действие.
+            Когда <strong className="text-foreground">A &lt; 0</strong>, падение вероятности обрезается на уровне <strong className="text-primary"><MathTex display={false}>{String.raw`1-\enfPar{\varepsilon} = 0{,}8`}</MathTex></strong> — нет смысла «добивать» уже непопулярное действие.
           </>
         )}
       </p>

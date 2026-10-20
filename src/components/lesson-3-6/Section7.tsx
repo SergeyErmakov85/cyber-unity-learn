@@ -74,10 +74,10 @@ const Section7 = () => (
       определяется так:
     </ProseP>
 
-    <Math>{String.raw`\text{число брекетов} = \left\lfloor \log_{\eta}\!\frac{\enfTgt{R}_{\max}}{\enfTgt{R}_{\min}} \right\rfloor + 1,`}</Math>
+    <Math>{String.raw`\text{число брекетов} = \left\lfloor \log_{\eta}\!\frac{\enfPar{R}_{\max}}{\enfPar{R}_{\min}} \right\rfloor + 1,`}</Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`\enfTgt{R}_{\min}, \enfTgt{R}_{\max}`}</Math> — минимальный и
+      где <Math display={false}>{String.raw`\enfPar{R}_{\min}, \enfPar{R}_{\max}`}</Math> — минимальный и
       максимальный ресурс на испытание.
     </ProseP>
 

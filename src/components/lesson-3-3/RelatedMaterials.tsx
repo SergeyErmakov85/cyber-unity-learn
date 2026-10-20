@@ -121,7 +121,7 @@ const SOURCES: ReactNode[] = [
     </strong>{" "}
     <em>Solving Rubik's Cube with a Robot Hand.</em> arXiv:1910.07113. — <strong>ADR</strong>:
     факторизованное распределение, boundary sampling, пороги{" "}
-    <Math display={false}>{String.raw`t_L/t_H`}</Math>, ADR-энтропия; эмерджентное мета-обучение у
+    <Math display={false}>{String.raw`\enfPar{t}_L/\enfPar{t}_H`}</Math>, ADR-энтропия; эмерджентное мета-обучение у
     моделей с памятью.
   </>,
   <>
@@ -129,7 +129,7 @@ const SOURCES: ReactNode[] = [
     <em>Prioritized Level Replay.</em> ICML 2021 (arXiv:2010.03934). — <strong>PLR</strong>: учебный
     потенциал как средний <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math> / L1 value loss;
     staleness-коррекция{" "}
-    <Math display={false}>{String.raw`P_{\text{replay}}=(1-\rho)P_S+\rho P_C`}</Math>; неявный
+    <Math display={false}>{String.raw`\enfFun{P}_{\text{replay}}=(1-\enfPar{\rho})\enfFun{P}_S+\enfPar{\rho} \enfFun{P}_C`}</Math>; неявный
     курриккулум на MiniGrid. Связанная работа:{" "}
     <strong className="text-foreground/90">Jiang и др. (2021),</strong>{" "}
     <em>Replay-Guided Adversarial Environment Design</em> —{" "}

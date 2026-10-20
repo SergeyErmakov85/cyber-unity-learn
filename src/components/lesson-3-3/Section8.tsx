@@ -61,7 +61,7 @@ const Section8 = () => (
         <span className="text-cyan-400 mt-0.5 shrink-0">▸</span>
         <span>
           <strong>Слишком узкая</strong> → отличная награда на обучении, провал на новых трассах: вы
-          переобучились. Расширяйте <Math display={false}>{String.raw`p(c)`}</Math> или добавьте больше
+          переобучились. Расширяйте <Math display={false}>{String.raw`\enfFun{p}(\enfPar{c})`}</Math> или добавьте больше
           сидов.
         </span>
       </li>

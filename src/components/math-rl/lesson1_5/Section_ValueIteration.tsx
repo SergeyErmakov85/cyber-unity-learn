@@ -524,7 +524,7 @@ const VIExperiment = () => {
           }}
         >
           <span style={{ color: "rgba(255,255,255,0.75)" }}>
-            γ — коэффициент дисконта (применяется к обоим экспериментам)
+            <MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula> — коэффициент дисконта (применяется к обоим экспериментам)
           </span>
           <span style={{ color: CYAN, fontSize: 14 }}>{gamma.toFixed(2)}</span>
         </div>
@@ -552,7 +552,7 @@ const VIExperiment = () => {
       >
         Сошлось за{" "}
         <span style={{ color: CYAN }}>{viTrace.residuals.length}</span>{" "}
-        итераций до |Δ| &lt; 10<sup>−8</sup>. Для бόльших γ — медленнее, для малых —
+        итераций до <MathFormula display={false}>{String.raw`|\Delta| < 10^{-8}`}</MathFormula>. Для бо́льших <MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula> — медленнее, для малых —
         почти мгновенно.
       </p>
 
@@ -703,17 +703,17 @@ const Section_ValueIteration = () => {
         <div className="flex flex-col gap-3">
           <p style={{ color: "rgba(255,255,255,0.9)" }}>
             Идея до неприличия простая: взять любое{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V</span>{" "}
+            <MathFormula display={false}>{String.raw`\enfOp{V}`}</MathFormula>{" "}
             (например, все нули) и на каждом шаге обновлять его правилом,
             полученным из Беллмана-оптимальности. Повторяем, пока правки не
             станут пренебрежимо малыми — это и будет{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V*</span>.
+            <MathFormula display={false}>{String.raw`\enfOp{V}^{*}`}</MathFormula>.
           </p>
 
           <FormulaBlock
             big
             emphasized
-            tex="V_{k+1}(s) \;\leftarrow\; \max_{a} \sum_{s'} P(s' \mid s, a)\,\bigl[\, R(s') + \gamma\, V_{k}(s') \,\bigr]"
+            tex="\enfOp{V}_{k+1}(\enfVar{s}) \;\leftarrow\; \max_{a} \sum_{s'} P(s' \mid \enfVar{s}, a)\,\bigl[\, \enfTgt{R}(s') + \enfPar{\gamma}\, \enfOp{V}_{k}(s') \,\bigr]"
           />
         </div>
 
@@ -736,12 +736,12 @@ const Section_ValueIteration = () => {
             </StepBadge>
             <p style={{ color: "rgba(255,255,255,0.85)" }}>
               По определению оптимальной политики: если из{" "}
-              <span style={{ fontFamily: MONO_FONT }}>s</span> мы вольны выбрать
+              <MathFormula display={false}>{String.raw`\enfVar{s}`}</MathFormula> мы вольны выбрать
               любое{" "}
-              <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>a</span>, то
+              <MathFormula display={false}>{String.raw`\enfFun{a}`}</MathFormula>, то
               естественно брать то, после которого мы живём лучше всего:
             </p>
-            <FormulaBlock tex="V^{*}(s) \;=\; \max_{a} Q^{*}(s, a)" />
+            <FormulaBlock tex="\enfOp{V}^{*}(\enfVar{s}) \;=\; \max_{a} \enfOp{Q}^{*}(\enfVar{s}, a)" />
           </div>
 
           <div className="flex flex-col gap-2">
@@ -752,9 +752,9 @@ const Section_ValueIteration = () => {
               Формула Q через следующее состояние ничем не отличается от{" "}
               <span style={{ fontFamily: MONO_FONT }}>Q_from_V</span> из § 6 —
               только под V теперь понимается{" "}
-              <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V*</span>:
+              <MathFormula display={false}>{String.raw`\enfOp{V}^{*}`}</MathFormula>:
             </p>
-            <FormulaBlock tex="Q^{*}(s, a) \;=\; \sum_{s'} P(s' \mid s, a)\,\bigl[\, R(s') + \gamma\, V^{*}(s') \,\bigr]" />
+            <FormulaBlock tex="\enfOp{Q}^{*}(\enfVar{s}, a) \;=\; \sum_{s'} P(s' \mid \enfVar{s}, a)\,\bigl[\, \enfTgt{R}(s') + \enfPar{\gamma}\, \enfOp{V}^{*}(s') \,\bigr]" />
           </div>
 
           <div className="flex flex-col gap-2">
@@ -763,8 +763,8 @@ const Section_ValueIteration = () => {
             </StepBadge>
             <p style={{ color: "rgba(255,255,255,0.85)" }}>
               Подстановка второй формулы в первую — и справа больше не осталось{" "}
-              <span style={{ fontFamily: MONO_FONT }}>Q</span>: только{" "}
-              <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V</span> справа
+              <MathFormula display={false}>{String.raw`\enfOp{Q}`}</MathFormula>: только{" "}
+              <MathFormula display={false}>{String.raw`\enfOp{V}`}</MathFormula> справа
               и слева. Это даёт уравнение с неподвижной точкой — его и крутим в
               цикле (обновление выше).
             </p>
@@ -855,7 +855,7 @@ const Section_ValueIteration = () => {
               <span>
                 <strong>Батчинг по состояниям.</strong> Одно матричное
                 умножение{" "}
-                <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>P @ (R + γV)</span>{" "}
+                <MathFormula display={false}>{String.raw`\enfFun{P}\,(\enfTgt{R} + \enfPar{\gamma}\enfOp{V})`}</MathFormula>{" "}(в NumPy — <code>P @ (R + gamma * V)</code>){" "}
                 обновляет все 9 значений одновременно — в реальных задачах
                 состояний миллионы, и векторизация ускоряет в сотни раз.
               </span>
@@ -863,11 +863,11 @@ const Section_ValueIteration = () => {
               <span style={{ color: MAGENTA, fontFamily: MONO_FONT }}>(б)</span>
               <span>
                 <strong>Autograd появится бесплатно.</strong> Когда в уроке 1.6{" "}
-                <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V</span>{" "}
+                <MathFormula display={false}>{String.raw`\enfOp{V}`}</MathFormula>{" "}
                 превратится в нейросеть{" "}
-                <span style={{ fontFamily: MONO_FONT, color: CYAN }}>Vθ(s)</span>,
+                <MathFormula display={false}>{String.raw`\enfOp{V}_{\theta}(\enfVar{s})`}</MathFormula>,
                 тот же граф операций умеет считать{" "}
-                <span style={{ fontFamily: MONO_FONT }}>∂L/∂θ</span> без единой
+                <MathFormula display={false}>{String.raw`\partial \enfTgt{L} / \partial \enfPar{\theta}`}</MathFormula> без единой
                 доп. строки.
               </span>
 

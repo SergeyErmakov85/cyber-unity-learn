@@ -46,21 +46,23 @@ const Section6 = () => (
       Дальше — тонкость, без которой PLR ломается. Балл <Math display={false}>{String.raw`\enfOp{S}_l`}</Math>{" "}
       устаревает: его посчитали давно, политика с тех пор изменилась. Чтобы не переигрывать уровни на
       основе протухших оценок, PLR смешивает распределение <strong>по баллу</strong>{" "}
-      <Math display={false}>{String.raw`P_S`}</Math> с распределением <strong>по свежести</strong>{" "}
-      (staleness) <Math display={false}>{String.raw`P_C`}</Math>, которое поднимает приоритет уровней,
-      давно не пересчитывавшихся:
+      <Math display={false}>{String.raw`\enfFun{P}_S`}</Math> с распределением <strong>по свежести</strong>{" "}
+      (staleness) <Math display={false}>{String.raw`\enfFun{P}_C`}</Math>, которое поднимает приоритет уровней,
+      давно не пересчитывавшихся (<Math display={false}>{String.raw`C`}</Math> — номера эпизодов, когда каждый
+      уровень сэмплировался в последний раз, <Math display={false}>{String.raw`c`}</Math> — номер текущего
+      эпизода):
     </ProseP>
 
-    <Math>{String.raw`\boxed{\,P_{\text{replay}}(l) \;=\; (1-\rho)\,P_S(l \mid \Lambda_{\text{seen}}, \enfOp{S}) \;+\; \rho\,P_C(l \mid \Lambda_{\text{seen}}, C, c)\,}`}</Math>
+    <Math>{String.raw`\boxed{\,\enfFun{P}_{\text{replay}}(l) \;=\; (1-\enfPar{\rho})\,\enfFun{P}_S(l \mid \Lambda_{\text{seen}}, \enfOp{S}) \;+\; \enfPar{\rho}\,\enfFun{P}_C(l \mid \Lambda_{\text{seen}}, C, c)\,}`}</Math>
 
     <ProseP>
-      где <Math display={false}>{String.raw`\rho`}</Math> — коэффициент свежести (
+      где <Math display={false}>{String.raw`\enfPar{\rho}`}</Math> — коэффициент свежести (
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">staleness_coef</code>), а баллы обычно
       преобразуются ранговой приоритизацией с температурой (как в приоритизированном реплее).
       Канонические значения из репозитория авторов: стратегия{" "}
       <code className="px-1 rounded bg-muted/50 text-xs font-mono">value_l1</code>, ранговое
-      преобразование, температура <Math display={false}>{String.raw`0.1`}</Math>,{" "}
-      <Math display={false}>{String.raw`\rho = 0.1`}</Math>.
+      преобразование, температура <Math display={false}>{String.raw`0{,}1`}</Math>,{" "}
+      <Math display={false}>{String.raw`\enfPar{\rho} = 0{,}1`}</Math>.
     </ProseP>
 
     <CyberCodeBlock language="pseudo" filename="plr.pseudo">
@@ -100,7 +102,7 @@ const Section6 = () => (
         </>,
         <>
           <strong>Staleness-коррекция</strong> обязательна:{" "}
-          <Math display={false}>{String.raw`P_{\text{replay}} = (1-\rho)P_S + \rho P_C`}</Math> — иначе
+          <Math display={false}>{String.raw`\enfFun{P}_{\text{replay}} = (1-\enfPar{\rho})\enfFun{P}_S + \enfPar{\rho} \enfFun{P}_C`}</Math> — иначе
           приоритеты строятся на протухших баллах.
         </>,
         <>

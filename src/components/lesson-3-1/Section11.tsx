@@ -20,7 +20,7 @@ const Section11 = () => (
         <strong>Масштаб награды / целевая энтропия.</strong> Исторически <em>главный</em>{" "}
         гиперпараметр SAC. С автоподстройкой <Math display={false}>{String.raw`\enfPar{\alpha}`}</Math> его
         роль берёт на себя целевая энтропия{" "}
-        <Math display={false}>{String.raw`\bar{\mathcal{\enfOp{H}}}=-\dim(\mathcal{A})`}</Math>. Если агент
+        <Math display={false}>{String.raw`\enfOp{\bar{\mathcal{H}}}=-\dim(\mathcal{A})`}</Math>. Если агент
         схлопывается в детерминизм слишком рано — поднимите стартовый энтропийный коэффициент (
         <code className={chip}>init_entcoef</code>); если бесцельно «дёргается» и не эксплуатирует
         награду — снизьте.
@@ -30,9 +30,9 @@ const Section11 = () => (
           <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> (<code className={chip}>tau</code>),
           сглаживание target.
         </strong>{" "}
-        Дефолт <Math display={false}>{String.raw`0.005`}</Math>. Большое{" "}
+        Дефолт <Math display={false}>{String.raw`0{,}005`}</Math>. Большое{" "}
         <Math display={false}>{String.raw`\enfPar{\tau}`}</Math> (
-        <Math display={false}>{String.raw`\to 0.01`}</Math>) ускоряет на простых задачах, но рискует
+        <Math display={false}>{String.raw`\to 0{,}01`}</Math>) ускоряет на простых задачах, но рискует
         нестабильностью; меньшее — стабильнее, но медленнее.
       </li>
       <li>
@@ -55,7 +55,7 @@ const Section11 = () => (
         <strong>Learning rate (<code className={chip}>learning_rate</code>).</strong> Около{" "}
         <Math display={false}>{String.raw`3\times10^{-4}`}</Math>. Для SAC держат{" "}
         <strong>постоянным</strong> (<code className={chip}>constant</code>), чтобы{" "}
-        <Math display={false}>{String.raw`Q`}</Math> доучилась до естественной сходимости.
+        <Math display={false}>{String.raw`\enfOp{Q}`}</Math> доучилась до естественной сходимости.
       </li>
       <li>
         <strong>Batch size (<code className={chip}>batch_size</code>).</strong> Для непрерывных
@@ -76,7 +76,7 @@ const Section11 = () => (
         <strong>
           Дисконт <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> (<code className={chip}>gamma</code>).
         </strong>{" "}
-        <Math display={false}>{String.raw`0.99`}</Math> по умолчанию; чем дальновиднее задача, тем
+        <Math display={false}>{String.raw`0{,}99`}</Math> по умолчанию; чем дальновиднее задача, тем
         ближе к 1 (строго <Math display={false}>{String.raw`<1`}</Math>).
       </li>
     </ul>
@@ -122,7 +122,7 @@ const Section11 = () => (
           <code className={chip}>init_entcoef</code>) и согласование с масштабом награды.
         </>,
         <>
-          <Math display={false}>{String.raw`\enfPar{\tau}=0.005`}</Math>, lr{" "}
+          <Math display={false}>{String.raw`\enfPar{\tau}=0{,}005`}</Math>, lr{" "}
           <Math display={false}>{String.raw`\approx 3\times10^{-4}`}</Math> (constant), буфер{" "}
           <Math display={false}>{String.raw`10^5`}</Math>–<Math display={false}>{String.raw`10^6`}</Math>
           , батч <Math display={false}>{String.raw`128`}</Math>–<Math display={false}>{String.raw`1024`}</Math>{" "}

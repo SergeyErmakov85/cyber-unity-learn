@@ -11,9 +11,9 @@ const Section6 = () => (
     <ProseP>
       <strong>Tree-structured Parzen Estimator (TPE)</strong> — байесовский метод, который обходит
       дороговизну GP хитрым трюком. Вместо того чтобы моделировать{" "}
-      <Math display={false}>{String.raw`p(\enfTgt{y} \mid \boldsymbol{\enfPar{\lambda}})`}</Math> (качество по
+      <Math display={false}>{String.raw`\enfFun{p}(\enfTgt{y} \mid \enfPar{\boldsymbol{\lambda}})`}</Math> (качество по
       конфигурации), TPE моделирует <strong>обратное</strong> —{" "}
-      <Math display={false}>{String.raw`p(\boldsymbol{\enfPar{\lambda}} \mid \enfTgt{y})`}</Math> — двумя плотностями.
+      <Math display={false}>{String.raw`\enfFun{p}(\enfPar{\boldsymbol{\lambda}} \mid \enfTgt{y})`}</Math> — двумя плотностями.
     </ProseP>
 
     <ProseP>
@@ -21,29 +21,29 @@ const Section6 = () => (
       наблюдённых результатов: доля <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> лучших
       испытаний идёт в «хорошие», остальные — в «плохие» (в Optuna{" "}
       <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> невелика — порядка{" "}
-      <Math display={false}>{String.raw`0.1`}</Math>). Затем по двум подвыборкам строим две
+      <Math display={false}>{String.raw`0{,}1`}</Math>). Затем по двум подвыборкам строим две
       плотности методом ядерного сглаживания (Parzen / KDE):
     </ProseP>
 
-    <Math>{String.raw`p(\boldsymbol{\enfPar{\lambda}} \mid \enfTgt{y}) =
+    <Math>{String.raw`\enfFun{p}(\enfPar{\boldsymbol{\lambda}} \mid \enfTgt{y}) =
 \begin{cases}
-\enfFun{\ell}(\boldsymbol{\enfPar{\lambda}}), & \enfTgt{y} < \enfTgt{y}^{\star} \quad (\text{«хорошие» конфигурации}),\\[4pt]
-\enfFun{g}(\boldsymbol{\enfPar{\lambda}}), & \enfTgt{y} \geq \enfTgt{y}^{\star} \quad (\text{«плохие» конфигурации}),
+\enfFun{\ell}(\enfPar{\boldsymbol{\lambda}}), & \enfTgt{y} < \enfTgt{y}^{\star} \quad (\text{«хорошие» конфигурации}),\\[4pt]
+\enfFun{g}(\enfPar{\boldsymbol{\lambda}}), & \enfTgt{y} \geq \enfTgt{y}^{\star} \quad (\text{«плохие» конфигурации}),
 \end{cases}
-\qquad \enfPar{\gamma} = p(\enfTgt{y} < \enfTgt{y}^{\star}).`}</Math>
+\qquad \enfPar{\gamma} = \enfFun{p}(\enfTgt{y} < \enfTgt{y}^{\star}).`}</Math>
 
     <ProseP>
-      Здесь <Math display={false}>{String.raw`\enfFun{\ell}(\boldsymbol{\enfPar{\lambda}})`}</Math> — «где живут
-      хорошие конфигурации», <Math display={false}>{String.raw`\enfFun{g}(\boldsymbol{\enfPar{\lambda}})`}</Math> —
+      Здесь <Math display={false}>{String.raw`\enfFun{\ell}(\enfPar{\boldsymbol{\lambda}})`}</Math> — «где живут
+      хорошие конфигурации», <Math display={false}>{String.raw`\enfFun{g}(\enfPar{\boldsymbol{\lambda}})`}</Math> —
       «где живут плохие». Bergstra et al. (2011) доказали ключевой факт: ожидаемое улучшение для
       такой модели <strong>монотонно</strong> связано с отношением плотностей. А именно:
     </ProseP>
 
-    <Math>{String.raw`\boxed{\;\mathrm{EI}(\boldsymbol{\enfPar{\lambda}}) \;\propto\; \left(\enfPar{\gamma} + \frac{\enfFun{g}(\boldsymbol{\enfPar{\lambda}})}{\enfFun{\ell}(\boldsymbol{\enfPar{\lambda}})}\,(1-\enfPar{\gamma})\right)^{-1}\;}`}</Math>
+    <Math>{String.raw`\boxed{\;\mathrm{EI}(\enfPar{\boldsymbol{\lambda}}) \;\propto\; \left(\enfPar{\gamma} + \frac{\enfFun{g}(\enfPar{\boldsymbol{\lambda}})}{\enfFun{\ell}(\enfPar{\boldsymbol{\lambda}})}\,(1-\enfPar{\gamma})\right)^{-1}\;}`}</Math>
 
     <ProseP>
       Максимизировать EI — то же самое, что максимизировать отношение{" "}
-      <Math display={false}>{String.raw`\enfFun{\ell}(\boldsymbol{\enfPar{\lambda}})/\enfFun{g}(\boldsymbol{\enfPar{\lambda}})`}</Math>.
+      <Math display={false}>{String.raw`\enfFun{\ell}(\enfPar{\boldsymbol{\lambda}})/\enfFun{g}(\enfPar{\boldsymbol{\lambda}})`}</Math>.
       Интуиция кристально проста:{" "}
       <strong>ищи конфигурации, которые вероятны среди хороших и маловероятны среди плохих.</strong>{" "}
       На каждом шаге TPE сэмплирует пачку кандидатов из{" "}
@@ -82,7 +82,7 @@ const Section6 = () => (
     <InteractiveStub title="TPE на 1D-задаче">
       JSX-демо TPE на 1D-задаче: пользователь слайдером добавляет «наблюдения», на лету
       перестраиваются плотности <Math display={false}>{String.raw`\enfFun{\ell}`}</Math> и{" "}
-      <Math display={false}>{String.raw`g`}</Math> и кривая{" "}
+      <Math display={false}>{String.raw`\enfFun{g}`}</Math> и кривая{" "}
       <Math display={false}>{String.raw`\enfFun{\ell}/\enfFun{g}`}</Math>; следующая предложенная точка — максимум
       отношения. Слайдер <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math> показывает, как меняется
       порог «хороших». Анимация — через <code>useRef</code> для значений в кадре, без{" "}
@@ -92,13 +92,13 @@ const Section6 = () => (
     <KeyPoints
       items={[
         <>
-          TPE моделирует <Math display={false}>{String.raw`p(\boldsymbol{\enfPar{\lambda}}\mid \enfTgt{y})`}</Math>{" "}
+          TPE моделирует <Math display={false}>{String.raw`\enfFun{p}(\enfPar{\boldsymbol{\lambda}}\mid \enfTgt{y})`}</Math>{" "}
           двумя плотностями: <Math display={false}>{String.raw`\enfFun{\ell}`}</Math> («хорошие») и{" "}
-          <Math display={false}>{String.raw`g`}</Math> («плохие»), порог —{" "}
+          <Math display={false}>{String.raw`\enfFun{g}`}</Math> («плохие»), порог —{" "}
           <Math display={false}>{String.raw`\enfPar{\gamma}`}</Math>-квантиль.
         </>,
         <>
-          <Math display={false}>{String.raw`\mathrm{EI}(\boldsymbol{\enfPar{\lambda}}) \propto \big(\enfPar{\gamma} + \tfrac{\enfFun{g}}{\enfFun{\ell}}(1-\enfPar{\gamma})\big)^{-1}`}</Math>
+          <Math display={false}>{String.raw`\mathrm{EI}(\enfPar{\boldsymbol{\lambda}}) \propto \big(\enfPar{\gamma} + \tfrac{\enfFun{g}}{\enfFun{\ell}}(1-\enfPar{\gamma})\big)^{-1}`}</Math>
           {" "}→ максимизация EI = максимизация{" "}
           <Math display={false}>{String.raw`\enfFun{\ell}/\enfFun{g}`}</Math>.
         </>,

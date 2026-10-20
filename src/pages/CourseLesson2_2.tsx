@@ -8,6 +8,8 @@ import PPOClipChart from "@/components/math-rl/PPOClipChart";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Lightbulb, Zap, AlertTriangle, BookOpen, Cpu, Sparkles } from "lucide-react";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_2_2_SYMBOLS } from "@/content/symbols/pages/level2";
 
 const quizQuestions = [
   {
@@ -154,13 +156,13 @@ const CourseLesson2_2 = () => {
           <div className="grid md:grid-cols-2 gap-4">
             <Card className="bg-card/60 backdrop-blur-sm border-primary/30">
               <CardContent className="p-5">
-                <div className="text-xs font-bold text-primary uppercase tracking-wide mb-2">Actor π_θ(a|s)</div>
-                <div className="text-sm text-muted-foreground">Linear → Tanh → Linear → Tanh → μ (2 dims) + обучаемый log σ</div>
+                <div className="text-xs font-bold text-primary uppercase tracking-wide mb-2">Actor <span className="normal-case"><Math display={false}>{String.raw`\enfFun{\pi}_\theta(\enfFun{a} \mid \enfVar{s})`}</Math></span></div>
+                <div className="text-sm text-muted-foreground">Linear → Tanh → Linear → Tanh → <Math display={false}>{String.raw`\enfFun{\mu}`}</Math> (2 dims) + обучаемый <Math display={false}>{String.raw`\log \enfFun{\sigma}`}</Math></div>
               </CardContent>
             </Card>
             <Card className="bg-card/60 backdrop-blur-sm border-secondary/30">
               <CardContent className="p-5">
-                <div className="text-xs font-bold text-secondary uppercase tracking-wide mb-2">Critic V_φ(s)</div>
+                <div className="text-xs font-bold text-secondary uppercase tracking-wide mb-2">Critic <span className="normal-case"><Math display={false}>{String.raw`\enfOp{V}_\phi(\enfVar{s})`}</Math></span></div>
                 <div className="text-sm text-muted-foreground">Linear → Tanh → Linear → Tanh → V(s) (1 dim)</div>
               </CardContent>
             </Card>
@@ -176,7 +178,7 @@ const CourseLesson2_2 = () => {
           <p className="text-muted-foreground leading-relaxed mb-4">
             В классическом Policy Gradient мы максимизируем:
           </p>
-          <Math>{"L^{PG}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t \\left[ \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\, \\hat{A}_t \\right]"}</Math>
+          <Math>{"\\enfTgt{L}^{\\text{PG}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t \\left[ \\log \\pi_\\theta(a_t \\mid \\enfVar{s}_t) \\, \\enfOp{\\hat{A}}_t \\right]"}</Math>
 
           <Card className="bg-card/60 backdrop-blur-sm border-accent/30 mt-4">
             <CardContent className="p-5">
@@ -194,6 +196,8 @@ const CourseLesson2_2 = () => {
           </p>
         </section>
 
+        <SymbolTable symbols={LESSON_2_2_SYMBOLS} />
+
         {/* === 3. Clipped objective === */}
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-4">
@@ -204,16 +208,16 @@ const CourseLesson2_2 = () => {
           <p className="text-muted-foreground leading-relaxed mb-3">
             Сначала вводим <strong className="text-foreground">отношение вероятностей</strong>:
           </p>
-          <Math>{"\\enfTgt{r}_t(\\enfPar{\\theta}) = \\frac{\\pi_\\theta(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{old}}(a_t|\\enfVar{s}_t)}"}</Math>
+          <Math>{"\\enfVar{r}_t(\\enfPar{\\theta}) = \\frac{\\enfFun{\\pi}_\\theta(\\enfFun{a}_t \\mid \\enfVar{s}_t)}{\\enfFun{\\pi}_{\\theta_{\\text{old}}}(\\enfFun{a}_t\\mid \\enfVar{s}_t)}"}</Math>
 
           <p className="text-sm text-muted-foreground my-4">
-            На старте эпохи θ = θ_old, поэтому r_t = 1. Если r_t &gt; 1 — действие стало вероятнее, если r_t &lt; 1 — наоборот.
+            На старте эпохи <Math display={false}>{String.raw`\enfPar{\theta} = \enfPar{\theta}_{\text{old}}`}</Math>, поэтому <Math display={false}>{String.raw`\enfVar{r}_t = 1`}</Math>. Если <Math display={false}>{String.raw`\enfVar{r}_t > 1`}</Math> — действие стало вероятнее, если <Math display={false}>{String.raw`\enfVar{r}_t < 1`}</Math> — наоборот.
           </p>
 
           <p className="text-muted-foreground leading-relaxed mb-3">
-            Clipped objective — берём минимум из обычного и обрезанного ratio (типичное ε = 0.2):
+            Clipped objective — берём минимум из обычного и обрезанного ratio (типичное <Math display={false}>{String.raw`\enfPar{\varepsilon} = 0{,}2`}</Math>):
           </p>
-          <Math>{"L^{CLIP}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t \\left[ \\min\\left( \\enfTgt{r}_t(\\enfPar{\\theta}) \\hat{A}_t, \\; \\text{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon}) \\hat{A}_t \\right) \\right]"}</Math>
+          <Math>{"\\enfTgt{L}^{\\text{CLIP}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t \\left[ \\min\\left( \\enfVar{r}_t(\\enfPar{\\theta}) \\enfOp{\\hat{A}}_t, \\; \\text{clip}(\\enfVar{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon}) \\enfOp{\\hat{A}}_t \\right) \\right]"}</Math>
 
           <PPOClipChart />
 
@@ -248,37 +252,37 @@ actor_loss = -torch.min(surr1, surr2).mean()`}
             </CrossLinkToHub>
           </h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
-            Критик V_φ(s) предсказывает суммарную награду из текущего состояния. Чтобы снизить дисперсию, PPO использует
+            Критик <Math display={false}>{String.raw`\enfOp{V}_\phi(\enfVar{s})`}</Math> предсказывает суммарную награду из текущего состояния. Чтобы снизить дисперсию, PPO использует
             <strong className="text-foreground"> Generalized Advantage Estimation</strong>.
           </p>
 
           <h3 className="text-lg font-bold text-foreground mb-2">TD-ошибка</h3>
-          <Math>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}_\\phi(\\enfVar{s}_{t+1}) - \\enfOp{V}_\\phi(\\enfVar{s}_t)"}</Math>
+          <Math>{"\\enfVar{\\delta}_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}_\\phi(\\enfVar{s}_{t+1}) - \\enfOp{V}_\\phi(\\enfVar{s}_t)"}</Math>
           <p className="text-sm text-muted-foreground mt-2 mb-4 border-l-2 border-primary/40 pl-4">
-            δ_t — «сюрприз»: разница между предсказанием критика V(s_t) и тем, что произошло реально.
+            <Math display={false}>{String.raw`\enfVar{\delta}_t`}</Math> — «сюрприз»: разница между предсказанием критика <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s}_t)`}</Math> и тем, что произошло реально.
           </p>
 
           <h3 className="text-lg font-bold text-foreground mb-2">GAE</h3>
-          <Math>{"\\hat{A}_t^{GAE(\\gamma, \\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma} \\enfPar{\\lambda})^l \\delta_{t+l}"}</Math>
+          <Math>{"\\enfOp{\\hat{A}}_t^{\\text{GAE}(\\gamma, \\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma} \\enfPar{\\lambda})^l \\enfVar{\\delta}_{t+l}"}</Math>
 
           <div className="grid md:grid-cols-2 gap-3 my-4">
             <Card className="bg-card/60 backdrop-blur-sm border-secondary/30">
               <CardContent className="p-4">
-                <h4 className="font-bold text-secondary mb-2">λ → 0</h4>
+                <h4 className="font-bold text-secondary mb-2"><Math display={false}>{String.raw`\enfPar{\lambda} \to 0`}</Math></h4>
                 <p className="text-sm text-muted-foreground">Только TD(0). Низкая дисперсия, но <strong>высокий bias</strong> (зависит от точности критика).</p>
               </CardContent>
             </Card>
             <Card className="bg-card/60 backdrop-blur-sm border-accent/30">
               <CardContent className="p-4">
-                <h4 className="font-bold text-accent mb-2">λ → 1</h4>
-                <p className="text-sm text-muted-foreground">Близко к Monte Carlo. Низкий bias, но <strong>высокая дисперсия</strong>. На практике λ = 0.95.</p>
+                <h4 className="font-bold text-accent mb-2"><Math display={false}>{String.raw`\enfPar{\lambda} \to 1`}</Math></h4>
+                <p className="text-sm text-muted-foreground">Близко к Monte Carlo. Низкий bias, но <strong>высокая дисперсия</strong>. На практике <Math display={false}>{String.raw`\enfPar{\lambda} = 0{,}95`}</Math>.</p>
               </CardContent>
             </Card>
           </div>
 
           <h3 className="text-lg font-bold text-foreground mt-6 mb-3">Расчёт GAE на PyTorch</h3>
           <p className="text-sm text-muted-foreground mb-3">
-            Считаем с конца траектории — это позволяет использовать рекуррентное соотношение A_t = δ_t + γλ·A_{`{t+1}`}.
+            Считаем с конца траектории — это позволяет использовать рекуррентное соотношение <Math display={false}>{String.raw`\enfOp{\hat{A}}_t = \enfVar{\delta}_t + \enfPar{\gamma}\enfPar{\lambda}\,\enfOp{\hat{A}}_{t+1}`}</Math>.
           </p>
           <CyberCodeBlock language="python" filename="compute_gae.py">
 {`import torch
@@ -317,9 +321,9 @@ def compute_gae(rewards, values, next_value, dones, gamma=0.99, lam=0.95):
 
           <h3 className="text-lg font-bold text-foreground mt-6 mb-3">Critic Loss</h3>
           <p className="text-sm text-muted-foreground mb-3">
-            Простая MSE между V_φ(s_t) и таргетом R̂_t = Â_t + V_φ(s_t)_old:
+            Простая MSE между <Math display={false}>{String.raw`\enfOp{V}_\phi(\enfVar{s}_t)`}</Math> и таргетом <Math display={false}>{String.raw`\enfTgt{\hat{R}}_t = \enfOp{\hat{A}}_t + \enfOp{V}_{\phi_{\text{old}}}(\enfVar{s}_t)`}</Math>:
           </p>
-          <Math>{"L^{VF}(\\phi) = \\hat{\\mathbb{E}}_t \\left[ \\left( \\enfOp{V}_\\phi(\\enfVar{s}_t) - \\hat{\\enfTgt{R}}_t \\right)^2 \\right]"}</Math>
+          <Math>{"\\enfTgt{L}^{\\text{VF}}(\\enfPar{\\phi}) = \\hat{\\mathbb{E}}_t \\left[ \\left( \\enfOp{V}_\\phi(\\enfVar{s}_t) - \\enfTgt{\\hat{R}}_t \\right)^2 \\right]"}</Math>
         </section>
 
         {/* === 5. Полная реализация === */}
@@ -332,14 +336,14 @@ def compute_gae(rewards, values, next_value, dones, gamma=0.99, lam=0.95):
           <p className="text-muted-foreground leading-relaxed mb-3">
             Полная функция потерь PPO — три члена: clipped actor, MSE critic, entropy bonus:
           </p>
-          <Math>{"L^{PPO}(\\enfPar{\\theta}, \\phi) = \\hat{\\mathbb{E}}_t \\left[ L^{CLIP}_t(\\enfPar{\\theta}) - c_1 L^{VF}_t(\\phi) + c_2 H[\\pi_\\theta](\\enfVar{s}_t) \\right]"}</Math>
+          <Math>{"\\enfTgt{L}^{\\text{PPO}}(\\enfPar{\\theta}, \\enfPar{\\phi}) = \\hat{\\mathbb{E}}_t \\left[ \\enfTgt{L}^{\\text{CLIP}}_t(\\enfPar{\\theta}) - \\enfPar{c}_1 \\enfTgt{L}^{\\text{VF}}_t(\\enfPar{\\phi}) + \\enfPar{c}_2 \\enfOp{H}[\\pi_\\theta](\\enfVar{s}_t) \\right]"}</Math>
           <p className="text-sm text-muted-foreground mt-2 mb-6">
             c₁ ≈ 0.5 — вес критика, c₂ ≈ 0.01 — вес <CrossLinkToHub hubPath="/math-rl/module-5" hubAnchor="глава-9" hubTitle="Энтропия">энтропии</CrossLinkToHub>, H — энтропия распределения политики.
           </p>
 
           <h3 className="text-lg font-bold text-foreground mb-3">5.1. Сети Actor и Critic (непрерывные действия)</h3>
           <p className="text-sm text-muted-foreground mb-3">
-            Для 3D Ball актёр выдаёт среднее μ и обучаемый log σ — параметры гауссова распределения.
+            Для 3D Ball актёр выдаёт среднее <Math display={false}>{String.raw`\enfFun{\mu}`}</Math> и обучаемый <Math display={false}>{String.raw`\log \enfFun{\sigma}`}</Math> — параметры гауссова распределения.
           </p>
           <CyberCodeBlock language="python" filename="networks.py">
 {`import torch
@@ -388,7 +392,7 @@ class ActorCritic(nn.Module):
           <h3 className="text-lg font-bold text-foreground mt-6 mb-3">5.2. Цикл обновления PPO</h3>
           <p className="text-sm text-muted-foreground mb-3">
             Ключевая особенность — <strong className="text-foreground">K эпох</strong> по одному и тому же батчу. После первой эпохи
-            политика уже отличается от π_old — поэтому нам и нужен clipping.
+            политика уже отличается от <Math display={false}>{String.raw`\enfFun{\pi}_{\text{old}}`}</Math> — поэтому нам и нужен clipping.
           </p>
           <CyberCodeBlock language="python" filename="ppo_update.py">
 {`def ppo_update(model, optimizer, buffer,

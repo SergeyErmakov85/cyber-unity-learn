@@ -29,10 +29,13 @@ import Section9 from "@/components/lesson-3-3/Section9";
 import Summary from "@/components/lesson-3-3/Summary";
 import RelatedMaterials from "@/components/lesson-3-3/RelatedMaterials";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_3_3_SYMBOLS } from "@/content/symbols/pages/level3";
 
 /** Полный список пунктов оглавления (для SectionNav). */
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
+  { id: "symbols-table", label: "Σ · Символы и код" },
   { id: "razdel-0-ot-samoigry-k-srede", label: "0 · От самоигры к среде" },
   { id: "razdel-1-trudnaya-zadacha", label: "1 · Трудная задача" },
   { id: "razdel-2-uchebnyy-plan-formalno", label: "2 · План формально" },
@@ -48,8 +51,14 @@ const SECTIONS: SectionNavItem[] = [
 ];
 
 /** Секции, рендерящиеся через map (intro → разделы → итоги). «istochniki» — отдельно (RelatedMaterials). */
+/** Таблица символов урока: те же записи питают пояснения по клику на символ формулы. */
+const SymbolsSection = () => (
+  <SymbolTable symbols={LESSON_3_3_SYMBOLS} variant="section" id="symbols-table" codeLabel="В конфиге и псевдокоде" />
+);
+
 const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
   { id: "intro", Comp: IntroSection },
+  { id: "symbols-table", Comp: SymbolsSection },
   { id: "razdel-0-ot-samoigry-k-srede", Comp: Section0 },
   { id: "razdel-1-trudnaya-zadacha", Comp: Section1 },
   { id: "razdel-2-uchebnyy-plan-formalno", Comp: Section2 },

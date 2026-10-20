@@ -8,7 +8,7 @@ const ROLES = [
   { cls: "enf-variable", macro: "\\enfVar{x}", name: "переменная", hint: "объект, над которым действуем" },
   { cls: "enf-function", macro: "\\enfFun{f}", name: "функция", hint: "действие, преобразование" },
   { cls: "enf-parameter", macro: "\\enfPar{\\gamma}", name: "параметр", hint: "то, что настраивается и обучается" },
-  { cls: "enf-operator", macro: "\\enfOp{\\mathbb{E}}", name: "оператор", hint: "агрегат, свёртка, ожидание" },
+  { cls: "enf-operator", macro: "\\enfOp{\\nabla}", name: "оператор", hint: "агрегат, свёртка, градиент, ценность" },
   { cls: "enf-target", macro: "\\enfTgt{r}", name: "цель", hint: "награда, потери — то, что оптимизируем" },
 ];
 

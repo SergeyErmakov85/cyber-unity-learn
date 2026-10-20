@@ -100,3 +100,206 @@
     color: inherit;
   }
 }
+
+/* =============================================================
+   Кликабельные символы и всплывающие пояснения
+   (src/components/math-symbols/SymbolPopoverLayer.tsx)
+
+   Макросы ролей вешают на символ второй класс — enf-sym. По клику
+   на него над символом открывается карточка: что это, какую роль
+   играет в формуле и как записан в коде. Нейтральные знаки
+   (операции, скобки, \max, \mathbb{E}) тоже отвечают на клик.
+   ============================================================= */
+
+.katex-html .enf-sym {
+  cursor: pointer;
+  border-radius: 3px;
+  transition:
+    background-color 140ms ease,
+    box-shadow 140ms ease,
+    text-shadow 140ms ease;
+}
+.katex-html .enf-sym:hover {
+  background-color: color-mix(in srgb, currentColor 14%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 38%, transparent);
+  text-shadow: 0 0 10px color-mix(in srgb, currentColor 55%, transparent);
+}
+.katex-html .enf-sym.enf-sym-active {
+  background-color: color-mix(in srgb, currentColor 20%, transparent);
+  box-shadow:
+    0 0 0 1.5px currentColor,
+    0 0 16px color-mix(in srgb, currentColor 45%, transparent);
+}
+
+/* Нейтральные знаки: отклик тише, чтобы цвет ролей оставался главным. */
+.katex-html :is(.mop, .mbin, .mrel, .mopen, .mclose, .mpunct, .mathbb, .mathcal, .mathnormal):not(.enf-sym *) {
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background-color 140ms ease;
+}
+.katex-html :is(.mop, .mbin, .mrel, .mopen, .mclose, .mpunct, .mathbb, .mathcal, .mathnormal):not(.enf-sym *):hover {
+  background-color: hsl(var(--muted) / 0.65);
+}
+.katex-html .enf-sym-active:not(.enf-sym) {
+  background-color: hsl(var(--muted) / 0.9);
+  box-shadow: 0 0 0 1px hsl(var(--foreground) / 0.35);
+}
+
+/* ── Карточка пояснения ─────────────────────────────────────── */
+
+.enf-pop {
+  --enf-pop: var(--enf-color-neutral);
+  position: fixed;
+  z-index: 1000;
+  width: min(24rem, calc(100vw - 16px));
+  color: hsl(var(--foreground));
+  border-radius: 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--enf-pop) 42%, transparent);
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--enf-pop) 9%, transparent), transparent 55%),
+    hsl(var(--popover) / 0.97);
+  box-shadow:
+    0 18px 50px hsl(230 35% 3% / 0.7),
+    0 0 30px color-mix(in srgb, var(--enf-pop) 20%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.enf-pop--variable { --enf-pop: var(--enf-color-variable); }
+.enf-pop--function { --enf-pop: var(--enf-color-function); }
+.enf-pop--parameter { --enf-pop: var(--enf-color-parameter); }
+.enf-pop--operator { --enf-pop: var(--enf-color-operator); }
+.enf-pop--target { --enf-pop: var(--enf-color-target); }
+.enf-pop--neutral { --enf-pop: var(--enf-color-neutral); }
+
+.enf-pop::before {
+  content: "";
+  position: absolute;
+  inset: 0 1.2rem auto;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--enf-pop), transparent);
+  opacity: 0.85;
+}
+
+.enf-pop__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-height: min(70vh, 32rem, var(--enf-pop-max, 32rem));
+  overflow-y: auto;
+  padding: 1rem 1.05rem 1.05rem;
+  overscroll-behavior: contain;
+}
+
+.enf-pop__glyph {
+  display: flex;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  font-size: 1.35rem;
+  border-radius: 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--enf-pop) 35%, transparent);
+  background: color-mix(in srgb, var(--enf-pop) 10%, transparent);
+  box-shadow: inset 0 0 14px color-mix(in srgb, var(--enf-pop) 14%, transparent);
+}
+.enf-pop__glyph .katex-html .enf-sym { cursor: default; }
+
+.enf-pop__role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+  color: var(--enf-pop);
+}
+.enf-pop__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  align-self: center;
+  border-radius: 999px;
+  background: var(--enf-pop);
+  box-shadow: 0 0 8px var(--enf-pop);
+}
+
+.enf-pop__code {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.12rem 0.45rem;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: hsl(var(--primary));
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border-radius: 0.4rem;
+  border: 1px solid hsl(var(--primary) / 0.28);
+  background: hsl(var(--primary) / 0.08);
+}
+
+.enf-pop__arrow {
+  position: absolute;
+  left: var(--enf-arrow-x, 50%);
+  width: 12px;
+  height: 12px;
+  background: hsl(var(--popover));
+  border: 1px solid color-mix(in srgb, var(--enf-pop) 42%, transparent);
+  transform: translateX(-50%) rotate(45deg);
+}
+.enf-pop[data-placement="top"] .enf-pop__arrow {
+  bottom: -7px;
+  border-top: none;
+  border-left: none;
+}
+.enf-pop[data-placement="bottom"] .enf-pop__arrow {
+  top: -7px;
+  border-bottom: none;
+  border-right: none;
+}
+
+/* ── Таблица «Символы: от формулы к коду» ───────────────────── */
+
+.enf-role-chip {
+  --enf-chip: var(--enf-color-neutral);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.12rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--enf-chip);
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--enf-chip) 40%, transparent);
+  background: color-mix(in srgb, var(--enf-chip) 10%, transparent);
+}
+.enf-role-chip--variable { --enf-chip: var(--enf-color-variable); }
+.enf-role-chip--function { --enf-chip: var(--enf-color-function); }
+.enf-role-chip--parameter { --enf-chip: var(--enf-color-parameter); }
+.enf-role-chip--operator { --enf-chip: var(--enf-color-operator); }
+.enf-role-chip--target { --enf-chip: var(--enf-color-target); }
+.enf-role-chip--neutral { --enf-chip: var(--enf-color-neutral); }
+.enf-role-chip__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+.enf-symbol-row { --enf-row: var(--enf-color-neutral); }
+.enf-symbol-row--variable { --enf-row: var(--enf-color-variable); }
+.enf-symbol-row--function { --enf-row: var(--enf-color-function); }
+.enf-symbol-row--parameter { --enf-row: var(--enf-color-parameter); }
+.enf-symbol-row--operator { --enf-row: var(--enf-color-operator); }
+.enf-symbol-row--target { --enf-row: var(--enf-color-target); }
+tr.enf-symbol-row > td:first-child { box-shadow: inset 3px 0 0 var(--enf-row); }
+li.enf-symbol-row { box-shadow: inset 3px 0 0 var(--enf-row); }
+tr.enf-symbol-row { transition: background-color 140ms ease; }
+tr.enf-symbol-row:hover { background-color: color-mix(in srgb, var(--enf-row) 6%, transparent); }
+
+@media print {
+  .enf-pop { display: none !important; }
+}

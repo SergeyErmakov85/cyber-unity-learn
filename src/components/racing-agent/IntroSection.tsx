@@ -164,22 +164,22 @@ const IntroSection = () => (
         Формально среда задаётся как{" "}
         <HubLink to="/hub/math-rl" anchor="марковское-свойство">Марковский процесс принятия решений</HubLink>:
       </p>
-      <Math>{String.raw`\mathcal{M} = \langle \mathcal{S}, \mathcal{A}, P, \enfTgt{R}, \enfPar{\gamma} \rangle,`}</Math>
+      <Math>{String.raw`\mathcal{M} = \langle \mathcal{S}, \mathcal{A}, \enfFun{P}, \enfTgt{R}, \enfPar{\gamma} \rangle,`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         где <Math display={false}>{String.raw`\mathcal{S}`}</Math> — множество состояний,{" "}
         <Math display={false}>{String.raw`\mathcal{A}`}</Math> — множество действий,{" "}
-        <Math display={false}>{String.raw`P(\enfVar{s}'\mid \enfVar{s},a)`}</Math> — вероятность перехода,{" "}
-        <Math display={false}>{String.raw`R(s,a)`}</Math> — функция награды,{" "}
+        <Math display={false}>{String.raw`\enfFun{P}(\enfVar{s}'\mid \enfVar{s},\enfFun{a})`}</Math> — вероятность перехода,{" "}
+        <Math display={false}>{String.raw`\enfTgt{R}(\enfVar{s},\enfFun{a})`}</Math> — функция награды,{" "}
         <Math display={false}>{String.raw`\enfPar{\gamma} \in [0,1)`}</Math> — коэффициент дисконтирования.
         Марковское свойство означает, что распределение следующего состояния зависит только от
         текущего состояния и действия, а не от истории.
       </p>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Цель агента</strong> — найти политику{" "}
-        <Math display={false}>{String.raw`\pi^*`}</Math>, максимизирующую ожидаемую дисконтированную
+        <Math display={false}>{String.raw`\enfFun{\pi}^*`}</Math>, максимизирующую ожидаемую дисконтированную
         сумму наград:
       </p>
-      <Math>{String.raw`\enfTgt{J}(\pi) = \mathbb{E}_{\tau \sim \pi}\!\left[\sum_{t=0}^{\infty} \enfPar{\gamma}^t \enfTgt{r}_t\right].`}</Math>
+      <Math>{String.raw`\enfTgt{J}(\enfFun{\pi}) = \mathbb{E}_{\tau \sim \pi}\!\left[\sum_{t=0}^{\infty} \enfPar{\gamma}^t \enfTgt{r}_t\right].`}</Math>
       <p className="text-muted-foreground leading-relaxed">
         <strong className="text-foreground">Функция ценности состояния</strong> определяется рекурсивно через{" "}
         <HubLink to="/hub/math-rl" anchor="уравнение-ожиданий-беллмана">уравнение Беллмана</HubLink>:
@@ -193,7 +193,7 @@ const IntroSection = () => (
       <p className="text-muted-foreground leading-relaxed text-sm">
         Уравнение Беллмана — основа всех современных RL-алгоритмов: глубокие нейросети учатся аппроксимировать
         либо <Math display={false}>{String.raw`\enfOp{V}^*/\enfOp{Q}^*`}</Math>, либо политику{" "}
-        <Math display={false}>{String.raw`\pi^*`}</Math>, минимизируя отклонение от этих рекурсивных тождеств.
+        <Math display={false}>{String.raw`\enfFun{\pi}^*`}</Math>, минимизируя отклонение от этих рекурсивных тождеств.
       </p>
     </div>
 
@@ -207,14 +207,14 @@ const IntroSection = () => (
           <strong className="text-foreground">Дискретное пространство</strong>{" "}
           (<Math display={false}>{String.raw`\mathcal{A} = \{0,1,\ldots,K-1\}`}</Math>): агент выбирает одно
           из конечного числа действий. Политика — категориальное распределение{" "}
-          <Math display={false}>{String.raw`\pi(a\mid \enfVar{s}) = \operatorname{softmax}(\phi_\theta(\enfVar{s}))`}</Math>.
+          <Math display={false}>{String.raw`\enfFun{\pi}(\enfFun{a}\mid \enfVar{s}) = \operatorname{softmax}(\enfFun{\phi}_\theta(\enfVar{s}))`}</Math>.
         </li>
         <li>
           <strong className="text-foreground">Непрерывное пространство</strong>{" "}
-          (<Math display={false}>{String.raw`\mathcal{A} \subseteq \mathbb{\enfTgt{R}}^d`}</Math>): действие — вектор
+          (<Math display={false}>{String.raw`\mathcal{A} \subseteq \mathbb{R}^d`}</Math>): действие — вектор
           вещественных чисел. В ML-Agents политика для непрерывных действий — мультивариативное Гауссово
           распределение{" "}
-          <Math display={false}>{String.raw`\pi_\theta(a\mid \enfVar{s}) = \mathcal{N}(\mu_\theta(\enfVar{s}), \sigma_\theta(\enfVar{s}))`}</Math>.
+          <Math display={false}>{String.raw`\enfFun{\pi}_\theta(\enfFun{a}\mid \enfVar{s}) = \mathcal{N}(\enfFun{\mu}_\theta(\enfVar{s}), \enfFun{\sigma}_\theta(\enfVar{s}))`}</Math>.
         </li>
       </ul>
     </div>
@@ -227,11 +227,11 @@ const IntroSection = () => (
       <p className="text-muted-foreground leading-relaxed">
         Управление транспортным средством физически требует <strong className="text-foreground">плавных,
         мелкоразрешённых сигналов</strong>: угол поворота руля{" "}
-        <Math display={false}>{String.raw`\delta \in [-\delta_{\max}, +\delta_{\max}]`}</Math>,
+        <Math display={false}>{String.raw`\enfFun{\delta} \in [-\enfPar{\delta}_{\max}, +\enfPar{\delta}_{\max}]`}</Math>,
         нормированная сила тяги{" "}
-        <Math display={false}>{String.raw`u_{\text{accel}} \in [0,1]`}</Math>,
+        <Math display={false}>{String.raw`\enfFun{u}_{\text{accel}} \in [0,1]`}</Math>,
         сила торможения{" "}
-        <Math display={false}>{String.raw`u_{\text{brake}} \in [0,1]`}</Math>.
+        <Math display={false}>{String.raw`\enfFun{u}_{\text{brake}} \in [0,1]`}</Math>.
         Дискретизация (например, «руль = {"{"}−1, 0, +1{"}"}) приводит к рывкам, потере
         устойчивости и неоптимальным траекториям на поворотах. Непрерывное управление позволяет
         агенту изучать тонкие манёвры — «лёгкое подруливание» и «постепенное оттормаживание

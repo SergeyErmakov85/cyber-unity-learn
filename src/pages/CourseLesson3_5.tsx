@@ -29,9 +29,12 @@ import Section9 from "@/components/lesson-3-5/Section9";
 import Summary from "@/components/lesson-3-5/Summary";
 import RelatedMaterials from "@/components/lesson-3-5/RelatedMaterials";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_3_5_SYMBOLS } from "@/content/symbols/pages/level3";
 
 const SECTIONS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
+  { id: "symbols-table", label: "Σ · Символы и код" },
   { id: "razdel-0-most", label: "0 · Мост и мотивация" },
   { id: "razdel-1-onnx", label: "1 · ONNX" },
   { id: "razdel-2-checkpoints", label: "2 · Чекпойнты" },
@@ -46,8 +49,14 @@ const SECTIONS: SectionNavItem[] = [
   { id: "istochniki", label: "Источники" },
 ];
 
+/** Таблица символов урока: те же записи питают пояснения по клику на символ формулы. */
+const SymbolsSection = () => (
+  <SymbolTable symbols={LESSON_3_5_SYMBOLS} variant="section" id="symbols-table" codeLabel="В Unity и коде" />
+);
+
 const MAPPED_SECTIONS: Array<{ id: string; Comp: () => JSX.Element }> = [
   { id: "intro", Comp: IntroSection },
+  { id: "symbols-table", Comp: SymbolsSection },
   { id: "razdel-0-most", Comp: Section0 },
   { id: "razdel-1-onnx", Comp: Section1 },
   { id: "razdel-2-checkpoints", Comp: Section2 },

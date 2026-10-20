@@ -144,7 +144,7 @@ const IntroSection = () => (
       items={[
         <>
           <strong>Behavioral Cloning</strong> — обычное supervised-обучение на парах{" "}
-          <Math display={false}>{String.raw`(s,a)`}</Math> эксперта; страдает от{" "}
+          <Math display={false}>{String.raw`(\enfVar{s},\enfFun{a})`}</Math> эксперта; страдает от{" "}
           <strong>covariate shift</strong>: по теореме 2.1 Ross &amp; Bagnell (2010) ошибка растёт как{" "}
           <Math display={false}>{String.raw`O(T^2\enfPar{\epsilon})`}</Math> против{" "}
           <Math display={false}>{String.raw`O(T\enfPar{\epsilon})`}</Math> у методов со средой. Поэтому BC в
@@ -157,7 +157,7 @@ const IntroSection = () => (
             {String.raw`\min_\pi\max_D \mathbb{E}_\pi[\log \enfFun{D}]+\mathbb{E}_{\pi_E}[\log(1-\enfFun{D})]-\enfPar{\lambda} \enfOp{H}(\pi)`}
           </Math>
           {" "}с наградой{" "}
-          <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s},a)=-\log(1-\enfFun{D}(\enfVar{s},a))`}</Math>; на порядок экономнее по
+          <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s},\enfFun{a})=-\log(1-\enfFun{D}(\enfVar{s},\enfFun{a}))`}</Math>; на порядок экономнее по
           числу демо, чем классический IRL.
         </>,
         <>

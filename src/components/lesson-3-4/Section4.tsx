@@ -14,12 +14,12 @@ const Section4 = () => (
       среды (entangled). AIRL ограничивает форму дискриминатора:
     </ProseP>
     <Math display>
-      {String.raw`\enfFun{D}_{\theta}(\enfVar{s},a,\enfVar{s}')=\frac{\exp\{f_\theta(\enfVar{s},a,\enfVar{s}')\}}{\exp\{f_\theta(\enfVar{s},a,\enfVar{s}')\}+\pi(a\mid \enfVar{s})},\qquad f_\theta(\enfVar{s},a,\enfVar{s}')=g_\theta(\enfVar{s},a)+\enfPar{\gamma} h_\phi(\enfVar{s}')-h_\phi(\enfVar{s}),`}
+      {String.raw`\enfFun{D}_{\theta}(\enfVar{s},\enfFun{a},\enfVar{s}')=\frac{\exp\{\enfFun{f}_\theta(\enfVar{s},\enfFun{a},\enfVar{s}')\}}{\exp\{\enfFun{f}_\theta(\enfVar{s},\enfFun{a},\enfVar{s}')\}+\enfFun{\pi}(\enfFun{a}\mid \enfVar{s})},\qquad \enfFun{f}_\theta(\enfVar{s},\enfFun{a},\enfVar{s}')=\enfFun{g}_\theta(\enfVar{s},\enfFun{a})+\enfPar{\gamma} \enfFun{h}_\phi(\enfVar{s}')-\enfFun{h}_\phi(\enfVar{s}),`}
     </Math>
     <ProseP>
       что позволяет извлечь <strong>disentangled reward</strong>{" "}
-      <Math display={false}>{String.raw`g_\theta`}</Math>, инвариантный к смене динамики. При
-      state-only форме <Math display={false}>{String.raw`g_\theta(\enfVar{s})`}</Math> AIRL восстанавливает
+      <Math display={false}>{String.raw`\enfFun{g}_\theta`}</Math>, инвариантный к смене динамики. При
+      state-only форме <Math display={false}>{String.raw`\enfFun{g}_\theta(\enfVar{s})`}</Math> AIRL восстанавливает
       истинную награду и переносит политику в среды с изменённой динамикой, где GAIL-награда уже
       неоптимальна.
     </ProseP>
@@ -83,7 +83,7 @@ const Section4 = () => (
       items={[
         <>
           AIRL чинит главный дефект GAIL: вместо «сигнала, путанного с динамикой» возвращает
-          переносимую <Math display={false}>{String.raw`r(s)`}</Math>.
+          переносимую <Math display={false}>{String.raw`\enfTgt{r}(\enfVar{s})`}</Math>.
         </>,
         <>
           VAIL (= <code className="px-1 rounded bg-muted/50 text-xs font-mono">use_vail: true</code> в

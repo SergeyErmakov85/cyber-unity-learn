@@ -208,7 +208,7 @@ const GaussianPolicyClampViz = () => {
       <div className="flex flex-wrap items-center gap-4 mb-3">
         <label className="flex items-center gap-2" style={{ minWidth: 200 }}>
           <span style={{ fontFamily: MONO, fontSize: 12, color: DIM }}>
-            μ
+            <MathTex display={false}>{String.raw`\enfFun{\mu}`}</MathTex>
           </span>
           <input
             type="range"
@@ -234,7 +234,7 @@ const GaussianPolicyClampViz = () => {
 
         <label className="flex items-center gap-2" style={{ minWidth: 200 }}>
           <span style={{ fontFamily: MONO, fontSize: 12, color: DIM }}>
-            σ
+            <MathTex display={false}>{String.raw`\enfFun{\sigma}`}</MathTex>
           </span>
           <input
             type="range"
@@ -498,10 +498,10 @@ const GaussianPolicyClampViz = () => {
         }}
       >
         <MathTex>
-          {"\\pi_{\\theta}(a \\mid \\enfVar{s}) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(\\enfVar{s}),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(\\enfVar{s})\\big)"}
+          {"\\enfFun{\\pi}_{\\theta}(\\enfFun{a} \\mid \\enfVar{s}) = \\mathcal{N}\\!\\big(\\enfFun{\\mu}_{\\theta}(\\enfVar{s}),\\ \\operatorname{diag}\\enfFun{\\sigma}_{\\theta}^{2}(\\enfVar{s})\\big)"}
         </MathTex>
         <MathTex display={false}>
-          {"a_{\\text{env}} = \\operatorname{clip}(a,\\, -1,\\, +1)"}
+          {"\\enfFun{a}_{\\text{env}} = \\operatorname{clip}(\\enfFun{a},\\, -1,\\, +1)"}
         </MathTex>
       </div>
 

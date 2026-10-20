@@ -118,7 +118,7 @@ const PBRSPotentialField = () => {
           marginBottom: 12,
         }}
       >
-        Потенциальное поле Φ: за кружение плюсов не накопить
+        Потенциальное поле <MathTex display={false}>{String.raw`\enfFun{\Phi}`}</MathTex>: за кружение плюсов не накопить
       </h3>
 
       {/* Controls */}
@@ -239,12 +239,12 @@ const PBRSPotentialField = () => {
             <div style={{ color: TEXT, fontSize: 14, marginBottom: 10 }}>
               t = {Math.max(0, visibleCount - 1)} / {path.length - 1}
             </div>
-            <div style={{ color: MUTED, fontSize: 11, marginBottom: 4 }}>Φ(s_t)</div>
+            <div style={{ color: MUTED, fontSize: 11, marginBottom: 4 }}><MathTex display={false}>{String.raw`\enfFun{\Phi}(\enfVar{s}_t)`}</MathTex></div>
             <div style={{ color: CYAN, fontSize: 14, marginBottom: 10 }}>
               {phi(agent).toFixed(3)}
             </div>
             <div style={{ color: MUTED, fontSize: 11, marginBottom: 4 }}>
-              Σ γᵗ F по пути
+              <MathTex display={false}>{String.raw`\sum_t \enfPar{\gamma}^t \enfFun{F}`}</MathTex> по пути
             </div>
             <div
               style={{
@@ -267,9 +267,9 @@ const PBRSPotentialField = () => {
 
       {/* Formulas */}
       <div className="mt-4 space-y-2 overflow-x-auto">
-        <MathTex>{"\\enfFun{\\Phi}(\\enfVar{s}) = -\\dfrac{d(\\enfVar{s})}{d_{\\max}}"}</MathTex>
-        <MathTex>{"F(\\enfVar{s}, \\enfVar{s}') = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</MathTex>
-        <MathTex>{"\\sum_{t=0}^{T-1} \\enfPar{\\gamma}^{t} F(\\enfVar{s}_t, \\enfVar{s}_{t+1}) = \\enfPar{\\gamma}^{T}\\enfFun{\\Phi}(\\enfVar{s}_T) - \\enfFun{\\Phi}(\\enfVar{s}_0)"}</MathTex>
+        <MathTex>{"\\enfFun{\\Phi}(\\enfVar{s}) = -\\dfrac{\\enfFun{d}(\\enfVar{s})}{\\enfPar{d}_{\\max}}"}</MathTex>
+        <MathTex>{"\\enfFun{F}(\\enfVar{s}, \\enfVar{s}') = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</MathTex>
+        <MathTex>{"\\sum_{t=0}^{T-1} \\enfPar{\\gamma}^{t} \\enfFun{F}(\\enfVar{s}_t, \\enfVar{s}_{t+1}) = \\enfPar{\\gamma}^{T}\\enfFun{\\Phi}(\\enfVar{s}_T) - \\enfFun{\\Phi}(\\enfVar{s}_0)"}</MathTex>
       </div>
 
       {/* Citation badge */}

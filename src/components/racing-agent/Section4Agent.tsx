@@ -513,7 +513,7 @@ namespace RacingAgent.Agent
             float speedNorm = Mathf.Clamp01(_car.LocalVelocity.z / _car.MaxSpeed);
             AddReward(_speedRewardCoeff * speedNorm);
 
-            // (в) Премия за правильную ориентацию: r_orient = β * dot(forward, dir_to_cp)
+            // (в) Премия за правильную ориентацию: r_orient = w_orient * dot(forward, dir_to_cp)
             Vector3 toCp = (_checkpoints.GetNextCheckpointPosition() - transform.position).normalized;
             float dot = Vector3.Dot(transform.forward, toCp);
             AddReward(_orientationCoeff * dot);
@@ -787,8 +787,8 @@ namespace AutonomousRacing.Learning
         </li>
         <li>
           <strong className="text-foreground">Уменьшает риск ранней насыщенности нелинейностей</strong>{" "}
-          (<Math display={false}>{String.raw`\tanh(x) \to \pm 1`}</Math> при{" "}
-          <Math display={false}>{String.raw`|x| \gtrsim 3`}</Math>)
+          (<Math display={false}>{String.raw`\tanh(\enfVar{x}) \to \pm 1`}</Math> при{" "}
+          <Math display={false}>{String.raw`|\enfVar{x}| \gtrsim 3`}</Math>)
         </li>
         <li>
           <strong className="text-foreground">Стабилизирует value loss</strong>:{" "}

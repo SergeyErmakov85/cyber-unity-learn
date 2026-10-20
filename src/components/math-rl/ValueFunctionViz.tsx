@@ -49,11 +49,11 @@ function Tex({ children, display = false, size = 1.15, color }: {
 
 /* ─── MDP data ─── */
 const STATES = [
-  { name: "S_0", tex: "S_0", label: "Старт", color: C.cyan },
-  { name: "S_1", tex: "S_1", label: "Разведка", color: C.blue },
-  { name: "S_2", tex: "S_2", label: "Опасность", color: C.amber },
-  { name: "S_3", tex: "S_3", label: "Подъём", color: C.magenta },
-  { name: "S_4", tex: "S_4", label: "Цель", color: C.green },
+  { name: "S_0", tex: "\\enfVar{S}_0", label: "Старт", color: C.cyan },
+  { name: "S_1", tex: "\\enfVar{S}_1", label: "Разведка", color: C.blue },
+  { name: "S_2", tex: "\\enfVar{S}_2", label: "Опасность", color: C.amber },
+  { name: "S_3", tex: "\\enfVar{S}_3", label: "Подъём", color: C.magenta },
+  { name: "S_4", tex: "\\enfVar{S}_4", label: "Цель", color: C.green },
 ];
 const REWARDS = [1, 3, -2, 10];
 
@@ -261,10 +261,10 @@ const ValueFunctionViz = () => {
     `${i > 0 ? " + " : ""}${s.disc.toFixed(3)} \\cdot (${s.reward >= 0 ? "+" : ""}${s.reward})`
   ).join("");
   // Вклады — это награды, то есть роль target (ENF-COLOR-010). Знак «+»/«−»
-  // печатается явно и служит вторым признаком, поэтому пара «зелёное/красное»
+  // стоит вне макроса (знаки не окрашиваются, ENF-MATH-020) и печатается явно и служит вторым признаком, поэтому пара «зелёное/красное»
   // как единственное отличие не нужна и запрещена (ENF-COLOR-041).
   const contribParts = steps.map((s, i) =>
-    `${i > 0 ? " + " : ""}\\enfTgt{${s.contrib >= 0 ? "+" : ""}${s.contrib.toFixed(3)}}`
+    `${i > 0 ? " + " : ""}${s.contrib >= 0 ? "+" : "-"}\\enfTgt{${Math.abs(s.contrib).toFixed(3)}}`
   ).join("");
 
   return (
@@ -330,7 +330,7 @@ const ValueFunctionViz = () => {
             {/* All V(s) */}
             <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
               <div style={{ fontFamily: C.display, fontSize: 12, letterSpacing: "0.18em", color: C.txtMuted, textTransform: "uppercase", marginBottom: 10 }}>
-                <Tex size={0.9} color={C.txtMuted}>{"V(s)"}</Tex> всех состояний
+                <Tex size={0.9} color={C.txtMuted}>{"\\enfOp{V}(\\enfVar{s})"}</Tex> всех состояний
               </div>
               {STATES.map((s, i) => {
                 const val = allValues[i], maxV = Math.max(...allValues.map(Math.abs), 0.1);
@@ -363,7 +363,7 @@ const ValueFunctionViz = () => {
               </div>
               <div style={{ fontFamily: C.sans, fontSize: 13, color: C.txtDim, lineHeight: 1.6, marginBottom: 10 }}>
                 {"При заданной политике "}
-                <Tex size={1.05} color={C.txt}>{"\\pi"}</Tex>
+                <Tex size={1.05} color={C.txt}>{"\\enfFun{\\pi}"}</Tex>
                 {" определим функцию ценности как математическое ожидание дисконтированного возврата:"}
               </div>
               <div style={{
@@ -372,7 +372,7 @@ const ValueFunctionViz = () => {
                 textAlign: "center", overflowX: "auto"
               }}>
                 <Tex display size={1.2} color={C.cyan}>
-                  {"V^{\\pi}(s) = \\mathbb{E}_{\\pi}\\!\\left[\\sum_{t=0}^{\\infty} \\gamma^{\\,t}\\, R_{t+1} \\;\\middle|\\; S_0 = s\\right]"}
+                  {"\\enfOp{V}^{\\pi}(\\enfVar{s}) = \\mathbb{E}_{\\pi}\\!\\left[\\sum_{t=0}^{\\infty} \\enfPar{\\gamma}^{\\,t}\\, \\enfTgt{R}_{t+1} \\;\\middle|\\; \\enfVar{S}_0 = \\enfVar{s}\\right]"}
                 </Tex>
               </div>
             </div>
@@ -403,7 +403,7 @@ const ValueFunctionViz = () => {
               <p style={{ fontFamily: C.sans, fontSize: 15, color: C.txt, lineHeight: 1.9, marginBottom: 8 }}>
                 Агент в <span style={{ color: STATES[startState].color, fontWeight: 600 }}>{STATES[startState].label}</span>.
                 Впереди <span style={{ fontWeight: 600 }}>{steps.length}</span> шагов до цели.
-                Каждая будущая награда <Tex size={1.0} color={C.green}>R_k</Tex> умножается на <Tex size={1.1} color={C.amber}>{`\\gamma^k`}</Tex> — чем дальше награда, тем меньше её вклад.
+                Каждая будущая награда <Tex size={1.0} color={C.green}>R_k</Tex> умножается на <Tex size={1.1} color={C.amber}>{`\\enfPar{\\gamma}^k`}</Tex> — чем дальше награда, тем меньше её вклад.
               </p>
               {/* Live formula decomposition */}
               <div style={{
@@ -471,11 +471,11 @@ const ValueFunctionViz = () => {
               </div>
               <div style={{ flex: 1, padding: "16px 20px", borderRadius: C.radiusSm, background: C.card, border: `1px solid ${C.border}` }}>
                 <div style={{ fontFamily: C.display, fontSize: 12, letterSpacing: "0.18em", color: C.txtMuted, textTransform: "uppercase", marginBottom: 10 }}>
-                  Почему <Tex size={0.9} color={C.txtMuted}>{"\\gamma < 1"}</Tex> ?
+                  Почему <Tex size={0.9} color={C.txtMuted}>{"\\enfPar{\\gamma} < 1"}</Tex> ?
                 </div>
                 <p style={{ fontFamily: C.sans, fontSize: 14, color: C.txtDim, lineHeight: 1.8 }}>
-                  Без дисконтирования (<Tex size={0.95}>{"\\gamma = 1"}</Tex>) бесконечная сумма расходится.{" "}
-                  <Tex size={0.95}>{"\\gamma < 1"}</Tex> гарантирует <span style={{ color: C.cyan }}>сходимость</span> ряда.
+                  Без дисконтирования (<Tex size={0.95}>{"\\enfPar{\\gamma} = 1"}</Tex>) бесконечная сумма расходится.{" "}
+                  <Tex size={0.95}>{"\\enfPar{\\gamma} < 1"}</Tex> гарантирует <span style={{ color: C.cyan }}>сходимость</span> ряда.
                   Эффективный горизонт: <Tex size={1.05} color={C.amber}>{`\\frac{1}{1-\\gamma} = ${horizon}`}</Tex> шагов.
                 </p>
               </div>

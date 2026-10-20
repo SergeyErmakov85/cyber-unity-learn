@@ -10,6 +10,8 @@ import TextbookStrip from "@/components/math-rl/TextbookStrip";
 import { TOTAL_LECTURES } from "@/content/textbook/index.generated";
 import { sections } from "@/lib/plural";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable, { SymbolGlossary } from "@/components/math-symbols/SymbolTable";
+import { MATH_RL_PART_SYMBOLS, MATH_RL_PARTS_WITH_CODE } from "@/content/symbols/pages/mathrl";
 
 const Part1 = lazy(() => import("@/components/math-rl/parts/Part1Limits"));
 const Part1b = lazy(() => import("@/components/math-rl/parts/Part1bCalculus"));
@@ -251,8 +253,19 @@ const CollapsibleParts = ({ openParts, toggle }: { openParts: Set<string>; toggl
           </button>
 
           {isOpen && (
-            <div className="mt-8 mb-4">
+            // Своя область словаря: одна и та же буква в разных частях значит разное.
+            <div className="mt-8 mb-4" data-symbol-scope={part.id}>
               <TextbookStrip sitePartId={part.id} />
+              {MATH_RL_PARTS_WITH_CODE.has(part.id) ? (
+                <SymbolTable
+                  symbols={MATH_RL_PART_SYMBOLS[part.id]}
+                  id={`symbols-${part.id}`}
+                  title={`Символы части ${part.num}: от формулы к коду`}
+                  codeLabel="В коде Python"
+                />
+              ) : (
+                <SymbolGlossary symbols={MATH_RL_PART_SYMBOLS[part.id] ?? []} />
+              )}
               <Suspense fallback={<PartSkeleton />}>
                 <PartComponent />
               </Suspense>

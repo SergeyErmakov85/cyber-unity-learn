@@ -11,13 +11,18 @@ import type { KatexOptions } from "katex";
  * В Obsidian те же макросы разворачиваются в `\class{...}` (расширение html
  * MathJax). KaTeX команды `\class` не знает — её аналог `\htmlClass`.
  * Это единственное отличие пайплайна сайта от исходного.
+ *
+ * Второй класс `enf-sym` делает символ кликабельным: по клику над ним
+ * открывается пояснение — смысл, роль в формуле и запись в коде
+ * (src/components/math-symbols/SymbolPopoverLayer.tsx). Так работают все
+ * формулы сайта сразу: компонент Math, локальные обёртки и лекции учебника.
  */
 export const ENF_MACROS: Record<string, string> = {
-  "\\enfVar": "\\htmlClass{enf-variable}{#1}",
-  "\\enfFun": "\\htmlClass{enf-function}{#1}",
-  "\\enfPar": "\\htmlClass{enf-parameter}{#1}",
-  "\\enfOp": "\\htmlClass{enf-operator}{#1}",
-  "\\enfTgt": "\\htmlClass{enf-target}{#1}",
+  "\\enfVar": "\\htmlClass{enf-variable enf-sym}{#1}",
+  "\\enfFun": "\\htmlClass{enf-function enf-sym}{#1}",
+  "\\enfPar": "\\htmlClass{enf-parameter enf-sym}{#1}",
+  "\\enfOp": "\\htmlClass{enf-operator enf-sym}{#1}",
+  "\\enfTgt": "\\htmlClass{enf-target enf-sym}{#1}",
   "\\enfNeu": "\\htmlClass{enf-neutral}{#1}",
 };
 

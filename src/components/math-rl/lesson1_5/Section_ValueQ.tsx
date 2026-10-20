@@ -375,7 +375,7 @@ const QHeatmap = () => {
               fontSize: 12,
             }}
           >
-            <span style={{ color: "rgba(255,255,255,0.75)" }}>γ — коэффициент дисконта</span>
+            <span style={{ color: "rgba(255,255,255,0.75)" }}><MathFormula display={false}>{String.raw`\enfPar{\gamma}`}</MathFormula> — коэффициент дисконта</span>
             <span style={{ color: CYAN, fontSize: 14 }}>{gamma.toFixed(2)}</span>
           </div>
           <Slider
@@ -400,8 +400,8 @@ const QHeatmap = () => {
         >
           В каждой клетке — четыре «лепестка»: <span style={{ color: "#bbb" }}>↑ ↓ ← →</span>.
           Цвет и число показывают{" "}
-          <span style={{ fontFamily: MONO_FONT, color: CYAN }}>Q<sup>π</sup>(s, a)</span>{" "}
-          для равномерной π. Клетки{" "}
+          <MathFormula display={false}>{String.raw`\enfOp{Q}^{\pi}(\enfVar{s}, \enfFun{a})`}</MathFormula>{" "}
+          для равномерной <MathFormula display={false}>{String.raw`\enfFun{\pi}`}</MathFormula>. Клетки{" "}
           <span aria-hidden>💧</span> и <span aria-hidden>🔋</span> — терминальные, действий из них нет.
         </p>
       </div>
@@ -506,7 +506,7 @@ const Section_ValueQ = () => {
         <div className="flex flex-col gap-3">
           <p style={{ color: "rgba(255,255,255,0.9)" }}>
             Функция{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V<sup>π</sup>(s)</span>{" "}
+            <MathFormula display={false}>{String.raw`\enfOp{V}^{\pi}(\enfVar{s})`}</MathFormula>{" "}
             даёт одно число на состояние — среднюю «полезность клетки». Но бот
             действует конкретно: в одной и той же клетке ход{" "}
             <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>→</span>{" "}
@@ -518,14 +518,14 @@ const Section_ValueQ = () => {
           <FormulaBlock
             big
             accent={MAGENTA}
-            tex="Q^{\pi}(s, a) \;=\; \mathbb{E}_{\pi}\!\left[\, G_t \,\middle|\, S_t = s,\; A_t = a \,\right]"
+            tex="\enfOp{Q}^{\pi}(\enfVar{s}, \enfFun{a}) \;=\; \mathbb{E}_{\pi}\!\left[\, \enfOp{G}_t \,\middle|\, \enfVar{S}_t = \enfVar{s},\; \enfFun{A}_t = \enfFun{a} \,\right]"
           />
 
           <p style={{ color: "rgba(255,255,255,0.8)" }}>
             Разница с{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V</span> — всего
+            <MathFormula display={false}>{String.raw`\enfOp{V}`}</MathFormula> — всего
             в одном лишнем условии: мы фиксируем конкретное первое действие{" "}
-            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>a</span>, а
+            <MathFormula display={false}>{String.raw`\enfFun{a}`}</MathFormula>, а
             дальше — как обычно, по политике.
           </p>
         </div>
@@ -549,31 +549,31 @@ const Section_ValueQ = () => {
                 Шаг 1 · V — матожидание по всему будущему
               </StepBadge>
               <p style={{ color: "rgba(255,255,255,0.85)" }}>
-                <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V<sup>π</sup>(s)</span>{" "}
+                <MathFormula display={false}>{String.raw`\enfOp{V}^{\pi}(\enfVar{s})`}</MathFormula>{" "}
                 — это среднее по всем возможным будущим, начинающимся с{" "}
-                <span style={{ fontFamily: MONO_FONT }}>s</span>. Будущее
+                <MathFormula display={false}>{String.raw`\enfVar{s}`}</MathFormula>. Будущее
                 содержит одно «развилочное» случайное событие — выбор первого
                 действия{" "}
-                <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>a</span>.
+                <MathFormula display={false}>{String.raw`\enfFun{a}`}</MathFormula>.
                 Значит среднее по будущему = среднее по{" "}
-                <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>a</span>,
+                <MathFormula display={false}>{String.raw`\enfFun{a}`}</MathFormula>,
                 а уже внутри — среднее по всему остальному.
               </p>
             </div>
 
             <div className="flex flex-col gap-2">
               <StepBadge n={2} color={AMBER}>
-                Шаг 2 · Вероятность выбрать a — это π(a|s)
+                Шаг 2 · Вероятность выбрать <MathFormula display={false}>{String.raw`\enfFun{a}`}</MathFormula> — это <MathFormula display={false}>{String.raw`\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})`}</MathFormula>
               </StepBadge>
               <p style={{ color: "rgba(255,255,255,0.85)" }}>
                 Матожидание по действию раскладывается в сумму «вероятность
                 умножить на условное среднее». Вероятность выбрать{" "}
-                <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>a</span>{" "}
+                <MathFormula display={false}>{String.raw`\enfFun{a}`}</MathFormula>{" "}
                 в состоянии{" "}
-                <span style={{ fontFamily: MONO_FONT }}>s</span> — это ровно{" "}
-                <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>π(a|s)</span>,
+                <MathFormula display={false}>{String.raw`\enfVar{s}`}</MathFormula> — это ровно{" "}
+                <MathFormula display={false}>{String.raw`\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})`}</MathFormula>,
                 а условное среднее — это и есть{" "}
-                <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>Q<sup>π</sup>(s, a)</span>.
+                <MathFormula display={false}>{String.raw`\enfOp{Q}^{\pi}(\enfVar{s}, \enfFun{a})`}</MathFormula>.
                 Складываем:
               </p>
             </div>
@@ -581,7 +581,7 @@ const Section_ValueQ = () => {
             <FormulaBlock
               big
               emphasized
-              tex="V^{\pi}(s) \;=\; \sum_{a} \pi(a \mid s)\, Q^{\pi}(s, a)"
+              tex="\enfOp{V}^{\pi}(\enfVar{s}) \;=\; \sum_{a} \enfFun{\pi}(a \mid \enfVar{s})\, \enfOp{Q}^{\pi}(\enfVar{s}, a)"
             />
 
             <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 13 }}>
@@ -608,7 +608,7 @@ const Section_ValueQ = () => {
           <p style={{ color: "rgba(255,255,255,0.85)" }}>
             Та же 3×3, что в § 5, но каждая клетка разбита на четыре треугольника
             по направлениям действия. Цвет треугольника — его{" "}
-            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>Q<sup>π</sup>(s, a)</span>{" "}
+            <MathFormula display={false}>{String.raw`\enfOp{Q}^{\pi}(\enfVar{s}, \enfFun{a})`}</MathFormula>{" "}
             на общей шкале «холодно → горячо». Обратите внимание: на клетке{" "}
             <span style={{ fontFamily: MONO_FONT }}>(0, 1)</span> действие{" "}
             <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>↓</span> ведёт
@@ -635,12 +635,12 @@ const Section_ValueQ = () => {
           </h3>
           <p style={{ color: "rgba(255,255,255,0.85)" }}>
             Если{" "}
-            <span style={{ fontFamily: MONO_FONT, color: CYAN }}>V<sup>π</sup></span>{" "}
+            <MathFormula display={false}>{String.raw`\enfOp{V}^{\pi}`}</MathFormula>{" "}
             уже оценён (§ 5), то{" "}
-            <span style={{ fontFamily: MONO_FONT, color: MAGENTA }}>Q<sup>π</sup></span>{" "}
+            <MathFormula display={false}>{String.raw`\enfOp{Q}^{\pi}`}</MathFormula>{" "}
             получается буквально одним проходом: для каждой пары{" "}
-            <span style={{ fontFamily: MONO_FONT }}>(s, a)</span> усредняем
-            «мгновенную награду плюс γ·V(следующего)» по переходам из § 3.
+            <MathFormula display={false}>{String.raw`(\enfVar{s}, \enfFun{a})`}</MathFormula> усредняем
+            «мгновенную награду плюс <MathFormula display={false}>{String.raw`\enfPar{\gamma} \cdot \enfOp{V}(\enfVar{s}\')`}</MathFormula>» по переходам из § 3.
             Формулу за этим кодом выведем в § 7 — пока просто смотрим на код:
           </p>
           <CyberCodeBlock language="python">{Q_FROM_V_CODE}</CyberCodeBlock>
@@ -653,7 +653,7 @@ const Section_ValueQ = () => {
             anchor="функции-ценности-value-functions"
             variant="pill"
           >
-            Формальное определение и свойства V^π и Q^π
+            Формальное определение и свойства <MathFormula display={false}>{String.raw`\enfOp{V}^{\pi}`}</MathFormula> и <MathFormula display={false}>{String.raw`\enfOp{Q}^{\pi}`}</MathFormula>
           </HubLink>
         </div>
       </div>

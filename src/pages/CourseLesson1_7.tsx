@@ -2,6 +2,8 @@ import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 import Quiz from "@/components/Quiz";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_1_7_SYMBOLS } from "@/content/symbols/pages/level1";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   AlertTriangle,
@@ -468,7 +470,7 @@ const CourseLesson1_7 = () => (
             <h3 className="font-semibold text-foreground mb-2">
               Истинная ценность действия
             </h3>
-            <Math>{`q(a) = \\mathbb{E}[\\enfTgt{R}_t \\mid A_t = a]`}</Math>
+            <Math>{`\\enfOp{q}(\\enfFun{a}) = \\mathbb{E}[\\enfTgt{R}_t \\mid \\enfFun{A}_t = \\enfFun{a}]`}</Math>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Если бы агент заранее знал точные значения <Math display={false}>q(a)</Math>{" "}
               для всех действий, задача была бы тривиальной: всегда выбирать действие
@@ -482,8 +484,8 @@ const CourseLesson1_7 = () => (
             <h3 className="font-semibold text-foreground mb-2">
               Сожаление (Regret)
             </h3>
-            <Math>{`q^* = \\max_a q(a)`}</Math>
-            <Math>{`\\Delta_t = q^* - q(A_t)`}</Math>
+            <Math>{`\\enfOp{q}^* = \\max_a \\enfOp{q}(a)`}</Math>
+            <Math>{`\\enfTgt{\\Delta}_t = \\enfOp{q}^* - \\enfOp{q}(\\enfFun{A}_t)`}</Math>
             <p className="text-sm text-muted-foreground leading-relaxed">
               Regret измеряет упущенную выгоду: сколько агент потерял из-за выбора
               не лучшего действия. Хорошие стратегии дают медленный, логарифмический
@@ -504,7 +506,7 @@ const CourseLesson1_7 = () => (
         Полный отказ от исследования приводит к наивной жадной стратегии. На каждом
         шаге агент выбирает действие с максимальной текущей оценкой:
       </p>
-      <Math>{`A_t = \\underset{a}{\\operatorname{argmax}}\\ \\enfOp{Q}_t(a)`}</Math>
+      <Math>{`\\enfFun{A}_t = \\underset{a}{\\operatorname{argmax}}\\ \\enfOp{Q}_t(a)`}</Math>
       <p className="text-muted-foreground leading-relaxed mt-4 mb-3">
         Проблема в абсолютной зависимости от ранней случайности. Допустим, у первого
         автомата истинная ценность <Math display={false}>q(1)=2</Math>, но в первый
@@ -532,7 +534,7 @@ const CourseLesson1_7 = () => (
         вероятность того, что агент проигнорирует текущие оценки и выполнит случайное
         исследовательское действие.
       </p>
-      <Math>{`A_t =
+      <Math>{`\\enfFun{A}_t =
 \\begin{cases}
 \\underset{a}{\\operatorname{argmax}}\\ \\enfOp{Q}_t(a), & \\text{с вероятностью } 1 - \\enfPar{\\varepsilon} \\\\
 \\text{случайное действие из } \\mathcal{A}, & \\text{с вероятностью } \\enfPar{\\varepsilon}
@@ -572,7 +574,7 @@ const CourseLesson1_7 = () => (
       <p className="text-muted-foreground leading-relaxed mb-3">
         Чтобы убрать постоянный штраф, используют decaying epsilon-greedy. В начале
         агент исследует активно, например с{" "}
-        <Math display={false}>{`\\enfPar{\\varepsilon}_0=1.0`}</Math>, а затем постепенно снижает
+        <Math display={false}>{`\\enfPar{\\varepsilon}_0=1{,}0`}</Math>, а затем постепенно снижает
         случайность:
       </p>
       <Math>{`\\enfPar{\\varepsilon}_t = \\enfPar{\\varepsilon}_0 \\cdot \\enfPar{\\alpha}^t,\\quad \\enfPar{\\alpha} < 1`}</Math>
@@ -594,8 +596,8 @@ const CourseLesson1_7 = () => (
         неопределенности": если действие мало проверялось, оно может оказаться лучше,
         чем кажется сейчас.
       </p>
-      <Math>{`A_t = \\underset{a}{\\operatorname{argmax}}\\left[
-\\enfOp{Q}_t(a) + c \\sqrt{\\frac{\\ln t}{N_t(a)}}
+      <Math>{`\\enfFun{A}_t = \\underset{a}{\\operatorname{argmax}}\\left[
+\\enfOp{Q}_t(a) + \\enfPar{c} \\sqrt{\\frac{\\ln t}{N_t(a)}}
 \\right]`}</Math>
 
       <div className="overflow-x-auto rounded-lg border border-border/30 bg-card/30 mt-4">
@@ -618,7 +620,7 @@ const CourseLesson1_7 = () => (
             </tr>
             <tr>
               <td className="p-3 font-medium text-foreground">
-                <Math display={false}>{`c \\sqrt{\\frac{\\ln t}{N_t(a)}}`}</Math>
+                <Math display={false}>{`\\enfPar{c} \\sqrt{\\frac{\\ln t}{N_t(\\enfFun{a})}}`}</Math>
               </td>
               <td className="p-3">
                 Термин исследования: бонус за неопределенность. Он велик, когда
@@ -661,7 +663,7 @@ const CourseLesson1_7 = () => (
         Для бинарных наград Бернулли - например, клик/нет клика - удобно использовать
         Бета-распределение:
       </p>
-      <Math>{`\\enfPar{\\theta}_a \\sim \\operatorname{Beta}(\\enfPar{\\alpha}_a, \\beta_a)`}</Math>
+      <Math>{`\\enfPar{\\theta}_a \\sim \\operatorname{Beta}(\\enfPar{\\alpha}_a, \\enfPar{\\beta}_a)`}</Math>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
         {[
           ["alpha", "Количество успехов: наград, равных 1."],
@@ -746,6 +748,8 @@ const CourseLesson1_7 = () => (
       </CyberCodeBlock>
     </section>
 
+    <SymbolTable symbols={LESSON_1_7_SYMBOLS} codeLabel="В коде Python" />
+
     <section>
       <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
         <LineChart className="w-5 h-5 text-secondary" />
@@ -824,7 +828,7 @@ const CourseLesson1_7 = () => (
               <Math display={false}>N(a)=0</Math>. Метод <code className="text-primary text-xs">select_action</code>{" "}
               сначала проверяет все счетчики и возвращает первый еще не опробованный
               рукав. Только после этого вычисляется бонус{" "}
-              <Math display={false}>{`\\sqrt{\\ln t / N(a)}`}</Math>.
+              <Math display={false}>{`\\sqrt{\\ln t / N(\\enfFun{a})}`}</Math>.
             </p>
           </CardContent>
         </Card>

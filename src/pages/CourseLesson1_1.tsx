@@ -1,6 +1,9 @@
 import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
+import Math from "@/components/Math";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_1_1_SYMBOLS } from "@/content/symbols/pages/level1";
 import GammaSlider from "@/components/GammaSlider";
 import MiniGridWorld from "@/components/MiniGridWorld";
 import { Card, CardContent } from "@/components/ui/card";
@@ -580,7 +583,7 @@ P(s_{t+1} | s_t, a_t) = P(s_{t+1} | s_1, a_1, ..., s_t, a_t)`}
         </p>
 
         <CyberCodeBlock language="python" filename="cartpole_random.py">
-{`import gym
+{`import gymnasium as gym
 import torch
 
 env = gym.make('CartPole-v1')
@@ -618,15 +621,15 @@ env.close()`}
           {[
             {
               term: "Пространство состояний",
-              desc: "Множество всех возможных состояний среды S. Определяет, что агент может наблюдать.",
+              desc: <>Множество всех возможных состояний среды <Math display={false}>{String.raw`\mathcal{S}`}</Math>. Определяет, что агент может наблюдать.</>,
             },
             {
               term: "Пространство действий",
-              desc: "Множество всех доступных действий A. Может быть дискретным (кнопки) или непрерывным (угол поворота).",
+              desc: <>Множество всех доступных действий <Math display={false}>{String.raw`\mathcal{A}`}</Math>. Может быть дискретным (кнопки) или непрерывным (угол поворота).</>,
             },
             {
               term: "Мат. ожидание награды",
-              desc: "𝔼[G_t] — среднее значение суммарной дисконтированной награды, которое агент стремится максимизировать.",
+              desc: <><Math display={false}>{String.raw`\mathbb{E}[\enfOp{G}_t]`}</Math> — среднее значение суммарной дисконтированной награды, которое агент стремится максимизировать.</>,
             },
             {
               term: "MDP",
@@ -634,7 +637,7 @@ env.close()`}
             },
             {
               term: "Policy (π)",
-              desc: "Стратегия агента: π(a|s) — вероятность выбрать действие a в состоянии s.",
+              desc: <>Стратегия агента: <Math display={false}>{String.raw`\enfFun{\pi}(\enfFun{a} \mid \enfVar{s})`}</Math> — вероятность выбрать действие <Math display={false}>{String.raw`\enfFun{a}`}</Math> в состоянии <Math display={false}>{String.raw`\enfVar{s}`}</Math>.</>,
             },
             {
               term: "Value Function (V)",
@@ -645,9 +648,9 @@ env.close()`}
                     hubAnchor="глава-4"
                     hubTitle="Математика RL — Глава 4. Функции ценности"
                   >
-                    V(s)
+                    <Math display={false}>{String.raw`\enfOp{V}(\enfVar{s})`}</Math>
                   </CrossLinkToHub>{" "}
-                  — ожидаемая суммарная награда из состояния s при следовании политике π.
+                  — ожидаемая суммарная награда из состояния <Math display={false}>{String.raw`\enfVar{s}`}</Math> при следовании политике <Math display={false}>{String.raw`\enfFun{\pi}`}</Math>.
                 </>
               ),
             },
@@ -673,6 +676,8 @@ env.close()`}
           ))}
         </div>
       </section>
+
+      <SymbolTable symbols={LESSON_1_1_SYMBOLS} codeLabel="В коде Python" />
 
       {/* ── 10. Резюме ────────────────────────────────── */}
       <section>

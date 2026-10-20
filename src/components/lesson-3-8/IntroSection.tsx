@@ -16,7 +16,7 @@ const KEY_FINDINGS = [
   },
   {
     title: "Награда решает",
-    text: "Агент оптимизирует написанное, а не задуманное. Дизайн награды (потенциальное шейпинг, защита от reward hacking) важнее гиперпараметров.",
+    text: "Агент оптимизирует написанное, а не задуманное. Дизайн награды (потенциальный шейпинг, защита от reward hacking) важнее гиперпараметров.",
     icon: Trophy,
     color: "purple",
   },
@@ -54,7 +54,7 @@ const IntroSection = () => (
           <p className="text-foreground/80 leading-relaxed">
             Кульминация курса. Вы собираете <strong className="text-cyan-300">весь конвейер RL-в-gamedev</strong> в одно целое:
             от пустой Unity-сцены до играбельного билда, где поведением NPC управляет ваша обученная политика
-            <Math display={false}>{String.raw`\;\pi_\theta(a\mid \enfVar{s})`}</Math>. Шесть этапов, четыре эталонных проекта, три бонусные техники.
+            <Math display={false}>{String.raw`\;\enfFun{\pi}_\theta(\enfFun{a}\mid \enfVar{s})`}</Math>. Шесть этапов, четыре эталонных проекта, три бонусные техники.
           </p>
           <p className="text-xs text-muted-foreground">
             <strong>Уровень:</strong> 3 (продвинутый) · <strong>Раздел программы:</strong> 3.8
@@ -78,7 +78,7 @@ const IntroSection = () => (
         <li className="flex gap-2.5">
           <span className="text-purple-400 mt-0.5 shrink-0">▸</span>
           <span>
-            SAC и весь язык RL — MDP, политика, <Math display={false}>{String.raw`V/Q`}</Math>, actor-critic, replay buffer, энтропия, target-сети, два критика —{" "}
+            SAC и весь язык RL — MDP, политика, <Math display={false}>{String.raw`\enfOp{V}/\enfOp{Q}`}</Math>, actor-critic, replay buffer, энтропия, target-сети, два критика —{" "}
             <CrossLinkToLesson lessonId="3.1" lessonPath="/courses/3-1" lessonTitle="Урок 3.1 — SAC" lessonLevel={3}>урок 3.1</CrossLinkToLesson>;
           </span>
         </li>

@@ -29,6 +29,8 @@ import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
 import LessonTextbookLinks from "@/components/LessonTextbookLinks";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { PROJECT_2_SYMBOLS } from "@/content/symbols/pages/projects";
 
 /* ============================================================================
  * Капстоун Уровня 2 — «3D-агент-охотник в Unity ML-Agents».
@@ -166,6 +168,7 @@ const SectionHeading = ({ children }: { children: React.ReactNode }) => (
 const NAV_ITEMS: SectionNavItem[] = [
   { id: "intro", label: "Введение" },
   { id: "roadmap", label: "Маршрут" },
+  { id: "symbols", label: "Символы" },
   { id: "env-observations", label: "Среда" },
   { id: "continuous-control", label: "Управление" },
   { id: "ppo-hyperparams", label: "PPO" },
@@ -342,6 +345,8 @@ const CourseProject2 = () => {
         </ol>
       </section>
 
+      <SymbolTable symbols={PROJECT_2_SYMBOLS} codeLabel="В коде C# и YAML" />
+
       {/* ── Секция: Среда и наблюдения (наполнено) ────────────────────────── */}
       <section
         id="env-observations"
@@ -485,7 +490,7 @@ const CourseProject2 = () => {
             Все векторные фичи нормализуем в{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>[-1, 1]</span>:
             позиции делим на полудиагональ арены, скорости — на максимальный
-            модуль, углы — на π. Это не косметика — без нормализации PPO с{" "}
+            модуль, углы — на <Math display={false}>{String.raw`\pi`}</Math> (здесь это число 3,14…). Это не косметика — без нормализации PPO с{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>normalize: true</span>{" "}
             всё равно работает, но статистики «разъезжаются» дольше, и кривая
             энтропии в TensorBoard выглядит рваной.
@@ -657,7 +662,7 @@ const CourseProject2 = () => {
             — диагональную гауссову политику без{" "}
             <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-сжатия.
             На практике это значит одну неприятную вещь: семпл из{" "}
-            <Math display={false}>{"\\mathcal{N}(\\mu, \\sigma^{2})"}</Math>{" "}
+            <Math display={false}>{"\\mathcal{N}(\\enfFun{\\mu}, \\enfFun{\\sigma}^{2})"}</Math>{" "}
             формально не ограничен — на хвостах распределения вы получите
             значения вроде <span style={{ fontFamily: MONO, color: TEXT }}>2.7</span>{" "}
             или <span style={{ fontFamily: MONO, color: TEXT }}>−3.1</span>, а
@@ -693,9 +698,9 @@ const CourseProject2 = () => {
           </p>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Формальное определение
-            <Math>{"\\pi_{\\theta}(a \\mid \\enfVar{s}) = \\mathcal{N}\\!\\big(\\mu_{\\theta}(\\enfVar{s}),\\ \\operatorname{diag}\\sigma_{\\theta}^{2}(\\enfVar{s})\\big)"}</Math>
+            <Math>{"\\enfFun{\\pi}_{\\theta}(\\enfFun{a} \\mid \\enfVar{s}) = \\mathcal{N}\\!\\big(\\enfFun{\\mu}_{\\theta}(\\enfVar{s}),\\ \\operatorname{diag}\\enfFun{\\sigma}_{\\theta}^{2}(\\enfVar{s})\\big)"}</Math>
             reparameterization trick, вывод{" "}
-            <Math display={false}>{"\\log \\pi(a \\mid \\enfVar{s})"}</Math> и
+            <Math display={false}>{"\\log \\enfFun{\\pi}(\\enfFun{a} \\mid \\enfVar{s})"}</Math> и
             якобиана <span style={{ fontFamily: MONO, color: TEXT }}>tanh</span>-squashing
             (когда его всё-таки включают) — в хабе:{" "}
             <HubLink
@@ -746,34 +751,34 @@ const CourseProject2 = () => {
           </h3>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             В мире Охотника{" "}
-            <Math display={false}>{"V(s)"}</Math>{" "}
+            <Math display={false}>{"\\enfOp{V}(\\enfVar{s})"}</Math>{" "}
             — это «насколько хороша текущая позиция», ожидаемая сумма будущих
             наград, если дальше действовать по нынешней политике. Critic-сеть
             PPO учится её предсказывать прямо во время обучения. Из неё
             считается{" "}
-            <Math display={false}>{"A(s,a)"}</Math>{" "}
+            <Math display={false}>{"\\enfOp{A}(\\enfVar{s},\\enfFun{a})"}</Math>{" "}
             — преимущество действия: «насколько именно этот рывок оказался
             лучше, чем в среднем из этой позиции». Если действие догнало цель —{" "}
-            <Math display={false}>{"A"}</Math> положительное,
+            <Math display={false}>{"\\enfOp{A}"}</Math> положительное,
             политика смещается в его сторону.
           </p>
           <Math>{"\\enfOp{V}^{\\pi}(\\enfVar{s}) = \\mathbb{E}_{\\pi}\\!\\left[\\, \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}^{\\pi}(\\enfVar{s}_{t+1}) \\mid \\enfVar{s}_t = \\enfVar{s} \\right]"}</Math>
-          <Math>{"A^{\\pi}(\\enfVar{s},a) = \\enfOp{Q}^{\\pi}(\\enfVar{s},a) - \\enfOp{V}^{\\pi}(\\enfVar{s})"}</Math>
+          <Math>{"\\enfOp{A}^{\\pi}(\\enfVar{s},\\enfFun{a}) = \\enfOp{Q}^{\\pi}(\\enfVar{s},\\enfFun{a}) - \\enfOp{V}^{\\pi}(\\enfVar{s})"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
-            <Math display={false}>{"A"}</Math> можно
+            <Math display={false}>{"\\enfOp{A}"}</Math> можно
             считать одним шагом (шумно) или всем эпизодом (запоздало). GAE даёт
             непрерывную ручку{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>λ ∈ [0, 1]</span>{" "}
+            <Math display={false}>{String.raw`\enfPar{\lambda} \in [0, 1]`}</Math>{" "}
             между этими крайностями — компромисс bias / variance, который для
             Охотника решает, сходится ли обучение за 1М шагов или за 5М.
           </p>
-          <Math>{"\\delta_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
-          <Math>{"\\hat{A}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma}\\enfPar{\\lambda})^{l}\\, \\delta_{t+l}"}</Math>
+          <Math>{"\\enfVar{\\delta}_t = \\enfTgt{r}_t + \\enfPar{\\gamma} \\enfOp{V}(\\enfVar{s}_{t+1}) - \\enfOp{V}(\\enfVar{s}_t)"}</Math>
+          <Math>{"\\enfOp{\\hat{A}}_t^{\\mathrm{GAE}(\\gamma,\\lambda)} = \\sum_{l=0}^{\\infty} (\\enfPar{\\gamma}\\enfPar{\\lambda})^{l}\\, \\enfVar{\\delta}_{t+l}"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Сама же сумма дисконтированных наград{" "}
             <Math display={false}>{"\\enfOp{G}_t = \\sum_{k=0}^{\\infty} \\enfPar{\\gamma}^{k}\\, \\enfTgt{r}_{t+k}"}</Math>{" "}
             конечна именно потому, что{" "}
-            <span style={{ fontFamily: MONO, color: TEXT }}>γ &lt; 1</span> — это
+            <Math display={false}>{String.raw`\enfPar{\gamma} < 1`}</Math> — это
             та самая геометрическая прогрессия, без которой бесконечные эпизоды
             ломали бы целевую функцию.
           </p>
@@ -811,7 +816,7 @@ const CourseProject2 = () => {
               .
             </li>
             <li>
-              Cl­ipped surrogate L<sup>CLIP</sup> и роль ε:{" "}
+              Clipped surrogate <Math display={false}>{String.raw`\enfTgt{L}^{\mathrm{CLIP}}`}</Math> и роль <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math>:{" "}
               <HubLink
                 to="/hub/math-rl"
                 
@@ -1067,8 +1072,8 @@ const CourseProject2 = () => {
               <span style={{ color: TEXT }}>Potential-based shaping (PBRS)</span>{" "}
               на расстоянии до цели:
               <div className="mt-2 space-y-1">
-                <Math>{"\\enfFun{\\Phi}(\\enfVar{s}) = -\\dfrac{d(\\enfVar{s})}{d_{\\max}}"}</Math>
-                <Math>{"F(\\enfVar{s}, \\enfVar{s}') = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</Math>
+                <Math>{"\\enfFun{\\Phi}(\\enfVar{s}) = -\\dfrac{\\enfFun{d}(\\enfVar{s})}{\\enfPar{d}_{\\max}}"}</Math>
+                <Math>{"\\enfFun{F}(\\enfVar{s}, \\enfVar{s}') = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</Math>
               </div>
               <p className="mt-2" style={{ color: DIM, fontSize: 14, lineHeight: 1.6 }}>
                 По модулю на шаг — около{" "}
@@ -1123,14 +1128,14 @@ const CourseProject2 = () => {
           </p>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             PBRS-форма{" "}
-            <Math display={false}>{"F = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</Math>{" "}
+            <Math display={false}>{"\\enfFun{F} = \\enfPar{\\gamma}\\,\\enfFun{\\Phi}(\\enfVar{s}') - \\enfFun{\\Phi}(\\enfVar{s})"}</Math>{" "}
             отличается тем, что её сумма по любому замкнутому циклу телескопически
             сходится в ноль: за «кружение» вокруг цели накопить плюсов нельзя.
             При этом «приближение к цели» по-прежнему даёт положительный сигнал —
             ровно тогда, когда оно реально приближение.
           </p>
           <PBRSPotentialField />
-          <Math>{"\\sum_{t=0}^{T-1} \\enfPar{\\gamma}^{t}\\, F(\\enfVar{s}_t, \\enfVar{s}_{t+1}) = \\enfPar{\\gamma}^{T}\\enfFun{\\Phi}(\\enfVar{s}_T) - \\enfFun{\\Phi}(\\enfVar{s}_0)"}</Math>
+          <Math>{"\\sum_{t=0}^{T-1} \\enfPar{\\gamma}^{t}\\, \\enfFun{F}(\\enfVar{s}_t, \\enfVar{s}_{t+1}) = \\enfPar{\\gamma}^{T}\\enfFun{\\Phi}(\\enfVar{s}_T) - \\enfFun{\\Phi}(\\enfVar{s}_0)"}</Math>
           <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
             Формальное обоснование (теорема Ng – Harada – Russell, 1999) и его
             расширения — в хабе:{" "}
@@ -1472,7 +1477,7 @@ const CourseProject2 = () => {
           replay buffer — это вопрос on-policy vs off-policy и importance
           sampling:
         </p>
-        <Math>{"\\enfTgt{r}_t(\\enfPar{\\theta}) = \\dfrac{\\pi_{\\theta}(a_t \\mid \\enfVar{s}_t)}{\\pi_{\\theta_{\\mathrm{old}}}(a_t \\mid \\enfVar{s}_t)}"}</Math>
+        <Math>{"\\enfVar{r}_t(\\enfPar{\\theta}) = \\dfrac{\\enfFun{\\pi}_{\\theta}(\\enfFun{a}_t \\mid \\enfVar{s}_t)}{\\enfFun{\\pi}_{\\theta_{\\mathrm{old}}}(\\enfFun{a}_t \\mid \\enfVar{s}_t)}"}</Math>
         <p style={{ color: DIM, fontSize: 14, lineHeight: 1.7 }}>
           Формальный разбор — в хабе:{" "}
           <HubLink
@@ -1756,7 +1761,7 @@ const CourseProject2 = () => {
             гарантирует <span style={{ fontFamily: MONO, color: TEXT }}>[-1, +1]</span>.
             Из этих rewards PPO собирает clipped surrogate objective:
           </p>
-          <Math>{"L^{\\mathrm{CLIP}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(\\enfTgt{r}_t(\\enfPar{\\theta})\\hat{A}_t,\\ \\operatorname{clip}(\\enfTgt{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\hat{A}_t\\big)\\right]"}</Math>
+          <Math>{"\\enfTgt{L}^{\\mathrm{CLIP}}(\\enfPar{\\theta}) = \\hat{\\mathbb{E}}_t\\!\\left[\\min\\!\\big(\\enfVar{r}_t(\\enfPar{\\theta})\\enfOp{\\hat{A}}_t,\\ \\operatorname{clip}(\\enfVar{r}_t(\\enfPar{\\theta}), 1-\\enfPar{\\varepsilon}, 1+\\enfPar{\\varepsilon})\\enfOp{\\hat{A}}_t\\big)\\right]"}</Math>
           <CyberCodeBlock language="csharp" filename="HunterAgent.cs">
 {`public class HunterAgent : Agent
 {

@@ -155,7 +155,7 @@ const Section11 = () => (
     <Callout title="⚠️ Важно" color="amber">
       <Code>buffer_size</Code> должен быть кратен <Code>batch_size</Code> — это ограничение
       задавайте в коде (например,{" "}
-      <Code>buffer_size = batch_size * trial.suggest_categorical(&quot;buffer_mult&quot;, [10, 20, 40])</Code>
+      <Code>buffer_size = batch_size * trial.suggest_categorical(&quot;buf_mult&quot;, [10, 20, 40])</Code>
       ). И помните версионную деталь ML-Agents 4.0.x: поле <Code>encoding_size</Code> удалено —
       размер сети задаётся через <Code>network_settings</Code> (<Code>hidden_units</Code>,{" "}
       <Code>num_layers</Code>).

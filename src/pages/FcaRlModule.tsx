@@ -10,6 +10,8 @@ import SEOHead from "@/components/SEOHead";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { FCA_HUB_SYMBOLS } from "@/content/symbols/pages/hubs";
 
 const FcaRlModule = () => {
   const navigate = useNavigate();
@@ -66,6 +68,7 @@ const FcaRlModule = () => {
                     <li><a href="#fca-basics" className="text-yellow-400 hover:underline">Основы FCA</a></li>
                     <li><a href="#lattices" className="text-yellow-400 hover:underline">Решётки понятий</a></li>
                     <li><a href="#fca-hyperparams" className="text-yellow-400 hover:underline">FCA для гиперпараметров</a></li>
+                    <li><a href="#symbols" className="text-yellow-400 hover:underline">Символы: от формулы к коду</a></li>
                     <li><a href="#fca-architecture" className="text-yellow-400 hover:underline">FCA для архитектуры</a></li>
                     <li><a href="#fca-practice" className="text-yellow-400 hover:underline">Практика: FCA + PPO</a></li>
                   </ol>
@@ -98,7 +101,7 @@ const FcaRlModule = () => {
                     задаваемый тройкой:
                   </p>
 
-                  <Math>{`\\mathbb{K} = (G,\\, M,\\, I)`}</Math>
+                  <Math>{`\\mathbb{K} = (G,\\, M,\\, \\enfFun{I})`}</Math>
 
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li><strong className="text-foreground">G</strong> — множество объектов (эксперименты, конфигурации, состояния)</li>
@@ -110,8 +113,8 @@ const FcaRlModule = () => {
                     <strong className="text-foreground">Замыкание Галуа</strong> определяет пару операторов:
                   </p>
 
-                  <Math>{`A' = \\{m \\in M \\mid \\forall g \\in A:\\, (g, m) \\in I\\}`}</Math>
-                  <Math>{`B' = \\{g \\in G \\mid \\forall m \\in B:\\, (g, m) \\in I\\}`}</Math>
+                  <Math>{`\\enfVar{A}' = \\{m \\in M \\mid \\forall g \\in \\enfVar{A}:\\, (g, m) \\in \\enfFun{I}\\}`}</Math>
+                  <Math>{`\\enfVar{B}' = \\{g \\in G \\mid \\forall m \\in \\enfVar{B}:\\, (g, m) \\in \\enfFun{I}\\}`}</Math>
 
                   <p>
                     <strong className="text-foreground">Формальное понятие</strong> — пара (A, B), где A' = B и B' = A.
@@ -264,6 +267,8 @@ for concept in lattice:
             </section>
 
             {/* Section 4: FCA для проектирования архитектуры */}
+            <SymbolTable symbols={FCA_HUB_SYMBOLS} codeLabel="В коде Python (concepts)" />
+
             <section id="fca-architecture" className="scroll-mt-32 space-y-6">
               <div className="flex items-center gap-3">
                 <Brain className="h-7 w-7 text-yellow-400" />

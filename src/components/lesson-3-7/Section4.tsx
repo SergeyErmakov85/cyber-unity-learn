@@ -42,7 +42,7 @@ const Section4 = () => (
     </ProseP>
 
     <Math>
-      {String.raw`m_t = \mathrm{LSTM}_\phi(\enfVar{o}_t,\, m_{t-1}),\qquad \enfVar{z}_t = m_t .`}
+      {String.raw`\enfVar{m}_t = \mathrm{LSTM}_\phi(\enfVar{o}_t,\, \enfVar{m}_{t-1}),\qquad \enfVar{z}_t = \enfVar{m}_t .`}
     </Math>
 
     <ProseP>

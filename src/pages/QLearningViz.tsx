@@ -5,6 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Play, Pause, RotateCcw, Zap } from "lucide-react";
 import LabPracticeSection from "@/components/LabPracticeSection";
+import MathTex from "@/components/Math";
 
 const GRID_SIZE = 5;
 const ACTIONS = ["up", "down", "left", "right"] as const;
@@ -226,19 +227,19 @@ const QLearningViz = () => {
               <CardContent className="space-y-6">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span>α (learning rate)</span><span className="text-primary font-mono">{alpha.toFixed(2)}</span>
+                    <span><MathTex display={false}>{String.raw`\enfPar{\alpha}`}</MathTex> (learning rate)</span><span className="text-primary font-mono">{alpha.toFixed(2)}</span>
                   </div>
                   <Slider value={[alpha]} onValueChange={([v]) => setAlpha(v)} min={0.01} max={1} step={0.01} />
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span>ε (exploration)</span><span className="text-primary font-mono">{epsilon.toFixed(2)}</span>
+                    <span><MathTex display={false}>{String.raw`\enfPar{\varepsilon}`}</MathTex> (exploration)</span><span className="text-primary font-mono">{epsilon.toFixed(2)}</span>
                   </div>
                   <Slider value={[epsilon]} onValueChange={([v]) => setEpsilon(v)} min={0} max={1} step={0.01} />
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span>γ (discount)</span><span className="text-primary font-mono">{gamma.toFixed(2)}</span>
+                    <span><MathTex display={false}>{String.raw`\enfPar{\gamma}`}</MathTex> (discount)</span><span className="text-primary font-mono">{gamma.toFixed(2)}</span>
                   </div>
                   <Slider value={[gamma]} onValueChange={([v]) => setGamma(v)} min={0} max={1} step={0.01} />
                 </div>
@@ -258,7 +259,7 @@ const QLearningViz = () => {
               <CardHeader><CardTitle className="text-sm">Q-Learning формула</CardTitle></CardHeader>
               <CardContent>
                 <div className="p-3 bg-card/80 rounded-lg border border-primary/20 text-xs font-mono leading-relaxed">
-                  Q(s,a) ← Q(s,a) + α[r + γ·max Q(s',a') - Q(s,a)]
+                  <MathTex display={false}>{String.raw`\enfOp{Q}(\enfVar{s},a) \leftarrow \enfOp{Q}(\enfVar{s},a) + \enfPar{\alpha}\big[\enfTgt{r} + \enfPar{\gamma}\max_{a'}\enfOp{Q}(\enfVar{s}',a') - \enfOp{Q}(\enfVar{s},a)\big]`}</MathTex>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
                   Тепловая карта показывает максимальное Q-значение для каждой клетки. Синий = высокое, красный = низкое.

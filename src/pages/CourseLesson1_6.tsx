@@ -26,6 +26,9 @@ import {
   Scissors,
 } from "lucide-react";
 import CrossLinkToHub from "@/components/CrossLinkToHub";
+import Math from "@/components/Math";
+import SymbolTable from "@/components/math-symbols/SymbolTable";
+import { LESSON_1_6_SYMBOLS } from "@/content/symbols/pages/level1";
 
 const quizQuestions = [
   {
@@ -241,8 +244,8 @@ const CourseLesson1_6 = () => {
               <Brain className="w-6 h-6 text-primary mx-auto mb-1" />
               <p className="font-bold text-sm text-primary">Policy Network</p>
               <p className="text-xs text-muted-foreground">Обучается каждый шаг</p>
-              <p className="text-xs text-muted-foreground/60 font-mono mt-1">
-                Q_θ(s) → [Q₀, Q₁]
+              <p className="text-xs text-muted-foreground/60 mt-1">
+                <Math display={false}>{String.raw`\enfOp{Q}_{\theta}(\enfVar{s}) \to [\enfOp{Q}_0, \enfOp{Q}_1]`}</Math>
               </p>
             </div>
             <div className="text-muted-foreground/40 text-lg hidden md:block">⇄</div>
@@ -251,8 +254,8 @@ const CourseLesson1_6 = () => {
               <Shield className="w-6 h-6 text-secondary mx-auto mb-1" />
               <p className="font-bold text-sm text-secondary">Target Network</p>
               <p className="text-xs text-muted-foreground">Копия, обновляется каждые N эп.</p>
-              <p className="text-xs text-muted-foreground/60 font-mono mt-1">
-                Q_θ⁻(s') → max Q
+              <p className="text-xs text-muted-foreground/60 mt-1">
+                <Math display={false}>{String.raw`\enfOp{Q}_{\theta^-}(\enfVar{s}') \to \max \enfOp{Q}`}</Math>
               </p>
             </div>
           </div>
@@ -405,7 +408,7 @@ optimizer.step()`}
           <CrossLinkToHub hubPath="/courses/1-3" hubTitle="Урок 1.3 — Q-Learning: табличный метод">
             уроке 1.3
           </CrossLinkToHub>
-          . Здесь она работает так же — ε экспоненциально затухает от 1.0 до 0.01.
+          . Здесь она работает так же — <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> экспоненциально затухает от 1,0 до 0,01.
         </p>
 
         <CyberCodeBlock language="python" filename="dqn_agent.py">
@@ -598,7 +601,7 @@ print(f"\\nФинальный средний reward (последние 100): "
             <AccordionTrigger className="px-4 text-sm text-muted-foreground hover:text-foreground hover:no-underline">
               <span className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-primary" />
-                Разбор: формула target = r + γ·max Q(s',a')
+                Разбор: формула <Math display={false}>{String.raw`\enfTgt{y} = \enfTgt{r} + \enfPar{\gamma} \max_{a'} \enfOp{Q}(\enfVar{s}', a')`}</Math>
               </span>
             </AccordionTrigger>
             <AccordionContent className="px-4">
@@ -623,6 +626,8 @@ print(f"\\nФинальный средний reward (последние 100): "
           </AccordionItem>
         </Accordion>
       </section>
+
+      <SymbolTable symbols={LESSON_1_6_SYMBOLS} codeLabel="В коде PyTorch" />
 
       {/* ── 7. Convergence graph ── */}
       <section>
