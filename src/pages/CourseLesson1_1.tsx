@@ -1,6 +1,7 @@
 import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
+import SelfCheckQuiz from "@/components/lesson-1-1/SelfCheckQuiz";
 import Math from "@/components/Math";
 import SymbolTable from "@/components/math-symbols/SymbolTable";
 import { LESSON_1_1_SYMBOLS } from "@/content/symbols/pages/level1";
@@ -715,6 +716,8 @@ env.close()`}
         questions={quizQuestions}
         nextLesson={{ path: "/courses/1-2", title: "Установка окружения" }}
       />
+
+      <SelfCheckQuiz />
     </LessonLayout>
   );
 };
