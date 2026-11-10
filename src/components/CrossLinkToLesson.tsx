@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Lock, Unlock } from "lucide-react";
 import {
   Tooltip,
@@ -55,13 +55,13 @@ const CrossLinkToLesson = ({
     return (
       <Tooltip>
         <TooltipTrigger asChild>
-          <span
-            onClick={handleClick}
-            className="inline-flex items-center gap-1 cursor-pointer text-[hsl(192,100%,50%)] hover:underline transition-all duration-200"
+          <Link
+            to={lessonPath}
+            className="inline-flex items-center gap-1 text-primary hover:underline transition-all duration-200"
           >
             <Unlock className="inline w-2.5 h-2.5 flex-shrink-0 text-muted-foreground" />
             {label}
-          </span>
+          </Link>
         </TooltipTrigger>
         <TooltipContent side="top" className="text-xs">
           {lessonTitle}
@@ -74,13 +74,14 @@ const CrossLinkToLesson = ({
     <>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span
+          <button
+            type="button"
             onClick={handleClick}
-            className="inline-flex items-center gap-1 cursor-default text-slate-500"
+            className="inline-flex items-center gap-1 text-muted-foreground"
           >
-            <Lock className="inline w-3 h-3 flex-shrink-0 text-slate-500" />
+            <Lock className="inline w-3 h-3 flex-shrink-0 text-muted-foreground" />
             {label}
-          </span>
+          </button>
         </TooltipTrigger>
         <TooltipContent side="top" className="text-xs">
           Этот урок доступен на тарифе PRO
@@ -141,12 +142,15 @@ export const CrossLinkBadge = ({
     <>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span
-            onClick={handleClick}
+          <Link
+            to={lessonPath}
+            onClick={(event) => {
+              if (!isAccessible) { event.preventDefault(); handleClick(); }
+            }}
             className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full border transition-colors ${
               isAccessible
-                ? "border-[hsl(192,100%,50%)]/30 text-[hsl(192,100%,50%)] cursor-pointer hover:bg-[hsl(192,100%,50%)]/10"
-                : "border-slate-600 text-slate-500 cursor-default"
+                ? "border-primary/30 text-primary cursor-pointer hover:bg-primary/10"
+                : "border-border text-muted-foreground cursor-default"
             }`}
           >
             {lessonId}
@@ -155,7 +159,7 @@ export const CrossLinkBadge = ({
             ) : (
               <Lock className="w-2.5 h-2.5" />
             )}
-          </span>
+          </Link>
         </TooltipTrigger>
         <TooltipContent side="top" className="text-xs">
           {isAccessible ? lessonTitle : "Доступно на тарифе PRO"}

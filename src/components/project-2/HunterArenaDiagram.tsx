@@ -64,6 +64,14 @@ const insideObstacle = (x: number, y: number, pad = 10) =>
     (o) => x > o.x - pad && x < o.x + o.w + pad && y > o.y - pad && y < o.y + o.h + pad,
   );
 
+// Точки патрулирования по периметру внутреннего прямоугольника.
+const PATROL_POINTS = [
+  { x: 60, y: 60 },
+  { x: 340, y: 60 },
+  { x: 340, y: 340 },
+  { x: 60, y: 340 },
+];
+
 const HunterArenaDiagram = () => {
   const [arenaSize, setArenaSize] = useState(15); // метры
   const [strategy, setStrategy] = useState<Strategy>("evasive");
@@ -74,14 +82,7 @@ const HunterArenaDiagram = () => {
 
   const hunterRef = useRef({ x: 80, y: 200 });
   const targetRef = useRef({ x: 320, y: 200, vx: TARGET_SPEED, vy: TARGET_SPEED * 0.5 });
-  // Точки патрулирования по периметру внутреннего прямоугольника
   const patrolIdxRef = useRef(0);
-  const patrol = [
-    { x: 60, y: 60 },
-    { x: 340, y: 60 },
-    { x: 340, y: 340 },
-    { x: 60, y: 340 },
-  ];
 
   const [, setTick] = useState(0);
   const rafRef = useRef<number | null>(null);
@@ -119,12 +120,12 @@ const HunterArenaDiagram = () => {
         nx = t.x + t.vx;
         ny = t.y + t.vy;
       } else if (s === "patrol") {
-        const target = patrol[patrolIdxRef.current];
+        const target = PATROL_POINTS[patrolIdxRef.current];
         const dx = target.x - t.x;
         const dy = target.y - t.y;
         const d = Math.hypot(dx, dy);
         if (d < 4) {
-          patrolIdxRef.current = (patrolIdxRef.current + 1) % patrol.length;
+          patrolIdxRef.current = (patrolIdxRef.current + 1) % PATROL_POINTS.length;
         }
         nx = t.x + (dx / (d || 1)) * TARGET_SPEED;
         ny = t.y + (dy / (d || 1)) * TARGET_SPEED;

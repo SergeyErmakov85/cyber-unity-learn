@@ -1,155 +1,228 @@
-// One-off internal link/anchor auditor. Run: node scripts/link-audit.mjs
-import { readFileSync } from "node:fs";
-import { globSync } from "node:fs";
-import { execSync } from "node:child_process";
+/** Статический аудит маршрутов и якорей в контексте страницы назначения.
+ * Динамическую разметку дополнительно проверяет npm run audit:browser.
+ */
+import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { dirname, resolve, relative, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import ts from "typescript";
 
-const files = execSync('git ls-files "src/**/*.tsx" "src/**/*.ts"', { encoding: "utf8" })
-  .split("\n").filter(Boolean);
-
-// Known SPA routes from App.tsx
-const appSrc = readFileSync("src/App.tsx", "utf8");
-const routes = new Set(
-  [...appSrc.matchAll(/path="([^"]+)"/g)].map((m) => m[1]).filter((p) => p !== "*")
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const read = (f) => readFileSync(join(ROOT, f), "utf8");
+const files = [];
+function walk(dir) {
+  for (const e of readdirSync(join(ROOT, dir), { withFileTypes: true })) {
+    const f = dir + "/" + e.name;
+    if (e.isDirectory()) walk(f);
+    else if (/\.tsx?$/.test(f)) files.push(f);
+  }
+}
+walk("src");
+const parsed = new Map();
+const literal = (node) =>
+  node && (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node))
+    ? node.text
+    : undefined;
+const unbox = (node) =>
+  node && ts.isJsxExpression(node) ? node.expression : node;
+const name = (node) => node?.getText().replace(/^['"]|['"]$/g, "");
+const resolveImport = (from, to) => {
+  if (!to?.startsWith(".") && !to?.startsWith("@/")) return;
+  const p = to.startsWith("@/")
+    ? "src/" + to.slice(2)
+    : relative(ROOT, resolve(ROOT, dirname(from), to)).replaceAll("\\", "/");
+  return [p, p + ".tsx", p + ".ts", p + "/index.tsx", p + "/index.ts"].find(
+    (f) => existsSync(join(ROOT, f)) && /\.tsx?$/.test(f),
+  );
+};
+const { outputText: slugModule } = ts.transpileModule(read("src/lib/slug.ts"), {
+  compilerOptions: { module: ts.ModuleKind.ESNext },
+});
+const { slugify } = await import(
+  `data:text/javascript;base64,${Buffer.from(slugModule).toString("base64")}`
 );
-
-const idRe = /\bid=\{?["'`]([^"'`]+)["'`]/g;
-const inPageHrefRe = /href=\{?[`"']#([^"'`{]+)["'`]/g;
-const crossLinkRe = /(?:to|href)=\{?["'`](\/[^"'`{#]*)#([^"'`]+)["'`]/g;
-
-const perFileIds = new Map();
-const inPageAnchors = [];
-const allIssues = [];
-let totalIds = 0, totalInPage = 0, totalCross = 0;
-
-for (const f of files) {
-  if (f.includes("/ui/")) continue;
-  const src = readFileSync(f, "utf8");
-  const ids = [...src.matchAll(idRe)].map((m) => m[1]);
-  perFileIds.set(f, ids);
-  totalIds += ids.length;
-
-  // duplicate ids in same file
-  const seen = new Map();
-  for (const id of ids) seen.set(id, (seen.get(id) || 0) + 1);
-  for (const [id, n] of seen) if (n > 1) allIssues.push(`[DUP-ID] ${f}: id="${id}" defined ${n}x`);
-
-  // in-page anchors collected; validated against the global id set afterwards
-  // (a single rendered page composes many component files).
-  for (const m of src.matchAll(inPageHrefRe)) {
-    totalInPage++;
-    const a = m[1];
-    if (a.includes("${")) continue; // templated, skip
-    inPageAnchors.push({ f, a });
-  }
-}
-
-// ---- Global cross-page anchor validation ----
-// Cross-page scroll resolves targets by document.getElementById on the
-// destination page, so an anchor must exist as an id *somewhere* in src.
-const slugify = (t) =>
-  t.toLowerCase().replace(/[^\wа-яё]+/gi, "-").replace(/^-|-$/g, "").slice(0, 60);
-
-const globalIds = new Set();
-for (const ids of perFileIds.values()) for (const id of ids) globalIds.add(id);
-
-// Many section ids are generated at runtime from heading text via slugify(title)
-// (math-rl modules) — add those so the static scan matches runtime reality.
-for (const f of files) {
-  const src = readFileSync(f, "utf8");
-  for (const m of src.matchAll(/title="([^"]+)"/g)) globalIds.add(slugify(m[1]));
-}
-// Секции многих уроков рендерятся как <motion.section id={s.id}> из константы
-// SECTIONS — в разметке id виден только как объектный литерал { id: "..." }.
-for (const f of files) {
-  const src = readFileSync(f, "utf8");
-  for (const m of src.matchAll(/\bid:\s*["'`]([\wЀ-ӿ-]+)["'`]/g)) globalIds.add(m[1]);
-}
-
-// Лекции учебника приходят из .md: их якоря — slugify() от заголовков.
-const mdFiles = execSync('git ls-files "src/content/**/*.md"', { encoding: "utf8" })
-  .split("\n").filter(Boolean);
-for (const f of mdFiles) {
-  const src = readFileSync(f, "utf8");
-  for (const m of src.matchAll(/^#{1,6}\s+(.+?)\s*$/gm)) globalIds.add(slugify(m[1]));
-}
-
-// Known templated ids (e.g. Courses.tsx: id={`level-${index+1}`}).
-["level-1", "level-2", "level-3"].forEach((id) => globalIds.add(id));
-
-// in-page anchors: target id must exist on the rendered page (global set)
-for (const { f, a } of inPageAnchors) {
-  if (!globalIds.has(a)) allIssues.push(`[NO-TARGET] ${f}: href="#${a}" -> no id "${a}" in src`);
-}
-
-const decode = (s) => { try { return decodeURIComponent(s); } catch { return s; } };
-
-// (a) cross links written inline as to=/href="/path#anchor"
-for (const f of files) {
-  if (f.includes("/ui/")) continue;
-  const src = readFileSync(f, "utf8");
-  for (const m of src.matchAll(crossLinkRe)) {
-    totalCross++;
-    const [, path, anchorRaw] = m;
-    const anchor = decode(anchorRaw);
-    if (anchor.includes("${")) continue;
-    if (!globalIds.has(anchor))
-      allIssues.push(`[CROSS-NO-TARGET] ${f}: "${path}#${anchorRaw}" -> no id "${anchor}" anywhere in src`);
-  }
-}
-
-// (a2) JSX-пропсы <CrossLinkToHub hubPath=".." hubAnchor=".."> и
-// <CrossLinkToLesson ... anchor="..">. Форма записи не href="/path#anchor",
-// поэтому crossLinkRe их не ловит — проверяем отдельно.
-const jsxLinkRe = /<CrossLinkTo(?:Hub|Lesson)\b([^>]*?)\/?>/g;
-for (const f of files) {
-  if (f.includes("/ui/")) continue;
-  const src = readFileSync(f, "utf8");
-  for (const m of src.matchAll(jsxLinkRe)) {
-    const attrs = m[1];
-    const pathM = attrs.match(/(?:hubPath|lessonPath)="([^"]+)"/);
-    const anchorM = attrs.match(/(?:hubAnchor|anchor)="([^"]+)"/);
-    const titleM = attrs.match(/hubTitle="([^"]+)"/);
-
-    // Путь может нести якорь прямо в себе: hubPath="/courses/3-1#итоги"
-    if (pathM) {
-      const [p, inlineAnchor] = pathM[1].split("#");
-      if (p && !p.startsWith("http") && !routes.has(p))
-        allIssues.push(`[JSX-NO-ROUTE] ${f}: hubPath="${pathM[1]}" -> нет маршрута "${p}" в App.tsx`);
-      if (inlineAnchor) {
-        totalCross++;
-        const a = decode(inlineAnchor);
-        if (!a.includes("${") && !globalIds.has(a))
-          allIssues.push(`[JSX-NO-TARGET] ${f}: "${pathM[1]}" -> нет id "${a}" в src`);
+for (const file of files) {
+  const source = ts.createSourceFile(
+    file,
+    read(file),
+    ts.ScriptTarget.Latest,
+    true,
+  );
+  const data = { ids: new Set(), imports: new Set(), links: [], dynamic: 0 };
+  const add = (href, node) => {
+    if (href !== undefined)
+      data.links.push({
+        href,
+        line: source.getLineAndCharacterOfPosition(node.getStart()).line + 1,
+      });
+  };
+  const props = (attributes) =>
+    Object.fromEntries(
+      attributes
+        .filter((x) => ts.isJsxAttribute(x) || ts.isPropertyAssignment(x))
+        .map((x) => [name(x.name), literal(unbox(x.initializer))]),
+    );
+  function visit(node) {
+    if (ts.isImportDeclaration(node)) {
+      const f = resolveImport(file, literal(node.moduleSpecifier));
+      if (f) data.imports.add(f);
+    }
+    if (ts.isCallExpression(node)) {
+      if (node.expression.kind === ts.SyntaxKind.ImportKeyword) {
+        const f = resolveImport(file, literal(node.arguments[0]));
+        if (f) data.imports.add(f);
       }
+      if (["navigate", "window.open"].includes(node.expression.getText()))
+        add(literal(node.arguments[0]), node);
     }
-    if (anchorM) {
-      totalCross++;
-      const a = decode(anchorM[1]);
-      if (!a.includes("${") && !globalIds.has(a))
-        allIssues.push(
-          `[JSX-NO-TARGET] ${f}: hubAnchor="${anchorM[1]}" -> нет id "${a}" в src` +
-            (pathM ? ` (цель ${pathM[1]})` : "")
-        );
+    if (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) {
+      const p = props([...node.attributes.properties]);
+      const tag = node.tagName.getText();
+      if (p.id) data.ids.add(p.id);
+      if (tag === "Section" && p.title) data.ids.add(slugify(p.title));
+      let href = p.href ?? p.to;
+      if (tag === "HubLink" && p.to && p.anchor) {
+        let target = p.to;
+        if (target === "/hub/math-rl") {
+          const mapping = read("src/components/math-rl/HubLink.tsx");
+          const match = [
+            ...mapping.matchAll(/"([^"]+)": "(\/math-rl\/[^\"]+)"/g),
+          ].find((m) => m[1] === p.anchor);
+          target = match?.[2] ?? "/math-rl";
+        }
+        href = target + "#" + p.anchor;
+      }
+      if (p.hubPath) href = p.hubPath + (p.hubAnchor ? "#" + p.hubAnchor : "");
+      if (p.lessonPath) href = p.lessonPath + (p.anchor ? "#" + p.anchor : "");
+      add(href, node);
+      if (
+        href === undefined &&
+        [...node.attributes.properties].some(
+          (x) => ts.isJsxAttribute(x) && ["href", "to"].includes(name(x.name)),
+        )
+      )
+        data.dynamic++;
     }
-    // hubTitle виден пользователю в тултипе — заглушки туда попадать не должны.
-    if (titleM && /TODO|FIXME|XXX|заглушк/i.test(titleM[1]))
-      allIssues.push(`[JSX-PLACEHOLDER] ${f}: hubTitle="${titleM[1]}" — текст-заглушка виден в тултипе`);
+    if (ts.isObjectLiteralExpression(node)) {
+      const p = props([...node.properties]);
+      if (p.id) data.ids.add(p.id);
+      if (p.hubPath)
+        add(p.hubPath + (p.hubAnchor ? "#" + p.hubAnchor : ""), node);
+      if (p.path && p.anchor) add(`${p.path}#${p.anchor}`, node);
+      else if (p.path && (p.title || p.label) && p.path.startsWith("/"))
+        add(p.path, node);
+      for (const key of ["href", "to", "url", "lessonPath", "textbookRoute"])
+        add(p[key], node);
+    }
+    ts.forEachChild(node, visit);
+  }
+  visit(source);
+  parsed.set(file, data);
+}
+const app = read("src/App.tsx");
+const pageImports = new Map(
+  [...app.matchAll(/const (\w+) = lazy\(\(\) => import\("([^"]+)"\)\)/g)].map(
+    (m) => [m[1], resolveImport("src/App.tsx", m[2])],
+  ),
+);
+pageImports.set("Index", "src/pages/Index.tsx");
+const routePages = new Map();
+for (const m of app.matchAll(/<Route path="([^":*]+)" element=\{<([\w]+)\b/g))
+  routePages.set(m[1], pageImports.get(m[2]));
+const routes = new Set([...app.matchAll(/path="([^":*]+)"/g)].map((m) => m[1]));
+const generated = read("src/content/textbook/index.generated.ts");
+for (const m of generated.matchAll(/"route": "([^"]+)"/g)) routes.add(m[1]);
+for (const m of read("src/content/textbook/parts.ts").matchAll(
+  /segment: "([^"]+)"/g,
+))
+  routes.add("/math-rl/textbook/" + m[1]);
+for (const m of read("src/pages/HubPage.tsx").matchAll(
+  /\s+(?:"([^"]+)"|(\w+)): lazy\(\(\) => import\("([^"]+)"\)\)/g,
+)) {
+  const path = "/hub/" + (m[1] || m[2]);
+  routes.add(path);
+  routePages.set(path, resolveImport("src/pages/HubPage.tsx", m[3]));
+}
+function closure(file, seen = new Set()) {
+  if (!file || seen.has(file)) return seen;
+  seen.add(file);
+  for (const f of parsed.get(file)?.imports ?? []) closure(f, seen);
+  return seen;
+}
+const pageFiles = new Map(
+  [...routePages].map(([path, file]) => [path, closure(file)]),
+);
+const idsAt = new Map(
+  [...pageFiles].map(([path, files]) => [
+    path,
+    new Set([...files].flatMap((f) => [...(parsed.get(f)?.ids ?? [])])),
+  ]),
+);
+idsAt.get("/courses")?.add("level-1");
+idsAt.get("/courses")?.add("level-2");
+idsAt.get("/courses")?.add("level-3");
+const issues = new Set();
+let checked = 0,
+  unresolved = 0;
+function check(link, file, from) {
+  const { href, line } = link;
+  if (!href || /^(mailto:|tel:|blob:|data:)/i.test(href)) return;
+  let url;
+  try {
+    url = new URL(href, "https://rl-cuber-unity-code.com" + (from || "/"));
+  } catch {
+    issues.add(`${file}:${line} некорректный URL ${href}`);
+    return;
+  }
+  if (
+    !["rl-cuber-unity-code.com", "www.rl-cuber-unity-code.com"].includes(
+      url.hostname,
+    )
+  )
+    return;
+  if (
+    !href.startsWith("/") &&
+    !href.startsWith("#") &&
+    !href.startsWith("http")
+  )
+    return;
+  checked++;
+  if (href === "#") {
+    issues.add(`${file}:${line} пустая ссылка #`);
+    return;
+  }
+  if (!routes.has(url.pathname)) {
+    if (!existsSync(join(ROOT, "public", decodeURIComponent(url.pathname))))
+      issues.add(`${file}:${line} нет маршрута ${href}`);
+    return;
+  }
+  if (!url.hash) return;
+  let id;
+  try {
+    id = decodeURIComponent(url.hash.slice(1));
+  } catch {
+    id = url.hash.slice(1);
+  }
+  const ids = idsAt.get(url.pathname);
+  if (ids && !ids.has(id))
+    issues.add(`${file}:${line} нет якоря ${href} на странице ${url.pathname}`);
+  if (!ids) unresolved++;
+}
+for (const [file, data] of parsed) {
+  const contexts = [...pageFiles]
+    .filter(([, files]) => files.has(file))
+    .map(([route]) => route);
+  for (const link of data.links) {
+    if (link.href.startsWith("#")) {
+      for (const from of contexts) check(link, file, from);
+    } else check(link, file);
   }
 }
-
-// (b) crosslinks.ts data table hub anchors
-const cl = readFileSync("src/config/crosslinks.ts", "utf8");
-for (const m of cl.matchAll(/hubAnchor:\s*["'`]([^"'`]+)["'`]/g)) {
-  totalCross++;
-  const anchor = decode(m[1]);
-  if (!globalIds.has(anchor))
-    allIssues.push(`[CROSSLINKS-NO-TARGET] crosslinks.ts: hubAnchor "${m[1]}" -> no matching id in src`);
-}
-
-console.log(`Files scanned: ${files.length}`);
-console.log(`Total ids: ${totalIds}`);
-console.log(`Total in-page anchors: ${totalInPage}`);
-console.log(`Total cross-page anchors checked: ${totalCross}`);
-console.log(`Routes in App.tsx: ${routes.size}`);
-console.log(`\n=== ISSUES (${allIssues.length}) ===`);
-for (const i of allIssues.sort()) console.log(i);
+console.log(
+  `Файлов: ${files.length}; маршрутов: ${routes.size}; проверок ссылок: ${checked}.`,
+);
+console.log(
+  `Динамических href/to: ${[...parsed.values()].reduce((n, d) => n + d.dynamic, 0)}; якорей без статического DOM: ${unresolved}. Их проверяет audit:browser.`,
+);
+for (const issue of [...issues].sort()) console.error(issue);
+console.log(`Проблем: ${issues.size}`);
+if (issues.size) process.exitCode = 1;

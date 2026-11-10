@@ -8,19 +8,19 @@ import { MONETIZATION_ENABLED } from "@/config/monetization";
 const HUBS: Array<{ path: string; anchor?: string; title: string; label: string }> = [
   {
     path: "/unity-ml-agents",
-    anchor: "yaml-config",
-    title: "Unity ML-Agents — YAML и обучение",
-    label: "Unity ML-Agents → YAML-конфигурация: checkpoint_settings, network_settings",
+    anchor: "training",
+    title: "Unity ML-Agents — Обучение",
+    label: "Unity ML-Agents → Обучение и экспорт модели",
   },
   {
-    path: "/unity-ml-agents",
-    anchor: "inference",
-    title: "Unity ML-Agents — Inference Engine",
-    label: "Unity ML-Agents → инференс-движок (Sentis / Inference Engine)",
+    path: "/advanced/onnx-sentis",
+    anchor: "import-sentis",
+    title: "ONNX — Импорт в Unity",
+    label: "ONNX → Импорт модели в Unity",
   },
   {
     path: "/algorithms/ppo",
-    anchor: "policy-network",
+    anchor: "architecture",
     title: "PPO — политика как сеть",
     label: "Алгоритмы → PPO: политика как сеть, стохастичность актора",
   },

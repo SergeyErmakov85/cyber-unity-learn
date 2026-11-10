@@ -1,3 +1,4 @@
+import { scrollToAnchorWhenReady } from "@/lib/anchor-navigation";
 import { useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight, BookOpen, Clock, Layers } from "lucide-react";
@@ -16,22 +17,6 @@ import { loadMarkdown } from "@/content/textbook/loader";
 import MarkdownLecture from "@/components/textbook/MarkdownLecture";
 import ColorLegend from "@/components/textbook/ColorLegend";
 import LectureCrossLinks from "@/components/textbook/LectureCrossLinks";
-
-/** Якорь может прийти из урока или из mind map — ждём, пока markdown отрисуется. */
-const scrollToHashWhenReady = (hash: string, maxWaitMs = 3000) => {
-  const id = decodeURIComponent(hash.replace("#", ""));
-  if (!id) return;
-  const deadline = Date.now() + maxWaitMs;
-  const tick = () => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
-    if (Date.now() < deadline) window.requestAnimationFrame(() => window.setTimeout(tick, 80));
-  };
-  tick();
-};
 
 const TextbookLecture = () => {
   const { part: partSegment = "", slug = "" } = useParams();
@@ -54,7 +39,7 @@ const TextbookLecture = () => {
   }, [part, lecture]);
 
   useEffect(() => {
-    if (source && location.hash) scrollToHashWhenReady(location.hash);
+    if (source && location.hash) return scrollToAnchorWhenReady(location.hash);
   }, [source, location.hash]);
 
   if (!part || !lecture) return <Navigate to={TEXTBOOK_ROOT} replace />;

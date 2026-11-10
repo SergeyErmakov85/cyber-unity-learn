@@ -18,6 +18,7 @@
     "textbook:check": "node scripts/sync-textbook.mjs --check",
     "textbook:audit": "node scripts/textbook-audit.mjs",
     "audit:links": "node scripts/link-audit.mjs",
+    "audit:browser": "node scripts/browser-link-audit.mjs --serve",
     "audit:lab": "node scripts/lab-links-audit.mjs",
     "math:audit": "node scripts/math-audit.mjs"
   },
@@ -98,6 +99,7 @@
     "globals": "^15.15.0",
     "gray-matter": "^4.0.3",
     "lovable-tagger": "^1.1.11",
+    "playwright": "1.58.2",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",

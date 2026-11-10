@@ -14,21 +14,20 @@ const HUBS: Array<{ path: string; anchor?: string; title: string; label: string 
   },
   {
     path: "/unity-ml-agents",
-    anchor: "yaml-config",
-    title: "Unity ML-Agents — YAML-конфиг",
-    label: "Unity ML-Agents → YAML-конфигурация (полная схема полей и дефолтов)",
+    anchor: "training",
+    title: "Unity ML-Agents — Обучение",
+    label: "Unity ML-Agents → Настройка обучения",
   },
   {
     path: "/math-rl/module-3",
-    anchor: "байесовская-оптимизация",
-    title: "Теорвер и информация — байесовская оптимизация",
-    label: "Math RL → теорвер и информация (Байес, KDE, EI, TPE)",
+    anchor: "условная-вероятность-и-правило-байеса",
+    title: "Математика — Правило Байеса",
+    label: "Математика → Условная вероятность и правило Байеса",
   },
   {
-    path: "/deep-rl",
-    anchor: "бандиты-и-прунинг",
-    title: "Deep RL — бандиты и прунинг",
-    label: "Deep RL → бандитская теория и прунинг (SHA/ASHA/Hyperband)",
+    path: "/math-rl/textbook/part-6/02-multi-armed-bandits",
+    title: "Математика — Многорукие бандиты",
+    label: "Учебник → Многорукие бандиты",
   },
 ];
 
@@ -40,10 +39,10 @@ const LESSONS: Array<{
   note: string;
 }> = [
   {
-    id: "3.1",
-    path: "/courses/3-1",
-    title: "SAC / PPO",
-    level: 3,
+    id: "2.2",
+    path: "/courses/2-2",
+    title: "PPO — реализация с нуля",
+    level: 2,
     note: "переиспользуются гиперпараметры PPO",
   },
   {
@@ -88,7 +87,7 @@ const EXTERNAL: Array<{ label: string; url: string }> = [
   { label: "Bergstra et al. (2011). Algorithms for Hyper-Parameter Optimization (TPE). NeurIPS 2011", url: "https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization" },
   { label: "Bergstra & Bengio (2012). Random Search for Hyper-Parameter Optimization. JMLR 13", url: "https://www.jmlr.org/papers/v13/bergstra12a.html" },
   { label: "Optuna Documentation", url: "https://optuna.readthedocs.io/" },
-  { label: "Weights & Biases — Sweeps Documentation", url: "https://docs.wandb.ai/guides/sweeps/" },
+  { label: "Weights & Biases — Sweeps Documentation", url: "https://docs.coreweave.com/products/wandb/sweeps" },
   { label: "Unity ML-Agents — Training Configuration File", url: "https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Training-Configuration-File.md" },
 ];
 

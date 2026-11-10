@@ -34,7 +34,7 @@ const AdvancedTopics = () => {
           Curriculum Learning, Multi-Agent RL, Imitation Learning и Self-Play
         </p>
 
-        <Tabs defaultValue={defaultTab} className="space-y-6">
+        <Tabs key={defaultTab} defaultValue={defaultTab} className="space-y-6">
           <TabsList className="grid grid-cols-2 md:grid-cols-5 w-full">
             <TabsTrigger value="curriculum"><GraduationCap className="w-4 h-4 mr-1" /> Curriculum</TabsTrigger>
             <TabsTrigger value="multiagent"><Users className="w-4 h-4 mr-1" /> Multi-Agent</TabsTrigger>

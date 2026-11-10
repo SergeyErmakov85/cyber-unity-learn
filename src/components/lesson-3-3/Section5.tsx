@@ -90,11 +90,11 @@ const Section5 = () => (
       энтропия поднялась. По сути ADR-энтропия — это «номер урока» для рандомизации. (О связи энтропии и
       распределений см. хаб{" "}
       <CrossLinkToHub
-        hubPath="/math-rl/module-3"
+        hubPath="/algorithms/sac"
         hubAnchor="entropy"
-        hubTitle="Математика → Теория вероятностей и информации"
+        hubTitle="SAC → Максимальная энтропия"
       >
-        Теория вероятностей и информации ↗
+        Максимальная энтропия ↗
       </CrossLinkToHub>
       .)
     </ProseP>

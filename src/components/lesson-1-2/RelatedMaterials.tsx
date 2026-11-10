@@ -67,7 +67,7 @@ const EXTERNAL: Array<{ label: string; url: string }> = [
     label: "Документация conda: управление средами",
     url: "https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-environments.html",
   },
-  { label: "Unity Hub", url: "https://unity.com/download" },
+  { label: "Unity Hub", url: "https://docs.unity.com/en-us/hub" },
   {
     label: "Jupyter в VS Code",
     url: "https://code.visualstudio.com/docs/datascience/jupyter-notebooks",

@@ -179,7 +179,7 @@ const CourseLesson2_3 = () => {
           </h3>
           <p className="text-muted-foreground mb-3">
             Q-learning и его глубокий вариант{" "}
-            <CrossLinkToHub hubPath="/algorithms/dqn" hubAnchor="overview" hubTitle="DQN">
+            <CrossLinkToHub hubPath="/algorithms/dqn" hubAnchor="dqn-basics" hubTitle="DQN">
               DQN
             </CrossLinkToHub>{" "}
             учат функцию ценности <Math display={false}>{`\\enfOp{Q}(\\enfVar{s}, \\enfFun{a})`}</Math> и выбирают действие так:

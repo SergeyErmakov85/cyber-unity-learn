@@ -101,7 +101,13 @@ interface MarkdownLectureProps {
 }
 
 const MarkdownLecture = ({ source, partDir, stripTitle = true }: MarkdownLectureProps) => {
-  const body = stripTitle ? source.replace(/^\s*#\s+.+\r?\n/, "") : source;
+  const markdown = stripTitle ? source.replace(/^\s*#\s+.+\r?\n/, "") : source;
+  // remark-math требует отдельные строки для $$ в многострочном блоке.
+  // Пособие допускает запись > $$формула с продолжением > ...$$.
+  const body = markdown.replace(
+    /^([ \t]*>[ \t]*)\$\$((?:(?!\$\$)[^\r\n])+)((?:\r?\n\1(?:(?!\$\$)[^\r\n])+)+)\$\$[ \t]*$/gm,
+    (_match, quote: string, first: string, rest: string) => `${quote}$$\n${quote}${first}${rest}\n${quote}$$`,
+  );
 
   // Пояснения по клику на символ берут смысл из таблиц «Обозначения» и
   // «От формулы к коду» самой лекции.

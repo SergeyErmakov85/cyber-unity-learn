@@ -11,13 +11,13 @@ const Section1 = () => (
     <ProseP>
       Вернёмся к провалу №2. Гонщик на трудной трассе почти никогда не финиширует, поэтому почти
       никогда не видит положительной награды. С точки зрения градиента политики (
-      <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="ppo" hubTitle="Урок 3.1 — PPO">
-        урок 3.1
+      <CrossLinkToHub hubPath="/courses/2-1" hubTitle="Урок 2.1 — Policy Gradient">
+        урок 2.1
       </CrossLinkToHub>
       , хаб{" "}
       <CrossLinkToHub
         hubPath="/math-rl/module-4"
-        hubAnchor="policy-gradient"
+        hubAnchor="лекция-2-вывод-градиента-политики"
         hubTitle="Математика → Градиент политики"
       >
         Градиент политики ↗

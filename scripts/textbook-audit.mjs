@@ -8,7 +8,7 @@
  *   node scripts/textbook-audit.mjs
  */
 import { readFileSync, existsSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+import { repositoryTree } from "./repository-tree.mjs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -90,27 +90,15 @@ const bridgeRows = [...generated.matchAll(/"tag": "([^"]+)",\s*"what": "[^"]*",\
 );
 if (bridgeRows.length === 0) issues.push("[BRIDGE] в индексе нет строк unity-bridge");
 
-const LAB = process.env.UNITY_LAB_SRC ?? "C:/unity-ml-agents-lab";
+const LAB = process.env.UNITY_LAB_SRC ?? resolve(ROOT, "../unity-ml-agents-lab");
 if (existsSync(join(LAB, ".git"))) {
-  const git = (args) => execFileSync("git", ["-C", LAB, ...args], { encoding: "utf8" }).trim();
-  let ref = "origin/main";
   try {
-    ref = git(["rev-parse", "--abbrev-ref", "origin/HEAD"]);
-  } catch {
-    /* origin/HEAD не задан — остаёмся на origin/main */
-  }
-  const missing = bridgeRows.filter((row) => {
-    const path = row.path.endsWith("/") ? row.path.slice(0, -1) : row.path;
-    try {
-      execFileSync("git", ["-C", LAB, "cat-file", "-e", `${ref}:${path}`], { stdio: "ignore" });
-      return false;
-    } catch {
-      return true;
+    const { ref, paths } = repositoryTree(LAB);
+    for (const row of bridgeRows) {
+      if (!paths.has(row.path.replace(/\/$/, ""))) add(`[BRIDGE] нет в ${ref}: ${row.path} (тема ${row.tag})`);
     }
-  });
-  if (missing.length) {
-    console.log(`\nПредупреждение: ${missing.length} путей моста нет в ${ref} (ссылки дадут 404):`);
-    for (const row of missing) console.log(`  · ${row.path} (тема ${row.tag})`);
+  } catch (error) {
+    add(`[GIT] ${error.message}`);
   }
 } else {
   console.log(`Репозиторий сред не найден (${LAB}) — пути моста не проверены.`);

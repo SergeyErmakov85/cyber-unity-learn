@@ -10,21 +10,21 @@ const HUBS: Array<{ path: string; anchor?: string; title: string; label: string 
   { path: "/algorithms/ppo", title: "PPO", label: "Алгоритмы → PPO: преимущество/GAE — база для |Â_t|" },
   {
     path: "/math-rl/module-4",
-    anchor: "policy-gradient",
+    anchor: "лекция-2-вывод-градиента-политики",
     title: "Математика — Градиент политики",
     label: "Математика → Градиент политики: почему нулевой при разрежённой награде",
   },
   {
     path: "/math-rl/module-1",
-    anchor: "discounting",
+    anchor: "6-дисконтирование-в-rl-и-его-влияние",
     title: "Математика — Дисконтирование",
     label: "Математика → Дисконтирование: отдача и дисконт γ",
   },
   {
-    path: "/math-rl/module-3",
+    path: "/algorithms/sac",
     anchor: "entropy",
-    title: "Математика — Теория вероятностей и информации",
-    label: "Математика → Энтропия и распределения (ADR-энтропия)",
+    title: "SAC — Максимальная энтропия",
+    label: "SAC → Энтропия распределения действий",
   },
   {
     path: "/math-rl/module-5",
@@ -32,16 +32,16 @@ const HUBS: Array<{ path: string; anchor?: string; title: string; label: string 
     label: "Математика → Уравнения Беллмана: функции ценности V/Q",
   },
   {
-    path: "/deep-rl",
-    anchor: "generalization",
-    title: "Deep RL — Обобщение / MARL-CTDE",
-    label: "Deep RL → Обобщение, контекстный MDP, MARL/CTDE",
+    path: "/advanced",
+    anchor: "multiagent",
+    title: "Продвинутые темы — Multi-Agent RL",
+    label: "Продвинутые темы → Мультиагентное обучение",
   },
   {
-    path: "/unity-ml-agents",
-    anchor: "environment-parameters",
-    title: "Unity ML-Agents — environment_parameters",
-    label: "Unity ML-Agents → environment_parameters, сэмплеры и curriculum",
+    path: "/advanced",
+    anchor: "curriculum",
+    title: "Продвинутые темы — Curriculum Learning",
+    label: "Curriculum Learning → Пример конфигурации ML-Agents",
   },
 ];
 
@@ -60,10 +60,10 @@ const LESSONS: Array<{
     note: "self-play как автокурриккулум, нестационарность, ELO",
   },
   {
-    id: "3.1",
-    path: "/courses/3-1",
-    title: "SAC",
-    level: 3,
+    id: "2.2",
+    path: "/courses/2-2#gae",
+    title: "PPO — реализация с нуля",
+    level: 2,
     note: "PPO, преимущество/GAE (|Â_t|)",
   },
   {
@@ -85,7 +85,7 @@ const LESSONS: Array<{
 const EXTERNAL: Array<{ label: string; url: string }> = [
   {
     label: "Bengio и др. (2009) — Curriculum Learning, ICML'09",
-    url: "https://dl.acm.org/doi/10.1145/1553374.1553380",
+    url: "https://ronan.collobert.com/pub/matos/2009_curriculum_icml.pdf",
   },
   { label: "Tobin и др. (2017) — Domain Randomization, arXiv:1703.06907", url: "https://arxiv.org/abs/1703.06907" },
   { label: "OpenAI и др. (2019) — Solving Rubik's Cube (ADR), arXiv:1910.07113", url: "https://arxiv.org/abs/1910.07113" },

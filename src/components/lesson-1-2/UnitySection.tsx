@@ -3,7 +3,7 @@ import { Gamepad2, Monitor, CheckCircle2, AlertTriangle, ExternalLink } from "lu
 
 const STEPS = [
   {
-    step: "Скачайте и установите Unity Hub с unity.com/download",
+    step: "Скачайте и установите Unity Hub по официальной инструкции Unity",
     icon: Monitor,
   },
   {
@@ -51,13 +51,13 @@ const UnitySection = () => (
     </Card>
 
     <a
-      href="https://unity.com/download"
+      href="https://docs.unity.com/en-us/hub"
       target="_blank"
       rel="noopener noreferrer"
       className="inline-flex items-center gap-1.5 text-sm text-cyan-300 hover:text-cyan-200 hover:underline"
     >
       <ExternalLink className="w-3.5 h-3.5" />
-      Скачать Unity Hub
+      Установка Unity Hub
     </a>
   </div>
 );

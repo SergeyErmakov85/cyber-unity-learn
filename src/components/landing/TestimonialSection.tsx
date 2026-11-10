@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MessageSquare, Star, Loader2, Trash2, LogIn } from "lucide-react";
 import { z } from "zod";
@@ -104,7 +104,7 @@ const TestimonialSection = () => {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  const loadTestimonials = async () => {
+  const loadTestimonials = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from("testimonials")
@@ -143,11 +143,11 @@ const TestimonialSection = () => {
       rows.map((r) => ({ ...r, profile: profilesMap.get(r.user_id) ?? null })),
     );
     setLoading(false);
-  };
+  }, [toast]);
 
   useEffect(() => {
     loadTestimonials();
-  }, []);
+  }, [loadTestimonials]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

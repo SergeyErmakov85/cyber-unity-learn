@@ -62,8 +62,8 @@ const Section4 = () => (
         PPO ↗
       </CrossLinkToHub>{" "}
       и в{" "}
-      <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="ppo" hubTitle="Урок 3.1 — PPO">
-        уроке 3.1
+      <CrossLinkToHub hubPath="/courses/2-2" hubAnchor="gae" hubTitle="Урок 2.2 — PPO и GAE">
+        уроке 2.2
       </CrossLinkToHub>
       ; формальную глубину про обобщение/контекстный MDP — в хабе{" "}
       <CrossLinkToHub

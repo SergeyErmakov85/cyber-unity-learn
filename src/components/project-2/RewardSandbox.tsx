@@ -279,7 +279,7 @@ const RewardSandbox = () => {
 
   const params: Params = { pbrs, terminal, time, collision, targetSpeed, dense };
   const verdict = judge(params);
-  const { reward, length } = useMemo(() => predict(params), [pbrs, terminal, time, collision, targetSpeed, dense]);
+  const { reward, length } = useMemo(() => predict({ pbrs, terminal, time, collision, targetSpeed, dense }), [pbrs, terminal, time, collision, targetSpeed, dense]);
 
   const verdictColor = verdict.kind === "healthy" ? HEALTHY : MAGENTA;
   const h = hunterRef.current;

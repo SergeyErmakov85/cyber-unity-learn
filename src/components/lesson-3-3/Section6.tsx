@@ -8,7 +8,7 @@ const PLR_PSEUDO = `# Псевдокод PLR (Jiang и др., 2021)
     с вероятностью (1 − d): replay  → сэмпл l ~ P_replay(l)        # учить «полезное»
     иначе:                  explore → новый сид, сыграть, оценить его потенциал
 после эпизода на уровне l:
-    S_l ← (1/T) · Σ_t |Â_t|        # учебный потенциал ≈ средний |GAE| (см. урок 3.1)
+    S_l ← (1/T) · Σ_t |Â_t|        # учебный потенциал ≈ средний |GAE| (см. урок 2.2)
     обновить свежесть(l)
 P_replay(l) = (1 − ρ)·P_S(l) + ρ·P_C(l)   # смесь «по баллу» и «по свежести»`;
 
@@ -32,8 +32,8 @@ const Section6 = () => (
       поучиться. Как измерить потенциал? Удачным оказался сигнал, который мы уже знаем по PPO:{" "}
       <strong>средняя величина преимущества</strong> <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math>{" "}
       — тот самый GAE из{" "}
-      <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="ppo" hubTitle="Урок 3.1 — PPO">
-        урока 3.1
+      <CrossLinkToHub hubPath="/courses/2-2" hubAnchor="gae" hubTitle="Урок 2.2 — PPO и GAE">
+        урока 2.2
       </CrossLinkToHub>
       . По сути это L1-ошибка ценности (L1 value loss): большое{" "}
       <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math> означает, что критик сильно ошибается на этом
@@ -95,8 +95,8 @@ const Section6 = () => (
         <>
           Учебный потенциал уровня ≈ средний <Math display={false}>{String.raw`|\enfOp{\hat{A}}_t|`}</Math>{" "}
           (<strong>L1 value loss</strong> ≈ |GAE| из{" "}
-          <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="ppo" hubTitle="Урок 3.1 — PPO">
-            урока 3.1
+          <CrossLinkToHub hubPath="/courses/2-2" hubAnchor="gae" hubTitle="Урок 2.2 — PPO и GAE">
+            урока 2.2
           </CrossLinkToHub>
           ): где критик ошибается сильнее — там учиться полезнее.
         </>,

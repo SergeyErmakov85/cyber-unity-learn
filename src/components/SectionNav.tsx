@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 export interface SectionNavItem {
@@ -13,6 +14,7 @@ interface SectionNavProps {
 }
 
 const SectionNav = ({ items, offset = 120 }: SectionNavProps) => {
+  const { search } = useLocation();
   const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
 
   useEffect(() => {
@@ -47,15 +49,6 @@ const SectionNav = ({ items, offset = 120 }: SectionNavProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, offset]);
 
-  const scrollTo = (id: string) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    const el = document.getElementById(id);
-    if (!el) return;
-    window.history.replaceState(null, "", `#${id}`);
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-    setActiveId(id);
-  };
-
   return (
     <nav
       aria-label="Навигация по уроку"
@@ -64,9 +57,9 @@ const SectionNav = ({ items, offset = 120 }: SectionNavProps) => {
       <ul className="flex gap-2 overflow-x-auto scrollbar-thin">
         {items.map(({ id, label }) => (
           <li key={id} className="shrink-0">
-            <a
-              href={`#${id}`}
-              onClick={scrollTo(id)}
+            <Link
+              to={{ search, hash: encodeURIComponent(id) }}
+              replace
               className={cn(
                 "inline-block px-3 py-1.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap border",
                 activeId === id
@@ -75,7 +68,7 @@ const SectionNav = ({ items, offset = 120 }: SectionNavProps) => {
               )}
             >
               {label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

@@ -14,15 +14,15 @@ const HUBS: Array<{ path: string; anchor?: string; title: string; label: string 
   },
   {
     path: "/math-rl/module-4",
-    anchor: "policy-gradient",
+    anchor: "лекция-2-вывод-градиента-политики",
     title: "Математика — Градиент политики",
     label: "Математика → Градиент политики: как GAIL подставляет r=-log(1-D)",
   },
   {
-    path: "/deep-rl",
+    path: "/advanced",
     anchor: "imitation",
-    title: "Deep RL — Imitation Learning",
-    label: "Deep RL → BC/GAIL/AIRL: формальные определения и доказательства",
+    title: "Продвинутые темы — Imitation Learning",
+    label: "Imitation Learning → Обзор BC и GAIL",
   },
   {
     path: "/unity-ml-agents",
@@ -47,10 +47,10 @@ const LESSONS: Array<{
     note: "domain randomization, на которую кладётся GAIL",
   },
   {
-    id: "3.1",
-    path: "/courses/3-1",
-    title: "SAC / PPO",
-    level: 3,
+    id: "2.2",
+    path: "/courses/2-2",
+    title: "PPO — реализация с нуля",
+    level: 2,
     note: "PPO как несущий тренер под BC и GAIL",
   },
   {

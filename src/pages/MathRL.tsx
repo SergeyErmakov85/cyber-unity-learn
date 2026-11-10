@@ -1,4 +1,7 @@
-import { lazy, Suspense, useState, useEffect } from "react";
+import { slugify } from "@/lib/slug";
+import { TEXTBOOK_PARTS } from "@/content/textbook/parts";
+import { scrollToAnchorWhenReady } from "@/lib/anchor-navigation";
+import { lazy, Suspense, useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, ChevronDown, Network } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -226,9 +229,6 @@ const PartSkeleton = () => (
     <Skeleton className="h-32 w-full" />
   </div>
 );
-export const slugify = (text: string) =>
-  text.toLowerCase().replace(/[^\wа-яё]+/gi, "-").replace(/^-|-$/g, "").slice(0, 60);
-
 const PartComponents = [Part1, Part1b, Part2, Part3, Part4, Part5, Part6];
 
 const CollapsibleParts = ({ openParts, toggle }: { openParts: Set<string>; toggle: (id: string) => void }) => (
@@ -281,9 +281,11 @@ const CollapsibleParts = ({ openParts, toggle }: { openParts: Set<string>; toggl
     })}
   </>
 );
-const SidebarTOC = ({ openParts, ensureOpen }: { openParts: Set<string>; ensureOpen: (partId: string) => void }) => {
+const SidebarTOC = ({ ensureOpen }: { ensureOpen: (partId: string) => void }) => {
   const [expandedPart, setExpandedPart] = useState<string | null>(null);
   const [expandedChapter, setExpandedChapter] = useState<string | null>(null);
+  const cancelScroll = useRef<(() => void) | undefined>();
+  useEffect(() => () => cancelScroll.current?.(), []);
 
   const toggle = (id: string) => {
     setExpandedPart((prev) => (prev === id ? null : id));
@@ -296,13 +298,12 @@ const SidebarTOC = ({ openParts, ensureOpen }: { openParts: Set<string>; ensureO
 
   const scrollToSubtopic = (partId: string, topicLabel: string) => {
     ensureOpen(partId);
-    const targetId = slugify(topicLabel);
-    setTimeout(() => {
-      const el = document.getElementById(targetId);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 100);
+    const chapter = /^Глава (\d+)\./.exec(topicLabel);
+    const targetId = partId === "part-5" && chapter
+      ? `глава-${chapter[1]}`
+      : slugify(topicLabel);
+    cancelScroll.current?.();
+    cancelScroll.current = scrollToAnchorWhenReady(targetId, partId);
   };
 
   const groupSubtopics = (subtopics: string[]) => {
@@ -434,16 +435,6 @@ const SidebarTOC = ({ openParts, ensureOpen }: { openParts: Set<string>; ensureO
   );
 };
 
-const moduleToPartMap: Record<string, string> = {
-  "/math-rl/module-1": "part-1",
-  "/math-rl/calculus": "part-1b",
-  "/math-rl/module-2": "part-2",
-  "/math-rl/module-3": "part-3",
-  "/math-rl/module-4": "part-4",
-  "/math-rl/module-5": "part-5",
-  "/math-rl/module-6": "part-6",
-};
-
 const MathRL = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -453,7 +444,7 @@ const MathRL = () => {
   // Uses polling (requestAnimationFrame) so lazy-loaded Part chunks and
   // async-rendered Chapter components scroll correctly once mounted.
   useEffect(() => {
-    const partId = moduleToPartMap[location.pathname];
+    const partId = TEXTBOOK_PARTS.find(part => part.hubRoute === location.pathname)?.sitePartId;
     if (!partId) return;
 
     setOpenParts((prev) => {
@@ -463,29 +454,7 @@ const MathRL = () => {
       return next;
     });
 
-    const hash = location.hash.replace("#", "");
-    const targetId = hash || partId;
-
-    const deadline = Date.now() + 3000;
-    let cancelled = false;
-    const tryScroll = () => {
-      if (cancelled) return;
-      const el = document.getElementById(targetId);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        el.classList.add("highlight-flash");
-        setTimeout(() => el.classList.remove("highlight-flash"), 1500);
-        return;
-      }
-      if (Date.now() < deadline) {
-        window.requestAnimationFrame(() => setTimeout(tryScroll, 80));
-      }
-    };
-    tryScroll();
-
-    return () => {
-      cancelled = true;
-    };
+    if (!location.hash) return scrollToAnchorWhenReady(partId);
   }, [location.pathname, location.hash]);
 
   const togglePart = (id: string) => {
@@ -519,11 +488,11 @@ const MathRL = () => {
           </Button>
           <h1 className="text-3xl md:text-5xl font-bold mb-3">
             <span className="bg-gradient-neon bg-clip-text text-transparent">
-              Математика и глубокого обучения с подкреплением
+              Математика глубокого обучения с подкреплением
             </span>
           </h1>
           <p className="text-muted-foreground max-w-3xl text-lg">
-            Единый учебный модуль: от пределов и производных до PPO и глубокого обучения с подкреплением. Семь частей с задачами, Python-кодом и интерактивными демо.
+            Учебный раздел: от пределов и производных до PPO и глубокого обучения с подкреплением. Семь частей с задачами, Python-кодом и интерактивными демо.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Button
@@ -553,7 +522,7 @@ const MathRL = () => {
         <aside className="hidden lg:block w-72 flex-shrink-0">
           <nav className="sticky top-24 space-y-1">
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Содержание</p>
-            <SidebarTOC openParts={openParts} ensureOpen={ensureOpen} />
+            <SidebarTOC ensureOpen={ensureOpen} />
 
             <div className="border-t border-border/30 mt-4 pt-4">
               <button

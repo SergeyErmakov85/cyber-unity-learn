@@ -7,7 +7,7 @@ import { MONETIZATION_ENABLED } from "@/config/monetization";
 
 const HUBS: Array<{ path: string; anchor?: string; title: string; label: string }> = [
   { path: "/deep-rl", title: "Deep RL", label: "Deep RL — LSTM, внимание, MARL/CTDE (формальный разбор)" },
-  { path: "/unity-ml-agents", anchor: "yaml-config", title: "Unity ML-Agents — YAML", label: "Unity ML-Agents → network_settings и YAML-конфиг" },
+  { path: "/unity-ml-agents", anchor: "neural-networks", title: "Unity ML-Agents — Нейронные сети", label: "Unity ML-Agents → Основы нейронных сетей" },
   { path: "/algorithms/ppo", title: "Алгоритмы → PPO", label: "PPO — алгоритм и связь с архитектурой (shared_critic)" },
   { path: "/math-rl/module-5", title: "Math RL — Фундамент RL", label: "Math RL → Беллман и марковость (нарушается в POMDP)" },
 ];

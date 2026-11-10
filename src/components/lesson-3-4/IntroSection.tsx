@@ -88,8 +88,8 @@ const IntroSection = () => (
           <span className="text-purple-400 mt-0.5 shrink-0">▸</span>
           <span>
             <strong>PPO</strong> и GAE —{" "}
-            <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="ppo" hubTitle="Урок 3.1 — PPO">
-              урок 3.1
+            <CrossLinkToHub hubPath="/courses/2-2" hubAnchor="gae" hubTitle="Урок 2.2 — PPO и GAE">
+              урок 2.2
             </CrossLinkToHub>{" "}
             и хаб{" "}
             <CrossLinkToHub hubPath="/algorithms/ppo" hubTitle="Алгоритмы → PPO">

@@ -1,5 +1,5 @@
-import { MouseEvent, ReactNode, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
 
 type HubLinkVariant = "inline" | "pill";
@@ -62,28 +62,6 @@ const resolveHubPath = (to: string, anchor: string | undefined): string => {
 };
 
 /**
- * Polls the DOM for `#{anchor}` and scrolls to it once it appears.
- * Routes are lazy-loaded, so target element may not exist immediately
- * after `navigate()`. The polling window is capped to `maxWaitMs`.
- */
-const scrollToAnchorWhenReady = (anchor: string, maxWaitMs = 3000): void => {
-  const deadline = Date.now() + maxWaitMs;
-  const tryScroll = (): void => {
-    const el = document.getElementById(anchor);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
-    if (Date.now() < deadline) {
-      window.requestAnimationFrame(() => {
-        window.setTimeout(tryScroll, 80);
-      });
-    }
-  };
-  tryScroll();
-};
-
-/**
  * HubLink — типизированная ссылка из уроков в разделы хаба «Математика RL».
  *
  * Варианты отображения:
@@ -104,8 +82,6 @@ const HubLink = ({
   fromAnchor,
   fromLabel,
 }: HubLinkProps) => {
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const resolvedPath = resolveHubPath(to, anchor);
 
@@ -122,34 +98,10 @@ const HubLink = ({
 
   const href = `${resolvedPath}${backQuery}${anchor ? `#${anchor}` : ""}`;
 
-  useEffect(() => {
-    if (!anchor) return;
-    if (location.pathname !== resolvedPath) return;
-    if (location.hash !== `#${anchor}`) return;
-    scrollToAnchorWhenReady(anchor);
-  }, [anchor, location.hash, location.pathname, resolvedPath]);
-
-  const handleClick = (e: MouseEvent<HTMLAnchorElement>): void => {
-    if (
-      e.defaultPrevented ||
-      e.button !== 0 ||
-      e.metaKey ||
-      e.ctrlKey ||
-      e.shiftKey ||
-      e.altKey
-    ) {
-      return;
-    }
-    e.preventDefault();
-    navigate(href);
-    if (anchor) scrollToAnchorWhenReady(anchor);
-  };
-
   if (variant === "pill") {
     return (
-      <a
-        href={href}
-        onClick={handleClick}
+      <Link
+        to={href}
         className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border transition-all duration-200"
         style={{
           borderColor: PILL_BORDER,
@@ -172,14 +124,13 @@ const HubLink = ({
       >
         <span aria-hidden>→ В хаб:</span>
         <span>{children}</span>
-      </a>
+      </Link>
     );
   }
 
   return (
-    <a
-      href={href}
-      onClick={handleClick}
+    <Link
+      to={href}
       className="inline-flex items-baseline gap-1 underline underline-offset-2 decoration-1 transition-all duration-200"
       style={{
         color: HUB_CYAN,
@@ -198,7 +149,7 @@ const HubLink = ({
         className="flex-shrink-0 self-center"
         style={{ width: 13, height: 13 }}
       />
-    </a>
+    </Link>
   );
 };
 

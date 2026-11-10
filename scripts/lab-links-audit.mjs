@@ -24,7 +24,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { execFileSync } from "node:child_process";
+import { repositoryTree } from "./repository-tree.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const REGISTRY = join(ROOT, "src", "content", "labEnvironments.ts");
@@ -70,29 +70,20 @@ const orphans = envIds.filter((id) => !mentioned.has(id));
 if (orphans.length) fail(`среды не упомянуты ни в одном месте курса: ${orphans.join(", ")}`);
 
 // ------------------------------------------------- существование путей
-const LAB = process.env.UNITY_LAB_SRC ?? "C:/unity-ml-agents-lab";
+const LAB = process.env.UNITY_LAB_SRC ?? resolve(ROOT, "../unity-ml-agents-lab");
 let checked = 0;
 
 if (existsSync(join(LAB, ".git"))) {
-  let ref = "origin/main";
   try {
-    ref = execFileSync("git", ["-C", LAB, "rev-parse", "--abbrev-ref", "origin/HEAD"], {
-      encoding: "utf8",
-    }).trim();
-  } catch {
-    /* origin/HEAD не задан — остаёмся на origin/main */
-  }
-
-  for (const path of [...paths].sort()) {
-    const clean = path.endsWith("/") ? path.slice(0, -1) : path;
-    try {
-      execFileSync("git", ["-C", LAB, "cat-file", "-e", `${ref}:${clean}`], { stdio: "ignore" });
-    } catch {
-      fail(`нет в ${ref} лаборатории (ссылка даст 404): ${path}`);
+    const { ref, paths: tree } = repositoryTree(LAB);
+    for (const path of [...paths].sort()) {
+      if (!tree.has(path.replace(/\/$/, ""))) fail(`нет в ${ref} лаборатории: ${path}`);
+      checked += 1;
     }
-    checked += 1;
+    console.log(`Сред: ${envIds.length}, путей: ${paths.size}, проверено по ${ref}: ${checked}.`);
+  } catch (error) {
+    fail(`[GIT] ${error.message}`);
   }
-  console.log(`Сред: ${envIds.length}, путей: ${paths.size}, проверено по ${ref}: ${checked}.`);
 } else {
   console.log(`Сред: ${envIds.length}, путей: ${paths.size}.`);
   console.log(`Репозиторий лаборатории не найден (${LAB}) — существование путей не проверялось.`);

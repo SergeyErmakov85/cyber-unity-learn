@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
+  const [checking, setChecking] = useState(true);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -25,11 +26,19 @@ const ResetPassword = () => {
     });
 
     // Also check if we already have a session (user clicked the link)
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) setReady(true);
+    let active = true;
+    void supabase.auth.getSession().then(({ data: { session } }) => {
+      if (active && session) setReady(true);
+    }).catch(() => {
+      // Сессия недоступна. Показываем ссылку для повторного запроса.
+    }).finally(() => {
+      if (active) setChecking(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleReset = async (e: React.FormEvent) => {
@@ -60,8 +69,17 @@ const ResetPassword = () => {
       <div className="min-h-screen flex items-center justify-center bg-background px-4">
         <Card className="w-full max-w-md border-primary/20 bg-card/80 backdrop-blur-xl">
           <CardHeader className="text-center">
-            <CardTitle className="text-xl text-foreground">Загрузка...</CardTitle>
-            <CardDescription>Проверяем ссылку для сброса пароля</CardDescription>
+            <CardTitle className="text-xl text-foreground">
+              {checking ? "Загрузка…" : "Ссылка для сброса пароля недействительна"}
+            </CardTitle>
+            <CardDescription>
+              {checking ? "Проверяем ссылку для сброса пароля" : "Запросите новую ссылку на странице входа."}
+            </CardDescription>
+            {!checking && (
+              <Button asChild variant="outline" className="mt-3">
+                <Link to="/login">Перейти ко входу</Link>
+              </Button>
+            )}
           </CardHeader>
         </Card>
       </div>

@@ -187,7 +187,7 @@ const PPOModule = () => {
         </section>
 
         {/* 5. Реализация */}
-        <SymbolTable symbols={PPO_HUB_SYMBOLS} codeLabel="В коде PyTorch" />
+        <SymbolTable id="symbols" symbols={PPO_HUB_SYMBOLS} codeLabel="В коде PyTorch" />
 
         <section id="implementation" className="space-y-6">
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">

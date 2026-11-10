@@ -267,7 +267,7 @@ for concept in lattice:
             </section>
 
             {/* Section 4: FCA для проектирования архитектуры */}
-            <SymbolTable symbols={FCA_HUB_SYMBOLS} codeLabel="В коде Python (concepts)" />
+            <SymbolTable id="symbols" symbols={FCA_HUB_SYMBOLS} codeLabel="В коде Python (concepts)" />
 
             <section id="fca-architecture" className="scroll-mt-32 space-y-6">
               <div className="flex items-center gap-3">

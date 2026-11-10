@@ -84,8 +84,8 @@ const IntroSection = () => (
           <span>
             <strong>PPO</strong> и его обрезанный суррогатный лосс, преимущество и <strong>GAE</strong>{" "}
             —{" "}
-            <CrossLinkToHub hubPath="/courses/3-1" hubAnchor="ppo" hubTitle="Урок 3.1 — PPO">
-              урок 3.1, раздел про PPO
+            <CrossLinkToHub hubPath="/courses/2-2" hubAnchor="clipped" hubTitle="Урок 2.2 — PPO и клиппинг">
+              урок 2.2, раздел про PPO
             </CrossLinkToHub>{" "}
             и хаб{" "}
             <CrossLinkToHub hubPath="/algorithms/ppo" hubTitle="Алгоритмы → PPO">
@@ -103,7 +103,7 @@ const IntroSection = () => (
           <span>
             <strong>Actor-critic</strong>, функции ценности <em>V/Q</em>, уравнение Беллмана —{" "}
             <CrossLinkToHub hubPath="/courses/3-1" hubTitle="Урок 3.1">
-              урок 3.1
+              урок 2.2
             </CrossLinkToHub>{" "}
             и хаб{" "}
             <CrossLinkToHub hubPath="/math-rl/module-5" hubTitle="Математика → Уравнения Беллмана">

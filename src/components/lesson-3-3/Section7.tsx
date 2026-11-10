@@ -12,7 +12,7 @@ float friction = Academy.Instance.EnvironmentParameters
 const YAML_RANDOMIZE = `behaviors:
   Racer:
     trainer_type: ppo
-    # ... гиперпараметры PPO как в Проекте 3 — здесь не повторяем (см. урок 3.1) ...
+    # ... гиперпараметры PPO как в Проекте 3 — здесь не повторяем (см. урок 2.2) ...
 
 # Отдельная секция — НЕ внутри behaviors
 environment_parameters:

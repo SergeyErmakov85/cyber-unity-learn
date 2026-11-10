@@ -38,7 +38,20 @@ npm run dev
 ```bash
 npm run build
 npm run lint
+npm run typecheck
+npm run audit:links
 ```
+
+Для проверки якорей, вкладок и скачиваемых файлов в Chromium:
+
+```bash
+npx playwright install chromium
+npm run audit:browser
+```
+
+Команда запускает локальный сайт на порту 8080 с тестовыми настройками.
+Список внешних адресов и результаты обхода записываются в `browser-link-audit.json.local`.
+Проверки путей к репозиторию сред выполняют `npm run audit:lab` и `npm run textbook:audit`.
 
 ## Переменные окружения
 

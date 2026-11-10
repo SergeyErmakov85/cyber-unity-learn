@@ -199,7 +199,7 @@ const CourseLesson2_2 = () => {
         <SymbolTable symbols={LESSON_2_2_SYMBOLS} />
 
         {/* === 3. Clipped objective === */}
-        <section>
+        <section id="clipped" className="scroll-mt-24">
           <h2 className="text-2xl font-bold text-foreground mb-4">
             <CrossLinkToHub hubPath="/algorithms/ppo" hubAnchor="clipped" hubTitle="PPO — Clipped Objective">
               3. Элегантное решение: Clipped Objective
@@ -245,7 +245,7 @@ actor_loss = -torch.min(surr1, surr2).mean()`}
         </section>
 
         {/* === 4. GAE === */}
-        <section>
+        <section id="gae" className="scroll-mt-24">
           <h2 className="text-2xl font-bold text-foreground mb-4">
             <CrossLinkToHub hubPath="/algorithms/ppo" hubAnchor="gae" hubTitle="PPO — GAE">
               4. Critic: оценка преимущества (GAE)
