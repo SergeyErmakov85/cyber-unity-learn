@@ -9,13 +9,32 @@
 ## Команды
 
 ```bash
-npm i            # установить зависимости
-npm run dev      # dev-сервер (Vite, localhost:5173)
+npm ci           # зависимости из package-lock.json, Node.js 24.x
+npm run dev      # dev-сервер (Vite, localhost:8080)
 npm run build    # production-сборка
 npm run lint     # ESLint
 ```
 
-Тест-сьют не настроен.
+Общая проверка: `npm run check`. Полный обход страниц: `npm run audit:browser`
+(после установки Chromium для Playwright).
+
+### Домашняя и облачная работа
+
+- Настройка и передача работы между устройствами: `docs/CLOUD_WORKFLOW.md`.
+- Облачная установка: `npm run setup:cloud`; сервер: `npm run dev:cloud` (порт 8080).
+- В облаке работай в ветке `codex/<описание-задачи>`, сохраняй изменения в GitHub и
+  возвращай ссылку на ветку/PR и результат синхронизации/публикации Lovable. Учитывай текущую задачу и уже
+  выданное пользователем разрешение на публикацию.
+- Перед изменениями проверяй текущую ветку и незакоммиченные файлы. Не теряй работу
+  пользователя при синхронизации домашней и облачной копий.
+- Серверные ключи не помещай в `VITE_*`. Используй `npm run env:check` перед деплоем.
+- Обычная сборка использует закоммиченные копии учебника и не требует соседних папок.
+  Для изменения исходных лекций подключи отдельный репозиторий пособия и задай
+  `ENF_TEXTBOOK_SRC`; после изменений синхронизируй копии штатной командой.
+- Локальные инструкции и доступ к папке не означают, что Codex Cloud уже создан:
+  отмечай отдельно сохранённые файлы, push, результат CI и фактическую публикацию Lovable.
+- Основной процесс: Codex Cloud → GitHub → существующий проект Lovable. Проверь активную
+  ветку Lovable (обычно `main`). Git sync и публикация публичного сайта — отдельные шаги.
 
 ---
 
@@ -366,7 +385,9 @@ PRO-пейволл: `<ProGate preview={<VisiblePreview />}>full content</ProGate
 
 ## Деплой
 
-Push в `main` → автоматический деплой на Vercel. Необходимые переменные окружения:
+Сайт публикуется через существующий проект Lovable. Push в активную ветку GitHub
+синхронизирует код в Lovable; для публичного сайта требуется успешная публикация
+через Publish → Publish changes. Необходимые переменные окружения:
 
 ```
 VITE_SUPABASE_URL=
@@ -388,7 +409,7 @@ DB-миграции — в `supabase/migrations/`.
 
 Purpose & context
 
-Sergey is building Neon Unity Neural (also called CyberUnityCode) — an interactive reinforcement learning education platform hosted at data-mind-guide.lovable.app / neon-unity-neural.lovable.app, deployed via Vercel. The platform targets technical students learning RL concepts and practical Unity ML-Agents implementation across three levels (20 lessons, 4 projects, PRO-gated content).
+Sergey is building Neon Unity Neural (also called CyberUnityCode) — an interactive reinforcement learning education platform hosted at rl-cuber-unity-code.com and deployed through the existing Lovable project with GitHub sync. The platform targets technical students learning RL concepts and practical Unity ML-Agents implementation across three levels (20 lessons, 4 projects, PRO-gated content).
 
 Core architecture principle: LESSONS are narrative entry points built around running examples; HUBS are formal mathematical/algorithmic reference pages (proofs, derivations, general theory). The two are connected via Wikipedia-style bidirectional cross-links — from lesson to a specific hub section, and from hub back to the exact lesson location. Content duplication between lesson and hub is strictly prohibited.
 

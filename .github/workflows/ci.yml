@@ -2,20 +2,29 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, "codex/**"]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install dependencies
@@ -30,5 +39,26 @@ jobs:
       - name: Audit links
         run: npm run audit:links
 
+      - name: Audit math
+        run: npm run math:audit
+
       - name: Build
         run: npm run build
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Audit rendered pages
+        run: npm run audit:browser
+        env:
+          AUDIT_BASE_URL: http://127.0.0.1:8081
+          AUDIT_WORKERS: "3"
+
+      - name: Save browser report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-link-audit
+          path: browser-link-audit.json.local
+          if-no-files-found: ignore
+          retention-days: 7
