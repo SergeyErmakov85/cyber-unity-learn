@@ -6,6 +6,8 @@
 
 Production: <https://rl-cuber-unity-code.com>
 
+Работа дома и с телефона: [настройка Codex Cloud, GitHub и Lovable](docs/CLOUD_WORKFLOW.md).
+
 ## Стек
 
 - Vite + React 18 + TypeScript
@@ -13,7 +15,7 @@ Production: <https://rl-cuber-unity-code.com>
 - React Router v6
 - Supabase (Auth + Postgres + RLS) через Lovable Cloud
 - KaTeX, Recharts, framer-motion
-- Деплой: Vercel
+- Публикация: Lovable, синхронизация кода через GitHub
 
 ## Источник истины по курсу
 
@@ -29,9 +31,12 @@ Production: <https://rl-cuber-unity-code.com>
 ## Локальная разработка
 
 ```bash
-npm i
+npm ci
 npm run dev
 ```
+
+Требуется Node.js 24.x (см. `.nvmrc`). Локальный адрес: <http://localhost:8080>.
+Для полной проверки проекта: `npm run check`.
 
 Сборка/линт:
 
@@ -63,7 +68,8 @@ VITE_SUPABASE_PUBLISHABLE_KEY=
 VITE_SUPABASE_PROJECT_ID=
 ```
 
-В Lovable / Vercel задайте те же переменные через Settings → Environment Variables.
+Для облачной разработки задайте те же переменные в Environment variables среды Codex Cloud.
+Для сайта используйте настройки существующего проекта Lovable.
 Файл `.env` находится в `.gitignore` и не должен попадать в репозиторий.
 
 ### Секреты Edge Functions (OAuth Яндекс / Mail.ru, удаление аккаунта)
@@ -83,7 +89,7 @@ supabase secrets set \
 ```
 
 - `APP_URL` — origin фронтенда без завершающего `/` (для локальной проверки —
-  `http://localhost:5173`).
+  `http://localhost:8080`).
 - Redirect URI в кабинетах провайдеров:
   `{SUPABASE_URL}/functions/v1/oauth-yandex?action=callback` (аналогично для
   `oauth-mailru`).
@@ -124,5 +130,10 @@ supabase secrets set \
 
 ## Деплой
 
-Push в `main` → автоматический деплой через Vercel.
-Lovable Preview — для итераций без публикации.
+Код из активной ветки GitHub синхронизируется в существующий проект Lovable.
+Основная ветка — `main`; фактическую активную ветку проверьте в настройках Git проекта Lovable.
+Проверьте правки в Preview, затем выполните Publish → Publish changes для обновления публичного сайта.
+
+Перед публикацией можно выполнить `npm run build:deploy`: проверку окружения,
+типов, lint, ссылок, формул и сборки. Автоматические проверки GitHub Actions
+включают также обход страниц в браузере.
