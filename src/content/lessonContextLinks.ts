@@ -60,9 +60,9 @@ export const LESSON_CONTEXT_LINKS: Record<string, ContextLink[]> = {
     {
       hubId: "pytorch",
       placement: "after-code",
-      title: "Нейросеть в PyTorch",
-      whyThisNow: "CartPole использует простую нейросеть — повторите основы nn.Module.",
-      ctaLabel: "Повторить PyTorch",
+      title: "PyTorch для следующего урока",
+      whyThisNow: "В уроке 1.6 заменим случайные действия сетью DQN; здесь можно заранее посмотреть nn.Module.",
+      ctaLabel: "Справка по PyTorch",
       isPrimary: false,
     },
     {

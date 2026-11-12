@@ -21,6 +21,7 @@ import { MONETIZATION_ENABLED } from "@/config/monetization";
 import LessonSidebarTOC, { type TocColor } from "@/components/LessonSidebarTOC";
 import type { SectionNavItem } from "@/components/SectionNav";
 import { completeLesson, getProgress } from "@/lib/gamification";
+import { LEARNING_MAP } from "@/content/learningMap";
 
 const slugifyHeading = (t: string) =>
   t.toLowerCase()
@@ -28,13 +29,6 @@ const slugifyHeading = (t: string) =>
     .trim()
     .replace(/\s+/g, "-")
     .slice(0, 80);
-
-interface LessonMeta {
-  id: string;
-  path: string;
-  title: string;
-  type: "lesson" | "project";
-}
 
 interface LessonLayoutProps {
   children: ReactNode;
@@ -45,7 +39,7 @@ interface LessonLayoutProps {
   level?: number;
   difficulty?: "easy" | "medium" | "hard";
   colabUrl?: string;
-  /** Путь к .ipynb в /public — рисует кнопку «Скачать IPNB-файл урока» под заголовком. */
+  /** Путь к .ipynb в /public — рисует кнопку «Скачать ноутбук урока (.ipynb)» под заголовком. */
   notebookUrl?: string;
   /** Подпись под кнопкой: что внутри ноутбука. */
   notebookHint?: string;
@@ -54,46 +48,23 @@ interface LessonLayoutProps {
   nextLesson?: { path: string; title: string };
   lessonId?: string;
   hideCourseSidebar?: boolean;
+  /** Справка и дополнительные среды не прерывают основной маршрут новичка. */
+  compactReferences?: boolean;
 }
 
-const level1Lessons: LessonMeta[] = [
-  { id: "1-1", path: "/courses/1-1", title: "Что такое обучение с подкреплением?", type: "lesson" },
-  { id: "1-2", path: "/courses/1-2", title: "Установка окружения: PyTorch + Unity ML-Agents", type: "lesson" },
-  { id: "1-3", path: "/courses/1-3", title: "Марковские процессы принятия решений (MDP)", type: "lesson" },
-  { id: "1-4", path: "/courses/1-4", title: "Q-Learning: табличный метод", type: "lesson" },
-  { id: "1-5", path: "/courses/1-5", title: "CartPole — твой первый RL-агент", type: "lesson" },
-  { id: "1-6", path: "/courses/1-6", title: "DQN с нуля на PyTorch", type: "lesson" },
-  { id: "1-7", path: "/courses/1-7", title: "Exploration vs Exploitation", type: "lesson" },
-  { id: "1-p", path: "/courses/project-1", title: 'Проект-1: "Баланс в 3D"', type: "project" },
-];
+const levelConfigs = LEARNING_MAP.map((stage, index) => ({
+  label: `Уровень ${index + 1} — ${stage.title}`,
+  lessons: stage.lessons,
+  tag: stage.tag,
+}));
 
-const level2Lessons: LessonMeta[] = [
-  { id: "2-1", path: "/courses/2-1", title: "Policy Gradient и теорема градиента", type: "lesson" },
-  { id: "2-2", path: "/courses/2-2", title: "PPO — реализация с нуля", type: "lesson" },
-  { id: "2-3", path: "/courses/2-3", title: "Непрерывные действия и Actor-Critic", type: "lesson" },
-  { id: "2-4", path: "/courses/2-4", title: "Reward Shaping", type: "lesson" },
-  { id: "2-5", path: "/courses/2-5", title: "Параллельные среды", type: "lesson" },
-  { id: "2-6", path: "/courses/2-6", title: "TensorBoard и W&B", type: "lesson" },
-  { id: "2-p1", path: "/courses/project-2", title: "Проект: 3D-охотник", type: "project" },
-  { id: "2-p2", path: "/courses/project-3", title: "Проект: Racing Car", type: "project" },
-];
-
-const level3Lessons: LessonMeta[] = [
-  { id: "3-1", path: "/courses/3-1", title: "SAC — Soft Actor-Critic", type: "lesson" },
-  { id: "3-2", path: "/courses/3-2", title: "MA-POCA и Self-Play", type: "lesson" },
-  { id: "3-3", path: "/courses/3-3", title: "Curriculum Learning", type: "lesson" },
-  { id: "3-4", path: "/courses/3-4", title: "Имитационное обучение (GAIL)", type: "lesson" },
-  { id: "3-5", path: "/courses/3-5", title: "Деплой модели: ONNX", type: "lesson" },
-  { id: "3-6", path: "/courses/3-6", title: "Оптимизация гиперпараметров", type: "lesson" },
-  { id: "3-7", path: "/courses/3-7", title: "Архитектуры нейросетей", type: "lesson" },
-  
-];
-
-const levelConfigs = [
-  { label: "Уровень 1 — Новичок", lessons: level1Lessons, tag: "FREE", tagClass: "text-green-400" },
-  { label: "Уровень 2 — Средний", lessons: level2Lessons, tag: "PRO", tagClass: "text-secondary" },
-  { label: "Уровень 3 — Продвинутый", lessons: level3Lessons, tag: "PRO", tagClass: "text-orange-400" },
-];
+function OptionalMaterial({ optional, label, children }: { optional: boolean; label: string; children: ReactNode }) {
+  if (!optional) return <>{children}</>;
+  return <details className="mt-8 rounded-xl border border-primary/20 bg-card/40 p-5">
+    <summary className="cursor-pointer font-semibold text-foreground">{label}</summary>
+    {children}
+  </details>;
+}
 
 const difficultyConfig = {
   easy: { label: "Легко", color: "text-green-400 bg-green-500/10 border-green-500/30" },
@@ -165,6 +136,7 @@ const LessonLayout = ({
   nextLesson,
   lessonId,
   hideCourseSidebar = false,
+  compactReferences = false,
 }: LessonLayoutProps) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -309,6 +281,7 @@ const LessonLayout = ({
         }}
       />
 
+      <a href="#lesson-content" className="sr-only focus:not-sr-only">К содержимому урока</a>
       <ScrollProgressBar color={progressColor} />
       <ScrollToTop />
       {tocItems.length > 1 && (
@@ -361,7 +334,7 @@ const LessonLayout = ({
         )}
 
         {/* Main content */}
-        <main className={cn("flex-1 min-w-0", !isLevel2 && !hideCourseSidebar && "max-w-3xl")}>
+        <main id="lesson-content" className={cn("flex-1 min-w-0", !isLevel2 && !hideCourseSidebar && "max-w-3xl")}>
           <LessonBreadcrumbs items={breadcrumbItems} />
 
           {/* Lesson header */}
@@ -431,7 +404,7 @@ const LessonLayout = ({
                              transition-all duration-300"
                 >
                   <Download className="w-5 h-5 transition-transform group-hover:translate-y-0.5" />
-                  Скачать IPNB-файл урока
+                  Скачать ноутбук урока (.ipynb)
                 </a>
                 {notebookHint && (
                   <span className="text-xs text-muted-foreground">{notebookHint}</span>
@@ -490,6 +463,7 @@ const LessonLayout = ({
 
           {/* Crosslinks section */}
           {crossLinkGroups.length > 0 && (
+            <OptionalMaterial optional={compactReferences} label="Углублённая теория — по желанию">
             <section id="deep-dive" className="mt-12 pt-8 border-t border-border/30 scroll-mt-24">
               <h2 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-primary" />
@@ -530,12 +504,15 @@ const LessonLayout = ({
                 ))}
               </div>
             </section>
+            </OptionalMaterial>
           )}
 
           {/* Собранная среда лаборатории для этого урока — практика под теорией.
               Блок сам решает, показываться ли: если среды для урока нет,
               он возвращает null. */}
-          {lessonId && <LabPracticeSection contextKey={lessonId} />}
+          {lessonId && <OptionalMaterial optional={compactReferences} label="Дополнительная практика в лаборатории Unity">
+            <LabPracticeSection contextKey={lessonId} />
+          </OptionalMaterial>}
 
           {/* Pro upgrade banner for free lessons */}
           {level === 1 && <ProUpgradeBanner />}
