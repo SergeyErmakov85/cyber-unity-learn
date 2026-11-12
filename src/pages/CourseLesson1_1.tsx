@@ -2,6 +2,8 @@ import LessonLayout from "@/components/LessonLayout";
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Quiz from "@/components/Quiz";
 import SelfCheckQuiz from "@/components/lesson-1-1/SelfCheckQuiz";
+import DogTrainingIllustration from "@/components/lesson-1-1/DogTrainingIllustration";
+import ExplorationIllustration from "@/components/lesson-1-1/ExplorationIllustration";
 import Math from "@/components/Math";
 import SymbolTable from "@/components/math-symbols/SymbolTable";
 import { LESSON_1_1_SYMBOLS } from "@/content/symbols/pages/level1";
@@ -187,6 +189,7 @@ const CourseLesson1_1 = () => {
                 Представьте, что вы дрессируете собаку. Собака — это{" "}
                 <strong className="text-primary">агент</strong>. Комната — это{" "}
                 <strong className="text-accent">среда</strong>. Команда «сидеть» —{" "}
+                <strong className="text-primary">наблюдение</strong>. Сесть в ответ —{" "}
                 <strong className="text-secondary">действие</strong>. Лакомство —{" "}
                 <strong className="text-green-400">награда</strong>.
               </p>
@@ -207,6 +210,7 @@ const CourseLesson1_1 = () => {
             </div>
           </CardContent>
         </Card>
+        <DogTrainingIllustration />
       </section>
 
       {/* ── 3. Три парадигмы ML (с иконками) ─────────── */}
@@ -346,6 +350,8 @@ const CourseLesson1_1 = () => {
           <strong className="text-primary">исследованием</strong> (exploration) и{" "}
           <strong className="text-secondary">использованием</strong> (exploitation).
         </p>
+
+        <ExplorationIllustration />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <Card className="bg-card/50 border-primary/20">
