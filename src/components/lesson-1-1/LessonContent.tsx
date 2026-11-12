@@ -1,4 +1,6 @@
 import MiniGridWorld from "@/components/MiniGridWorld";
+import RLCycleIllustration from "@/components/lesson-1-1/RLCycleIllustration";
+import RouteRewardsIllustration from "@/components/lesson-1-1/RouteRewardsIllustration";
 import HubLink from "@/components/math-rl/HubLink";
 import type { NoviceSection, NoviceQuestions } from "@/components/novice/NoviceLesson";
 
@@ -12,6 +14,7 @@ export const SECTIONS: NoviceSection[] = [
       <li><strong>Политика</strong> — правило выбора действий. <strong>Эпизод</strong> — одна попытка от старта до завершения.</li>
     </ul>
     <p className="rounded-lg border border-primary/20 bg-primary/5 p-4 text-foreground">Наблюдать → выбрать действие → получить новое наблюдение и награду → повторить.</p>
+    <RLCycleIllustration />
     <p>Случайные действия сами по себе не обучают агента: алгоритм должен использовать полученный опыт для изменения политики. Подробнее — <HubLink to="/deep-rl" anchor="foundations" fromPath="/courses/1-1" fromAnchor="rl-cycle">основы RL в хабе</HubLink>.</p>
   </> },
   { id: "gridworld", label: "Попробуйте на сетке", content: <>
@@ -19,6 +22,7 @@ export const SECTIONS: NoviceSection[] = [
     <MiniGridWorld />
   </> },
   { id: "practice", label: "Задание и проверка", content: <>
+    <RouteRewardsIllustration />
     <ol><li>Дойдите до цели вручную и запишите число шагов и суммарную награду.</li>
       <li>Начните заново и попробуйте путь короче. Сравните награды.</li>
       <li>Назовите агента, среду, наблюдение, действия и условие конца эпизода в этом примере.</li></ol>
