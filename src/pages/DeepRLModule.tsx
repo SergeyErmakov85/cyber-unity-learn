@@ -259,7 +259,7 @@ const DeepRLModule = () => {
               <p className="text-muted-foreground leading-relaxed">
                 <strong className="text-foreground">DQN</strong> — прорывной алгоритм DeepMind (2013), который
                 впервые продемонстрировал способность агента играть в игры Atari на уровне человека,
-                используя только пиксели экрана как входные данные (реализация — <CrossLinkToLesson lessonId="1-5" lessonPath="/courses/1-5" lessonTitle="DQN с нуля на PyTorch" lessonLevel={1} />).
+                используя только пиксели экрана как входные данные (реализация — <CrossLinkToLesson lessonId="1-6" lessonPath="/courses/1-6" lessonTitle="DQN с нуля на PyTorch" lessonLevel={1} />).
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Основные инновации DQN:
