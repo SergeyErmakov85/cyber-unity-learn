@@ -1,0 +1,5 @@
+numpy==1.23.5
+matplotlib==3.7.5
+gymnasium[classic-control]==0.29.1
+ipykernel==6.29.5
+torch==2.2.1

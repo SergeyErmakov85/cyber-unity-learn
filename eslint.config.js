@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   // supabase/functions/mcp — автогенерируемый бандл @lovable.dev/mcp-js, править нельзя
-  { ignores: ["dist", "supabase/functions/mcp"] },
+  { ignores: ["dist", "supabase/functions/mcp", ".cloud-functions.local/**"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],

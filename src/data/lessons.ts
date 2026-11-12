@@ -17,7 +17,7 @@ export const LESSONS: LessonMeta[] = [
     id: "1.2",
     title: "Урок 1.2. Установка окружения: PyTorch + Unity ML-Agents",
     subtitle:
-      "Anaconda, conda-среда с Python 3.10, PyTorch с CUDA, Unity 6, ML-Agents Release 22 через git и VS Code + Jupyter",
+      "Python 3.10.12, PyTorch 2.2.1, Gymnasium, ML-Agents Release 23, проверка окружения и готовая лаборатория Unity",
     slug: "setup-pytorch-unity",
     level: 1,
     isPro: false,
