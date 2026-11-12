@@ -17,6 +17,10 @@ import OpenLearningSection from "@/components/landing/OpenLearningSection";
 import EmailCapture from "@/components/landing/EmailCapture";
 import FooterSection from "@/components/landing/FooterSection";
 
+// Раздел «Поддержать проект» скрыт по решению автора. Код и импорт сохранены:
+// переключатель ниже возвращает блок на главную без правок разметки.
+const SHOW_SUPPORT_SECTION = false;
+
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -53,7 +57,7 @@ const Index = () => {
         <TestimonialSection />
         <EmailCapture />
         <AboutMeSection />
-        <OpenLearningSection />
+        {SHOW_SUPPORT_SECTION && <OpenLearningSection />}
         <FooterSection />
       </div>
     </div>);
