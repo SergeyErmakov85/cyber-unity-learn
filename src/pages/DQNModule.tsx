@@ -66,7 +66,7 @@ const DQNModule = () => {
             <Card className="border-primary/30">
               <CardContent className="p-6 space-y-6">
                 <p className="text-muted-foreground">
-                  DQN аппроксимирует Q-функцию нейросетью, заменяя табличное представление (введение в RL — <CrossLinkToLesson lessonId="1-1" lessonPath="/courses/1-1" lessonTitle="Что такое обучение с подкреплением?" lessonLevel={1} />, CartPole — <CrossLinkToLesson lessonId="1-4" lessonPath="/courses/1-4" lessonTitle="CartPole — твой первый RL-агент" lessonLevel={1} />, DQN с нуля — <CrossLinkToLesson lessonId="1-5" lessonPath="/courses/1-5" lessonTitle="DQN с нуля на PyTorch" lessonLevel={1} />). Два ключевых нововведения обеспечивают стабильность обучения.
+                  DQN аппроксимирует Q-функцию нейросетью, заменяя табличное представление (введение в RL — <CrossLinkToLesson lessonId="1-1" lessonPath="/courses/1-1" lessonTitle="Что такое обучение с подкреплением?" lessonLevel={1} />, CartPole — <CrossLinkToLesson lessonId="1-5" lessonPath="/courses/1-5" lessonTitle="CartPole: среда и случайный агент" lessonLevel={1} />, DQN с нуля — <CrossLinkToLesson lessonId="1-6" lessonPath="/courses/1-6" lessonTitle="DQN с нуля на PyTorch" lessonLevel={1} />). Два ключевых нововведения обеспечивают стабильность обучения.
                 </p>
 
                 <div>

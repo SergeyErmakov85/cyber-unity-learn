@@ -152,7 +152,7 @@ with torch.no_grad():
         <Section id="nn" icon={<Brain className="w-5 h-5 text-primary" />} title="4. Нейронные сети (torch.nn)">
           <HubLessonBadges hubPath="/pytorch/cheatsheet" hubAnchor="nn" />
           <h3 className="text-xl font-semibold text-foreground mt-6 mb-3">Создание модели</h3>
-          <p>Все модели наследуются от <code className="text-foreground">nn.Module</code>. Необходимо определить слои в <code className="text-foreground">__init__</code> и прямой проход в <code className="text-foreground">forward</code> (ваша первая сеть — <CrossLinkToLesson lessonId="1-4" lessonPath="/courses/1-4" lessonTitle="CartPole — твой первый RL-агент" lessonLevel={1} />) (Actor-Critic — <CrossLinkToLesson lessonId="2-3" lessonPath="/courses/2-3" lessonTitle="Actor-Critic и непрерывные действия" lessonLevel={2} />).</p>
+          <p>Все модели наследуются от <code className="text-foreground">nn.Module</code>. Необходимо определить слои в <code className="text-foreground">__init__</code> и прямой проход в <code className="text-foreground">forward</code> (ваша первая сеть — <CrossLinkToLesson lessonId="1-6" lessonPath="/courses/1-6" lessonTitle="DQN с нуля на PyTorch" lessonLevel={1} />) (Actor-Critic — <CrossLinkToLesson lessonId="2-3" lessonPath="/courses/2-3" lessonTitle="Actor-Critic и непрерывные действия" lessonLevel={2} />).</p>
           <CyberCodeBlock language="python" filename="model.py">{`class MyClassifier(nn.Module):
     def __init__(self, input_size, num_classes):
         super(MyClassifier, self).__init__()
@@ -270,7 +270,7 @@ dataset = CustomDataset(train_x, train_y)`}</CyberCodeBlock>
         {/* Section 6: Training Loop */}
         <Section id="training" icon={<RotateCw className="w-5 h-5 text-accent" />} title="6. Цикл обучения (Training Loop) — Шаблон">
           <HubLessonBadges hubPath="/pytorch/cheatsheet" hubAnchor="training" />
-          <p>Стандартный шаблон обучения (boilerplate), который используется в большинстве проектов на PyTorch (DQN loop — <CrossLinkToLesson lessonId="1-5" lessonPath="/courses/1-5" lessonTitle="DQN с нуля на PyTorch" lessonLevel={1} />).</p>
+          <p>Стандартный шаблон обучения (boilerplate), который используется в большинстве проектов на PyTorch (DQN loop — <CrossLinkToLesson lessonId="1-6" lessonPath="/courses/1-6" lessonTitle="DQN с нуля на PyTorch" lessonLevel={1} />).</p>
           <CyberCodeBlock language="python" filename="train.py">{`# Гиперпараметры
 epochs = 10
 criterion = nn.CrossEntropyLoss()
