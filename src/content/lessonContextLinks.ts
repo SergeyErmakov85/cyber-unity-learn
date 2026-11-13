@@ -112,8 +112,8 @@ export const LESSON_CONTEXT_LINKS: Record<string, ContextLink[]> = {
     {
       hubId: "deep-rl",
       placement: "after-intro",
-      title: "MDP в контексте RL",
-      whyThisNow: "MDP — основа всех алгоритмов обучения с подкреплением.",
+      title: "От MDP к семействам алгоритмов",
+      whyThisNow: "Сравните value-based, policy-based и actor-critic после знакомства с политикой и ценностью.",
       ctaLabel: "Deep RL хаб",
       isPrimary: true,
     },

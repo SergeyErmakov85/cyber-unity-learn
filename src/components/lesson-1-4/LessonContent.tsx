@@ -1,4 +1,5 @@
 import Math from "@/components/Math";
+import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import HubLink from "@/components/math-rl/HubLink";
 import { LessonCode, type NoviceSection, type NoviceQuestions } from "@/components/novice/NoviceLesson";
 import code from "@/content/novice/code/q_learning_frozen_lake.py?raw";
@@ -7,6 +8,7 @@ export const SECTIONS: NoviceSection[] = [
   { id: "q-table", label: "Что хранит Q-таблица", content: <>
     <p>В <strong>FrozenLake 4×4</strong> агент идёт от старта к цели, избегая прорубей. Состояние — номер клетки от 0 до 15, действия — влево (0), вниз (1), вправо (2), вверх (3). Цель даёт +1, остальные переходы 0; цель и прорубь завершают эпизод.</p>
     <p>Строки <strong>Q-таблицы</strong> соответствуют 16 клеткам, столбцы — четырём действиям. Ячейка оценивает будущую награду за выбор действия. В примере <code>is_slippery=False</code>: действие выполняется без скольжения.</p>
+    <p>Это <strong>value-based метод</strong>: обучаем Q-оценки, а действие выбираем по ним. Вспомнить различия можно в <CrossLinkToLesson lessonId="1-3" lessonPath="/courses/1-3#value-vs-policy" lessonTitle="Value-based и policy-based на примере RoomBot" lessonLevel={1}>разделе урока 1.3</CrossLinkToLesson>.</p>
     <p><strong>Epsilon-greedy:</strong> с вероятностью <Math display={false}>{String.raw`\enfPar{\varepsilon}`}</Math> выбираем случайное действие, иначе — действие с максимальным Q. В начале исследуем, затем уменьшаем случайность.</p>
   </> },
   { id: "q-update", label: "Одно правило обновления", content: <>

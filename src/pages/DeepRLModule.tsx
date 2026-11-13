@@ -242,6 +242,9 @@ const DeepRLModule = () => {
             2. Ключевые алгоритмы Deep RL
           </h2>
           <HubLessonBadges hubPath="/deep-rl" hubAnchor="algorithms" />
+          <p className="text-sm text-muted-foreground">
+            Начните со <CrossLinkToLesson lessonId="1-3" lessonPath="/courses/1-3#value-vs-policy" lessonTitle="Value-based и policy-based на примере RoomBot" lessonLevel={1}>сравнения value-based, policy-based и actor-critic в уроке 1.3</CrossLinkToLesson>.
+          </p>
           <p className="text-sm text-muted-foreground -mt-2 mb-2">
             В курсе подробнее: мультиагенты —{" "}
             <CrossLinkToLesson lessonId="3-2" lessonPath="/courses/3-2" lessonTitle="MA-POCA и Self-Play" lessonLevel={3} />
