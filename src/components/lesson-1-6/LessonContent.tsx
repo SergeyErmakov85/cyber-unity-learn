@@ -1,5 +1,6 @@
 import CyberCodeBlock from "@/components/CyberCodeBlock";
 import Math from "@/components/Math";
+import CrossLinkToLesson from "@/components/CrossLinkToLesson";
 import HubLink from "@/components/math-rl/HubLink";
 import { LessonCode, type NoviceSection, type NoviceQuestions } from "@/components/novice/NoviceLesson";
 import code from "@/content/novice/code/dqn_cartpole.py?raw";
@@ -7,6 +8,7 @@ import code from "@/content/novice/code/dqn_cartpole.py?raw";
 export const SECTIONS: NoviceSection[] = [
   { id: "dqn", label: "От таблицы к нейросети", content: <>
     <p>У CartPole непрерывные наблюдения: отдельных строк для всех возможных состояний не перечислить. <strong>DQN</strong> заменяет Q-таблицу сетью: четыре числа на входе, две оценки действий на выходе. Лучшее действие — индекс большей оценки.</p>
+    <p>DQN остаётся <strong>value-based методом</strong>: выходы сети — Q-оценки, а не вероятности действий. Сравнение с явным обучением политики — в <CrossLinkToLesson lessonId="1-3" lessonPath="/courses/1-3#value-vs-policy" lessonTitle="Value-based и policy-based на примере RoomBot" lessonLevel={1}>уроке 1.3</CrossLinkToLesson>.</p>
     <ul><li><strong>Replay Buffer</strong> хранит переходы. Случайная выборка из буфера позволяет учиться не только на соседних шагах.</li>
       <li><strong>Целевая сеть</strong> — копия обучаемой сети. В нашем примере её веса обновляются каждые <strong>250 шагов среды</strong>.</li>
       <li><strong>Epsilon-greedy</strong> выбирает случайное действие с некоторой вероятностью; она уменьшается по эпизодам до 0,05.</li></ul>

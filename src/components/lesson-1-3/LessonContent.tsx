@@ -2,6 +2,7 @@ import Math from "@/components/Math";
 import HubLink from "@/components/math-rl/HubLink";
 import { LessonCode, type NoviceSection, type NoviceQuestions } from "@/components/novice/NoviceLesson";
 import roomBotCode from "@/content/novice/code/room_bot.py?raw";
+import ValuePolicySection from "./ValuePolicySection";
 
 export const SECTIONS: NoviceSection[] = [
   { id: "l15-world-and-state", label: "Одна среда: RoomBot", content: <>
@@ -22,6 +23,7 @@ export const SECTIONS: NoviceSection[] = [
     <p id="l15-value-v"><strong>V</strong> оценивает ожидаемый возврат из клетки при данной политике. <strong id="l15-value-q">Q</strong> — ожидаемый возврат, если сначала сделать конкретное действие. Поэтому для выбора действия сравнивают Q, а не мгновенные награды.</p>
     <p><HubLink to="/math-rl/module-5" anchor="функции-ценности-value-functions" fromPath="/courses/1-3" fromAnchor="l15-policy-and-trace">Формальные определения V и Q</HubLink> — дополнительная справка.</p>
   </> },
+  { id: "value-vs-policy", label: "Value-based и policy-based", content: <ValuePolicySection /> },
   { id: "l15-value-iteration", label: "Найти политику в Python", content: <>
     <span id="пример-вывода-уравнения-оптимальности" className="block scroll-mt-24" />
     <p><strong>Value Iteration</strong> начинает с нулевых ценностей. Для каждой клетки считаем ожидаемую награду и будущую ценность для четырёх действий, берём максимум и повторяем до малых изменений. Здесь модель переходов известна; в следующем уроке агент будет учиться по опыту.</p>
@@ -46,4 +48,8 @@ export const QUIZ_QUESTIONS: NoviceQuestions = [
   { question: "Если на движение влияет заряд робота, достаточно ли хранить только координаты?", options: ["Да", "Нет, заряд нужно включить в состояние", "Достаточно увеличить число эпизодов"], correctIndex: 1 },
   { question: "Что требуется для показанного Value Iteration?", options: ["Нейросеть", "Видеокарта", "Известная модель переходов и наград"], correctIndex: 2 },
   { question: "Чем Q отличается от V?", options: ["V всегда равна Q", "Q дополнительно оценивает конкретное первое действие", "Q — только немедленная награда"], correctIndex: 1 },
+  { question: "Чем value-based подход отличается от policy-based?", options: ["Только наличием нейросети", "В первом обучают оценки ценности и получают политику из них, во втором явно оптимизируют политику", "В первом у агента нет политики"], correctIndex: 1, explanation: "Политика есть в обоих случаях. Отличается то, что обучается явно: оценки или параметры самой политики." },
+  { question: "Q для действия равна −0,8. Ошибка ли это?", options: ["Да, Q обязана быть вероятностью", "Да, все действия должны иметь одинаковую Q", "Нет, ожидаемый возврат может быть отрицательным"], correctIndex: 2, explanation: "Q оценивает возврат, а не вероятность. Вероятности неотрицательны и в сумме дают 1; у Q таких ограничений нет." },
+  { question: "Actor-critic обучает явную политику и функцию ценности. Какую роль выполняет critic?", options: ["Оценивает возврат, помогая обновлять политику актора", "Заменяет среду и выдаёт награды", "Запрещает использовать policy-based подход"], correctIndex: 0, explanation: "Актор выбирает действия, критик помогает оценивать их качество. Политика и оценщик могут обучаться вместе." },
+  { question: "Почему Policy Iteration ниже не стоит путать с Policy Gradient?", options: ["Policy Iteration вообще не меняет политику", "Здесь политика улучшается через расчёт ценностей по известной модели, а не прямой градиентный шаг по её параметрам", "Оба названия означают один и тот же алгоритм"], correctIndex: 1, explanation: "Слово policy в названии не определяет семейство метода. Нужно смотреть, как именно алгоритм получает и обновляет политику." },
 ];
